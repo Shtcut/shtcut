@@ -37,7 +37,12 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 3. Configure environment variables for database connection, analytics settings, and hosting preferences.
 4. Run the application using `yarn start`.
 
+Absolutely! Here's an example of how you can incorporate the link into the documentation:
+
 ## Usage
+
+### Accessing the Application
+- Visit the hosted version of the application at [shtcut.link](https://shtcut.link/) for instant access to the service.
 
 ### Shortening Links
 1. Access the application via the provided URL or the locally hosted server.
@@ -48,6 +53,7 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 ### Self-Hosting Guidance
 - Refer to the detailed documentation in the 'docs' folder for instructions on self-hosting, customization, and API integration.
 
+This addition directs users to access the hosted version of the application directly through the provided link [shtcut.link](https://shtcut.link/), simplifying access for immediate usage.
 ## Contribution
 
 We welcome contributions! If you'd like to contribute, please follow our [contribution guidelines](CONTRIBUTING.md) for details on the process.
