@@ -32,7 +32,7 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 ### Requirements
 
 - NestJS v9.0 or higher
-- MongoDB v4.0 or higher
+- Currently Support MongoDB v4.0 or higher, coming soon, support multiple Database
 - GraphQL v11.0 or higher
 - Nginx/Apache (for production deployment)
 
