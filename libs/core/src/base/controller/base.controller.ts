@@ -157,8 +157,8 @@ export abstract class BaseController {
   @Patch('/:id')
   @HttpCode(OK)
   public async patch(
-    @Body() payload: Record<string, any>,
     @Param('id') id: string,
+    @Body() payload: Record<string, any>,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
@@ -193,8 +193,8 @@ export abstract class BaseController {
   @Put('/:id')
   @HttpCode(OK)
   public async update(
-    @Body() payload: Record<string, any>,
     @Param('id') id: string,
+    @Body() payload: Record<string, any>,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
