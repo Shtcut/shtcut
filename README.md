@@ -75,4 +75,4 @@ This project is licensed under the [MIT License](https://github.com/funmiayinde/
 ## Support
 
 For any queries, issues, or suggestions, feel free to raise a GitHub issue or contact the maintainers at [funmiayinde11@gmail.com](mailto:funmiayinde11@gmail.com).
-=================================================================================================================================
+
