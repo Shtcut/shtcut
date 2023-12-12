@@ -7,3 +7,4 @@ export * from './filters';
 export * from './abstracts';
 export * from './utils';
 export * from './guards';
+export * from './interceptors';
