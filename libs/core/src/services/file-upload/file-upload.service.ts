@@ -1,6 +1,10 @@
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { BlobServiceClient, BlockBlobClient } from '@azure/storage-blob';
 import { S3 } from 'aws-sdk';
+import { Storage } from '@google-cloud/storage';
+import { AppException, BAD_REQUEST } from 'shtcut/core';
+import lang from 'shtcut/core/lang';
 
 /**
  * Builds File upload service
@@ -8,6 +12,15 @@ import { S3 } from 'aws-sdk';
 export class FileUploadService {
   constructor(private config: ConfigService) {}
 
+  /**
+   * The function uploads a file to an S3 bucket using the AWS SDK for Node.js.
+   * @param payload - The `payload` parameter is an object that contains the file information to be
+   * uploaded. It typically includes the following properties:
+   * @param {any} options - The `options` parameter is an object that can contain additional
+   * configuration options for the S3 upload. It is an optional parameter, so if no options are
+   * provided, an empty object `{}` is used as the default value.
+   * @returns a Promise that resolves to the data object returned by the S3 upload operation.
+   */
   async uploadToS3(payload, options: any = {}) {
     try {
       const bucketName = this.config.get('app.fileUpload.s3.bucket');
@@ -35,4 +48,68 @@ export class FileUploadService {
       throw e;
     }
   }
+
+  /**
+   * The function `uploadToGCS` uploads a file to Google Cloud Storage (GCS) and returns the public URL
+   * of the uploaded file.
+   * @param payload - The `payload` parameter is an object that contains the file information to be
+   * uploaded. It typically includes the following properties:
+   * @param {any} options - The `options` parameter is an object that can contain additional
+   * configuration options for the upload process. It is an optional parameter, so if no options are
+   * provided, an empty object `{}` is used as the default value.
+   * @returns a Promise that resolves to the URL of the uploaded file in Google Cloud Storage (GCS).
+   */
+  async uploadToGCS(payload, options: any = {}) {
+    try {
+      const bucketName = this.config.get('app.fileUpload.gcs.bucket');
+      const storage = new Storage({
+        projectId: this.config.get('app.fileUpload.gcs.projectId'),
+        keyFilename: this.config.get('app.fileUpload.gcs.keyFile'),
+        ...options,
+      });
+      const bucket = storage.bucket(bucketName);
+      const gscFileName = options.filePath ? `/${options.filePath}/${payload.name}` : `${Date.now()}-${payload.name}`;
+      const file = bucket.file(gscFileName);
+      return new Promise((resolve, rejects) => {
+        const stream = file.createWriteStream({
+          metadata: {
+            contentType: payload.contentType,
+          },
+        });
+        stream.on('error', (err) => {
+          rejects(err);
+        });
+        stream.on('finish', async () => {
+          await file.makePublic();
+          const url = this.getPublicUrl(bucketName, gscFileName);
+          resolve(url);
+        });
+        stream.end(payload.body);
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async useAzure(payload, options: any = {}) {
+    try {
+      const sasKey = `${this.config.get('app.fileUpload.azure.sasKey')}`;
+      const accountName = `${this.config.get('app.fileUpload.azure.accountName')}`;
+      const containerName = `${this.config.get('app.fileUpload.azure.containerName')}`;
+      const connectionString = `${this.config.get('app.fileUpload.azure.containerName')}`;
+      if (sasKey && accountName && containerName && connectionString) {
+        const blobClientService = BlobServiceClient.fromConnectionString(connectionString);
+        const containerClient = blobClientService.getContainerClient(containerName);
+        const azureFileName = options.filePath
+          ? `/${options.filePath}/${payload.name}`
+          : `${Date.now()}-${payload.name}`;
+        const blockBlobClient = containerClient.getBlockBlobClient(azureFileName);
+      }
+      throw new AppException(BAD_REQUEST, lang.get('error').azure);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  getPublicUrl = (bucketName, fileName) => `https://storage.googleapis.com/${bucketName}/${fileName}`;
 }
