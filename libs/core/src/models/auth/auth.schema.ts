@@ -1,1 +1,109 @@
-export class AuthSchema {}
+import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+import { MobileOption } from 'shtcut/core/shared';
+
+export type AuthDocument = Auth & Document;
+
+@Schema({
+  timestamps: true,
+  autoCreate: true,
+  toJSON: { virtuals: true },
+  toObject: {
+    virtuals: true,
+  },
+})
+export class Auth {
+  @Prop({
+    required: true,
+    unique: true,
+    lowercase: true,
+    trim: true,
+  })
+  public email: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    select: false,
+    minlength: 6,
+    maxlength: 100,
+  })
+  public password: string;
+
+  @Prop({
+    type: String,
+  })
+  public socialId: string;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  public socialAuth: boolean;
+
+  @Prop({
+    type: Boolean,
+    enum: ['facebook', 'google', 'twitter', 'apple', 'github'],
+  })
+  public socialType: string;
+
+  @Prop({
+    type: {
+      phoneNumber: String,
+      isoCode: {
+        type: String,
+        default: 'NG',
+      },
+    },
+  })
+  public mobile: MobileOption;
+
+  @Prop(
+    raw({
+      email: {
+        type: Boolean,
+        default: false,
+      },
+      mobile: {
+        type: Boolean,
+        default: false,
+      },
+    }),
+  )
+  public verifications: { email: boolean; mobile: boolean };
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  public isAdmin: boolean;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  public active: boolean;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+    selected: false,
+  })
+  public deleted: boolean;
+}
+
+const AuthSchema = SchemaFactory.createForClass(Auth);
+
+AuthSchema.virtual('id').get(function () {
+  return this._id.toHexString();
+});
+
+AuthSchema.virtual('user', {
+  ref: 'User',
+  localField: '_id',
+  foreignField: '_id',
+  justOne: true,
+  match: { deleted: false },
+});
+
+export { AuthSchema };
