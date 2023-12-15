@@ -103,7 +103,22 @@ export class FileUploadService {
         const azureFileName = options.filePath
           ? `/${options.filePath}/${payload.name}`
           : `${Date.now()}-${payload.name}`;
-        const blockBlobClient = containerClient.getBlockBlobClient(azureFileName);
+        const blockBlobClient = await containerClient.getBlockBlobClient(azureFileName);
+        const fileUrl = blockBlobClient.url;
+        return new Promise((resolve, reject) => {
+          const bufferFile = Buffer.from(azureFileName, 'utf-8');
+          blockBlobClient
+            .uploadData(bufferFile)
+            .then((res) => {
+              return resolve({
+                fileUrl,
+                ...res,
+              });
+            })
+            .catch((err) => {
+              return reject(err);
+            });
+        });
       }
       throw new AppException(BAD_REQUEST, lang.get('error').azure);
     } catch (e) {
