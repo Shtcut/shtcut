@@ -91,6 +91,17 @@ export class FileUploadService {
     }
   }
 
+  /**
+   * The function `useAzure` uploads a file to Azure Blob Storage using the provided payload and
+   * options.
+   * @param payload - The `payload` parameter is an object that contains information about the file to
+   * be uploaded. It typically includes properties such as `name`, which represents the name of the
+   * file.
+   * @param {any} options - The `options` parameter is an object that can contain additional
+   * configuration options for the Azure file upload. It is an optional parameter, so if no options are
+   * provided, an empty object will be used as the default value.
+   * @returns a Promise that resolves to an object with the properties `fileUrl` and `res`.
+   */
   async useAzure(payload, options: any = {}) {
     try {
       const sasKey = `${this.config.get('app.fileUpload.azure.sasKey')}`;
