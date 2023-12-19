@@ -39,6 +39,12 @@ export class Auth {
     type: Boolean,
     default: false,
   })
+  public accountVerified: boolean;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
   public socialAuth: boolean;
 
   @Prop({

@@ -10,3 +10,13 @@ export enum Queues {
   API = 'shtcut.queue.api',
   SHTCUT_TASK = 'shtcut.queue.task',
 }
+
+export enum SocialType {
+  FACEBOOK = 'facebook',
+  GOOGLE = 'google',
+  APPLE = 'apple',
+}
+
+export enum WorkerQueue {
+  PROCESS_WORK = 'shtcut.jobs.process.work',
+}
