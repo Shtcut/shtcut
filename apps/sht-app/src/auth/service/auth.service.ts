@@ -5,6 +5,8 @@ import { Model } from 'mongoose';
 import { Auth, AuthDocument, NoSQLBaseService, SocialSignInDto, User, UserDocument, WorkService } from 'shtcut/core';
 import { SocialAuthService } from './social-auth.service';
 import { ConfigService } from '@nestjs/config';
+import * as bcrypt from 'bcrypt';
+import * as _ from 'lodash';
 
 @Injectable()
 export class AuthService extends NoSQLBaseService {
@@ -58,5 +60,15 @@ export class AuthService extends NoSQLBaseService {
       accessToken: this.jwtService.sign(payload),
       auth,
     };
+  }
+
+  async validateUser(username: string, pass: string) {
+    const auth = await this.model.findOne({ email: username }).select('+password');
+    if (!auth) {
+      return null;
+    }
+
+    const valid = await bcrypt.compare(pass, auth.password);
+    return valid ? _.omit(auth.toJSON(), ['verifications']) : null;
   }
 }

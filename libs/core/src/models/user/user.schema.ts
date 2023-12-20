@@ -101,3 +101,5 @@ UserSchema.virtual('auth', {
     deleted: false,
   },
 });
+
+export { UserSchema };

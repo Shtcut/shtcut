@@ -11,7 +11,7 @@ export class NoSQLBaseService extends BaseAbstract {
    */
   constructor(protected model) {
     super();
-    this.modelName = model.collections.collectionName;
+    this.modelName = model.collection.collectionName;
     this.entity = model;
     if (!this?.entity?.config) {
       this.entity.config = { ...this.defaultConfig };
@@ -175,6 +175,7 @@ export class NoSQLBaseService extends BaseAbstract {
    */
   public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser) {
     const dataFilters: string[] = this?.entity?.config?.dateFilters;
+
     if (dataFilters && dataFilters.length > 0)
       [
         dataFilters.forEach((key: string) => {
@@ -183,6 +184,7 @@ export class NoSQLBaseService extends BaseAbstract {
           }
         }),
       ];
+
     const conditions: string[] = ['gt', 'gte', 'lt', 'lte'];
     for (const c of conditions) {
       if (queryParser[c]) {
@@ -194,6 +196,7 @@ export class NoSQLBaseService extends BaseAbstract {
         }
       }
     }
+
     if (queryParser.btw) {
       // Using Btw to filter range of values
       for (const [key, value] of Object.entries(queryParser.btw)) {
@@ -207,6 +210,7 @@ export class NoSQLBaseService extends BaseAbstract {
         }
       }
     }
+
     let query = this.model.find(queryParser.query);
     if (queryParser.search && this.entity.searchQuery && this.entity.searchQuery(queryParser.search).length > 0) {
       const searchQuery = this.entity.searchQuery(queryParser.search);
@@ -216,9 +220,11 @@ export class NoSQLBaseService extends BaseAbstract {
       };
       query = this.model.find({ ...queryParser.query });
     }
+
     if (!queryParser.getAll) {
       query = query.skip(pagination.skip).limit(pagination.perPage);
     }
+
     query = query.sort(
       queryParser && queryParser.sort ? Object.assign(queryParser.sort, { createdAt: -1 }) : '-createdAt',
     );
@@ -270,6 +276,7 @@ export class NoSQLBaseService extends BaseAbstract {
     query.push({
       $sort: queryParser.sort ? Object.assign({}, { ...queryParser.sort, createdAt: -1 }) : { createdAt: -1 },
     });
+
     if (!queryParser.getAll) {
       query.push(
         {
@@ -280,6 +287,7 @@ export class NoSQLBaseService extends BaseAbstract {
         },
       );
     }
+
     return {
       value: await this.model.aggregate(query).collation({ locale: 'en', strength: 1 }),
       count,
@@ -301,12 +309,14 @@ export class NoSQLBaseService extends BaseAbstract {
         query[key] = obj[key];
       }
     }
+
     const found = !_.isEmpty(query)
       ? await this.model.findOne({
           ...query,
           deleted: false,
         })
       : false;
+
     return found ? found : null;
   }
 
@@ -320,10 +330,12 @@ export class NoSQLBaseService extends BaseAbstract {
    */
   public async validateObject(payload: Record<string, any>) {
     const moreCondition = { deleted: false };
+
     const condition: Record<string, any> = {
       $or: [{ publicId: payload._id }, { _id: payload._id }],
       ...moreCondition,
     };
+
     return this.model.findOne(condition);
   }
 

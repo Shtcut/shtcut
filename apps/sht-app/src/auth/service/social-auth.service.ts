@@ -66,7 +66,7 @@ export class SocialAuthService {
 
       await session.commitTransaction();
 
-      return { auth, socialPayload };
+      return { auth, user, socialPayload };
     } catch (e) {
       if (session) {
         await session.abortTransaction();

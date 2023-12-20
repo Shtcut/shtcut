@@ -1,14 +1,15 @@
+import { configuration } from '@config';
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { AppException, INTERNAL_SERVER_ERROR } from 'shtcut/core';
+import lang from 'shtcut/core/lang';
 
 @Catch()
 export class ResponseFilter implements ExceptionFilter {
-  constructor(private config: ConfigService) {}
+  constructor() {}
 
   catch(exception: any, host: ArgumentsHost) {
-    const showDeveloperError = Boolean(this.config.get('app.showDeveloperError'));
+    const showDeveloperError = Boolean(configuration().app.showDeveloperError);
     const ctx = host.switchToHttp();
     const response: Response = ctx.getResponse();
     const meta: Record<any, any> = {};
@@ -26,7 +27,7 @@ export class ResponseFilter implements ExceptionFilter {
       meta.statusCode = code;
       meta.error = {
         code,
-        message: 'A problem with our server, please try again later',
+        message: lang.get('error').internalServer,
       };
       meta.developerMessage = exception;
     }

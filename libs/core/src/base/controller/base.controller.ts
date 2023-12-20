@@ -65,11 +65,14 @@ export abstract class BaseController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       if (!this.service.routes.create) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Create is not allowed for this Item');
         return next(appError);
       }
+
       const reqObj = await this.service.prepareBodyObject(req);
+
       let value = await this.service.retrieveExistingResource(reqObj);
       if (value) {
         const returnIfFound = this.service.entity.config.returnDuplicate;
@@ -80,6 +83,7 @@ export abstract class BaseController {
                   [m]: `${m} must be unique`,
                 }))
               : null;
+
           const appError = new AppException(CONFLICT, 'Duplicate record is not allowed', messageObj);
           return next(appError);
         }
@@ -90,6 +94,7 @@ export abstract class BaseController {
         }
         value = await this.service.createNewObject(reqObj);
       }
+
       const response = await this.service.getResponse(
         await this.service.postCreate({
           queryParser,
@@ -110,11 +115,14 @@ export abstract class BaseController {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const pagination = new Pagination(req.originalUrl, this.service.baseUrl, this.service.itemsPerPage);
+
       if (!this.service.routes.find) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Find is not allowed for this Item');
         return next(appError);
       }
+
       const { value, count } = await this.service.buildModelQueryObject(pagination, queryParser);
+
       const response = await this.service.getResponse(
         await this.service.postFind({
           code: OK,
@@ -124,6 +132,7 @@ export abstract class BaseController {
           count,
         }),
       );
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);
@@ -135,11 +144,14 @@ export abstract class BaseController {
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       if (!this.service.routes.findOne) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Get one is not allowed for this Item');
         return next(appError);
       }
+
       const value = await this.service.findObject(id, queryParser);
+
       const response = await this.service.getResponse(
         await this.service.postFindOne({
           queryParser,
@@ -147,6 +159,7 @@ export abstract class BaseController {
           value,
         }),
       );
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);
@@ -165,16 +178,20 @@ export abstract class BaseController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       if (!this.service.routes.patch) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Patch is not allowed for this Item');
         return next(appError);
       }
+
       let object = await this.service.findObject(id, queryParser);
       object = await this.service.patchUpdate(object, payload);
+
       const canUpdateError = await this.service.validateUpdate(object, payload);
       if (!_.isEmpty(canUpdateError)) {
         throw canUpdateError;
       }
+
       const response = await this.service.getResponse(
         await this.service.postPatch({
           queryParser,
@@ -183,6 +200,7 @@ export abstract class BaseController {
           message: this.lang.get(this.service.modelName).updated,
         }),
       );
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);
@@ -201,19 +219,24 @@ export abstract class BaseController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       if (!this.service.routes.update) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Put is not allowed for this Item');
         return next(appError);
       }
+
       let object = await this.service.findObject(id, queryParser);
       if (!object) {
         throw AppException.NOT_FOUND;
       }
+
       const canUpdateError = await this.service.validateUpdate(object, payload);
       if (!_.isEmpty(canUpdateError)) {
         throw canUpdateError;
       }
+
       object = await this.service.updateObject(id, payload);
+
       const response = await this.service.getResponse(
         await this.service.postPatch({
           queryParser,
@@ -222,6 +245,7 @@ export abstract class BaseController {
           message: this.lang.get(this.service.modelName).updated,
         }),
       );
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);
@@ -234,19 +258,24 @@ export abstract class BaseController {
   public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       if (!this.service.routes.remove) {
         const appError = new AppException(METHOD_NOT_ALLOWED, 'Delete is not allowed for this Item');
         return next(appError);
       }
+
       let object = await this.service.findObject(id, queryParser);
       if (!object) {
         throw AppException.NOT_FOUND;
       }
+
       const canUpdateError = await this.service.validateDelete(object);
       if (!_.isEmpty(canUpdateError)) {
         throw canUpdateError;
       }
+
       object = await this.service.deleteObject(object);
+
       const response = await this.service.getResponse(
         await this.service.postPatch({
           queryParser,
@@ -255,6 +284,7 @@ export abstract class BaseController {
           message: this.lang.get(this.service.modelName).deleted,
         }),
       );
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);
@@ -293,15 +323,18 @@ export abstract class BaseController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
+
       let object = null;
       if (!_.isEmpty(queryParser.query)) {
         object = await this.service.searchOneObject(queryParser.query);
       }
+
       const response = await this.service.getResponse({
         code: OK,
         queryParser,
         value: object ?? { _id: null },
       });
+
       return res.status(OK).json(response);
     } catch (e) {
       return next(e);

@@ -14,6 +14,12 @@ export type AuthDocument = Auth & Document;
 })
 export class Auth {
   @Prop({
+    type: String,
+    unique: true,
+  })
+  public publicId: string;
+
+  @Prop({
     required: true,
     unique: true,
     lowercase: true,

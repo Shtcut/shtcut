@@ -7,6 +7,10 @@ export type MediaDocument = Media & Document;
 @Schema({
   timestamps: true,
   autoCreate: true,
+  toJSON: { virtuals: true },
+  toObject: {
+    virtuals: true,
+  },
 })
 export class Media {
   @Prop({
