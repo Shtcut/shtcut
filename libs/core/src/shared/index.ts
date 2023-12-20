@@ -10,3 +10,4 @@ export * from './guards';
 export * from './interceptors';
 export * from './dto';
 export * from './jobs';
+export * from './pipes';

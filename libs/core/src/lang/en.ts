@@ -1,8 +1,8 @@
 export default {
   error: {
-    bad_request: 'Bad request / Validation error',
+    badRequest: 'Bad request / Validation error',
     server: 'Error in setup interaction',
-    internalServer: 'Internal server error',
+    internalServer: 'A problem with the server, our engineers are currently on this. Try again later. Thanks',
     resourceNotfound: 'Resource not found!',
     resourceAlreadyExist: 'Duplicate record is not allowed',
     inputs: 'There are problems with your input',

@@ -5,6 +5,7 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { Request, Response } from 'express';
+import { OK } from 'shtcut/core';
 
 @Controller()
 export class AppController {
@@ -24,9 +25,9 @@ export class AppController {
       () =>
         Promise.resolve<HealthIndicatorResult>({
           api: {
-            app: `${this.config.get('serviceName')}`,
+            app: `${this.config.get('app.serviceName')}`,
             status: 'up',
-            environment: this.config.get('environment'),
+            environment: this.config.get('app.environment'),
           },
         }),
       () =>
@@ -38,6 +39,11 @@ export class AppController {
 
   @Get('/apps')
   async apps(@Req() req: Request, @Res() res: Response) {
-    // const apps = await this.service.ge
+    const apps = await this.service.getApps();
+    const response = await this.service.getResponse({
+      code: OK,
+      value: apps,
+    });
+    return res.status(OK).json(response);
   }
 }
