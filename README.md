@@ -43,8 +43,6 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 3. Configure environment variables for database connection, analytics settings, and hosting preferences.
 4. Run the application using `yarn start`.
 
-Absolutely! Here's an example of how you can incorporate the link into the documentation:
-
 ## Usage
 
 ### Accessing the Application
