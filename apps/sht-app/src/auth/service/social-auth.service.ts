@@ -34,9 +34,8 @@ export class SocialAuthService {
 
       const { socialType } = payload;
       const socialData = await this.loginSocial({ ...payload });
-
       if (!socialData.email) {
-        throw AppException.INVALID_INPUT(lang.get('auth').email);
+        throw AppException.INVALID_INPUT(lang.get('auth').socialEmailRequired);
       }
 
       let [auth, user] = await Promise.all([
@@ -68,6 +67,7 @@ export class SocialAuthService {
 
       return { auth, user, socialPayload };
     } catch (e) {
+      console.log('err:', e);
       if (session) {
         await session.abortTransaction();
       }
@@ -94,11 +94,10 @@ export class SocialAuthService {
     } else if (socialType === SocialType.APPLE) {
       return Promise.resolve({ id: this.config.get('app.social.apple.url') });
     } else {
-      url = `${this.config.get('app.social.facebook.GraphUrl')}&access_token=${accessToken}`;
+      url = `${this.config.get('app.social.facebook.url')}&access_token=${accessToken}`;
     }
     try {
       const response = await lastValueFrom(this.http.get(url));
-
       if (socialType === SocialType.GOOGLE) {
         response.data.id = response.data.sub;
       }
@@ -151,25 +150,26 @@ export class SocialAuthService {
       };
     }
 
-    const updatedAuth = {
-      ...auth,
+    _.extend(auth, {
       accountVerified: true,
       active: true,
       socialId: response.id,
       socialAuth: true,
       socialType,
       ...socialData,
-    };
+    });
 
     if (socialData.email) {
-      updatedAuth.verifications = {
-        ...(auth.verifications || {}),
-        email: true,
-      };
+      _.extend(auth, {
+        verifications: {
+          ...auth.verifications,
+          email: true,
+        },
+      });
     }
 
     return {
-      authObject: updatedAuth,
+      authObject: auth,
       socialPayload: socialData,
     };
   }

@@ -1,6 +1,6 @@
 export default {
   error: {
-    bad_request: 'Bad request / Validation error',
+    badRequest: 'Bad request / Validation error',
     server: 'Error in setup interaction',
     internalServer: 'Internal server error',
     resourceNotfound: 'Resource not found!',
@@ -12,5 +12,11 @@ export default {
     notFound: 'Data not found',
     noUpdateInput: 'Nothing to update',
     forbidden: 'User is not authorized to perform operation',
+  },
+
+  auth: {
+    socialError: 'Sorry we cannot verify your social account at the moment',
+    socialEmailRequired: 'Your social email is required',
+    invalidUser: 'Invalid credentials',
   },
 };

@@ -1,5 +1,5 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MGSchema } from 'mongoose';
 import { MobileOption } from 'shtcut/core/shared';
 
 export type AuthDocument = Auth & Document;
@@ -29,10 +29,9 @@ export class Auth {
 
   @Prop({
     type: String,
-    required: true,
     select: false,
     minlength: 6,
-    maxlength: 100,
+    maxlength: 20,
   })
   public password: string;
 
@@ -54,7 +53,7 @@ export class Auth {
   public socialAuth: boolean;
 
   @Prop({
-    type: Boolean,
+    type: String,
     enum: ['facebook', 'google', 'twitter', 'apple', 'github'],
   })
   public socialType: string;
@@ -83,6 +82,11 @@ export class Auth {
     }),
   )
   public verifications: { email: boolean; mobile: boolean };
+
+  @Prop({
+    type: MGSchema.Types.Mixed,
+  })
+  verificationCodes: any;
 
   @Prop({
     type: Boolean,

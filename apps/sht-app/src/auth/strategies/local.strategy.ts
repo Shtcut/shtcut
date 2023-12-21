@@ -7,11 +7,12 @@ import lang from 'apps/sht-app/lang';
 @Injectable()
 export class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: AuthService) {
-    super();
+    super({ usernameField: 'email' });
   }
 
   async validate(username: string, password: string) {
     const auth = await this.authService.validateUser(username, password);
+    console.log('auth:::', auth);
     if (!auth) {
       throw new UnauthorizedException(lang.get('auth').invalidUser);
     }

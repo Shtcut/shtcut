@@ -1,5 +1,11 @@
 import { Controller, Get, Req, Res } from '@nestjs/common';
-import { HealthCheck, HealthCheckService, HealthIndicatorResult, MongooseHealthIndicator } from '@nestjs/terminus';
+import {
+  HealthCheck,
+  HealthCheckService,
+  HealthIndicatorResult,
+  MemoryHealthIndicator,
+  MongooseHealthIndicator,
+} from '@nestjs/terminus';
 import { AppService } from './app.service';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Connection } from 'mongoose';
@@ -13,6 +19,7 @@ export class AppController {
     private health: HealthCheckService,
     private service: AppService,
     private mongoService: MongooseHealthIndicator,
+    private memory: MemoryHealthIndicator,
     @InjectConnection()
     private readonly connection: Connection,
     private config: ConfigService,
@@ -34,6 +41,7 @@ export class AppController {
         this.mongoService.pingCheck('mongoDB', {
           connection: this.connection,
         }),
+      () => this.memory.checkRSS('mem_rss', 1024 * 2 ** 20),
     ]);
   }
 
