@@ -19,7 +19,7 @@ async function bootstrap() {
   const config = app.get(ConfigService);
 
   await app.listen(config.get('app.port'), () =>
-    Logger.log('App Service Running 👍: ' + `${config.get('app.baseUrl')}`),
+    Logger.log(`${config.get('app.serviceName')} Running 👍: ` + `${config.get('app.baseUrl')}`),
   );
 }
 

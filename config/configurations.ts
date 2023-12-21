@@ -38,7 +38,7 @@ export const configuration = () => ({
         verify: 'verify',
       },
     },
-    socials: {
+    social: {
       facebook: {
         url: 'https://graph.facebook.com/v2.12/me?fields=email,first_name,last_name,picture',
         apiKey: process.env.FACEBOOK_CLIENT_ID,
@@ -76,15 +76,24 @@ export const configuration = () => ({
       secretKey: process.env.TERMI_SECRET_KEY,
       senderId: process.env.TERMI_SENDER_ID,
     },
+    permissionValuesTypes: ['boolean', 'list', 'number', 'text'],
+  },
+  worker: {
     email: {
       noReply: { email: process.env.NO_REPLY || 'no-reply@shtcut.link', name: process.env.APP_NAME || 'ShtCut' },
-      mailOptions: process.env.MAIL_OPTION || 'sendgrid',
+      mailOption: process.env.MAIL_OPTION || 'sendgrid',
       sendgrid: {
+        fromEmail: process.env.NO_REPLY || 'no-reply@shtcut.link',
         apiKey: process.env.SENDGRID_API_KEY,
         contactForRecipient: process.env.CONTACT_FORM_EMAIL_RECIPIENT,
       },
+      postmark: {
+        username: process.env.POSTMARK_USERNAME || 'John Doe',
+        fromEmail: process.env.NO_REPLY || 'no-reply@shtcut.link',
+        url: process.env.POSTMARK_URL || '',
+        apiKey: process.env.POSTMARK_API_KEY,
+      },
     },
-    permissionValuesTypes: ['boolean', 'list', 'number', 'text'],
   },
   microServices: {
     app: {
