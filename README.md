@@ -32,7 +32,7 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 ### Requirements
 
 - NestJS v9.0 or higher
-- MongoDB v4.0 or higher
+- Currently Support MongoDB v4.0 or higher, coming soon, support multiple Database
 - GraphQL v11.0 or higher
 - Nginx/Apache (for production deployment)
 
@@ -42,8 +42,6 @@ This repository hosts an advanced URL shortener solution that goes beyond the tr
 2. Install dependencies using `yarn install`.
 3. Configure environment variables for database connection, analytics settings, and hosting preferences.
 4. Run the application using `yarn start`.
-
-Absolutely! Here's an example of how you can incorporate the link into the documentation:
 
 ## Usage
 
@@ -75,4 +73,4 @@ This project is licensed under the [MIT License](https://github.com/funmiayinde/
 ## Support
 
 For any queries, issues, or suggestions, feel free to raise a GitHub issue or contact the maintainers at [funmiayinde11@gmail.com](mailto:funmiayinde11@gmail.com).
-=================================================================================================================================
+

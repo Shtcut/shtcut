@@ -1,8 +1,50 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src",
+  "sourceRoot": "apps/sht-gw/src",
+  "monorepo": true,
   "compilerOptions": {
-    "deleteOutDir": true
+    "deleteOutDir": true,
+    "webpack": true,
+    "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
+  },
+  "root": "apps/sht-gw",
+  "projects": {
+    "sht-gw": {
+      "type": "application",
+      "root": "apps/sht-gw",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-gw/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
+      }
+    },
+    "sht-app": {
+      "type": "application",
+      "root": "apps/sht-app",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-app/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-app/tsconfig.app.json"
+      }
+    },
+    "sht-worker": {
+      "type": "application",
+      "root": "apps/sht-worker",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-worker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-worker/tsconfig.app.json"
+      }
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    }
   }
 }

@@ -16,6 +16,12 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@config": ["config"],
+      "@config/*": ["config/*"],
+      "shtcut/core": ["libs/core/src"],
+      "shtcut/core/*": ["libs/core/src/*"],
+    }
   }
 }
