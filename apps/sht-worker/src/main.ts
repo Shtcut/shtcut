@@ -1,22 +1,31 @@
 import { NestFactory } from '@nestjs/core';
 import { ShtcutWorkerModule } from './sht-worker.module';
 import { ConfigService } from '@nestjs/config';
-import morgan from 'morgan';
+import * as morgan from 'morgan';
 import { LoggingInterceptor, ResponseFilter, ValidationPipe, WorkerExceptionFilter } from 'shtcut/core';
+import { Logger } from '@nestjs/common';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(ShtcutWorkerModule, {
+  const app = await NestFactory.create<NestExpressApplication>(ShtcutWorkerModule, {
     cors: true,
     logger: process.env.NODE_ENV === 'development' ? ['debug'] : ['error', 'warn', 'debug'],
   });
 
-  const config = app.get(ConfigService);
   app.use(morgan('tiny'));
   app.setGlobalPrefix('api/v1');
   app.useGlobalFilters(new WorkerExceptionFilter());
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new LoggingInterceptor());
+
+  const config = app.get(ConfigService);
+  const port = config.get(`app.port`);
+  console.log('port:::', port);
+  console.log('app.serviceName:::', config.get('app.serviceName'));
+  await app.listen(config.get('app.port'), () =>
+    Logger.log(`${config.get('app.serviceName')} Running 👍: ` + `${config.get('app.baseUrl')}`),
+  );
 }
 
 bootstrap();

@@ -28,13 +28,22 @@
         "tsConfigPath": "apps/sht-app/tsconfig.app.json"
       }
     },
+    "sht-worker": {
+      "type": "application",
+      "root": "apps/sht-worker",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-worker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-worker/tsconfig.app.json"
+      }
+    },
     "core": {
       "type": "library",
       "root": "libs/core",
       "entryFile": "index",
       "sourceRoot": "libs/core/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/sht-app/tsconfig.app.json"
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
       }
     }
   }
