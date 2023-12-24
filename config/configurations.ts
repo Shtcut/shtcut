@@ -30,6 +30,7 @@ export const configuration = () => ({
     },
     templates: {
       email: {
+        welcome: 'welcome',
         verify: 'verify',
         passwordReset: 'password-reset',
         otp: 'otp',
@@ -58,7 +59,7 @@ export const configuration = () => ({
     redisUrl: process.env.REDIS_SERVER_HOST_URL,
     fileUpload: {
       default: process.env.GOOGLE_CLOUD_PROJECT_ID || 's3',
-      gsc: {
+      gcs: {
         projectID: process.env.GOOGLE_CLOUD_PROJECT_ID,
         keyFile: process.env.GOOGLE_CLOUD_KEY_FILE,
         bucket: process.env.GOOGLE_CLOUD_STORAGE_BUCKET,
@@ -79,6 +80,20 @@ export const configuration = () => ({
     permissionValuesTypes: ['boolean', 'list', 'number', 'text'],
   },
   worker: {
+    fileUpload: {
+      default: process.env.GOOGLE_CLOUD_PROJECT_ID || 's3',
+      gcs: {
+        projectID: process.env.GOOGLE_CLOUD_PROJECT_ID,
+        keyFile: process.env.GOOGLE_CLOUD_KEY_FILE,
+        bucket: process.env.GOOGLE_CLOUD_STORAGE_BUCKET,
+      },
+      s3: {
+        key: process.env.AWS_ACCESS_KEY,
+        secret: process.env.ASW_SECRET_KEY,
+        bucket: process.env.AWS_BUCKET,
+        region: process.env.AWS_REGION,
+      },
+    },
     email: {
       noReply: { email: process.env.NO_REPLY || 'no-reply@shtcut.link', name: process.env.APP_NAME || 'ShtCut' },
       mailOption: process.env.MAIL_OPTION || 'sendgrid',

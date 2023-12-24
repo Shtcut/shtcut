@@ -17,6 +17,12 @@ export enum SocialType {
   APPLE = 'apple',
 }
 
+export enum FileUploadEnum {
+  AWS_S3 = 's3',
+  GCS = 'gcs',
+  AZURE = 'azure',
+}
+
 export enum WorkerQueue {
   PROCESS_WORK = 'shtcut.jobs.process.work',
 }

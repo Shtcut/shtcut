@@ -14,7 +14,7 @@ import {
   SocialSignInDto,
 } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
-import { AuthEmail } from '../../auth.email';
+import { AuthEmail } from '../auth.email';
 
 @Controller('auth')
 export class AuthController {
@@ -34,9 +34,21 @@ export class AuthController {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const { accessToken, auth } = await this.service.signInSocial(payload);
+
+      const filter: Record<string, any> = {
+        email: await AuthEmail.sendWelcomeEmail(
+          {
+            from: this.config.get<string>('app.fromEmail'),
+            template: this.config.get<string>('app.templates.email.welcome'),
+          },
+          auth,
+        ),
+      };
+
       const response = await this.service.getResponse({
         token: accessToken,
         queryParser,
+        ...filter,
         code: OK,
         value: auth,
       });
@@ -112,7 +124,7 @@ export class AuthController {
         email: await AuthEmail.verifyEmail(
           {
             from: this.config.get<string>('app.fromEmail'),
-            template: this.config.get<string>('app.templates.email.otp'),
+            template: this.config.get<string>('app.templates.email.verify'),
             code: auth.verificationCodes?.email?.code,
           },
           auth,
