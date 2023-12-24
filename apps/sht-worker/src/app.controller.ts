@@ -12,7 +12,7 @@ import {
 import { Connection } from 'mongoose';
 
 @Controller()
-export class ShtcutWorkerController {
+export class AppController {
   constructor(
     private health: HealthCheckService,
     private service: MicroserviceHealthIndicator,

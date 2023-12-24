@@ -5,7 +5,7 @@ import { TerminusModule } from '@nestjs/terminus';
 import { CoreModule } from 'shtcut/core';
 import { MessageModule } from './message';
 import { SchedulerModule } from './scheduler';
-import { ShtcutWorkerController } from './sht-worker.controller';
+import { AppController } from './app.controller';
 import { MediaModule } from './media';
 
 @Module({
@@ -21,7 +21,7 @@ import { MediaModule } from './media';
       load: [configuration],
     }),
   ],
-  controllers: [ShtcutWorkerController],
+  controllers: [AppController],
   providers: [],
 })
-export class ShtcutWorkerModule {}
+export class AppModule {}
