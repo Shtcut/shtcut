@@ -1,6 +1,6 @@
 export default {
   error: {
-    bad_request: 'Bad request / Validation error',
+    badRequest: 'Bad request / Validation error',
     server: 'Error in setup interaction',
     internalServer: 'Internal server error',
     resourceNotfound: 'Resource not found!',
@@ -12,5 +12,8 @@ export default {
     notFound: 'Data not found',
     noUpdateInput: 'Nothing to update',
     forbidden: 'User is not authorized to perform operation',
+    noApiKey: 'Api key absent',
+    invalidApiKey: 'Invalid Api Key',
+    tooLargeFile: 'Error parsing multipart request or file too large',
   },
 };

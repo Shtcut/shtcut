@@ -23,6 +23,26 @@ export class AuthController {
     protected config: ConfigService,
   ) {}
 
+  @UseGuards(JwtAuthGuard)
+  @Post('/authenticate')
+  @HttpCode(OK)
+  public async authenticate(
+    @CurrentUser() auth: Auth,
+    @Req() @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const response = await this.service.getResponse({
+        code: OK,
+        value: auth,
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
   @Post('/social')
   @HttpCode(OK)
   public async social(

@@ -35,8 +35,8 @@ export class AppException {
     return new AppException(HttpStatus.CONFLICT, message);
   };
 
-  static BAD_REQUEST = (message) => {
-    return new AppException(HttpStatus.BAD_REQUEST, message);
+  static BAD_REQUEST = (message, messages?) => {
+    return new AppException(HttpStatus.BAD_REQUEST, message, messages);
   };
 
   static INVALID_INPUT = (message) => {
