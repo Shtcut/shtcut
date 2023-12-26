@@ -1673,6 +1673,13 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.5.tgz#a6ce3e556e00fd9895dd872dd172ad0d4bd687f4"
   integrity sha512-/kYRxGDLWzHOB7q+wtSUQlFrtcdUccpfy+X+9iMBpHK8QLLhx2wIPYuS5DYtR9Wa/YlZAbIovy7qVdB1Aq6Lyw==
 
+"@types/express-http-proxy@^1.6.6":
+  version "1.6.6"
+  resolved "https://registry.yarnpkg.com/@types/express-http-proxy/-/express-http-proxy-1.6.6.tgz#386c6f4c61a2d26ab8817ba1c2b2aac80e5638c9"
+  integrity sha512-J8ZqHG76rq1UB716IZ3RCmUhg406pbWxsM3oFCFccl5xlWUPzoR4if6Og/cE4juK8emH0H9quZa5ltn6ZdmQJg==
+  dependencies:
+    "@types/express" "*"
+
 "@types/express-serve-static-core@^4.17.30", "@types/express-serve-static-core@^4.17.33":
   version "4.17.41"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.17.41.tgz#5077defa630c2e8d28aa9ffc2c01c157c305bef6"

@@ -25,6 +25,9 @@ export const configuration = () => ({
       port: Number(process.env.REDIS_PORT),
       password: process.env.REDIS_PASSWORD,
     },
+    api: {
+      versions: ['v1'],
+    },
     mongodb: {
       url: process.env.DB_URL,
     },
