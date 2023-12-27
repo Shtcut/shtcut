@@ -18,7 +18,7 @@ import { CoreModule, AppProxyMiddleware, WorkerProxyMiddleware, ApiMiddleware } 
     }),
     TerminusModule,
     // CoreModule,
-    AppModule,
+    // AppModule,
   ],
   providers: [],
   controllers: [GatewayController],

@@ -115,14 +115,10 @@ export const configuration = () => ({
   },
   microServices: {
     app: {
-      url: process.env.SHTCUT_APP_SERVICE_HOST
-        ? `${process.env.SHTCUT_APP_SERVICE_HOST}:${process.env.SHTCUT_APP_SERVICE_PORT}`
-        : process.env.APP_SERVICE,
+      url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4002/api/v1',
     },
     worker: {
-      url: process.env.SHTCUT_APP_WORKER_HOST
-        ? `${process.env.SHTCUT_APP_WORKER_HOST}:${process.env.SHTCUT_APP_WORKER_PORT}`
-        : process.env.WORKER_SERVICE,
+      url: process.env.SHTCUT_APP_WORKER_HOST || 'http://localhost:4003/api/v1',
     },
   },
 });

@@ -28,18 +28,18 @@ export class ApiMiddleware implements NestMiddleware {
     if (apiKey === process.env.API_KEY) {
       return next();
     }
-    const { data } = await lastValueFrom(
-      this.http.get(`${process.env.AUTH_SERVICE}/auth/swap-for-token`, {
-        headers: req.headers,
-      }),
-    );
-    if (data.token === null) {
-      return next(AppException.UNAUTHORIZED(lang.get('error').invalidApiKey));
-    }
-    if (data.token) {
-      req.header['x-access-token'] = data.token;
-      req.header['x-api-key'] = process.env.API_KEY;
-    }
-    return next();
+    // const { data } = await lastValueFrom(
+    //   this.http.get(`${process.env.AUTH_SERVICE}/auth/swap-for-token`, {
+    //     headers: req.headers,
+    //   }),
+    // );
+    // if (data.token === null) {
+    //   return next(AppException.UNAUTHORIZED(lang.get('error').invalidApiKey));
+    // }
+    // if (data.token) {
+    //   req.header['x-access-token'] = data.token;
+    req.header['x-api-key'] = process.env.API_KEY;
+    // }
+    next();
   }
 }
