@@ -1,3 +1,4 @@
+import { configuration } from '@config';
 import { HttpService } from '@nestjs/axios';
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -15,9 +16,9 @@ export class ApiMiddleware implements NestMiddleware {
 
   async use(req: Request, res: Response, next: NextFunction) {
     // check header or url parameters or post parameters for token
-    const apiVersions = this.config.get('app.api.versions') as string[];
-    const currentVersion = `/api/${apiVersions.pop()}`;
-    const excludeUrls = [`/${currentVersion}/ping`, `/${currentVersion}/graphql`];
+    const apiVersions = configuration().app.api.versions ?? ['v1'];
+    const currentVersion = apiVersions.pop();
+    const excludeUrls = [`/api/${currentVersion}/ping`, `/api/${currentVersion}/graphql`];
     if (excludeUrls.includes(req.originalUrl)) {
       return next();
     }

@@ -41,6 +41,7 @@ export class AuthService extends SharedService {
       );
       return response.data;
     } catch (e) {
+      // console.log('err::', e);
       return processServiceError(e);
     }
   }

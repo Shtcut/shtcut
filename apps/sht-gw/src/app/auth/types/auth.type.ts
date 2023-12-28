@@ -30,6 +30,12 @@ export class AuthType {
   @Field((type) => String)
   public publicId: string;
 
+  @Field((type) => String)
+  public firstName: string;
+
+  @Field(() => String)
+  public lastName: string;
+
   @Field((type) => Verifications)
   public verification: Verifications;
 
@@ -54,6 +60,6 @@ export class AuthData {
   @Field(() => Meta)
   public readonly meta: Meta;
 
-  @Field(() => AuthData, { nullable: true })
-  public readonly data: AuthData;
+  @Field(() => AuthType, { nullable: true })
+  public readonly data: AuthType;
 }

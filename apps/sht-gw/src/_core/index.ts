@@ -15,11 +15,12 @@ export const getGateWayProxyHeader = (headers) => {
 };
 
 export const processServiceError = (error) => {
+  console.log('error:::', error.response.data);
   if (error.response) {
     if (error.response.data && error.response.data.meta) {
       const updateError = error.response.data;
       if (updateError.meta?.error?.messages) {
-        updateError.meat.error.messages = JSON.stringify(updateError.meta?.error?.messages);
+        updateError.meta.error.messages = JSON.stringify(updateError.meta?.error?.messages);
       }
       return updateError;
     }
