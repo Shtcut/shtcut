@@ -30,7 +30,7 @@ export class AuthProcessor {
    * @returns An object containing the properties "meta" and "data" is being returned.
    */
   async signUp(payload, query?) {
-    const { meta, data } = await this.authService.signInEmail(payload, query);
+    const { meta, data } = await this.authService.signUpEmail(payload, query);
     return { meta, data };
   }
 

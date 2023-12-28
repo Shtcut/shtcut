@@ -18,5 +18,6 @@ export default {
     socialError: 'Sorry we cannot verify your social account at the moment',
     socialEmailRequired: 'Your social email is required',
     invalidUser: 'Invalid credentials',
+    userExist: 'User with credential already exist!',
   },
 };
