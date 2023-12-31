@@ -7,12 +7,14 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth';
+import { UserModule } from './user';
 
 @Module({
   imports: [
     CoreModule,
     TerminusModule,
     AuthModule,
+    UserModule,
     MongooseModule.forFeature([{ name: App.name, schema: AppSchema }]),
     ConfigModule.forRoot({
       isGlobal: true,

@@ -92,14 +92,14 @@ UserSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-UserSchema.virtual('auth', {
-  ref: 'Auth',
-  localField: '_id',
-  foreignField: '_id',
-  justOne: true,
-  match: {
-    deleted: false,
-  },
-});
+// UserSchema.virtual('auth', {
+//   ref: 'Auth',
+//   localField: '_id',
+//   foreignField: '_id',
+//   justOne: true,
+//   match: {
+//     deleted: false,
+//   },
+// });
 
 export { UserSchema };
