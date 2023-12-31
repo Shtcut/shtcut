@@ -38,12 +38,14 @@ export class SocialAuthService {
         throw AppException.INVALID_INPUT(lang.get('auth').socialEmailRequired);
       }
 
+      console.log('socialData::', socialData);
+
       let [auth, user] = await Promise.all([
-        this.model.findOne({
-          $or: [{ social_id: socialData.socialIid }, { email: socialData.email }],
-        }),
+        this.model.findOne({ social_id: socialData.socialIid, email: socialData.email }),
         this.userModel.findOne({ email: socialData.email }),
       ]);
+
+      console.log('auth::', auth);
 
       if (!auth) {
         auth = new this.model({

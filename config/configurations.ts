@@ -16,8 +16,9 @@ export const configuration = () => ({
     jwtExpiry: process.env.JWT_EXPIRY || '30000m',
     showDeveloperError: process.env.SHOW_DEVELOPER_ERROR || true,
     fromEmail: process.env.EMAIL_NO_REPLY || 'noreply@shtcut.link',
+    errorReportEmail: process.env.ERROR_REPORT_EMAIL || 'bug@shtcut.link',
     defaultVerifyCode: '123456',
-    messageBroker: 'mq',
+    messageBroker: process.env.MESSAGE_BROKER || 'redis',
     rabbitMQ: process.env.RABBIT_MQ_URL || 'amp://localhost:5672',
     redis: {
       url: process.env.REDIS_URL,
@@ -37,6 +38,7 @@ export const configuration = () => ({
         verify: 'verify',
         passwordReset: 'password-reset',
         otp: 'otp',
+        error: 'error',
       },
       sms: {
         verify: 'verify',

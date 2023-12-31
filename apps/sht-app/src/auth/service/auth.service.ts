@@ -6,7 +6,10 @@ import {
   AppException,
   Auth,
   AuthDocument,
+  ChangePasswordDto,
   NoSQLBaseService,
+  PasswordResetDto,
+  ResetCodeDto,
   ResponseOption,
   SendVerificationDto,
   SignUpDto,
@@ -14,6 +17,7 @@ import {
   User,
   UserDocument,
   Utils,
+  VerifyEmailDto,
   WorkService,
 } from 'shtcut/core';
 import { SocialAuthService } from './social-auth.service';
@@ -117,29 +121,27 @@ export class AuthService extends NoSQLBaseService {
     };
     const user = await this.userModel.findOne({ _id: auth._id, deleted: false });
     const accessToken = this.jwtService.sign(payload);
-    return { accessToken, auth: { ..._.omit(auth, ['password']), ...user.toJSON() } };
+    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user.toJSON() } };
   }
 
-  public async sendVerification(authUser, resendVerification: SendVerificationDto) {
+  public async sendVerification(resendVerification: SendVerificationDto) {
     let session: ClientSession;
     try {
       session = await this.model.startSession();
       session.startTransaction();
-
+      let auth = await this.model.findOne({ email: resendVerification.email });
       const { type } = resendVerification;
-      if (authUser.verifications[type]) {
-        throw AppException.CONFLICT(lang.get('auth').datVerified);
+
+      if (!auth) {
+        throw AppException.CONFLICT(lang.get('error').notFound);
       }
-      let auth = await this.model.findOne({ _id: authUser._id });
-      if (!authUser[type]) {
-        await this.userModel.updateOne({ _id: authUser._id }, { [type]: resendVerification[type] }, { session });
-        auth[type] = resendVerification[type];
-        auth = await auth.save();
+      if (auth.verifications[type]) {
+        throw AppException.CONFLICT(lang.get('auth').datVerified);
       }
 
       const expiration = Utils.addHourToDate(1);
       const code = this.getCode();
-      auth.verifications = {
+      auth.verificationCodes = {
         ...auth.verificationCodes,
         [type]: { code, expiration },
       };
@@ -155,6 +157,37 @@ export class AuthService extends NoSQLBaseService {
       if (session) {
         await session.endSession();
       }
+    }
+  }
+
+  public async verifyEmail(payload: VerifyEmailDto) {
+    try {
+      let auth = await this.model.findOne({
+        email: payload.email,
+      });
+      if (!auth) {
+        throw AppException.NOT_FOUND(lang.get('error').notFound);
+      }
+
+      const canVerifyError = await this.canVerify(
+        {
+          verified: auth.verifications?.email,
+          expiration: auth.verificationCodes?.email?.expiration,
+          code: auth.verificationCodes?.email?.code,
+        },
+        { code: payload.verificationCode },
+      );
+      if (canVerifyError) {
+        throw canVerifyError;
+      }
+      const { verifications, verificationCodes } = Utils.updateVerification(auth, 'email');
+      auth.verifications = verifications;
+      auth.verificationCodes = verificationCodes;
+      auth = await auth.save();
+      const { accessToken, auth: authUser } = await this.signIn(auth);
+      return { auth: authUser, accessToken };
+    } catch (e) {
+      throw e;
     }
   }
 
@@ -176,6 +209,82 @@ export class AuthService extends NoSQLBaseService {
 
     const valid = await bcrypt.compare(pass, auth.password);
     return valid ? _.omit(auth.toJSON(), ['verifications']) : null;
+  }
+
+  public async requestPasswordRequest(payload: ResetCodeDto) {
+    const auth = await this.model.findOne({ email: payload.email });
+    if (!auth) {
+      throw AppException.NOT_FOUND(lang.get('error').notFound);
+    }
+    const expiration = Utils.addHourToDate(1);
+    const code = this.getCode();
+    auth.verificationCodes = {
+      ...auth.verificationCodes,
+      resetPassword: { code, expiration },
+    };
+    return auth.save();
+  }
+
+  public async resetPassword(payload: PasswordResetDto) {
+    const auth = await this.model.findOne({ email: payload.email });
+    if (!auth) {
+      throw AppException.NOT_FOUND(lang.get('error').notFound);
+    }
+
+    const canResetError = await this.cannotResetPassword(
+      {
+        code: auth.verificationCodes?.resetPassword?.code,
+        expiration: auth.verificationCodes?.resetPassword?.expiration,
+      },
+      { code: payload.resetPasswordCode },
+    );
+
+    if (canResetError) {
+      throw canResetError;
+    }
+
+    auth.password = await bcrypt.hash(payload.password, 10);
+    auth.verificationCodes = _.omit({ ...auth.verificationCodes }, ['resetPassword']);
+    return await auth.save();
+  }
+
+  public async cannotResetPassword(authData: { code: string; expiration: Date }, { code }: { code: string }) {
+    if (!authData.code) {
+      return AppException.UNAUTHORIZED(lang.get('error').unAuthorized);
+    }
+    if (authData.code !== code) {
+      return AppException.UNAUTHORIZED(lang.get('auth').invalidCode);
+    }
+    if (new Date() > new Date(authData.expiration)) {
+      return AppException.UNAUTHORIZED(lang.get('auth').expiredCode);
+    }
+    return null;
+  }
+
+  public async canVerify(authData: { verified: boolean; expiration: Date; code: string }, payload: { code: string }) {
+    if (authData.verified) {
+      throw AppException.UNAUTHORIZED(lang.get('auth').dataVerified);
+    }
+    if (payload.code) {
+      if (authData.code !== payload.code) {
+        return AppException.UNAUTHORIZED(lang.get('auth').invalidCode);
+      }
+      if (new Date() > new Date(authData.expiration)) {
+        return AppException.UNAUTHORIZED(lang.get('auth').expiredCode);
+      }
+    }
+    return null;
+  }
+
+  public async changePassword(authId: string, payload: ChangePasswordDto) {
+    let auth = await this.model.findById(authId).select('+password');
+    const isAuthenticated = await bcrypt.compare(payload.currentPassword, auth.password);
+    if (!isAuthenticated) {
+      throw AppException.UNAUTHORIZED(lang.get('auth').invalidUser);
+    }
+    auth.password = await bcrypt.hash(payload.password, 10);
+    auth = await auth.save();
+    return _.omit(auth, ['password', 'verificationCodes']);
   }
 
   public getCode() {

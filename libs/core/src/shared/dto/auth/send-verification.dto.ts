@@ -19,10 +19,4 @@ export class SendVerificationDto {
   @IsNotEmpty()
   @IsEnum(['mobile', 'email', 'resetPassword'])
   public type: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @ValidateIf((o) => o.type === 'email')
-  @IsUrl()
-  public readonly redirectUrl: string;
 }

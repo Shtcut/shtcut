@@ -21,6 +21,7 @@ export class EmailService {
    * @returns The function `sendEmail` returns the `mailProvider` variable.
    */
   async sendEmail(options: Record<string, any>) {
+    console.log('sendEmail-options:::', options);
     if (this.config.get('app.environment') === 'test') {
       return;
     }
@@ -41,11 +42,12 @@ export class EmailService {
    */
   async sendErrorMessage(job) {
     const { id, name, data } = job;
+    console.log('config:::', this.config);
     const payload = {
       from: { email: 'no-reply@shtcut.link' },
       to: { email: this.config.get('app.errorReportEmail') },
       subject: `Error report: Redis queue event - ${name}`,
-      template: this.config.get('app.errorEmailTemplate') || 'redis',
+      template: this.config.get('app.templates.error') || 'redis',
       content: {
         jobId: id,
         data: {
@@ -67,12 +69,13 @@ export class EmailService {
    * @returns the result of calling `sgMail.send(message)`.
    */
   async useSendGrid(options) {
+    console.log('useSendGrid-options:::', options);
     try {
       if (!options.recipients && !options.templateId && !options.template) {
-        throw AppException.INTERNAL_SERVER(lang.get('err').emailError);
+        throw AppException.INTERNAL_SERVER(lang.get('error').emailError);
       }
 
-      sgMail.setApiKey(`${this.config.get('worker.email.sengrid.apiKey')}`);
+      sgMail.setApiKey(`${this.config.get('worker.email.sendgrid.apiKey')}`);
       sgMail.setSubstitutionWrappers('{{', '}}');
       const message: any = {
         to: options.recipients || options.to,

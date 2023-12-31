@@ -25,7 +25,8 @@ export class WorkService {
       .setSubject(option.subject)
       .setTemplate(option.template)
       .setContent(option.content);
-    if (this.config.get('app.environment') != 'test') {
+    if (this.config.get('app.environment') !== 'test') {
+      console.log('emailJob:::', emailJob);
       this.addJob(QueueTasks.SEND_EMAIL, emailJob);
     }
   }
@@ -63,6 +64,7 @@ export class WorkService {
     Logger.debug(`${defaultBroker} job - ${key} - :: ${JSON.stringify(job)}, - options ${JSON.stringify(options)}`);
     if (defaultBroker === 'redis') {
       const { isTask = false, ...rest } = options;
+      console.log('addJob-options::', options);
       const queueOption = {
         ...rest,
         removeComplete: 50,
@@ -73,7 +75,6 @@ export class WorkService {
           delay: 1000,
         },
       };
-
       if (!isTask) {
         this.apiQueue.add(key, job, queueOption);
       } else {

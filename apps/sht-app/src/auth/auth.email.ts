@@ -1,16 +1,18 @@
 import { MailOption } from 'shtcut/core';
 
+type EmailType = {
+  to: string;
+  from: string;
+  template: string;
+  code?: string;
+  type?: string;
+  subject?: string;
+};
 export class AuthEmail {
-  static async verifyEmail(
-    config: { from: string; template: string; code: string; type?: string; subject?: string },
-    auth,
-  ): Promise<MailOption> {
-    if (!auth.email) {
-      return null;
-    }
+  static async sendEmail(config: EmailType): Promise<MailOption> {
     return {
       emailName: {
-        email: auth.email,
+        email: config.to,
       },
       fromEmail: {
         email: config.from,
@@ -20,7 +22,7 @@ export class AuthEmail {
       content: {
         type: config.type || 'email',
         code: config.code,
-        email: auth.email,
+        email: config.to,
       },
     };
   }
