@@ -3,18 +3,24 @@ import { AuthService } from '../service';
 import { ConfigService } from '@nestjs/config';
 import {
   Auth,
+  ChangePasswordDto,
   CurrentUser,
   JwtAuthGuard,
   LocalAuthGuard,
   OK,
+  PasswordResetDto,
   QueryParser,
+  ResetCodeDto,
   SendVerificationDto,
   SignInDto,
   SignUpDto,
   SocialSignInDto,
+  VerifyEmailDto,
 } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 import { AuthEmail } from '../auth.email';
+import * as _ from 'lodash';
+import lang from 'apps/sht-app/lang';
 
 @Controller('auth')
 export class AuthController {
@@ -58,7 +64,7 @@ export class AuthController {
       const filter: Record<string, any> = {
         email: await AuthEmail.sendWelcomeEmail(
           {
-            from: this.config.get<string>('app.fromEmail'),
+            from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
             template: this.config.get<string>('app.templates.email.welcome'),
           },
           auth,
@@ -89,8 +95,15 @@ export class AuthController {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const { accessToken, auth } = await this.service.signUp(payload);
+      const email = await AuthEmail.sendEmail({
+        to: auth.email,
+        from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
+        template: this.config.get<string>('app.templates.email.welcome'),
+        code: auth.verificationCodes?.email?.code,
+      });
       const response = await this.service.getResponse({
         token: accessToken,
+        email,
         queryParser,
         code: OK,
         value: auth,
@@ -104,18 +117,81 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('/sign-in')
   @HttpCode(OK)
-  public async signIn(
-    @Body() payload: SignInDto,
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ) {
+  public async signIn(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const { accessToken, auth } = await this.service.signIn(req.user);
       const response = await this.service.getResponse({
         token: accessToken,
         queryParser,
+        code: OK,
+        hiddenFields: ['verificationCodes', 'password'],
+        value: auth,
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  @Post('/send-verification')
+  @HttpCode(OK)
+  public async sendVerification(
+    @Body() payload: SendVerificationDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const auth = await this.service.sendVerification(payload);
+
+      const filter: Record<string, any> = {
+        email: await AuthEmail.sendEmail({
+          to: auth.email,
+          from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
+          template: this.config.get<string>('app.templates.email.verify'),
+          code: auth.verificationCodes?.email?.code,
+        }),
+      };
+
+      const response = await this.service.getResponse({
+        code: OK,
+        ...filter,
+        message: lang.get('auth').sendVerification,
+        hiddenFields: ['verificationCodes', 'password'],
+        value: {
+          ..._.pick(auth, ['verifications', '_id']),
+        },
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  @Post('/verify-email')
+  @HttpCode(OK)
+  public async verifyEmail(
+    @Body() payload: VerifyEmailDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const queryParser = new QueryParser(Object.assign({}, req.query));
+      const { accessToken, auth } = await this.service.verifyEmail(payload);
+      const email = await AuthEmail.sendWelcomeEmail(
+        {
+          from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
+          template: this.config.get<string>('app.templates.email.verify'),
+          subject: 'Shtcut -  Welcome Email',
+        },
+        auth,
+      );
+      const response = await this.service.getResponse({
+        queryParser,
+        email,
+        token: accessToken,
         code: OK,
         value: auth,
       });
@@ -125,42 +201,83 @@ export class AuthController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('/send-verification')
+  @Post('/password-reset')
   @HttpCode(OK)
-  public async sendVerification(
-    @CurrentUser() authUser: Auth,
-    @Body() payload: SendVerificationDto,
+  public async passwordReset(
+    @Body() payload: ResetCodeDto,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
     try {
-      const auth = await this.service.sendVerification(authUser, payload);
-      const { type } = payload;
-      const isMobile = type === 'mobile';
+      const queryParser = new QueryParser(Object.assign({}, req.query));
+      const auth = await this.service.requestPasswordRequest(payload);
+      const email = await AuthEmail.sendEmail({
+        to: auth.email,
+        from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
+        template: this.config.get<string>('app.templates.email.passwordReset'),
+        subject: 'Shtcut -  Reset Password',
+        type: 'password-reset',
+        code: auth?.verificationCodes?.resetPassword?.code,
+      });
+      const response = await this.service.getResponse({
+        queryParser,
+        email,
+        code: OK,
+        value: {
+          email: auth.email,
+          success: true,
+        },
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
 
-      let filter: Record<string, any> = {
-        email: await AuthEmail.verifyEmail(
-          {
-            from: this.config.get<string>('app.fromEmail'),
-            template: this.config.get<string>('app.templates.email.verify'),
-            code: auth.verificationCodes?.email?.code,
-          },
-          auth,
-        ),
-      };
-
-      if (isMobile) {
-        // todo work on mobile verification
-        filter = {};
-      }
-
+  @Post('/reset-password')
+  @HttpCode(OK)
+  public async resetPassword(
+    @Body() payload: PasswordResetDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const auth = await this.service.resetPassword(payload);
       const response = await this.service.getResponse({
         code: OK,
-        ...filter,
-        hiddenFields: ['verifications', 'password'],
-        value: auth,
+        message: lang.get('auth').passwordReset,
+        value: {
+          email: auth.email,
+          success: true,
+        },
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/change-password')
+  @HttpCode(OK)
+  public async changePassword(
+    @CurrentUser() authUser: Auth,
+    @Body() payload: ChangePasswordDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const auth = await this.service.changePassword(authUser['_id'], payload);
+      const response = await this.service.getResponse({
+        code: OK,
+        message: lang.get('auth').passwordChanged,
+        value: {
+          email: auth.email,
+          success: true,
+        },
       });
       return res.status(OK).json(response);
     } catch (e) {

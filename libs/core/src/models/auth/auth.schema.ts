@@ -31,7 +31,6 @@ export class Auth {
     type: String,
     select: false,
     minlength: 6,
-    maxlength: 20,
   })
   public password: string;
 

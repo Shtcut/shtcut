@@ -1,8 +1,9 @@
-import { OnWorkerEvent, WorkerHost } from '@nestjs/bullmq';
+import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { EmailService, SmsService } from '../../message';
 import { Logger } from '@nestjs/common';
-import { QueueTasks } from 'shtcut/core';
+import { QueueTasks, Queues } from 'shtcut/core';
 
+@Processor(Queues.API)
 export class ApiProcessor extends WorkerHost {
   constructor(
     private readonly emailService: EmailService,
@@ -15,7 +16,7 @@ export class ApiProcessor extends WorkerHost {
     try {
       const { name, data } = job.data;
       const { id, queueName, ...payload } = data;
-      Logger.debug(`${id} - ${queueName} - process stated `);
+      Logger.debug(`WorkerHost-${id} - ${queueName} - process stated `);
       switch (name) {
         case QueueTasks.SEND_EMAIL:
           await this.sendEmail(payload);
@@ -40,6 +41,11 @@ export class ApiProcessor extends WorkerHost {
     }
   }
 
+  @OnWorkerEvent('completed')
+  onCompleted(job) {
+    Logger.debug(`Job ${job.id} completed successfully`);
+  }
+
   @OnWorkerEvent('failed')
   async onFailed(job) {
     const { id, name } = job;
@@ -47,7 +53,7 @@ export class ApiProcessor extends WorkerHost {
     try {
       switch (name) {
         case QueueTasks.SEND_EMAIL:
-          await this.emailService.sendErrorMessage(job);
+          // await this.emailService.sendErrorMessage(job);
           break;
         case QueueTasks.SEND_SMS:
           break;
@@ -55,6 +61,7 @@ export class ApiProcessor extends WorkerHost {
           return true;
       }
     } catch (e) {
+      console.log('on-failed-err-OnWorkerEvent:::', e);
       throw e;
     }
   }
