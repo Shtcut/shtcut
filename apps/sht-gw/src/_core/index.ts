@@ -15,7 +15,6 @@ export const getGateWayProxyHeader = (headers) => {
 };
 
 export const processServiceError = (error) => {
-  console.log('error:::', error.response.data);
   if (error.response) {
     if (error.response.data && error.response.data.meta) {
       const updateError = error.response.data;

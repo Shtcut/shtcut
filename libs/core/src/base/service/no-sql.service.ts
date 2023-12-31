@@ -134,7 +134,6 @@ export class NoSQLBaseService extends BaseAbstract {
     } else {
       condition['publicId'] = id;
     }
-    console.log('condition:::', condition);
     const object = await this.model.findOne(condition).populate(query.population || []);
     if (!object) {
       throw AppException.NOT_FOUND(`${this.modelName} does not exist`);

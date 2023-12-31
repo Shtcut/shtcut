@@ -34,7 +34,6 @@ export class MediaService extends NoSQLBaseService {
   }
 
   public async upload(uploaded: Record<string, any>) {
-    console.log('uploaded:::', uploaded);
     try {
       const ext = uploaded.mimetype.split('/');
       const data = {
@@ -46,11 +45,9 @@ export class MediaService extends NoSQLBaseService {
       }
       let url;
       const uploadDefault = this.config.get<string>('worker.fileUpload.default');
-      console.log('uploadDefault::', uploadDefault);
       switch (uploadDefault) {
         case FileUploadEnum.AWS_S3:
           const uploadedFile = await this.fileService.uploadToS3(data);
-          console.log('uploadedFile:::', uploadedFile);
           url = uploadedFile['Location'];
           break;
         case FileUploadEnum.GCS:
@@ -70,12 +67,10 @@ export class MediaService extends NoSQLBaseService {
         },
         ...uploaded,
       };
-      return payload;
-      //   return await this.createNewObject({
-      //     ...payload,
-      //   });
+      return await this.createNewObject({
+        ...payload,
+      });
     } catch (e) {
-      console.log('err:', e);
       throw e;
     }
   }

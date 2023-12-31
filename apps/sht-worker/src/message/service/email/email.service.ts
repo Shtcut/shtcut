@@ -21,7 +21,6 @@ export class EmailService {
    * @returns The function `sendEmail` returns the `mailProvider` variable.
    */
   async sendEmail(options: Record<string, any>) {
-    console.log('sendEmail-options:::', options);
     if (this.config.get('app.environment') === 'test') {
       return;
     }
@@ -42,7 +41,6 @@ export class EmailService {
    */
   async sendErrorMessage(job) {
     const { id, name, data } = job;
-    console.log('config:::', this.config);
     const payload = {
       from: { email: 'no-reply@shtcut.link' },
       to: { email: this.config.get('app.errorReportEmail') },
@@ -69,7 +67,6 @@ export class EmailService {
    * @returns the result of calling `sgMail.send(message)`.
    */
   async useSendGrid(options) {
-    console.log('useSendGrid-options:::', options);
     try {
       if (!options.recipients && !options.templateId && !options.template) {
         throw AppException.INTERNAL_SERVER(lang.get('error').emailError);

@@ -23,7 +23,6 @@ export class FileUploadService {
    */
   async uploadToS3(payload, options: any = {}) {
     try {
-      console.log('config::', this.config);
       const bucketName = this.config.get('worker.fileUpload.s3.bucket');
       const s3FileName = options.filePath ? `/${options.filePath}/${payload.name}` : `${Date.now()}-${payload.name}`;
       const s3 = new S3({
@@ -38,7 +37,6 @@ export class FileUploadService {
       };
       return new Promise((resolve, reject) => {
         s3.upload(params, (err, data) => {
-          console.log('data::', data);
           if (err) {
             Logger.error(err);
             reject(err.message);
