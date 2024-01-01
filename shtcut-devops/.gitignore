@@ -1,0 +1,44 @@
+commad.txt
+commands
+/terraform/_env
+.env
+_env
+
+/tf/_env/**
+/tf/_state
+/tf/**/*.tfplan
+/tf/**/*.terraform.lock.hcl
+/tf/**/.terraform/*
+
+# Iaas Folder
+/terraform/_env/**
+/terraform/_state
+/terraform/**/*.tfplan
+/terraform/**/*.terraform.lock.hcl
+/terraform/**/.terraform/*
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# testing
+/coverage
+
+# production
+/build
+
+/.idea
+
+/secret
+
+# misc
+.DS_Store
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
