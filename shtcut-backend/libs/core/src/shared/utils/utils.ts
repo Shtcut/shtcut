@@ -4,7 +4,6 @@ import * as dateFns from 'date-fns';
 import { Between } from 'typeorm';
 import * as _ from 'lodash';
 import slugify from 'slugify';
-// import * as nanoid from 'nanoid';
 
 export abstract class Utils {
   public static getCountryCallingCode(code = 'NG') {
@@ -463,13 +462,67 @@ export abstract class Utils {
     return mobileNo;
   }
 
-  /**
-   * The function generates a unique alphanumeric ID of a specified size using the nanoid library.
-   * @param [size=7] - The size parameter is an optional parameter that specifies the length of the
-   * generated unique ID. If no value is provided for size, it defaults to 7.
-   * @returns a randomly generated alphanumeric string of the specified size.
-   */
-  // public static generateAlphaUniqueId(size = 7) {
-  //   return nanoid.customAlphabet('0123456789abcdefghijklmnopqrstuvwxyz@', size);
-  // }
+  public static async ispInfo({ ipRegistryKey, ip }: { ipRegistryKey: string; ip: string }) {
+    try {
+      const { IpregistryClient } = require('@ipregistry/client');
+      const client = new IpregistryClient(ipRegistryKey);
+      let obj = {
+        type: '',
+        isp: '',
+        timezone: {
+          name: '',
+          offset: '',
+          zoneId: '',
+          zoneAbbreviation: '',
+          currentTime: '',
+        },
+        location: {
+          name: '',
+          city: '',
+          postal: '',
+          country: {
+            name: '',
+            code: '',
+            continentName: '',
+            continentCode: '',
+          },
+        },
+        region: {
+          name: '',
+          code: '',
+        },
+      };
+      const { data } = await client.lookup(ip);
+      obj = {
+        type: data?.company?.name,
+        isp: data?.connection.organization,
+        timezone: {
+          name: data?.time_zone?.name,
+          offset: data?.time_zone?.offset,
+          zoneId: data?.time_zone?.id,
+          zoneAbbreviation: data?.time_zone?.abbreviation,
+          currentTime: data?.time_zone?.current_time,
+        },
+        location: {
+          name: data?.location?.region?.name,
+          city: data?.location?.city,
+          postal: data?.location?.postal,
+          country: {
+            name: data?.location?.country?.name,
+            code: data?.location?.country?.code,
+            continentName: data?.location?.country?.code,
+            continentCode: data?.location?.country?.code,
+          },
+        },
+        region: {
+          name: data?.location.region?.name,
+          code: data?.location.region?.code,
+        },
+      };
+      return obj;
+    } catch (e) {
+      console.log('err::', e);
+      return null;
+    }
+  }
 }

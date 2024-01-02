@@ -9,13 +9,13 @@ export type Timezone = {
   offset: number;
   zoneId: string;
   zoneAbbreviation: string;
+  currentTime: Date;
 };
 
 export type Locations = {
   name: string;
   code: string;
-  continentName: string;
-  continentCode: string;
+  country: Country;
 };
 
 export type OS = {
@@ -26,4 +26,16 @@ export type OS = {
 export type Browser = {
   name: string;
   version: string;
+};
+
+export type Region = {
+  name: string;
+  code: string;
+};
+
+export type HitType = {
+  ip: string;
+  link: string;
+  userAgent: string;
+  owner?: string;
 };

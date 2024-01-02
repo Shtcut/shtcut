@@ -1,18 +1,13 @@
 import { Module } from '@nestjs/common';
-import { UserController } from './controller/hit.controller';
-import { UserService } from './service/hit.service';
+import { HitController } from './controller/hit.controller';
+import { HitService } from './service/hit.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Auth, AuthSchema, User, UserSchema } from 'shtcut/core';
+import { Hit, HitSchema } from 'shtcut/core';
 
 @Module({
-  imports: [
-    MongooseModule.forFeature([
-      { name: Auth.name, schema: AuthSchema },
-      { name: User.name, schema: UserSchema },
-    ]),
-  ],
-  controllers: [UserController],
-  providers: [UserService],
-  exports: [UserService],
+  imports: [MongooseModule.forFeature([{ name: Hit.name, schema: HitSchema }])],
+  controllers: [HitController],
+  providers: [HitService],
+  exports: [HitService],
 })
-export class UserModule {}
+export class HitModule {}

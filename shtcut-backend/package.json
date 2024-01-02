@@ -31,6 +31,7 @@
     "@apollo/server": "^4.9.5",
     "@azure/storage-blob": "^12.17.0",
     "@google-cloud/storage": "^7.7.0",
+    "@ipregistry/client": "^4.5.0",
     "@nestjs/apollo": "^12.0.11",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/azure-storage": "^3.0.0",
@@ -78,6 +79,7 @@
     "slugify": "^1.6.6",
     "twilio": "^4.19.3",
     "typeorm": "^0.3.17",
+    "ua-parser-js": "^1.0.37",
     "url-parse": "^1.5.10",
     "uuid": "^9.0.1",
     "yarn": "^1.22.21"

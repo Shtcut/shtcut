@@ -6,6 +6,8 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateLinkDto,
+  Hit,
+  HitDocument,
   Link,
   LinkDocument,
   NoSQLBaseService,
@@ -15,12 +17,16 @@ import {
 } from 'shtcut/core';
 
 import * as bcrypt from 'bcrypt';
+import { Request } from 'express';
+import { ConfigService } from '@nestjs/config';
+import { HitService } from '../../hit';
 
 @Injectable()
 export class LinkService extends NoSQLBaseService {
   constructor(
     @InjectModel(Link.name) protected model: Model<LinkDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    protected hitService: HitService,
   ) {
     super(model);
   }
@@ -55,6 +61,31 @@ export class LinkService extends NoSQLBaseService {
       };
 
       return await super.createNewObject(payload);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async processVisit({
+    remoteAddress,
+    userAgent,
+    backHalf,
+  }: {
+    remoteAddress: string | string[];
+    backHalf: string;
+    userAgent: string;
+  }) {
+    try {
+      let link = await this.model.findOne({ backHalf });
+      if (!link) {
+        return null;
+      }
+      // if (link.enableTracking) {
+      await this.hitService.createNewObject({ link: link._id, userAgent, ip: remoteAddress as string });
+      // }
+      link.hitCount = link.hitCount + 1;
+      link = await link.save();
+      return link;
     } catch (e) {
       throw e;
     }

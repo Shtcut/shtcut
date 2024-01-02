@@ -40,6 +40,17 @@ export class Link {
   owner: any;
 
   @Prop({
+    type: String,
+    default: 'https://shtcut.link',
+  })
+  domain: string;
+
+  @Prop({
+    type: String,
+  })
+  shortUrl: string;
+
+  @Prop({
     type: [Types.ObjectId],
     ref: 'Hit',
   })
@@ -50,6 +61,12 @@ export class Link {
     default: false,
   })
   enableTracking: boolean;
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  hitCount: number;
 
   @Prop({
     type: String,
@@ -101,6 +118,11 @@ LinkSchema.statics.searchQuery = (q: string) => {
 
 LinkSchema.virtual('id').get(function () {
   return this._id.toHexString();
+});
+
+LinkSchema.pre('save', function (next) {
+  this.shortUrl = `${this.domain}/${this.backHalf}`;
+  next();
 });
 
 LinkSchema.statics.config = () => {
