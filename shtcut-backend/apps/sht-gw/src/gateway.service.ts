@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Hit, HitDocument, HitType, Link, LinkDocument, NoSQLBaseService, Utils } from 'shtcut/core';
+import { Hit, HitDocument, HitType, Link, LinkDocument, Utils } from 'shtcut/core';
 
 @Injectable()
 export class GatewayService {
@@ -44,8 +44,6 @@ export class GatewayService {
       const parser = require('ua-parser-js');
       const parsedUserAgent = parser(userAgent);
       const { browser, os: OS } = parsedUserAgent;
-      console.log('browser:', browser);
-      console.log('OS:', OS);
       if (ip) {
         const ipRegistryKey = this.config.get('app.ipregistry.apiKey');
         const ispInfo = await Utils.ispInfo({ ipRegistryKey, ip });
