@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MGSchema } from 'mongoose';
 
 export type LinkDocument = Link & Document;
 
@@ -81,9 +81,19 @@ export class Link {
   title: string;
 
   @Prop({
+    type: String,
+  })
+  description: string;
+
+  @Prop({
     type: Date,
   })
   expiryDate: Date;
+
+  @Prop({
+    type: MGSchema.Types.Mixed,
+  })
+  qrCode: Record<string, any>;
 
   @Prop({
     type: Boolean,
@@ -111,6 +121,7 @@ LinkSchema.statics.searchQuery = (q: string) => {
   const regex = new RegExp(q);
   return [
     { title: { $regex: regex, $options: 'i' } },
+    { description: { $regex: regex, $options: 'i' } },
     { originalURL: { $regex: regex, $options: 'i' } },
     { backHalf: { $regex: regex, $options: 'i' } },
   ];
@@ -129,7 +140,17 @@ LinkSchema.statics.config = () => {
   return {
     idToken: 'lnk',
     uniques: ['backHalf'],
-    fillables: ['backHalf', 'originalURL', 'owner', 'hit', 'expiryDate', 'enableTracking', 'password'],
+    fillables: [
+      'backHalf',
+      'originalURL',
+      'owner',
+      'qrCode',
+      'hit',
+      'description',
+      'expiryDate',
+      'enableTracking',
+      'password',
+    ],
     hiddenFields: ['deleted', 'password'],
   };
 };

@@ -19,7 +19,6 @@ export class ApiMiddleware implements NestMiddleware {
     const apiVersions = configuration().app.api.versions ?? ['v1'];
     const currentVersion = apiVersions.pop();
     const excludeUrls = [
-      `/api/${currentVersion}`,
       `/api/${currentVersion}/ping`,
       `/api/${currentVersion}/graphql`,
       `/api/${currentVersion}/links/visit`,

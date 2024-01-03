@@ -23,7 +23,7 @@ export class LinkController extends AppController {
   ) {
     try {
       const userAgent = req.headers['user-agent'];
-      const testMode = this.config.get('app.environment');
+      const testMode = this.config.get('app.environment') === 'development';
       const remoteAddress = req.socket.remoteAddress;
       const ipRaw: any = testMode
         ? '102.216.201.40'

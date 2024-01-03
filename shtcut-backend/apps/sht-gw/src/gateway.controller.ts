@@ -37,7 +37,7 @@ export class GatewayController {
     ]);
   }
 
-  @Get('/:backHalf')
+  @Get('/visit/:backHalf')
   @HttpCode(OK)
   public async visit(
     @Param('backHalf') backHalf: string,
@@ -47,10 +47,10 @@ export class GatewayController {
   ) {
     try {
       const userAgent = req.headers['user-agent'];
-      const testMode = this.config.get('app.environment');
+      const testMode = this.config.get('app.environment') === 'development';
       const remoteAddress = req.socket.remoteAddress;
       const ipRaw: any = testMode
-        ? '102.216.201.40'
+        ? '23.81.209.174'
         : remoteAddress?.includes('127.0.0.1') || remoteAddress?.includes('::')
           ? req.headers['x-forwarded-for'] || req.headers['x-real-ip']
           : remoteAddress;
