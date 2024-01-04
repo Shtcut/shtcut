@@ -9,3 +9,19 @@ import { FileTypeOption } from 'shtcut/core';
     toObject: { virtuals: true }
 })
 
+export class CreateRole extends Document {
+    @Prop({
+      type: String,
+      unique: true,
+      required: true,
+    })
+    title: string;
+  
+    @Prop({
+      type: String,
+    })
+    description?: string;
+  }
+  
+  export const RoleSchema = SchemaFactory.createForClass(CreateRole);
+  
