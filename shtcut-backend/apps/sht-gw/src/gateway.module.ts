@@ -1,16 +1,31 @@
 import { configuration } from '@config';
 import { HttpModule } from '@nestjs/axios';
 import { MiddlewareConsumer, Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { AppModule } from './app';
 import { AppEndpoints, WorkerEndpoints } from './rest';
 import { GatewayController } from './gateway.controller';
 import { CoreModule, AppProxyMiddleware, WorkerProxyMiddleware, ApiMiddleware } from './_core';
+import { GatewayService } from './gateway.service';
+import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
+import { Hit, HitSchema, Link, LinkSchema } from 'shtcut/core';
 
 @Module({
   imports: [
     HttpModule,
+    MongooseModule.forRootAsync({
+      useFactory: (config: ConfigService): MongooseModuleFactoryOptions => {
+        return {
+          uri: config.get('app.mongodb.url'),
+        };
+      },
+      inject: [ConfigService],
+    }),
+    MongooseModule.forFeature([
+      { name: Hit.name, schema: HitSchema },
+      { name: Link.name, schema: LinkSchema },
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['_env/gateway/.env.local', '_env/.env'],
@@ -20,7 +35,7 @@ import { CoreModule, AppProxyMiddleware, WorkerProxyMiddleware, ApiMiddleware } 
     AppModule,
     CoreModule,
   ],
-  providers: [],
+  providers: [GatewayService],
   controllers: [GatewayController],
   exports: [],
 })

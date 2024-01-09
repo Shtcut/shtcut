@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Browser, Country, Locations, OS, Timezone } from 'shtcut/core';
+import { Browser, Country, Locations, OS, Region, Timezone } from 'shtcut/core';
 
 export type HitDocument = Hit & Document;
 
@@ -24,7 +24,7 @@ export class Hit {
     type: Types.ObjectId,
     ref: 'User',
   })
-  public user: any;
+  public owner: any;
 
   @Prop({
     type: Types.ObjectId,
@@ -44,18 +44,11 @@ export class Hit {
 
   @Prop({
     type: {
-      name: {
-        type: String,
-      },
-      offset: {
-        type: Number,
-      },
-      zoneId: {
-        type: String,
-      },
-      zoneAbbreviation: {
-        type: String,
-      },
+      name: String,
+      offset: String,
+      zoneId: String,
+      zoneAbbreviation: String,
+      currentTime: Date,
     },
   })
   public timezone: Timezone;
@@ -66,19 +59,28 @@ export class Hit {
       city: String,
       zoneId: String,
       postal: String,
+      latitude: {
+        type: Number,
+        select: false,
+      },
+      longitude: {
+        type: Number,
+        select: false,
+      },
+      language: {
+        code: String,
+        name: String,
+        native: String,
+      },
+      country: {
+        name: String,
+        code: String,
+        continentName: String,
+        continentCode: String,
+      },
     },
   })
   public location: Locations;
-
-  @Prop({
-    type: {
-      name: String,
-      code: String,
-      continentName: String,
-      continentCode: String,
-    },
-  })
-  public country: Country;
 
   @Prop({
     type: {
@@ -87,6 +89,14 @@ export class Hit {
     },
   })
   public browser: Browser;
+
+  @Prop({
+    type: {
+      code: String,
+      name: String,
+    },
+  })
+  public region: Region;
 
   @Prop({
     type: {

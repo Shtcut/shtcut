@@ -62,6 +62,9 @@ export const configuration = () => ({
       },
     },
     redisUrl: process.env.REDIS_SERVER_HOST_URL,
+    ipregistry: {
+      apiKey: process.env.IPREGISTRY_API_KEY,
+    },
     fileUpload: {
       default: process.env.GOOGLE_CLOUD_PROJECT_ID || 's3',
       gcs: {

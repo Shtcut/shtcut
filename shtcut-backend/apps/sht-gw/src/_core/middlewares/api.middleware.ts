@@ -18,7 +18,14 @@ export class ApiMiddleware implements NestMiddleware {
     // check header or url parameters or post parameters for token
     const apiVersions = configuration().app.api.versions ?? ['v1'];
     const currentVersion = apiVersions.pop();
-    const excludeUrls = [`/api/${currentVersion}/ping`, `/api/${currentVersion}/graphql`];
+    const excludeUrls = [
+      `/api/${currentVersion}`,
+      `/api/${currentVersion}/ping`,
+      `/api/${currentVersion}/graphql`,
+      `/api/${currentVersion}/links/visit`,
+      `/api/${currentVersion}/visit/*`,
+    ];
+    console.log('req.originalUrl:::', req.originalUrl);
     if (excludeUrls.includes(req.originalUrl)) {
       return next();
     }
