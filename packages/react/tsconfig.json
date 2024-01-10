@@ -1,0 +1,22 @@
+{
+    "extends": "@shtcut-ui/tsconfig/base.json",
+    "compilerOptions": {
+        "target": "ES6",
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "alwaysStrict": false,
+        "skipLibCheck": true,
+        "jsx": "react",
+        "module": "CommonJS",
+        "declaration": true,
+        "sourceMap": true,
+        "outDir": "dist",
+        "moduleResolution": "node",
+        "allowSyntheticDefaultImports": true,
+        "isolatedModules": true,
+        "importHelpers": true
+    },
+    "include": ["src/**/*", "postcss.config.js"],
+    "exclude": ["node_modules"]
+}
