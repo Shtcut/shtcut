@@ -7,7 +7,10 @@ import { cn, primitiveComponent } from '../../utils';
 
 const Accordion = AccordionPrimitive.Root;
 
-const AccordionItem = primitiveComponent<typeof AccordionPrimitive.Item, typeof AccordionPrimitive.Item>(
+const AccordionItem = React.forwardRef<
+React.ElementRef<typeof AccordionPrimitive.Item>,
+React.ComponentPropsWithRef<typeof AccordionPrimitive.Item>
+>(
   (props, ref) => {
     const { className } = props;
     return <AccordionPrimitive.Item ref={ref} className={cn('border-b', className)} {...props} />;
@@ -16,9 +19,9 @@ const AccordionItem = primitiveComponent<typeof AccordionPrimitive.Item, typeof 
 
 AccordionItem.displayName = 'AccordionItem';
 
-const AccordionTrigger = primitiveComponent<
-  typeof AccordionPrimitive.AccordionTrigger,
-  typeof AccordionPrimitive.Trigger
+const AccordionTrigger = React.forwardRef<
+  React.ElementRef<typeof AccordionPrimitive.Trigger>,
+  React.ComponentPropsWithRef<typeof AccordionPrimitive.Trigger>
 >((props, ref) => {
   const { children, className, ...rest } = props;
   return (
@@ -39,7 +42,10 @@ const AccordionTrigger = primitiveComponent<
 });
 AccordionTrigger.displayName = AccordionPrimitive.Trigger.displayName;
 
-const AccordionContent = primitiveComponent<typeof AccordionPrimitive.Content, typeof AccordionPrimitive.Content>(
+const AccordionContent = React.forwardRef<
+React.ElementRef<typeof AccordionPrimitive.Content>,
+React.ComponentPropsWithRef<typeof AccordionPrimitive.Content>
+>(
   (props, ref) => {
     const { className, children, ...rest } = props;
     return (

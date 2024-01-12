@@ -8,6 +8,6 @@ const cjsExports = Object.keys(require(`${path}${src}`))
   .join(',\n');
 
 const importHead = `import {\n${cjsExports}\n} from '.${src}'`;
-const exportHead = `export {\n${cjsExports}\n`;
+const exportHead = `export {\n${cjsExports}\n};`;
 
 writeFileSync(`${path}${dest}`, `${importHead}\n\n${exportHead}`);
