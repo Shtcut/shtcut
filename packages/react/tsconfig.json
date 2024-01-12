@@ -1,5 +1,5 @@
 {
-  "extends": "../tsconfig/base.json",
+  "extends": "@shtcut-ui/tsconfig/base.json",
   "compilerOptions": {
     "target": "ES6",
     "esModuleInterop": true,
