@@ -10,9 +10,6 @@
                 ".next/**"
             ]
         },
-        "deploy": {
-            "dependsOn": ["build", "lint"]
-          },
         "lint": {
             "outputs": []
         },
