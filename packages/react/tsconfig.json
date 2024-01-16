@@ -15,8 +15,11 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
-    "importHelpers": true
+    "importHelpers": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   },
-  "include": ["src/**/*", "postcss.config.js"],
+  "include": ["src/**/*", "postcss.config.js", "tailwind-plugin.ts"],
   "exclude": ["node_modules"]
 }
