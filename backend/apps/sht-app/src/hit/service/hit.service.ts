@@ -27,8 +27,6 @@ export class HitService extends NoSQLBaseService {
       const parser = require('ua-parser-js');
       const parsedUserAgent = parser(userAgent);
       const { browser, os: OS } = parsedUserAgent;
-      console.log('browser:', browser);
-      console.log('OS:', OS);
       if (ip) {
         const ipRegistryKey = this.config.get('app.ipregistry.apiKey');
         const ispInfo = await Utils.ispInfo({ ipRegistryKey, ip });

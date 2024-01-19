@@ -1,8 +1,6 @@
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { FileTypeOption, Media } from 'shtcut/core';
-
-export type ProjectDocument = Project & Document;
+export type TagDocument = Tag & Document;
 
 @Schema({
   timestamps: true,
@@ -12,19 +10,13 @@ export type ProjectDocument = Project & Document;
     virtuals: true,
   },
 })
-export class Project {
+export class Tag {
   @Prop({
     type: String,
     unique: true,
     required: true,
   })
   publicId: string;
-
-  @Prop({
-    type: Types.ObjectId,
-    ref: 'User',
-  })
-  user: any;
 
   @Prop({
     type: String,
@@ -34,32 +26,26 @@ export class Project {
 
   @Prop({
     type: String,
-    required: true,
-    unique: true,
   })
   slug: string;
 
   @Prop({
-    type: Types.ObjectId,
-    ref: 'Plan',
+    type: String,
+    default: 'blue',
   })
-  plan: any;
-
-  @Prop({
-    type: [
-      {
-        type: Types.ObjectId,
-        ref: 'Link',
-      },
-    ],
-  })
-  links: any;
+  color: string;
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'Media',
+    ref: 'Campaign',
   })
-  logo: Media;
+  campaign: any;
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Link',
+  })
+  link: any;
 
   @Prop({
     type: Boolean,
@@ -75,19 +61,21 @@ export class Project {
   deleted: boolean;
 }
 
-const ProjectSchema = SchemaFactory.createForClass(Project);
+const TagSchema = SchemaFactory.createForClass(Tag);
 
-ProjectSchema.virtual('id').get(function () {
+TagSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-ProjectSchema.statics.config = () => {
+TagSchema.statics.config = () => {
   return {
-    idToken: 'media',
-    uniques: [],
-    fillables: ['file', 'user'],
+    idToken: 'tag',
+    slugify: 'slug',
+    uniques: ['name', 'campaign'],
+    fillables: ['name', 'campaign', 'color', 'link', 'slug'],
+    updateFillables: ['name', 'campaign', 'color', 'link'],
     hiddenFields: ['deleted'],
   };
 };
 
-export { ProjectSchema };
+export { TagSchema };

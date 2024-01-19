@@ -1,3 +1,5 @@
+export type Dict<T = any> = Record<string, T>;
+
 export type Country = {
   name: string;
   code: string;

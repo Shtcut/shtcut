@@ -20,21 +20,23 @@ import * as bcrypt from 'bcrypt';
 import { Request } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { HitService } from '../../hit';
+import * as _ from 'lodash';
+import { Campaign, CampaignDocument } from 'shtcut/core/models/campaign';
 
 @Injectable()
 export class LinkService extends NoSQLBaseService {
   constructor(
     @InjectModel(Link.name) protected model: Model<LinkDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    @InjectModel(Campaign.name) protected campaignModel: Model<CampaignDocument>,
     protected hitService: HitService,
   ) {
     super(model);
   }
 
-  public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
+  public async validateCreate(obj: CreateLinkDto) {
     try {
-      const { backHalf, owner, password } = obj;
-      let customBackHalf = null;
+      const { backHalf, owner, password, expiryDate, campaign, domain } = obj;
       const link = await this.model.findOne({ backHalf });
 
       if (backHalf) {
@@ -50,16 +52,43 @@ export class LinkService extends NoSQLBaseService {
         }
       }
 
+      if (campaign) {
+        const foundCampaign = await this.campaignModel.find({
+          user: owner,
+          domains: { $in: domain },
+        });
+        if (!foundCampaign) {
+          throw AppException.NOT_FOUND(lang.get('campaign').invalidDomain);
+        }
+      }
+
+      if (expiryDate) {
+        const date = new Date(expiryDate);
+        if (_.isNaN(date.getTime())) {
+          throw AppException.BAD_REQUEST(lang.get('link').invalidExpiryDate);
+        }
+        if (new Date(expiryDate) < new Date()) {
+          throw AppException.BAD_REQUEST(lang.get('link').invalidateExpiryFutureDate);
+        }
+      }
+      return null;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
+    try {
+      const { password, owner } = obj;
       if (password) {
         obj.password = await bcrypt.hash(obj.password, 10);
       }
-      customBackHalf = Utils.generateCode(7, true);
+      const customBackHalf = Utils.generateCode(7, true);
       const payload = {
         backHalf: customBackHalf,
         enableTracking: !!owner,
         ...obj,
       };
-
       return await super.createNewObject(payload);
     } catch (e) {
       throw e;

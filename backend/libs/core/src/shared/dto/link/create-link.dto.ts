@@ -25,6 +25,14 @@ export class CreateLinkDto {
   @IsOptional()
   public readonly owner: string;
 
+  @IsMongoId()
+  @IsOptional()
+  public readonly campaign: string;
+
+  @IsMongoId()
+  @IsOptional()
+  public readonly domain: string;
+
   @IsBoolean()
   @IsOptional()
   public readonly enableTracking: boolean;
