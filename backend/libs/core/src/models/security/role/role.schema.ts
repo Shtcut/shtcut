@@ -13,6 +13,12 @@ export class Role {
   @Prop({
     type: String,
     unique: true,
+  })
+  public publicId: string;
+
+  @Prop({
+    type: String,
+    unique: true,
     required: true,
   })
   title: string;

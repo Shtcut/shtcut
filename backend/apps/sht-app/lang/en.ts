@@ -30,6 +30,12 @@ export default {
 
   link: {
     duplicate: 'The custom backhalf already exist, please try a different one',
+    invalidExpiryDate: 'Invalid expiry Date, expiry date must follow ISO-8601 format',
+    invalidateExpiryFutureDate: 'Expiry date must be in the future time',
+  },
+
+  campaign: {
+    invalidDomain: 'This domain does not belong to the campaign',
   },
 
   user: {

@@ -61,6 +61,9 @@ export const configuration = () => ({
         testSocialId: process.env.GOOGLE_TEST_ID,
       },
     },
+    data: {
+      permissionValueType: ['boolean', 'list', 'number'],
+    },
     redisUrl: process.env.REDIS_SERVER_HOST_URL,
     ipregistry: {
       apiKey: process.env.IPREGISTRY_API_KEY,
@@ -121,6 +124,9 @@ export const configuration = () => ({
   microServices: {
     app: {
       url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4002/api/v1',
+    },
+    admin: {
+      url: process.env.SHTCUT_APP_WORKER_HOST || 'http://localhost:4007/api/v1',
     },
     worker: {
       url: process.env.SHTCUT_APP_WORKER_HOST || 'http://localhost:4003/api/v1',

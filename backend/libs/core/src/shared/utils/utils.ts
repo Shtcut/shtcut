@@ -4,6 +4,7 @@ import * as dateFns from 'date-fns';
 import { Between } from 'typeorm';
 import * as _ from 'lodash';
 import slugify from 'slugify';
+import { Dict } from '../types';
 
 export abstract class Utils {
   public static getCountryCallingCode(code = 'NG') {
@@ -466,34 +467,9 @@ export abstract class Utils {
     try {
       const { IpregistryClient } = require('@ipregistry/client');
       const client = new IpregistryClient(ipRegistryKey);
-      let obj = {
-        type: '',
-        isp: '',
-        timezone: {
-          name: '',
-          offset: '',
-          zoneId: '',
-          zoneAbbreviation: '',
-          currentTime: '',
-        },
-        location: {
-          name: '',
-          city: '',
-          postal: '',
-          country: {
-            name: '',
-            code: '',
-            continentName: '',
-            continentCode: '',
-          },
-        },
-        region: {
-          name: '',
-          code: '',
-        },
-      };
+      const obj: Dict = {};
       const { data } = await client.lookup(ip);
-      obj = {
+      _.extend(obj, {
         type: data?.company?.name,
         isp: data?.connection.organization,
         timezone: {
@@ -518,7 +494,7 @@ export abstract class Utils {
           name: data?.location.region?.name,
           code: data?.location.region?.code,
         },
-      };
+      });
       return obj;
     } catch (e) {
       console.log('err::', e);

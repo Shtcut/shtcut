@@ -37,6 +37,15 @@
         "tsConfigPath": "apps/sht-worker/tsconfig.app.json"
       }
     },
+    "sht-admin": {
+      "type": "application",
+      "root": "apps/sht-admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-admin/tsconfig.app.json"
+      }
+    },
     "core": {
       "type": "library",
       "root": "libs/core",

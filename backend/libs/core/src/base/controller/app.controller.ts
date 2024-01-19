@@ -1,6 +1,6 @@
 import { Body, Delete, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { BaseController } from './base.controller';
-import { JwtAuthGuard, OK } from 'shtcut/core';
+import { Dict, JwtAuthGuard, OK } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 
 export class AppController extends BaseController {
@@ -35,7 +35,7 @@ export class AppController extends BaseController {
   @HttpCode(OK)
   public async update(
     @Param('id') id: string,
-    @Body() payload: Record<string, any>,
+    @Body() payload: Dict,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
@@ -48,7 +48,7 @@ export class AppController extends BaseController {
   @HttpCode(OK)
   public async patch(
     @Param('id') id: string,
-    @Body() payload: Record<string, any>,
+    @Body() payload: Dict,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,

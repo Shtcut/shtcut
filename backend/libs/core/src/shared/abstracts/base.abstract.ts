@@ -1,5 +1,5 @@
 import { configuration } from '@config';
-import { AppResponse, ResponseOption } from 'shtcut/core';
+import { AppResponse, ResponseOption, Utils } from 'shtcut/core';
 import * as _ from 'lodash';
 
 export abstract class BaseAbstract {
@@ -18,6 +18,7 @@ export abstract class BaseAbstract {
   protected model;
   protected defaultConfig = {
     idToken: 'key',
+    slugify: '',
     softDelete: false,
     unique: [],
     returnDuplicate: false,
@@ -171,11 +172,15 @@ export abstract class BaseAbstract {
    */
   public async prepareBodyObject(req) {
     let obj = Object.assign({}, req.body);
+    const slugName = this.entity.config.slugify;
     if (req.user) {
       obj = Object.assign(obj, {
         user: req.user,
         userId: req.user._id,
       });
+      if (slugName && (!_.isEmpty(slugName) || !_.isNull(slugName) || !_.isUndefined(slugName))) {
+        obj = Object.assign(obj, { slug: Utils.slugifyText(req.body[slugName].toLowerCase()) });
+      }
     }
     return obj;
   }
