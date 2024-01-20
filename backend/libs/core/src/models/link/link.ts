@@ -25,7 +25,7 @@ export class Link {
     unique: true,
     index: true,
   })
-  backHalf: string;
+  alias: string;
 
   @Prop({
     type: String,
@@ -40,8 +40,8 @@ export class Link {
   owner: any;
 
   @Prop({
-    type: String,
-    default: 'https://shtcut.link',
+    type: MGSchema.Types.ObjectId,
+    ref: 'Domain',
   })
   domain: string;
 
@@ -49,12 +49,6 @@ export class Link {
     type: String,
   })
   shortUrl: string;
-
-  @Prop({
-    type: [Types.ObjectId],
-    ref: 'Hit',
-  })
-  hits: any;
 
   @Prop({
     type: Boolean,
@@ -91,9 +85,10 @@ export class Link {
   expiryDate: Date;
 
   @Prop({
-    type: MGSchema.Types.Mixed,
+    type: MGSchema.Types.ObjectId,
+    ref: 'QrCode',
   })
-  qrCode: Record<string, any>;
+  qrCode: any;
 
   @Prop({
     type: Boolean,
@@ -131,11 +126,6 @@ LinkSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-LinkSchema.pre('save', function (next) {
-  this.shortUrl = `${this.domain}/${this.backHalf}`;
-  next();
-});
-
 LinkSchema.statics.config = () => {
   return {
     idToken: 'lnk',
@@ -145,7 +135,6 @@ LinkSchema.statics.config = () => {
       'originalURL',
       'owner',
       'qrCode',
-      'hit',
       'description',
       'expiryDate',
       'enableTracking',

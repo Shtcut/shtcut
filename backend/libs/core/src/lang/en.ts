@@ -12,5 +12,6 @@ export default {
     notFound: 'Data not found',
     noUpdateInput: 'Nothing to update',
     forbidden: 'User is not authorized to perform operation',
+    requestIpModule: 'First, you need to register the RequestIpModule module in the root module.',
   },
 };

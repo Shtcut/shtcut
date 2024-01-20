@@ -77,6 +77,12 @@ export class Campaign {
 
   @Prop({
     type: Types.ObjectId,
+    ref: 'Plan',
+  })
+  plan: any;
+
+  @Prop({
+    type: Types.ObjectId,
     ref: 'Media',
   })
   logo: string | Dict;

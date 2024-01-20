@@ -13,7 +13,7 @@ export class LinkController extends AppController {
     super(config, service);
   }
 
-  @Get('/:backHalf')
+  @Get('/:domain/:alias')
   @HttpCode(OK)
   public async visit(
     @Param('backHalf') backHalf: string,
