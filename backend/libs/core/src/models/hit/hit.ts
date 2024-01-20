@@ -24,13 +24,25 @@ export class Hit {
     type: Types.ObjectId,
     ref: 'User',
   })
-  public owner: any;
+  public user: any;
 
   @Prop({
     type: Types.ObjectId,
     ref: 'Link',
   })
   public link: any;
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Campaign',
+  })
+  public campaign: any;
+
+  @Prop({
+    type: Types.ObjectId,
+    ref: 'Domain',
+  })
+  public domain: any;
 
   @Prop({
     type: String,
@@ -111,6 +123,18 @@ export class Hit {
   public OS: OS;
 
   @Prop({
+    type: Number,
+    default: 0,
+  })
+  public clicks: boolean;
+
+  @Prop({
+    type: Number,
+    default: Date.now(),
+  })
+  public lastClicked: Date;
+
+  @Prop({
     type: Boolean,
     default: true,
   })
@@ -154,7 +178,7 @@ HitSchema.statics.config = () => {
   return {
     idToken: 'hit',
     uniques: [''],
-    fillables: ['type', 'timezone', 'location', 'country', 'browser', 'OS', 'link'],
+    fillables: ['type', 'timezone', 'location', 'country', 'browser', 'OS', 'link', 'campaign', 'domain'],
     hiddenFields: ['deleted'],
   };
 };

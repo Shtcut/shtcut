@@ -1,6 +1,7 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-export type TagDocument = Tag & Document;
+
+export type LabelDocument = Label & Document;
 
 @Schema({
   timestamps: true,
@@ -10,7 +11,7 @@ export type TagDocument = Tag & Document;
     virtuals: true,
   },
 })
-export class Tag {
+export class Label {
   @Prop({
     type: String,
     unique: true,
@@ -41,10 +42,12 @@ export class Tag {
   })
   campaign: any;
 
-  @Prop({
-    type: Types.ObjectId,
-    ref: 'Link',
-  })
+  @Prop([
+    {
+      type: Types.ObjectId,
+      ref: 'Link',
+    },
+  ])
   link: any;
 
   @Prop({
@@ -61,13 +64,13 @@ export class Tag {
   deleted: boolean;
 }
 
-const TagSchema = SchemaFactory.createForClass(Tag);
+const LabelSchema = SchemaFactory.createForClass(Label);
 
-TagSchema.virtual('id').get(function () {
+LabelSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-TagSchema.statics.config = () => {
+LabelSchema.statics.config = () => {
   return {
     idToken: 'tag',
     slugify: 'slug',
@@ -78,4 +81,4 @@ TagSchema.statics.config = () => {
   };
 };
 
-export { TagSchema };
+export { LabelSchema };

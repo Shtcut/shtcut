@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="en">
             <body className={inter.className}>
-                <ShtcutProvider attribute="class" defaultTheme="system" enableSystem={false} disableTransitionOnChange>
+                <ShtcutProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
                     <PageLayout className='bg-white-90'>{children}</PageLayout>
                 </ShtcutProvider>
             </body>

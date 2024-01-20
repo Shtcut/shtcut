@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 import { GatewayModule } from './gateway.module';
 import { ResponseFilter, ValidationPipe } from 'shtcut/core';
+import * as requestIp from 'request-ip';
 
 async function bootstrap() {
   const app = await NestFactory.create(GatewayModule, {
@@ -16,6 +17,7 @@ async function bootstrap() {
   const currentVersion = apiVersions.pop();
 
   app.use(morgan('tiny'));
+  app.use(requestIp.mw());
   app.setGlobalPrefix(`api/${currentVersion}`);
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());

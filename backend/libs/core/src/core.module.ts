@@ -3,12 +3,14 @@ import { HttpModule } from '@nestjs/axios';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureStorageModule } from '@nestjs/azure-storage';
+import { RequestIpModule } from './request-ip.module';
 
 @Global()
 @Module({
   imports: [
     HttpModule,
     ConfigModule,
+    RequestIpModule,
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService): MongooseModuleFactoryOptions => {
         return {

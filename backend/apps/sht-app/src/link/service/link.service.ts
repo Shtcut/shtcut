@@ -6,8 +6,6 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateLinkDto,
-  Hit,
-  HitDocument,
   Link,
   LinkDocument,
   NoSQLBaseService,
@@ -17,8 +15,6 @@ import {
 } from 'shtcut/core';
 
 import * as bcrypt from 'bcrypt';
-import { Request } from 'express';
-import { ConfigService } from '@nestjs/config';
 import { HitService } from '../../hit';
 import * as _ from 'lodash';
 import { Campaign, CampaignDocument } from 'shtcut/core/models/campaign';
@@ -36,8 +32,8 @@ export class LinkService extends NoSQLBaseService {
 
   public async validateCreate(obj: CreateLinkDto) {
     try {
-      const { backHalf, owner, password, expiryDate, campaign, domain } = obj;
-      const link = await this.model.findOne({ backHalf });
+      const { backHalf, owner, expiryDate, campaign, domain } = obj;
+      const link = await this.model.findOne({ alias: backHalf });
 
       if (backHalf) {
         if (link) {
@@ -89,7 +85,8 @@ export class LinkService extends NoSQLBaseService {
         enableTracking: !!owner,
         ...obj,
       };
-      return await super.createNewObject(payload);
+      const link = await super.createNewObject(payload);
+      return link;
     } catch (e) {
       throw e;
     }
@@ -105,13 +102,17 @@ export class LinkService extends NoSQLBaseService {
     userAgent: string;
   }) {
     try {
-      let link = await this.model.findOne({ backHalf });
+      let link = await this.model.findOne({ alias: backHalf });
       if (!link) {
         return null;
       }
-      // if (link.enableTracking) {
-      await this.hitService.createNewObject({ link: link._id, userAgent, ip: remoteAddress as string });
-      // }
+      if (link.enableTracking) {
+        const payload = {
+          user: link.owner,
+          link: link._id,
+        };
+        await this.hitService.createNewObject({ link: link._id, userAgent, ip: remoteAddress as string });
+      }
       link.hitCount = link.hitCount + 1;
       link = await link.save();
       return link;
