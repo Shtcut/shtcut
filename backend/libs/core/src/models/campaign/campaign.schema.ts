@@ -101,13 +101,13 @@ export class Campaign {
   deleted: boolean;
 }
 
-const ProjectSchema = SchemaFactory.createForClass(Campaign);
+const CampaignSchema = SchemaFactory.createForClass(Campaign);
 
-ProjectSchema.virtual('id').get(function () {
+CampaignSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-ProjectSchema.statics.config = () => {
+CampaignSchema.statics.config = () => {
   return {
     idToken: 'prj',
     uniques: ['slug', 'name'],
@@ -116,4 +116,4 @@ ProjectSchema.statics.config = () => {
   };
 };
 
-export { ProjectSchema };
+export { CampaignSchema };

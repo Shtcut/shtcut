@@ -8,7 +8,6 @@ import { AdminEndpoints, AppEndpoints, WorkerEndpoints } from './rest';
 import { GatewayController } from './gateway.controller';
 import { CoreModule, AppProxyMiddleware, WorkerProxyMiddleware, ApiMiddleware } from './_core';
 import { AdminProxyMiddleware } from './_core/proxy/admin.proxy';
-import { RequestIpModule } from 'shtcut/core';
 
 @Module({
   imports: [
@@ -21,7 +20,6 @@ import { RequestIpModule } from 'shtcut/core';
     TerminusModule,
     AppModule,
     CoreModule,
-    RequestIpModule,
   ],
   providers: [],
   controllers: [GatewayController],

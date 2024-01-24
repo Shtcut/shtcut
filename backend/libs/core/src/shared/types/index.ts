@@ -18,6 +18,22 @@ export type Timezone = {
   currentTime: Date;
 };
 
+export type QrCodeProps = {
+  value: string;
+  bgColor?: string;
+  patternColor?: string;
+  fgColor?: string;
+  logoImage?: string;
+  eye_color_2_outer?: string;
+  eye_color_0_outer?: string;
+  eye_color_0_inner?: string;
+  eye_color1_inner?: string;
+  eye_color_2_Inner?: string;
+  logoPadding?: string;
+  logoWidth?: string;
+  qrStyle?: string;
+};
+
 export type Locations = {
   name: string;
   code: string;
@@ -64,8 +80,14 @@ export type ClientInfo = {
 export type IpAddressInfo = {
   type: string;
   isp: string;
+  ip: string;
   browser: Dict;
   OS: Dict;
+  company: {
+    domain: string | undefined;
+    name: string | undefined;
+    type: string | undefined;
+  };
   timezone: {
     name: string | undefined;
     offset: string | number | undefined;
@@ -73,16 +95,26 @@ export type IpAddressInfo = {
     zoneAbbreviation: string | undefined;
     currentTime: string | undefined;
   };
-  country: {
-    name: string | undefined;
+  currency: {
     code: string | undefined;
-    continentName: string | undefined;
-    continentCode: string | undefined;
+    name: string | undefined;
+    symbol: string | undefined;
   };
   location: {
     name: string | undefined;
     city: string | undefined;
     postal: string | undefined;
+    latitude: number | undefined;
+    longitude: number | undefined;
+    language: Dict<string> | undefined;
+    country: {
+      name: string | undefined;
+      code: string | undefined;
+      flag: string[] | undefined;
+      population: number | undefined;
+      continentName: string | undefined;
+      continentCode: string | undefined;
+    };
   };
   region: {
     name: string | undefined;

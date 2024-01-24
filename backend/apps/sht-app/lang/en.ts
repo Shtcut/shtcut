@@ -29,16 +29,21 @@ export default {
   },
 
   link: {
-    duplicate: 'The custom backhalf already exist, please try a different one',
-    invalidExpiryDate: 'Invalid expiry Date, expiry date must follow ISO-8601 format',
-    invalidateExpiryFutureDate: 'Expiry date must be in the future time',
+    duplicate: 'The custom alias already exists; please choose a different one.',
+    invalidExpiryDate: 'The expiry date is invalid; it must adhere to the ISO-8601 format.',
+    invalidateExpiryFutureDate: 'The expiry date must be set in the future.',
   },
 
   campaign: {
-    invalidDomain: 'This domain does not belong to the campaign',
+    invalidDomain: 'The campaign does not have ownership of this domain.',
   },
 
   user: {
-    notFound: 'User not found',
+    notFound: 'The user could not be found.',
+  },
+
+  domain: {
+    notFound: 'The domain could not be found.',
+    notVerified: 'Verification of the domain is still pending.',
   },
 };

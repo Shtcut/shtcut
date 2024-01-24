@@ -33,6 +33,7 @@
     "@azure/storage-blob": "^12.17.0",
     "@google-cloud/storage": "^7.7.0",
     "@ipregistry/client": "^4.5.0",
+    "@layered/dns-records": "^2.0.0-beta.5",
     "@nestjs/apollo": "^12.0.11",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/azure-storage": "^3.0.0",

@@ -1,5 +1,6 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Types, Schema as MGSchema } from 'mongoose';
+import { Dict } from 'shtcut/core';
 
 export type LinkDocument = Link & Document;
 
@@ -31,19 +32,24 @@ export class Link {
     type: String,
     required: true,
   })
-  originalURL: string;
+  target: string;
 
   @Prop({
     type: Types.ObjectId,
     ref: 'User',
   })
-  owner: any;
+  user: any;
 
   @Prop({
     type: MGSchema.Types.ObjectId,
     ref: 'Domain',
   })
-  domain: string;
+  domain: any;
+
+  @Prop({
+    type: String,
+  })
+  domainName: any;
 
   @Prop({
     type: String,
@@ -55,12 +61,6 @@ export class Link {
     default: false,
   })
   enableTracking: boolean;
-
-  @Prop({
-    type: Number,
-    default: 0,
-  })
-  hitCount: number;
 
   @Prop({
     type: String,
@@ -80,6 +80,11 @@ export class Link {
   description: string;
 
   @Prop({
+    type: String,
+  })
+  comments: string;
+
+  @Prop({
     type: Date,
   })
   expiryDate: Date;
@@ -91,10 +96,76 @@ export class Link {
   qrCode: any;
 
   @Prop({
+    type: [
+      {
+        type: MGSchema.Types.ObjectId,
+        ref: 'Label',
+      },
+    ],
+  })
+  label: any;
+
+  @Prop(
+    raw({
+      source: String,
+      medium: String,
+      campaign: String,
+      term: String,
+      content: String,
+    }),
+  )
+  utmParams: {
+    source: string;
+    medium: string;
+    campaign: string;
+    term: string;
+    content: string;
+  };
+
+  @Prop(
+    raw({
+      android: String,
+      ios: String,
+    }),
+  )
+  devices: {
+    android: string;
+    ios: string;
+  };
+
+  @Prop({
+    type: MGSchema.Types.Mixed,
+  })
+  geo: Dict;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  proxy: boolean;
+
+  @Prop({
     type: Boolean,
     default: false,
   })
   isPrivate: boolean;
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  clicks: number;
+
+  @Prop({
+    type: Date,
+  })
+  latestClicked: Date;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  archived: boolean;
 
   @Prop({
     type: Boolean,
@@ -117,8 +188,8 @@ LinkSchema.statics.searchQuery = (q: string) => {
   return [
     { title: { $regex: regex, $options: 'i' } },
     { description: { $regex: regex, $options: 'i' } },
-    { originalURL: { $regex: regex, $options: 'i' } },
-    { backHalf: { $regex: regex, $options: 'i' } },
+    { target: { $regex: regex, $options: 'i' } },
+    { alias: { $regex: regex, $options: 'i' } },
   ];
 };
 
@@ -129,18 +200,26 @@ LinkSchema.virtual('id').get(function () {
 LinkSchema.statics.config = () => {
   return {
     idToken: 'lnk',
-    uniques: ['backHalf'],
+    uniques: ['alias'],
+    cacheKeys: ['_id', 'target'],
     fillables: [
-      'backHalf',
-      'originalURL',
-      'owner',
+      'alias',
+      'target',
+      'user',
+      'title',
+      'labels',
+      'domain',
+      'domainName',
       'qrCode',
+      'archive',
       'description',
       'expiryDate',
       'enableTracking',
       'password',
     ],
+    updateFillables: ['target', 'archive', 'labels', 'title', 'description', 'expiryDate'],
     hiddenFields: ['deleted', 'password'],
+    objectIds: ['qrCode', 'labels', 'domain'],
   };
 };
 

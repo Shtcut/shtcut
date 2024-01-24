@@ -23,7 +23,7 @@ export abstract class BaseController {
         created: `${key} successfully created`,
         updated: `${key} successfully updated`,
         deleted: `${key} successfully deleted`,
-        notFound: `${key} not found`,
+        notFound: `The ${key} could not be found.`,
       };
     },
   };

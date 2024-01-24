@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateLinkDto, JwtAuthGuard, NOT_FOUND, OK, UpdateLinkDto } from 'shtcut/core';
+import { AppController, CreateLinkDto, GetClientInfo, JwtAuthGuard, NOT_FOUND, OK, UpdateLinkDto } from 'shtcut/core';
 import { LinkService } from '../service/link.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
@@ -16,30 +16,28 @@ export class LinkController extends AppController {
   @Get('/:domain/:alias')
   @HttpCode(OK)
   public async visit(
-    @Param('backHalf') backHalf: string,
+    @GetClientInfo() ipAddressInfo,
+    @Param('domain') domain: string,
+    @Param('alias') alias: string,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
     try {
-      const userAgent = req.headers['user-agent'];
-      const testMode = this.config.get('app.environment') === 'development';
-      const remoteAddress = req.socket.remoteAddress;
-      const ipRaw: any = testMode
-        ? '102.216.201.40'
-        : remoteAddress?.includes('127.0.0.1') || remoteAddress?.includes('::')
-          ? req.headers['x-forwarded-for'] || req.headers['x-real-ip']
-          : remoteAddress;
-      const ip = ipRaw?.includes(':') ? ipRaw?.split(':')[3] : ipRaw;
-      const link = await this.service.processVisit({ remoteAddress: ip, userAgent, backHalf });
-      if (link) {
-        const response = await this.service.getResponse({
-          code: OK,
-          value: link,
+      const link = await this.service.processVisit({ ipAddressInfo, domain, alias });
+      let response = null;
+      if (!link) {
+        response = await this.service.getResponse({
+          code: NOT_FOUND,
+          value: this.lang.notFound,
         });
-        return res.status(OK).json(response);
+        return res.status(NOT_FOUND).json(response);
       }
-      return res.status(NOT_FOUND).send('URL not found');
+      response = await this.service.getResponse({
+        code: OK,
+        value: link,
+      });
+      return res.status(OK).json(response);
     } catch (e) {
       return next(e);
     }

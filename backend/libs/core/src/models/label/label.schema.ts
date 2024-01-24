@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document } from 'mongoose';
 
 export type LabelDocument = Label & Document;
 
@@ -37,20 +37,6 @@ export class Label {
   color: string;
 
   @Prop({
-    type: Types.ObjectId,
-    ref: 'Campaign',
-  })
-  campaign: any;
-
-  @Prop([
-    {
-      type: Types.ObjectId,
-      ref: 'Link',
-    },
-  ])
-  link: any;
-
-  @Prop({
     type: Boolean,
     default: true,
   })
@@ -74,8 +60,8 @@ LabelSchema.statics.config = () => {
   return {
     idToken: 'tag',
     slugify: 'slug',
-    uniques: ['name', 'campaign'],
-    fillables: ['name', 'campaign', 'color', 'link', 'slug'],
+    uniques: ['name'],
+    fillables: ['name', 'color', 'slug'],
     updateFillables: ['name', 'campaign', 'color', 'link'],
     hiddenFields: ['deleted'],
   };

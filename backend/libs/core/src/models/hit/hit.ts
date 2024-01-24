@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
-import { Browser, Country, Locations, OS, Region, Timezone } from 'shtcut/core';
+import { Document, Types, Schema as MGSchema } from 'mongoose';
+import { Browser, Locations, OS, Region, Timezone } from 'shtcut/core';
 
 export type HitDocument = Hit & Document;
 
@@ -31,18 +31,11 @@ export class Hit {
     ref: 'Link',
   })
   public link: any;
-
   @Prop({
     type: Types.ObjectId,
-    ref: 'Campaign',
+    ref: 'QrCode',
   })
-  public campaign: any;
-
-  @Prop({
-    type: Types.ObjectId,
-    ref: 'Domain',
-  })
-  public domain: any;
+  public qrcode: any;
 
   @Prop({
     type: String,
@@ -55,6 +48,11 @@ export class Hit {
   public isp: string;
 
   @Prop({
+    type: String,
+  })
+  public ip: string;
+
+  @Prop({
     type: {
       name: String,
       offset: String,
@@ -64,6 +62,19 @@ export class Hit {
     },
   })
   public timezone: Timezone;
+
+  @Prop({
+    type: {
+      domain: String,
+      name: String,
+      type: String,
+    },
+  })
+  public company: {
+    domain: string | undefined;
+    name: string | undefined;
+    type: string | undefined;
+  };
 
   @Prop({
     type: {
@@ -79,11 +90,8 @@ export class Hit {
         type: Number,
         select: false,
       },
-      language: {
-        code: String,
-        name: String,
-        native: String,
-      },
+      languages: { code: String, name: String, native: String },
+      flag: MGSchema.Types.Mixed,
       country: {
         name: String,
         code: String,
@@ -126,7 +134,7 @@ export class Hit {
     type: Number,
     default: 0,
   })
-  public clicks: boolean;
+  public clicks: number;
 
   @Prop({
     type: Number,
@@ -177,8 +185,8 @@ HitSchema.virtual('id').get(function () {
 HitSchema.statics.config = () => {
   return {
     idToken: 'hit',
-    uniques: [''],
-    fillables: ['type', 'timezone', 'location', 'country', 'browser', 'OS', 'link', 'campaign', 'domain'],
+    uniques: [],
+    fillables: ['type', 'timezone', 'location', 'company', 'country', 'browser', 'OS', 'link', 'qrcode'],
     hiddenFields: ['deleted'],
   };
 };
