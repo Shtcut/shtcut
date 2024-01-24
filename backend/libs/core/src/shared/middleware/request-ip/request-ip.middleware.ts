@@ -27,8 +27,10 @@ export class RequestIpMiddleware implements NestMiddleware {
     console.log('data:', data);
 
     const clientInfo: IpAddressInfo = {
+      ...data,
       type: data?.company?.name,
       isp: data?.connection.organization,
+      ip: data?.ip,
       browser,
       OS,
       timezone: {
@@ -38,16 +40,21 @@ export class RequestIpMiddleware implements NestMiddleware {
         zoneAbbreviation: data?.time_zone?.abbreviation,
         currentTime: data?.time_zone?.current_time,
       },
-      country: {
-        name: data?.location?.country?.name,
-        code: data?.location?.country?.code,
-        continentName: data?.location?.country?.code,
-        continentCode: data?.location?.country?.code,
-      },
       location: {
         name: data?.location?.region?.name,
         city: data?.location?.city,
         postal: data?.location?.postal,
+        latitude: data?.location?.latitude,
+        longitude: data?.location?.latitude,
+        language: data?.location?.language,
+        country: {
+          name: data?.location?.country?.name,
+          code: data?.location?.country?.code,
+          flag: data?.location?.country.flag,
+          population: data?.location?.country.languages,
+          continentName: data?.location?.country?.code,
+          continentCode: data?.location?.country?.code,
+        },
       },
       region: {
         name: data?.location.region?.name,

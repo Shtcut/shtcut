@@ -65,6 +65,13 @@ export class Plan {
   features: any[];
 
   @Prop({
+    type: String,
+    enum: ['monthly', 'yearly'],
+    default: 'monthly',
+  })
+  billingFrequency: any;
+
+  @Prop({
     type: Boolean,
     default: false,
   })

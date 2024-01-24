@@ -1,4 +1,17 @@
-Advanced URL Shortener: Analytics-Intensive, Self-Hostable
+Shtcut URL Shortener: Analytics-Intensive, Self-Hostable
+
+<p>
+    <a href="https://app.shtcht.link" target="_blank">
+      <img
+        src="https://visaintel-stg.s3.amazonaws.com/Screenshot-2024-01-22-at-4.17.21%E2%80%AFPM.webp"
+        alt="Shtcut Screens"
+        width="100%"
+      />
+    </a>
+</p>
+
+Meet [Shtcut](https://shtcut.link). An open-source software development tool engineered to provide a comprehensive suite of analytics while offering the ability to self-host, giving users complete control over their data and customization.
+
 
 ## Overview
 
@@ -72,5 +85,5 @@ This project is licensed under the [MIT License](https://github.com/funmiayinde/
 
 ## Support
 
-For any queries, issues, or suggestions, feel free to raise a GitHub issue or contact the maintainers at [funmiayinde11@gmail.com](mailto:funmiayinde11@gmail.com).
+For any queries, issues, or suggestions, feel free to raise a GitHub issue or contact the maintainers at [funmi@shtcut.link](mailto:funmi@shtcut.com).
 

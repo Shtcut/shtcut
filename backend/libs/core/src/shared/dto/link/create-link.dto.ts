@@ -1,4 +1,6 @@
 import { IsBoolean, IsDate, IsMongoId, IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
+import { Type } from 'class-transformer';
+import { CreateQrCodeDto } from '../qrcode';
 
 export class CreateLinkDto {
   @IsString()
@@ -7,7 +9,7 @@ export class CreateLinkDto {
 
   @IsString()
   @IsNotEmpty()
-  public readonly originalURL: string;
+  public readonly target: string;
 
   @IsString()
   @IsOptional()
@@ -19,11 +21,11 @@ export class CreateLinkDto {
 
   @IsString()
   @IsOptional()
-  public readonly backHalf: string;
+  public readonly alias: string;
 
   @IsMongoId()
   @IsOptional()
-  public readonly owner: string;
+  public readonly user: string;
 
   @IsMongoId()
   @IsOptional()
@@ -32,6 +34,11 @@ export class CreateLinkDto {
   @IsMongoId()
   @IsOptional()
   public readonly domain: string;
+
+  @IsMongoId()
+  @Type(() => CreateQrCodeDto)
+  @IsOptional()
+  public readonly qrCode?: CreateQrCodeDto;
 
   @IsBoolean()
   @IsOptional()

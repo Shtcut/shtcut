@@ -20,6 +20,7 @@ export abstract class BaseAbstract {
     idToken: 'key',
     slugify: '',
     softDelete: false,
+    cacheKeys: [],
     unique: [],
     returnDuplicate: false,
     fillables: [],

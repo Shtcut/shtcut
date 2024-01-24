@@ -463,46 +463,10 @@ export abstract class Utils {
     return mobileNo;
   }
 
-  public static async ispInfo({ ipRegistryKey, ip }: { ipRegistryKey: string; ip: string }) {
-    try {
-      const { IpregistryClient } = require('@ipregistry/client');
-      const client = new IpregistryClient(ipRegistryKey);
-      const obj: Dict = {};
-      const { data } = await client.lookup(ip);
-      _.extend(obj, {
-        type: data?.company?.name,
-        isp: data?.connection.organization,
-        timezone: {
-          name: data?.time_zone?.name,
-          offset: data?.time_zone?.offset,
-          zoneId: data?.time_zone?.id,
-          zoneAbbreviation: data?.time_zone?.abbreviation,
-          currentTime: data?.time_zone?.current_time,
-        },
-        location: {
-          name: data?.location?.region?.name,
-          city: data?.location?.city,
-          postal: data?.location?.postal,
-          country: {
-            name: data?.location?.country?.name,
-            code: data?.location?.country?.code,
-            continentName: data?.location?.country?.code,
-            continentCode: data?.location?.country?.code,
-          },
-        },
-        region: {
-          name: data?.location.region?.name,
-          code: data?.location.region?.code,
-        },
-      });
-      return obj;
-    } catch (e) {
-      console.log('err::', e);
-      return null;
-    }
-  }
-
   public static isLocalAddress(ip: string) {
     return /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i.test(ip);
+  }
+  public static mongoUpdateDefaultProps(obj?: Dict<any>) {
+    return { upsert: true, new: true, ...obj };
   }
 }

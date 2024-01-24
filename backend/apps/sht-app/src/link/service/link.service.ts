@@ -6,9 +6,16 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateLinkDto,
+  Domain,
+  DomainDocument,
+  Hit,
+  HitDocument,
+  IpAddressInfo,
   Link,
   LinkDocument,
   NoSQLBaseService,
+  QrCode,
+  QrCodeDocument,
   User,
   UserDocument,
   Utils,
@@ -25,6 +32,9 @@ export class LinkService extends NoSQLBaseService {
     @InjectModel(Link.name) protected model: Model<LinkDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
     @InjectModel(Campaign.name) protected campaignModel: Model<CampaignDocument>,
+    @InjectModel(Domain.name) protected domainModel: Model<DomainDocument>,
+    @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
+    @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
   ) {
     super(model);
@@ -32,10 +42,10 @@ export class LinkService extends NoSQLBaseService {
 
   public async validateCreate(obj: CreateLinkDto) {
     try {
-      const { backHalf, owner, expiryDate, campaign, domain } = obj;
-      const link = await this.model.findOne({ alias: backHalf });
+      const { alias, user: owner, expiryDate, campaign, domain } = obj;
+      const link = await this.model.findOne({ alias });
 
-      if (backHalf) {
+      if (alias) {
         if (link) {
           throw AppException.CONFLICT(lang.get('link').duplicate);
         }
@@ -75,47 +85,77 @@ export class LinkService extends NoSQLBaseService {
 
   public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
     try {
-      const { password, owner } = obj;
+      const { password, user } = obj;
       if (password) {
         obj.password = await bcrypt.hash(obj.password, 10);
       }
-      const customBackHalf = Utils.generateCode(7, true);
+      const alias = Utils.generateCode(7, true);
+      const domain = await this.domainModel.findOne({ name: obj.domain });
+      if (!domain) {
+        throw AppException.NOT_FOUND(lang.get('domain').notFound);
+      }
+      const { verification } = domain;
+      if (!verification.verified) {
+        throw AppException.NOT_FOUND(lang.get('domain').notVerified);
+      }
       const payload = {
-        backHalf: customBackHalf,
-        enableTracking: !!owner,
         ...obj,
+        alias,
+        enableTracking: !!user,
+        isPrivate: !!password,
+        domain: domain._id,
       };
       const link = await super.createNewObject(payload);
-      return link;
+      const qrCode = await new this.qrCodeModel({
+        ...obj.qrCode,
+        ...obj,
+        user,
+        link: link._id,
+        campaign: domain.campaign,
+        domain: domain._id,
+      }).save();
+      link.qrCode = qrCode._id;
+      return await link.save();
     } catch (e) {
       throw e;
     }
   }
 
   public async processVisit({
-    remoteAddress,
-    userAgent,
-    backHalf,
+    domain: userDomain,
+    alias,
+    ipAddressInfo,
   }: {
-    remoteAddress: string | string[];
-    backHalf: string;
-    userAgent: string;
+    domain: string;
+    alias: string;
+    ipAddressInfo: IpAddressInfo;
   }) {
     try {
-      let link = await this.model.findOne({ alias: backHalf });
+      const link = await this.model.findOne({ alias, domain: { $in: [userDomain] } }).populate(['domain']);
       if (!link) {
         return null;
       }
       if (link.enableTracking) {
         const payload = {
-          user: link.owner,
+          user: link.user,
           link: link._id,
+          domain: link.domain._id,
+          ...ipAddressInfo,
         };
-        await this.hitService.createNewObject({ link: link._id, userAgent, ip: remoteAddress as string });
+        await this.hitModel.findOneAndUpdate(
+          { link: link._id, domain: payload.domain },
+          {
+            ...payload,
+            lastClicked: payload.timezone.currentTime ?? Date.now(),
+            $inc: { clicks: 1 },
+          },
+          {
+            ...Utils.mongoUpdateDefaultProps(),
+          },
+        );
       }
-      link.hitCount = link.hitCount + 1;
-      link = await link.save();
-      return link;
+      link.clicks += 1;
+      return await link.save();
     } catch (e) {
       throw e;
     }
