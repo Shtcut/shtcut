@@ -28,9 +28,16 @@ export class Hit {
 
   @Prop({
     type: Types.ObjectId,
+    ref: 'Domain',
+  })
+  public domain: any;
+
+  @Prop({
+    type: Types.ObjectId,
     ref: 'Link',
   })
   public link: any;
+
   @Prop({
     type: Types.ObjectId,
     ref: 'QrCode',

@@ -1,8 +1,7 @@
-import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { Dict } from 'shtcut/core';
 
-export type CampaignDocument = Campaign & Document;
+export type WorkspaceDocument = Workspace & Document;
 
 @Schema({
   timestamps: true,
@@ -12,7 +11,7 @@ export type CampaignDocument = Campaign & Document;
     virtuals: true,
   },
 })
-export class Campaign {
+export class Workspace {
   @Prop({
     type: String,
     unique: true,
@@ -30,13 +29,20 @@ export class Campaign {
     type: Boolean,
     default: false,
   })
-  verified: boolean;
+  isDefault: boolean;
 
   @Prop({
     type: Number,
     default: 10,
   })
   maxDomain: boolean;
+
+  @Prop({
+    type: String,
+    required: true,
+    unique: true,
+  })
+  name: string;
 
   @Prop({
     type: String,
@@ -83,9 +89,9 @@ export class Campaign {
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'Media',
+    default: '',
   })
-  logo: string | Dict;
+  logo: string;
 
   @Prop({
     type: Boolean,
@@ -101,19 +107,19 @@ export class Campaign {
   deleted: boolean;
 }
 
-const CampaignSchema = SchemaFactory.createForClass(Campaign);
+const WorkspaceSchema = SchemaFactory.createForClass(Workspace);
 
-CampaignSchema.virtual('id').get(function () {
+WorkspaceSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-CampaignSchema.statics.config = () => {
+WorkspaceSchema.statics.config = () => {
   return {
-    idToken: 'prj',
+    idToken: 'wrk',
     uniques: ['slug', 'name'],
-    fillables: ['user', 'name', 'plan', 'links'],
+    fillables: ['user', 'name', 'plan', 'links', 'domains', 'isDefault'],
     hiddenFields: ['deleted'],
   };
 };
 
-export { CampaignSchema };
+export { WorkspaceSchema };

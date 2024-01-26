@@ -19,6 +19,7 @@ import {
   User,
   UserDocument,
   Utils,
+  VerifyDomainDto,
 } from 'shtcut/core';
 
 import * as bcrypt from 'bcrypt';
@@ -27,7 +28,7 @@ import * as _ from 'lodash';
 import { Workspace, WorkspaceDocument } from 'shtcut/core/models/workspace';
 
 @Injectable()
-export class LinkService extends NoSQLBaseService {
+export class DomainService extends NoSQLBaseService {
   constructor(
     @InjectModel(Link.name) protected model: Model<LinkDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
@@ -121,41 +122,9 @@ export class LinkService extends NoSQLBaseService {
     }
   }
 
-  public async processVisit({
-    domain: userDomain,
-    alias,
-    ipAddressInfo,
-  }: {
-    domain: string;
-    alias: string;
-    ipAddressInfo: IpAddressInfo;
-  }) {
+  public async verifyDomain(payload: VerifyDomainDto) {
     try {
-      const link = await this.model.findOne({ alias, domain: { $in: [userDomain] } }).populate(['domain']);
-      if (!link) {
-        return null;
-      }
-      if (link.enableTracking) {
-        const payload = {
-          user: link.user,
-          link: link._id,
-          domain: link.domain._id,
-          ...ipAddressInfo,
-        };
-        await this.hitModel.findOneAndUpdate(
-          { link: link._id, domain: payload.domain },
-          {
-            ...payload,
-            lastClicked: payload.timezone.currentTime ?? Date.now(),
-            $inc: { clicks: 1 },
-          },
-          {
-            ...Utils.mongoUpdateDefaultProps(),
-          },
-        );
-      }
-      link.clicks += 1;
-      return await link.save();
+      return null;
     } catch (e) {
       throw e;
     }

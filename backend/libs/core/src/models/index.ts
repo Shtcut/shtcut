@@ -7,7 +7,7 @@ export * from './security';
 export * from './feature';
 export * from './plan';
 export * from './domain';
-export * from './campaign';
+export * from './workspace';
 export * from './qrcode';
 export * from './admin-auth';
 export * from './app.schema';

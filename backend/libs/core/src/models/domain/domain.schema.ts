@@ -27,9 +27,9 @@ export class Domain {
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'Campaign',
+    ref: 'Workspace',
   })
-  campaign: any;
+  workspace: any;
 
   @Prop([
     {
@@ -41,9 +41,15 @@ export class Domain {
 
   @Prop({
     type: String,
-    default: 'https://shtcut.link',
+    default: 'shtcut.link',
   })
   name: string;
+
+  @Prop({
+    type: String,
+    default: 'https://shtcut.link',
+  })
+  landingPage: string;
 
   @Prop(
     raw({
@@ -105,8 +111,8 @@ DomainSchema.virtual('id').get(function () {
 DomainSchema.statics.config = () => {
   return {
     idToken: 'dmn',
-    uniques: ['campaign', 'name'],
-    fillables: ['campaign', 'links', 'name', 'description', 'type', 'isDefault', 'active', 'banned'],
+    uniques: ['workspace', 'name'],
+    fillables: ['workspace', 'links', 'name', 'description', 'type', 'isDefault', 'active', 'banned', 'landingPage'],
     updateFillables: ['links', 'name', 'description', 'type', 'isDefault', 'active', 'banned'],
     hiddenFields: ['deleted', 'verification'],
   };
