@@ -34,8 +34,8 @@ export default {
     invalidateExpiryFutureDate: 'The expiry date must be set in the future.',
   },
 
-  campaign: {
-    invalidDomain: 'The campaign does not have ownership of this domain.',
+  workspace: {
+    invalidDomain: 'The workspace does not have ownership of this domain.',
   },
 
   user: {

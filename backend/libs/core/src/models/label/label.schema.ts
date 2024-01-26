@@ -62,7 +62,7 @@ LabelSchema.statics.config = () => {
     slugify: 'slug',
     uniques: ['name'],
     fillables: ['name', 'color', 'slug'],
-    updateFillables: ['name', 'campaign', 'color', 'link'],
+    updateFillables: ['name', 'color', 'link'],
     hiddenFields: ['deleted'],
   };
 };

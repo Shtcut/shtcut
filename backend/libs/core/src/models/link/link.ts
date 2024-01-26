@@ -42,6 +42,12 @@ export class Link {
 
   @Prop({
     type: MGSchema.Types.ObjectId,
+    ref: 'Workspace',
+  })
+  workspace: any;
+
+  @Prop({
+    type: MGSchema.Types.ObjectId,
     ref: 'Domain',
   })
   domain: any;
@@ -208,6 +214,7 @@ LinkSchema.statics.config = () => {
       'user',
       'title',
       'labels',
+      'workspace',
       'domain',
       'domainName',
       'qrCode',

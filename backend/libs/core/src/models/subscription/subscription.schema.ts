@@ -37,9 +37,9 @@ export class Subscription {
   @Prop({
     type: Types.ObjectId,
     required: true,
-    ref: 'Campaign',
+    ref: 'workspace',
   })
-  campaign: any;
+  workspace: any;
 
   @Prop({
     type: String,
@@ -82,7 +82,7 @@ MediaSchema.statics.config = () => {
   return {
     idToken: 'media',
     uniques: [],
-    fillables: ['file', 'user'],
+    fillables: ['workspace', 'user', 'startDate', 'endDate', 'status'],
     hiddenFields: ['deleted'],
   };
 };

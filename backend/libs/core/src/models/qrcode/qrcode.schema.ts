@@ -28,9 +28,9 @@ export class QrCode {
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'Campaign',
+    ref: 'Workspace',
   })
-  campaign: any;
+  workspace: any;
 
   @Prop({
     type: Types.ObjectId,
@@ -97,9 +97,9 @@ QrCodeSchema.virtual('id').get(function () {
 QrCodeSchema.statics.config = () => {
   return {
     idToken: 'qr',
-    uniques: ['link', 'domain', 'campaign'],
-    fillables: ['campaign', 'link', 'scanned', 'domain', 'properties'],
-    updateFillables: ['campaign', 'link', 'scanned', 'domain', 'imageFormat'],
+    uniques: ['link', 'domain', 'workspace'],
+    fillables: ['workspace', 'link', 'scanned', 'domain', 'properties'],
+    updateFillables: ['workspace', 'link', 'scanned', 'domain', 'imageFormat'],
     hiddenFields: ['deleted'],
   };
 };

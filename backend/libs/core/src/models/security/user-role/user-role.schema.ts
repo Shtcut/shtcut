@@ -31,9 +31,9 @@ export class UserRole {
   @Prop({
     type: MGSchema.Types.ObjectId,
     required: true,
-    ref: 'Campaign',
+    ref: 'Workspace',
   })
-  campaign: any;
+  workspace: any;
 
   @Prop({
     type: MGSchema.Types.ObjectId,
@@ -71,7 +71,7 @@ UserRoleSchema.statics.config = () => {
     uniques: [],
     fillables: ['role', 'user'],
     updateFillables: ['role', 'user'],
-    objectIds: ['campaign', 'user', 'role', 'permissions'],
+    objectIds: ['workspace', 'user', 'role', 'permissions'],
     hiddenFields: ['deleted'],
   };
 };

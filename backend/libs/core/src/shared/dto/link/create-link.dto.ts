@@ -29,7 +29,7 @@ export class CreateLinkDto {
 
   @IsMongoId()
   @IsOptional()
-  public readonly campaign: string;
+  public readonly workspace: string;
 
   @IsMongoId()
   @IsOptional()

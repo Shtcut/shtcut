@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { LinkController } from './controller/link.controller';
-import { LinkService } from './service/link.service';
+import { DomainController } from './controller/domain.controller';
+import { DomainService } from './service/domain.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import {
   Workspace,
@@ -30,8 +30,8 @@ import { HitModule } from '../hit';
       { name: User.name, schema: UserSchema },
     ]),
   ],
-  controllers: [LinkController],
-  providers: [LinkService],
-  exports: [LinkService],
+  controllers: [DomainController],
+  providers: [DomainService],
+  exports: [DomainService],
 })
 export class LinkModule {}
