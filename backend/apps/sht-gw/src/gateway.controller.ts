@@ -37,17 +37,6 @@ export class GatewayController {
 
   @Get('/verify/dns')
   async resolveDNS(@Req() req: Request, @Res() res: Response) {
-    // const domain = 'shtcut.link';
-    // const txtRecords = await getDnsRecords(domain, 'TXT', 'google-dns');
-
-    // console.log(`TXT records for ${domain}`);
-    // console.log(txtRecords);
-
-    // const txtSpfRecord = txtRecords.find((r) => r.data.includes('cuttly-verification-site'));
-
-    // console.log(`SPF record found`);
-    // console.log(txtSpfRecord ? '✅' : '❌');
-    // return res.status(OK).json({ txtSpfRecord, txtRecords });
     const txtRecordLists = await resolveTxt('visaintel.com');
     return res.status(OK).json({ txtRecordLists });
   }

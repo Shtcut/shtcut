@@ -1,2 +1,2 @@
-export * from './no-sql.service';
+export * from './mongo.service';
 export * from './sql.service';

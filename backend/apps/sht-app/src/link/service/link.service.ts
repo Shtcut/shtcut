@@ -13,9 +13,10 @@ import {
   IpAddressInfo,
   Link,
   LinkDocument,
-  NoSQLBaseService,
+  MongoBaseService,
   QrCode,
   QrCodeDocument,
+  RedisService,
   User,
   UserDocument,
   Utils,
@@ -27,7 +28,7 @@ import * as _ from 'lodash';
 import { Workspace, WorkspaceDocument } from 'shtcut/core/models/workspace';
 
 @Injectable()
-export class LinkService extends NoSQLBaseService {
+export class LinkService extends MongoBaseService {
   constructor(
     @InjectModel(Link.name) protected model: Model<LinkDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
@@ -36,8 +37,17 @@ export class LinkService extends NoSQLBaseService {
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
     @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
+    protected redisService: RedisService,
   ) {
     super(model);
+    this.routes = {
+      create: true,
+      find: false,
+      findOne: true,
+      update: true,
+      patch: true,
+      remove: true,
+    };
   }
 
   public async validateCreate(obj: CreateLinkDto) {

@@ -7,7 +7,7 @@ import {
   Auth,
   AuthDocument,
   ChangePasswordDto,
-  NoSQLBaseService,
+  MongoBaseService,
   PasswordResetDto,
   ResetCodeDto,
   ResponseOption,
@@ -27,7 +27,7 @@ import * as _ from 'lodash';
 import lang from 'apps/sht-app/lang';
 
 @Injectable()
-export class AuthService extends NoSQLBaseService {
+export class AuthService extends MongoBaseService {
   constructor(
     @InjectModel(Auth.name) protected model: Model<AuthDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,

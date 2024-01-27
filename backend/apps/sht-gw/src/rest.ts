@@ -11,6 +11,8 @@ export const AppEndpoints = [
   { path: '/user', method: RequestMethod.ALL },
   { path: '/user', method: RequestMethod.ALL },
   { path: '/users/*', method: RequestMethod.ALL },
+  { path: '/workspaces*', method: RequestMethod.ALL },
+  { path: '/domains*', method: RequestMethod.ALL },
   { path: '/links*', method: RequestMethod.ALL },
 ];
 

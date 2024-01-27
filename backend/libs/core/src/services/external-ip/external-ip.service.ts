@@ -1,4 +1,4 @@
-import { HttpService } from '../http-service/http.service';
+import { HttpService } from '../http/http.service';
 
 export class ExternalIpService {
   private static url = 'https://api.ipify.org?format=json';

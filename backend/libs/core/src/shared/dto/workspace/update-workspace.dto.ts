@@ -1,14 +1,10 @@
 import { IsNotEmpty, IsString } from '@nestjs/class-validator';
-import { IsMongoId, IsOptional } from 'class-validator';
+import { IsOptional } from 'class-validator';
 
-export class CreateWorkspaceDto {
+export class UpdateWorkspaceDto {
   @IsString()
   @IsNotEmpty()
   public readonly name: string;
-
-  @IsMongoId()
-  @IsNotEmpty()
-  public readonly plan: string;
 
   @IsString()
   @IsOptional()

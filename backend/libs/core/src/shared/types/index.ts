@@ -4,6 +4,14 @@ export type Dict<T = any> = Record<string, T>;
 export type Nullable<T> = T | null;
 export type HttpErrorHandle<T> = (error: unknown) => T;
 
+export type CacheKeyArgument = string | Buffer;
+export type CacheValueArgument = string | Buffer;
+
+export type CacheKeyValue = {
+  key: CacheKeyArgument;
+  value: CacheValueArgument | CacheKeyArgument[];
+};
+
 export type Country = {
   name: string;
   code: string;

@@ -41,9 +41,17 @@ export class Domain {
 
   @Prop({
     type: String,
+    lowercase: true,
     default: 'shtcut.link',
   })
   name: string;
+
+  @Prop({
+    type: String,
+    lowercase: true,
+    default: 'shtcut.link',
+  })
+  slug: string;
 
   @Prop({
     type: String,
@@ -54,6 +62,11 @@ export class Domain {
   @Prop(
     raw({
       code: String,
+      dnsType: {
+        type: String,
+        enum: ['TXT', 'CNAME', 'A'],
+        default: 'TXT',
+      },
       verified: {
         type: Boolean,
         default: false,
@@ -62,6 +75,7 @@ export class Domain {
   )
   verification: {
     code: string;
+    dnsType: string;
     verified: boolean;
   };
 
@@ -111,10 +125,11 @@ DomainSchema.virtual('id').get(function () {
 DomainSchema.statics.config = () => {
   return {
     idToken: 'dmn',
+    slugify: 'name',
     uniques: ['workspace', 'name'],
-    fillables: ['workspace', 'links', 'name', 'description', 'type', 'isDefault', 'active', 'banned', 'landingPage'],
-    updateFillables: ['links', 'name', 'description', 'type', 'isDefault', 'active', 'banned'],
-    hiddenFields: ['deleted', 'verification'],
+    fillables: ['workspace', 'links', 'slug', 'name', 'description', 'type', 'active', 'banned', 'landingPage'],
+    updateFillables: ['links', 'name', 'slug', 'description', 'type', 'active', 'banned'],
+    hiddenFields: ['deleted'],
   };
 };
 

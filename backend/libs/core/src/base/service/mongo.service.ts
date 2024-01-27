@@ -1,15 +1,18 @@
 import * as _ from 'lodash';
 import { ClientSession } from 'mongoose';
-import { AppException, BaseAbstract, Pagination, QueryParser, Utils } from 'shtcut/core';
+import { AppException, BaseAbstract, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
 
-export class NoSQLBaseService extends BaseAbstract {
+export class MongoBaseService extends BaseAbstract {
   /**
    * The constructor function initializes the model and sets the entity's configuration based on the
    * provided model.
    * @param model - The `model` parameter is an object that represents a collection in a database. It
    * contains information about the collection, such as its name and configuration.
    */
-  constructor(protected model) {
+  constructor(
+    protected model,
+    protected cacheService?: RedisService,
+  ) {
     super();
     this.modelName = model.collection.collectionName;
     this.entity = model;
@@ -134,7 +137,11 @@ export class NoSQLBaseService extends BaseAbstract {
     } else {
       condition['publicId'] = id;
     }
+    // let object = this.cacheService?.get(String(id));
+    // if (!object) {
     const object = await this.model.findOne(condition).populate(query?.population ?? []);
+    // this.cacheService?.set(String(id), JSON.stringify(object), { EX: 60 });
+    // }
     if (!object) {
       throw AppException.NOT_FOUND(`${this.modelName} does not exist`);
     }
