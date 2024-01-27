@@ -4,3 +4,4 @@ export * from './response-options';
 export * from './pagination-option';
 export * from './mobile-option';
 export * from './file-type.option';
+export * from './redis-module-option';
