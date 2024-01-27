@@ -114,7 +114,7 @@ WorkspaceSchema.statics.config = () => {
   return {
     idToken: 'wrk',
     slugify: 'name',
-    uniques: ['slug', 'name'],
+    uniques: ['name', 'user'],
     fillables: ['user', 'name', 'slug', 'plan', 'links', 'type', 'domains', 'isDefault'],
     hiddenFields: ['deleted'],
   };
