@@ -25,7 +25,7 @@ export interface RedisModuleAsyncOptions extends Pick<ModuleMetadata, 'imports'>
   /**
    * Factory function that returns an instance of the provider to be injected
    */
-  useFactory?: (...args: any[]) => Promise<RedisModuleOptions> | RedisModuleAsyncOptions;
+  useFactory?: (...args: any[]) => Promise<RedisModuleOptions> | RedisModuleOptions;
 
   /**
    * Optional list of providers to be injected into the context of the factory function

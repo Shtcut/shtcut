@@ -17,5 +17,7 @@ export default {
 
   redis: {
     notConnected: 'Redis disconnected',
+    invalidExpire:
+      'Invalid ttl format, if you use strings, make sure to provide time units(minutes, hours, days, etc.) for example: "30m", 8h", "7d"',
   },
 };
