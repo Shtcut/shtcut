@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { NoSQLBaseService, User, UserDocument } from 'shtcut/core';
+import { MongoBaseService, User, UserDocument } from 'shtcut/core';
 
 @Injectable()
-export class UserService extends NoSQLBaseService {
+export class UserService extends MongoBaseService {
   constructor(@InjectModel(User.name) protected model: Model<UserDocument>) {
     super(model);
     this.routes = {

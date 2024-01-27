@@ -5,78 +5,43 @@ import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
 import {
   AppException,
-  CreateLinkDto,
+  CreateDomainDto,
   Domain,
   DomainDocument,
-  Hit,
-  HitDocument,
-  IpAddressInfo,
-  Link,
-  LinkDocument,
-  NoSQLBaseService,
-  QrCode,
-  QrCodeDocument,
-  User,
-  UserDocument,
+  MongoBaseService,
   Utils,
   VerifyDomainDto,
+  Workspace,
+  WorkspaceDocument,
 } from 'shtcut/core';
-
-import * as bcrypt from 'bcrypt';
-import { HitService } from '../../hit';
 import * as _ from 'lodash';
-import { Workspace, WorkspaceDocument } from 'shtcut/core/models/workspace';
-
+// import { getDnsRecords } from '@layered/dns-records';
 @Injectable()
-export class DomainService extends NoSQLBaseService {
+export class DomainService extends MongoBaseService {
   constructor(
-    @InjectModel(Link.name) protected model: Model<LinkDocument>,
-    @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    @InjectModel(Domain.name) protected model: Model<DomainDocument>,
     @InjectModel(Workspace.name) protected workspaceModel: Model<WorkspaceDocument>,
-    @InjectModel(Domain.name) protected domainModel: Model<DomainDocument>,
-    @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
-    @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
-    protected hitService: HitService,
   ) {
     super(model);
   }
 
-  public async validateCreate(obj: CreateLinkDto) {
+  public async validateCreate(obj: CreateDomainDto) {
     try {
-      const { alias, user: owner, expiryDate, workspace, domain } = obj;
-      const link = await this.model.findOne({ alias });
-
-      if (alias) {
-        if (link) {
-          throw AppException.CONFLICT(lang.get('link').duplicate);
+      const { workspace, name } = obj;
+      const slug = Utils.slugifyText(name);
+      const domain = await this.model.findOne({ slug });
+      if (domain) {
+        const { verification } = domain;
+        if (verification.verified) {
+          throw AppException.NOT_FOUND(lang.get('domain').verified);
         }
+        throw AppException.CONFLICT(lang.get('domain').duplicate);
       }
-
-      if (owner) {
-        const user = await this.userModel.findOne({ _id: owner, deleted: false, active: true });
-        if (!user) {
-          throw AppException.NOT_FOUND(lang.get('user').notFound);
-        }
-      }
-
-      if (workspace) {
-        const foundWorkspace = await this.workspaceModel.find({
-          user: owner,
-          domains: { $in: domain },
-        });
-        if (!foundWorkspace) {
-          throw AppException.NOT_FOUND(lang.get('workspace').invalidDomain);
-        }
-      }
-
-      if (expiryDate) {
-        const date = new Date(expiryDate);
-        if (_.isNaN(date.getTime())) {
-          throw AppException.BAD_REQUEST(lang.get('link').invalidExpiryDate);
-        }
-        if (new Date(expiryDate) < new Date()) {
-          throw AppException.BAD_REQUEST(lang.get('link').invalidateExpiryFutureDate);
-        }
+      const foundWorkspace = await this.workspaceModel.findOne({
+        _id: workspace,
+      });
+      if (!foundWorkspace) {
+        throw AppException.NOT_FOUND(lang.get('workspace').notFound);
       }
       return null;
     } catch (e) {
@@ -84,49 +49,72 @@ export class DomainService extends NoSQLBaseService {
     }
   }
 
-  public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
+  public async createNewObject(payload: CreateDomainDto, session?: ClientSession) {
     try {
-      const { password, user } = obj;
-      if (password) {
-        obj.password = await bcrypt.hash(obj.password, 10);
+      session = await this.model.startSession();
+      session.startTransaction();
+
+      const code = Utils.generateCode(20, true);
+      const domain = await super.createNewObject({ ...payload }, session);
+
+      if (domain) {
+        domain.verification = {
+          code,
+          verified: false,
+          dnsType: 'TXT',
+        };
       }
-      const alias = Utils.generateCode(7, true);
-      const domain = await this.domainModel.findOne({ name: obj.domain });
+
+      const workspace = await this.workspaceModel.findById(payload.workspace);
+      workspace.domains.push(domain._id);
+
+      await Promise.all([await domain.save({ session }), await workspace.save({ session })]);
+
+      await session.commitTransaction();
+      return domain;
+    } catch (e) {
+      await session?.abortTransaction();
+      throw e;
+    } finally {
+      await session?.endSession();
+    }
+  }
+
+  public async verifyDomain(id: string) {
+    try {
+      const domain = await this.model.findById(id);
       if (!domain) {
         throw AppException.NOT_FOUND(lang.get('domain').notFound);
       }
-      const { verification } = domain;
-      if (!verification.verified) {
-        throw AppException.NOT_FOUND(lang.get('domain').notVerified);
+      const verify = await this.canVerifyDomain(domain);
+      if (verify instanceof AppException) {
+        throw verify;
       }
-      const payload = {
-        ...obj,
-        alias,
-        enableTracking: !!user,
-        isPrivate: !!password,
-        domain: domain._id,
-      };
-      const link = await super.createNewObject(payload);
-      const qrCode = await new this.qrCodeModel({
-        ...obj.qrCode,
-        ...obj,
-        user,
-        link: link._id,
-        workspace: domain.workspace,
-        domain: domain._id,
-      }).save();
-      link.qrCode = qrCode._id;
-      return await link.save();
+      return verify;
     } catch (e) {
       throw e;
     }
   }
 
-  public async verifyDomain(payload: VerifyDomainDto) {
+  private async canVerifyDomain(domain) {
     try {
-      return null;
+      const { getDnsRecords } = await import('@layered/dns-records');
+      const txtRecords = await getDnsRecords(domain.name, 'TXT');
+      console.log(`TXT records for ${domain.name}`);
+      console.log(txtRecords);
+      const txtSpfRecord = txtRecords.find((r) => r.data.includes('shtcut-verification-site'));
+      if (txtRecords) {
+        domain.verification = {
+          code: null,
+          verified: true,
+          dnsType: 'TXT',
+        };
+        await domain.save();
+      }
+      return txtSpfRecord;
     } catch (e) {
-      throw e;
+      console.log('err::', e);
+      return AppException.INTERNAL_SERVER(lang.get('error').internalServer);
     }
   }
 }

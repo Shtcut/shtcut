@@ -14,4 +14,8 @@ export default {
     forbidden: 'User is not authorized to perform operation',
     requestIpModule: 'First, you need to register the RequestIpModule module in the root module.',
   },
+
+  redis: {
+    notConnected: 'Redis disconnected',
+  },
 };

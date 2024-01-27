@@ -52,6 +52,13 @@ export class Workspace {
   slug: string;
 
   @Prop({
+    type: String,
+    enum: ['personal', 'team'],
+    default: 'personal',
+  })
+  type: string;
+
+  @Prop({
     type: [
       {
         type: Types.ObjectId,
@@ -59,7 +66,7 @@ export class Workspace {
       },
     ],
   })
-  domains: any;
+  domains: any[];
 
   @Prop({
     type: [
@@ -70,16 +77,6 @@ export class Workspace {
     ],
   })
   links: any;
-
-  @Prop({
-    type: [
-      {
-        type: Types.ObjectId,
-        ref: 'Tag',
-      },
-    ],
-  })
-  tags: any;
 
   @Prop({
     type: Types.ObjectId,
@@ -116,8 +113,9 @@ WorkspaceSchema.virtual('id').get(function () {
 WorkspaceSchema.statics.config = () => {
   return {
     idToken: 'wrk',
+    slugify: 'name',
     uniques: ['slug', 'name'],
-    fillables: ['user', 'name', 'plan', 'links', 'domains', 'isDefault'],
+    fillables: ['user', 'name', 'slug', 'plan', 'links', 'type', 'domains', 'isDefault'],
     hiddenFields: ['deleted'],
   };
 };

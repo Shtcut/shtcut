@@ -3,10 +3,10 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
-import { FileUploadEnum, FileUploadService, Media, NoSQLBaseService, Utils } from 'shtcut/core';
+import { FileUploadEnum, FileUploadService, Media, MongoBaseService, Utils } from 'shtcut/core';
 
 @Injectable()
-export class MediaService extends NoSQLBaseService {
+export class MediaService extends MongoBaseService {
   constructor(
     @InjectModel(Media.name) protected model: Model<Media>,
     private fileService: FileUploadService,

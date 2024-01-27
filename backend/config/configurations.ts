@@ -22,7 +22,7 @@ export const configuration = () => ({
     rabbitMQ: process.env.RABBIT_MQ_URL || 'amp://localhost:5672',
     redis: {
       url: process.env.REDIS_URL,
-      host: process.env.REDIS_SERVER_HOST_URL,
+      host: process.env.REDIS_HOST,
       port: Number(process.env.REDIS_PORT),
       password: process.env.REDIS_PASSWORD,
     },

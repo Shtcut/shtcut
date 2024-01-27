@@ -3,7 +3,7 @@ import { BaseController } from './base.controller';
 import { Dict, JwtAuthGuard, OK } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 
-export class AppController extends BaseController {
+export abstract class AppController extends BaseController {
   @UseGuards(JwtAuthGuard)
   @Post('/')
   @HttpCode(OK)

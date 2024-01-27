@@ -34,4 +34,4 @@ import { HitModule } from '../hit';
   providers: [DomainService],
   exports: [DomainService],
 })
-export class LinkModule {}
+export class DomainModule {}

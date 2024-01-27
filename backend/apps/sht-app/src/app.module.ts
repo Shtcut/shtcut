@@ -9,12 +9,16 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth';
 import { UserModule } from './user';
 import { LinkModule } from './link';
+import { WorkspaceModule } from './workspace';
+import { DomainModule } from './domain';
 
 @Module({
   imports: [
     CoreModule,
     TerminusModule,
     AuthModule,
+    WorkspaceModule,
+    DomainModule,
     UserModule,
     LinkModule,
     MongooseModule.forFeature([{ name: App.name, schema: AppSchema }]),

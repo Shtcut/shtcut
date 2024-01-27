@@ -35,6 +35,7 @@ export default {
   },
 
   workspace: {
+    notFound: 'This workspace is not found',
     invalidDomain: 'The workspace does not have ownership of this domain.',
   },
 

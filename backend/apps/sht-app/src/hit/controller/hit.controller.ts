@@ -1,8 +1,9 @@
-import { Controller } from '@nestjs/common';
-import { AppController } from 'shtcut/core';
+import { Controller, UseGuards } from '@nestjs/common';
+import { AppController, JwtAuthGuard } from 'shtcut/core';
 import { HitService } from '../service/hit.service';
 import { ConfigService } from '@nestjs/config';
 
+@UseGuards(JwtAuthGuard)
 @Controller('hits')
 export class HitController extends AppController {
   constructor(

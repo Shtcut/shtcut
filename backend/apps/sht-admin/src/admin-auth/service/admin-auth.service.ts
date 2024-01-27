@@ -2,14 +2,14 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminAuth, AdminAuthDocument, AppException, NoSQLBaseService, Utils } from 'shtcut/core';
+import { AdminAuth, AdminAuthDocument, AppException, MongoBaseService, Utils } from 'shtcut/core';
 import { Model, ClientSession } from 'mongoose';
 import lang from '../../../lang';
 import * as bcrypt from 'bcryptjs';
 import * as _ from 'lodash';
 
 @Injectable()
-export class AdminAuthService extends NoSQLBaseService {
+export class AdminAuthService extends MongoBaseService {
   constructor(
     @InjectModel(AdminAuth.name) protected model: Model<AdminAuthDocument>,
     private jwtService: JwtService,

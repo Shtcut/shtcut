@@ -8,7 +8,7 @@ import {
   CREATED,
   JwtAuthGuard,
   METHOD_NOT_ALLOWED,
-  NoSQLBaseService,
+  MongoBaseService,
   OK,
   Pagination,
   QueryParser,
@@ -30,7 +30,7 @@ export abstract class BaseController {
 
   constructor(
     protected config: ConfigService,
-    protected service: NoSQLBaseService,
+    protected service: MongoBaseService,
     protected key?: string,
   ) {}
 
