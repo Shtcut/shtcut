@@ -15,7 +15,6 @@ import {
   User,
   UserSchema,
   WorkspaceSchema,
-  RedisModule,
   RedisService,
 } from 'shtcut/core';
 import { HitModule } from '../hit';
@@ -23,7 +22,6 @@ import { HitModule } from '../hit';
 @Module({
   imports: [
     HitModule,
-    RedisModule,
     MongooseModule.forFeature([
       { name: Link.name, schema: LinkSchema },
       { name: Domain.name, schema: DomainSchema },
@@ -34,7 +32,7 @@ import { HitModule } from '../hit';
     ]),
   ],
   controllers: [LinkController],
-  providers: [LinkService, RedisService],
+  providers: [LinkService],
   exports: [LinkService],
 })
 export class LinkModule {}
