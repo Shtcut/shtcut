@@ -20,12 +20,13 @@ import {
   User,
   UserDocument,
   Utils,
+  Workspace,
+  WorkspaceDocument,
 } from 'shtcut/core';
 
 import * as bcrypt from 'bcrypt';
 import { HitService } from '../../hit';
 import * as _ from 'lodash';
-import { Workspace, WorkspaceDocument } from 'shtcut/core/models/workspace';
 
 @Injectable()
 export class LinkService extends MongoBaseService {
@@ -37,8 +38,9 @@ export class LinkService extends MongoBaseService {
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
     @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
+    protected redisService: RedisService,
   ) {
-    super(model);
+    super(model, redisService);
     this.routes = {
       create: true,
       find: false,
@@ -54,12 +56,12 @@ export class LinkService extends MongoBaseService {
       const { alias, user: owner, expiryDate, workspace, domain } = obj;
       const link = await this.model.findOne({ alias });
 
-      if (alias) {
-        if (link) {
-          throw AppException.CONFLICT(lang.get('link').duplicate);
-        }
+      // Check for duplicate alias
+      if (alias && link) {
+        throw AppException.CONFLICT(lang.get('link').duplicate);
       }
 
+      // Check if the owner user exists
       if (owner) {
         const user = await this.userModel.findOne({ _id: owner, deleted: false, active: true });
         if (!user) {
@@ -67,16 +69,19 @@ export class LinkService extends MongoBaseService {
         }
       }
 
+      // Check if the workspace and domain are valid
       if (workspace) {
         const foundWorkspace = await this.workspaceModel.find({
           user: owner,
           domains: { $in: domain },
         });
+
         if (!foundWorkspace) {
           throw AppException.NOT_FOUND(lang.get('workspace').invalidDomain);
         }
       }
 
+      // Check if the expiry date is valid
       if (expiryDate) {
         const date = new Date(expiryDate);
         if (_.isNaN(date.getTime())) {
@@ -95,25 +100,36 @@ export class LinkService extends MongoBaseService {
   public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
     try {
       const { password, user } = obj;
+
+      // Hash password if present
       if (password) {
         obj.password = await bcrypt.hash(obj.password, 10);
       }
+
+      // Generate alias and find associated domain
       const alias = Utils.generateCode(7, true);
       const domain = await this.domainModel.findOne({ name: obj.domain });
       if (!domain) {
         throw AppException.NOT_FOUND(lang.get('domain').notFound);
       }
+
+      // Check if the domain is verified
       const { verification } = domain;
       if (!verification.verified) {
         throw AppException.NOT_FOUND(lang.get('domain').notVerified);
       }
+
+      // Create payload with additional properties and create link
       const payload = {
         ...obj,
         alias,
         enableTracking: !!user,
         isPrivate: !!password,
         domain: domain._id,
+        workspace: domain.workspace,
       };
+
+      // Create and save associated QR code
       const link = await super.createNewObject(payload);
       const qrCode = await new this.qrCodeModel({
         ...obj.qrCode,
@@ -123,7 +139,10 @@ export class LinkService extends MongoBaseService {
         workspace: domain.workspace,
         domain: domain._id,
       }).save();
+
+      // Associate QR code with link and save link
       link.qrCode = qrCode._id;
+
       return await link.save();
     } catch (e) {
       throw e;
@@ -140,10 +159,13 @@ export class LinkService extends MongoBaseService {
     ipAddressInfo: IpAddressInfo;
   }) {
     try {
+      // Find link by alias and domain
       const link = await this.model.findOne({ alias, domain: { $in: [userDomain] } }).populate(['domain']);
       if (!link) {
         return null;
       }
+
+      // If tracking is enabled, update hit information
       if (link.enableTracking) {
         const payload = {
           user: link.user,
@@ -151,6 +173,8 @@ export class LinkService extends MongoBaseService {
           domain: link.domain._id,
           ...ipAddressInfo,
         };
+
+        // Update or create hit record
         await this.hitModel.findOneAndUpdate(
           { link: link._id, domain: payload.domain },
           {
@@ -163,6 +187,8 @@ export class LinkService extends MongoBaseService {
           },
         );
       }
+
+      // Increment click count and save link
       link.clicks += 1;
       return await link.save();
     } catch (e) {

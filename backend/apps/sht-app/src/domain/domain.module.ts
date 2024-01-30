@@ -15,6 +15,7 @@ import {
   User,
   UserSchema,
   WorkspaceSchema,
+  RedisService,
 } from 'shtcut/core';
 import { HitModule } from '../hit';
 import { HttpModule } from '@nestjs/axios';
@@ -33,7 +34,7 @@ import { HttpModule } from '@nestjs/axios';
     ]),
   ],
   controllers: [DomainController],
-  providers: [DomainService],
+  providers: [DomainService, RedisService],
   exports: [DomainService],
 })
 export class DomainModule {}

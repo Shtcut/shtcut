@@ -2,7 +2,7 @@ import { Controller, Get, Req, Res, Ip } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { HealthCheck, HealthCheckService, HealthIndicatorResult } from '@nestjs/terminus';
 import { Request, Response } from 'express';
-import { GetClientInfo, OK } from 'shtcut/core';
+import { GetClientInfo, OK, RedisService } from 'shtcut/core';
 import { resolveTxt as resolveTxtSync } from 'dns';
 import { promisify } from 'util';
 

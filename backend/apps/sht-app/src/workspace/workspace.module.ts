@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { WorkspaceController } from './controller/workspace.controller';
 import { WorkspaceService } from './service/workspace.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Workspace, Domain, DomainSchema, WorkspaceSchema } from 'shtcut/core';
+import { Workspace, Domain, DomainSchema, WorkspaceSchema, RedisService } from 'shtcut/core';
 import { HitModule } from '../hit';
 
 @Module({
@@ -14,7 +14,7 @@ import { HitModule } from '../hit';
     ]),
   ],
   controllers: [WorkspaceController],
-  providers: [WorkspaceService],
+  providers: [WorkspaceService, RedisService],
   exports: [WorkspaceService],
 })
 export class WorkspaceModule {}

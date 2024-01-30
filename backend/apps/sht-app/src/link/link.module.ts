@@ -32,7 +32,7 @@ import { HitModule } from '../hit';
     ]),
   ],
   controllers: [LinkController],
-  providers: [LinkService],
+  providers: [LinkService, RedisService],
   exports: [LinkService],
 })
 export class LinkModule {}

@@ -8,7 +8,6 @@ import { AdminEndpoints, AppEndpoints, WorkerEndpoints } from './rest';
 import { GatewayController } from './gateway.controller';
 import { CoreModule, AppProxyMiddleware, WorkerProxyMiddleware, ApiMiddleware } from './_core';
 import { AdminProxyMiddleware } from './_core/proxy/admin.proxy';
-
 @Module({
   imports: [
     HttpModule,

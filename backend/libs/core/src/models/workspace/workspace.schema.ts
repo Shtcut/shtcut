@@ -69,16 +69,6 @@ export class Workspace {
   domains: any[];
 
   @Prop({
-    type: [
-      {
-        type: Types.ObjectId,
-        ref: 'Link',
-      },
-    ],
-  })
-  links: any;
-
-  @Prop({
     type: Types.ObjectId,
     ref: 'Plan',
   })
@@ -115,7 +105,8 @@ WorkspaceSchema.statics.config = () => {
     idToken: 'wrk',
     slugify: 'name',
     uniques: ['name', 'user'],
-    fillables: ['user', 'name', 'slug', 'plan', 'links', 'type', 'domains', 'isDefault'],
+    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault'],
+    updateFillables: ['user', 'name', 'slug', 'plan', 'isDefault'],
     hiddenFields: ['deleted'],
   };
 };
