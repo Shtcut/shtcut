@@ -135,6 +135,7 @@ export abstract class BaseController {
 
       return res.status(OK).json(response);
     } catch (e) {
+      console.log('err::', e);
       return next(e);
     }
   }
@@ -280,7 +281,7 @@ export abstract class BaseController {
         await this.service.postPatch({
           queryParser,
           code: OK,
-          value: { _id: object._id || object.publicId },
+          value: { _id: object['_id'] || object['publicId'] },
           message: this.lang.get(this.service.modelName).deleted,
         }),
       );

@@ -4,6 +4,10 @@ import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureStorageModule } from '@nestjs/azure-storage';
 import { RequestIpModule } from './request-ip.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+import { RedisClientOptions } from 'redis';
+import { RedisModule } from './worker';
 @Global()
 @Module({
   imports: [
@@ -16,6 +20,16 @@ import { RequestIpModule } from './request-ip.module';
           uri: config.get('app.mongodb.url'),
         };
       },
+      inject: [ConfigService],
+    }),
+    RedisModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (config: ConfigService) => ({
+        host: config.get('app.redis.host'),
+        port: config.get('app.redis.port'),
+        password: config.get('app.redis.password'),
+        db: 0,
+      }),
       inject: [ConfigService],
     }),
     AzureStorageModule.withConfigAsync({

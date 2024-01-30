@@ -1,13 +1,17 @@
 import * as _ from 'lodash';
 import { ClientSession } from 'mongoose';
-import { AppException, BaseAbstract, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
+import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
 
 export class MongoBaseService extends BaseAbstract {
   /**
-   * The constructor function initializes the model and sets the entity's configuration based on the
-   * provided model.
-   * @param model - The `model` parameter is an object that represents a collection in a database. It
-   * contains information about the collection, such as its name and configuration.
+   * The constructor initializes the model, cacheService, modelName, and entity properties, and sets
+   * the entity's config property based on certain conditions.
+   * @param model - The `model` parameter is the model object that represents a collection in a
+   * database. It is used to interact with the database and perform CRUD operations on the collection.
+   * @param {RedisService} [cacheService] - The `cacheService` parameter is an optional parameter of
+   * type `RedisService`. It is used to provide caching functionality to the constructor. If a
+   * `RedisService` instance is provided, it will be assigned to the `cacheService` property of the
+   * class. If no `RedisService` instance is
    */
   constructor(
     protected model,
@@ -137,15 +141,21 @@ export class MongoBaseService extends BaseAbstract {
     } else {
       condition['publicId'] = id;
     }
-    // let object = this.cacheService?.get(String(id));
-    // if (!object) {
-    const object = await this.model.findOne(condition).populate(query?.population ?? []);
-    // this.cacheService?.set(String(id), JSON.stringify(object), { EX: 60 });
-    // }
+
+    const cacheKey = `${this.modelName}-${id}`;
+    let object = await this.cacheService?.getAsObj<Dict>(cacheKey);
+
+    if (_.isUndefined(object)) {
+      object = await this.model.findOne(condition).populate(query?.population ?? []);
+      if (object) {
+        await this.cacheService?.set(cacheKey, object, '1m');
+      }
+    }
+
     if (!object) {
       throw AppException.NOT_FOUND(`${this.modelName} does not exist`);
     }
-    return object;
+    return object as Dict;
   }
 
   /**
@@ -234,8 +244,19 @@ export class MongoBaseService extends BaseAbstract {
     query = query.sort(
       queryParser && queryParser.sort ? Object.assign(queryParser.sort, { createdAt: -1 }) : '-createdAt',
     );
+
+    const cacheKey = `${this.modelName}-${pagination.skip}-${pagination.perPage}`;
+    let object = await this.cacheService?.getAsObj<Dict[]>(cacheKey);
+
+    if (_.isUndefined(object)) {
+      object = await query.select(queryParser.selection).exec();
+      if (object) {
+        await this.cacheService?.set(cacheKey, object, '1m');
+      }
+    }
+
     return {
-      value: await query.select(queryParser.selection).exec(),
+      value: object,
       count: await this.model.countDocuments(queryParser.query).exec(),
     };
   }
@@ -309,20 +330,27 @@ export class MongoBaseService extends BaseAbstract {
    */
   public async retrieveExistingResource(obj) {
     const query: Record<string, any> = {};
-    if (this.entity.config.uniques) {
-      const uniqueKeys = this.entity.config.uniques;
+    const uniqueKeys = this.entity.config.uniques;
+
+    if (uniqueKeys && uniqueKeys.length > 0) {
       for (const key of uniqueKeys) {
         query[key] = obj[key];
       }
     }
+    const cacheKey = `${this.modelName}-${uniqueKeys[0]}`;
+    let found = await this.cacheService?.getAsObj<Dict>(cacheKey);
+    if (_.isUndefined(found)) {
+      found = !_.isEmpty(query)
+        ? await this.model.findOne({
+            ...query,
+            deleted: false,
+          })
+        : false;
 
-    const found = !_.isEmpty(query)
-      ? await this.model.findOne({
-          ...query,
-          deleted: false,
-        })
-      : false;
-
+      if (found) {
+        await this.cacheService?.set(cacheKey, found, '1m');
+      }
+    }
     return found ? found : null;
   }
 
@@ -379,6 +407,14 @@ export class MongoBaseService extends BaseAbstract {
    * where the `deleted` field is set to `false`.
    */
   public async findByUniqueKey(key, params = {}) {
-    return this.model.distinct(key, { ...params, deleted: false });
+    const cacheKey = `${this.modelName}-${key}`;
+    let found = await this.cacheService?.getAsObj<Dict>(cacheKey);
+    if (_.isUndefined(found)) {
+      found = this.model.distinct(key, { ...params, deleted: false });
+      if (found) {
+        await this.cacheService?.set(cacheKey, found);
+      }
+    }
+    return found;
   }
 }

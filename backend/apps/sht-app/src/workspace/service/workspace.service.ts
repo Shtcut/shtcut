@@ -2,13 +2,24 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import lang from 'apps/sht-app/lang';
 import { Model } from 'mongoose';
-import { AppException, CreateWorkspaceDto, MongoBaseService, Utils, Workspace, WorkspaceDocument } from 'shtcut/core';
+import {
+  AppException,
+  CreateWorkspaceDto,
+  MongoBaseService,
+  RedisService,
+  Utils,
+  Workspace,
+  WorkspaceDocument,
+} from 'shtcut/core';
 import * as _ from 'lodash';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
-  constructor(@InjectModel(Workspace.name) protected model: Model<WorkspaceDocument>) {
-    super(model);
+  constructor(
+    @InjectModel(Workspace.name) protected model: Model<WorkspaceDocument>,
+    protected redisService: RedisService,
+  ) {
+    super(model, redisService);
   }
 
   /**
