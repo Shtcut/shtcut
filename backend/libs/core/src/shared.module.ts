@@ -1,7 +1,7 @@
 import { Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { BullModule } from '@nestjs/bullmq';
-import { Queues, RedisModule } from 'shtcut/core';
+import { Queues } from 'shtcut/core';
 
 const queues = [
   BullModule.forRootAsync({
@@ -25,16 +25,16 @@ const queues = [
   BullModule.registerQueue({
     name: Queues.SHTCUT_TASK,
   }),
-  RedisModule.forRootAsync({
-    imports: [ConfigModule],
-    useFactory: (config: ConfigService) => ({
-      host: config.get('app.redis.host'),
-      port: config.get('app.redis.port'),
-      password: config.get('app.redis.password'),
-      db: 0,
-    }),
-    inject: [ConfigService],
-  }),
+  // RedisModule.forRootAsync({
+  //   imports: [ConfigModule],
+  //   useFactory: (config: ConfigService) => ({
+  //     host: config.get('app.redis.host'),
+  //     port: config.get('app.redis.port'),
+  //     password: config.get('app.redis.password'),
+  //     db: 0,
+  //   }),
+  //   inject: [ConfigService],
+  // }),
 ];
 
 @Module({

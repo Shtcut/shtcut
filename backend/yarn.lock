@@ -1122,10 +1122,10 @@
     "@jridgewell/resolve-uri" "^3.1.0"
     "@jridgewell/sourcemap-codec" "^1.4.14"
 
-"@layered/dns-records@^2.0.0-beta.5":
-  version "2.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@layered/dns-records/-/dns-records-2.0.0-beta.5.tgz#571706eed911ce7672ffb4646152924dcbea043b"
-  integrity sha512-csIu2WkPiI4AGgsF1S34Ro/o2kYjOP5U/xjnrauj3NhthtScZyETOXdziP1aSe/uf1zDRXDFlsIGZghaT8oCCg==
+"@layered/dns-records@^1.5.0":
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/@layered/dns-records/-/dns-records-1.5.0.tgz#48f1c392fa213bb766a707dcab6df365a89cec56"
+  integrity sha512-Y6MVMzWpO4R2ZxdXwH59hLcIhxk83SKJFIm7Nad4jqBjR7HyEB0AmKl5RszrhsnapVX8L7JXxOEqNmcEdTRhPA==
   dependencies:
     punycode "^2.1.1"
 

@@ -46,5 +46,6 @@ export default {
   domain: {
     notFound: 'The domain could not be found.',
     notVerified: 'Verification of the domain is still pending.',
+    verificationInprogress: 'Domain verification is currently inprogress',
   },
 };

@@ -37,7 +37,6 @@ export class LinkService extends MongoBaseService {
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
     @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
-    protected redisService: RedisService,
   ) {
     super(model);
     this.routes = {

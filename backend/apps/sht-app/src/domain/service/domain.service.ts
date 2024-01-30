@@ -15,7 +15,6 @@ import {
   WorkspaceDocument,
 } from 'shtcut/core';
 import * as _ from 'lodash';
-// import { getDnsRecords } from '@layered/dns-records';
 @Injectable()
 export class DomainService extends MongoBaseService {
   constructor(
@@ -54,7 +53,7 @@ export class DomainService extends MongoBaseService {
       session = await this.model.startSession();
       session.startTransaction();
 
-      const code = Utils.generateCode(20, true);
+      const code = Utils.generateUniqueId('shtcut-verification-site');
       const domain = await super.createNewObject({ ...payload }, session);
 
       if (domain) {
@@ -98,23 +97,27 @@ export class DomainService extends MongoBaseService {
 
   private async canVerifyDomain(domain) {
     try {
-      const { getDnsRecords } = await import('@layered/dns-records');
+      const { getDnsRecords } = require('@layered/dns-records');
       const txtRecords = await getDnsRecords(domain.name, 'TXT');
-      console.log(`TXT records for ${domain.name}`);
-      console.log(txtRecords);
-      const txtSpfRecord = txtRecords.find((r) => r.data.includes('shtcut-verification-site'));
-      if (txtRecords) {
-        domain.verification = {
-          code: null,
-          verified: true,
-          dnsType: 'TXT',
-        };
-        await domain.save();
+      const txtSpfRecord = txtRecords.find((r) => r.value.includes('shtcut-verification-site'));
+      if (txtRecords && txtRecords.value) {
+        const { value } = txtRecords;
+        const code = value.split('-')[3];
+        if (code && String(code).trim() === String(domain.code).trim()) {
+          domain.verification = {
+            code: null,
+            verified: true,
+            dnsType: 'TXT',
+          };
+          await domain.save();
+        }
       }
-      return txtSpfRecord;
+      return {
+        record: txtRecords,
+        domain,
+      };
     } catch (e) {
-      console.log('err::', e);
-      return AppException.INTERNAL_SERVER(lang.get('error').internalServer);
+      return AppException.INTERNAL_SERVER(lang.get('domain').verificationInprogress);
     }
   }
 }

@@ -17,9 +17,11 @@ import {
   WorkspaceSchema,
 } from 'shtcut/core';
 import { HitModule } from '../hit';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule,
     HitModule,
     MongooseModule.forFeature([
       { name: Link.name, schema: LinkSchema },
