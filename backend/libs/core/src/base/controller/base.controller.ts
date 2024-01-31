@@ -122,7 +122,7 @@ export abstract class BaseController {
         return next(appError);
       }
 
-      const { value, count } = await this.service.buildModelQueryObject(pagination, queryParser);
+      const { value, count } = await this.service.buildModelQueryObject(pagination, queryParser, req);
 
       const response = await this.service.getResponse(
         await this.service.postFind({

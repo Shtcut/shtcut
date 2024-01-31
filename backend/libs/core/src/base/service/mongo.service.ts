@@ -1,4 +1,5 @@
 import { Logger } from '@nestjs/common';
+import { Request } from 'express';
 import * as _ from 'lodash';
 import mongoose, { ClientSession } from 'mongoose';
 import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
@@ -169,7 +170,7 @@ export class MongoBaseService extends BaseAbstract {
    */
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>) {
     const condition = this.buildFindObjectCondition(id);
-    const cacheKey = `${this.modelName}-${id}`;
+    const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 
     if (_.isUndefined(object)) {
@@ -253,9 +254,10 @@ export class MongoBaseService extends BaseAbstract {
    * @returns the deleted object.
    */
   public async deleteObject(id) {
-    const cacheKey = `${this.modelName}-${id}`;
     const condition = { _id: id };
     let object = await this.model.findOne(condition);
+    const cacheKey = this.getCacheKey(object);
+
     if (this.entity.config.softDelete) {
       _.extend(object, { deleted: true });
       object = await this.saveDataToDatabase(object);
@@ -279,7 +281,7 @@ export class MongoBaseService extends BaseAbstract {
    * `count`. The `value` property contains the result of the query execution, while the `count`
    * property contains the count of documents that match the query.
    */
-  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser) {
+  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
     this.applyDateFilters(queryParser);
     this.applyConditionalFilters(queryParser);
     this.convertObjectIds(queryParser);
@@ -297,7 +299,7 @@ export class MongoBaseService extends BaseAbstract {
 
     query = this.applySort(query, queryParser);
 
-    const cacheKey = `${this.modelName}:${pagination.skip}-${pagination.perPage}`;
+    const cacheKey = `${this.modelName}:${req?.originalUrl}`;
     let value = await this.getCacheObject(cacheKey, true);
 
     if (_.isUndefined(value)) {
@@ -315,6 +317,10 @@ export class MongoBaseService extends BaseAbstract {
     this.cacheObjectIfFound(object, cacheKey);
 
     return object;
+  }
+
+  private getCacheKey(object) {
+    return `${this.modelName}:${_.isString(object) ? object : object?._id}`;
   }
 
   private convertObjectIds(queryParser: QueryParser) {
@@ -478,7 +484,7 @@ export class MongoBaseService extends BaseAbstract {
         query[key] = obj[key];
       }
     }
-    const cacheKey = `${this.modelName}-${uniqueKeys[0]}`;
+    const cacheKey = this.getCacheKey(uniqueKeys[0]);
     let object = await this.getCacheObject(cacheKey);
     if (_.isUndefined(object)) {
       object = !_.isEmpty(query)
@@ -546,7 +552,7 @@ export class MongoBaseService extends BaseAbstract {
    * where the `deleted` field is set to `false`.
    */
   public async findByUniqueKey(key, params = {}) {
-    const cacheKey = `${this.modelName}-${key}`;
+    const cacheKey = this.getCacheKey(key);
     let object = await this.getCacheObject(cacheKey);
     if (_.isUndefined(object)) {
       object = this.model.distinct(key, { ...params, deleted: false });
