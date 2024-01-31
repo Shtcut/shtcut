@@ -14,6 +14,7 @@ import {
   QueryParser,
 } from 'shtcut/core';
 import * as _ from 'lodash';
+import lang from 'shtcut/core/lang';
 
 @ApiTags('Common API')
 export abstract class BaseController {
@@ -67,7 +68,7 @@ export abstract class BaseController {
       const queryParser = new QueryParser(Object.assign({}, req.query));
 
       if (!this.service.routes.create) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Create is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').createNotAllow);
         return next(appError);
       }
 
@@ -84,7 +85,7 @@ export abstract class BaseController {
                 }))
               : null;
 
-          const appError = new AppException(CONFLICT, 'Duplicate record is not allowed', messageObj);
+          const appError = new AppException(CONFLICT, lang.get('app').duplicate, messageObj);
           return next(appError);
         }
       } else {
@@ -117,7 +118,7 @@ export abstract class BaseController {
       const pagination = new Pagination(req.originalUrl, this.service.baseUrl, this.service.itemsPerPage);
 
       if (!this.service.routes.find) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Find is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').findNotAllow);
         return next(appError);
       }
 
@@ -147,7 +148,7 @@ export abstract class BaseController {
       const queryParser = new QueryParser(Object.assign({}, req.query));
 
       if (!this.service.routes.findOne) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Get one is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').findOneNotAllow);
         return next(appError);
       }
 
@@ -181,7 +182,7 @@ export abstract class BaseController {
       const queryParser = new QueryParser(Object.assign({}, req.query));
 
       if (!this.service.routes.patch) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Patch is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').patchNotAllow);
         return next(appError);
       }
 
@@ -222,7 +223,7 @@ export abstract class BaseController {
       const queryParser = new QueryParser(Object.assign({}, req.query));
 
       if (!this.service.routes.update) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Put is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').updateNotAllow);
         return next(appError);
       }
 
@@ -261,7 +262,7 @@ export abstract class BaseController {
       const queryParser = new QueryParser(Object.assign({}, req.query));
 
       if (!this.service.routes.remove) {
-        const appError = new AppException(METHOD_NOT_ALLOWED, 'Delete is not allowed for this Item');
+        const appError = new AppException(METHOD_NOT_ALLOWED, lang.get('app').deleteNotAllow);
         return next(appError);
       }
 
@@ -275,7 +276,7 @@ export abstract class BaseController {
         throw canUpdateError;
       }
 
-      object = await this.service.deleteObject(object);
+      object = await this.service.deleteObject(object._id);
 
       const response = await this.service.getResponse(
         await this.service.postPatch({

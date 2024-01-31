@@ -20,4 +20,14 @@ export default {
     invalidExpire:
       'Invalid ttl format, if you use strings, make sure to provide time units(minutes, hours, days, etc.) for example: "30m", 8h", "7d"',
   },
+
+  app: {
+    duplicate: 'Duplicate record is not allowed',
+    createNotAllow: 'Create is not allowed for this Item',
+    findNotAllow: 'Find is not allowed for this Item',
+    findOneNotAllow: 'Get one is not allowed for this Item',
+    updateNotAllow: 'Put is not allowed for this Item',
+    patchNotAllow: 'Patch is not allowed for this Item',
+    deleteNotAllow: 'Delete is not allowed for this Item',
+  },
 };

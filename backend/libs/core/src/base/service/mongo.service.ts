@@ -1,5 +1,6 @@
+import { Logger } from '@nestjs/common';
 import * as _ from 'lodash';
-import { ClientSession } from 'mongoose';
+import mongoose, { ClientSession } from 'mongoose';
 import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
 
 export class MongoBaseService extends BaseAbstract {
@@ -20,42 +21,82 @@ export class MongoBaseService extends BaseAbstract {
     super();
     this.modelName = model.collection.collectionName;
     this.entity = model;
-    if (!this?.entity?.config) {
+    this.configureEntity();
+  }
+
+  /**
+   * The function checks if the entity has a config property, and if not, assigns a default config;
+   * otherwise, it processes the entity's config.
+   */
+  private configureEntity() {
+    if (!this.entity?.config) {
       this.entity.config = { ...this.defaultConfig };
     } else {
-      if (this.entity.config instanceof Function) {
-        this.entity.config = Object.assign(this.defaultConfig, this.entity.config());
-      } else {
-        this.entity.routes = Object.assign(this.routes, this.entity.routes);
-        this.entity.config = Object.assign(this.defaultConfig, this.entity.config);
-      }
+      this.processEntityConfig();
     }
   }
 
   /**
-   * The function creates a new object by picking specific properties from the input object, assigning
-   * a user ID if provided, generating a unique ID, and saving the data to the database.
-   * @param obj - The `obj` parameter is an object that contains the data to be used for creating a new
-   * object. It can have any number of properties.
-   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
-   * `ClientSession`. It is used to specify a MongoDB session for the database operations performed
-   * within the `createNewObject` method. If a session is provided, the method will use that session to
-   * save the data to the database. If no session
-   * @returns a Promise that resolves to the saved data object.
+   * The function `processEntityConfig` assigns default configuration values to an entity's config
+   * property, either by calling a function or by directly assigning an object.
    */
-  public async createNewObject(obj: Record<string, any>, session?: ClientSession) {
+  private processEntityConfig() {
+    if (this.entity.config instanceof Function) {
+      this.entity.config = Object.assign(this.defaultConfig, this.entity.config());
+    } else {
+      this.entity.routes = Object.assign(this.routes, this.entity.routes);
+      this.entity.config = Object.assign(this.defaultConfig, this.entity.config);
+    }
+  }
+
+  /**
+   * The function `fillObjectProperties` returns a new object with only the properties specified in the
+   * `fillables` array, or the original object if `fillables` is empty or undefined.
+   * @param {Dict} obj - The `obj` parameter is a dictionary object that contains properties to be
+   * filled.
+   * @returns a new object that contains only the properties specified in the `toFill` array. If the
+   * `toFill` array is empty or undefined, the function returns a shallow copy of the original object.
+   */
+  private fillObjectProperties(obj: Dict): Dict {
     const toFill = this.entity.config.fillables;
-    let payload = { ...obj };
-    if (toFill && toFill.length > 0) {
-      payload = _.pick(obj, ...toFill);
-    }
-    if (obj.userId) {
-      payload.user = obj.userId;
-    }
+    return toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
+  }
+
+  /**
+   * The function creates a new object, fills its properties, generates a unique ID, and saves it to
+   * the database.
+   * @param obj - The `obj` parameter is an object that contains the properties and values that need to
+   * be assigned to the new object being created. It is of type `Record<string, any>`, which means it
+   * can have any number of properties with any value types.
+   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
+   * `ClientSession`. It is used to specify a session for the database transaction. If a session is
+   * provided, the database operations performed within the `createNewObject` method will be part of
+   * the same session, allowing for atomicity and isolation of
+   * @returns The function `createNewObject` is returning the result of the `saveDataToDatabase`
+   * function.
+   */
+  public async createNewObject(obj: Dict, session?: ClientSession) {
+    const payload = this.fillObjectProperties(obj);
     const data = new this.model({
       ...payload,
       publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
     });
+
+    return this.saveDataToDatabase(data, session);
+  }
+
+  /**
+   * The function saves data to a database, optionally using a session.
+   * @param data - The `data` parameter is the object or document that you want to save to the
+   * database. It could be an instance of a model or a document object that represents a record in the
+   * database.
+   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
+   * `ClientSession`. It represents a MongoDB session that can be used to perform multiple operations
+   * within a transaction. If a session is provided, the `data` object will be saved within that
+   * session. If no session is provided, the `data`
+   * @returns a promise.
+   */
+  private async saveDataToDatabase(data, session?: ClientSession) {
     return session ? await data.save({ session }) : await data.save();
   }
 
@@ -74,11 +115,10 @@ export class MongoBaseService extends BaseAbstract {
    * @returns the result of the `findOneAndUpdate` method.
    */
   public async updateObject(id: string, obj: Record<string, any>, session?: ClientSession) {
-    const toFill = this.entity.config.updateFillables;
-    if (toFill && toFill.length > 0) {
-      obj = _.pick(obj, ...toFill);
-    }
+    const toFill: string[] = this.entity.config.updateFillables;
+    obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     const condition = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
+
     return await this.model.findOneAndUpdate(
       { ...condition },
       {
@@ -97,65 +137,111 @@ export class MongoBaseService extends BaseAbstract {
   }
 
   /**
-   * The function updates an object by merging the properties of another object into it, and then saves
-   * the updated object to the database.
+   * The function updates an object by merging the properties of another object into it and then saves
+   * the updated object to a database.
    * @param {any} current - The `current` parameter is the current object that you want to update. It
    * represents the existing data that you want to modify.
    * @param obj - The `obj` parameter is an object that contains the updated values for the `current`
-   * object. It is of type `Record<string, any>`, which means it can have any number of properties with
-   * any value types.
+   * object. It is used to update the properties of the `current` object.
    * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
-   * `ClientSession`. It represents a MongoDB session that can be used to perform multiple operations
-   * within a transaction. If a session is provided, the `current` object will be saved within that
-   * session. If no session is provided, the `current`
-   * @returns a Promise that resolves to the saved "current" object.
+   * `ClientSession`. It represents a MongoDB client session that can be used to group multiple
+   * operations into a single transaction. If a session is provided, the function will use it to save
+   * the data to the database. If no session is provided, the
+   * @returns the result of calling the `saveDataToDatabase` function with the `session` parameter.
    */
   public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession) {
-    const toFill = this.entity.config.updateFillables;
-    if (toFill && toFill.length > 0) {
-      obj = _.pick(obj, ...toFill);
-    }
+    const toFill: string[] = this.entity.config.updateFillables;
+    obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     _.merge(current, obj);
-    return session ? await current.save({ session }) : await current.save();
+
+    return this.saveDataToDatabase(session);
   }
 
   /**
-   * The function `findObject` searches for an object in a model based on its ID or public ID, and
-   * returns the object if found.
+   * The function finds an object by its ID, either from cache or from the database, and returns it.
    * @param {unknown} id - The `id` parameter is the identifier of the object you want to find. It can
-   * be either a string or an ObjectId.
+   * be of any type, as it is typed as `unknown`.
    * @param {QueryParser | Record<string, any>} [query] - The `query` parameter is an optional
-   * parameter that can be either a `QueryParser` object or a record of type `Record<string, any>`. It
-   * is used to specify additional query conditions or population options for the `findOne` method.
-   * @returns an object that matches the specified condition.
+   * parameter that can be of type `QueryParser` or `Record<string, any>`. It is used to specify
+   * additional conditions or options for fetching the object from the database. If provided, it will
+   * be passed to the `fetchObjectFromDB` function.
+   * @returns an object of type `Dict`.
    */
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>) {
-    const condition = {
-      deleted: false,
-    };
-    if (!_.isString()) {
-      id = String(id);
-    }
-    if (Utils.isObjectId(id)) {
-      condition['_id'] = id;
-    } else {
-      condition['publicId'] = id;
-    }
-
+    const condition = this.buildFindObjectCondition(id);
     const cacheKey = `${this.modelName}-${id}`;
-    let object = await this.cacheService?.getAsObj<Dict>(cacheKey);
+    let object = await this.getCacheObject(cacheKey);
 
     if (_.isUndefined(object)) {
       object = await this.model.findOne(condition).populate(query?.population ?? []);
-      if (object) {
-        await this.cacheService?.set(cacheKey, object, '1m');
-      }
+      await this.cacheObjectIfFound(object, cacheKey);
     }
 
+    this.ensureObjectExists(object);
+    return object as Dict;
+  }
+
+  /**
+   * The function builds a condition object to find an item based on its ID.
+   * @param id - The `id` parameter is the identifier used to find an object. It can be either an
+   * ObjectId or a publicId.
+   * @returns a dictionary that combines the condition `{ deleted: false }` with the `id` parameter.
+   * The `id` parameter is checked to see if it is a valid ObjectId using the `Utils.isObjectId()`
+   * function. If it is a valid ObjectId, the condition is set to `{ _id: id }`, otherwise it is set to
+   * `{ publicId: id }`. The returned
+   */
+  private buildFindObjectCondition(id): Dict {
+    const condition = { deleted: false };
+    id = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
+    return { ...condition, ...id };
+  }
+
+  /**
+   * The function `getCacheObject` retrieves a cached object from the cache service, either as a single
+   * object or as an array of objects.
+   * @param {string} cacheKey - The `cacheKey` parameter is a string that represents the key used to
+   * retrieve the cached object from the cache service.
+   * @param [isArray=false] - The `isArray` parameter is a boolean flag that indicates whether the
+   * cached object is an array or not. If `isArray` is `true`, it means that the cached object is an
+   * array of `Dict` objects. If `isArray` is `false` or not provided, it means that the
+   * @returns a Promise that resolves to either a `Dict` object or a boolean value, depending on the
+   * value of the `isArray` parameter.
+   */
+  private async getCacheObject(cacheKey: string, isArray = false): Promise<Dict | boolean> {
+    return isArray
+      ? await this.cacheService?.getAsObj<Dict[]>(cacheKey)
+      : await this.cacheService?.getAsObj<Dict>(cacheKey);
+  }
+
+  private async removeObjectFromCache(cacheKey: string) {
+    return await this.cacheService?.remove(cacheKey);
+  }
+
+  /**
+   * The function caches an object if it exists.
+   * @param object - The `object` parameter is the object that you want to cache. It can be any valid
+   * JavaScript object or data structure that you want to store in the cache.
+   * @param {string} cacheKey - The `cacheKey` parameter is a string that represents the key under
+   * which the `object` will be stored in the cache. It is used to uniquely identify the object in the
+   * cache so that it can be retrieved later when needed.
+   * @param [ttl=1m] - The `ttl` parameter stands for "time to live" and represents the duration for
+   * which the cached object will be considered valid. It is optional and has a default value of
+   * `'1m'`, which means 1 minute. You can specify the `ttl` in different units such as mins, hours, days (`
+   */
+  private async cacheObjectIfFound(object, cacheKey: string, ttl = '1m') {
+    if (object) {
+      await this.cacheService?.set(cacheKey, object, ttl);
+    }
+  }
+
+  /**
+   * The function ensures that an object exists and throws an exception if it does not.
+   * @param object - The `object` parameter is the object that needs to be checked for existence.
+   */
+  private ensureObjectExists(object) {
     if (!object) {
       throw AppException.NOT_FOUND(`${this.modelName} does not exist`);
     }
-    return object as Dict;
   }
 
   /**
@@ -166,17 +252,21 @@ export class MongoBaseService extends BaseAbstract {
    * values.
    * @returns the deleted object.
    */
-  public async deleteObject(object: Record<string, any>) {
+  public async deleteObject(id) {
+    const cacheKey = `${this.modelName}-${id}`;
+    const condition = { _id: id };
+    let object = await this.model.findOne(condition);
     if (this.entity.config.softDelete) {
       _.extend(object, { deleted: true });
-      object = await object.save();
+      object = await this.saveDataToDatabase(object);
     } else {
-      object = await object.remove();
+      object = await object.deleteOne(condition);
     }
-    if (!object) {
-      throw AppException.NOT_FOUND;
-    }
-    return object;
+
+    this.removeObjectFromCache(cacheKey);
+    this.ensureObjectExists(object);
+
+    return await object;
   }
 
   /**
@@ -190,75 +280,126 @@ export class MongoBaseService extends BaseAbstract {
    * property contains the count of documents that match the query.
    */
   public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser) {
-    const dataFilters: string[] = this?.entity?.config?.dateFilters;
+    this.applyDateFilters(queryParser);
+    this.applyConditionalFilters(queryParser);
+    this.convertObjectIds(queryParser);
 
-    if (dataFilters && dataFilters.length > 0)
-      [
-        dataFilters.forEach((key: string) => {
-          if (queryParser.query[key]) {
-            queryParser.query[key] = Utils.generateDateRange(queryParser.query[key]);
-          }
-        }),
-      ];
+    let query = this.model.find(queryParser.query);
 
+    if (queryParser.search && this.entity?.searchQuery(queryParser.search).length > 0) {
+      const searchQuery = this.applySearchQuery(queryParser);
+      query = this.model.find({ ...searchQuery });
+    }
+
+    if (!queryParser.getAll) {
+      query = this.applyPagination(query, pagination);
+    }
+
+    query = this.applySort(query, queryParser);
+
+    const cacheKey = `${this.modelName}:${pagination.skip}-${pagination.perPage}`;
+    let value = await this.getCacheObject(cacheKey, true);
+
+    if (_.isUndefined(value)) {
+      value = await this.executeQueryAndCacheResult(query, queryParser, cacheKey);
+    }
+
+    return {
+      value,
+      count: await this.getCountDocuments(queryParser),
+    };
+  }
+
+  private async executeQueryAndCacheResult(query, queryParser: QueryParser, cacheKey: string) {
+    const object = await query.select(queryParser.selection).exec();
+    this.cacheObjectIfFound(object, cacheKey);
+
+    return object;
+  }
+
+  private convertObjectIds(queryParser: QueryParser) {
+    if (this?.entity?.config?.objectIds?.length) {
+      const objectIds: string[] = this?.entity?.config?.objectIds;
+      for (const key of Object.keys(queryParser.query)) {
+        if (
+          queryParser.query[key] &&
+          objectIds.includes(key) &&
+          _.isString(queryParser.query[key]) &&
+          Utils.isObjectId(queryParser.query[key])
+        ) {
+          queryParser.query[key] = new mongoose.Types.ObjectId(queryParser.query[key]);
+        }
+      }
+    }
+  }
+
+  private applyConditionalFilters(queryParser: QueryParser) {
     const conditions: string[] = ['gt', 'gte', 'lt', 'lte'];
     for (const c of conditions) {
       if (queryParser[c]) {
-        // Using Conditionals for filtering values
-        for (const [key, value] of Object.entries(queryParser[c])) {
-          queryParser.query[key] = !queryParser.query[key]
-            ? { [`$${c}`]: value }
-            : { ...queryParser.query[key], [`$${c}`]: value };
-        }
+        this.applyConditionals(queryParser, c);
       }
     }
 
     if (queryParser.btw) {
-      // Using Btw to filter range of values
-      for (const [key, value] of Object.entries(queryParser.btw)) {
-        if (_.isArray(value)) {
-          queryParser.query[key] = { $gte: value[0], $lte: value[1] };
-        } else if (_.isObject(value)) {
-          const { start, end }: Record<string, any> = value || {};
-          if (start && end) {
-            queryParser.query[key] = { $gte: start, $lte: end };
-          }
+      this.applyBtwFilter(queryParser);
+    }
+  }
+
+  private applyConditionals(queryParser: QueryParser, condition: string) {
+    for (const [key, value] of Object.entries(queryParser[condition])) {
+      queryParser.query[key] = !queryParser.query[key]
+        ? { [`$${condition}`]: value }
+        : { ...queryParser.query[key], [`$${condition}`]: value };
+    }
+  }
+
+  private applyBtwFilter(queryParser: QueryParser) {
+    for (const [key, value] of Object.entries(queryParser.btw)) {
+      if (_.isArray(value)) {
+        queryParser.query[key] = { $gte: value[0], $lte: value[1] };
+      } else if (_.isObject(value)) {
+        const { start, end }: Dict = value || {};
+        if (start && end) {
+          queryParser.query[key] = { $gte: start, $lte: end };
         }
       }
     }
+  }
 
-    let query = this.model.find(queryParser.query);
-    if (queryParser.search && this.entity.searchQuery && this.entity.searchQuery(queryParser.search).length > 0) {
-      const searchQuery = this.entity.searchQuery(queryParser.search);
-      queryParser.query = {
-        $or: [...searchQuery],
-        ...queryParser.query,
-      };
-      query = this.model.find({ ...queryParser.query });
+  private applyDateFilters(queryParser: QueryParser) {
+    const dataFilters: string[] = this?.entity?.config?.dateFilters;
+
+    if (dataFilters && dataFilters.length > 0) {
+      dataFilters.forEach((key: string) => {
+        if (queryParser.query[key]) {
+          queryParser.query[key] = Utils.generateDateRange(queryParser.query[key]);
+        }
+      });
     }
+  }
 
-    if (!queryParser.getAll) {
-      query = query.skip(pagination.skip).limit(pagination.perPage);
-    }
+  private applySearchQuery(queryParser: QueryParser) {
+    const searchQuery = this.entity.searchQuery(queryParser.search);
+    queryParser.query = {
+      $or: [...searchQuery],
+      ...queryParser.query,
+    };
+    return queryParser.query;
+  }
 
-    query = query.sort(
+  private applyPagination(query, pagination: Pagination) {
+    return query.skip(pagination.skip).limit(pagination.perPage);
+  }
+
+  private applySort(query, queryParser: QueryParser) {
+    return query.sort(
       queryParser && queryParser.sort ? Object.assign(queryParser.sort, { createdAt: -1 }) : '-createdAt',
     );
+  }
 
-    const cacheKey = `${this.modelName}-${pagination.skip}-${pagination.perPage}`;
-    let object = await this.cacheService?.getAsObj<Dict[]>(cacheKey);
-
-    if (_.isUndefined(object)) {
-      object = await query.select(queryParser.selection).exec();
-      if (object) {
-        await this.cacheService?.set(cacheKey, object, '1m');
-      }
-    }
-
-    return {
-      value: object,
-      count: await this.model.countDocuments(queryParser.query).exec(),
-    };
+  private async getCountDocuments(queryParser: QueryParser): Promise<number> {
+    return this.model.countDocuments(queryParser.query).exec();
   }
 
   /**
@@ -329,7 +470,7 @@ export class MongoBaseService extends BaseAbstract {
    * or `null` if no resource is found.
    */
   public async retrieveExistingResource(obj) {
-    const query: Record<string, any> = {};
+    const query: Dict = {};
     const uniqueKeys = this.entity.config.uniques;
 
     if (uniqueKeys && uniqueKeys.length > 0) {
@@ -338,20 +479,18 @@ export class MongoBaseService extends BaseAbstract {
       }
     }
     const cacheKey = `${this.modelName}-${uniqueKeys[0]}`;
-    let found = await this.cacheService?.getAsObj<Dict>(cacheKey);
-    if (_.isUndefined(found)) {
-      found = !_.isEmpty(query)
+    let object = await this.getCacheObject(cacheKey);
+    if (_.isUndefined(object)) {
+      object = !_.isEmpty(query)
         ? await this.model.findOne({
             ...query,
             deleted: false,
           })
         : false;
 
-      if (found) {
-        await this.cacheService?.set(cacheKey, found, '1m');
-      }
+      this.cacheObjectIfFound(object, cacheKey);
     }
-    return found ? found : null;
+    return object ? object : null;
   }
 
   /**
@@ -362,10 +501,10 @@ export class MongoBaseService extends BaseAbstract {
    * @returns The `validateObject` function returns a promise that resolves to the result of the
    * `findOne` method call on the `model` object.
    */
-  public async validateObject(payload: Record<string, any>) {
+  public async validateObject(payload: Dict) {
     const moreCondition = { deleted: false };
 
-    const condition: Record<string, any> = {
+    const condition: Dict = {
       $or: [{ publicId: payload._id }, { _id: payload._id }],
       ...moreCondition,
     };
@@ -408,13 +547,11 @@ export class MongoBaseService extends BaseAbstract {
    */
   public async findByUniqueKey(key, params = {}) {
     const cacheKey = `${this.modelName}-${key}`;
-    let found = await this.cacheService?.getAsObj<Dict>(cacheKey);
-    if (_.isUndefined(found)) {
-      found = this.model.distinct(key, { ...params, deleted: false });
-      if (found) {
-        await this.cacheService?.set(cacheKey, found);
-      }
+    let object = await this.getCacheObject(cacheKey);
+    if (_.isUndefined(object)) {
+      object = this.model.distinct(key, { ...params, deleted: false });
+      this.cacheObjectIfFound(object, cacheKey);
     }
-    return found;
+    return object;
   }
 }

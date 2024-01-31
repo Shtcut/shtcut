@@ -176,12 +176,12 @@ export abstract class BaseAbstract {
     const slugName = this.entity.config.slugify;
     if (req.user) {
       obj = Object.assign(obj, {
-        user: req.user,
+        user: req.user._id,
         userId: req.user._id,
       });
-      if (slugName && (!_.isEmpty(slugName) || !_.isNull(slugName) || !_.isUndefined(slugName))) {
-        obj = Object.assign(obj, { slug: Utils.slugifyText(req.body[slugName].toLowerCase()) });
-      }
+    }
+    if (slugName && (!_.isEmpty(slugName) || !_.isNull(slugName) || !_.isUndefined(slugName))) {
+      obj = Object.assign(obj, { slug: Utils.slugifyText(req.body[slugName].toLowerCase()) });
     }
     return obj;
   }
