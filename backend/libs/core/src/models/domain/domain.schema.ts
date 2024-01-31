@@ -118,6 +118,16 @@ export class Domain {
 
 const DomainSchema = SchemaFactory.createForClass(Domain);
 
+DomainSchema.statics.searchQuery = (q: string) => {
+  const regex = new RegExp(q);
+  return [
+    { name: { $regex: regex, $options: 'i' } },
+    { 'verification.dnsType': { $regex: regex, $options: 'i' } },
+    { type: { $regex: regex, $options: 'i' } },
+    { slug: { $regex: regex, $options: 'i' } },
+  ];
+};
+
 DomainSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
@@ -126,9 +136,10 @@ DomainSchema.statics.config = () => {
   return {
     idToken: 'dmn',
     slugify: 'name',
+    softDelete: false,
     uniques: ['workspace', 'name'],
-    fillables: ['workspace', 'links', 'slug', 'name', 'description', 'type', 'active', 'banned', 'landingPage'],
-    updateFillables: ['links', 'name', 'slug', 'description', 'type', 'active', 'banned'],
+    fillables: ['workspace', 'links', 'user', 'slug', 'name', 'description', 'type', 'active', 'banned', 'landingPage'],
+    updateFillables: ['links', 'description', 'type', 'active', 'banned'],
     hiddenFields: ['deleted'],
   };
 };

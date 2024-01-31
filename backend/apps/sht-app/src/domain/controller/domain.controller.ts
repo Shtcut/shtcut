@@ -1,8 +1,9 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateDomainDto, CreateLinkDto, JwtAuthGuard, OK, VerifyDomainDto } from 'shtcut/core';
+import { AppController, CreateDomainDto, JwtAuthGuard, OK } from 'shtcut/core';
 import { DomainService } from '../service/domain.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
+import * as _ from 'lodash';
 
 @UseGuards(JwtAuthGuard)
 @Controller('domains')
@@ -34,6 +35,7 @@ export class DomainController extends AppController {
     }
   }
 
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   @HttpCode(OK)
   public async create(
@@ -43,5 +45,21 @@ export class DomainController extends AppController {
     @Next() next: NextFunction,
   ) {
     return super.create(payload, req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/')
+  @HttpCode(OK)
+  public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    _.extend(req.query, { user: req.user['_id'] });
+    return super.find(req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/:id')
+  @HttpCode(OK)
+  public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    _.extend(req.query, { user: req.user['_id'] });
+    return super.findOne(id, req, res, next);
   }
 }
