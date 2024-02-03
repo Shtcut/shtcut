@@ -2,7 +2,17 @@ import { Module } from '@nestjs/common';
 import { WorkspaceController } from './controller/workspace.controller';
 import { WorkspaceService } from './service/workspace.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Workspace, Domain, DomainSchema, WorkspaceSchema, RedisService } from 'shtcut/core';
+import {
+  Workspace,
+  Domain,
+  DomainSchema,
+  WorkspaceSchema,
+  RedisService,
+  Subscription,
+  SubscriptionSchema,
+  Plan,
+  PlanSchema,
+} from 'shtcut/core';
 import { HitModule } from '../hit';
 
 @Module({
@@ -11,6 +21,8 @@ import { HitModule } from '../hit';
     MongooseModule.forFeature([
       { name: Domain.name, schema: DomainSchema },
       { name: Workspace.name, schema: WorkspaceSchema },
+      { name: Subscription.name, schema: SubscriptionSchema },
+      { name: Plan.name, schema: PlanSchema },
     ]),
   ],
   controllers: [WorkspaceController],

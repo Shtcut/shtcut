@@ -2,7 +2,7 @@
     "extends": "../../tsconfig.json",
     "compilerOptions": {
         "declaration": false,
-        "outDir": "../../dist/apps/shtcut-admin"
+        "outDir": "../../dist/apps/sht-admin"
     },
     "include": [
         "src/**/*",

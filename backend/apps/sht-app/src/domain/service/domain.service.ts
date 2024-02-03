@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateDomainDto,
+  Dict,
   Domain,
   DomainDocument,
   MongoBaseService,
@@ -28,13 +29,12 @@ export class DomainService extends MongoBaseService {
     super(model, cacheService);
   }
 
-  public async validateCreate(obj: CreateDomainDto) {
+  public async validateCreate(obj: CreateDomainDto & Dict) {
     try {
-      const { workspace, name } = obj;
-      const slug = Utils.slugifyText(name);
+      const slug = Utils.slugifyText(obj.name);
 
       // Check if domain with the same slug exists
-      const domain = await this.model.findOne({ slug });
+      const domain = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
 
       if (domain) {
         const { verification } = domain;
@@ -48,9 +48,10 @@ export class DomainService extends MongoBaseService {
       }
 
       // Check if the workspace exists
-      const foundWorkspace = await this.workspaceModel.findOne({ _id: workspace });
-
-      if (!foundWorkspace) {
+      const workspace = await this.workspaceModel.findOne({
+        ...Utils.conditionWithDelete({ _id: obj.workspace, user: obj.user }),
+      });
+      if (!workspace) {
         throw AppException.NOT_FOUND(lang.get('workspace').notFound);
       }
 
@@ -64,13 +65,7 @@ export class DomainService extends MongoBaseService {
     let newSession: ClientSession | undefined;
 
     try {
-      // If a session is not provided, start a new session
-      if (!session) {
-        newSession = await this.model.startSession();
-        newSession.startTransaction();
-      } else {
-        newSession = session;
-      }
+      newSession = session || (await this.model.startSession());
 
       const code = Utils.generateUniqueId('shtcut-verification-site');
       const domain = await super.createNewObject({ ...payload }, newSession);
@@ -92,28 +87,20 @@ export class DomainService extends MongoBaseService {
       workspace.domains.push(domain._id);
       await Promise.all([domain.save({ session: newSession }), workspace.save({ session: newSession })]);
 
-      if (!session) {
-        // If a new session was started, commit the transaction
-        await newSession.commitTransaction();
-      }
+      await newSession?.commitTransaction();
 
       return domain;
     } catch (e) {
-      // If an error occurs, abort the transaction
-      if (!session) {
-        await newSession?.abortTransaction();
-      }
-
+      await newSession?.abortTransaction();
       throw e;
     } finally {
-      // Always end the session, whether it was started or passed as an argument
       await newSession?.endSession();
     }
   }
 
   public async verifyDomain(id: string) {
     try {
-      const cacheKey = `${this.modelName}-${id}`;
+      const cacheKey = `${this.modelName}:${id}`;
       const domain = (await this.getCachedDomain(cacheKey)) || (await this.fetchDomainFromDatabase(id, cacheKey));
 
       this.ensureDomainExists(domain);

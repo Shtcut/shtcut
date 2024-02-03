@@ -35,11 +35,9 @@ export class AdminAuthController {
   @HttpCode(OK)
   public async login(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
-      const queryParser = new QueryParser(Object.assign({}, req.query));
       const { accessToken, auth } = this.service.login(req.user as AdminAuth);
       const response = await this.service.getResponse({
         token: accessToken,
-        queryParser,
         code: OK,
         value: auth,
       });

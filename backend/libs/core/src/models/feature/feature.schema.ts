@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as MGSchema } from 'mongoose';
+import { Dict } from 'shtcut/core';
 
 export type FeatureDocument = Feature & Document;
 
@@ -18,14 +19,12 @@ export class Feature {
 
   @Prop({
     type: String,
-    unique: true,
     required: true,
   })
-  name: string;
+  title: string;
 
   @Prop({
     type: String,
-    unique: true,
     required: true,
   })
   slug: string;
@@ -36,15 +35,9 @@ export class Feature {
   description: string;
 
   @Prop({
-    type: [String],
+    type: [MGSchema.Types.Mixed],
   })
-  properties: string[];
-
-  @Prop({
-    type: Boolean,
-    default: false,
-  })
-  isFree: boolean;
+  properties: Dict[];
 
   @Prop({
     type: Boolean,
@@ -68,10 +61,11 @@ FeatureSchema.statics.searchQuery = (q) => {
 FeatureSchema.statics.config = () => {
   return {
     idToken: 'fts',
-    uniques: ['slug', 'name'],
-    slugify: 'name',
-    fillables: ['slug', 'name', 'description', 'properties'],
-    updateFillable: ['name', 'description', 'price'],
+    uniques: ['slug', 'title'],
+    slugify: 'title',
+    softDelete: false,
+    fillables: ['slug', 'title', 'description', 'properties'],
+    updateFillable: ['title', 'description'],
     hiddenFields: ['deleted'],
   };
 };

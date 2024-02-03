@@ -70,9 +70,9 @@ export class Workspace {
 
   @Prop({
     type: Types.ObjectId,
-    ref: 'Plan',
+    ref: 'Subscription',
   })
-  plan: any;
+  subscription: any;
 
   @Prop({
     type: Types.ObjectId,
