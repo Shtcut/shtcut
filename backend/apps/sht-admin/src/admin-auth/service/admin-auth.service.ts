@@ -2,7 +2,7 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { AdminAuth, AdminAuthDocument, AppException, MongoBaseService, Utils } from 'shtcut/core';
+import { AdminAuth, AdminAuthDocument, AppException, Dict, MongoBaseService, Utils } from 'shtcut/core';
 import { Model, ClientSession } from 'mongoose';
 import lang from '../../../lang';
 import * as bcrypt from 'bcryptjs';
@@ -22,7 +22,7 @@ export class AdminAuthService extends MongoBaseService {
    * @param {Object} payload signup payload
    * @return {Object} The successful response object
    */
-  public async initAdminUser(payload: Record<string, any>) {
+  public async initAdminUser(payload: Dict) {
     let session: ClientSession;
     try {
       const { email, password } = this.config.get('admin.superUser');

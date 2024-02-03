@@ -7,8 +7,8 @@ export class CreateWorkspaceDto {
   public readonly name: string;
 
   @IsMongoId()
-  @IsNotEmpty()
-  public readonly plan: string;
+  @IsOptional()
+  public plan: string;
 
   @IsString()
   @IsOptional()

@@ -376,6 +376,16 @@ export abstract class Utils {
   }
 
   /**
+   * The function adds a "deleted" property with a value of false to an object.
+   * @param {Dict} object - The parameter "object" is a dictionary object.
+   * @returns a new object that is a copy of the input object with an additional property "deleted" set
+   * to false.
+   */
+  static conditionWithDelete(object: Dict) {
+    return { ...object, deleted: false };
+  }
+
+  /**
    * The function converts a value to a MongoDB ObjectId using the mongoose library.
    * @param value - The value parameter is the value that you want to convert to a MongoDB ObjectId.
    * @returns a new instance of the mongoose.Types.ObjectId class, with the value passed as an

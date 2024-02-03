@@ -39,6 +39,10 @@ export default {
     invalidDomain: 'The workspace does not have ownership of this domain.',
   },
 
+  plan: {
+    notFound: 'This plan is not found',
+  },
+
   user: {
     notFound: 'The user could not be found.',
   },

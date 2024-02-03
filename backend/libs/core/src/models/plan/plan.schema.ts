@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as _ from 'lodash';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MGSchema } from 'mongoose';
 
 export type PlanDocument = Plan & Document;
 
@@ -44,16 +44,28 @@ export class Plan {
   price: number;
 
   @Prop({
-    type: Number,
-    default: 0,
+    type: String,
+    enum: ['USD', 'EUR', 'GBP'],
+    default: 'USD',
   })
-  yearlyDiscount: number;
+  currency: string;
+
+  @Prop({
+    type: MGSchema.Types.Mixed,
+  })
+  limit: number;
 
   @Prop({
     type: Number,
     default: 0,
   })
-  quarterlyDiscount: number;
+  yearly: number;
+
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  monthly: number;
 
   @Prop([
     {
@@ -108,20 +120,24 @@ PlanSchema.statics.config = () => {
       'name',
       'description',
       'price',
-      'quarterlyDiscount',
-      'yearlyDiscount',
+      'quarterly',
+      'currency',
+      'yearly',
       'features',
       'user',
+      'limit',
       'isFree',
     ],
     updateFillable: [
       'name',
       'description',
       'price',
-      'quarterlyDiscount',
-      'yearlyDiscount',
+      'quarterly',
+      'currency',
+      'yearly',
       'features',
       'user',
+      'limit',
       'isFree',
     ],
     hiddenFields: ['deleted'],

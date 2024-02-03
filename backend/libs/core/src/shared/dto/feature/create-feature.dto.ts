@@ -1,15 +1,16 @@
-import { IsNotEmpty, IsNumber, IsOptional, IsString } from '@nestjs/class-validator';
+import { IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
+import { IsArray } from 'class-validator';
 
 export class CreateFeatureDto {
   @IsString()
   @IsNotEmpty()
-  readonly visaService: string;
-
-  @IsNumber()
-  @IsNotEmpty()
-  readonly rating: number;
+  readonly title: string;
 
   @IsString()
   @IsOptional()
-  readonly message: string;
+  readonly description: string;
+
+  @IsArray()
+  @IsOptional()
+  readonly properties: string[];
 }

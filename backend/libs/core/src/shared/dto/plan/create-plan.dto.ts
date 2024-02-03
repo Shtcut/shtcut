@@ -14,10 +14,6 @@ export class CreatePlanDto {
   features: string[];
 
   @IsNotEmpty()
-  @IsBoolean()
-  byPercentage: boolean;
-
-  @IsNotEmpty()
   @IsNumber()
   price: number;
 
@@ -32,9 +28,9 @@ export class CreatePlanDto {
 
   @IsNotEmpty()
   @IsNumber()
-  yearlyDiscount: number;
+  yearly: number;
 
   @IsNotEmpty()
   @IsNumber()
-  quarterlyDiscount: number;
+  monthly: number;
 }

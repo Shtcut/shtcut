@@ -56,6 +56,21 @@ export class Subscription {
   @Prop({
     type: Date,
   })
+  cancelledOn: Date;
+
+  @Prop({
+    type: Date,
+  })
+  expiresOn: Date;
+
+  @Prop({
+    type: String,
+  })
+  transactionRef: string;
+
+  @Prop({
+    type: Date,
+  })
   endDate: Date;
 
   @Prop({
@@ -72,19 +87,21 @@ export class Subscription {
   deleted: boolean;
 }
 
-const MediaSchema = SchemaFactory.createForClass(Subscription);
+const SubscriptionSchema = SchemaFactory.createForClass(Subscription);
 
-MediaSchema.virtual('id').get(function () {
+SubscriptionSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
-MediaSchema.statics.config = () => {
+SubscriptionSchema.statics.config = () => {
   return {
-    idToken: 'media',
+    idToken: 'sub',
     uniques: [],
     fillables: ['workspace', 'user', 'startDate', 'endDate', 'status'],
+    objectIds: ['user', 'plan'],
+    dateFilters: ['startAt', 'endAt'],
     hiddenFields: ['deleted'],
   };
 };
 
-export { MediaSchema };
+export { SubscriptionSchema };

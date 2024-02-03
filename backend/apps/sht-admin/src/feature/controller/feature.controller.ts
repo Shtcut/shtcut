@@ -1,9 +1,10 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpCode, Next, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
-import { BaseController, JwtAuthGuard } from 'shtcut/core';
+import { BaseController, CreateFeatureDto, JwtAuthGuard, OK } from 'shtcut/core';
 import * as _ from 'lodash';
 import { FeatureService } from '../service/feature.service';
+import { NextFunction, Request, Response } from 'express';
 
 @ApiTags('Feature')
 @Controller('admin/features')
@@ -14,5 +15,17 @@ export class FeatureController extends BaseController {
     protected config: ConfigService,
   ) {
     super(config, service);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/')
+  @HttpCode(OK)
+  public async create(
+    @Body() payload: CreateFeatureDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    return super.create(payload, req, res, next);
   }
 }

@@ -66,15 +66,14 @@ export class MongoBaseService extends BaseAbstract {
   /**
    * The function creates a new object, fills its properties, generates a unique ID, and saves it to
    * the database.
-   * @param obj - The `obj` parameter is an object that contains the properties and values that need to
-   * be assigned to the new object being created. It is of type `Record<string, any>`, which means it
-   * can have any number of properties with any value types.
+   * @param {Dict} obj - The `obj` parameter is a dictionary object that contains the properties of the
+   * new object that you want to create.
    * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
    * `ClientSession`. It is used to specify a session for the database transaction. If a session is
-   * provided, the database operations performed within the `createNewObject` method will be part of
-   * the same session, allowing for atomicity and isolation of
-   * @returns The function `createNewObject` is returning the result of the `saveDataToDatabase`
-   * function.
+   * provided, the function will use that session to save the data to the database. If no session is
+   * provided, the function will create a new session
+   * @returns the result of calling the `saveDataToDatabase` function with the `data` object and the
+   * optional `session` parameter.
    */
   public async createNewObject(obj: Dict, session?: ClientSession) {
     const payload = this.fillObjectProperties(obj);
@@ -299,7 +298,7 @@ export class MongoBaseService extends BaseAbstract {
 
     query = this.applySort(query, queryParser);
 
-    const cacheKey = `${this.modelName}:${req?.originalUrl}`;
+    const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
     let value = await this.getCacheObject(cacheKey, true);
 
     if (_.isUndefined(value)) {

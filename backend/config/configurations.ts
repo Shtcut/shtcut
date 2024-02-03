@@ -121,6 +121,12 @@ export const configuration = () => ({
       },
     },
   },
+  admin: {
+    superUser: {
+      email: process.env.ADMIN_EMAIL || 'superadmin@shtcut.link',
+      password: process.env.ADMIN_PASSWORD || 'password',
+    },
+  },
   microServices: {
     app: {
       url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4002/api/v1',
