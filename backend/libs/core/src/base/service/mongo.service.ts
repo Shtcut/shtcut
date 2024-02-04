@@ -191,9 +191,8 @@ export class MongoBaseService extends BaseAbstract {
    * `{ publicId: id }`. The returned
    */
   private buildFindObjectCondition(id): Dict {
-    const condition = { deleted: false };
     id = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
-    return { ...condition, ...id };
+    return { ...Utils.conditionWithDelete(id) };
   }
 
   /**
@@ -254,14 +253,14 @@ export class MongoBaseService extends BaseAbstract {
    */
   public async deleteObject(id) {
     const condition = { _id: id };
-    let object = await this.model.findOne(condition);
+    const object = await this.model.findOne(condition);
     const cacheKey = this.getCacheKey(object);
 
     if (this.entity.config.softDelete) {
       _.extend(object, { deleted: true });
-      object = await this.saveDataToDatabase(object);
+      await this.saveDataToDatabase(object);
     } else {
-      object = await object.deleteOne(condition);
+      await object.deleteOne(condition);
     }
 
     this.removeObjectFromCache(cacheKey);
@@ -296,7 +295,8 @@ export class MongoBaseService extends BaseAbstract {
       query = this.applyPagination(query, pagination);
     }
 
-    query = this.applySort(query, queryParser);
+    const sortQuery = this.applySortQuery(queryParser);
+    query = query.sort(sortQuery);
 
     const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
     let value = await this.getCacheObject(cacheKey, true);
@@ -397,10 +397,9 @@ export class MongoBaseService extends BaseAbstract {
     return query.skip(pagination.skip).limit(pagination.perPage);
   }
 
-  private applySort(query, queryParser: QueryParser) {
-    return query.sort(
-      queryParser && queryParser.sort ? Object.assign(queryParser.sort, { createdAt: -1 }) : '-createdAt',
-    );
+  private applySortQuery(queryParser: QueryParser) {
+    const query = _.has(queryParser.sort, ['createdAt']) ? queryParser.sort : { createdAt: -1 };
+    return queryParser && queryParser.sort ? Object.assign(queryParser.sort, { ...query }) : '-createdAt';
   }
 
   private async getCountDocuments(queryParser: QueryParser): Promise<number> {
@@ -488,8 +487,7 @@ export class MongoBaseService extends BaseAbstract {
     if (_.isUndefined(object)) {
       object = !_.isEmpty(query)
         ? await this.model.findOne({
-            ...query,
-            deleted: false,
+            ...Utils.conditionWithDelete(query),
           })
         : false;
 
@@ -507,12 +505,9 @@ export class MongoBaseService extends BaseAbstract {
    * `findOne` method call on the `model` object.
    */
   public async validateObject(payload: Dict) {
-    const moreCondition = { deleted: false };
-
-    const condition: Dict = {
+    const condition: Dict = Utils.conditionWithDelete({
       $or: [{ publicId: payload._id }, { _id: payload._id }],
-      ...moreCondition,
-    };
+    });
 
     return this.model.findOne(condition);
   }
@@ -554,7 +549,7 @@ export class MongoBaseService extends BaseAbstract {
     const cacheKey = this.getCacheKey(key);
     let object = await this.getCacheObject(cacheKey);
     if (_.isUndefined(object)) {
-      object = this.model.distinct(key, { ...params, deleted: false });
+      object = this.model.distinct(key, { ...Utils.conditionWithDelete(params) });
       this.cacheObjectIfFound(object, cacheKey);
     }
     return object;

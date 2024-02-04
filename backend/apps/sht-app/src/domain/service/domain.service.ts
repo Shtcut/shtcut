@@ -36,24 +36,21 @@ export class DomainService extends MongoBaseService {
       // Check if domain with the same slug exists
       const domain = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
 
-      if (domain) {
-        const { verification } = domain;
+      this.ensureDomainExists(domain);
 
-        // Check if the domain is already verified
-        if (verification.verified) {
-          throw AppException.NOT_FOUND(lang.get('domain').verified);
-        }
+      const { verification } = domain;
 
-        throw AppException.CONFLICT(lang.get('domain').duplicate);
+      // Check if the domain is already verified
+      if (verification.verified) {
+        throw AppException.NOT_FOUND(lang.get('domain').verified);
       }
 
       // Check if the workspace exists
       const workspace = await this.workspaceModel.findOne({
         ...Utils.conditionWithDelete({ _id: obj.workspace, user: obj.user }),
       });
-      if (!workspace) {
-        throw AppException.NOT_FOUND(lang.get('workspace').notFound);
-      }
+
+      this.ensureWorkspaceExists(workspace);
 
       return null;
     } catch (e) {
@@ -80,9 +77,7 @@ export class DomainService extends MongoBaseService {
 
       const workspace = await this.workspaceModel.findById(payload.workspace);
 
-      if (!workspace) {
-        throw AppException.NOT_FOUND(lang.get('workspace').notFound);
-      }
+      this.ensureWorkspaceExists(workspace);
 
       workspace.domains.push(domain._id);
       await Promise.all([domain.save({ session: newSession }), workspace.save({ session: newSession })]);
@@ -131,6 +126,12 @@ export class DomainService extends MongoBaseService {
   private ensureDomainExists(domain) {
     if (!domain) {
       throw AppException.NOT_FOUND(lang.get('domain').notFound);
+    }
+  }
+
+  private ensureWorkspaceExists(workspace) {
+    if (!workspace) {
+      throw AppException.NOT_FOUND(lang.get('workspace').notFound);
     }
   }
 

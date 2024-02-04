@@ -8,6 +8,7 @@
   "scripts": {
     "build:gw": "nest build sht-gw",
     "build:app": "nest build sht-app",
+    "build:admin": "nest build sht-admin",
     "build:worker": "nest build sht-worker",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -16,7 +17,7 @@
     "start:dev:admin": "nest start sht-admin --watch",
     "start:dev:worker": "nest start sht-worker --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/apps/sht-gateway/main",
+    "start:prod": "node dist/apps/sht-app/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "app:scripts": "cd ./scripts && cat ../_env/.env.test | .base64.sh",
     "test": "jest",
@@ -25,6 +26,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e:gw": "jest --config apps/sht-gw/test/jest-e2e.json",
     "test:e2e:app": "jest --config apps/sht-app/test/jest-e2e.json",
+    "test:e2e:admin": "jest --config apps/sht-admin/test/jest-e2e.json",
     "test:e2e:worker": "jest --config apps/sht-worker/test/jest-e2e.json",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },

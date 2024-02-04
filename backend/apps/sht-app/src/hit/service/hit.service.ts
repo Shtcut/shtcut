@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
-import { Hit, HitDocument, HitType, MongoBaseService, Utils } from 'shtcut/core';
+import { Hit, HitDocument, MongoBaseService } from 'shtcut/core';
 
 @Injectable()
 export class HitService extends MongoBaseService {
