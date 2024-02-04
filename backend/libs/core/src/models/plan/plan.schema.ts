@@ -19,6 +19,12 @@ export class Plan {
   name: string;
 
   @Prop({
+    type: Types.ObjectId,
+    ref: 'AdminAuth',
+  })
+  user: any;
+
+  @Prop({
     type: String,
     unique: true,
     required: true,
@@ -53,7 +59,7 @@ export class Plan {
   @Prop({
     type: MGSchema.Types.Mixed,
   })
-  limit: number;
+  limits: number;
 
   @Prop({
     type: Number,
@@ -67,13 +73,21 @@ export class Plan {
   })
   monthly: number;
 
-  @Prop([
-    {
-      type: Types.ObjectId,
-      ref: 'Feature',
-      required: true,
-    },
-  ])
+  @Prop({
+    type: Number,
+    default: 0,
+  })
+  quarterly: number;
+
+  @Prop({
+    type: [
+      {
+        type: MGSchema.Types.ObjectId,
+        ref: 'Feature',
+        required: true,
+      },
+    ],
+  })
   features: any[];
 
   @Prop({
@@ -102,10 +116,11 @@ const PlanSchema = SchemaFactory.createForClass(Plan);
 PlanSchema.statics.searchQuery = (q) => {
   const regex = new RegExp(q);
   const query = [];
-  if (_.isNumber(Number(q) && !_.isNaN(parseInt(q)))) {
+  if (_.isNumber(q) && !_.isNaN(parseInt(String(q)))) {
     query.push({ price: Number(q) });
-    query.push({ quarterlyDiscount: Number(q) });
-    query.push({ yearlyDiscount: Number(q) });
+    query.push({ monthly: Number(q) });
+    query.push({ yearly: Number(q) });
+    query.push({ quarterly: Number(q) });
   }
   return [{ name: { $regex: regex, $options: 'i' } }, { description: { $regex: regex, $options: 'i' } }, ...query];
 };
@@ -115,17 +130,21 @@ PlanSchema.statics.config = () => {
     idToken: 'pln',
     uniques: ['slug', 'name'],
     slugify: 'name',
+    softDelete: false,
     fillables: [
       'slug',
+      'user',
       'name',
       'description',
       'price',
+      'yearly',
+      'monthly',
       'quarterly',
       'currency',
       'yearly',
       'features',
       'user',
-      'limit',
+      'limits',
       'isFree',
     ],
     updateFillable: [
@@ -135,9 +154,10 @@ PlanSchema.statics.config = () => {
       'quarterly',
       'currency',
       'yearly',
+      'monthly',
       'features',
       'user',
-      'limit',
+      'limits',
       'isFree',
     ],
     hiddenFields: ['deleted'],

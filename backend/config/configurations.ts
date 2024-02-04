@@ -13,6 +13,7 @@ export const configuration = () => ({
       itemsPerPage: 10,
     },
     lang: 'en',
+    modules: ['shtcut-shortener', 'shtcut-survey', 'shtcut-email-marketing', 'shtcut-website-builder'],
     jwtExpiry: process.env.JWT_EXPIRY || '30000m',
     showDeveloperError: process.env.SHOW_DEVELOPER_ERROR || true,
     fromEmail: process.env.EMAIL_NO_REPLY || 'noreply@shtcut.link',

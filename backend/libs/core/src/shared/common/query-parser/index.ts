@@ -67,7 +67,7 @@ export class QueryParser {
       }
       if (_.isObject(this._sort)) {
         for (const [column, direction] of Object.entries(this._sort)) {
-          if (typeof direction === 'string') this._sort[column] = direction.toLowerCase() === 'asc' ? 'ASC' : 'DESC';
+          if (typeof direction === 'string') this._sort[column] = direction.toLowerCase() === 'asc' ? 1 : -1;
         }
       } else {
         const sort = {};
@@ -78,7 +78,7 @@ export class QueryParser {
       }
       return this._sort;
     }
-    return { createdAt: 'ASC' };
+    return { createdAt: -1 };
   }
 
   /**
@@ -346,6 +346,7 @@ export class QueryParser {
   initialize(query) {
     this._all = query.all;
     this._sort = query.sort;
+    console.log('query-sort::', query.sort);
     if (query.population) {
       this.population = query.population;
     }

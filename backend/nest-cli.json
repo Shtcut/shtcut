@@ -1,14 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/sht-gw/src",
+  "sourceRoot": "apps/sht-app/src",
   "monorepo": true,
   "compilerOptions": {
-    "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
+    "tsConfigPath": "apps/sht-app/tsconfig.app.json"
   },
-  "root": "apps/sht-gw",
+  "root": "apps/sht-app",
   "projects": {
     "sht-gw": {
       "type": "application",
