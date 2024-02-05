@@ -346,7 +346,6 @@ export class QueryParser {
   initialize(query) {
     this._all = query.all;
     this._sort = query.sort;
-    console.log('query-sort::', query.sort);
     if (query.population) {
       this.population = query.population;
     }

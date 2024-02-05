@@ -24,7 +24,7 @@ export class LinkController extends AppController {
     @Next() next: NextFunction,
   ) {
     try {
-      const link = await this.service.processVisit({ ipAddressInfo, domain, alias });
+      const link = await this.service.visit({ ipAddressInfo, domain, alias });
       let response = null;
       if (!link) {
         response = await this.service.getResponse({

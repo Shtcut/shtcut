@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpCode, Next, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Next, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { AppController, Auth, CurrentUser, JwtAuthGuard, OK, QueryParser, UpdateUserDto } from 'shtcut/core';
 import { UserService } from '../service/user.service';
 import { ConfigService } from '@nestjs/config';
@@ -36,10 +36,10 @@ export class UserController extends AppController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
-      const user = await this.service.findObject(String(authUser['_id']));
+      const value = await this.service.findObject(String(authUser['_id']));
       const response = await this.service.getResponse({
         code: OK,
-        value: user,
+        value,
         queryParser,
       });
       return res.status(OK).json(response);

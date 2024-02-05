@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateLinkDto,
+  Dict,
   Domain,
   DomainDocument,
   Hit,
@@ -41,14 +42,6 @@ export class LinkService extends MongoBaseService {
     protected redisService: RedisService,
   ) {
     super(model, redisService);
-    this.routes = {
-      create: true,
-      find: false,
-      findOne: true,
-      update: true,
-      patch: true,
-      remove: true,
-    };
   }
 
   public async validateCreate(obj: CreateLinkDto) {
@@ -63,7 +56,7 @@ export class LinkService extends MongoBaseService {
 
       // Check if the owner user exists
       if (owner) {
-        const user = await this.userModel.findOne({ _id: owner, deleted: false, active: true });
+        const user = await this.userModel.findOne({ ...Utils.conditionWithDelete({ _id: owner }) });
         if (!user) {
           throw AppException.NOT_FOUND(lang.get('user').notFound);
         }
@@ -72,8 +65,10 @@ export class LinkService extends MongoBaseService {
       // Check if the workspace and domain are valid
       if (workspace) {
         const foundWorkspace = await this.workspaceModel.find({
-          user: owner,
-          domains: { $in: domain },
+          ...Utils.conditionWithDelete({
+            user: owner,
+            domains: { $in: domain },
+          }),
         });
 
         if (!foundWorkspace) {
@@ -97,21 +92,24 @@ export class LinkService extends MongoBaseService {
     }
   }
 
-  public async createNewObject(obj: CreateLinkDto, session?: ClientSession) {
+  public async createNewObject(obj: CreateLinkDto & Dict, session?: ClientSession) {
     try {
+      session = await this.model.startSession();
+      session.startTransaction();
+
       const { password, user } = obj;
 
       // Hash password if present
       if (password) {
         obj.password = await bcrypt.hash(obj.password, 10);
+        obj.isPrivate = true;
       }
 
       // Generate alias and find associated domain
-      const alias = Utils.generateCode(7, true);
-      const domain = await this.domainModel.findOne({ name: obj.domain });
-      if (!domain) {
-        throw AppException.NOT_FOUND(lang.get('domain').notFound);
-      }
+      const alias = obj.alias ? obj.alias : Utils.generateCode(7, true);
+
+      const domain = await this.domainModel.findOne({ ...Utils.conditionWithDelete({ _id: obj.domain }) });
+      this.ensureDomainExists(domain);
 
       // Check if the domain is verified
       const { verification } = domain;
@@ -130,26 +128,33 @@ export class LinkService extends MongoBaseService {
       };
 
       // Create and save associated QR code
-      const link = await super.createNewObject(payload);
+      let link = await super.createNewObject(payload, session);
       const qrCode = await new this.qrCodeModel({
         ...obj.qrCode,
         ...obj,
+        publicId: Utils.generateUniqueId('qrc'),
         user,
         link: link._id,
         workspace: domain.workspace,
         domain: domain._id,
-      }).save();
+      }).save({ session });
 
       // Associate QR code with link and save link
       link.qrCode = qrCode._id;
+      link = await link.save({ session });
 
-      return await link.save();
+      await session?.commitTransaction();
+
+      return link;
     } catch (e) {
+      await session?.abortTransaction();
       throw e;
+    } finally {
+      await session?.endSession();
     }
   }
 
-  public async processVisit({
+  public async visit({
     domain: userDomain,
     alias,
     ipAddressInfo,
@@ -193,6 +198,12 @@ export class LinkService extends MongoBaseService {
       return await link.save();
     } catch (e) {
       throw e;
+    }
+  }
+
+  private ensureDomainExists(domain) {
+    if (!domain) {
+      throw AppException.NOT_FOUND(lang.get('domain').notFound);
     }
   }
 }
