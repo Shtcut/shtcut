@@ -28,7 +28,7 @@ export class CreateLinkDto {
   public readonly user: string;
 
   @IsMongoId()
-  @IsOptional()
+  @IsNotEmpty()
   public readonly workspace: string;
 
   @IsMongoId()

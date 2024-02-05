@@ -59,13 +59,12 @@ export class DomainService extends MongoBaseService {
   }
 
   public async createNewObject(payload: CreateDomainDto, session?: ClientSession) {
-    let newSession: ClientSession | undefined;
-
     try {
-      newSession = session || (await this.model.startSession());
+      session = session || (await this.model.startSession());
+      session.startTransaction();
 
       const code = Utils.generateUniqueId('shtcut-verification-site');
-      const domain = await super.createNewObject({ ...payload }, newSession);
+      const domain = await super.createNewObject({ ...payload }, session);
 
       if (domain) {
         domain.verification = {
@@ -80,16 +79,16 @@ export class DomainService extends MongoBaseService {
       this.ensureWorkspaceExists(workspace);
 
       workspace.domains.push(domain._id);
-      await Promise.all([domain.save({ session: newSession }), workspace.save({ session: newSession })]);
+      await Promise.all([domain.save({ session: session }), workspace.save({ session })]);
 
-      await newSession?.commitTransaction();
+      await session?.commitTransaction();
 
       return domain;
     } catch (e) {
-      await newSession?.abortTransaction();
+      await session?.abortTransaction();
       throw e;
     } finally {
-      await newSession?.endSession();
+      await session?.endSession();
     }
   }
 
