@@ -12,6 +12,6 @@ import { RequestIpMiddleware } from 'shtcut/core';
 })
 export class RequestIpModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(RequestIpMiddleware).forRoutes('/:domain/alias');
+    consumer.apply(RequestIpMiddleware).forRoutes('/api/v1/links/visit');
   }
 }

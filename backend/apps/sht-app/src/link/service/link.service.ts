@@ -12,6 +12,7 @@ import {
   Hit,
   HitDocument,
   IpAddressInfo,
+  IpService,
   Link,
   LinkDocument,
   MongoBaseService,
@@ -28,6 +29,7 @@ import {
 import * as bcrypt from 'bcrypt';
 import { HitService } from '../../hit';
 import * as _ from 'lodash';
+import { Request } from 'express';
 
 @Injectable()
 export class LinkService extends MongoBaseService {
@@ -39,9 +41,18 @@ export class LinkService extends MongoBaseService {
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
     @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
+    protected ipService: IpService,
     protected redisService: RedisService,
   ) {
     super(model, redisService);
+    this.routes = {
+      create: true,
+      find: true,
+      findOne: false,
+      update: true,
+      patch: true,
+      remove: true,
+    };
   }
 
   public async validateCreate(obj: CreateLinkDto) {
@@ -112,10 +123,7 @@ export class LinkService extends MongoBaseService {
       this.ensureDomainExists(domain);
 
       // Check if the domain is verified
-      const { verification } = domain;
-      if (!verification.verified) {
-        throw AppException.NOT_FOUND(lang.get('domain').notVerified);
-      }
+      this.checkDomainVerification(domain);
 
       // Create payload with additional properties and create link
       const payload = {
@@ -154,29 +162,30 @@ export class LinkService extends MongoBaseService {
     }
   }
 
-  public async visit({
-    domain: userDomain,
-    alias,
-    ipAddressInfo,
-  }: {
-    domain: string;
-    alias: string;
-    ipAddressInfo: IpAddressInfo;
-  }) {
+  public async visit(req: Request, domainName: string, alias: string) {
     try {
+      const slug = Utils.slugifyText(domainName);
+      console.log('condition:::', { ...Utils.conditionWithDelete({ slug }) });
+      const domain = await this.domainModel.findOne({ ...Utils.conditionWithDelete({ slug }) });
+      this.ensureDomainExists(domain);
+      this.checkDomainVerification(domain);
+
       // Find link by alias and domain
-      const link = await this.model.findOne({ alias, domain: { $in: [userDomain] } }).populate(['domain']);
+      const link = await this.model.findOne({ alias, domain: domain._id }).populate(['domain']);
       if (!link) {
         return null;
       }
+
+      // const ipAddressInfo = await this.ipService.getClientIpInfo(req);
+      // console.log('ipAddressInfo::', ipAddressInfo);
 
       // If tracking is enabled, update hit information
       if (link.enableTracking) {
         const payload = {
           user: link.user,
           link: link._id,
-          domain: link.domain._id,
-          ...ipAddressInfo,
+          domain: domain._id,
+          // ...ipAddressInfo,
         };
 
         // Update or create hit record
@@ -184,7 +193,8 @@ export class LinkService extends MongoBaseService {
           { link: link._id, domain: payload.domain },
           {
             ...payload,
-            lastClicked: payload.timezone.currentTime ?? Date.now(),
+            // lastClicked: payload.timezone.currentTime ?? Date.now(),
+            domain: domain._id,
             $inc: { clicks: 1 },
           },
           {
@@ -204,6 +214,13 @@ export class LinkService extends MongoBaseService {
   private ensureDomainExists(domain) {
     if (!domain) {
       throw AppException.NOT_FOUND(lang.get('domain').notFound);
+    }
+  }
+
+  private checkDomainVerification(domain) {
+    const { verification } = domain;
+    if (!verification.verified) {
+      throw AppException.NOT_FOUND(lang.get('domain').notVerified);
     }
   }
 }
