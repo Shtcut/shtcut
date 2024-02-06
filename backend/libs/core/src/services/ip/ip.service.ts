@@ -1,18 +1,22 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { NextFunction, Response } from 'express';
-import { getClientIp } from 'request-ip';
-import { ClientInfo, IpService, IpAddressInfo, Request, Utils } from 'shtcut/core';
-import userAgent from 'useragent';
-import * as geoip from 'geoip-lite';
+import { Injectable } from '@nestjs/common';
+import { HttpService } from '../http/http.service';
 import { ConfigService } from '@nestjs/config';
+import { IpAddressInfo, Utils } from 'shtcut/core';
+import { Request } from 'express';
 
 @Injectable()
-export class RequestIpMiddleware implements NestMiddleware {
+export class IpService {
+  private static url = 'https://api.ipify.org?format=json';
+
   constructor(protected config: ConfigService) {}
 
-  public async use(req: Request, res: Response, next: NextFunction) {
+  public static async getRemoteIp() {
+    const remoteIP = await HttpService.get<{ ip: string }>(this.url);
+    return remoteIP.ip;
+  }
+
+  public async getClientIpInfo(req: Request) {
     const clientIp = await this.getClientIp(req);
-    res.setHeader('X-Request-Ip', clientIp);
 
     const ipRegistryKey = this.config.get('app.ipregistry.apiKey');
     const { IpregistryClient } = require('@ipregistry/client');
@@ -61,12 +65,11 @@ export class RequestIpMiddleware implements NestMiddleware {
         code: data?.location.region?.code,
       },
     };
-    req.clientInfo = clientInfo;
-    return next();
+    return clientInfo;
   }
 
   private async getClientIp(req: Request) {
-    const clientIp = getClientIp(req);
+    const clientIp = this.getClientIp(req);
     if (Utils.isLocalAddress(clientIp)) return IpService.getRemoteIp();
     return clientIp;
   }

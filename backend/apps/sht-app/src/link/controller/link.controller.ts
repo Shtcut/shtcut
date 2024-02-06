@@ -13,10 +13,9 @@ export class LinkController extends AppController {
     super(config, service);
   }
 
-  @Get('/:domain/:alias')
+  @Get('/visit/:domain/:alias')
   @HttpCode(OK)
   public async visit(
-    @GetClientInfo() ipAddressInfo,
     @Param('domain') domain: string,
     @Param('alias') alias: string,
     @Req() req: Request,
@@ -24,7 +23,7 @@ export class LinkController extends AppController {
     @Next() next: NextFunction,
   ) {
     try {
-      const link = await this.service.visit({ ipAddressInfo, domain, alias });
+      const link = await this.service.visit(req, domain, alias);
       let response = null;
       if (!link) {
         response = await this.service.getResponse({
