@@ -144,7 +144,7 @@ export class Hit {
   public clicks: number;
 
   @Prop({
-    type: Number,
+    type: Date,
     default: Date.now(),
   })
   public lastClicked: Date;

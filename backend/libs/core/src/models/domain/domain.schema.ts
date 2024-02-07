@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
+import { AdminAuth } from '../admin-auth';
 
 export type DomainDocument = Domain & Document;
 
@@ -101,6 +102,13 @@ export class Domain {
     default: false,
   })
   banned: boolean;
+
+  @Prop({
+    type: AdminAuth,
+    ref: 'AdminAuth',
+    select: false,
+  })
+  bannedBy: boolean;
 
   @Prop({
     type: Boolean,

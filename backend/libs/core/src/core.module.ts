@@ -3,7 +3,6 @@ import { HttpModule } from '@nestjs/axios';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureStorageModule } from '@nestjs/azure-storage';
-import { RequestIpModule } from './request-ip.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { redisStore } from 'cache-manager-redis-yet';
 import { RedisClientOptions } from 'redis';
@@ -13,7 +12,6 @@ import { RedisModule } from './worker';
   imports: [
     HttpModule,
     ConfigModule,
-    RequestIpModule,
     MongooseModule.forRootAsync({
       useFactory: (config: ConfigService): MongooseModuleFactoryOptions => {
         return {

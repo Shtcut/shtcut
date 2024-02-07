@@ -6,4 +6,3 @@ export * from './models';
 export * from './worker';
 export * from './shared.module';
 export * from './core.module';
-export * from './request-ip.module';

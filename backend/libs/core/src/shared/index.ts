@@ -13,4 +13,3 @@ export * from './jobs';
 export * from './pipes';
 export * from './decorators';
 export * from './types';
-export * from './middleware';

@@ -165,7 +165,6 @@ export class LinkService extends MongoBaseService {
   public async visit(req: Request, domainName: string, alias: string) {
     try {
       const slug = Utils.slugifyText(domainName);
-      console.log('condition:::', { ...Utils.conditionWithDelete({ slug }) });
       const domain = await this.domainModel.findOne({ ...Utils.conditionWithDelete({ slug }) });
       this.ensureDomainExists(domain);
       this.checkDomainVerification(domain);
@@ -176,8 +175,7 @@ export class LinkService extends MongoBaseService {
         return null;
       }
 
-      // const ipAddressInfo = await this.ipService.getClientIpInfo(req);
-      // console.log('ipAddressInfo::', ipAddressInfo);
+      const ipAddressInfo = await this.ipService.getClientIpInfo(req);
 
       // If tracking is enabled, update hit information
       if (link.enableTracking) {
@@ -185,7 +183,7 @@ export class LinkService extends MongoBaseService {
           user: link.user,
           link: link._id,
           domain: domain._id,
-          // ...ipAddressInfo,
+          ...ipAddressInfo,
         };
 
         // Update or create hit record
@@ -193,7 +191,7 @@ export class LinkService extends MongoBaseService {
           { link: link._id, domain: payload.domain },
           {
             ...payload,
-            // lastClicked: payload.timezone.currentTime ?? Date.now(),
+            lastClicked: payload.timezone.currentTime ?? Date.now(),
             domain: domain._id,
             $inc: { clicks: 1 },
           },
@@ -207,6 +205,7 @@ export class LinkService extends MongoBaseService {
       link.clicks += 1;
       return await link.save();
     } catch (e) {
+      console.log('err::', e);
       throw e;
     }
   }
