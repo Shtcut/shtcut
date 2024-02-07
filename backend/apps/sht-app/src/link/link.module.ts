@@ -16,15 +16,15 @@ import {
   UserSchema,
   WorkspaceSchema,
   RedisService,
-  RequestIpModule,
   IpService,
 } from 'shtcut/core';
 import { HitModule } from '../hit';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
+    HttpModule,
     HitModule,
-    RequestIpModule,
     MongooseModule.forFeature([
       { name: Link.name, schema: LinkSchema },
       { name: Domain.name, schema: DomainSchema },

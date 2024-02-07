@@ -1,22 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '../http/http.service';
 import { ConfigService } from '@nestjs/config';
 import { IpAddressInfo, Utils } from 'shtcut/core';
 import { Request } from 'express';
+import { HttpService } from '@nestjs/axios';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class IpService {
-  private static url = 'https://api.ipify.org?format=json';
+  constructor(
+    protected httpService: HttpService,
+    protected config: ConfigService,
+  ) {}
 
-  constructor(protected config: ConfigService) {}
-
-  public static async getRemoteIp() {
-    const remoteIP = await HttpService.get<{ ip: string }>(this.url);
-    return remoteIP.ip;
+  public async getRemoteIp() {
+    const response = await firstValueFrom(this.httpService.get('https://api.ipify.org?format=json'));
+    return response.data;
   }
 
   public async getClientIpInfo(req: Request) {
-    const clientIp = await this.getClientIp(req);
+    const { ip } = await this.getRemoteIp();
 
     const ipRegistryKey = this.config.get('app.ipregistry.apiKey');
     const { IpregistryClient } = require('@ipregistry/client');
@@ -25,10 +27,8 @@ export class IpService {
     const parser = require('ua-parser-js');
     const parsedUserAgent = parser(req.headers['user-agent']);
 
-    const { data } = await client.lookup(clientIp);
+    const { data } = await client.lookup('23.81.209.173');
     const { browser, os: OS } = parsedUserAgent;
-
-    console.log('data:', data);
 
     const clientInfo: IpAddressInfo = {
       ...data,
@@ -66,11 +66,5 @@ export class IpService {
       },
     };
     return clientInfo;
-  }
-
-  private async getClientIp(req: Request) {
-    const clientIp = this.getClientIp(req);
-    if (Utils.isLocalAddress(clientIp)) return IpService.getRemoteIp();
-    return clientIp;
   }
 }
