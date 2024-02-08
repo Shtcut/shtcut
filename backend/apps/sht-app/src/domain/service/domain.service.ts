@@ -10,8 +10,10 @@ import {
   Domain,
   DomainDocument,
   MongoBaseService,
+  OK,
   RedisService,
   Utils,
+  VercelService,
   Workspace,
   WorkspaceDocument,
 } from 'shtcut/core';
@@ -25,6 +27,7 @@ export class DomainService extends MongoBaseService {
     @InjectModel(Domain.name) protected model: Model<DomainDocument>,
     @InjectModel(Workspace.name) protected workspaceModel: Model<WorkspaceDocument>,
     protected cacheService: RedisService,
+    protected vercelService: VercelService,
   ) {
     super(model, cacheService);
   }
@@ -35,14 +38,8 @@ export class DomainService extends MongoBaseService {
 
       // Check if domain with the same slug exists
       const domain = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
-
-      this.ensureDomainExists(domain);
-
-      const { verification } = domain;
-
-      // Check if the domain is already verified
-      if (verification.verified) {
-        throw AppException.NOT_FOUND(lang.get('domain').verified);
+      if (domain) {
+        throw AppException.CONFLICT(lang.get('domain').duplicate);
       }
 
       // Check if the workspace exists
@@ -64,10 +61,18 @@ export class DomainService extends MongoBaseService {
       session.startTransaction();
 
       const code = Utils.generateUniqueId('shtcut-verification-site');
+
+      const response = await this.vercelService.addDomain(payload.name);
+      if (response instanceof AppException) {
+        throw response;
+      }
+      const { status, data } = response;
+
       const domain = await super.createNewObject({ ...payload }, session);
 
-      if (domain) {
+      if (domain && status === OK) {
         domain.verification = {
+          ...data,
           code,
           verified: false,
           dnsType: 'TXT',
@@ -136,46 +141,14 @@ export class DomainService extends MongoBaseService {
 
   private async canVerifyDomain(domain) {
     try {
-      const txtRecords = await this.getDnsRecordsForDomain(domain.name);
-
-      const txtSpfRecord = this.findTxtSpfRecord(txtRecords);
-
-      if (txtSpfRecord && txtRecords.value) {
-        this.verifyDomainCode(domain, txtRecords);
+      const response = await this.vercelService.verifyDomain(domain.name);
+      if (response instanceof AppException) {
+        throw response;
       }
-
-      return {
-        record: txtRecords,
-        domain,
-      };
+      const { status, data } = response;
+      return data;
     } catch (error) {
-      throw AppException.INTERNAL_SERVER(lang.get('domain').verificationInprogress);
+      throw error;
     }
-  }
-
-  private async getDnsRecordsForDomain(domainName: string) {
-    return await getDnsRecords(domainName, 'TXT');
-  }
-
-  private findTxtSpfRecord(txtRecords) {
-    return txtRecords.find((record) => record.value.includes('shtcut-verification-site'));
-  }
-
-  private verifyDomainCode(domain, txtRecords) {
-    const { value } = txtRecords;
-    const code = value.split('-')[3];
-
-    if (code && String(code).trim() === String(domain.code).trim()) {
-      this.updateDomainVerificationStatus(domain);
-    }
-  }
-
-  private async updateDomainVerificationStatus(domain) {
-    domain.verification = {
-      code: null,
-      verified: true,
-      dnsType: 'TXT',
-    };
-    await domain.save();
   }
 }

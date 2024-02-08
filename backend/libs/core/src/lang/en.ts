@@ -30,4 +30,11 @@ export default {
     patchNotAllow: 'Patch is not allowed for this Item',
     deleteNotAllow: 'Delete is not allowed for this Item',
   },
+
+  vercel: {
+    unableToAddDomain: 'The attempt to add a domain was unsuccessful.',
+    unableToFetchProjectDomain: 'The attempt to fetch projects domain was unsuccessful.',
+    unableToProjectDomain: 'The attempt to fetch projects domain was unsuccessful.',
+    cannotVerifyDomain: 'The attempt to verify domain was unsuccessful.',
+  },
 };

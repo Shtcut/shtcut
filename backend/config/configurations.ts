@@ -33,6 +33,12 @@ export const configuration = () => ({
     mongodb: {
       url: process.env.DB_URL,
     },
+    vercel: {
+      url: process.env.VERCEL_BASE_URL,
+      projectId: process.env.VERCEL_PROJECT_ID,
+      teamId: process.env.VERCEL_TEAM_ID,
+      authToken: process.env.VERCEL_TOKEN,
+    },
     templates: {
       email: {
         welcome: 'welcome',
