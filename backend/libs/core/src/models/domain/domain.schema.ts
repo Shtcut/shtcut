@@ -104,13 +104,6 @@ export class Domain {
   banned: boolean;
 
   @Prop({
-    type: AdminAuth,
-    ref: 'AdminAuth',
-    select: false,
-  })
-  bannedBy: boolean;
-
-  @Prop({
     type: Boolean,
     default: true,
   })
