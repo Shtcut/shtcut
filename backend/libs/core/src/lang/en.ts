@@ -36,5 +36,7 @@ export default {
     unableToFetchProjectDomain: 'The attempt to fetch projects domain was unsuccessful.',
     unableToProjectDomain: 'The attempt to fetch projects domain was unsuccessful.',
     cannotVerifyDomain: 'The attempt to verify domain was unsuccessful.',
+    cannotGetDomainConfig: 'The attempt to get domain configuration was unsuccessful.',
+    cannotGetDomain: 'The attempt to get domain was unsuccessful.',
   },
 };

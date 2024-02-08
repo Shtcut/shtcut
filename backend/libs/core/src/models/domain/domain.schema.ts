@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MGSchema } from 'mongoose';
 import { AdminAuth } from '../admin-auth';
 
 export type DomainDocument = Domain & Document;
@@ -60,25 +60,22 @@ export class Domain {
   })
   landingPage: string;
 
-  @Prop(
-    raw({
-      code: String,
-      dnsType: {
-        type: String,
-        enum: ['TXT', 'CNAME', 'A'],
-        default: 'TXT',
-      },
-      verified: {
-        type: Boolean,
-        default: false,
-      },
-    }),
-  )
+  @Prop([
+    {
+      type: MGSchema.Types.Mixed,
+    },
+  ])
   verification: {
-    code: string;
-    dnsType: string;
-    verified: boolean;
-  };
+    domain: string;
+    value: string;
+    type: string;
+  }[];
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  verified: boolean;
 
   @Prop({
     type: Boolean,

@@ -76,8 +76,6 @@ export class VercelService extends BaseVercelAbstract {
       );
       return { status, data };
     } catch (e) {
-      console.log('err:::', e);
-      console.log('data-err:::', JSON.stringify(e?.response?.data));
       return AppException.INTERNAL_SERVER(lang.get('vercel').unableToAddDomain);
     }
   }
@@ -118,6 +116,44 @@ export class VercelService extends BaseVercelAbstract {
       return { status, data };
     } catch (e) {
       return AppException.INTERNAL_SERVER(lang.get('vercel').unableToFetchProjectDomain);
+    }
+  }
+
+  public async getDomainConfig(name: string, options?: Dict) {
+    try {
+      const { status, data } = await firstValueFrom(
+        this.httpService.delete(`${this.baseURL}/domains/${name}/config`, {
+          params: {
+            teamId: this.teamId,
+            ...options,
+          },
+          headers: {
+            Authorization: this.authToken,
+          },
+        }),
+      );
+      return { status, data };
+    } catch (e) {
+      return AppException.INTERNAL_SERVER(lang.get('vercel').cannotGetDomainConfig);
+    }
+  }
+
+  public async getDomain(name: string, options?: Dict) {
+    try {
+      const { status, data } = await firstValueFrom(
+        this.httpService.delete(`${this.baseURL}/domains/${name}`, {
+          params: {
+            teamId: this.teamId,
+            ...options,
+          },
+          headers: {
+            Authorization: this.authToken,
+          },
+        }),
+      );
+      return { status, data };
+    } catch (e) {
+      return AppException.INTERNAL_SERVER(lang.get('vercel').cannotGetDomain);
     }
   }
 
