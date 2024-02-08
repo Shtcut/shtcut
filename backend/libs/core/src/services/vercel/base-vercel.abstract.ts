@@ -25,6 +25,8 @@ export abstract class BaseVercelAbstract {
   // Domain
   public abstract addDomain(name: string, options?: Dict);
   public abstract getProjectDomainByName(string, options?: Dict);
+  public abstract getDomain(domain: string, options?: Dict);
+  public abstract getDomainConfig(domain: string, options?: Dict);
   public abstract verifyDomain(domain: string, options?: Dict);
   public abstract removeDomain(domain: string, options?: Dict);
 }

@@ -67,16 +67,12 @@ export class DomainService extends MongoBaseService {
         throw response;
       }
       const { status, data } = response;
+      console.log('data::', data);
 
       const domain = await super.createNewObject({ ...payload }, session);
 
       if (domain && status === OK) {
-        domain.verification = {
-          ...data,
-          code,
-          verified: false,
-          dnsType: 'TXT',
-        };
+        domain.verification = data?.verification ?? [];
       }
 
       const workspace = await this.workspaceModel.findById(payload.workspace);
@@ -90,7 +86,7 @@ export class DomainService extends MongoBaseService {
 
       return domain;
     } catch (e) {
-      await session?.abortTransaction();
+      Promise.all([await session?.abortTransaction(), await this.vercelService.removeDomain(payload.name)]);
       throw e;
     } finally {
       await session?.endSession();
