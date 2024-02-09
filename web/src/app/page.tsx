@@ -4,15 +4,15 @@
 import Image from 'next/image';
 import { Button } from '@shtcut-ui/react';
 
-import { AlertCircle } from 'lucide-react';
 import { useState } from 'react';
 
 export default function Home() {
     const [state, setState] = useState(false);
     const navigation = [
         { title: 'Home', path: 'javascript:void(0)' },
-        { title: 'Domains', path: 'javascript:void(0)' },
-        { title: 'Pricing', path: 'javascript:void(0)' },
+        { title: 'URL Shortener', path: 'javascript:void(0)' },
+        { title: 'Survey', path: 'javascript:void(0)' },
+        { title: 'Email Marketing', path: 'javascript:void(0)' },
         { title: 'Developers', path: 'javascript:void(0)' },
         { title: 'FAQs', path: 'javascript:void(0)' }
     ];
@@ -160,10 +160,7 @@ export default function Home() {
                                 </div>
                             </div>
                             <div className="flex-1 hidden md:block">
-                                <div className="inline-block relative">
-                                    <img src="/link.svg" className="" alt="chain image" />
-                                    <img src="/link-1.svg" className="absolute top-0 left-0" alt="chain image" />
-                                </div>
+                                <img src="/hero-image.svg" className="" alt="chain image" />
                             </div>
                         </div>
                     </section>
