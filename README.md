@@ -1,4 +1,4 @@
-Shtcut URL Shortener: Analytics-Intensive, Self-Hostable
+Shtcut.link is the open-source All-in-One Marketing Platform.
 
 <p>
     <a href="https://app.shtcht.link" target="_blank">
@@ -10,80 +10,60 @@ Shtcut URL Shortener: Analytics-Intensive, Self-Hostable
     </a>
 </p>
 
-Meet [Shtcut](https://shtcut.link). An open-source software development tool engineered to provide a comprehensive suite of analytics while offering the ability to self-host, giving users complete control over their data and customization.
+# Comprehensive All-in-One Marketing Platform
 
+Welcome to our open-source All-in-One Marketing Platform! This software is designed to streamline your marketing efforts by aggregating various marketing tools into one comprehensive platform. Whether you're working on strategy development, planning campaigns, or analyzing performance, our all-in-one solution aims to simplify and enhance your marketing workflow.
 
-## Overview
+## Key Features
 
-This repository hosts an advanced URL shortener solution that goes beyond the traditional concept of link compressors. It's engineered to provide a comprehensive suite of analytics while offering the ability to self-host, giving users complete control over their data and customization.
+### URL Shortener
 
-## Features
+- **Efficiency at Scale:** Rapidly shorten URLs to create concise and impactful links for your campaigns.
+- **Robust Analytics:** Track click-through rates, analyze user engagement, and gain valuable insights into link performance.
 
-### Analytics Depth
+### Survey Module
 
-- Detailed Click Metrics: Track click-through rates, locations, devices, and more for every shortened link.
-- User Behavior Insights: Gain a deeper understanding of user interactions with links to optimize marketing strategies.
+- **Intuitive Survey Creation:** Effortlessly create and distribute surveys to capture actionable feedback.
+- **Advanced Analytics:** Dive deep into survey responses, empowering data-driven decision-making for your marketing strategy.
 
-### Self-Hosting Capabilities
+### Email Marketing
 
-- Complete Control: Host the platform on your infrastructure, ensuring data security and adhering to specific compliance requirements.
-- Customization Options: Tailor the solution to fit unique business or personal preferences, enhancing its usability.
+- **Campaign Mastery:** Manage end-to-end email marketing campaigns seamlessly within the platform.
+- **Granular Performance Metrics:** Monitor and analyze campaign performance metrics for targeted and effective audience engagement.
 
-### User-Friendly Interface
+### Future Roadmap
 
-- Intuitive Design: Enjoy a sleek and responsive user interface, making link management and analytics exploration effortless.
-- Visual Appeal: Aesthetically pleasing design that doesn't compromise functionality.
+We are committed to enhancing our platform and have exciting features on the horizon:
 
-### Earning Opportunities
+#### Website Builder
 
-- Monetization Potential: Integrate advertising or affiliate links to generate revenue through link clicks.
-- Performance Tracking: Analyze earning potential by tracking revenue generated from different links or campaigns.
-- Referral Promotion: Implement referral programs, rewarding users for bringing in new members or generating increased traffic.
+- **Web Presence Optimization:** Craft and customize websites directly within the platform.
+- **Dynamic Landing Pages:** Develop captivating landing pages to bolster your online presence and conversion rates.
 
-## Installation
+## Getting Started
 
-### Requirements
+Embark on your journey with our Comprehensive All-in-One Marketing Platform through the following steps:
 
-- NestJS v9.0 or higher
-- Currently Support MongoDB v4.0 or higher, coming soon, support multiple Database
-- GraphQL v11.0 or higher
-- Nginx/Apache (for production deployment)
+1. **Installation**
+   - Clone the repository to your local environment.
+   - Refer to the comprehensive documentation for seamless installation and configuration.
 
-### Steps to Install
+2. **Configuration**
+   - Configure API keys and settings for integrated tools such as the URL shortener, survey module, and email marketing.
 
-1. Clone this repository to your local machine.
-2. Install dependencies using `yarn install`.
-3. Configure environment variables for database connection, analytics settings, and hosting preferences.
-4. Run the application using `yarn start`.
+3. **Utilization**
+   - Dive into the expansive feature set of the platform, integrating them into your marketing activities with ease.
 
-## Usage
-
-### Accessing the Application
-
-- Visit the hosted version of the application at [shtcut.link](https://shtcut.link/) for instant access to the service.
-
-### Shortening Links
-
-1. Access the application via the provided URL or the locally hosted server.
-2. Authenticate or use as a guest (if allowed) to access link shortening functionality.
-3. Input the long URL and generate a shortened link.
-4. View comprehensive analytics and manage links through the user-friendly dashboard.
-
-### Self-Hosting Guidance
-
-- Refer to the detailed documentation in the 'docs' folder for instructions on self-hosting, customization, and API integration.
-
-This addition directs users to access the hosted version of the application directly through the provided link [shtcut.link](https://shtcut.link/), simplifying access for immediate usage.
-
-## Contribution
+## Contributing
 
 We welcome contributions! If you'd like to contribute, please follow our [contribution guidelines](CONTRIBUTING.md) for details on the process.
 
 ## License
 
-This project is licensed under the [MIT License](https://github.com/funmiayinde/shtcut-backend/blob/main/LICENSE).
+Our Comprehensive All-in-One Marketing Platform is open-source and released under the GNU AFFERO GENERAL PUBLIC LICENSE. Refer to the [MIT License](https://github.com/funmiayinde/shtcut-backend/blob/main/LICENSE) file for an in-depth understanding of the terms.
 
-## Support
+## Support and Feedback
 
-For any queries, issues, or suggestions, feel free to raise a GitHub issue or contact the maintainers at [funmi@shtcut.link](mailto:funmi@shtcut.com).
+For assistance or to share your valuable feedback, kindly [open an issue](https://github.com/Shtcut/shtcut/issues) on our GitHub repository. Your contributions and insights are invaluable to us.
 
+Thank you for selecting our Comprehensive All-in-One Marketing Platform. Elevate your marketing experience!
