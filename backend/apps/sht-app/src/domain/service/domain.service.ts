@@ -65,7 +65,6 @@ export class DomainService extends MongoBaseService {
         throw response;
       }
       const { status, data } = response;
-      console.log('data::', data);
 
       const domain = await super.createNewObject({ ...payload }, session);
 
