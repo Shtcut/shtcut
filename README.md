@@ -1,4 +1,4 @@
-Shtcut.link is the open-source Marketing tools.
+Shtcut.link is the open-source All-in-One Marketing Platform.
 
 <p>
     <a href="https://app.shtcht.link" target="_blank">
