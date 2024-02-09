@@ -60,8 +60,6 @@ export class DomainService extends MongoBaseService {
       session = session || (await this.model.startSession());
       session.startTransaction();
 
-      const code = Utils.generateUniqueId('shtcut-verification-site');
-
       const response = await this.vercelService.addDomain(payload.name);
       if (response instanceof AppException) {
         throw response;
@@ -137,6 +135,10 @@ export class DomainService extends MongoBaseService {
 
   private async canVerifyDomain(domain) {
     try {
+      const [domainInfo, domainConfig] = await Promise.all([
+        await this.vercelService.getDomain(domain.name),
+        await this.vercelService.getDomainConfig(domain.name),
+      ]);
       const response = await this.vercelService.verifyDomain(domain.name);
       if (response instanceof AppException) {
         throw response;
