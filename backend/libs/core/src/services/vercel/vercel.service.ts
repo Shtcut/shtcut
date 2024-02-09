@@ -44,8 +44,6 @@ export class VercelService extends BaseVercelAbstract {
       );
       return { status, data };
     } catch (e) {
-      console.log('err:::', e);
-      console.log('data-err:::', JSON.stringify(e?.response?.data));
       return AppException.INTERNAL_SERVER(lang.get('vercel').cannotVerifyDomain);
     }
   }
@@ -80,6 +78,14 @@ export class VercelService extends BaseVercelAbstract {
     }
   }
 
+  /**
+   * The function `getProjectDomainByName` retrieves a project domain by name using an HTTP GET
+   * request.
+   * @param {Dict} [params] - The `params` parameter is an optional dictionary object that can contain
+   * additional query parameters to be included in the HTTP request. These parameters will be appended
+   * to the URL as query parameters.
+   * @returns an object with two properties: "status" and "data".
+   */
   public async getProjectDomainByName(params?: Dict) {
     try {
       const { status, data } = await firstValueFrom(
@@ -100,6 +106,15 @@ export class VercelService extends BaseVercelAbstract {
     }
   }
 
+  /**
+   * The `removeDomain` function is used to delete a domain from a project.
+   * @param {string} domain - The `domain` parameter is a string that represents the domain name that
+   * you want to remove from a project.
+   * @param {Dict} [options] - The `options` parameter is an optional object that can contain
+   * additional parameters for the HTTP request. These parameters will be included as query parameters
+   * in the request URL.
+   * @returns an object with two properties: "status" and "data".
+   */
   public async removeDomain(domain: string, options?: Dict) {
     try {
       const { status, data } = await firstValueFrom(
@@ -119,10 +134,20 @@ export class VercelService extends BaseVercelAbstract {
     }
   }
 
+  /**
+   * The function `getDomainConfig` retrieves the configuration of a domain by making an HTTP GET
+   * request to a specific endpoint.
+   * @param {string} name - The `name` parameter is a string that represents the name of the domain for
+   * which you want to retrieve the configuration.
+   * @param {Dict} [options] - The `options` parameter is an optional dictionary object that can
+   * contain additional parameters for the HTTP request. These parameters will be included as query
+   * parameters in the request URL.
+   * @returns an object with two properties: "status" and "data".
+   */
   public async getDomainConfig(name: string, options?: Dict) {
     try {
       const { status, data } = await firstValueFrom(
-        this.httpService.delete(`${this.baseURL}/domains/${name}/config`, {
+        this.httpService.get(`${this.baseURL}/domains/${name}/config`, {
           params: {
             teamId: this.teamId,
             ...options,
@@ -138,10 +163,20 @@ export class VercelService extends BaseVercelAbstract {
     }
   }
 
+  /**
+   * The function `getDomain` is an asynchronous function that retrieves domain information based on a
+   * given name and optional options, and returns the status and data of the retrieved domain.
+   * @param {string} name - The `name` parameter is a string that represents the name of the domain you
+   * want to retrieve information for.
+   * @param {Dict} [options] - The `options` parameter is an optional object that can contain
+   * additional parameters for the HTTP request. These parameters will be included as query parameters
+   * in the request URL.
+   * @returns an object with two properties: "status" and "data".
+   */
   public async getDomain(name: string, options?: Dict) {
     try {
       const { status, data } = await firstValueFrom(
-        this.httpService.delete(`${this.baseURL}/domains/${name}`, {
+        this.httpService.get(`${this.baseURL}/domains/${name}`, {
           params: {
             teamId: this.teamId,
             ...options,

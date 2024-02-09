@@ -1,203 +1,174 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 
 import Image from 'next/image';
-import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-    Alert,
-    AlertTitle,
-    AlertDescription,
-    Button,
-    Card,
-    CardHeader,
-    CardTitle,
-    CardDescription,
-    CardContent,
-    CardFooter,
-    AlertDialog,
-    AlertDialogTrigger,
-    AlertDialogContent,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogCancel,
-    AlertDialogAction
-} from '@shtcut-ui/react';
+import { Button } from '@shtcut-ui/react';
 
 import { AlertCircle } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Home() {
-    return (
-        <main className="flex min-h-screen flex-col items-center justify-between p-24">
-            <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-                <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-                    Get started by editing&nbsp;
-                    <code className="font-mono font-bold">src/app/page.tsx</code>
-                </p>
-                <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-                    <a
-                        className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-                        href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                        target="_blank"
-                        rel="noopener noreferrer"
+    const [state, setState] = useState(false);
+    const navigation = [
+        { title: 'Home', path: 'javascript:void(0)' },
+        { title: 'Domains', path: 'javascript:void(0)' },
+        { title: 'Pricing', path: 'javascript:void(0)' },
+        { title: 'Developers', path: 'javascript:void(0)' },
+        { title: 'FAQs', path: 'javascript:void(0)' }
+    ];
+    const Logo = () => (
+        <div className="flex items-center justify-between py-5 md:block">
+            <a>
+                <Image src="/logo.svg" width={120} height={50} alt="Shtcut Logo" />
+            </a>
+            <div className="md:hidden">
+                <Button className="menu-btn text-gray-500 hover:text-gray-800">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
                     >
-                        By{' '}
-                        <Image
-                            src="/vercel.svg"
-                            alt="Vercel Logo"
-                            className="dark:invert"
-                            width={100}
-                            height={24}
-                            priority
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                         />
-                    </a>
+                    </svg>
+                </Button>
+            </div>
+        </div>
+    );
+    return (
+        <main className="flex min-h-screen flex-col">
+            <div className="relative">
+                <div
+                    className="absolute inset-0 blur-xl h-[580px]"
+                    style={{
+                        background:
+                            'linear-gradient(130.6deg, rgba(47, 88, 233, 1) , rgba(47, 155, 233, 0.4) 0%, rgba(204, 171, 238, 0) 50.35%)'
+                    }}
+                />
+                <div className="relative">
+                    <header>
+                        <div className={`md:hidden ${state ? 'mx-2 pb-5' : 'hidden'}`}>
+                            <Logo />
+                        </div>
+                        <nav
+                            className={`pb-5 md:text-sm ${
+                                state
+                                    ? 'absolute top-0 inset-x-0 bg-white shadow-lg rounded-xl border mx-2 mt-2 md:shadow-none md:border-none md:mx-0 md:mt-0 md:relative md:bg-transparent'
+                                    : ''
+                            }`}
+                        >
+                            <div className="gap-x-14 items-center max-w-screen-xl mx-auto px-4 md:flex md:px-8">
+                                <Logo />
+                                <div
+                                    className={`flex-1 items-center mt-8 md:mt-0 md:flex ${
+                                        state ? 'block' : 'hidden'
+                                    } `}
+                                >
+                                    <ul className="flex-1 justify-center items-center space-y-6 md:flex md:space-x-6 md:space-y-0">
+                                        {navigation.map((item, idx) => {
+                                            return (
+                                                <li key={idx} className="text-gray-700 hover:text-gray-900">
+                                                    <a href={item.path} className="block">
+                                                        {item.title}
+                                                    </a>
+                                                </li>
+                                            );
+                                        })}
+                                    </ul>
+                                    <div className="items-center justify-end mt-6 space-y-6 md:flex md:mt-0">
+                                        <a
+                                            href="javascript:void(0)"
+                                            className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
+                                        >
+                                            Sign in
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                                className="w-5 h-5"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    </header>
+                    <section>
+                        <div className="max-w-screen-xl mx-auto px-4 py-28 gap-12 text-gray-600 overflow-hidden md:px-8 md:flex">
+                            <div className="flex-none space-y-5 max-w-xl">
+                                <a
+                                    href="javascript:void(0)"
+                                    className="inline-flex gap-x-6 items-center rounded-full p-1 pr-6 border text-sm font-medium duration-150 hover:bg-white"
+                                >
+                                    <span className="inline-block rounded-full px-3 py-1 bg-indigo-600 text-white">
+                                        News
+                                    </span>
+                                    <p className="flex items-center">
+                                        Read the launch post from here
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </p>
+                                </a>
+                                <h1 className="text-4xl text-gray-800 font-extrabold sm:text-5xl">
+                                    Generate short URLs with just a click
+                                </h1>
+                                <p>
+                                    Paste in any long url, make it sharable, trackable and customizable with just a few
+                                    clicks.
+                                </p>
+                                <div className="flex items-center gap-x-3 sm:text-sm">
+                                    <a
+                                        href="javascript:void(0)"
+                                        className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 duration-150 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
+                                    >
+                                        Get started
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                            className="w-5 h-5"
+                                        >
+                                            <path
+                                                fillRule="evenodd"
+                                                d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z"
+                                                clipRule="evenodd"
+                                            />
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="flex-1 hidden md:block">
+                                <div className="inline-block relative">
+                                    <img src="/link.svg" className="" alt="chain image" />
+                                    <img src="/link-1.svg" className="absolute top-0 left-0" alt="chain image" />
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </div>
-
-            <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1">
-                    <AccordionTrigger>Test item 1</AccordionTrigger>
-                    <AccordionContent>Test item 1 value here</AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="item-2">
-                    <AccordionTrigger>Test item 1</AccordionTrigger>
-                    <AccordionContent>Test item 1 value here</AccordionContent>
-                </AccordionItem>
-            </Accordion>
-
-            <Alert className="mt-5" variant="default">
-                <AlertCircle />
-                <AlertTitle>Default Alert</AlertTitle>
-                <AlertDescription>Description for this alert.</AlertDescription>
-            </Alert>
-            <Alert className="mt-5" variant="destructive">
-                <AlertCircle />
-                <AlertTitle>Destructive Alert</AlertTitle>
-                <AlertDescription>Description for this alert.</AlertDescription>
-            </Alert>
-
-            <AlertDialog>
-                <AlertDialogTrigger asChild>
-                    <Button variant="destructive">Show alert Dialog</Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                    <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete your account and remove your data
-                            from our servers
-                        </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                </AlertDialogContent>
-            </AlertDialog>
-
-            <Card className="mt-5">
-                <CardHeader>
-                    <CardTitle>Card Title</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-                        <a
-                            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <h2 className={`mb-3 text-2xl font-semibold`}>
-                                Docs{' '}
-                                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                                    -&gt;
-                                </span>
-                            </h2>
-                            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                                Find in-depth information about Next.js features and API.
-                            </p>
-                        </a>
-
-                        <a
-                            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-                            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <h2 className={`mb-3 text-2xl font-semibold`}>
-                                Learn{' '}
-                                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                                    -&gt;
-                                </span>
-                            </h2>
-                            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                                Learn about Next.js in an interactive course with&nbsp;quizzes!
-                            </p>
-                        </a>
-
-                        <a
-                            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <h2 className={`mb-3 text-2xl font-semibold`}>
-                                Templates{' '}
-                                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                                    -&gt;
-                                </span>
-                            </h2>
-                            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                                Explore starter templates for Next.js.
-                            </p>
-                        </a>
-
-                        <a
-                            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-                            className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            <h2 className={`mb-3 text-2xl font-semibold`}>
-                                Deploy{' '}
-                                <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-                                    -&gt;
-                                </span>
-                            </h2>
-                            <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-                                Instantly deploy your Next.js site to a shareable URL with Vercel.
-                            </p>
-                        </a>
-                    </div>
-
-                    <div className="inline-block mt-10">
-                        <Button variant="outline" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="destructive" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="default" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="secondary" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="ghost" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="link" className="ml-6" size="lg">
-                            Button
-                        </Button>
-                        <Button variant="link" className="ml-6" size="icon">
-                            <AlertCircle />
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
         </main>
     );
 }
