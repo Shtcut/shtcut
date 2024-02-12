@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/sht-app/src",
+  "sourceRoot": "apps/sht-shtner/src",
   "monorepo": true,
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/sht-app/tsconfig.app.json"
+    "tsConfigPath": "apps/sht-shtner/tsconfig.app.json"
   },
-  "root": "apps/sht-app",
+  "root": "apps/sht-gw",
   "projects": {
     "sht-gw": {
       "type": "application",
@@ -18,13 +18,22 @@
         "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
       }
     },
-    "sht-app": {
+    "sht-acl": {
       "type": "application",
-      "root": "apps/sht-app",
+      "root": "apps/sht-acl",
       "entryFile": "main",
-      "sourceRoot": "apps/sht-app/src",
+      "sourceRoot": "apps/sht-acl/src",
       "compilerOptions": {
-        "tsConfigPath": "apps/sht-app/tsconfig.app.json"
+        "tsConfigPath": "apps/sht-acl/tsconfig.app.json"
+      }
+    },
+    "sht-shtner": {
+      "type": "application",
+      "root": "apps/sht-shtner",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-shtner/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-shtner/tsconfig.app.json"
       }
     },
     "sht-worker": {
@@ -43,6 +52,24 @@
       "sourceRoot": "apps/sht-admin/src",
       "compilerOptions": {
         "tsConfigPath": "apps/sht-admin/tsconfig.app.json"
+      }
+    },
+    "sht-survey": {
+      "type": "application",
+      "root": "apps/sht-survey",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-survey/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-survey/tsconfig.app.json"
+      }
+    },
+    "sht-marketing": {
+      "type": "application",
+      "root": "apps/sht-marketing",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-marketing/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-marketing/tsconfig.app.json"
       }
     },
     "core": {

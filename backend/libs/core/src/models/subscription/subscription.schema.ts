@@ -1,3 +1,4 @@
+import { configuration } from '@config';
 import { Prop, raw, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { FileTypeOption } from 'shtcut/core';
@@ -47,6 +48,13 @@ export class Subscription {
     default: 'active',
   })
   status: any;
+
+  @Prop({
+    type: String,
+    required: true,
+    enum: configuration().app.modules,
+  })
+  module: any;
 
   @Prop({
     type: Date,
