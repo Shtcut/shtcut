@@ -1,13 +1,14 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as morgan from 'morgan';
-import { LoggingInterceptor, ResponseFilter, ValidationPipe, WorkerExceptionFilter } from 'shtcut/core';
+import { LoggingInterceptor, ResponseFilter, ValidationPipe } from 'shtcut/core';
 import { ConfigService } from '@nestjs/config';
 import { Logger } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     cors: true,
+    bodyParser: true,
   });
 
   const config = app.get(ConfigService);
@@ -15,8 +16,7 @@ async function bootstrap() {
   const currentVersion = apiVersions.pop();
 
   app.use(morgan('tiny'));
-  app.setGlobalPrefix(`api/${currentVersion}/worker`);
-  app.useGlobalFilters(new WorkerExceptionFilter());
+  app.setGlobalPrefix(`api/${currentVersion}/shtner`);
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new LoggingInterceptor());

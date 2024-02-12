@@ -13,7 +13,7 @@ export const configuration = () => ({
       itemsPerPage: 10,
     },
     lang: 'en',
-    modules: ['shtcut-shortener', 'shtcut-survey', 'shtcut-email-marketing', 'shtcut-website-builder'],
+    modules: ['shtcut-shortener', 'shtcut-survey', 'shtcut-marketing', 'shtcut-web-builder'],
     jwtExpiry: process.env.JWT_EXPIRY || '30000m',
     showDeveloperError: process.env.SHOW_DEVELOPER_ERROR || true,
     fromEmail: process.env.EMAIL_NO_REPLY || 'noreply@shtcut.link',
@@ -135,7 +135,10 @@ export const configuration = () => ({
     },
   },
   microServices: {
-    app: {
+    acl: {
+      url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4008/api/v1',
+    },
+    shtner: {
       url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4002/api/v1',
     },
     admin: {

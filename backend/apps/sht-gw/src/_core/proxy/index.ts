@@ -1,2 +1,2 @@
-export * from './app.proxy';
+export * from './shtner.proxy';
 export * from './worker.proxy';
