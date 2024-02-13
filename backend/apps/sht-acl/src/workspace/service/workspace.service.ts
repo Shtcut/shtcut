@@ -12,12 +12,14 @@ import {
   RedisService,
   Subscription,
   SubscriptionDocument,
+  UpdateWorkspaceDto,
   Utils,
   Workspace,
   WorkspaceDocument,
 } from 'shtcut/core';
 import * as _ from 'lodash';
 import { ClientSession } from 'mongodb';
+import { SubscriptionService } from '../../subscription';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -25,6 +27,7 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Workspace.name) protected model: Model<WorkspaceDocument>,
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
+    protected subscriptionService: SubscriptionService,
     protected redisService: RedisService,
   ) {
     super(model, redisService);
@@ -52,40 +55,101 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
+  /**
+   * The function creates a new object, starts a session, and performs various operations related to
+   * creating a workspace.
+   * @param obj - The `obj` parameter is an object that contains the data for creating a new workspace.
+   * It is of type `CreateWorkspaceDto & Dict`, which means it is a combination of the
+   * `CreateWorkspaceDto` type and a dictionary type (`Dict`).
+   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
+   * `ClientSession`. It is used to specify a MongoDB session for the transaction. If a session is not
+   * provided, a new session is started using `this.model.startSession()`.
+   * @returns the `workspace` object.
+   */
   public async createNewObject(obj: CreateWorkspaceDto & Dict, session?: ClientSession) {
-    let newSession: ClientSession | undefined;
-
     try {
-      newSession = session || (await this.model.startSession());
+      session = session ?? (await this.model.startSession());
 
-      newSession.startTransaction();
+      session.startTransaction();
 
       if (!obj.plan) {
         const plan = await this.planModel.findOne({ name: 'Free' });
         obj.plan = plan._id;
       }
 
-      const workspace = await super.createNewObject(obj);
+      const workspace = await super.createNewObject(obj, session);
 
-      const subscription = await new this.subscriptionModel({
-        plan: obj.plan,
-        user: obj.user,
-        workspace: workspace._id,
-        startDate: Date.now(),
-      }).save({ session: newSession });
+      const subscription = await this.createSubscription(workspace, obj, session);
 
-      workspace.subscription = subscription._id;
+      workspace.subscriptions =
+        workspace.subscriptions && workspace.subscriptions.length
+          ? [...workspace.subscriptions, subscription._id]
+          : [subscription._id];
 
-      await workspace.save({ newSession });
+      workspace.modules =
+        workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
 
-      await newSession?.commitTransaction();
+      await workspace.save({ session });
+
+      await session?.commitTransaction();
 
       return workspace;
     } catch (e) {
-      await newSession?.abortTransaction();
+      await session?.abortTransaction();
       throw e;
     } finally {
-      await newSession?.endSession();
+      await session?.endSession();
     }
+  }
+
+  /**
+   * The function updates a workspace object and creates a subscription if the module specified in the
+   * update is not already included in the workspace's modules.
+   * @param {string} id - The `id` parameter is a string that represents the identifier of the object
+   * to be updated.
+   * @param {UpdateWorkspaceDto} obj - The `obj` parameter is of type `UpdateWorkspaceDto`, which is an
+   * object containing the updated properties of a workspace.
+   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
+   * `ClientSession`. It is used to specify a session for the MongoDB transaction. If a session is
+   * provided, the function will perform the update operation within that session. If no session is
+   * provided, the update operation will be performed outside of any session
+   * @returns The `workspace` object is being returned.
+   */
+  public async updateObject(id: string, obj: UpdateWorkspaceDto, session?: ClientSession) {
+    const workspace = await super.updateObject(id, obj);
+    if (!workspace.modules.includes(obj.module)) {
+      const subscription = await this.createSubscription(workspace, obj, session);
+
+      workspace.subscriptions =
+        workspace.subscriptions && workspace.subscriptions.length
+          ? [...workspace.subscriptions, subscription._id]
+          : [subscription._id];
+
+      workspace.modules =
+        workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
+    }
+    return workspace;
+  }
+
+  /**
+   * The function creates a new subscription object with the provided workspace, object, and session.
+   * @param workspace - The `workspace` parameter represents the workspace object that the subscription
+   * will be created for.
+   * @param obj - The `obj` parameter is an object that contains the data for creating a subscription.
+   * It likely includes properties such as `name`, `price`, `duration`, etc.
+   * @param session - The "session" parameter is likely referring to a database session or transaction
+   * object. It is used to ensure that the database operations performed within the
+   * "createSubscription" function are atomic and can be rolled back if necessary.
+   * @returns the result of calling the `createNewObject` method of the `subscriptionService` object
+   * with the `payload` and `session` parameters.
+   */
+  public async createSubscription(workspace, obj, session) {
+    const payload = {
+      ...obj,
+      plan: workspace.plan || obj.plan,
+      workspace: workspace._id,
+      startDate: Date.now(),
+    };
+    return await this.subscriptionService.createNewObject(payload, session);
   }
 }

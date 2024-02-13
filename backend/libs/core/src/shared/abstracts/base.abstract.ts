@@ -181,7 +181,9 @@ export abstract class BaseAbstract {
       });
     }
     if (slugName && (!_.isEmpty(slugName) || !_.isNull(slugName) || !_.isUndefined(slugName))) {
-      obj = Object.assign(obj, { slug: Utils.slugifyText(req.body[slugName].toLowerCase()) });
+      if (req.body[slugName]) {
+        obj = Object.assign(obj, { slug: Utils.slugifyText(req.body[slugName].toLowerCase()) });
+      }
     }
     return obj;
   }

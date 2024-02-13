@@ -2,11 +2,11 @@ import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
-import lang from 'apps/sht-shtner/lang';
 import { ClientSession, Model } from 'mongoose';
 import { lastValueFrom } from 'rxjs';
 import { AppException, Auth, AuthDocument, SocialSignInDto, SocialType, User, UserDocument, Utils } from 'shtcut/core';
 import * as _ from 'lodash';
+import lang from 'apps/sht-acl/lang';
 
 @Injectable()
 export class SocialAuthService {

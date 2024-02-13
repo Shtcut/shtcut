@@ -13,11 +13,11 @@ import {
   Plan,
   PlanSchema,
 } from 'shtcut/core';
-import { HitModule } from '../../../sht-shtner/src/hit';
+import { SubscriptionModule } from '../subscription';
 
 @Module({
   imports: [
-    HitModule,
+    SubscriptionModule,
     MongooseModule.forFeature([
       { name: Domain.name, schema: DomainSchema },
       { name: Workspace.name, schema: WorkspaceSchema },

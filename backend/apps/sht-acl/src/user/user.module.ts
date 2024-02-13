@@ -2,7 +2,16 @@ import { Module } from '@nestjs/common';
 import { UserController } from './controller/user.controller';
 import { UserService } from './service/user.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { Auth, AuthSchema, User, UserSchema, Workspace, WorkspaceSchema } from 'shtcut/core';
+import {
+  Auth,
+  AuthSchema,
+  Subscription,
+  SubscriptionSchema,
+  User,
+  UserSchema,
+  Workspace,
+  WorkspaceSchema,
+} from 'shtcut/core';
 
 @Module({
   imports: [
@@ -10,6 +19,7 @@ import { Auth, AuthSchema, User, UserSchema, Workspace, WorkspaceSchema } from '
       { name: Auth.name, schema: AuthSchema },
       { name: User.name, schema: UserSchema },
       { name: Workspace.name, schema: WorkspaceSchema },
+      { name: Subscription.name, schema: SubscriptionSchema },
     ]),
   ],
   controllers: [UserController],

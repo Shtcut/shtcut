@@ -51,10 +51,10 @@ export class Subscription {
 
   @Prop({
     type: String,
-    required: true,
     enum: configuration().app.modules,
+    default: 'shtcut-shortener',
   })
-  module: any;
+  module: string;
 
   @Prop({
     type: Date,
@@ -105,7 +105,7 @@ SubscriptionSchema.statics.config = () => {
   return {
     idToken: 'sub',
     uniques: [],
-    fillables: ['workspace', 'user', 'startDate', 'endDate', 'status'],
+    fillables: ['workspace', 'user', 'startDate', 'endDate', 'status', 'modules'],
     objectIds: ['user', 'plan'],
     dateFilters: ['startAt', 'endAt'],
     hiddenFields: ['deleted'],
