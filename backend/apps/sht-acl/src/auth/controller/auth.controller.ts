@@ -20,7 +20,7 @@ import {
 import { NextFunction, Request, Response } from 'express';
 import { AuthEmail } from '../auth.email';
 import * as _ from 'lodash';
-import lang from 'apps/sht-shtner/lang';
+import lang from 'apps/sht-acl/lang';
 
 @Controller('auth')
 export class AuthController {

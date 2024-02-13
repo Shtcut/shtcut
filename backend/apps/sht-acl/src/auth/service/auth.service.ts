@@ -24,8 +24,7 @@ import { SocialAuthService } from './social-auth.service';
 import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
-import lang from 'apps/sht-shtner/lang';
-
+import lang from 'apps/sht-acl/lang';
 @Injectable()
 export class AuthService extends MongoBaseService {
   constructor(

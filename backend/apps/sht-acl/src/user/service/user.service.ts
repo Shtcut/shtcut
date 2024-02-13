@@ -5,6 +5,8 @@ import {
   Dict,
   MongoBaseService,
   QueryParser,
+  Subscription,
+  SubscriptionDocument,
   User,
   UserDocument,
   Utils,
@@ -17,6 +19,7 @@ export class UserService extends MongoBaseService {
   constructor(
     @InjectModel(User.name) protected model: Model<UserDocument>,
     @InjectModel(Workspace.name) protected workspaceModel: Model<WorkspaceDocument>,
+    @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
   ) {
     super(model);
     this.routes = {
@@ -29,13 +32,22 @@ export class UserService extends MongoBaseService {
     };
   }
 
-  public async findObject(id: unknown, query?: Record<string, any> | QueryParser) {
+  public async findObject(id: unknown, query?: Dict | QueryParser) {
     try {
-      const user = await super.findObject(id, query);
-      const workspace = await this.workspaceModel.find({
-        ...Utils.conditionWithDelete({ user: user._id, active: true }),
-      });
-      return { ...user?.toJSON(), workspace };
+      const condition = {
+        user: Utils.toObjectId(id),
+        active: true,
+      };
+      const [user, workspace, subscription] = await Promise.all([
+        await super.findObject(id, query),
+        await this.workspaceModel.find({
+          ...Utils.conditionWithDelete({ ...condition }),
+        }),
+        await this.subscriptionModel.find({
+          ...Utils.conditionWithDelete({ ...condition, status: 'active' }),
+        }),
+      ]);
+      return { ...user?.toJSON(), workspace, subscription };
     } catch (e) {
       throw e;
     }

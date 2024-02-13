@@ -11,6 +11,10 @@ export class CreateWorkspaceDto {
   public plan: string;
 
   @IsString()
+  @IsNotEmpty()
+  public readonly module: string;
+
+  @IsString()
   @IsOptional()
   public readonly type?: string;
 }

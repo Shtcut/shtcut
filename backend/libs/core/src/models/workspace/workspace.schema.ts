@@ -1,3 +1,4 @@
+import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
@@ -32,12 +33,6 @@ export class Workspace {
   isDefault: boolean;
 
   @Prop({
-    type: Number,
-    default: 10,
-  })
-  maxDomain: boolean;
-
-  @Prop({
     type: String,
     required: true,
     unique: true,
@@ -46,10 +41,14 @@ export class Workspace {
 
   @Prop({
     type: String,
-    required: true,
-    unique: true,
   })
   slug: string;
+
+  @Prop({
+    type: [String],
+    required: true,
+  })
+  modules: string[];
 
   @Prop({
     type: String,
@@ -69,10 +68,15 @@ export class Workspace {
   domains: any[];
 
   @Prop({
-    type: Types.ObjectId,
-    ref: 'Subscription',
+    type: [
+      {
+        type: Types.ObjectId,
+        ref: 'Subscription',
+        default: [],
+      },
+    ],
   })
-  subscription: any;
+  subscriptions: any[];
 
   @Prop({
     type: Types.ObjectId,
@@ -105,8 +109,8 @@ WorkspaceSchema.statics.config = () => {
     idToken: 'wrk',
     slugify: 'name',
     uniques: ['name', 'user'],
-    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault'],
-    updateFillables: ['user', 'name', 'slug', 'plan', 'isDefault'],
+    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault', 'modules', 'subscriptions'],
+    updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules'],
     hiddenFields: ['deleted'],
   };
 };
