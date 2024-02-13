@@ -7,7 +7,7 @@ import { PlanService } from '../service/plan.service';
 import { Request, Response, NextFunction } from 'express';
 
 @ApiTags('Plan')
-@Controller('admin/plans')
+@Controller('plans')
 @UseGuards(JwtAuthGuard)
 export class PlanController extends AppController {
   constructor(

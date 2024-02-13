@@ -7,7 +7,7 @@ import { FeatureService } from '../service/feature.service';
 import { NextFunction, Request, Response } from 'express';
 
 @ApiTags('Feature')
-@Controller('admin/features')
+@Controller('features')
 @UseGuards(JwtAuthGuard)
 export class FeatureController extends BaseController {
   constructor(
