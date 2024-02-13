@@ -5,7 +5,7 @@ import { AdminAuthService } from '../service/admin-auth.service';
 import { AdminAuth, CurrentUser, LocalAuthGuard, OK, QueryParser, SignInDto } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 
-@Controller('admin/auth')
+@Controller('auth')
 export class AdminAuthController {
   constructor(
     protected service: AdminAuthService,

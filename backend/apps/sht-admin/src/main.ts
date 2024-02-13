@@ -16,7 +16,7 @@ async function bootstrap() {
   const currentVersion = apiVersions.pop();
 
   app.use(morgan('tiny'));
-  app.setGlobalPrefix(`api/${currentVersion}`);
+  app.setGlobalPrefix(`api/${currentVersion}/admin`);
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new LoggingInterceptor());
