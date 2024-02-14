@@ -19,7 +19,6 @@ import {
 } from 'shtcut/core';
 import * as _ from 'lodash';
 import { ClientSession } from 'mongodb';
-import { SubscriptionService } from '../../subscription';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -27,7 +26,6 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Workspace.name) protected model: Model<WorkspaceDocument>,
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
-    protected subscriptionService: SubscriptionService,
     protected redisService: RedisService,
   ) {
     super(model, redisService);
@@ -81,13 +79,9 @@ export class WorkspaceService extends MongoBaseService {
 
       const subscription = await this.createSubscription(workspace, obj, session);
 
-      workspace.subscriptions =
-        workspace.subscriptions && workspace.subscriptions.length
-          ? [...workspace.subscriptions, subscription._id]
-          : [subscription._id];
+      workspace.subscriptions = [subscription._id];
 
-      workspace.modules =
-        workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
+      workspace.modules = [obj.module];
 
       await workspace.save({ session });
 
@@ -128,7 +122,7 @@ export class WorkspaceService extends MongoBaseService {
       workspace.modules =
         workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
     }
-    return workspace;
+    return await workspace.save();
   }
 
   /**
@@ -146,10 +140,12 @@ export class WorkspaceService extends MongoBaseService {
   public async createSubscription(workspace, obj, session) {
     const payload = {
       ...obj,
+      publicId: Utils.generateUniqueId('sub'),
+      user: workspace.user,
       plan: workspace.plan || obj.plan,
       workspace: workspace._id,
       startDate: Date.now(),
     };
-    return await this.subscriptionService.createNewObject(payload, session);
+    return await new this.subscriptionModel(payload).save({ session });
   }
 }

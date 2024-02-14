@@ -1,6 +1,6 @@
 import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MGS } from 'mongoose';
 
 export type WorkspaceDocument = Workspace & Document;
 
@@ -35,7 +35,7 @@ export class Workspace {
   @Prop({
     type: String,
     required: true,
-    unique: true,
+    index: true,
   })
   name: string;
 
@@ -46,6 +46,7 @@ export class Workspace {
 
   @Prop({
     type: [String],
+    enum: configuration().app.modules,
     required: true,
   })
   modules: string[];
@@ -57,25 +58,21 @@ export class Workspace {
   })
   type: string;
 
-  @Prop({
-    type: [
-      {
-        type: Types.ObjectId,
-        ref: 'Domain',
-      },
-    ],
-  })
+  @Prop([
+    {
+      type: MGS.Types.ObjectId,
+      ref: 'Domain',
+    },
+  ])
   domains: any[];
 
-  @Prop({
-    type: [
-      {
-        type: Types.ObjectId,
-        ref: 'Subscription',
-        default: [],
-      },
-    ],
-  })
+  @Prop([
+    {
+      type: MGS.Types.ObjectId,
+      ref: 'Subscription',
+      required: true,
+    },
+  ])
   subscriptions: any[];
 
   @Prop({

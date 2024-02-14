@@ -16,6 +16,12 @@ export class Plan {
     unique: true,
     required: true,
   })
+  publicId: string;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
   name: string;
 
   @Prop({
@@ -26,7 +32,6 @@ export class Plan {
 
   @Prop({
     type: String,
-    unique: true,
     required: true,
   })
   slug: string;

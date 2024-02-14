@@ -38,16 +38,15 @@ export class UserService extends MongoBaseService {
         user: Utils.toObjectId(id),
         active: true,
       };
-      const [user, workspace, subscription] = await Promise.all([
+      const [user, workspace] = await Promise.all([
         await super.findObject(id, query),
-        await this.workspaceModel.find({
-          ...Utils.conditionWithDelete({ ...condition }),
-        }),
-        await this.subscriptionModel.find({
-          ...Utils.conditionWithDelete({ ...condition, status: 'active' }),
-        }),
+        await this.workspaceModel
+          .find({
+            ...Utils.conditionWithDelete({ ...condition }),
+          })
+          .populate([{ path: 'subscriptions', select: ['module', 'plan', 'status'] }]),
       ]);
-      return { ...user?.toJSON(), workspace, subscription };
+      return { ...user?.toJSON(), workspace };
     } catch (e) {
       throw e;
     }
