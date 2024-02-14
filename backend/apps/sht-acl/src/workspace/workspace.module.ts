@@ -17,7 +17,6 @@ import { SubscriptionModule } from '../subscription';
 
 @Module({
   imports: [
-    SubscriptionModule,
     MongooseModule.forFeature([
       { name: Domain.name, schema: DomainSchema },
       { name: Workspace.name, schema: WorkspaceSchema },

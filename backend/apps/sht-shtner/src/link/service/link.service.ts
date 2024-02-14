@@ -55,6 +55,14 @@ export class LinkService extends MongoBaseService {
     };
   }
 
+  /**
+   * The function `validateCreate` in TypeScript validates a `CreateLinkDto` object by checking for
+   * duplicate alias, existence of owner user, validity of workspace and domain, and validity of expiry
+   * date.
+   * @param {CreateLinkDto} obj - The `obj` parameter is an object of type `CreateLinkDto` which
+   * contains the following properties:
+   * @returns null.
+   */
   public async validateCreate(obj: CreateLinkDto) {
     try {
       const { alias, user: owner, expiryDate, workspace, domain } = obj;
@@ -103,6 +111,18 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  /**
+   * The function creates a new object with additional properties, including generating an alias and
+   * finding an associated domain, and saves it along with an associated QR code.
+   * @param obj - The `obj` parameter is an object that contains the data needed to create a new
+   * object. It is of type `CreateLinkDto & Dict`, which means it should have properties defined in
+   * both the `CreateLinkDto` interface and the `Dict` interface.
+   * @param {ClientSession} [session] - The `session` parameter is an optional parameter of type
+   * `ClientSession`. It is used to start a session and perform a transaction for the database
+   * operations within the `createNewObject` method. The session allows for atomicity and isolation of
+   * the database operations, ensuring that either all the operations within the
+   * @returns the created link object.
+   */
   public async createNewObject(obj: CreateLinkDto & Dict, session?: ClientSession) {
     try {
       session = await this.model.startSession();
@@ -210,12 +230,21 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  /**
+   * The function ensures that a domain exists and throws an exception if it does not.
+   * @param domain - The `domain` parameter is a variable that represents a domain name.
+   */
   private ensureDomainExists(domain) {
     if (!domain) {
       throw AppException.NOT_FOUND(lang.get('domain').notFound);
     }
   }
 
+  /**
+   * The function checks if a domain is verified and throws an exception if it is not.
+   * @param domain - The "domain" parameter is an object that represents a domain. It likely contains
+   * information about the domain, such as its name, owner, and verification status.
+   */
   private checkDomainVerification(domain) {
     const { verification } = domain;
     if (!verification.verified) {
