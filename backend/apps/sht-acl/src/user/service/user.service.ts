@@ -1,10 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import lang from 'apps/sht-acl/lang';
+import { ClientSession, Model } from 'mongoose';
 import {
+  AppException,
   Dict,
   MongoBaseService,
   QueryParser,
+  Role,
+  RoleDocument,
   Subscription,
   SubscriptionDocument,
   User,
@@ -18,6 +22,7 @@ import {
 export class UserService extends MongoBaseService {
   constructor(
     @InjectModel(User.name) protected model: Model<UserDocument>,
+    @InjectModel(Role.name) protected roleModel: Model<RoleDocument>,
     @InjectModel(Workspace.name) protected workspaceModel: Model<WorkspaceDocument>,
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
   ) {
@@ -32,23 +37,27 @@ export class UserService extends MongoBaseService {
     };
   }
 
-  public async findObject(id: unknown, query?: Dict | QueryParser) {
+  public async assignOwnerRole(user: User, module: string, title: string, session: ClientSession) {
     try {
-      const condition = {
-        user: Utils.toObjectId(id),
-        active: true,
-      };
-      const [user, workspace] = await Promise.all([
-        await super.findObject(id, query),
-        await this.workspaceModel
-          .find({
-            ...Utils.conditionWithDelete({ ...condition }),
-          })
-          .populate([{ path: 'subscriptions', select: ['module', 'plan', 'status'] }]),
-      ]);
-      return { ...user?.toJSON(), workspace };
+      const ownerRole = await this.roleModel.findOne({
+        title,
+        isDefault: true,
+      });
+      if (!ownerRole) {
+        throw AppException.INTERNAL_SERVER(lang.get('role').notFound);
+      }
+      return this.model.findOneAndUpdate(
+        {
+          role: ownerRole._id,
+        },
+        {},
+        { ...Utils.mongoUpdateDefaultProps() },
+      );
     } catch (e) {
+      await session?.abortTransaction();
       throw e;
+    } finally {
+      await session?.endSession();
     }
   }
 }

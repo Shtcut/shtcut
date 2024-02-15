@@ -6,12 +6,11 @@ import {
   DefaultPermissions,
   Permissions,
   PermissionsDocument,
+  PermissionsSchema,
   Role,
   RoleDocument,
   RoleSchema,
   Roles,
-  User,
-  UserSchema,
   Utils,
 } from 'shtcut/core';
 import { PermissionController, RoleController } from './controller';
@@ -21,8 +20,7 @@ import { PermissionService, RoleService } from './services';
   imports: [
     MongooseModule.forFeature([
       { name: Role.name, schema: RoleSchema },
-      { name: Permissions.name, schema: Permissions },
-      { name: User.name, schema: UserSchema },
+      { name: Permissions.name, schema: PermissionsSchema },
     ]),
   ],
   controllers: [RoleController, PermissionController],
@@ -48,6 +46,9 @@ export class SecurityModule implements OnModuleInit {
         },
         isDefault: true,
       },
+      {
+        ...Utils.mongoUpdateDefaultProps(),
+      },
     );
   }
 
@@ -56,12 +57,21 @@ export class SecurityModule implements OnModuleInit {
       const defaultPermissions = DefaultPermissions[title];
       const permissions = [];
       if (defaultPermissions) {
-        const keys = Object.keys(defaultPermissions);
+        const keys: string[] = Object.values(defaultPermissions);
         for (const key of keys) {
-          const permission = await new this.permissionsModel({
-            title: `${key.split('_').join('')}`,
-            key,
-          }).save();
+          const permission = await this.permissionsModel.findOneAndUpdate(
+            { key },
+            {
+              $setOnInsert: {
+                publicId: Utils.generateUniqueId('permissions'),
+                title: `${key.split('_').join(' ')}`,
+                key,
+              },
+            },
+            {
+              ...Utils.mongoUpdateDefaultProps(),
+            },
+          );
           permissions.push(permission._id);
         }
       }
@@ -75,7 +85,7 @@ export class SecurityModule implements OnModuleInit {
 
   async onModuleInit() {
     try {
-      let roles = await this.roleModel.find({ isDefault: true });
+      let roles: Role[] = await this.roleModel.find({ isDefault: true });
       const defaultRoles = [Roles.ADMIN, Roles.OWNER];
       const rolesTitles = roles.map((r) => r.title);
       if (rolesTitles.length < defaultRoles.length || !this.isNotSameRole(defaultRoles, rolesTitles)) {

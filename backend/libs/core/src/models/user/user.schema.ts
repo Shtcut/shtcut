@@ -58,7 +58,7 @@ export class User {
     ref: 'Role',
     required: true,
   })
-  roles: any;
+  role: any;
 
   @Prop([
     {

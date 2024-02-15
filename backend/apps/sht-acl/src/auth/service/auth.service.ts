@@ -25,6 +25,7 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import lang from 'apps/sht-acl/lang';
+import { UserService } from '../../user';
 @Injectable()
 export class AuthService extends MongoBaseService {
   constructor(
@@ -32,6 +33,7 @@ export class AuthService extends MongoBaseService {
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
     private jwtService: JwtService,
     private socialAuthService: SocialAuthService,
+    protected userService: UserService,
     protected workerService: WorkService,
     protected config: ConfigService,
   ) {
