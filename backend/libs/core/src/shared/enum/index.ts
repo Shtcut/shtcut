@@ -26,3 +26,9 @@ export enum FileUploadEnum {
 export enum WorkerQueue {
   PROCESS_WORK = 'shtcut.jobs.process.work',
 }
+
+export enum Roles {
+  OWNER = 'OWNER',
+  ADMIN = 'ADMIN',
+  MEMBER = 'MEMBER',
+}

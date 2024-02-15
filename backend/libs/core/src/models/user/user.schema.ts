@@ -55,9 +55,24 @@ export class User {
 
   @Prop({
     type: Types.ObjectId,
+    ref: 'Role',
+    required: true,
+  })
+  roles: any;
+
+  @Prop([
+    {
+      type: Types.ObjectId,
+      ref: 'Workspaces',
+    },
+  ])
+  workspaces: any[];
+
+  @Prop({
+    type: Types.ObjectId,
     ref: 'Media,',
   })
-  public avatar: string | Media;
+  public avatar: any;
 
   @Prop({
     type: Boolean,
@@ -88,7 +103,7 @@ UserSchema.statics.config = () => {
   return {
     idToken: 'usr',
     uniques: ['email'],
-    fillables: ['mobile', 'firstName', 'lastName', 'email'],
+    fillables: ['mobile', 'firstName', 'lastName', 'email', 'workspaces'],
     updateFillables: ['firstName', 'lastName', 'gender', 'avatar', 'mobile'],
     hiddenFields: ['deleted'],
   };

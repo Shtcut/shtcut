@@ -12,6 +12,8 @@ import {
   SubscriptionSchema,
   Plan,
   PlanSchema,
+  User,
+  UserSchema,
 } from 'shtcut/core';
 import { SubscriptionModule } from '../subscription';
 
@@ -22,6 +24,7 @@ import { SubscriptionModule } from '../subscription';
       { name: Workspace.name, schema: WorkspaceSchema },
       { name: Subscription.name, schema: SubscriptionSchema },
       { name: Plan.name, schema: PlanSchema },
+      { name: User.name, schema: UserSchema },
     ]),
   ],
   controllers: [WorkspaceController],

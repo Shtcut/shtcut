@@ -10,6 +10,7 @@ import { AuthModule } from './auth';
 import { UserModule } from './user';
 import { WorkspaceModule } from './workspace';
 import { SubscriptionModule } from './subscription';
+import { SecurityModule } from './security/security.module';
 @Module({
   imports: [
     CoreModule,
@@ -17,6 +18,7 @@ import { SubscriptionModule } from './subscription';
     AuthModule,
     UserModule,
     SubscriptionModule,
+    SecurityModule,
     WorkspaceModule,
     MongooseModule.forFeature([{ name: App.name, schema: AppSchema }]),
     ConfigModule.forRoot({

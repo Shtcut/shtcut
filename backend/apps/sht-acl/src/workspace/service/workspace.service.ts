@@ -13,6 +13,8 @@ import {
   Subscription,
   SubscriptionDocument,
   UpdateWorkspaceDto,
+  User,
+  UserDocument,
   Utils,
   Workspace,
   WorkspaceDocument,
@@ -26,6 +28,7 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Workspace.name) protected model: Model<WorkspaceDocument>,
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
+    @InjectModel(User.name) protected userModel: Model<UserDocument>,
     protected redisService: RedisService,
   ) {
     super(model, redisService);
@@ -110,7 +113,7 @@ export class WorkspaceService extends MongoBaseService {
    * @returns The `workspace` object is being returned.
    */
   public async updateObject(id: string, obj: UpdateWorkspaceDto, session?: ClientSession) {
-    const workspace = await super.updateObject(id, obj);
+    let workspace = await super.updateObject(id, obj);
     if (!workspace.modules.includes(obj.module)) {
       const subscription = await this.createSubscription(workspace, obj, session);
 
@@ -121,8 +124,10 @@ export class WorkspaceService extends MongoBaseService {
 
       workspace.modules =
         workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
+
+      workspace = workspace.save();
     }
-    return await workspace.save();
+    return workspace;
   }
 
   /**
@@ -147,5 +152,13 @@ export class WorkspaceService extends MongoBaseService {
       startDate: Date.now(),
     };
     return await new this.subscriptionModel(payload).save({ session });
+  }
+
+  public async addWorkspaceToUser(workspace, obj, session) {
+    return await this.userModel.findOneAndUpdate(
+      { _id: Utils.toObjectId(obj.user) },
+      { $addToSet: { workspaces: workspace } },
+      { ...Utils.mongoUpdateDefaultProps({ session }) },
+    );
   }
 }
