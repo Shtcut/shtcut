@@ -22,3 +22,8 @@ export const NOT_FOUND = HttpStatus.NOT_FOUND;
 export const NO_CONTENT = HttpStatus.NO_CONTENT;
 export const METHOD_NOT_ALLOWED = HttpStatus.METHOD_NOT_ALLOWED;
 export const UNAUTHORIZED = HttpStatus.UNAUTHORIZED;
+
+export const DefaultPermissions = {
+  ADMIN: ['can_create_user', 'can_update_user', 'can_view_user', 'can_delete_user'],
+  OWNER: ['can_create_user', 'can_update_user', 'can_view_user', 'can_delete_user', 'can_invite_user'],
+};

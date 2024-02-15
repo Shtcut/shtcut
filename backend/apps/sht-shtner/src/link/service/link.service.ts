@@ -225,7 +225,6 @@ export class LinkService extends MongoBaseService {
       link.clicks += 1;
       return await link.save();
     } catch (e) {
-      console.log('err::', e);
       throw e;
     }
   }

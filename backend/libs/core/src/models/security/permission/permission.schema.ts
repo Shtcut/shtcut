@@ -1,8 +1,8 @@
 import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
-export type PermissionDocument = Permission & Document;
+export type PermissionsDocument = Permissions & Document;
 
 @Schema({
   timestamps: true,
@@ -10,10 +10,11 @@ export type PermissionDocument = Permission & Document;
   toJSON: { virtuals: true },
   toObject: { virtuals: true },
 })
-export class Permission {
+export class Permissions {
   @Prop({
     type: String,
     unique: true,
+    required: true,
   })
   public publicId: string;
 
@@ -37,13 +38,6 @@ export class Permission {
   key: string;
 
   @Prop({
-    type: String,
-    enum: configuration().app.data.permissionValueType,
-    required: true,
-  })
-  valueType: string;
-
-  @Prop({
     type: Boolean,
     select: false,
     default: false,
@@ -51,15 +45,16 @@ export class Permission {
   deleted: boolean;
 }
 
-const PermissionSchema = SchemaFactory.createForClass(Permission);
+const PermissionsSchema = SchemaFactory.createForClass(Permissions);
 
-PermissionSchema.statics.config = () => {
+PermissionsSchema.statics.config = () => {
   return {
-    idToken: 'role',
-    uniques: [],
-    fillables: ['title', 'description'],
+    idToken: 'permissions',
+    uniques: ['title', 'key'],
+    fillables: ['title', 'description', 'key'],
+    updateFillables: ['title', 'description', 'key'],
     hiddenFields: ['deleted'],
   };
 };
 
-export { PermissionSchema };
+export { PermissionsSchema };
