@@ -85,22 +85,6 @@ export class AuthService extends MongoBaseService {
           session,
         },
       );
-      await this.userModel.findOneAndUpdate(
-        { ...filter },
-        {
-          $setOnInsert: {
-            _id: auth._id,
-            publicId: Utils.generateUniqueId('usr'),
-          },
-          ...signUpDto,
-        },
-        {
-          upsert: true,
-          new: true,
-          setDefaultsOnInsert: true,
-          session,
-        },
-      );
       await session?.commitTransaction();
       return await this.signIn(auth);
     } catch (err) {

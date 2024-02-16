@@ -9,6 +9,7 @@ import {
   QueryParser,
   Role,
   RoleDocument,
+  Roles,
   Subscription,
   SubscriptionDocument,
   User,
@@ -35,6 +36,28 @@ export class UserService extends MongoBaseService {
       patch: false,
       remove: false,
     };
+  }
+
+  public async createNewObject(obj: Dict, session?: ClientSession) {
+    try {
+      const user = await this.model.findOneAndUpdate(
+        { email: obj.email },
+        {
+          $setOnInsert: {
+            _id: obj._id,
+            publicId: Utils.generateUniqueId('usr'),
+          },
+          ...obj,
+        },
+        {
+          ...Utils.mongoUpdateDefaultProps({ session }),
+        },
+      );
+      await this.assignOwnerRole(user, obj.module, Roles.OWNER, session);
+      return user;
+    } catch (e) {
+      throw e;
+    }
   }
 
   public async assignOwnerRole(user: User, module: string, title: string, session: ClientSession) {
