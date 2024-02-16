@@ -25,6 +25,7 @@ import { ConfigService } from '@nestjs/config';
 import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import lang from 'apps/sht-acl/lang';
+import { UserService } from '../../user';
 @Injectable()
 export class AuthService extends MongoBaseService {
   constructor(
@@ -32,6 +33,7 @@ export class AuthService extends MongoBaseService {
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
     private jwtService: JwtService,
     private socialAuthService: SocialAuthService,
+    protected userService: UserService,
     protected workerService: WorkService,
     protected config: ConfigService,
   ) {
@@ -75,22 +77,6 @@ export class AuthService extends MongoBaseService {
           },
           password: hashedPassword,
           $set: verificationCode,
-        },
-        {
-          upsert: true,
-          new: true,
-          setDefaultsOnInsert: true,
-          session,
-        },
-      );
-      await this.userModel.findOneAndUpdate(
-        { ...filter },
-        {
-          $setOnInsert: {
-            _id: auth._id,
-            publicId: Utils.generateUniqueId('usr'),
-          },
-          ...signUpDto,
         },
         {
           upsert: true,

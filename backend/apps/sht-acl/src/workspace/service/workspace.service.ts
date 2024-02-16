@@ -154,10 +154,10 @@ export class WorkspaceService extends MongoBaseService {
     return await new this.subscriptionModel(payload).save({ session });
   }
 
-  public async addWorkspaceToUser(workspace, obj, session) {
+  public async addWorkspaceToUser(workspace, session) {
     return await this.userModel.findOneAndUpdate(
-      { _id: Utils.toObjectId(obj.user) },
-      { $addToSet: { workspaces: workspace } },
+      { _id: Utils.toObjectId(workspace.user) },
+      { $addToSet: { workspaces: workspace._id } },
       { ...Utils.mongoUpdateDefaultProps({ session }) },
     );
   }
