@@ -53,7 +53,7 @@ export class ApiProcessor extends WorkerHost {
     try {
       switch (name) {
         case QueueTasks.SEND_EMAIL:
-          // await this.emailService.sendErrorMessage(job);
+          await this.emailService.sendErrorMessage(job);
           break;
         case QueueTasks.SEND_SMS:
           break;
@@ -61,6 +61,7 @@ export class ApiProcessor extends WorkerHost {
           return true;
       }
     } catch (e) {
+      console.log('err:', e);
       throw e;
     }
   }
