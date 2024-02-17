@@ -104,7 +104,7 @@ SubscriptionSchema.statics.config = () => {
   return {
     idToken: 'sub',
     uniques: [],
-    fillables: ['workspace', 'user', 'startDate', 'endDate', 'status', 'modules'],
+    fillables: ['workspace', 'user', 'startDate', 'endDate', 'status', 'module', 'plan'],
     objectIds: ['user', 'plan'],
     dateFilters: ['startAt', 'endAt'],
     hiddenFields: ['deleted'],

@@ -85,7 +85,14 @@ export class AuthService extends MongoBaseService {
           session,
         },
       );
+      const payload = {
+        _id: auth._id,
+        ...filter,
+        ...signUpDto,
+      };
+      const user = await this.userService.createNewObject({ ...payload }, session);
       await session?.commitTransaction();
+
       return await this.signIn(auth);
     } catch (err) {
       if (session) {
@@ -104,9 +111,9 @@ export class AuthService extends MongoBaseService {
       email: auth.email,
       sub: auth._id,
     };
-    const user = await this.userModel.findOne({ _id: auth._id, deleted: false });
+    const user = await this.userModel.findOne({ ...Utils.conditionWithDelete({ _id: auth._id }) });
     const accessToken = this.jwtService.sign(payload);
-    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user.toJSON() } };
+    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON() } };
   }
 
   public async sendVerification(resendVerification: SendVerificationDto) {

@@ -15,7 +15,7 @@ import {
   User,
   UserSchema,
 } from 'shtcut/core';
-import { SubscriptionModule } from '../subscription';
+import { SubscriptionModule, SubscriptionService } from '../subscription';
 
 @Module({
   imports: [
@@ -28,7 +28,7 @@ import { SubscriptionModule } from '../subscription';
     ]),
   ],
   controllers: [WorkspaceController],
-  providers: [WorkspaceService, RedisService],
+  providers: [WorkspaceService, SubscriptionService, RedisService],
   exports: [WorkspaceService],
 })
 export class WorkspaceModule {}

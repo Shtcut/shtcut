@@ -21,6 +21,7 @@ import {
 } from 'shtcut/core';
 import * as _ from 'lodash';
 import { ClientSession } from 'mongodb';
+import { SubscriptionService } from '../../subscription';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -29,9 +30,10 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    protected subscriptionService: SubscriptionService,
     protected redisService: RedisService,
   ) {
-    super(model, redisService);
+    super(model);
   }
 
   /**
@@ -73,19 +75,22 @@ export class WorkspaceService extends MongoBaseService {
 
       session.startTransaction();
 
-      if (!obj.plan) {
+      const { plan, module } = obj;
+
+      if (!plan) {
         const plan = await this.planModel.findOne({ name: 'Free' });
         obj.plan = plan._id;
       }
 
       const workspace = await super.createNewObject(obj, session);
 
-      const subscription = await this.createSubscription(workspace, obj, session);
+      const [subscription, _] = await Promise.all([
+        this.createSubscription(workspace, obj, session),
+        this.updateUser({ workspace, module }, session),
+      ]);
 
       workspace.subscriptions = [subscription._id];
-
-      workspace.modules = [obj.module];
-
+      workspace.modules = [module];
       await workspace.save({ session });
 
       await session?.commitTransaction();
@@ -113,8 +118,9 @@ export class WorkspaceService extends MongoBaseService {
    * @returns The `workspace` object is being returned.
    */
   public async updateObject(id: string, obj: UpdateWorkspaceDto, session?: ClientSession) {
-    let workspace = await super.updateObject(id, obj);
-    if (!workspace.modules.includes(obj.module)) {
+    const workspace = await super.updateObject(id, obj);
+    const { module } = obj;
+    if (!workspace.modules.includes(module)) {
       const subscription = await this.createSubscription(workspace, obj, session);
 
       workspace.subscriptions =
@@ -122,10 +128,12 @@ export class WorkspaceService extends MongoBaseService {
           ? [...workspace.subscriptions, subscription._id]
           : [subscription._id];
 
-      workspace.modules =
-        workspace.modules && workspace.modules.length ? [...workspace.modules, obj.module] : [obj.module];
-
-      workspace = workspace.save();
+      workspace.modules = workspace.modules && workspace.modules.length ? [...workspace.modules, module] : [module];
+      const [updatedWorkspace, _] = await Promise.all([
+        await workspace.save(),
+        await this.updateUser({ workspace, module }, session),
+      ]);
+      return updatedWorkspace;
     }
     return workspace;
   }
@@ -145,20 +153,45 @@ export class WorkspaceService extends MongoBaseService {
   public async createSubscription(workspace, obj, session) {
     const payload = {
       ...obj,
-      publicId: Utils.generateUniqueId('sub'),
       user: workspace.user,
       plan: workspace.plan || obj.plan,
       workspace: workspace._id,
       startDate: Date.now(),
     };
-    return await new this.subscriptionModel(payload).save({ session });
+    return this.subscriptionService.createNewObject(payload, session);
   }
 
-  public async addWorkspaceToUser(workspace, session) {
-    return await this.userModel.findOneAndUpdate(
-      { _id: Utils.toObjectId(workspace.user) },
-      { $addToSet: { workspaces: workspace._id } },
-      { ...Utils.mongoUpdateDefaultProps({ session }) },
-    );
+  public async updateUser(obj, session?) {
+    try {
+      const { workspace, module } = obj;
+      const user = await this.userModel.findById(workspace.user);
+      if (user) {
+        let modules: any = [
+          {
+            workspaceName: workspace.name,
+            modules: [module],
+          },
+        ];
+        if (user.modules.length > 0) {
+          const userModule = user.modules.find((m) => m.workspaceName.includes(workspace.name));
+          modules = userModule
+            ? [
+                {
+                  workspaceName: workspace.name,
+                  modules: [...new Set([...userModule.modules, module])],
+                },
+              ]
+            : modules;
+          user.modules = [...user.modules, ...modules];
+        } else {
+          user.modules = [...user.modules, ...modules];
+        }
+        user.workspaces.addToSet(workspace._id);
+      }
+      user.save({ session });
+    } catch (e) {
+      console.log('err:', e);
+      throw e;
+    }
   }
 }

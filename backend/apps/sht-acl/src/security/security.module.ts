@@ -47,7 +47,7 @@ export class SecurityModule implements OnModuleInit {
         isDefault: true,
       },
       {
-        ...Utils.mongoUpdateDefaultProps(),
+        ...Utils.mongoDefaultUpdateProps(),
       },
     );
   }
@@ -69,7 +69,7 @@ export class SecurityModule implements OnModuleInit {
               },
             },
             {
-              ...Utils.mongoUpdateDefaultProps(),
+              ...Utils.mongoDefaultUpdateProps(),
             },
           );
           permissions.push(permission._id);

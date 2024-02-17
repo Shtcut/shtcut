@@ -476,7 +476,7 @@ export abstract class Utils {
   public static isLocalAddress(ip: string) {
     return /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i.test(ip);
   }
-  public static mongoUpdateDefaultProps(obj?) {
+  public static mongoDefaultUpdateProps(obj?) {
     return { upsert: true, new: true, ...obj };
   }
 }

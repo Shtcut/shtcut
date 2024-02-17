@@ -216,7 +216,7 @@ export class LinkService extends MongoBaseService {
             $inc: { clicks: 1 },
           },
           {
-            ...Utils.mongoUpdateDefaultProps(),
+            ...Utils.mongoDefaultUpdateProps(),
           },
         );
       }

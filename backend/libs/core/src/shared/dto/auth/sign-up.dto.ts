@@ -1,4 +1,4 @@
-import { IsEmail, IsNotEmpty, IsString, IsUrl, MaxLength, MinLength, ValidateIf } from '@nestjs/class-validator';
+import { IsEmail, IsEnum, IsNotEmpty, IsString, MaxLength, MinLength, ValidateIf } from '@nestjs/class-validator';
 import { Transform } from 'class-transformer';
 
 export class SignUpDto {
