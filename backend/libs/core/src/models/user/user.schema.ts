@@ -1,4 +1,5 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { configuration } from '@config';
+import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { MobileOption, Media } from 'shtcut/core';
 
@@ -60,13 +61,25 @@ export class User {
   })
   role: any;
 
-  @Prop([
-    {
-      type: Types.ObjectId,
-      ref: 'Workspaces',
-    },
-  ])
-  workspaces: any[];
+  @Prop(
+    raw([
+      {
+        workspaceName: String,
+        modules: [String],
+      },
+    ]),
+  )
+  modules: any[];
+
+  @Prop({
+    type: [
+      {
+        type: Types.ObjectId,
+        ref: 'Workspace',
+      },
+    ],
+  })
+  workspaces: any;
 
   @Prop({
     type: Types.ObjectId,

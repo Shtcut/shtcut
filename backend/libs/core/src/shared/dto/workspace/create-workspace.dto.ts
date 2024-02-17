@@ -1,5 +1,5 @@
-import { IsNotEmpty, IsString } from '@nestjs/class-validator';
-import { IsMongoId, IsOptional } from 'class-validator';
+import { configuration } from '@config';
+import { IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
 
 export class CreateWorkspaceDto {
   @IsString()
@@ -11,10 +11,11 @@ export class CreateWorkspaceDto {
   public plan: string;
 
   @IsString()
-  @IsNotEmpty()
-  public readonly module: string;
-
-  @IsString()
   @IsOptional()
   public readonly type?: string;
+
+  @IsString()
+  @IsEnum(configuration().app.modules)
+  @IsNotEmpty()
+  public module: string;
 }

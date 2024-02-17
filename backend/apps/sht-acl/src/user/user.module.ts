@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import {
   Auth,
   AuthSchema,
+  Role,
+  RoleSchema,
   Subscription,
   SubscriptionSchema,
   User,
@@ -17,6 +19,7 @@ import {
   imports: [
     MongooseModule.forFeature([
       { name: Auth.name, schema: AuthSchema },
+      { name: Role.name, schema: RoleSchema },
       { name: User.name, schema: UserSchema },
       { name: Workspace.name, schema: WorkspaceSchema },
       { name: Subscription.name, schema: SubscriptionSchema },

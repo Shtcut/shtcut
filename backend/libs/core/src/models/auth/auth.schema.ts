@@ -109,6 +109,16 @@ export class Auth {
 
 const AuthSchema = SchemaFactory.createForClass(Auth);
 
+AuthSchema.statics.config = () => {
+  return {
+    idToken: 'aut',
+    uniques: ['email'],
+    fillables: [''],
+    updateFillables: [''],
+    hiddenFields: ['deleted', 'verificationCodes'],
+  };
+};
+
 AuthSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });

@@ -8,12 +8,15 @@ import { Auth, AuthSchema, User, UserSchema, WorkerModule } from 'shtcut/core';
 import { AuthController } from './controller/auth.controller';
 import { AuthService, SocialAuthService } from './service';
 import { JwtStrategy, LocalStrategy } from './strategies';
+import { UserModule, UserService } from '../user';
 
 @Module({
   imports: [
     HttpModule,
     WorkerModule,
+    UserModule,
     MongooseModule.forFeature([
+      { name: Auth.name, schema: AuthSchema },
       { name: Auth.name, schema: AuthSchema },
       { name: User.name, schema: UserSchema },
     ]),
