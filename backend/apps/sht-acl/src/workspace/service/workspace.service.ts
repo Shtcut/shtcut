@@ -161,6 +161,17 @@ export class WorkspaceService extends MongoBaseService {
     return this.subscriptionService.createNewObject(payload, session);
   }
 
+  /**
+   * The function `updateUser` in TypeScript updates a user's modules and workspaces based on the
+   * provided object.
+   * @param obj - The `obj` parameter in the `updateUser` function seems to contain `workspace` and
+   * `module` properties. These properties are then used to update the user's modules and workspaces in
+   * the database.
+   * @param [session] - The `session` parameter in the `updateUser` function is an optional parameter
+   * that allows you to pass a session object to the `user.save()` method. Sessions are used in
+   * database operations to group multiple operations into a single transaction or unit of work. By
+   * passing a session object to the `user
+   */
   public async updateUser(obj, session?) {
     try {
       const { workspace, module } = obj;
