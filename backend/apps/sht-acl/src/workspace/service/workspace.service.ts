@@ -184,7 +184,9 @@ export class WorkspaceService extends MongoBaseService {
           },
         ];
         if (user.modules.length > 0) {
-          const userModule = user.modules.find((m) => m.workspaceName.includes(workspace.name));
+          const userModule = user.modules.find(
+            (m) => m.workspaceName.includes(workspace.name) && m.workspaceName.includes(module),
+          );
           modules = userModule
             ? [
                 {

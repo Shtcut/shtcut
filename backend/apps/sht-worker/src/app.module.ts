@@ -10,16 +10,16 @@ import { MediaModule } from './media';
 
 @Module({
   imports: [
-    MediaModule,
-    TerminusModule,
-    CoreModule,
-    MessageModule,
-    SchedulerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['_env/worker/.env.local', '_env/.env'],
       load: [configuration],
     }),
+    MediaModule,
+    TerminusModule,
+    CoreModule,
+    MessageModule,
+    SchedulerModule,
   ],
   controllers: [AppController],
   providers: [],

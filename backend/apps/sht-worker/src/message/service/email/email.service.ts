@@ -11,7 +11,9 @@ export class EmailService {
   constructor(
     protected config: ConfigService,
     readonly httpService: HttpService,
-  ) {}
+  ) {
+    console.log('configService:::', config);
+  }
 
   /**
    * The function sends an email using either SendGrid or PostMark based on the configuration.
