@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import lang from 'apps/sht-worker/lang';
 import { AppException } from 'shtcut/core';
@@ -7,13 +7,12 @@ import * as sgMail from '@sendgrid/mail';
 import { lastValueFrom } from 'rxjs';
 import * as fs from 'fs';
 import * as ejs from 'ejs';
+@Injectable()
 export class EmailService {
   constructor(
     protected config: ConfigService,
     readonly httpService: HttpService,
-  ) {
-    console.log('configService:::', config);
-  }
+  ) {}
 
   /**
    * The function sends an email using either SendGrid or PostMark based on the configuration.
@@ -166,7 +165,7 @@ export class EmailService {
    */
   async getHtmlFromTemplate(content, templateValue) {
     try {
-      const template = `${process.cwd()}/templates/emails/${templateValue}/.ejs`;
+      const template = `${process.cwd()}/templates/emails/${templateValue}.ejs`;
       return new Promise((resolve, reject) => {
         fs.readFile(template, 'utf8', (err, data) => {
           if (err) {

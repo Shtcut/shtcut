@@ -98,7 +98,7 @@ export class AuthController {
       const email = await AuthEmail.sendEmail({
         to: auth.email,
         from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
-        template: this.config.get<string>('app.templates.email.welcome'),
+        template: this.config.get<string>('app.templates.email.otp'),
         code: auth.verificationCodes?.email?.code,
       });
       const response = await this.service.getResponse({

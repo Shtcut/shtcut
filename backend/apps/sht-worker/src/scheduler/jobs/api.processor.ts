@@ -14,7 +14,7 @@ export class ApiProcessor extends WorkerHost {
 
   async process(job) {
     try {
-      const { name, data } = job.data;
+      const { name, data } = job;
       const { id, queueName, ...payload } = data;
       Logger.debug(`WorkerHost-${id} - ${queueName} - process stated `);
       switch (name) {

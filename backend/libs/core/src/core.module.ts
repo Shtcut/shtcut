@@ -3,9 +3,6 @@ import { HttpModule } from '@nestjs/axios';
 import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureStorageModule } from '@nestjs/azure-storage';
-import { CacheModule } from '@nestjs/cache-manager';
-import { redisStore } from 'cache-manager-redis-yet';
-import { RedisClientOptions } from 'redis';
 import { RedisModule } from './worker';
 @Global()
 @Module({
