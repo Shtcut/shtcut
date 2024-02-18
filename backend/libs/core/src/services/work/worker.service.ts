@@ -76,7 +76,7 @@ export class WorkService {
       if (!isTask) {
         this.apiQueue.add(key, job, queueOption);
       } else {
-        this.apiQueue.add(key, job, queueOption);
+        this.taskQueue.add(key, job, queueOption);
       }
     } else {
       // todo any other message broker integration come here
