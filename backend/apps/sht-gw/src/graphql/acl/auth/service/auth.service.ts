@@ -58,7 +58,7 @@ export class AuthService extends SharedService {
    * which is a promise.
    */
   async signUpEmail(payload, params = {}) {
-    return this.sendAuthPostRequest(`${this.serviceUrl}/auth/sign-up`, payload, params);
+    return this.sendAuthPostRequest(`${this.serviceUrl}/alc/auth/sign-up`, payload, params);
   }
 
   /**
@@ -74,7 +74,7 @@ export class AuthService extends SharedService {
    * call.
    */
   async signInEmail(payload, params = {}) {
-    return this.sendAuthPostRequest(`${this.serviceUrl}/auth/sign-in`, payload, params);
+    return this.sendAuthPostRequest(`${this.serviceUrl}/alc/auth/sign-in`, payload, params);
   }
 
   /**
@@ -91,7 +91,7 @@ export class AuthService extends SharedService {
    * call.
    */
   async signInSocial(payload, params = {}) {
-    return this.sendAuthPostRequest(`${this.serviceUrl}/auth/social`, payload, params);
+    return this.sendAuthPostRequest(`${this.serviceUrl}/alc/auth/social`, payload, params);
   }
 
   /**
@@ -106,6 +106,6 @@ export class AuthService extends SharedService {
    * `${this.serviceUrl}/auth/send-verification`, `payload`, and `params`.
    */
   async sendVerifyRequestCode(payload, params = {}) {
-    return this.sendAuthPostRequest(`${this.serviceUrl}/auth/send-verification`, payload, params);
+    return this.sendAuthPostRequest(`${this.serviceUrl}/alc/auth/send-verification`, payload, params);
   }
 }
