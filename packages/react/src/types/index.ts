@@ -1,3 +1,5 @@
+import type { MutableRefObject } from 'react';
+
 export type Dict<T = any> = Record<string, T>;
 
 export type Booleanish = boolean | 'true' | 'false';
@@ -20,3 +22,9 @@ type _TupleOf<T, N extends number, R extends unknown[]> = R['length'] extends N 
 type Tuple<T, N extends number> = N extends N ? (number extends N ? T[] : _TupleOf<T, N, []>) : never;
 
 export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+
+export type MaybeRef<T> = T | MutableRefObject<T>;
+
+export type Func<T = void> = () => T;
+
+export type NumberSize = number | Size;

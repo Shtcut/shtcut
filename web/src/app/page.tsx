@@ -44,13 +44,7 @@ export default function Home() {
     return (
         <main className="flex min-h-screen flex-col">
             <div className="relative">
-                <div
-                    className="absolute inset-0 blur-xl h-[580px]"
-                    style={{
-                        background:
-                            'linear-gradient(130.6deg, rgba(47, 88, 233, 1) , rgba(47, 155, 233, 0.4) 0%, rgba(204, 171, 238, 0) 50.35%)'
-                    }}
-                />
+                <div className="absolute inset-0 blur-xl h-[580px]" />
                 <div className="relative">
                     <header>
                         <div className={`md:hidden ${state ? 'mx-2 pb-5' : 'hidden'}`}>
