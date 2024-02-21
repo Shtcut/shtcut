@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import './globals.css';
+import '../styles/globals.css';
 import { PageLayout, ShtcutProvider } from '@shtcut-ui/react';
 
 const inter = Inter({ subsets: ['latin'] });
