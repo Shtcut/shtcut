@@ -1,5 +1,6 @@
 import { Card, Input } from '@shtcut-ui/react';
 import Image from 'next/image';
+import Logo from '../logo';
 
 const Footer = () => {
     const footerNavs = [
@@ -73,7 +74,7 @@ const Footer = () => {
             <div className="gap-6 justify-between md:flex">
                 <div className="flex-1">
                     <div className="max-w-xs">
-                        <img src="/logo.svg" className="w-32" />
+                        <Logo/>
                         <p className="leading-relaxed mt-2 text-[15px]">Create. Track. Collaborate</p>
                     </div>
                     <form onSubmit={(e) => e.preventDefault()}>
