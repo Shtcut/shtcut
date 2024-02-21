@@ -1,5 +1,6 @@
 import { Config } from 'tailwindcss';
 import twshtcut from '@shtcut-ui/react/tailwind-plugin';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 const config: Config = {
     darkMode: 'class',
@@ -9,6 +10,18 @@ const config: Config = {
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
         twshtcut.getContentPath()
     ],
+    theme: {
+        extend: {
+            fontFamily: {
+                display: ["Poppins", "cursive"],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
+                poppins: ['Poppins', ...defaultTheme.fontFamily.sans]
+            },
+            backgroundImage: {
+                hero_pattern: "url('/public/background-img.svg')"
+            }
+        }
+    },
     plugins: [twshtcut()]
 };
 

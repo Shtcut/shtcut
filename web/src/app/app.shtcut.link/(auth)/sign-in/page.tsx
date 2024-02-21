@@ -1,17 +1,14 @@
-import { useRouter } from "next/router";
-
+import { useRouter } from 'next/router';
 
 const initialValues = {
     username: 'fcode@mailinator.com',
-    password: 'password',
+    password: 'password'
 };
 
-const SignInPage = ()  => {
+const SignInPage = () => {
     const router = useRouter();
 
-    return (
-        <div>
-            Default Auth
-        </div>
-    )
-}
+    return <div>Default SignInPage</div>;
+};
+
+export default SignInPage;
