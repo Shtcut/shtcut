@@ -12,13 +12,16 @@ const config: Config = {
     ],
     theme: {
         extend: {
+            maxWidth: {
+                '2xl': '42rem',
+              },
             fontFamily: {
-                display: ["Poppins", "cursive"],
+                display: ['Poppins', 'cursive'],
                 sans: ['Inter', ...defaultTheme.fontFamily.sans],
                 poppins: ['Poppins', ...defaultTheme.fontFamily.sans]
             },
             backgroundImage: {
-                hero_pattern: "url('/public/background-img.svg')"
+                'default-bg': "url('/background.svg')"
             }
         }
     },

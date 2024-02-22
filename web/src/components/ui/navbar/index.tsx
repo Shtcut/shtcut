@@ -1,13 +1,13 @@
 'use client';
 
+import { Logo, NavLink } from '@shtcut/components';
 import { useState } from 'react';
-import Logo from '../logo';
 
-const NavBar = () => {
+export const NavBar = () => {
     const [state, setState] = useState(false);
     const navigation = [
-        { title: 'Home', path: 'javascript:void(0)' },
-        { title: 'Developers', path: 'javascript:void(0)' },
+        { title: 'Home', path: '#' },
+        { title: 'Developers', path: '#' },
         { title: 'FAQs', path: '#faqs' }
     ];
     return (
@@ -37,8 +37,8 @@ const NavBar = () => {
                             })}
                         </ul>
                         <div className="items-center justify-end mt-6 space-y-6 md:flex md:mt-0">
-                            <a
-                                href="javascript:void(0)"
+                            <NavLink
+                                href="/auth/sign-in"
                                 className="flex items-center justify-center gap-x-1 py-2 px-4 text-white font-medium bg-gray-800 hover:bg-gray-700 active:bg-gray-900 rounded-full md:inline-flex"
                             >
                                 Sign in
@@ -54,7 +54,7 @@ const NavBar = () => {
                                         clipRule="evenodd"
                                     />
                                 </svg>
-                            </a>
+                            </NavLink>
                         </div>
                     </div>
                 </div>
@@ -62,5 +62,3 @@ const NavBar = () => {
         </header>
     );
 };
-
-export default NavBar;

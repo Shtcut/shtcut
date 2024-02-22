@@ -1,6 +1,6 @@
 import { Card } from '@shtcut-ui/react';
 
-const Stats = () => {
+export const Stats = () => {
     const stats = [
         {
             data: '500K',
@@ -43,5 +43,3 @@ const Stats = () => {
         </section>
     );
 };
-
-export default Stats;

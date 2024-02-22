@@ -1,8 +1,6 @@
-import { Button, Input } from '@shtcut-ui/react';
-import NavLink from '@shtcut/components/ui/nav-link';
 import Image from 'next/image';
 
-const SurveySection = () => {
+export const SurveySection = () => {
     const features = [
         {
             name: 'Collaboration',
@@ -86,7 +84,7 @@ const SurveySection = () => {
                         </p>
                         <ul className="flex-1 max-w-md space-y-10 px-4 md:px-0">
                             {features.map((item, idx) => (
-                                <li key={idx} className="flex gap-x-3">
+                                <li key={`${item.name}-${idx}`} className="flex gap-x-3">
                                     <div className="flex-none w-12 h-12 rounded-none bg-blue-50 text-blue-600 flex items-center justify-center">
                                         {item.icon}
                                     </div>
@@ -103,5 +101,3 @@ const SurveySection = () => {
         </section>
     );
 };
-
-export default SurveySection;

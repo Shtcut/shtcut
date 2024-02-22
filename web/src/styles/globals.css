@@ -48,6 +48,7 @@
 .custom-screen {
     @apply max-w-screen-xl mx-auto px-4 md:px-8;
 }
+
 .poppins-thin {
     font-family: 'Poppins', sans-serif;
     font-weight: 100;
@@ -155,18 +156,3 @@
     font-weight: 900;
     font-style: italic;
 }
-
-/* .gradient-border {
-    border: 1px solid transparent;
-    background: linear-gradient(white, white),
-        linear-gradient(
-            25deg,
-            rgba(209, 213, 219, 1),
-            rgba(209, 213, 219, 1),
-            rgba(0, 0, 0, 0.63),
-            rgba(209, 213, 219, 1),
-            rgba(209, 213, 219, 1)
-        );
-    background-clip: padding-box, border-box;
-    background-origin: padding-box, border-box;
-} */

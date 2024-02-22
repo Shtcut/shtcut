@@ -1,4 +1,4 @@
-import NavLink from '../../nav-link';
+import { NavLink } from '@shtcut/components';
 import Image from 'next/image';
 
 export const Hero = () => (

@@ -1,8 +1,7 @@
 import { Button, Input } from '@shtcut-ui/react';
-import NavLink from '@shtcut/components/ui/nav-link';
 import Image from 'next/image';
 
-const ShortenerSection = () => {
+export const ShortenerSection = () => {
     const features = [
         {
             name: 'Publishing',
@@ -92,11 +91,9 @@ const ShortenerSection = () => {
                     </div>
                 </div>
                 <div className="flex-1 mt-10 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
-                    <Image src="/shortener-section.svg" alt="" width={500} height={500} />
+                    <Image src="/shortener-1.svg" alt="" width={500} height={500} />
                 </div>
             </div>
         </section>
     );
 };
-
-export default ShortenerSection;

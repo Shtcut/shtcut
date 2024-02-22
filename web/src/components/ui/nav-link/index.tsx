@@ -1,10 +1,8 @@
 import { cn } from '@shtcut-ui/react';
 import Link from 'next/link';
 
-const NavLink = ({ children, href, ...props }) => (
-    <Link href={href} {...props} className={cn('py-2.5 px-4 text-center', props.className)}>
+export const NavLink = ({ children, href, ...props }) => (
+    <Link href={href} {...props} className={props.className ?? 'py-2.5 px-4 text-center'}>
         {children}
     </Link>
 );
-
-export default NavLink;

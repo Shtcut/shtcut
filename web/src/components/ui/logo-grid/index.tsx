@@ -23,7 +23,7 @@ type LogoGridProps = {
     text?: string;
     logos?: { src: string; alt: string }[];
 };
-const LogoGrid = (props?: LogoGridProps) => {
+export const LogoGrid = (props?: LogoGridProps) => {
     const gridLogos = props?.logos ?? logos;
     return (
         <div>
@@ -51,5 +51,3 @@ const LogoGrid = (props?: LogoGridProps) => {
         </div>
     );
 };
-
-export default LogoGrid;

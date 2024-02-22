@@ -1,8 +1,14 @@
-import { Card, Input } from '@shtcut-ui/react';
-import Image from 'next/image';
-import Logo from '../logo';
+'use client';
 
-const Footer = () => {
+import { Button, Card, Dict, Input } from '@shtcut-ui/react';
+import { Logo } from '@shtcut/components';
+import Image from 'next/image';
+
+type FooterProps = {
+    navs?: Dict[];
+};
+
+export const Footer = (props: FooterProps) => {
     const footerNavs = [
         {
             label: 'Company',
@@ -69,26 +75,28 @@ const Footer = () => {
         }
     ];
 
+    const navs = props?.navs ?? footerNavs;
+
     return (
         <footer className="text-gray-600  px-4 py-5 w-full max-w-screen-xl mx-auto md:px-8">
             <div className="gap-6 justify-between md:flex">
                 <div className="flex-1">
                     <div className="max-w-xs">
-                        <Logo/>
+                        <Logo />
                         <p className="leading-relaxed mt-2 text-[15px]">Create. Track. Collaborate</p>
                     </div>
                     <form onSubmit={(e) => e.preventDefault()}>
                         <label className="block pt-4 pb-2">Stay up to date</label>
-                        <div className="max-w-sm flex items-center border rounded-md p-1">
-                            <Input type="email" placeholder="Enter your email" className="w-full p-2.5" />
-                            <button className="p-2.5 rounded-md text-white bg-blue-600 outline-none">
+                        <div className="max-w-sm flex items-center rounded-md p-1">
+                            <Input type="email" placeholder="Enter your email" className="w-full h-30 p-2.5 mt-1" />
+                            <Button className="p-2.5 w-60 h-30 ml-2 outline font-normal text-white bg-blue-600  text-left rounded-md font-poppins">
                                 Subscribe
-                            </button>
+                            </Button>
                         </div>
                     </form>
                 </div>
                 <div className="flex-1 mt-10 space-y-6 items-center justify-between sm:flex md:space-y-0 md:mt-0">
-                    {footerNavs.map((item, idx) => (
+                    {navs.map((item, idx) => (
                         <ul className="space-y-4" key={idx}>
                             <h4 className="text-gray-800 font-medium">{item.label}</h4>
                             {item.items.map((el, idx) => (
@@ -164,5 +172,3 @@ const Footer = () => {
         </footer>
     );
 };
-
-export default Footer;
