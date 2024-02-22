@@ -1,8 +1,5 @@
-import LandingPage from "@shtcut/components/ui/landing"
+import { HomePage } from '@shtcut/components/ui';
 
-
-const LandingPageContainer = () => {
-    return <LandingPage/>
-}
-
-export default LandingPageContainer;
+export const LandingPageContainer = () => {
+    return <HomePage />;
+};

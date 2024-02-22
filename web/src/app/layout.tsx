@@ -13,9 +13,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className="font-poppins">
                 <ShtcutProvider attribute="class" defaultTheme="dark" enableSystem={false} disableTransitionOnChange>
-                    <PageLayout className='bg-white-90'>{children}</PageLayout>
+                    <PageLayout className="bg-white-90">{children}</PageLayout>
+                    {/* {children} */}
                 </ShtcutProvider>
             </body>
         </html>

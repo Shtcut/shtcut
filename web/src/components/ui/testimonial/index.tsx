@@ -1,7 +1,7 @@
 import { Card } from '@shtcut-ui/react';
 import Image from 'next/image';
 
-const Testimonial = () => {
+export const Testimonial = () => {
     const testimonials = [
         {
             avatar: '/testmonial-1.svg',
@@ -72,5 +72,3 @@ const Testimonial = () => {
         </section>
     );
 };
-
-export default Testimonial;

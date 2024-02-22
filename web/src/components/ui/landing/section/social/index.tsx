@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const SocialSection = () => {
+export const SocialSection = () => {
     const features = [
         {
             name: 'Social Listening',
@@ -101,5 +101,3 @@ const SocialSection = () => {
         </section>
     );
 };
-
-export default SocialSection;

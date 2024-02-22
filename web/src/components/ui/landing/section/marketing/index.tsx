@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-const MarketingSection = () => {
+export const MarketingSection = () => {
     const features = [
         {
             name: 'Have access to a robust email marketing tool.',
@@ -96,5 +96,3 @@ const MarketingSection = () => {
         </section>
     );
 };
-
-export default MarketingSection;
