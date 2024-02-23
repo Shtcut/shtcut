@@ -174,9 +174,9 @@ export const SignInForm = (props: SignInFormProps) => {
                 </button>
             </div>
             <div className="text-center">
-                <div>
+                <div className="font-poppins font-thin">
                     Don`t have an account?
-                    <NavLink href="/auth/sign-up" className="px-1 font-normal text-blue-600 hover:text-blue-500">
+                    <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:text-blue-500">
                         Sign up
                     </NavLink>
                 </div>
