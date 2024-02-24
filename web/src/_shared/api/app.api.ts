@@ -1,6 +1,6 @@
-// import { createApi } from '@reduxjs/toolkit/query/react';
+import { createApi } from '@reduxjs/toolkit/query/react';
 
-// export const api = createApi({
-//     // reducerPath: '',
+export const api = createApi({
+    reducerPath: '',
     
-// })
+})

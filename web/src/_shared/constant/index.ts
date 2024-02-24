@@ -11,7 +11,7 @@ export const ACL = {
     verifyEmailUrl: 'acl/auth/verify-email',
     sendVerificationUrl: 'acl/auth/send-verification',
     forgotPasswordUrl: 'acl/auth/password-reset',
-    resetPasswordUrl: 'acl/auth/reset-password',
+    updatePasswordUrl: 'acl/auth/reset-password',
     changePasswordUrl: 'acl/auth/change-password',
     loggedInUserUrl: 'acl/users/me',
 };
