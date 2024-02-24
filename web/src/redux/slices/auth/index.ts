@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { Dict } from '@shtcut-ui/react';
 import { AppCookie } from '@shtcut/_shared/helpers';
+import { authApi } from '@shtcut/services/auth';
 
 type InitialStateType = {
     authData: null | Dict;
@@ -33,7 +34,31 @@ export const authSlice = createSlice({
             return initialState;
         }
     },
-    // extraReducers: (builder) => {
-    //     builder.addMatcher(authApi)
-    // }
+    extraReducers: (builder) => {
+        builder.addMatcher(authApi.endpoints.signIn.matchFulfilled, (_, action) => {
+            return {
+                ...initialState,
+                authData: action.payload.data,
+                sessionToken: action.payload.meta.token
+            };
+        });
+        builder.addMatcher(authApi.endpoints.signUp.matchFulfilled, (_, action) => {
+            return {
+                ...initialState,
+                authData: action.payload.data,
+                sessionToken: action.payload.meta.token
+            };
+        });
+        builder.addMatcher(authApi.endpoints.verifyEmail.matchFulfilled, (_, action) => {
+            return {
+                ...initialState,
+                authData: action.payload.data,
+                sessionToken: action.payload.meta.token
+            };
+        });
+    }
 });
+
+export const { logout, isOwner } = authSlice.actions;
+
+export default authSlice.reducer;

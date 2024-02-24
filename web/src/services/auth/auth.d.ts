@@ -5,6 +5,15 @@ export interface OptionType {
     successMessage?: string;
 }
 
+export interface AuthResponseType {
+    meta: Record<'token', string>;
+    data: Dict;
+}
+
+export interface SocialAuthRequestType {
+    payload: { socialType: 'facebook' | 'google' | 'twitter' | 'github'; accessToken: string };
+    options?: OptionType;
+}
 export interface SignInRequestType {
     payload: Record<'email' & 'password', string>;
     options?: OptionType;
@@ -31,6 +40,16 @@ export interface SendVerificationRequestType {
 }
 
 export interface ForgotPasswordRequestType {
-    payload: { email: string; type: 'email' | 'sms' };
+    payload: { email: string };
+    options?: OptionType;
+}
+
+export interface UpdatePasswordRequestType {
+    payload: { email: string; resetPasswordCode: string; password: string };
+    options?: OptionType;
+}
+
+export interface ChangePasswordRequestType {
+    payload: { currentPassword: string; password: string };
     options?: OptionType;
 }
