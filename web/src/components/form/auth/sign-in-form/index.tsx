@@ -1,13 +1,21 @@
 import { Button, Card, Dict, Input } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
+import { Formik } from 'formik';
+import { signInValidationSchema, signInValues } from './validation';
 
 type SignInFormProps = {
-    signInResponse?: Dict;
-    handleLoginSubmit?: (payload: Dict) => void;
+    isLoading: boolean;
+    signInResponse: Dict;
+    handleLoginSubmit: (payload: Dict) => void;
 };
 
 export const SignInForm = (props: SignInFormProps) => {
     const { signInResponse, handleLoginSubmit } = props;
+
+    const handleFormSubmit = (values) => {
+        handleLoginSubmit(values);
+    };
+
     return (
         <Card className=" block w-full bg-white border-b border-gray-200  p-4 py-6 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
             <div className="text-center">
@@ -22,42 +30,51 @@ export const SignInForm = (props: SignInFormProps) => {
                     </p>
                 </div>
             </div>
-            <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center">
-                <div>
-                    <label className="font-normal">EMAIL</label>
-                    <Input
-                        type="email"
-                        placeholder="name@example.com"
-                        required
-                        className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                    />
-                </div>
-                <div>
-                    <label className="font-normal">PASSWORD</label>
-                    <Input
-                        type="password"
-                        placeholder="Enter your password"
-                        required
-                        className="w-full mt-2 px-3 h-12 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                    />
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-x-3">
-                        <span>
-                            Forgot Password?
-                            <NavLink
-                                href="/auth/forgot-password"
-                                className="px-1 font-normal text-blue-600 hover:text-blue-500"
-                            >
-                                Click Here
-                            </NavLink>
-                        </span>
-                    </div>
-                </div>
-                <Button className="w-full h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150">
-                    Login
-                </Button>
-            </form>
+            <Formik
+                enableReinitialize
+                initialValues={signInValues}
+                validationSchema={signInValidationSchema}
+                onSubmit={handleFormSubmit}
+            >
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                    <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center" onSubmit={handleSubmit}>
+                        <div>
+                            <label className="font-normal">EMAIL</label>
+                            <Input
+                                type="email"
+                                placeholder="name@example.com"
+                                onChange={handleChange}
+                                className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
+                            />
+                        </div>
+                        <div>
+                            <label className="font-normal">PASSWORD</label>
+                            <Input
+                                type="password"
+                                placeholder="Enter your password"
+                                required
+                                className="w-full mt-2 px-3 h-12 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
+                            />
+                        </div>
+                        <div className="flex items-center justify-between text-sm">
+                            <div className="flex items-center gap-x-3">
+                                <span>
+                                    Forgot Password?
+                                    <NavLink
+                                        href="/auth/forgot-password"
+                                        className="px-1 font-normal text-blue-600 hover:text-blue-500"
+                                    >
+                                        Click Here
+                                    </NavLink>
+                                </span>
+                            </div>
+                        </div>
+                        <Button className="w-full h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150">
+                            Login
+                        </Button>
+                    </form>
+                )}
+            </Formik>
             <div className="relative w-3/5 mx-auto">
                 <span className="block w-full h-px bg-gray-300"></span>
                 <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">
