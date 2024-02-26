@@ -113,6 +113,7 @@ export class AuthService extends MongoBaseService {
     };
     const user = await this.userModel.findOne({ ...Utils.conditionWithDelete({ _id: auth._id }) });
     const accessToken = this.jwtService.sign(payload);
+    console.log('auth:::', auth);
     return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON() } };
   }
 
