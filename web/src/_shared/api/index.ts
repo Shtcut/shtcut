@@ -19,7 +19,7 @@ const baseQuery = (baseUrl: string) =>
 export const baseQueryWithResponse =
     (baseUrl: string) => async (args: FetchArgs, api: BaseQueryApi, extraOptions: Dict) => {
         const { data, error } = await baseQuery(baseUrl)(args, api, extraOptions);
-        const { meta, data: authData } = data as any;
+        const { meta, data: authData } = data as any || {};
         const token = meta?.token;
         if (error) {
             return { error: { status: error?.status, data: error?.data } };
