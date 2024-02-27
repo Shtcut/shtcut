@@ -4,15 +4,19 @@ import { Card, Dict } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
 import { Formik } from 'formik';
 import { signInValidationSchema, signInValues } from './validation';
-import { AppButton, TextField } from '@shtcut/components/_shared';
+import { AppAlert, AppButton, TextField } from '@shtcut/components/_shared';
+import { get } from 'lodash';
 
 type SignInFormProps = {
     isLoading: boolean;
     handleLoginSubmit: (payload: Dict) => void;
+    error?: Dict;
 };
 
 export const SignInForm = (props: SignInFormProps) => {
-    const { isLoading, handleLoginSubmit } = props;
+    const { isLoading, handleLoginSubmit, error } = props;
+
+    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const handleFormSubmit = (values) => {
         handleLoginSubmit(values);
@@ -33,9 +37,9 @@ export const SignInForm = (props: SignInFormProps) => {
                 </div>
             </div>
 
-            {/* {error && errorMessage && (
+            {error && errorMessage && (
                 <AppAlert variant="destructive" className="mx-auto md:w-2/3 items-center" description={errorMessage} />
-            )} */}
+            )}
 
             <Formik
                 enableReinitialize

@@ -1,9 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Card, Dict } from '@shtcut-ui/react';
-import { Logo, NavLink } from '@shtcut/components';
-import { AppAlert } from '@shtcut/components/_shared';
+import { Dict } from '@shtcut-ui/react';
 import { SignInForm } from '@shtcut/components/form';
 import { useAuth } from '@shtcut/hooks/auth';
 import { get } from 'lodash';
@@ -14,8 +12,6 @@ export const SignInContainer = () => {
     const { push } = useRouter();
     const { signIn, authData, signInResponse } = useAuth();
     const { isSuccess: isLoginSuccess, isLoading, error } = signInResponse;
-
-    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const isVerifiedEmail = authData?.verifications?.['email'];
 
@@ -37,5 +33,5 @@ export const SignInContainer = () => {
         }
     }, [isLoginSuccess, isVerifiedEmail]);
 
-    return <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading}/>
+    return <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading} error={error} />;
 };

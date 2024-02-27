@@ -1,6 +1,5 @@
 import { FetchArgs, fetchBaseQuery, BaseQueryApi } from '@reduxjs/toolkit/query';
 import { Dict } from '@shtcut-ui/react';
-import { get } from 'lodash';
 import { AppCookie } from '../helpers';
 import { RootState } from '@shtcut/redux/store';
 
@@ -20,10 +19,11 @@ const baseQuery = (baseUrl: string) =>
 export const baseQueryWithResponse =
     (baseUrl: string) => async (args: FetchArgs, api: BaseQueryApi, extraOptions: Dict) => {
         const { data, error } = await baseQuery(baseUrl)(args, api, extraOptions);
-        // const token = get(data, ['meta', 'token'], null);
+        const { meta, data: authData } = data as any;
+        const token = meta?.token;
         if (error) {
             return { error: { status: error?.status, data: error?.data } };
         }
-        // if (token) AppCookie({ cookie: token, userRole: get(data, ['data', 'role']) });
+        if (token) AppCookie({ cookie: token, userRole: authData?.role });
         return { data };
     };
