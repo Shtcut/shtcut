@@ -198,9 +198,8 @@ export class AuthService extends MongoBaseService {
     if (!auth) {
       return null;
     }
-
     const valid = await bcrypt.compare(pass, auth.password);
-    return valid ? _.omit(auth.toJSON(), ['verifications']) : null;
+    return valid ? _.omit(auth.toJSON(), ['verificationCodes']) : null;
   }
 
   public async requestPasswordRequest(payload: ResetCodeDto) {

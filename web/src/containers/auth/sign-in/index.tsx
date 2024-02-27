@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { Card, Dict } from '@shtcut-ui/react';
@@ -54,6 +55,7 @@ export const SignInContainer = () => {
             {error && errorMessage && (
                 <AppAlert variant="destructive" className="mx-auto md:w-2/3 items-center" description={errorMessage} />
             )}
+            
             <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading} />
 
             <div className="relative w-3/5 mx-auto">
