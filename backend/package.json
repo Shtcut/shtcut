@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "postinstall": "yarn build worker && yarn build acl && yarn build gw && yarn build shtner && yarn build admin",
+    "build": "nest build",
     "build:gw": "nest build sht-gw",
     "build:acl": "nest build sht-acl",
     "build:shtner": "nest build sht-shtner",
@@ -101,8 +102,7 @@
     "ua-parser-js": "^1.0.37",
     "url-parse": "^1.5.10",
     "useragent": "^2.3.0",
-    "uuid": "^9.0.1",
-    "yarn": "^1.22.21"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.0.0",
