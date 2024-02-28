@@ -1,30 +1,30 @@
-# name: Node.js CI
+name: Node.js CI
 
-# on:
-#   push:
-#     branches: [ develop ]
+on:
+  push:
+    branches: [ develop ]
 
-# jobs:
-#   build:
-#     runs-on: [self-hosted, dev]
+jobs:
+  build:
+    runs-on: [self-hosted, dev]
 
-#     strategy:
-#       matrix:
-#         node-version: [16.x]
+    strategy:
+      matrix:
+        node-version: [16.x]
 
-#     steps:
-#       - uses: actions/checkout@v3
-#       - name: Use Node.js ${{ matrix.node-version }}
-#         uses: actions/setup-node@v3
-#         with:
-#           node-version: ${{ matrix.node-version }}
-#           cache: "npm"
-#       - run: cp /root/shtcut-stg/.env /root/shtcut-stg/_work/shtcut/shtcut-core/_env
-#       - run: cp /root/shtcut-stg/.env .
-#       - run: npm install -g yarn
-#       - run: yarn
-#       - run: npm install -g pm2
-#       - run: pm2 restart 0
-#       - run: pm2 restart 1
-#       - run: pm2 restart 2
-#       - run: pm2 restart 3
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: cp /root/shtcut-stg/.env /root/shtcut-stg/_work/shtcut/shtcut/_env
+      - run: cp /root/shtcut-stg/.env .
+      - run: npm install -g yarn
+      - run: yarn
+      - run: npm install -g pm2
+      - run: pm2 restart 0
+      - run: pm2 restart 1
+      - run: pm2 restart 2
+      - run: pm2 restart 3
