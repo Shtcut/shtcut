@@ -6,6 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
+    "postinstall": "yarn build worker && yarn build acl && yarn build gw && yarn build shtner && yarn build admin",
     "build:gw": "nest build sht-gw",
     "build:acl": "nest build sht-acl",
     "build:shtner": "nest build sht-shtner",

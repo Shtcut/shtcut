@@ -19,8 +19,8 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: cp /root/shtcut-stg/.env /root/shtcut-stg/_work/shtcut/shtcut/_env
-      - run: cp /root/shtcut-stg/.env .
+      - run: cp /root/shtcut-stg-api/.env /root/shtcut-stg-api/_work/shtcut/shtcut/backend/_env
+      - run: cp /root/shtcut-stg-api/.env .
       - run: npm install -g yarn
       - run: yarn
       - run: npm install -g pm2
