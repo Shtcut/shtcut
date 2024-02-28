@@ -28,7 +28,7 @@ export const SignInContainer = () => {
                 push(`/auth/verify-email`);
             } else {
                 // todo trigger current logged in user
-                push(`/landing`);
+                push(`/welcome`);
             }
         }
     }, [isLoginSuccess, isVerifiedEmail]);
