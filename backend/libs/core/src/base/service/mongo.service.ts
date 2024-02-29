@@ -114,7 +114,7 @@ export class MongoBaseService extends BaseAbstract {
    * allowing for transactional behavior. If no session is provided
    * @returns the result of the `findOneAndUpdate` method.
    */
-  public async updateObject(id: string, obj: Record<string, any>, session?: ClientSession) {
+  public async updateObject(id: string, obj: Dict, session?: ClientSession) {
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     const condition = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
