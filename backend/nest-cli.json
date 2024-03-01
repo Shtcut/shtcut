@@ -1,11 +1,11 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/sht-shtner/src",
+  "sourceRoot": "apps/sht-gw/src",
   "monorepo": true,
   "compilerOptions": {
     "webpack": true,
-    "tsConfigPath": "apps/sht-shtner/tsconfig.app.json"
+    "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
   },
   "root": "apps/sht-gw",
   "projects": {
