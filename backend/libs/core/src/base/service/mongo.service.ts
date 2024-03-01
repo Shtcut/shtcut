@@ -332,7 +332,7 @@ export class MongoBaseService extends BaseAbstract {
           _.isString(queryParser.query[key]) &&
           Utils.isObjectId(queryParser.query[key])
         ) {
-          queryParser.query[key] = new mongoose.Types.ObjectId(queryParser.query[key]);
+          queryParser.query[key] = Utils.toObjectId(queryParser.query[key]);
         }
       }
     }
