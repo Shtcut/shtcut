@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-          cache-dependency-path: 'backend/package-lock.json'
+          # cache-dependency-path: 'backend/package-lock.json'
       - run: cp /root/shtcut-stg-api/.env /root/shtcut-stg-api/_work/shtcut/shtcut/backend/_env
       - run: cp /root/shtcut-stg-api/.env .
       - run: npm install -g yarn
