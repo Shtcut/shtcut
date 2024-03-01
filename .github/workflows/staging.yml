@@ -26,10 +26,8 @@ jobs:
       - run: cp /root/shtcut-stg-api/.env /root/shtcut-stg-api/_work/shtcut/shtcut/backend/_env
       - run: cp /root/shtcut-stg-api/.env .
       - run: npm install -g yarn
-      - run: yarn
-        working-directory: ./backend
       - run: npm i --legacy-peer-deps     
-      - run: npm run build --if-present
+        working-directory: ./backend
       - run: npm run build --if-present
         working-directory: ./backend
       - run: npm install -g pm2
