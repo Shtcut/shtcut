@@ -141,6 +141,7 @@ function twshtcut() {
         },
       },
       plugins: [require('tailwindcss-animate')],
+      content: ['../../safelist.txt'],
       darkMode: ['class'],
     },
   );

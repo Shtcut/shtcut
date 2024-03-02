@@ -134,7 +134,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
             </div>
             <SocialLogin />
             <div className="text-center">
-                <div className="font-poppins font-thin">
+                <div className="font-poppins font-normal-l">
                     Already have an account?
                     <NavLink href="/auth/sign-in" className="px-1 text-blue-600 hover:text-blue-500">
                         Login

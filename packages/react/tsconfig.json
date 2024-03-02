@@ -20,6 +20,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "postcss.config.js", "tailwind-plugin.ts"],
+  "include": ["src", "postcss.config.js", "tailwind-plugin.ts"],
   "exclude": ["node_modules"]
 }

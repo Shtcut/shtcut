@@ -1,4 +1,4 @@
-import type { MutableRefObject } from 'react';
+import type { CSSProperties, MutableRefObject, ReactNode } from 'react';
 
 export type Dict<T = any> = Record<string, T>;
 
@@ -21,10 +21,37 @@ type _TupleOf<T, N extends number, R extends unknown[]> = R['length'] extends N 
 
 type Tuple<T, N extends number> = N extends N ? (number extends N ? T[] : _TupleOf<T, N, []>) : never;
 
-export type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
 export type MaybeRef<T> = T | MutableRefObject<T>;
 
 export type Func<T = void> = () => T;
 
-export type NumberSize = number | Size;
+export type NumberSize = number | TypeAttributes.Size;
+
+export interface CommonProps {
+  className?: string;
+  children?: ReactNode;
+  style?: CSSProperties;
+}
+
+export type WithProps = CommonProps;
+
+export declare namespace TypeAttributes {
+  type Size = 'lg' | 'md' | 'sm' | 'xs' | 'xl';
+  type Shape = 'round' | 'circle' | 'none';
+  type Status = 'success' | 'warning' | 'danger' | 'info';
+  type FormLayout = 'horizontal' | 'vertical' | 'inline';
+  type ControlSize = 'lg' | 'md' | 'sm';
+  type MenuVariant = 'light' | 'dark' | 'themed' | 'transparent';
+  type Direction = 'ltr' | 'rtl';
+}
+
+export type ColorLevel = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+
+export type  NotificationPlacement = 
+ | 'top-start'
+ | 'top-center'
+ | 'top-end'
+ | 'bottom-start'
+ | 'bottom-center'
+ | 'bottom-end'
