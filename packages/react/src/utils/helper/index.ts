@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import { MaybeRef } from '../../types';
-import { isRef } from '../assertion';
+import { isRef, isString } from '../assertion';
 
 /**
  * The `rand` function generates a random integer within a specified range.
@@ -35,4 +35,32 @@ export const noop = () => {};
 export function unRef<T = HTMLElement>(target: MaybeRef<T>): T {
   const element = isRef(target) ? (target as MutableRefObject<T>).current : (target as T);
   return element;
+}
+
+/**
+ * The function `capitalize` takes a string as input and returns the same string with the first letter
+ * capitalized.
+ * @param {string} value - A string that you want to capitalize.
+ * @returns The function `capitalize` takes a string as input and returns the same string with the
+ * first letter capitalized. If the input is not a string, an empty string is returned.
+ */
+export function capitalize(value: string) {
+  return !isString(value) ? '' : `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
+
+export function chainedFunction<T = any>(...funcs: (T | null)[]) {
+  return funcs
+    .filter((f) => f !== null && typeof f !== 'undefined')
+    .reduce((acc: any, f: any) => {
+      if (typeof f !== 'function') {
+        throw new Error('Invalid Argument Type, must only provide functions, undefined, or null');
+      }
+      if (acc === undefined) {
+        return f;
+      }
+      return function chainedFunction(this: any, ...args: any[]) {
+        acc.apply(this, args);
+        f.apply(this, args);
+      };
+    }, undefined);
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Dict } from '@shtcut-ui/react';
+import { Card, Dict, Spinner } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
 import { Formik } from 'formik';
 import { signInValidationSchema, signInValues } from './validation';
@@ -31,7 +31,7 @@ export const SignInForm = (props: SignInFormProps) => {
                 </NavLink>
                 <div className="mt-5 space-y-2 w-full mx-auto md:w-1/2">
                     <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-3xl">Login</h3>
-                    <p className="font-poppins font-thin items-center">
+                    <p className="font-poppins font-normal items-center">
                         Welcome back! Login to get started with SHTCUT If not yet registered, click on sign up to create
                         an account
                     </p>
@@ -109,7 +109,7 @@ export const SignInForm = (props: SignInFormProps) => {
             </div>
             <SocialLogin/>
             <div className="text-center">
-                <div className="font-poppins font-thin">
+                <div className="font-poppins font-normal">
                     Don`t have an account?
                     <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:text-blue-500">
                         Sign up

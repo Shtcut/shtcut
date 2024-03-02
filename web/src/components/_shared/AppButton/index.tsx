@@ -1,8 +1,7 @@
 'use client';
 
-import { Button } from '@shtcut-ui/react';
+import { Button, Spinner } from '@shtcut-ui/react';
 import { HTMLProps } from 'react';
-import { Spinner } from '../Spinner';
 
 
 type AppButtonVariant = 'default' | 'secondary' | 'destructive' | 'link' | 'outline' | 'ghost';
@@ -33,7 +32,7 @@ export const AppButton = (props: AppButtonProps) => {
         >
             {loading ? (
                 <div className="flex items-center justify-center">
-                    <Spinner color={'fill-white'} height={'h-4'} width={'h-4'} label={loadingLabel} />
+                    <Spinner size={20} color='fill-white' />
                 </div>
             ) : (
                 <> {children}</>

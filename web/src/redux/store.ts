@@ -18,7 +18,7 @@ export const persistedReducer = persistReducer(persistConfig, appReducer);
 
 const rootReducer = (state: ReturnType<typeof persistedReducer> | undefined, action: AnyAction) => {
     if (action.type === logout.type) {
-        // return persistReducer(undefined, action);
+        // return persistReducer(undefined as any, action as any);
     }
     return persistedReducer(state, action);
 };
@@ -32,7 +32,8 @@ const createStore = (options?: ConfigureStoreOptions['preloadedState'] | undefin
                 serializableCheck: {
                     ignoredActions: [FLUSH, PURGE, PAUSE, PERSIST, REGISTER]
                 }
-            }).concat([api.middleware, logger, appMiddleware]),
+            // }).concat([api.middleware, logger, appMiddleware]),
+            }).concat([api.middleware, appMiddleware]),
         ...options
     });
 
