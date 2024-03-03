@@ -1,5 +1,4 @@
 import { Config } from 'tailwindcss';
-import defaultTheme from 'tailwindcss/defaultTheme';
 import twshtcut from '@shtcut-ui/react/tailwind-plugin';
 
 const SAFELIST_COLORS = 'colors';
@@ -30,16 +29,9 @@ const config: Config = {
                 '"Apple Color Emoji"',
                 '"Segoe UI Emoji"',
                 '"Segoe UI Symbol"',
-                '"Noto Color Emoji"',
+                '"Noto Color Emoji"'
             ],
-            serif: [
-                'ui-serif',
-                'Georgia',
-                'Cambria',
-                '"Times New Roman"',
-                'Times',
-                'serif',
-            ],
+            serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
             mono: [
                 'ui-monospace',
                 'SFMono-Regular',
@@ -48,8 +40,8 @@ const config: Config = {
                 'Consolas',
                 '"Liberation Mono"',
                 '"Courier New"',
-                'monospace',
-            ],
+                'monospace'
+            ]
         },
         screens: {
             xs: '576',
@@ -57,23 +49,23 @@ const config: Config = {
             md: '768px',
             lg: '1024px',
             xl: '1280px',
-            '2xl': '1536px',
+            '2xl': '1536px'
         },
         extend: {
             typography: (theme) => ({
                 DEFAULT: {
                     css: {
                         color: theme('colors.gray.500'),
-                        maxWidth: '65ch',
-                    },
+                        maxWidth: '65ch'
+                    }
                 },
                 invert: {
                     css: {
-                        color: theme('colors.gray.400'),
-                    },
-                },
-            }),
-        },
+                        color: theme('colors.gray.400')
+                    }
+                }
+            })
+        }
     },
     plugins: [
         require('@shtcut-ui/tw-init')({
@@ -97,12 +89,12 @@ const config: Config = {
                 `dark:text-{${SAFELIST_COLORS}}`,
                 `dark:hover:text-{${SAFELIST_COLORS}}`,
                 `h-{height}`,
-                `w-{width}`,
-            ],
+                `w-{width}`
+            ]
         }),
         require('@tailwindcss/typography'),
-        twshtcut(),
-    ],
+        twshtcut()
+    ]
 };
 
 export default config;
