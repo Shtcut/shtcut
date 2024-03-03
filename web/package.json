@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.6",
+    "@tailwindcss/typography": "^0.5.10",
     "@testing-library/react-hooks": "^8.0.1",
     "@types/mongoose": "^5.11.97",
     "@types/redux-mock-store": "^1.0.6",
