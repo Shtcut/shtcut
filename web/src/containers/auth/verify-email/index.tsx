@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Dict } from '@shtcut-ui/react';
+import { Button, Card, Dict, toast, Notification } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components/ui';
 import { VerifyEmailPasswordForm } from '@shtcut/components/form';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -15,7 +15,7 @@ export const VerifyEmailContainer = () => {
     const { verifyEmail, verifyEmailResponse, sendVerification, sendVerificationResponse, authData } = useAuth();
     const { isSuccess, isError, isLoading, error } = verifyEmailResponse;
 
-    const { isLoading: isResendingCode } = sendVerificationResponse;
+    const { isLoading: isResendingCode, isSuccess: isResendCodeSuccess } = sendVerificationResponse;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
@@ -30,6 +30,14 @@ export const VerifyEmailContainer = () => {
         });
     };
 
+    const openNotification = (type: 'success' | 'danger'| 'info', message: string) => {
+        toast.push(
+            <Notification title={type.charAt(0).toUpperCase() + type.slice(1)} type={type}>
+                {message}
+            </Notification>
+        );
+    };
+
     const handleResendVerification = () => {
         const payload = {
             email: authData?.email,
@@ -41,12 +49,15 @@ export const VerifyEmailContainer = () => {
         });
     };
 
+    if (isResendCodeSuccess) {
+        openNotification('info', 'A verification code has been resent to your email');
+    }
+
     if (isError) {
         // todo show error toast
     }
 
     if (isSuccess) {
-        // todo show success toast and redirect to creation of workspace
     }
 
     return (
