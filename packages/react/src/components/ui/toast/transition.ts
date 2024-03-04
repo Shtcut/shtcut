@@ -1,4 +1,4 @@
-import { NotificationPlacement } from '@/types';
+import { NotificationPlacement } from '../../../types';
 
 type GetPlacementTransitionParams = {
     offsetX: string | number;

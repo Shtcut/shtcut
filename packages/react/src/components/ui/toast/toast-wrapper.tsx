@@ -1,9 +1,13 @@
 'use client';
 
-import { NotificationPlacement } from '@/types';
-import { PLACEMENT } from '@/utils/constants';
+import { NotificationPlacement } from '../../../types';
+import { PLACEMENT } from '../../../utils/constants';
 import * as React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import { getPlacementTransition } from './transition';
+import { motion } from 'framer-motion';
+import { chainedFunction, cn } from '../../../utils';
+import '../../styles/_toast.css';
 
 type NodeProps = React.DetailedReactHTMLElement<any, HTMLDivElement>;
 
@@ -61,7 +65,7 @@ const useMessages = (msgKey: string) => {
 
 export interface ToastProps {
     transitionType?: 'scale' | 'fade';
-    placement?: NotificationPlacement | 'top-fill' | 'bottom-full';
+    placement?: NotificationPlacement | 'top-full' | 'bottom-full';
     offsetX?: string | number;
     offsetY?: string | number;
     block?: boolean;
@@ -81,7 +85,7 @@ export interface ToastWrapperInstance {
 }
 
 const ToastWrapper = React.forwardRef((props: ToastWrapperProps, ref) => {
-    const rootRef = React.useRef<HTMLDivElement>(null);
+    const rootRef = React.useRef<HTMLDivElement | null>(null);
     const {
         transitionType = 'scale',
         placement = PLACEMENT.TOP_END as NotificationPlacement,
@@ -105,5 +109,72 @@ const ToastWrapper = React.forwardRef((props: ToastWrapperProps, ref) => {
         placement: placement as NotificationPlacement,
         transitionType,
     });
-    return <div></div>;
-});
+
+    const toastProps = {
+        triggerByToast: true,
+        ...rest,
+    };
+
+    const messageElem = messages.map((msg) => {
+        return (
+            <motion.div
+                key={msg.key}
+                className={'toast-wrapper'}
+                initial={placementTransition.variants.initial}
+                variants={placementTransition.variants}
+                animate={msg.visible ? 'animate' : 'exit'}
+                transition={{ duration: 0.15, type: 'tween' }}
+            >
+                {React.cloneElement(msg.node as React.DetailedReactHTMLElement<any, HTMLElement>, {
+                    ...toastProps,
+                    ref,
+                    onClose: chainedFunction(msg.node?.props?.onClose, () => remove(msg.key)),
+                    className: cn(msg.node?.props?.className),
+                })}
+            </motion.div>
+        );
+    });
+    return (
+        <div
+            style={placementTransition.default}
+            {...rest}
+            ref={(thisRef) => {
+                rootRef.current = thisRef;
+                callback?.(thisRef);
+            }}
+            className={cn('toast', block && 'w-full')}
+        >
+            {messageElem}
+        </div>
+    );
+}) as any;
+
+ToastWrapper.getInstance = (props: ToastWrapperProps) => {
+    const { wrapper, ...rest } = props;
+    const wrapperRef = React.createRef<ToastWrapperInstance>();
+
+    const wrapperElem = (typeof wrapper === 'function' ? wrapper() : wrapper) || document.body;
+
+    return new Promise((resolve) => {
+        const renderCallback = () => {
+            resolve([wrapperRef, unmount]);
+        };
+
+        function renderElem(elem: React.ReactNode) {
+            const mountElement = document.createElement('div');
+            wrapperElem.appendChild(mountElement);
+
+            const root = ReactDOM.createRoot(mountElement);
+
+            root.render(elem);
+
+            return root;
+        }
+
+        const { unmount } = renderElem(<ToastWrapper {...rest} ref={wrapperRef} callback={renderCallback} />);
+    });
+};
+
+ToastWrapper.displayName = 'ToastWrapper';
+
+export default ToastWrapper;

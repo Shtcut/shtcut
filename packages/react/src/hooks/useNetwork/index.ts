@@ -32,10 +32,10 @@ export function useNetwork() {
 
     if (!navConnection) return;
 
-    connection.current = navConnection;
+    // connection.current = navConnection;
 
     // @ts-ignore
-    connection.current?.onChange = () => rerender({});
+    // connection.current?.onChange = () => rerender({});
   });
 
   useEventListener('offline', () => {

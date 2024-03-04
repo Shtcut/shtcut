@@ -1,0 +1,20 @@
+.notification {
+    @apply bg-white shadow-xl dark:shadow-2xl rounded-lg mb-3 relative border border-gray-100 dark:bg-gray-700 dark:border-transparent;
+  }
+  
+  .notification-content {
+    @apply p-4 flex;
+  
+    &.no-child {
+      @apply items-center;
+    }
+  }
+  
+  .notification-title {
+    @apply font-semibold text-red-800 dark:text-white;
+  }
+  
+  .notification-close {
+    @apply top-5 ltr:right-4 rtl:left-4;
+  }
+  

@@ -1,5 +1,5 @@
 import { Func, MaybeRef } from '../../types';
-import { _window, isClient, isString, noop, unRef } from '@/utils';
+import { _window, isClient, isString, noop, unRef } from '../../utils';
 import * as React from 'react';
 
 interface InferEventType<Events> {
