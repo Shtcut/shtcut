@@ -30,9 +30,9 @@ export const VerifyEmailContainer = () => {
         });
     };
 
-    const openNotification = (type: 'success' | 'danger'| 'info', message: string) => {
+    const openNotification = (type: 'success' | 'danger' | 'info', message: string) => {
         toast.push(
-            <Notification title={type.charAt(0).toUpperCase() + type.slice(1)} type={type} closeable>
+            <Notification title={type.charAt(0).toUpperCase() + type.slice(1)} type={type}>
                 {message}
             </Notification>
         );
@@ -54,10 +54,12 @@ export const VerifyEmailContainer = () => {
     }
 
     if (isError) {
-        // todo show error toast
+        openNotification('danger', errorMessage);
     }
 
     if (isSuccess) {
+        openNotification('success', 'Your account has ben successfully verified');
+        push('/welcome');
     }
 
     return (
@@ -85,8 +87,7 @@ export const VerifyEmailContainer = () => {
                     <Button
                         variant="link"
                         className="px-1 font-poppins font-thin text-blue-600 hover:text-blue-500"
-                        // onClick={handleResendVerification}
-                        onClick={() => openNotification('info', 'The fat cat sat on the mat bat away with paws annoy owner.')}
+                        onClick={handleResendVerification}
                     >
                         Resend
                     </Button>

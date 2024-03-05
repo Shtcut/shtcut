@@ -1,0 +1,76 @@
+.input-group {
+    @apply flex items-center;
+  
+    .input {
+      @apply z-10;
+    }
+  
+    .input {
+      &:focus,
+      &:focus-within {
+        @apply z-20;
+      }
+    }
+  
+    .date-picker {
+      z-index: 11;
+    }
+  
+    .select__control--is-focused,
+    .date-picker.picker-expanded,
+    .input-suffix-end,
+    .input-suffix-start {
+      @apply z-20;
+    }
+  
+    > .input,
+    > .input-addon,
+    > .button {
+      &:first-child {
+        @apply ltr:rounded-r-none rtl:rounded-l-none;
+      }
+  
+      &:last-child:not(.picker) {
+        @apply ltr:rounded-l-none rtl:rounded-r-none;
+      }
+  
+      &:not(:first-child) {
+        @apply ltr:rounded-l-none ltr:-ml-px rtl:rounded-r-none rtl:-mr-px;
+      }
+  
+      &:not(:last-child) {
+        @apply ltr:rounded-r-none rtl:rounded-l-none;
+      }
+    }
+  
+    > * {
+      &:first-child {
+        .input,
+        .select__control {
+          @apply ltr:rounded-r-none rtl:rounded-l-none;
+        }
+      }
+  
+      &:last-child {
+        .input,
+        .select__control {
+          @apply ltr:rounded-l-none rtl:rounded-r-none;
+        }
+      }
+  
+      &:not(:first-child) {
+        .input,
+        .select__control {
+          @apply ltr:rounded-l-none ltr:-ml-px rtl:rounded-r-none rtl:-mr-px;
+        }
+      }
+  
+      &:not(:last-child) {
+        .input,
+        .select__control {
+          @apply ltr:rounded-r-none rtl:rounded-l-none;
+        }
+      }
+    }
+  }
+  

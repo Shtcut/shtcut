@@ -4,14 +4,9 @@ import Head from 'next/head';
 
 const SignIn = () => {
     return (
-        <>
-            <Head>
-                <title>Shtcut | Sign In</title>
-            </Head>
-            <AuthLayout>
-                <SignInContainer />
-            </AuthLayout>
-        </>
+        <AuthLayout title="Sign in">
+            <SignInContainer />
+        </AuthLayout>
     );
 };
 

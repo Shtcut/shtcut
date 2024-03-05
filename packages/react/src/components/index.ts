@@ -11,3 +11,4 @@ export * from './ui/toast';
 export * from './ui/status-icon';
 export * from './ui/close-button';
 export * from './ui/notification';
+export * from './ui/input-group';

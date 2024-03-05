@@ -1,10 +1,13 @@
 'use client';
 
+import { Button } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const Welcome = () => {
+    const { push } = useRouter();
     const [active, setActive] = useState(0);
 
     const workspaces = [
@@ -25,8 +28,10 @@ const Welcome = () => {
     const handleOnSelect = (e, index) => {
         e.preventDefault();
         setActive(index);
-        const workspace = workspaces[index];
-        console.log('workspace::', workspace);
+    };
+
+    const handleOnClick = () => {
+        push(`/auth/workspace?type=${workspaces[active].type}`);
     };
 
     return (
@@ -72,7 +77,10 @@ const Welcome = () => {
                     ))}
                 </ul>
                 <div className="flex-1 flex items-end mt-5">
-                    <button className="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700">
+                    <button
+                        className="px-3 py-3 rounded-lg w-full font-semibold text-sm duration-150 text-white bg-blue-600 hover:bg-blue-500 active:bg-blue-700"
+                        onClick={handleOnClick}
+                    >
                         Create Workspace
                     </button>
                 </div>

@@ -3,3 +3,4 @@ export * from './sign-up';
 export * from './forgot-password';
 export * from './verify-email';
 export * from './update-password';
+export * from './workspace';
