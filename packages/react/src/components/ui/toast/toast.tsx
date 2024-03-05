@@ -2,7 +2,7 @@ import { PLACEMENT } from '../../../utils';
 import type { ReactNode } from 'react';
 import ToastWrapper, { ToastProps } from './toast-wrapper';
 import { NotificationPlacement } from '../../../types';
-import '../../styles/index.css';
+import '../../styles/_toast.css';
 
 export const toastDefaultProps = {
     placement: PLACEMENT.TOP_END,

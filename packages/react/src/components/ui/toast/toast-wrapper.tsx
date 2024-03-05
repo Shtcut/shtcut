@@ -56,6 +56,9 @@ const useMessages = (msgKey: string) => {
                     return msg;
                 }),
             );
+            setTimeout(() => {
+                setMessages(messages.filter((msg) =>  msg.visible));
+            }, 50)
         },
         [messages, getKey],
     );

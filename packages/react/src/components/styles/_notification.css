@@ -1,5 +1,6 @@
 .notification {
-    @apply bg-white shadow-xl dark:shadow-2xl rounded-lg mb-3 relative border border-gray-100 dark:bg-gray-700 dark:border-transparent;
+    @apply bg-white shadow-xl dark:shadow-sm rounded-lg mb-3 relative border border-gray-100 dark:bg-gray-700 dark:border-transparent;
+    /* @apply bg-white; */
   }
   
   .notification-content {
@@ -11,7 +12,7 @@
   }
   
   .notification-title {
-    @apply font-semibold text-red-800 dark:text-white;
+    @apply font-sans font-semibold text-gray-800 dark:text-white;
   }
   
   .notification-close {
