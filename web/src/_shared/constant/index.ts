@@ -14,6 +14,7 @@ export const ACL = {
     updatePasswordUrl: 'acl/auth/reset-password',
     changePasswordUrl: 'acl/auth/change-password',
     loggedInUserUrl: 'acl/users/me',
+    workspace: 'acl/workspaces'
 };
 
 export const AUTH_TOKEN_KEY = process.env.NEXT_PUBLIC_STORAGE_KEY as string;

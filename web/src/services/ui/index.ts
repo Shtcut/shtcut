@@ -1,5 +1,5 @@
 import { Dispatch, isFulfilled, isRejectedWithValue } from '@reduxjs/toolkit';
-import { Dict } from '@shtcut-ui/react';
+import { Dict, toast } from '@shtcut-ui/react';
 import { get, isEmpty, isObject, keys } from 'lodash';
 import { OptionType } from '../auth/auth';
 import { paginate } from '@shtcut/redux/slices/ui';
@@ -22,11 +22,13 @@ export const appMiddleware =
 
         if (isRejectedWithValue(action) && !noErrorMessage) {
             if (isMutation) {
-                // todo show a toast error message
+                toast.push(errMsg);
+            } else {
+                toast.push('A problem occurred, please refresh');
             }
         }
         if (isFulfilled(action) && isMutation && !noSuccessMessage) {
-            // todo show a toast success message
+            toast.push(successMessage || 'Action Successful!');
         }
         if (isWithPagination && !isEmpty(pagination)) {
             dispatch(paginate({ pagination, endpointName }));
