@@ -32,7 +32,7 @@ export const VerifyEmailContainer = () => {
 
     const openNotification = (type: 'success' | 'danger'| 'info', message: string) => {
         toast.push(
-            <Notification title={type.charAt(0).toUpperCase() + type.slice(1)} type={type}>
+            <Notification title={type.charAt(0).toUpperCase() + type.slice(1)} type={type} closeable>
                 {message}
             </Notification>
         );
@@ -85,7 +85,8 @@ export const VerifyEmailContainer = () => {
                     <Button
                         variant="link"
                         className="px-1 font-poppins font-thin text-blue-600 hover:text-blue-500"
-                        onClick={handleResendVerification}
+                        // onClick={handleResendVerification}
+                        onClick={() => openNotification('info', 'The fat cat sat on the mat bat away with paws annoy owner.')}
                     >
                         Resend
                     </Button>

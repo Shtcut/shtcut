@@ -5,7 +5,7 @@ import type { MouseEvent } from 'react';
 import { CommonProps } from '../../../types';
 import { cn } from '../../../utils';
 import { HiX } from 'react-icons/hi';
-import '../../styles/index.css';
+import '../../styles/_close-button.css';
 
 export interface CloseButtonProps extends CommonProps {
     absolute?: boolean;
