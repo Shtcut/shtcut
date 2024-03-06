@@ -49,7 +49,7 @@
 }
 
 .input-suffix-start {
-    @apply absolute top-2/4 transform -translate-y-2/4 ltr:left-2.5 rtl:right-2.5;
+    @apply absolute top-2/4 bg-zinc-300 transform -translate-y-2/4 ltr:left-2.5 rtl:right-2.5;
 }
 
 .input-suffix-end {

@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <PersistGate loading={null} persistor={persistor}>
                         <ShtcutProvider
                             attribute="class"
-                            defaultTheme="dark"
+                            defaultTheme="light"
                             enableSystem={false}
                             disableTransitionOnChange
                         >

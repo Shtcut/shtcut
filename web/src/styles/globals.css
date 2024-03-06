@@ -19,6 +19,10 @@
 }
 
 @layer base {
+    body {
+        @apply text-gray-500 dark:text-gray-400 text-sm bg-gray-100 dark:bg-gray-900 leading-normal;
+        -webkit-font-smoothing: antialiased;
+    }
     @font-face {
         font-family: 'Poppins';
         font-style: normal;
@@ -26,6 +30,44 @@
         font-display: optional;
         src: url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
             format('woff2');
+    }
+
+    h1,
+    .h1 {
+        @apply text-4xl font-bold text-gray-900 dark:text-gray-100;
+    }
+
+    h2,
+    .h2 {
+        @apply text-3xl font-bold text-gray-900 dark:text-gray-100;
+    }
+
+    h3,
+    .h3 {
+        @apply text-2xl font-semibold text-gray-900 dark:text-gray-100;
+    }
+
+    h4,
+    .h4 {
+        @apply text-xl font-semibold text-gray-900 dark:text-gray-100;
+    }
+
+    h5,
+    .h5 {
+        @apply text-lg font-semibold text-gray-900 dark:text-gray-100;
+    }
+
+    h6,
+    .h6 {
+        @apply text-base font-semibold text-gray-900 dark:text-gray-100;
+    }
+
+    hr {
+        @apply border-gray-200 dark:border-gray-600;
+    }
+
+    .heading-text {
+        @apply text-gray-900 dark:text-gray-100;
     }
 }
 
