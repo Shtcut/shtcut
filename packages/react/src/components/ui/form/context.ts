@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { createContext, useContext } from 'react';
 import { TypeAttributes } from '../../../types';
 
 export type FormContextProps = {
@@ -9,14 +9,14 @@ export type FormContextProps = {
     labelWidth?: string | number;
 };
 
-const FormContext = React.createContext<FormContextProps | null>(null);
+const FormContext = createContext<FormContextProps | null>(null);
 
-const FormContextProvider = FormContext.Provider;
+export const FormContextProvider = FormContext.Provider;
 
-const FormContextConsumer = FormContext.Consumer;
+export const FormContextConsumer = FormContext.Consumer;
 
 export function useForm() {
-    return React.useContext(FormContext);
+    return useContext(FormContext);
 }
 
 export default FormContext;

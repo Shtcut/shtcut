@@ -1,25 +1,32 @@
+import { Card, CommonProps } from '@shtcut-ui/react';
+import { Container, Logo } from '@shtcut/components';
 import Head from 'next/head';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode, cloneElement } from 'react';
 
-type AuthLayoutProps = {
-    children: ReactElement | ReactElement[];
-    title?: string;
-};
+interface AuthLayoutProps extends CommonProps {
+    content?: ReactNode;
+}
 
-const AuthLayout = ({ children, title }: AuthLayoutProps) => {
+const AuthLayout = ({ children, content, ...rest }: AuthLayoutProps) => {
     return (
-        <>
-            <Head>
-                <title>{`Shtcut - ${title}`}</title>
-                <link rel="icon" href="/favicon.ico" />
-            </Head>
-            <div
-                className=" w-full h-screen flex flex-col items-center justify-center mx-auto px-4"
-                style={{ width: '100%', maxWidth: '700px', margin: '0 auto' }}
-            >
-                {children}
-            </div>
-        </>
+        <div className="h-full">
+            <Container className="flex flex-col flex-auto items-center justify-center min-w-0 h-full">
+                <Card className="min-w-[320px] md:min-w-[450px]:" bodyClass="md:p-10">
+                    <div className="text-center">
+                        <Logo  />
+                    </div>
+                    <div>
+                        {content}
+                        {children
+                            ? cloneElement(children as ReactElement, {
+                                  contentClassName: 'text-center',
+                                  ...rest
+                              })
+                            : null}
+                    </div>
+                </Card>
+            </Container>
+        </div>
     );
 };
 export default AuthLayout;

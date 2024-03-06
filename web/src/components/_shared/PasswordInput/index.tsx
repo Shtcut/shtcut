@@ -3,7 +3,7 @@
 import { Input, InputProps } from '@shtcut-ui/react';
 import { useState } from 'react';
 import type { MouseEvent } from 'react';
-import { HiOutlineEyeOff, HiOutlineEye }  from 'react-icons/hi';
+import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi';
 
 interface PasswordInputProps extends InputProps {
     onVisibleChange?: (visible: boolean) => void;
@@ -23,6 +23,13 @@ export const PasswordInput = (props: PasswordInputProps) => {
 
     return (
         <Input
+            {...rest}
+            type={pwInputType}
+            suffix={
+                <span className="cursor-pointer text-xl" onClick={onPasswordVisibleClick}>
+                    {pwInputType === 'password' ? <HiOutlineEyeOff /> : <HiOutlineEye />}
+                </span>
+            }
         />
-    )
+    );
 };

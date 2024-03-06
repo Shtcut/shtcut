@@ -1,3 +1,5 @@
+'use client';
+
 import { ColorLevel, TypeAttributes } from '../../../types';
 import { SIZES } from '../../../utils/constants';
 import { createContext, useContext } from 'react';

@@ -1,3 +1,5 @@
+'use client';
+
 import * as React from 'react';
 import { CommonProps, TypeAttributes } from '../../../types';
 import { InputGroupContextConsumer, InputGroupContextProvider } from './context';

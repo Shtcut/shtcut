@@ -23,19 +23,6 @@ export interface InputProps extends CommonProps, Omit<React.InputHTMLAttributes<
     form?: any;
 }
 
-// const Input = primitiveComponent<'input', InputProps>(({ className, type, ...props }, ref) => (
-//     <input
-//         type={type}
-//         className={cn(
-//             'h-9 w-full block appearance-none rounded-md border bg-transparent  focus:border-black focus:outline-none focus:ring-black sm:text-sm  px-3 py-1 text-sm shadow-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
-//             className,
-//         )}
-//         ref={ref}
-//         {...props}
-//     />
-// ));
-
-// const Input = React.forwardRef<React.ElementType | HTMLInputElement, InputProps>((props, ref) => {
 const Input = primitiveComponent<'input', InputProps>((props, ref) => {
     const {
         asElement: Component = 'input',
@@ -185,7 +172,7 @@ const Input = primitiveComponent<'input', InputProps>((props, ref) => {
             ) : null}
             {renderInput}
             {suffix ? (
-                <div ref={suffixNode} className="input-suffix-end">
+                <div ref={suffixNode} className="input-suffix-end ">
                     {suffix}
                 </div>
             ) : null}
