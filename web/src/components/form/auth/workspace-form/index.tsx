@@ -26,7 +26,20 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
     };
 
     return (
-        <div>
+        <Card className=" block w-full bg-white border-b border-gray-200  p-4 py-6 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
+            <div className="text-center">
+                <NavLink href="/">
+                    <Logo width={150} className="mx-auto" />
+                </NavLink>
+                <div className="mt-5 space-y-2 w-full mx-auto md:w-1/2">
+                    <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-3xl">Create Workspace</h3>
+                    <p className="font-poppins font-thin items-center w-full">
+                        Create a Workspace to start creating and managing your short links, domains, QR codes and many
+                        more on SHTCUT
+                    </p>
+                </div>
+            </div>
+
             {error && errorMessage && (
                 <AppAlert variant="destructive" className="mx-auto md:w-2/3 items-center" description={errorMessage} />
             )}
@@ -66,7 +79,11 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
 
                         <InputGroup className="mb-4">
                             <Addon className="">@</Addon>
-                            <Input type="text" placeholder="www.example.com" id="website-url" />
+                            <Input
+                                type="text"
+                                placeholder="www.example.com"
+                                id="website-url"
+                            />
                         </InputGroup>
                         <AppButton
                             htmlType="submit"
@@ -83,6 +100,6 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
             <div className="relative w-3/5 mx-auto">
                 <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto"></p>
             </div>
-        </div>
+        </Card>
     );
 };
