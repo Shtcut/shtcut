@@ -3,7 +3,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import { PageLayout, ShtcutProvider } from '@shtcut-ui/react';
+import { PageLayout, ShtcutProvider, Toaster } from '@shtcut-ui/react';
 import { Provider } from 'react-redux';
 import { persistor, store } from '@shtcut/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -21,10 +21,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             disableTransitionOnChange
                         >
                             <PageLayout className="bg-white-90">{children}</PageLayout>
-                            {/* {children} */}
+                            <Toaster/>
                         </ShtcutProvider>
                     </PersistGate>
                 </Provider>
+                
             </body>
         </html>
     );

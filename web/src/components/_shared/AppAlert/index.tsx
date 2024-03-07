@@ -1,4 +1,5 @@
 import { Alert, AlertDescription, AlertTitle } from '@shtcut-ui/react';
+import { IconAlertCircle, IconEPassport } from '@tabler/icons-react';
 import { ReactElement } from 'react';
 
 type AppAlertProps = {
@@ -11,10 +12,10 @@ type AppAlertProps = {
 export const AppAlert = (props: AppAlertProps) => {
     const { className, variant = 'default', icon, title, description } = props;
     return (
-        <Alert variant={variant} className={className}>
+        <Alert variant={variant}>
             {icon}
-            {title && <AlertTitle>{title}</AlertTitle>}
-            {description && <AlertDescription>{description}</AlertDescription>}
+            <AlertTitle>{title}</AlertTitle>
+            <AlertDescription>{description}</AlertDescription>
         </Alert>
     );
 };

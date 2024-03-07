@@ -1,17 +1,21 @@
 'use client';
 
-import { Dict, Input } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
 import { AppButton } from '@shtcut/components/_shared';
-import { ChangeEvent, useRef, useState } from 'react';
+import { ChangeEvent, HTMLAttributes, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import z from 'zod';
+import { resetPasswordCodeValidationSchema } from './validation';
 
-type VerifyEmailFormProps = {
+interface VerifyEmailFormProps extends HTMLAttributes<HTMLDivElement> {
     codeLength: number;
     isLoading: boolean;
     handleVerifyEmailSubmit: (payload: Dict) => void;
-};
+}
 
 export const VerifyEmailPasswordForm = (props: VerifyEmailFormProps) => {
-    const { isLoading, handleVerifyEmailSubmit, codeLength = 6 } = props;
+    const { isLoading, handleVerifyEmailSubmit, codeLength = 6, className } = props;
     const fieldsRef = useRef<any>();
 
     const codes = new Array(codeLength).fill('code').reduce((acc, curr, idx) => {
@@ -45,12 +49,20 @@ export const VerifyEmailPasswordForm = (props: VerifyEmailFormProps) => {
     const handleFormSubmit = () => {
         const value = Object.values(code).reduce((acc: string, curr) => (acc += curr), '');
         handleVerifyEmailSubmit({
-            verificationCode: String(value),
+            verificationCode: String(value)
         });
     };
 
+    const form = useForm<z.infer<typeof resetPasswordCodeValidationSchema>>({
+        resolver: zodResolver(resetPasswordCodeValidationSchema),
+        defaultValues: {
+            resetPassCode: ''
+        }
+    });
+
     return (
-        <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center">
+        <div className={cn('grid gap-9 mx-auto px-4 md:px-8', className)}>
+            <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center">
             <div ref={fieldsRef} className="mt-2 flex items-center justify-center gap-x-2">
                 {Object.keys(codes).map((key, idx) => {
                     const value = code[key];
@@ -69,7 +81,7 @@ export const VerifyEmailPasswordForm = (props: VerifyEmailFormProps) => {
             </div>
             <AppButton
                 onClick={handleFormSubmit}
-                htmlType="button"
+                type="button"
                 loading={isLoading}
                 disabled={isLoading}
                 className="w-full h-12  px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
@@ -77,5 +89,6 @@ export const VerifyEmailPasswordForm = (props: VerifyEmailFormProps) => {
                 Continue
             </AppButton>
         </form>
+        </div>
     );
 };

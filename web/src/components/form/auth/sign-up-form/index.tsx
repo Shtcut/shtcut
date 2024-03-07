@@ -1,146 +1,162 @@
 'use client';
 
-import { Card, Dict } from '@shtcut-ui/react';
-import { Logo, NavLink } from '@shtcut/components';
-import { AppAlert, AppButton, TextField } from '@shtcut/components/_shared';
-import { Formik } from 'formik';
-import { signUpValidationSchema, signUpValues } from './validation';
+import {
+    Checkbox,
+    Dict,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    Input,
+    Label,
+    cn
+} from '@shtcut-ui/react';
+import { NavLink } from '@shtcut/components';
+import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
+import { HTMLAttributes } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { IconBrandFacebook, IconBrandGithub, IconBrandGmail, IconBrandTwitter } from '@tabler/icons-react';
+import { signUpValidationSchema } from './validation';
 import { SocialLogin } from '../social-login';
 
-type SignUpFormProps = {
+interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
     handleSignUpSubmit: (payload: Dict) => void;
     error?: Dict;
-};
+}
 
 export const SignUpForm = (props: SignUpFormProps) => {
-    const { isLoading, handleSignUpSubmit, error } = props;
+    const { isLoading, handleSignUpSubmit, error, className } = props;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: z.infer<typeof signUpValidationSchema>) => {
         handleSignUpSubmit(values);
     };
+
+    const form = useForm<z.infer<typeof signUpValidationSchema>>({
+        resolver: zodResolver(signUpValidationSchema),
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+    });
+
     return (
-        <Card className=" block w-full bg-white border-b border-gray-200  p-4 py-6 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
-            <div className="text-center">
-                <NavLink href="/">
-                    <Logo width={150} className="mx-auto" />
-                </NavLink>
-                <div className="mt-5 space-y-2 w-full mx-auto md:w-1/2">
-                    <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-3xl">Sign Up</h3>
-                </div>
-            </div>
-
-            {error && errorMessage && (
-                <AppAlert variant="destructive" className="mx-auto md:w-2/3 items-center" description={errorMessage} />
-            )}
-
-            <Formik
-                enableReinitialize
-                initialValues={signUpValues}
-                validationSchema={signUpValidationSchema}
-                onSubmit={handleFormSubmit}
-            >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                    <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center" onSubmit={handleSubmit}>
+        <div className={cn('grid gap-6 px-1', className)} {...props}>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+                    <div className="grid gap-2">
                         <div className="grid grid-cols-2 w-full mx-auto gap-x-2">
                             <div>
-                                <TextField
-                                    label="FIRST NAME"
-                                    labelClassName="font-normal"
-                                    className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                                    type="text"
-                                    placeholder="John"
+                                <FormField
+                                    control={form.control}
                                     name="firstName"
-                                    value={values.firstName}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    errorText={errors.firstName && touched.firstName ? errors.firstName : undefined}
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1">
+                                            <FormLabel>First name</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="John" className="h-12" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
                                 />
                             </div>
                             <div>
-                                <TextField
-                                    label="Last NAME"
-                                    labelClassName="font-normal"
-                                    className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                                    type="text"
-                                    placeholder="Doe"
+                                <FormField
+                                    control={form.control}
                                     name="lastName"
-                                    value={values.lastName}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    errorText={errors.lastName && touched.lastName ? errors.lastName : undefined}
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-1">
+                                            <FormLabel>Last name</FormLabel>
+                                            <FormControl>
+                                                <Input placeholder="Doe" className="h-12" {...field} />
+                                            </FormControl>
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
                                 />
                             </div>
                         </div>
-                        <TextField
-                            label="EMAIL"
-                            labelClassName="font-normal"
-                            className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                            type="email"
-                            placeholder="name@example.com"
+                        <FormField
+                            control={form.control}
                             name="email"
-                            value={values.email}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            errorText={errors.email && touched.email ? errors.email : undefined}
+                            render={({ field }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="name@example.com" className="h-12" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                        <TextField
-                            label="Password"
-                            labelClassName="font-normal"
-                            className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                            type="password"
-                            placeholder="Enter your password"
+                        <FormField
+                            control={form.control}
                             name="password"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            showPasswordIcon={false}
-                            value={values.password}
-                            errorText={errors.password && touched.password ? errors.password : undefined}
+                            render={({ field }) => (
+                                <FormItem className="space-y-1">
+                                    <div className="flex items-center justify-between">
+                                        <FormLabel>Password</FormLabel>
+                                    </div>
+                                    <FormControl>
+                                        <PasswordInput className="h-12" placeholder="********" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
                         />
-                        <div className="flex items-center justify-between text-sm">
-                            <div className="flex items-center gap-x-3">
-                                <span>
-                                    Forgot Password?
-                                    <NavLink
-                                        href="/auth/forgot-password"
-                                        className="px-1 font-normal text-blue-600 hover:text-blue-500"
-                                    >
-                                        Click Here
+                        <AppButton
+                            className="mt-2 h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+                            loading={isLoading}
+                        >
+                            Sign Up
+                        </AppButton>
+                        <div className="mt-2 mb-2 items-top flex space-x-2">
+                            <Checkbox id="terms1" />
+                            <div className="grid gap-1.5 leading-none">
+                                <Label
+                                    htmlFor="terms1"
+                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                >
+                                    Accept our{' '}
+                                    <NavLink href="#" className="underline underline-offset-4 hover:text-primary ">
+                                        terms
+                                    </NavLink>{' '}
+                                    and{' '}
+                                    <NavLink href="#" className="underline underline-offset-4 hover:text-primary ">
+                                        conditions
                                     </NavLink>
-                                </span>
+                                </Label>
                             </div>
                         </div>
-                        <AppButton
-                            htmlType="submit"
-                            loadingLabel="Loading...."
-                            disabled={isSubmitting || isLoading}
-                            loading={isLoading}
-                            className="w-full h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-                        >
-                            Sign In
-                        </AppButton>
-                    </form>
-                )}
-            </Formik>
 
-            <div className="relative w-3/5 mx-auto">
-                <span className="block w-full h-px bg-gray-300"></span>
-                <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">
-                    Or continue with
-                </p>
-            </div>
-            <SocialLogin />
+                        <div className="relative my-2">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                            </div>
+                        </div>
+                    </div>
+                    <SocialLogin isLoading={isLoading} />
+                </form>
+            </Form>
             <div className="text-center">
                 <div className="font-poppins font-normal-l">
                     Already have an account?
                     <NavLink href="/auth/sign-in" className="px-1 text-blue-600 hover:text-blue-500">
-                        Login
+                        Sign In
                     </NavLink>
                 </div>
             </div>
-        </Card>
+        </div>
     );
 };

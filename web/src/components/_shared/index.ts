@@ -4,3 +4,4 @@ export * from './AppButton';
 export * from './AppAlert';
 export * from './PasswordInput';
 export * from './Container';
+export * from './Modal';

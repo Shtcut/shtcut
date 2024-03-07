@@ -1,9 +1,6 @@
-import { validateYulObj } from '@shtcut/_shared';
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-const email = Yup.string().email('Email must be a valid email address').required('Email is required');
 
-export const forgotPasswordValues = {
-    email: '',
-}
-export const forgotPasswordValidationSchema = validateYulObj({ email });
+const email = z.string().email('Email must be a valid email address').min(1, 'Email is required');
+
+export const forgotPasswordValidationSchema = z.object({ email });

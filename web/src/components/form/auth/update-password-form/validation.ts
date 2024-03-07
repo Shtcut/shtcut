@@ -1,13 +1,15 @@
-import { validateYulObj } from '@shtcut/_shared';
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-const password = Yup.string().required('Password is required');
-const confirmPassword = Yup.string().required('Confirm password is required');
-const resetPasswordCode = Yup.string().required('Reset code is required');
+const password = z.string().min(1, 'Password is required').min(7, 'Password must be at least 7 characters long');
+const confirmPassword = z
+    .string()
+    .min(1, 'Confirm password is required')
+    .min(7, 'Confirm Password must be at least 7 characters long');
+const resetPasswordCode = z.string().min(1, 'Reset code is required');
 
-export const updatePasswordValues = {
-    password: '',
-    confirmPassword: '',
-    resetPasswordCode: '',
-}
-export const updatePasswordValidationSchema = validateYulObj({ password, confirmPassword, resetPasswordCode });
+export const updatePasswordValidationSchema = z
+    .object({ password, confirmPassword, resetPasswordCode })
+    .refine((data) => data.password === data.confirmPassword, {
+        message: "Passwords don't match",
+        path: ['confirmPassword']
+    });

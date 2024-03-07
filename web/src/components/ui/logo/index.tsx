@@ -1,12 +1,11 @@
 'use client';
 
-import { Button } from '@shtcut-ui/react';
 import Image from 'next/image';
 
 type LogoProps = {
     className?: string;
-    width?: number;
-    height?: number;
+    width?: number | `${number}` | undefined;
+    height?: number | `${number}` | undefined;
 };
 
 export const Logo = (props: LogoProps) => (

@@ -1,11 +1,10 @@
-import { validateYulObj } from '@shtcut/_shared';
-import * as Yup from 'yup';
+import { z } from 'zod';
 
-const email = Yup.string().email('Email must be a valid email address').required('Email is required');
-const password = Yup.string().required('Password field is required'); 
+const email = z.string().email('Email must be a valid email address').min(1, 'Email is required');
+const password = z.string().min(1, 'Password field is required').min(7, 'Password must be at least 7 characters long');
 
 export const signInValues = {
     email: '',
-    password: '',
-}
-export const signInValidationSchema = validateYulObj({ email, password });
+    password: ''
+};
+export const signInValidationSchema = z.object({ email, password });
