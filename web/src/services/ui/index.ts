@@ -1,8 +1,20 @@
 import { Dispatch, isFulfilled, isRejectedWithValue } from '@reduxjs/toolkit';
-import { Dict, toast } from '@shtcut-ui/react';
+import { Dict, ToastAction, toast } from '@shtcut-ui/react';
 import { get, isEmpty, isObject, keys } from 'lodash';
 import { OptionType } from '../auth/auth';
 import { paginate } from '@shtcut/redux/slices/ui';
+
+const variant = {
+    success: 'default',
+    danger: 'destructive'
+};
+const openNotification = (type: 'success' | 'danger' | 'info', message: string) => {
+    toast({
+        variant: variant[type] ?? 'default',
+        title: type === 'danger' ? 'Uh oh! Something went wrong.' : type.toUpperCase(),
+        description: message
+    });
+};
 
 export const appMiddleware =
     ({ dispatch }: { dispatch: Dispatch }) =>
@@ -22,13 +34,13 @@ export const appMiddleware =
 
         if (isRejectedWithValue(action) && !noErrorMessage) {
             if (isMutation) {
-                toast.push(errMsg);
+                openNotification('danger', errMsg);
             } else {
-                toast.push('A problem occurred, please refresh');
+                openNotification('danger', 'A problem occurred, please refresh');
             }
         }
         if (isFulfilled(action) && isMutation && !noSuccessMessage) {
-            toast.push(successMessage || 'Action Successful!');
+            openNotification('success', successMessage || 'Action Successful!');
         }
         if (isWithPagination && !isEmpty(pagination)) {
             dispatch(paginate({ pagination, endpointName }));

@@ -19,7 +19,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             <Head>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <body className={`${inter.className} bg-gray-200 dark:bg-[#0d1117] `}>
+            <body className={`${inter.className} bg-[#0d1117] dark:bg-[#0d1117] `}>
                 <main>{children}</main>
             </body>
         </html>

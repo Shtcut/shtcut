@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, Dict, InputGroup, Input } from '@shtcut-ui/react';
+import { Card, Dict, Input } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
 import { Formik } from 'formik';
 import { workspaceValidationSchema, workspaceValues } from './validation';
@@ -13,8 +13,6 @@ type WorkspaceFormProps = {
     handleWorkspaceSubmit: (payload: Dict) => void;
     error?: Dict;
 };
-
-const { Addon } = InputGroup;
 
 export const WorkspaceForm = (props: WorkspaceFormProps) => {
     const { isLoading, handleWorkspaceSubmit, error } = props;
@@ -66,28 +64,15 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                         />
 
                         <div className="flex items-center text-gray-400 border rounded-md">
-                            <InputGroup>
-                                <Addon>app.shtcut.link</Addon>
-                                <input
-                                    type="text"
-                                    placeholder="www.example.com"
-                                    id="website-url"
-                                    className="w-full p-2.5 ml-2 bg-transparent outline-none"
-                                />
-                            </InputGroup>
-                        </div>
-
-                        <InputGroup className="mb-4">
-                            <Addon className="">@</Addon>
-                            <Input
+                            <input
                                 type="text"
                                 placeholder="www.example.com"
                                 id="website-url"
+                                className="w-full p-2.5 ml-2 bg-transparent outline-none"
                             />
-                        </InputGroup>
+                        </div>
                         <AppButton
-                            htmlType="submit"
-                            loadingLabel="Loading...."
+                            type="submit"
                             disabled={isSubmitting || isLoading}
                             loading={isLoading}
                             className="w-full h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"

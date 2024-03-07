@@ -35,13 +35,12 @@ export const TextField = (props: TextFieldProps) => {
             {label && <label className="font-normal">{label}</label>}
             <div className={`${label ? 'mt-2' : 'mb-4'} w-full relative mt-2`}>
                 {type === 'password' ? (
-                    <PasswordInput size="lg" className="h-12" {...rest} />
+                    <PasswordInput className="h-12" {...rest} />
                 ) : (
                     <Input
                         id={`${id ?? ''}${type}-${_id}`}
                         type={type}
                         className={cn('h-12', className)}
-                        size={size}
                         {...rest}
                     />
                 )}

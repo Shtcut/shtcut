@@ -1,133 +1,107 @@
 'use client';
 
-import { Card, Dict, FormContainer, FormItem, Input, Spinner } from '@shtcut-ui/react';
-import { Logo, NavLink } from '@shtcut/components';
-import { Field, Form, Formik } from 'formik';
-import { signInValidationSchema, signInValues } from './validation';
-import { AppAlert, AppButton, PasswordInput, TextField } from '@shtcut/components/_shared';
+import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
+import { NavLink } from '@shtcut/components';
+import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
+import { HTMLAttributes } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signInValidationSchema } from './validation';
 import { SocialLogin } from '../social-login';
 
-type SignInFormProps = {
+interface SignInFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
     handleLoginSubmit: (payload: Dict) => void;
     error?: Dict;
-};
+}
 
 export const SignInForm = (props: SignInFormProps) => {
-    const { isLoading, handleLoginSubmit, error } = props;
+    const { isLoading, handleLoginSubmit, error, className } = props;
 
-    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
-
-    const handleFormSubmit = (values) => {
+    const handleFormSubmit = (values: z.infer<typeof signInValidationSchema>) => {
         handleLoginSubmit(values);
     };
 
+    const form = useForm<z.infer<typeof signInValidationSchema>>({
+        resolver: zodResolver(signInValidationSchema),
+        defaultValues: {
+            email: '',
+            password: ''
+        }
+    });
+
     return (
-        <Card className=" block w-full bg-white border-b border-gray-200  p-4 py-6 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
-            <div className="text-center">
-                <NavLink href="/">
-                    <Logo width={150} className="mx-auto" />
-                </NavLink>
-                <div className="mt-5 space-y-2 w-full mx-auto md:w-1/2">
-                    <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-3xl">Sign In</h3>
-                    <p className="text-gray-500 font-poppins font-normal sm:text-sm">
-                        Welcome back! Login to get started with SHTCUT If not yet registered, click on sign up to create
-                        an account
-                    </p>
-                </div>
-            </div>
-
-            {error && errorMessage && (
-                <AppAlert variant="destructive" className="mx-auto md:w-2/3 items-center" description={errorMessage} />
-            )}
-
-            <Formik
-                enableReinitialize
-                initialValues={signInValues}
-                validationSchema={signInValidationSchema}
-                onSubmit={handleFormSubmit}
-            >
-                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
-                    <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center" onSubmit={handleSubmit}>
-                        <FormContainer>
-                            <FormItem
-                                invalid={(errors.email && touched.email) as boolean}
-                                errorMessage={errors.email && touched.email ? errors.email : undefined}
+        <div className={cn('grid gap-6', className)} {...props}>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleFormSubmit)}>
+                    <div className="grid gap-2">
+                        <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                                <FormItem className="space-y-1">
+                                    <FormLabel>Email</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="name@example.com" className="h-12" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                                <FormItem className="space-y-1">
+                                    <div className="flex items-center justify-start">
+                                        <FormLabel>Password</FormLabel>
+                                    </div>
+                                    <FormControl>
+                                        <PasswordInput className="h-12" placeholder="********" {...field} />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <div className="text-sm mt-2 font-medium text-muted-foreground">
+                            Forgot password?
+                            <NavLink
+                                href="/auth/forgot-password"
+                                className="px-1  hover:opacity-75 text-blue-600 hover:text-blue-500"
                             >
-                                <TextField
-                                    label="EMAIL"
-                                    labelClassName="font-normal"
-                                    className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                                    type="email"
-                                    placeholder="name@example.com"
-                                    name="email"
-                                    value={values.email}
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                />
-                            </FormItem>
-                        </FormContainer>
-                        <FormContainer>
-                            <FormItem
-                                invalid={(errors.email && touched.email) as boolean}
-                                errorMessage={errors.password && touched.password ? errors.password : undefined}
-                            >
-                                <TextField
-                                    label="Password"
-                                    labelClassName="font-normal"
-                                    className="w-full mt-2 h-12 px-3 py-2 text-gray-500 bg-transparent outline-none border focus:border-blue-600 shadow-sm rounded-lg"
-                                    type="password"
-                                    placeholder="Enter your password"
-                                    name="password"
-                                    onChange={handleChange}
-                                    onBlur={handleBlur}
-                                    showPasswordIcon={false}
-                                    value={values.password}
-                                />
-                            </FormItem>
-                        </FormContainer>
-                        <div className="flex items-center justify-between text-sm">
-                            <div className="flex items-center gap-x-3">
-                                <span>
-                                    Forgot Password?
-                                    <NavLink
-                                        href="/auth/forgot-password"
-                                        className="px-1 font-normal text-blue-600 hover:text-blue-500"
-                                    >
-                                        Click Here
-                                    </NavLink>
-                                </span>
-                            </div>
+                                Click here
+                            </NavLink>
                         </div>
                         <AppButton
-                            htmlType="submit"
-                            loadingLabel="Loading...."
-                            disabled={isSubmitting || isLoading}
+                            className="mt-2 h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
                             loading={isLoading}
-                            className="w-full h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
                         >
-                            Sign In
+                            Sign in
                         </AppButton>
-                    </form>
-                )}
-            </Formik>
 
-            <div className="relative w-3/5 mx-auto">
-                <span className="block w-full h-px bg-gray-300"></span>
-                <p className="inline-block w-fit text-sm bg-white px-2 absolute -top-2 inset-x-0 mx-auto">
-                    Or continue with
-                </p>
-            </div>
-            <SocialLogin />
+                        <div className="relative my-2">
+                            <div className="absolute inset-0 flex items-center">
+                                <span className="w-full border-t" />
+                            </div>
+                            <div className="relative flex justify-center text-xs uppercase">
+                                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                            </div>
+                        </div>
+
+                        <SocialLogin isLoading={isLoading} />
+                    </div>
+                </form>
+            </Form>
             <div className="text-center">
-                <div className="font-poppins font-normal-l">
-                    Don`t have an account?
-                    <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:text-blue-500">
+                <div className="text-muted-foreground">
+                    Don`t have account?
+                    <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:opacity-75 hover:text-blue-500">
                         Sign up
                     </NavLink>
                 </div>
             </div>
-        </Card>
+        </div>
     );
 };
