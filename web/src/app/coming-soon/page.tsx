@@ -1,137 +1,70 @@
+'use client';
+
+import * as React from 'react';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
-import { ThemeProvider } from 'next-themes';
-// import { NextSeo } from 'next-seo';
+import { IconAlertCircle } from '@tabler/icons-react';
+import { Input, Label, toast } from '@shtcut-ui/react';
+import { AppButton } from '@shtcut/components';
 
-const inter = Inter({ subsets: ['latin'] });
+export default function ComingSoon() {
 
-export default function Home() {
-    const currentYear = new Date().getFullYear();
-
-    const data = {
-        sitename: 'Shtcut- Marketing tool',
-        sitetagline:
-            '🔥 🔥 🔥 Shtcut - an open-source software functions as a marketing tool, consolidating a diverse array of marketing tools into a singular, comprehensive platform. Commonly known as an "all-in-one" or "integrated" marketing platform, this concept is designed to offer users a centralized solution encompassing multiple facets of marketing',
-        sitelogo: '',
-        title: 'Shtcut - Coming Soon',
-        description:
-            "Guess what? We&apos;re currently working 👨‍💻 hard to bring you something great, and we can&apos;t wait to share it with you 📅. Our team is putting the finishing touches on a new project 🚀 that we think you&apos;ll love 😍. it's going to be amazing! 🌟",
-        newsletterheading: 'Stay tuned for our live updates!',
-        copyrightText: 'Copyright © 2024',
-        socialIconsHeading: 'Follow Us 📣',
-        socialIcons: [
-            {
-                icon: 'facebook',
-                link: '#'
-            },
-            {
-                icon: 'twitter',
-                link: '#'
-            },
-            {
-                icon: 'linkedIn',
-                link: '#'
-            }
-        ]
-    };
-    const {
-        sitename,
-        sitetagline,
-        description,
-        copyrightText,
-        newsletterheading,
-        sitelogo,
-        socialIcons,
-        socialIconsHeading,
-        title
-    } = data;
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        toast({
+            title: 'Success',
+            description: 'Thank you for joining our wait list! 🚀'
+        })
+    }
 
     return (
         <>
-            <main className="flex min-h-screen flex-col items-center justify-between p-5 lg:p-12">
-                <div className="z-10 w-full max-w-5xl items-center justify-between text-sm ">
-                    <div className=" bottom-0 left-0 flex h-30 md:h-48 w-full items-end justify-center  lg:static lg:h-auto lg:w-auto lg:bg-none">
-                        <a
-                            className="pointer-events-none flex place-items-center gap-2 p-4 lg:pointer-events-auto lg:p-0"
-                            href="/"
-                            rel="noopener noreferrer"
-                        >
-                            <div className="flex flex-col text-center">
-                                <h1 className="text-2xl lgtext-4xl text-sky-400/100 font-semibold	"> {sitename} </h1>
-                                <p className="text-2 font-medium m-2 text-slate-800 dark:text-slate-100">
-                                    {sitetagline}
-                                </p>
-                            </div>
-                        </a>
-                    </div>
+            <section className="w-screen h-dvh grid bg-gray-100 grids-cols-1 md:grid-cols-2 gap-6">
+                <div className="md:h-full h-80 bg-white relative overflow-hidden">
+                    <Image
+                        src="/analytics-2.png"
+                        alt="Analytics Image"
+                        fill
+                        className="object-contain mt-8 md:mt-10 px-10"
+                    />
                 </div>
-
-                <div className="relative flex flex-col  place-items-center ">
-                    <h2 className="text-center font-heading m-10 text-6xl sm:text-7xl lg:text-8xl leading-[5rem] sm:leading-[7rem] lg:leading-[7rem] font-black	 ">
-                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">
-                            {title}
-                        </span>
-                        <span className="">⏳</span>
-                    </h2>
-                    <p
-                        className="text-2xl md:text-3xl px-6 max-w-3xl text-center m-5 text-slate-800 dark:text-slate-100 font-thin"
-                        dangerouslySetInnerHTML={{
-                            __html: description
-                        }}
-                    ></p>
-                </div>
-
-                <div className="text-center lg:m-7 mt-10 w-80 p-3">
-                    <form className="space-y-6" action="#" method="POST">
-                        <div>
-                            <label
-                                htmlFor="email"
-                                className="block text-slate-800 dark:text-slate-100  font-light text-sm leading-6"
+                <main className="flex flex-col gap-8 mt-8 justify-center px-6 pb-10">
+                    <h1 className="font-semibold tracking-tight text-zinc-900 text-3xl leading-tight md:text-4xl max-w-lg">
+                        Join Shtcut - Secure your spot on our marketing tool!
+                    </h1>
+                    <p className="text-gray-500">Join the wait list to be notified when our app is available!</p>
+                    <form onSubmit={handleSubmit} className="mt-2 max-w-sm">
+                        <div className="flex flex-col gap-2 lg:flex-row">
+                            <Label className="sr-only" htmlFor="email-address">
+                                Email address
+                            </Label>
+                            <Input
+                                autoComplete="email"
+                                className="bg-chalk text-accent-500 block h-10 w-full appearance-none rounded-lg border border-zinc-300 px-4 py-2 placeholder-zinc-400 duration-200 focus:border-zinc-300 focus:outline-none focus:ring-zinc-300 sm:text-sm"
+                                id="email-address"
+                                name="email"
+                                placeholder="johndoe@exemple.com"
+                                required
+                                type="email"
+                            />
+                            <AppButton
+                                className="flex h-10 shrink-0 items-center justify-center gap-1 rounded-lg bg-[#000F2D] px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-zinc-700"
+                                type="submit"
                             >
-                                {newsletterheading}
-                            </label>
-                            <div className="mt-2 flex-col flex lg:flex md:flex-row">
-                                <input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="Email address"
-                                    autoComplete="email"
-                                    required
-                                    className="block w-full placeholder:text-gray-500 pl-[10px] focus:outline-none border-0 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 mr-0 rounded-none p-2"
-                                />
-                                <button className="ml-0 bg-slate-900 sm:w-auto border-slate-800 dark:border-slate-100	rounded-none mt-2 md:mt-0	p-2 border-2 dark:text-white hover:bg-slate-950">
-                                    Subscribe
-                                </button>
-                            </div>
+                                <span>Join the waitlist</span>
+                            </AppButton>
                         </div>
                     </form>
-                </div>
 
-                <footer className="text-slate-500 text-center">
-                    <div className="my-4 text-center">
-                        <ul className="flex flex-wrap lg:flex justify-center ">
-                            <li className="px-2"> {socialIconsHeading} </li>
-                            {socialIcons.map((social, index) => (
-                                <li key={index} className="px-2 capitalize border-1  hover:border-b-white">
-                                    <a target="_blank" className="" href={social.link}>
-                                        {' '}
-                                        {social.icon}{' '}
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
+                    <div className="flex items-start gap-2 text-gray-500">
+                        <IconAlertCircle />
+                        <p className="text-xs -mt-[0.5] max-w-sm">
+                            No worries! your data is completely safe and will only be utilized to provide you with
+                            updates about our product.
+                        </p>
                     </div>
-                    <div className="">
-                        <p
-                            className=""
-                            dangerouslySetInnerHTML={{
-                                __html: copyrightText
-                            }}
-                        ></p>
-                    </div>
-                </footer>
-            </main>
+                </main>
+            </section>
         </>
     );
 }
