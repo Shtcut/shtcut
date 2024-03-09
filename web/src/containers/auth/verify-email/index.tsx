@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Dict, ToastAction, toast } from '@shtcut-ui/react';
+import { Button, Dict, Label, ToastAction, toast } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components/ui';
 import { VerifyEmailPasswordForm } from '@shtcut/components/form';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -20,6 +20,7 @@ export const VerifyEmailContainer = () => {
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const handleVerifyEmailSubmit = (values: Dict) => {
+        console.log('values:::', values);
         const payload = {
             email: authData?.email,
             ...values
@@ -68,14 +69,13 @@ export const VerifyEmailContainer = () => {
     }
 
     return (
-        <Card className="relative py-14 block w-full bg-white border-b border-gray-200 p-4 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
+        <div className="relative py-14 block w-full bg-white border-b border-gray-200 p-4 sm:p-6 sm:rounded-lg text-gray-600 space-y-8">
             <div className="text-center">
                 <NavLink href="/">
                     <Logo width={150} className="mx-auto" />
                 </NavLink>
                 <div className="mt-5 space-y-2 w-full mx-auto md:w-1/2">
                     <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-3xl">Verification</h3>
-                    <p className="font-poppins font-normal items-center">Enter the 6 digits code sent to your email</p>
                 </div>
             </div>
             {error && errorMessage && (
@@ -84,12 +84,10 @@ export const VerifyEmailContainer = () => {
             <VerifyEmailPasswordForm
                 handleVerifyEmailSubmit={handleVerifyEmailSubmit}
                 isLoading={isLoading || isResendingCode}
-                codeLength={6}
-                className='w-full'
             />
             <div className="text-center">
                 <div>
-                    <span className="font-poppins font-normal items-center">You didn’t receive a code?</span>
+                    <Label>You didn’t receive a code?</Label>
                     <Button
                         variant="link"
                         className="px-1 font-poppins font-normal text-blue-600 hover:text-blue-500"
@@ -100,6 +98,6 @@ export const VerifyEmailContainer = () => {
                 </div>
             </div>
             <div className="grid grid-cols-4 w-full sm:w-64 mx-auto gap-x-4" />
-        </Card>
+        </div>
     );
 };

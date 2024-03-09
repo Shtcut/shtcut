@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@shtcut-ui/react';
 import Image from 'next/image';
 
 type LogoProps = {
@@ -9,7 +10,7 @@ type LogoProps = {
 };
 
 export const Logo = (props: LogoProps) => (
-    <div className="flex items-center justify-between py-5 md:block">
+    <div className={cn('flex items-center justify-between py-5 md:block', props.className)}>
         <Image
             src="/logo.svg"
             width={props.width ?? 120}

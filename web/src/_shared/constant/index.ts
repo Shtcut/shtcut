@@ -4,6 +4,21 @@ export const PUT = 'PUT';
 export const PATCH = 'PATCH';
 export const DELETE = 'DELETE';
 
+export const Workspaces = [
+    {
+        name: 'For myself',
+        type: 'personal',
+        icon: '/mdi_account.svg',
+        description: 'Create custom domains, links and QR codes, Stay organized.'
+    },
+    {
+        name: 'With my team',
+        icon: '/ri_team-fill.svg',
+        type: 'team',
+        description: 'Streamline processes, generate shareable links or QR codes.Collaborate.'
+    }
+];
+
 /** URL */
 export const ACL = {
     signUpUrl: 'acl/auth/sign-up',

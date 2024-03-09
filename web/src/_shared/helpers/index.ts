@@ -1,8 +1,12 @@
+'use client';
+
 import { jwtDecode } from 'jwt-decode';
 import Cookie from 'js-cookie';
 import { AUTH_TOKEN_KEY } from '../constant';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup';
+// import slugify from 'slugify';
+import * as _ from 'lodash';
 
 type AuthTokenReturnsProps = {
     isLoggedIn: boolean;
@@ -50,4 +54,14 @@ export const AppCookie = ({ cookie = null, userRole = ['unknown-user'], allowDel
 
 export const validateYulObj = (obj: ObjectShape) => {
     return Yup.object().shape(obj);
-}
+};
+
+// export const slugifyText = (text: string) => {
+//     if (text === null || typeof text === 'undefined' || _.isEmpty(text)) {
+//         return text;
+//     }
+//     if (text.indexOf(' ') >= 0) {
+//         return slugify(text.toLowerCase());
+//     }
+//     return text.toLowerCase();
+// };

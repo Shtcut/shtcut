@@ -104,8 +104,7 @@ WorkspaceSchema.virtual('id').get(function () {
 WorkspaceSchema.statics.config = () => {
   return {
     idToken: 'wrk',
-    slugify: 'name',
-    uniques: ['name', 'user'],
+    uniques: ['name', 'slug', 'user'],
     fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault', 'modules', 'subscriptions'],
     updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules'],
     hiddenFields: ['deleted'],
