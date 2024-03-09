@@ -4,7 +4,7 @@ import Head from 'next/head';
 
 const SignIn = () => {
     return (
-        <AuthLayout title="Sign in">
+        <AuthLayout>
             <SignInContainer />
         </AuthLayout>
     );

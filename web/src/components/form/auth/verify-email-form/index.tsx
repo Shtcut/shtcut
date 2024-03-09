@@ -1,94 +1,93 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
-import { AppButton } from '@shtcut/components/_shared';
-import { ChangeEvent, HTMLAttributes, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import z from 'zod';
-import { resetPasswordCodeValidationSchema } from './validation';
+import {
+    Dict,
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    InputOTP,
+    InputOTPGroup,
+    InputOTPSeparator,
+    InputOTPSlot
+} from '@shtcut-ui/react';
+import { AppButton } from '@shtcut/components';
+import { Fragment } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-interface VerifyEmailFormProps extends HTMLAttributes<HTMLDivElement> {
-    codeLength: number;
-    isLoading: boolean;
+const FormSchema = z.object({
+    pin: z.string().min(6, {
+        message: 'Your one-time password must be 6 characters.'
+    })
+});
+
+interface VerifyEmailFormProps {
     handleVerifyEmailSubmit: (payload: Dict) => void;
+    isLoading: boolean;
+    error?: Dict;
 }
 
-export const VerifyEmailPasswordForm = (props: VerifyEmailFormProps) => {
-    const { isLoading, handleVerifyEmailSubmit, codeLength = 6, className } = props;
-    const fieldsRef = useRef<any>();
-
-    const codes = new Array(codeLength).fill('code').reduce((acc, curr, idx) => {
-        acc[`${curr}${idx + 1}`] = '';
-        return acc;
-    }, {});
-
-    const [code, setCode] = useState(codes);
-
-    const inputFocus = (e) => {
-        const elements = fieldsRef?.current.children;
-        const dataIndex = +e.target.getAttribute('data-index');
-        if (e.key === 'Delete' || e.key === 'Backspace') {
-            const next = dataIndex - 1;
-            if (next > -1) {
-                elements[next].focus();
-            }
-        } else {
-            const next = dataIndex + 1;
-            if (next < elements.length && e.target.value != ' ' && e.target.value != '' && e.key.length == 1) {
-                elements[next].focus();
-            }
-        }
-    };
-
-    const handleChange = (e: ChangeEvent<HTMLInputElement>, codeNumber: string) => {
-        const value = e.target.value;
-        setCode({ ...code, [codeNumber]: value.slice(value.length - 1) });
-    };
-
-    const handleFormSubmit = () => {
-        const value = Object.values(code).reduce((acc: string, curr) => (acc += curr), '');
-        handleVerifyEmailSubmit({
-            verificationCode: String(value)
-        });
-    };
-
-    const form = useForm<z.infer<typeof resetPasswordCodeValidationSchema>>({
-        resolver: zodResolver(resetPasswordCodeValidationSchema),
+export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
+    const { isLoading, handleVerifyEmailSubmit } = props;
+    const form = useForm<z.infer<typeof FormSchema>>({
+        resolver: zodResolver(FormSchema),
         defaultValues: {
-            resetPassCode: ''
+            pin: ''
         }
     });
 
+    const handleFormSubmit = (data: z.infer<typeof FormSchema>) => {
+        handleVerifyEmailSubmit({
+            verificationCode: data.pin,
+        });
+    };
+
     return (
-        <div className={cn('grid gap-9 mx-auto px-4 md:px-8', className)}>
-            <form className="space-y-5 w-[96] mx-auto md:w-2/3 items-center">
-            <div ref={fieldsRef} className="mt-2 flex items-center justify-center gap-x-2">
-                {Object.keys(codes).map((key, idx) => {
-                    const value = code[key];
-                    return (
-                        <Input
-                            key={key}
-                            data-index={idx}
-                            placeholder="0"
-                            value={value}
-                            className="w-12 h-12 rounded-lg ml-3 outline-none border focus:border-blue-600 outline text-center text-2xl"
-                            onChange={(e) => handleChange(e, key)}
-                            onKeyUp={inputFocus}
-                        />
-                    );
-                })}
-            </div>
-            <AppButton
-                onClick={handleFormSubmit}
-                type="button"
-                loading={isLoading}
-                disabled={isLoading}
-                className="w-full h-12  px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-            >
-                Continue
-            </AppButton>
-        </form>
+        <div className="grid gap-6">
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(handleFormSubmit)} className="space-y-6">
+                    <FormField
+                        control={form.control}
+                        name="pin"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Please enter the code sent to your email.</FormLabel>
+                                <FormControl>
+                                    <InputOTP
+                                        maxLength={6}
+                                        className="w-full"
+                                        render={({ slots }) => (
+                                            <InputOTPGroup>
+                                                {slots.map((slot, index) => (
+                                                    <Fragment key={index}>
+                                                        <InputOTPSlot className="h-14 rounded-md border" {...slot} />
+                                                        {index !== slots.length - 1 && <InputOTPSeparator />}
+                                                    </Fragment>
+                                                ))}{' '}
+                                            </InputOTPGroup>
+                                        )}
+                                        {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <AppButton
+                        type="submit"
+                        loading={isLoading}
+                        disabled={isLoading}
+                        className="w-full h-12  px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+                    >
+                        Continue
+                    </AppButton>
+                </form>
+            </Form>
         </div>
     );
-};
+}

@@ -6,6 +6,10 @@ export class CreateWorkspaceDto {
   @IsNotEmpty()
   public readonly name: string;
 
+  @IsString()
+  @IsNotEmpty()
+  public readonly slug: string;
+
   @IsMongoId()
   @IsOptional()
   public plan: string;
