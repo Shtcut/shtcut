@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Card, Dict, ToastAction, toast } from '@shtcut-ui/react';
+import { Card, Dict, Modal, ToastAction, toast } from '@shtcut-ui/react';
 import { AppAlert, Logo } from '@shtcut/components';
 import { SignInForm } from '@shtcut/components/form';
 import { useAuth } from '@shtcut/hooks/auth';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { VerifyEmailContainer } from '../verify-email';
 
 export const SignInContainer = () => {
     const { push } = useRouter();
+    const [openVerifyModal, setOpenVerifyModal] = useState(false);
     const { signIn, authData, signInResponse } = useAuth();
     const { isSuccess: isLoginSuccess, isLoading, error } = signInResponse;
 
@@ -47,7 +49,7 @@ export const SignInContainer = () => {
     useEffect(() => {
         if (isLoginSuccess) {
             if (!isVerifiedEmail) {
-                push(`/auth/verify-email`);
+                setOpenVerifyModal(true);
             } else {
                 // todo trigger current logged in user
                 push(`/welcome`);
@@ -56,18 +58,29 @@ export const SignInContainer = () => {
     }, [isLoginSuccess, isVerifiedEmail]);
 
     return (
-        <Card className="p-6">
-            <div className="mb-4 flex items-center justify-center">
-                <Logo />
-            </div>
-            <div className="flex flex-col items-center justify-center space-y-3 border-bpx-4 py-6 pt-8 text-center sm:px-16">
-                <h1 className="text-2xl flex items-center justify-center font-semibold tracking-tight">Sign in</h1>
-                <p className="text-sm w-52 mb-10 space-x-2 justify-center text-muted-foreground">
-                    Welcome back! Sign in to get started with SHTCUT
-                </p>
-            </div>
-            <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-            <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading} error={error} />
-        </Card>
+        <>
+            <Card className="p-6">
+                <div className="mb-4 flex items-center justify-center">
+                    <Logo />
+                </div>
+                <div className="flex flex-col items-center justify-center space-y-3 border-bpx-4 py-6 pt-8 text-center sm:px-16">
+                    <h1 className="text-2xl flex items-center justify-center font-semibold tracking-tight">Sign in</h1>
+                    <p className="text-sm w-52 mb-10 space-x-2 justify-center text-muted-foreground">
+                        Welcome back! Sign in to get started with SHTCUT
+                    </p>
+                </div>
+                <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
+                <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading} error={error} />
+            </Card>
+            <Modal
+                showModel={openVerifyModal}
+                setShowModal={setOpenVerifyModal}
+                onClose={() => setOpenVerifyModal(false)}
+                className="px-10"
+                preventDefaultClose={true}
+            >
+                <VerifyEmailContainer />
+            </Modal>
+        </>
     );
 };
