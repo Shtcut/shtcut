@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
-import { Card, Dict, Label, Modal } from '@shtcut-ui/react';
+import { Card, Dict, Label, Modal, ToastAction, toast } from '@shtcut-ui/react';
 import { Logo, NavLink } from '@shtcut/components';
 import { AppAlert } from '@shtcut/components/_shared';
 import { SignUpForm } from '@shtcut/components/form';
@@ -28,6 +28,15 @@ export const SignUpContainer = () => {
             options: { noSuccessMessage: true }
         });
     };
+
+    if (error && errorMessage) {
+        toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: errorMessage,
+            action: <ToastAction altText="Try again">Try again</ToastAction>
+        });
+    }
 
     const ErrorAlert = ({ message }: { message: string }) => (
         <AppAlert

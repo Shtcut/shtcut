@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label, cn } from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
@@ -95,12 +95,12 @@ export const SignInForm = (props: SignInFormProps) => {
                 </form>
             </Form>
             <div className="text-center">
-                <div className="text-muted-foreground">
+                <Label className="text-muted-foreground">
                     Don`t have account?
                     <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:opacity-75 hover:text-blue-500">
                         Sign up
                     </NavLink>
-                </div>
+                </Label>
             </div>
         </div>
     );
