@@ -19,7 +19,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
 
     const handleSocialCallback = (social: string, response: Dict, callbackType: 'error' | 'success') => {
         setSocial(social);
-        
+
         if (callbackType === 'success') {
             let accessToken: string | undefined;
 
@@ -58,7 +58,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
                     clientId={`${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                     onSuccess={(response) => handleSocialCallback(SOCIAL_MEDIA.GITHUB, response, 'success')}
                     onFailure={(error) => handleSocialCallback(SOCIAL_MEDIA.GITHUB, error, 'error')}
-                    redirectUri="http://localhost:3000/auth"
+                    redirectUri={`${process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URL}`}
                     buttonText={'Github'}
                 />
                 <IconBrandGithub className="h-4 w-4 ml-3" />
