@@ -1,18 +1,21 @@
+/* eslint-disable prefer-const */
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession, Model } from 'mongoose';
-import { lastValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 import { AppException, Auth, AuthDocument, SocialSignInDto, SocialType, User, UserDocument, Utils } from 'shtcut/core';
 import * as _ from 'lodash';
 import lang from 'apps/sht-acl/lang';
+import { UserService } from '../../user';
 
 @Injectable()
 export class SocialAuthService {
   constructor(
     @InjectModel(Auth.name) protected model: Model<AuthDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    private userService: UserService,
     private http: HttpService,
     protected config: ConfigService,
   ) {}
@@ -34,6 +37,7 @@ export class SocialAuthService {
 
       const { socialType } = payload;
       const socialData = await this.loginSocial({ ...payload });
+
       if (!socialData.email) {
         throw AppException.INVALID_INPUT(lang.get('auth').socialEmailRequired);
       }
@@ -54,11 +58,11 @@ export class SocialAuthService {
       auth = await authObject.save();
 
       if (!user) {
-        user = new this.userModel({
-          _id: authObject._id,
-          ...socialPayload,
-        });
-        await user.save({ session });
+        const payload = {
+          _id: auth._id,
+          ...socialData,
+        };
+        await this.userService.createNewObject({ ...payload }, session);
       }
 
       await session.commitTransaction();
@@ -77,38 +81,48 @@ export class SocialAuthService {
   }
 
   /**
-   * The `loginSocial` function handles social login authentication by making API requests to different
-   * social platforms based on the provided `socialType` and `accessToken`.
-   * @param  - - `socialType`: A string representing the type of social login (e.g., "google", "apple",
-   * "facebook").
-   * @returns a Promise that resolves to an object containing the user's social login information.
+   * The function `loginSocial` handles social login authentication for different social platforms like
+   * Google, Apple, GitHub, and Facebook.
+   * @param  - The `loginSocial` function is an asynchronous function that handles social media login
+   * functionality. It takes in two parameters: `socialType` which is a string representing the type of
+   * social media platform (e.g., GOOGLE, APPLE, GITHUB, FACEBOOK) and `accessToken` which is a string
+   * @returns The function `loginSocial` returns the data object from the response if it contains an
+   * `id` property. If the response data does not contain an `id` property, it throws a `FORBIDDEN`
+   * error with a social error message. If there is an error with the response or an internal server
+   * error occurs, it throws a `FORBIDDEN` error with an appropriate error message.
    */
   public async loginSocial({ socialType, accessToken }: { socialType: string; accessToken: string }) {
-    let url: string;
-
-    if (socialType === SocialType.GOOGLE) {
-      url = `${this.config.get('app.social.google.url')}?access_token=${accessToken}`;
-    } else if (socialType === SocialType.APPLE) {
-      return Promise.resolve({ id: this.config.get('app.social.apple.url') });
-    } else {
-      url = `${this.config.get('app.social.facebook.url')}&access_token=${accessToken}`;
-    }
     try {
-      const response = await lastValueFrom(this.http.get(url));
-      if (socialType === SocialType.GOOGLE) {
-        response.data.id = response.data.sub;
+      let url: string;
+
+      switch (socialType) {
+        case SocialType.GOOGLE:
+          url = `${this.config.get('app.social.google.userInfoUrl')}`;
+          return this.processGoogleUser(url, accessToken);
+        case SocialType.APPLE:
+          return Promise.resolve({ id: this.config.get('app.social.apple.url') });
+        case SocialType.GITHUB:
+          url = `${this.config.get('app.social.github.url')}`;
+          return this.processGithubUser(url, accessToken);
+        case SocialType.TWITTER:
+          return Promise.resolve({ id: this.config.get('app.social.twitter.url') });
+        default:
+          url = `${this.config.get('app.social.facebook.url')}&access_token=${accessToken}`;
       }
 
-      if (response.data && response.data.id) {
+      const response = await lastValueFrom(this.http.get(url));
+
+      if (response.data?.id) {
         return response.data;
       } else {
         throw AppException.FORBIDDEN(lang.get('auth').socialError);
       }
     } catch (err) {
-      if (err.response && err.response.data) {
+      if (err.response?.data) {
         const errorMessage = err.response?.data?.error?.message || err.response.data.error_description;
         throw AppException.FORBIDDEN(errorMessage);
       }
+
       throw AppException.INTERNAL_SERVER(lang.get('error').internalServer);
     }
   }
@@ -139,12 +153,8 @@ export class SocialAuthService {
         firstName: auth.firstName || response.first_name || '',
         lastName: auth.lastName || response.last_name || '',
       };
-    } else if (socialType === SocialType.GOOGLE) {
-      socialData = {
-        email: response.email || auth.email || '',
-        firstName: auth.firstName || response.given_name || '',
-        lastName: auth.lastName || response.family_name || '',
-      };
+    } else if (socialType === SocialType.GOOGLE || socialType === SocialType.GITHUB) {
+      socialData = { ...response };
     }
 
     _.extend(auth, {
@@ -168,6 +178,74 @@ export class SocialAuthService {
     return {
       authObject: auth,
       socialPayload: socialData,
+    };
+  }
+
+  /**
+   * The function `processGithubUser` retrieves user information from GitHub using an access token and
+   * returns the user's id, first name, last name, and email.
+   * @param url - The `url` parameter in the `processGithubUser` function is typically the URL to which
+   * the HTTP requests are made. In this case, it is the URL for the GitHub API endpoint that you are
+   * interacting with. This URL could be something like `https://api.github.com/user` or any
+   * @param accessToken - An access token is a unique string of letters and numbers that is used to
+   * authenticate and authorize API requests. It is typically obtained by the user during the OAuth
+   * authentication process and grants access to specific resources on a server. In the context of the
+   * `processGithubUser` function you provided, the `accessToken
+   * @returns The `processGithubUser` function is returning an object with the following properties:
+   * - id: The GitHub user's ID
+   * - firstName: The first name of the GitHub user (extracted from the user's full name)
+   * - lastName: The last name of the GitHub user (extracted from the user's full name)
+   * - email: The email address of the GitHub user (retrieved from
+   */
+  private async processGithubUser(url, accessToken) {
+    const { apiKey, secret, userInfoUrl } = this.config.get('app.social.github');
+    const payload = {
+      client_id: apiKey,
+      client_secret: secret,
+      code: accessToken,
+    };
+    const response = await firstValueFrom(this.http.post(url, payload));
+    const token = response.data.split('=')[1].split('&')[0];
+    const [githubUserResponse, githubEmailResponse] = await Promise.all([
+      await firstValueFrom(
+        this.http.get(userInfoUrl, {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }),
+      ),
+      await firstValueFrom(
+        this.http.get(`${userInfoUrl}/emails`, {
+          headers: {
+            Authorization: `token ${token}`,
+          },
+        }),
+      ),
+    ]);
+    const { data } = githubUserResponse;
+    const user = {
+      socialId: data.id,
+      firstName: data?.name?.split(' ')[0] ?? data.login,
+      lastName: data?.name?.split(' ')[1] ?? data.login,
+      email: githubEmailResponse.data[0].email,
+    };
+    return user;
+  }
+
+  private async processGoogleUser(url, accessToken) {
+    const response = await firstValueFrom(
+      this.http.get(url, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }),
+    );
+    const { data } = response;
+    return {
+      socialId: data.sub,
+      email: data.email,
+      firstName: data.given_name ?? data?.name?.spilt(' ')[0],
+      lastName: data.family_name ?? data?.name?.spilt(' ')[1],
     };
   }
 }

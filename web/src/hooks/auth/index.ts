@@ -7,6 +7,7 @@ import {
     useSendVerificationMutation,
     useSignInMutation,
     useSignUpMutation,
+    useSocialMutation,
     useUpdatePasswordMutation,
     useVerifyEmailMutation
 } from '@shtcut/services/auth';
@@ -18,6 +19,7 @@ interface UseAuthReturnType {
     // mutations
     signIn: MutationTrigger<any>;
     signUp: MutationTrigger<any>;
+    socialLogin: MutationTrigger<any>;
     verifyEmail: MutationTrigger<any>;
     forgotPassword: MutationTrigger<any>;
     sendVerification: MutationTrigger<any>;
@@ -27,6 +29,7 @@ interface UseAuthReturnType {
     // response
     signInResponse: Dict;
     signUpResponse: Dict;
+    socialLoginResponse: Dict;
     verifyEmailResponse: Dict;
     forgotPasswordResponse: Dict;
     sendVerificationResponse: Dict;
@@ -43,6 +46,7 @@ export const useAuth = (): UseAuthReturnType => {
     const dispatch = useAppDispatch();
     const [signUp, signUpResponse] = useSignUpMutation();
     const [signIn, signInResponse] = useSignInMutation();
+    const [socialLogin, socialLoginResponse] = useSocialMutation();
     const [verifyEmail, verifyEmailResponse] = useVerifyEmailMutation();
     const [sendVerification, sendVerificationResponse] = useSendVerificationMutation();
     const [forgotPassword, forgotPasswordResponse] = useForgotPasswordMutation();
@@ -60,6 +64,7 @@ export const useAuth = (): UseAuthReturnType => {
     return {
         signUp,
         signIn,
+        socialLogin,
         verifyEmail,
         sendVerification,
         forgotPassword,
@@ -68,6 +73,7 @@ export const useAuth = (): UseAuthReturnType => {
 
         // response
         signUpResponse,
+        socialLoginResponse,
         signInResponse,
         verifyEmailResponse,
         sendVerificationResponse,

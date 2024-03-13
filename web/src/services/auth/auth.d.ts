@@ -28,7 +28,6 @@ export interface SignUpRequestType {
     };
     options?: OptionType;
 }
-
 export interface VerifyEmailRequestType {
     payload: { email: string; verificationCode: string };
     options?: OptionType;

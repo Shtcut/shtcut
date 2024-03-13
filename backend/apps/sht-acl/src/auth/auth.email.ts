@@ -38,7 +38,7 @@ export class AuthEmail {
       fromEmail: {
         email: config.from,
       },
-      subject: config.subject || 'Welcome to Shtcut',
+      subject: config.subject || 'Welcome to Shtcut! 🚀',
       template: config.template,
       content: {
         type: config.type || 'email',

@@ -16,8 +16,10 @@ export const SignUpContainer = () => {
     const { push } = useRouter();
     const [openVerifyModal, setOpenVerifyModal] = useState(false);
 
-    const { signUp, authData, signUpResponse } = useAuth();
+    const { signUp, authData, signUpResponse, socialLogin, socialLoginResponse } = useAuth();
     const { isSuccess: isSignUpSuccess, isLoading, error } = signUpResponse;
+    const { isLoading: isSocialMediaLoading, isSuccess: isSocialLoginSuccess } = socialLoginResponse;
+
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const isVerifiedEmail = authData?.verifications?.['email'];
@@ -26,6 +28,28 @@ export const SignUpContainer = () => {
         signUp({
             payload,
             options: { noSuccessMessage: true }
+        });
+    };
+
+    const onSuccess = (social: string, { accessToken }: Dict) => {
+        const payload = {
+            socialType: social,
+            accessToken
+        };
+        socialLogin({
+            payload,
+            options: {
+                successMessage: 'Welcome to Shtcut! 🚀'
+            }
+        });
+    };
+
+    const onFailure = (social: string, response: Dict) => {
+        toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: 'An error occurred, please try again',
+            action: <ToastAction altText="Try again">Try again</ToastAction>
         });
     };
 
@@ -48,7 +72,7 @@ export const SignUpContainer = () => {
     );
 
     useEffect(() => {
-        if (isSignUpSuccess) {
+        if (isSignUpSuccess || isSocialLoginSuccess) {
             if (!isVerifiedEmail) {
                 setOpenVerifyModal(true);
             } else {
@@ -56,7 +80,7 @@ export const SignUpContainer = () => {
                 push(`/welcome`);
             }
         }
-    }, [isSignUpSuccess, isVerifiedEmail]);
+    }, [isSignUpSuccess, isVerifiedEmail, isSocialLoginSuccess]);
 
     return (
         <>
@@ -73,7 +97,13 @@ export const SignUpContainer = () => {
                     </p>
                 </div>
                 <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-                <SignUpForm handleSignUpSubmit={handleSignInSubmit} isLoading={isLoading} error={error} />
+                <SignUpForm
+                    handleSignUpSubmit={handleSignInSubmit}
+                    isLoading={isLoading || isSocialMediaLoading}
+                    error={error}
+                    onFailure={onFailure}
+                    onSuccess={onSuccess}
+                />
             </Card>
             <Modal
                 showModel={openVerifyModal}

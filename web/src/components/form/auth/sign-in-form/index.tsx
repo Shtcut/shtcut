@@ -1,6 +1,17 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Label, cn } from '@shtcut-ui/react';
+import {
+    Dict,
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+    Input,
+    Label,
+    cn
+} from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
@@ -14,11 +25,13 @@ import { SocialLogin } from '../social-login';
 interface SignInFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
     handleLoginSubmit: (payload: Dict) => void;
+    onFailure: (type: string, response: Dict) => void;
+    onSuccess: (type: string, response: Dict) => void;
     error?: Dict;
 }
 
 export const SignInForm = (props: SignInFormProps) => {
-    const { isLoading, handleLoginSubmit, error, className } = props;
+    const { isLoading, handleLoginSubmit, error, className, onFailure, onSuccess } = props;
 
     const handleFormSubmit = (values: z.infer<typeof signInValidationSchema>) => {
         handleLoginSubmit(values);
@@ -89,11 +102,10 @@ export const SignInForm = (props: SignInFormProps) => {
                                 <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
                             </div>
                         </div>
-
-                        <SocialLogin isLoading={isLoading} />
                     </div>
                 </form>
             </Form>
+            <SocialLogin onFailure={onFailure} onSuccess={onSuccess} isLoading={isLoading} />
             <div className="text-center">
                 <Label className="text-muted-foreground">
                     Don`t have account?

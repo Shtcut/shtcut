@@ -27,11 +27,13 @@ import { SocialLogin } from '../social-login';
 interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
     handleSignUpSubmit: (payload: Dict) => void;
+    onFailure: (type: string, response: Dict) => void;
+    onSuccess: (type: string, response: Dict) => void;
     error?: Dict;
 }
 
 export const SignUpForm = (props: SignUpFormProps) => {
-    const { isLoading, handleSignUpSubmit, error, className } = props;
+    const { isLoading, handleSignUpSubmit, error, className, onFailure, onSuccess } = props;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
@@ -146,9 +148,9 @@ export const SignUpForm = (props: SignUpFormProps) => {
                             </div>
                         </div>
                     </div>
-                    <SocialLogin isLoading={isLoading} />
                 </form>
             </Form>
+            <SocialLogin onFailure={onFailure} onSuccess={onSuccess} isLoading={isLoading} />
             <div className="text-center">
                 <div className="font-poppins font-normal-l">
                     Already have an account?

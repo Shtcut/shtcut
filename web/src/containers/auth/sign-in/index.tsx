@@ -12,10 +12,13 @@ import { useEffect, useState } from 'react';
 import { VerifyEmailContainer } from '../verify-email';
 
 export const SignInContainer = () => {
+    const [socialError, setSocialError] = useState<string | undefined>(undefined);
+
     const { push } = useRouter();
     const [openVerifyModal, setOpenVerifyModal] = useState(false);
-    const { signIn, authData, signInResponse } = useAuth();
+    const { signIn, authData, signInResponse, socialLogin, socialLoginResponse } = useAuth();
     const { isSuccess: isLoginSuccess, isLoading, error } = signInResponse;
+    const { isLoading: isSocialMediaLoading, isSuccess: isSocialLoginSuccess } = socialLoginResponse;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
@@ -37,6 +40,29 @@ export const SignInContainer = () => {
         />
     );
 
+    const onSuccess = (social: string, { accessToken }: Dict) => {
+        const payload = {
+            socialType: social,
+            accessToken
+        };
+        socialLogin({
+            payload,
+            options: {
+                successMessage: 'Welcome to Shtcut! 🚀'
+            }
+        });
+    };
+
+    const onFailure = (social: string, response: Dict) => {
+        setSocialError('An error occurred, please try again');
+        toast({
+            variant: 'destructive',
+            title: 'Uh oh! Something went wrong.',
+            description: socialError,
+            action: <ToastAction altText="Try again">Try again</ToastAction>
+        });
+    };
+
     if (error && errorMessage) {
         toast({
             variant: 'destructive',
@@ -47,7 +73,7 @@ export const SignInContainer = () => {
     }
 
     useEffect(() => {
-        if (isLoginSuccess) {
+        if (isLoginSuccess || isSocialLoginSuccess) {
             if (!isVerifiedEmail) {
                 setOpenVerifyModal(true);
             } else {
@@ -55,7 +81,7 @@ export const SignInContainer = () => {
                 push(`/welcome`);
             }
         }
-    }, [isLoginSuccess, isVerifiedEmail]);
+    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess]);
 
     return (
         <>
@@ -70,13 +96,19 @@ export const SignInContainer = () => {
                     </p>
                 </div>
                 <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-                <SignInForm handleLoginSubmit={handleSignInSubmit} isLoading={isLoading} error={error} />
+                <SignInForm
+                    handleLoginSubmit={handleSignInSubmit}
+                    isLoading={isLoading || isSocialMediaLoading}
+                    error={error}
+                    onFailure={onFailure}
+                    onSuccess={onSuccess}
+                />
             </Card>
             <Modal
                 showModel={openVerifyModal}
                 setShowModal={setOpenVerifyModal}
                 onClose={() => setOpenVerifyModal(false)}
-                className="px-10"
+                className="px-10 "
                 preventDefaultClose={true}
             >
                 <VerifyEmailContainer />

@@ -54,7 +54,7 @@ export const WorkspaceContainer = () => {
             <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
             <Separator className="w-full" />
 
-            <div className="mt-5">
+            <div className="mt-5 ">
                 <WorkspaceForm handleWorkspaceSubmit={handleForgotPasswordSubmit} isLoading={isLoading} error={error} />
             </div>
         </div>

@@ -1,11 +1,14 @@
 import { SignInContainer } from '@shtcut/containers/auth';
 import AuthLayout from '../layout';
 import Head from 'next/head';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const SignIn = () => {
     return (
         <AuthLayout>
-            <SignInContainer />
+            <GoogleOAuthProvider clientId={`${process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}`}>
+                <SignInContainer />
+            </GoogleOAuthProvider>
         </AuthLayout>
     );
 };
