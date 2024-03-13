@@ -97,7 +97,7 @@ const Welcome = () => {
                 setShowModal={setOpenWorkspace}
                 showCloseIcon={true}
                 onClose={() => handleVisibility(false)}
-                className="px-10"
+                className="px-10 bg-gray-50"
             >
                 <WorkspaceContainer />
             </Modal>

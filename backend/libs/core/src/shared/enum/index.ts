@@ -15,6 +15,8 @@ export enum SocialType {
   FACEBOOK = 'facebook',
   GOOGLE = 'google',
   APPLE = 'apple',
+  GITHUB = 'github',
+  TWITTER = 'twitter',
 }
 
 export enum FileUploadEnum {

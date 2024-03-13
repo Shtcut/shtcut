@@ -67,6 +67,12 @@ export const configuration = () => ({
         testEmail: process.env.GOOGLE_TEST_EMAIL,
         testSocialId: process.env.GOOGLE_TEST_ID,
       },
+      github: {
+        url: 'https://github.com/login/oauth/access_token',
+        userInfoUrl: 'https://api.github.com/user',
+        apiKey: process.env.GITHUB_CLIENT_ID,
+        secret: process.env.GITHUB_CLIENT_SECRET,
+      },
     },
     data: {
       permissionValueType: ['boolean', 'list', 'number'],

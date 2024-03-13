@@ -76,7 +76,7 @@ export class Workspace {
   subscriptions: any[];
 
   @Prop({
-    type: Types.ObjectId,
+    type: String,
     default: '',
   })
   logo: string;
@@ -105,8 +105,8 @@ WorkspaceSchema.statics.config = () => {
   return {
     idToken: 'wrk',
     uniques: ['name', 'slug', 'user'],
-    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault', 'modules', 'subscriptions'],
-    updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules'],
+    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault', 'modules', 'subscriptions', 'logo'],
+    updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules', 'logo'],
     hiddenFields: ['deleted'],
   };
 };

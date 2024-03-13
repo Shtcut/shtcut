@@ -1,3 +1,4 @@
+import { SocialAuthRequestType } from './auth.d';
 import { api } from '@shtcut/_shared/api/app.api';
 import {
     AuthResponseType,
@@ -40,6 +41,15 @@ export const authApi = api?.injectEndpoints({
                     const { data } = await queryFulfilled;
                     // todo dispatch to go get current logged user
                 } catch (_) {}
+            }
+        }),
+        social: builder.mutation<AuthResponseType, SocialAuthRequestType>({
+            query: ({ payload }) => {
+                return {
+                    url: ACL.socialUrl,
+                    method: POST,
+                    body: payload
+                };
             }
         }),
         verifyEmail: builder.mutation<AuthResponseType, VerifyEmailRequestType>({
@@ -93,6 +103,7 @@ export const authApi = api?.injectEndpoints({
 export const {
     useSignUpMutation,
     useSignInMutation,
+    useSocialMutation,
     useVerifyEmailMutation,
     useSendVerificationMutation,
     useForgotPasswordMutation,
