@@ -20,7 +20,6 @@ export const VerifyEmailContainer = () => {
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const handleVerifyEmailSubmit = (values: Dict) => {
-        console.log('values:::', values);
         const payload = {
             email: authData?.email,
             ...values

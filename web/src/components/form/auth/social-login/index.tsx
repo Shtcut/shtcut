@@ -18,9 +18,8 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
     const [social, setSocial] = useState<string>();
 
     const handleSocialCallback = (social: string, response: Dict, callbackType: 'error' | 'success') => {
-        console.log('response:::', response);
         setSocial(social);
-
+        
         if (callbackType === 'success') {
             let accessToken: string | undefined;
 
