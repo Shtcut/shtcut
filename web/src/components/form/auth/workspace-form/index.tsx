@@ -29,11 +29,11 @@ import { workspaceValidationSchema } from './validation';
 import { AppButton } from '@shtcut/components/_shared';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { HTMLAttributes, useMemo, useState } from 'react';
+import { ChangeEvent, HTMLAttributes, useMemo, useState } from 'react';
 import z from 'zod';
 import { IconBrush, IconHeading, IconHelp } from '@tabler/icons-react';
 import { GRADIENTS, IMAGES } from '@shtcut/_shared/constant';
-import { NavLink } from '@shtcut/components';
+import slugify from 'react-slugify';
 
 interface WorkspaceFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
@@ -60,28 +60,16 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
     }, [background]);
 
     const handleFormSubmit = (values: z.infer<typeof workspaceValidationSchema>) => {
-        console.log('payload:::', {
+        const payload = {
             ...values,
             logo: background
-        });
-        // handleWorkspaceSubmit(values);
+        };
+        handleWorkspaceSubmit(payload);
     };
 
-    const PickerContent = () => {
-        return (
-            <PopoverContent>
-                <Tabs defaultValue={defaultTab}>
-                    <TabsList className="mb-4 w-full">
-                        <TabsTrigger className="flex-1" value="gradient">
-                            Gradient
-                        </TabsTrigger>
-                        <TabsTrigger className="flex-1" value="image">
-                            Image
-                        </TabsTrigger>
-                    </TabsList>
-                </Tabs>
-            </PopoverContent>
-        );
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        form.setValue('name', e.target.value);
+        form.setValue('slug', slugify(e.target.value));
     };
 
     return (
@@ -93,7 +81,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                             <FormField
                                 control={form.control}
                                 name="name"
-                                render={({ field }) => (
+                                render={({ field: { onChange, ...rest } }) => (
                                     <FormItem className="space-y-1">
                                         <div className="flex gap-1">
                                             <div>
@@ -115,7 +103,12 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                                             </div>
                                         </div>
                                         <FormControl>
-                                            <Input className="h-11" placeholder="Facebook Inc" {...field} />
+                                            <Input
+                                                className="h-11"
+                                                placeholder="Facebook Inc"
+                                                onChange={handleOnChange}
+                                                {...rest}
+                                            />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>

@@ -2,11 +2,8 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { CommonProps, Dict } from '@shtcut-ui/react';
 import { SOCIAL_MEDIA } from '@shtcut/_shared/constant';
 import { AppButton } from '@shtcut/components';
-import { IconBrandGithub, IconBrandGmail, IconBrandTwitter, IconBrandFacebook } from '@tabler/icons-react';
-import { useState } from 'react';
-import FacebookLogin from 'react-facebook-login';
+import { IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react';
 import GitHubLogin from 'react-github-login';
-import axios from 'axios';
 
 interface SocialLoginProps extends CommonProps {
     isLoading: boolean;
@@ -15,10 +12,8 @@ interface SocialLoginProps extends CommonProps {
 }
 
 export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: SocialLoginProps) => {
-    const [social, setSocial] = useState<string>();
 
     const handleSocialCallback = (social: string, response: Dict, callbackType: 'error' | 'success') => {
-        setSocial(social);
 
         if (callbackType === 'success') {
             let accessToken: string | undefined;
@@ -40,7 +35,9 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
             }
         }
 
-        // Handle 'error' callbackType if needed
+        if (callbackType === 'error') {
+            onFailure(social, response);
+        }
     };
 
     const signUpGoogle = useGoogleLogin({
