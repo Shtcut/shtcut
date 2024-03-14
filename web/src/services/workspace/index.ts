@@ -8,14 +8,18 @@ import { QueryArgs } from '@shtcut/_shared/namespace';
 
 export const workspaceApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        findAllWorkspace: builder.query({
-            query: (params: Dict) => ACL.workspace as unknown as FetchArgs,
+        findAllWorkspaces: builder.query({
+            query: (params: QueryArgs) =>
+                ({
+                    url: ACL.workspace,
+                    params
+                }) as unknown as FetchArgs,
             providesTags: [workspaceTag]
         }),
         searchOneWorkspace: builder.query({
             query: (params: QueryArgs) =>
                 ({
-                    url: `${ACL.workspace}/search/one`,
+                    url: ``,
                     params
                 }) as unknown as FetchArgs,
             providesTags: [workspaceTag]
@@ -58,10 +62,10 @@ export const workspaceApi = api.injectEndpoints({
 
 export const {
     useCreateWorkspaceMutation,
-    useLazyFindAllWorkspaceQuery,
-    useSearchOneWorkspaceQuery,
+    useLazyFindAllWorkspacesQuery,
+    useLazySearchOneWorkspaceQuery,
     useGetWorkspaceQuery,
     useUpdateWorkspaceMutation,
     useDeleteWorkspaceMutation,
-    endpoints: { createWorkspace, findAllWorkspace, searchOneWorkspace, updateWorkspace, deleteWorkspace }
+    endpoints: { createWorkspace, findAllWorkspaces, searchOneWorkspace, updateWorkspace, deleteWorkspace }
 } = workspaceApi;
