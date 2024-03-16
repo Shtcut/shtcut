@@ -4,11 +4,11 @@ import { ACL, DELETE, POST, PUT } from '@shtcut/_shared/constant';
 import { workspaceTag } from '../tags';
 import { Dict } from '@shtcut-ui/react';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
-import { QueryArgs } from '@shtcut/_shared/namespace';
+import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
 
 export const workspaceApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        findAllWorkspaces: builder.query({
+        findAllWorkspaces: builder.query<ApiResponse<WorkspaceNameSpace.Workspace[]>, QueryArgs>({
             query: (params: QueryArgs) =>
                 ({
                     url: ACL.workspace,
@@ -16,19 +16,22 @@ export const workspaceApi = api.injectEndpoints({
                 }) as unknown as FetchArgs,
             providesTags: [workspaceTag]
         }),
-        searchOneWorkspace: builder.query({
+        searchOneWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, QueryArgs>({
             query: (params: QueryArgs) =>
                 ({
-                    url: ``,
+                    url: `${ACL.workspace}/search/one`,
                     params
                 }) as unknown as FetchArgs,
             providesTags: [workspaceTag]
         }),
-        getWorkspace: builder.query({
+        getWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, string>({
             query: (id: string) => `${ACL.workspace}/${id}` as unknown as FetchArgs,
             providesTags: [workspaceTag]
         }),
-        createWorkspace: builder.mutation<Dict, WorkspaceNameSpace.WorkspaceRequest>({
+        createWorkspace: builder.mutation<
+            ApiResponse<WorkspaceNameSpace.Workspace>,
+            WorkspaceNameSpace.WorkspaceRequest
+        >({
             query: ({ payload }) => {
                 return {
                     url: ACL.workspace,
@@ -38,7 +41,10 @@ export const workspaceApi = api.injectEndpoints({
             },
             invalidatesTags: [workspaceTag]
         }),
-        updateWorkspace: builder.mutation<Dict, WorkspaceNameSpace.WorkspaceRequest>({
+        updateWorkspace: builder.mutation<
+            ApiResponse<WorkspaceNameSpace.Workspace>,
+            WorkspaceNameSpace.WorkspaceRequest
+        >({
             query: ({ payload }) => {
                 return {
                     url: `${ACL.workspace}/${payload?.id}`,
@@ -67,5 +73,5 @@ export const {
     useGetWorkspaceQuery,
     useUpdateWorkspaceMutation,
     useDeleteWorkspaceMutation,
-    endpoints: { createWorkspace, findAllWorkspaces, searchOneWorkspace, updateWorkspace, deleteWorkspace }
+    endpoints: { createWorkspace, findAllWorkspaces, searchOneWorkspace, getWorkspace, updateWorkspace, deleteWorkspace }
 } = workspaceApi;

@@ -26,12 +26,15 @@ const Welcome = () => {
     const { push } = useRouter();
     const [active, setActive] = useState(0);
     const [openWorkspace, setOpenWorkspace] = useState(false);
+    const [workspaceType, setWorkspaceType] = useState('team');
 
     const handleSubmitWorkspace = (payload: Dict) => {};
 
     const handleOnSelect = (e, index) => {
         e.preventDefault();
         setActive(index);
+        const type = Workspaces[index].type;
+        setWorkspaceType(type);
     };
 
     const handleVisibility = (open: boolean) => {
@@ -99,7 +102,7 @@ const Welcome = () => {
                 onClose={() => handleVisibility(false)}
                 className="px-10 bg-gray-50"
             >
-                <WorkspaceContainer />
+                <WorkspaceContainer type={workspaceType} />
             </Modal>
         </>
     );

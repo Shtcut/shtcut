@@ -32,8 +32,8 @@ const createStore = (options?: ConfigureStoreOptions['preloadedState'] | undefin
                 serializableCheck: {
                     ignoredActions: [FLUSH, PURGE, PAUSE, PERSIST, REGISTER]
                 }
-            // }).concat([api.middleware, logger, appMiddleware]),
-            }).concat([api.middleware, appMiddleware]),
+            }).concat([api.middleware, logger, appMiddleware]),
+            // }).concat([api.middleware, appMiddleware]),
         ...options
     });
 

@@ -4,30 +4,33 @@ import { Card, Dict, Separator } from '@shtcut-ui/react';
 import { AppAlert, Logo } from '@shtcut/components';
 import { ForgotPasswordForm, WorkspaceForm } from '@shtcut/components/form';
 import { useAuth } from '@shtcut/hooks/auth';
+import { useWorkspace } from '@shtcut/hooks/workspace';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
 import { useRouter } from 'next/navigation';
 
-export const WorkspaceContainer = () => {
+interface WorkspaceContainerProps {
+    type: string;
+}
+
+export const WorkspaceContainer = ({ type }: WorkspaceContainerProps) => {
     const { push } = useRouter();
-    const { forgotPassword, forgotPasswordResponse } = useAuth();
-    const { isSuccess, isLoading, error, data } = forgotPasswordResponse;
+    const { createWorkspace, createWorkspaceResponse } = useWorkspace({});
+    const {  isLoading, error, data } = createWorkspaceResponse;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
-    const handleForgotPasswordSubmit = (payload: Dict) => {
-        forgotPassword({
-            payload,
-            options: {
-                successMessage: 'An email has been sent to your email address',
-                errorMessage: 'This email does not exist in our database'
-            }
+    const handleForgotPasswordSubmit = (data: Dict) => {
+        const payload = {
+            ...data,
+            type,
+            module: 'shtcut-shortener',
+        }
+        createWorkspace({
+            payload
+            
         });
     };
-
-    if (isSuccess) {
-        push(`/auth/update-password?email=${get(data, ['data', 'email'], '')}`);
-    }
 
     const ErrorAlert = ({ message }: { message: string }) => (
         <AppAlert
