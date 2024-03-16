@@ -1,21 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { MutationHooks, MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
-import { Pagination } from '@shtcut/_shared/namespace';
+import { Pagination, TriggerResponse } from '@shtcut/_shared/namespace';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
 import { usePagination } from '../usePagination';
 import {
     useCreateWorkspaceMutation,
     useDeleteWorkspaceMutation,
+    useGetWorkspaceQuery,
     useLazyFindAllWorkspacesQuery,
     useLazySearchOneWorkspaceQuery,
     useUpdateWorkspaceMutation
 } from '@shtcut/services/workspace';
 import { useEffect } from 'react';
+import { useAppSelector } from '@shtcut/redux/store';
+import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
+import { useGetLoggedInUserQuery } from '@shtcut/services/user';
 
 interface UseWorkspaceProps {
     key?: string;
     callWorkspaces?: boolean;
-    callGetWorkspace?: boolean;
+    callSearchOneWorkspace?: boolean;
     search?: string;
     filter?: Dict;
 }
@@ -25,23 +30,23 @@ interface UseWorkspaceReturnsType {
     deleteWorkspace: MutationTrigger<any>;
     updateWorkspace: MutationTrigger<any>;
 
-    // findAllWorkspacesResponse: WorkspaceNameSpace.Workspace[];
-    // createWorkspaceResponse: WorkspaceNameSpace.Workspace;
-    // searchOneWorkspaceResponse: WorkspaceNameSpace.Workspace;
-    // updateWorkspaceResponse: WorkspaceNameSpace.Workspace;
-    // deleteWorkspaceResponse: Dict;
-    // pagination: Pagination;
+    findAllWorkspacesResponse: WorkspaceNameSpace.Workspace[] | undefined;
+    createWorkspaceResponse: Dict;
+    searchOneWorkspaceResponse: WorkspaceNameSpace.Workspace | undefined;
+    updateWorkspaceResponse: Dict;
+    deleteWorkspaceResponse: Dict;
+    pagination: Pagination;
 }
 
 export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType => {
-    const { callWorkspaces = false, callGetWorkspace = false, search, filter } = props;
+    const { callWorkspaces = false, callSearchOneWorkspace = false, search, filter } = props;
 
     const { paginate, pagination } = usePagination({ key: 'findAllWorkspaces' });
     const [createWorkspace, createWorkspaceResponse] = useCreateWorkspaceMutation<MutationHooks<any>>();
     const [updateWorkspace, updateWorkspaceResponse] = useUpdateWorkspaceMutation<MutationHooks<any>>();
     const [deleteWorkspace, deleteWorkspaceResponse] = useDeleteWorkspaceMutation<MutationHooks<any>>();
-    const [triggerWorkspace, findAllWorkspaces] = useLazyFindAllWorkspacesQuery();
-    const [triggerSearchOneWorkspace, searchOneWorkspace] = useLazySearchOneWorkspaceQuery();
+    const [triggerWorkspaces] = useLazyFindAllWorkspacesQuery();
+    const [triggerSearchOneWorkspace] = useLazySearchOneWorkspaceQuery();
 
     const params = {
         ...paginate,
@@ -50,17 +55,28 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         ...filter
     };
 
-    useEffect(() => {
-        if (callWorkspaces) triggerWorkspace(params);
-    }, [callWorkspaces, triggerWorkspace]);
+    const searchOneWorkspaceResponse = useAppSelector((state) => selectWorkspaceData(state, params));
+    const findAllWorkspacesResponse = useAppSelector((state) => selectFindAllWorkspaceData(state, params));
 
     useEffect(() => {
-        if (callGetWorkspace) triggerSearchOneWorkspace(params);
-    }, [callGetWorkspace, triggerSearchOneWorkspace]);
+        if (callWorkspaces) triggerWorkspaces(params);
+    }, [callWorkspaces, triggerWorkspaces]);
+
+    useEffect(() => {
+        if (callSearchOneWorkspace) triggerSearchOneWorkspace(params);
+    }, [callSearchOneWorkspace, triggerSearchOneWorkspace]);
 
     return {
         createWorkspace,
         updateWorkspace,
-        deleteWorkspace
+        deleteWorkspace,
+
+        createWorkspaceResponse,
+        updateWorkspaceResponse,
+        searchOneWorkspaceResponse,
+        deleteWorkspaceResponse,
+        findAllWorkspacesResponse,
+
+        pagination
     };
 };

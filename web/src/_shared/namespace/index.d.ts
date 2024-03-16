@@ -21,6 +21,10 @@ export interface TriggerResponse {
     isError?: boolean;
     data: boolean;
 }
+export interface ApiError {
+    message: string;
+    messages?: string | Record<string, any>;
+}
 
 export interface QueryArgs {
     page?: number;
@@ -37,7 +41,13 @@ export interface Meta {
     statusCode: number;
     success: boolean;
     token?: string;
+    error?: ApiError;
     pagination: ApiPagination;
+}
+
+export interface ApiResponse<T> {
+    meta: Meta;
+    data: T;
 }
 
 export interface ApiRequest {
