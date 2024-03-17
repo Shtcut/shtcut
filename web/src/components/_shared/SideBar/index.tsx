@@ -7,7 +7,9 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { LayoutHeader } from '..';
-import { IconMenu2, IconX } from '@tabler/icons-react';
+import { IconChevronLeft, IconMenu2, IconX } from '@tabler/icons-react';
+import { Nav } from '../Nav';
+import { sideLinks } from '@shtcut/_shared/data/side-links';
 
 interface SidebarProps extends CommonOptions, React.HtmlHTMLAttributes<HTMLElement> {
     isCollapsed: boolean;
@@ -96,7 +98,23 @@ export default function Sidebar(props: SidebarProps) {
                         </Button>
                     </div>
                 </LayoutHeader>
-                {/* <Nav/> */}
+                <Nav
+                    id="sidebar-menu"
+                    className={`h-full flex-1 overflow-auto ${
+                        navOpened ? 'max-h-screen' : 'max-h-0 py-0 md:max-h-screen  md:py-2'
+                    }`}
+                    closeNav={() => setNavOpened(false)}
+                    isCollapsed={isCollapsed}
+                    links={sideLinks}
+                />
+                <Button
+                    onClick={() => setIsCollapsed((prev) => !prev)}
+                    size="icon"
+                    variant="outline"
+                    className="absolute -right-5 top-1/2 hidden rounded-full md:inline-flex"
+                >
+                    <IconChevronLeft stroke={1.5} className={`h-5 w-5 ${isCollapsed ? 'rotate-180' : ''}`} />
+                </Button>
             </Layout>
         </aside>
     );
