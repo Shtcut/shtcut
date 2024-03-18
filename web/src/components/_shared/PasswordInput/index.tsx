@@ -1,9 +1,7 @@
 'use client';
 
-import { Input, InputProps, cn, primitiveComponent } from '@shtcut-ui/react';
+import { cn, primitiveComponent } from '@shtcut-ui/react';
 import React, { useState } from 'react';
-import type { MouseEvent } from 'react';
-import { HiOutlineEyeOff, HiOutlineEye } from 'react-icons/hi';
 import { AppButton } from '..';
 import { IconEye, IconEyeOff } from '@tabler/icons-react';
 

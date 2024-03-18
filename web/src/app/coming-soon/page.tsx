@@ -1,5 +1,3 @@
-'use client';
-
 import * as React from 'react';
 import Image from 'next/image';
 import { Inter } from 'next/font/google';
@@ -33,7 +31,7 @@ export default function ComingSoon() {
                         Join Shtcut - Secure your spot on our marketing tool!
                     </h1>
                     <p className="text-gray-500">Join the wait list to be notified when our app is available!</p>
-                    <form onSubmit={handleSubmit} className="mt-2 max-w-sm">
+                    <form className="mt-2 max-w-sm">
                         <div className="flex flex-col gap-2 lg:flex-row">
                             <Label className="sr-only" htmlFor="email-address">
                                 Email address

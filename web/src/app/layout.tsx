@@ -1,7 +1,5 @@
 'use client';
 
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { PageLayout, ShtcutProvider, Toaster } from '@shtcut-ui/react';
 import { Provider } from 'react-redux';

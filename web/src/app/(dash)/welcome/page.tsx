@@ -1,34 +1,20 @@
 'use client';
 
 import {
-    Button,
     Card,
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-    Dict,
-    Input,
     Label,
     Modal
 } from '@shtcut-ui/react';
 import { Workspaces } from '@shtcut/_shared/constant';
-import { Logo, NavLink, WorkspaceForm } from '@shtcut/components';
+import { Logo, NavLink } from '@shtcut/components';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import ForgotPassword from '../auth/forgot-password/page';
-import { ForgotPasswordContainer, WorkspaceContainer } from '@shtcut/containers';
+import { WorkspaceContainer } from '@shtcut/containers';
 
 const Welcome = () => {
-    const { push } = useRouter();
     const [active, setActive] = useState(0);
     const [openWorkspace, setOpenWorkspace] = useState(false);
     const [workspaceType, setWorkspaceType] = useState('team');
-
-    const handleSubmitWorkspace = (payload: Dict) => {};
 
     const handleOnSelect = (e, index) => {
         e.preventDefault();
