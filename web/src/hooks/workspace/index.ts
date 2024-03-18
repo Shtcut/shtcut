@@ -42,9 +42,9 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     const { callWorkspaces = false, callSearchOneWorkspace = false, search, filter } = props;
 
     const { paginate, pagination } = usePagination({ key: 'findAllWorkspaces' });
-    const [createWorkspace, createWorkspaceResponse] = useCreateWorkspaceMutation<MutationHooks<any>>();
-    const [updateWorkspace, updateWorkspaceResponse] = useUpdateWorkspaceMutation<MutationHooks<any>>();
-    const [deleteWorkspace, deleteWorkspaceResponse] = useDeleteWorkspaceMutation<MutationHooks<any>>();
+    const [createWorkspace, createWorkspaceResponse] = useCreateWorkspaceMutation();
+    const [updateWorkspace, updateWorkspaceResponse] = useUpdateWorkspaceMutation();
+    const [deleteWorkspace, deleteWorkspaceResponse] = useDeleteWorkspaceMutation();
     const [triggerWorkspaces] = useLazyFindAllWorkspacesQuery();
     const [triggerSearchOneWorkspace] = useLazySearchOneWorkspaceQuery();
 

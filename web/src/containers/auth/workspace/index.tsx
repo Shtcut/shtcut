@@ -7,7 +7,8 @@ import { useAuth } from '@shtcut/hooks/auth';
 import { useWorkspace } from '@shtcut/hooks/workspace';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
 interface WorkspaceContainerProps {
     type: string;
@@ -16,7 +17,9 @@ interface WorkspaceContainerProps {
 export const WorkspaceContainer = ({ type }: WorkspaceContainerProps) => {
     const { push } = useRouter();
     const { createWorkspace, createWorkspaceResponse } = useWorkspace({});
-    const {  isLoading, error, data } = createWorkspaceResponse;
+    const { isLoading, error, data, isSuccess } = createWorkspaceResponse;
+
+    console.log('createWorkspaceResponse:::', createWorkspaceResponse);
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
@@ -24,13 +27,21 @@ export const WorkspaceContainer = ({ type }: WorkspaceContainerProps) => {
         const payload = {
             ...data,
             type,
-            module: 'shtcut-shortener',
-        }
-        createWorkspace({
-            payload
-            
-        });
+            module: 'shtcut-shortener'
+        };
+        createWorkspace({ payload });
     };
+
+    console.log('data::', data?.data.slug);
+
+    useEffect(() => {
+        if (isSuccess && data) {
+            const {
+                data: { slug }
+            } = data;
+            redirect(`/url/${slug}`);
+        }
+    }, [isSuccess, data]);
 
     const ErrorAlert = ({ message }: { message: string }) => (
         <AppAlert

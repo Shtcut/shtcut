@@ -80,3 +80,30 @@ export const IMAGES = [
     'url(https://images.unsplash.com/photo-1688822863426-8c5f9b257090?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90)',
     'url(https://images.unsplash.com/photo-1691225850735-6e4e51834cad?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2532&q=90)'
 ];
+
+export const topNav = [
+    {
+        title: 'Shortener',
+        href: 'url/dashboard',
+        module: 'shtcut-shortener',
+        isActive: true
+    },
+    {
+        title: 'Social Manager',
+        href: 'social/dashboard',
+        module: 'shtcut-social',
+        isActive: false
+    },
+    {
+        title: 'Shortener',
+        href: 'survey/dashboard',
+        module: 'shtcut-survey',
+        isActive: false
+    },
+    {
+        title: 'Shortener',
+        href: 'marking/dashboard',
+        module: 'shtcut-marketing',
+        isActive: false
+    }
+];
