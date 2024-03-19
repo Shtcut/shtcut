@@ -18,7 +18,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             enableSystem={false}
                             disableTransitionOnChange
                         >
-                            <PageLayout className="bg-white-90">{children}</PageLayout>
+                            {/* <PageLayout className="bg-white-90">{children}</PageLayout> */}
+                            {children}
                             <Toaster/>
                         </ShtcutProvider>
                     </PersistGate>

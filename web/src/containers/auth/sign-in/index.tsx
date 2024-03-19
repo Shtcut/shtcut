@@ -7,9 +7,10 @@ import { SignInForm } from '@shtcut/components/form';
 import { useAuth } from '@shtcut/hooks/auth';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { VerifyEmailContainer } from '../verify-email';
+import { useUser } from '@shtcut/hooks/user';
 
 export const SignInContainer = () => {
     const [socialError, setSocialError] = useState<string | undefined>(undefined);
@@ -17,8 +18,10 @@ export const SignInContainer = () => {
     const { push } = useRouter();
     const [openVerifyModal, setOpenVerifyModal] = useState(false);
     const { signIn, authData, signInResponse, socialLogin, socialLoginResponse } = useAuth();
-    const { isSuccess: isLoginSuccess, isLoading, error } = signInResponse;
+    const { isSuccess: isLoginSuccess, isLoading, error, data } = signInResponse;
     const { isLoading: isSocialMediaLoading, isSuccess: isSocialLoginSuccess } = socialLoginResponse;
+
+    console.log('data:::', data);
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
@@ -77,11 +80,19 @@ export const SignInContainer = () => {
             if (!isVerifiedEmail) {
                 setOpenVerifyModal(true);
             } else {
-                // todo trigger current logged in user
-                push(`/welcome`);
+                if (data) {
+                    const { data: authData } = data || {};
+                    console.log('authData::', authData);
+                    if (authData.workspaces && authData.workspaces.length > 0) {
+                        const { workspaces } = authData;
+                        redirect(`/url/${workspaces[0].slug}/overview`);
+                    } else {
+                        push('/welcome');
+                    }
+                }
             }
         }
-    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess]);
+    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess, data]);
 
     return (
         <>

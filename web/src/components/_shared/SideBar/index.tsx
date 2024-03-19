@@ -1,25 +1,28 @@
 'use client';
 
 import { Button, cn } from '@shtcut-ui/react';
-import Layout from '@shtcut/app/coming-soon/layout';
 import { CommonOptions } from 'child_process';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { LayoutHeader } from '..';
+import { Layout, LayoutHeader } from '../index';
 import { IconChevronLeft, IconMenu2, IconX } from '@tabler/icons-react';
 import { Nav } from '../Nav';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
 
 interface SidebarProps extends CommonOptions, React.HtmlHTMLAttributes<HTMLElement> {
-    isCollapsed: boolean;
-    setIsCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
+    workspace: string;
+    module: string;
+    isCollapsed?: boolean;
+    setIsCollapsed?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Sidebar(props: SidebarProps) {
-    const { className, isCollapsed, setIsCollapsed } = props;
+    const { workspace, module, className, isCollapsed = true } = props;
 
     const [navOpened, setNavOpened] = useState(false);
+
+    const navs = sideLinks(module, workspace);
 
     useEffect(() => {
         if (navOpened) {
@@ -46,7 +49,7 @@ export default function Sidebar(props: SidebarProps) {
             />
             <Layout>
                 <LayoutHeader className="sticky top-0 justify-between px-4 py-3 shadow md:px-4">
-                    <div className={`flex items-center ${isCollapsed ? 'h-6 w-6' : 'h-8 w-8'}`}>
+                    <div className={`flex items-center ${!isCollapsed ? 'gap-2' : ''}`}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             viewBox="0 0 256 256"
@@ -82,21 +85,23 @@ export default function Sidebar(props: SidebarProps) {
                                 isCollapsed ? 'invisible w-0' : 'visible w-auto'
                             }`}
                         >
-                            <span className="font-medium">Shtcut</span>
+                            <span className="font-medium">Shadcn Admin</span>
+                            <span className="text-xs">Vite + ShadcnUI</span>
                         </div>
-
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="md:hidden"
-                            aria-label="Toggle Navigation"
-                            aria-controls="sidebar-menu"
-                            aria-expanded={navOpened}
-                            onClick={() => setNavOpened((open) => !open)}
-                        >
-                            {navOpened ? <IconX /> : <IconMenu2 />}
-                        </Button>
                     </div>
+
+                    {/* Toggle Button in mobile */}
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="md:hidden"
+                        aria-label="Toggle Navigation"
+                        aria-controls="sidebar-menu"
+                        aria-expanded={navOpened}
+                        onClick={() => setNavOpened((prev) => !prev)}
+                    >
+                        {navOpened ? <IconX /> : <IconMenu2 />}
+                    </Button>
                 </LayoutHeader>
                 <Nav
                     id="sidebar-menu"
@@ -105,10 +110,9 @@ export default function Sidebar(props: SidebarProps) {
                     }`}
                     closeNav={() => setNavOpened(false)}
                     isCollapsed={isCollapsed}
-                    links={sideLinks}
+                    links={navs}
                 />
                 <Button
-                    onClick={() => setIsCollapsed((prev) => !prev)}
                     size="icon"
                     variant="outline"
                     className="absolute -right-5 top-1/2 hidden rounded-full md:inline-flex"

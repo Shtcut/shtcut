@@ -6,3 +6,4 @@ export * from './PasswordInput';
 export * from './Container';
 export * from './Layout';
 export * from './TopNav';
+export * from './WorkspaceSwitcher';
