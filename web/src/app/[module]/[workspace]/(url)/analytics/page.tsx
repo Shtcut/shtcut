@@ -3,17 +3,17 @@
 import { Button } from '@shtcut-ui/react';
 import { LayoutBody } from '@shtcut/components';
 
-const Dashboard = () => {
+const Analytics = () => {
     return (
         <LayoutBody className="space-y-4">
             <div className="flex items-center justify-between space-y-2">
-                <h1 className="text-2xl font-bold tracking-light md:text-3xl">Dashboard</h1>
+                <h1 className="text-2xl font-bold tracking-light md:text-3xl">Analytics</h1>
                 <div className="flex items-center space-x-2">
-                    <Button>Download</Button>
+                    <Button>Analytics</Button>
                 </div>
             </div>
         </LayoutBody>
     );
 };
 
-export default Dashboard;
+export default Analytics;

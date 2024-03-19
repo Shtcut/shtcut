@@ -19,6 +19,8 @@ import {
   Utils,
   VerifyEmailDto,
   WorkService,
+  Workspace,
+  WorkspaceDocument,
 } from 'shtcut/core';
 import { SocialAuthService } from './social-auth.service';
 import { ConfigService } from '@nestjs/config';
@@ -31,6 +33,7 @@ export class AuthService extends MongoBaseService {
   constructor(
     @InjectModel(Auth.name) protected model: Model<AuthDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    @InjectModel(Workspace.name) protected workspaceModel: Model<WorkspaceDocument>,
     private jwtService: JwtService,
     private socialAuthService: SocialAuthService,
     protected userService: UserService,
@@ -112,8 +115,11 @@ export class AuthService extends MongoBaseService {
       sub: auth._id,
     };
     const user = await this.userModel.findOne({ ...Utils.conditionWithDelete({ _id: auth._id }) });
+    const workspaces = await this.workspaceModel
+      .find({ ...Utils.conditionWithDelete({ user: auth._id }) })
+      .select(['_id', 'name', 'slug']);
     const accessToken = this.jwtService.sign(payload);
-    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON() } };
+    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON(), workspaces } };
   }
 
   public async sendVerification(resendVerification: SendVerificationDto) {

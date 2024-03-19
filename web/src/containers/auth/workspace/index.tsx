@@ -15,12 +15,8 @@ interface WorkspaceContainerProps {
 }
 
 export const WorkspaceContainer = ({ type }: WorkspaceContainerProps) => {
-    const { push } = useRouter();
     const { createWorkspace, createWorkspaceResponse } = useWorkspace({});
     const { isLoading, error, data, isSuccess } = createWorkspaceResponse;
-
-    console.log('createWorkspaceResponse:::', createWorkspaceResponse);
-
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const handleForgotPasswordSubmit = (data: Dict) => {
@@ -32,14 +28,12 @@ export const WorkspaceContainer = ({ type }: WorkspaceContainerProps) => {
         createWorkspace({ payload });
     };
 
-    console.log('data::', data?.data.slug);
-
     useEffect(() => {
         if (isSuccess && data) {
             const {
                 data: { slug }
             } = data;
-            redirect(`/url/${slug}`);
+            redirect(`/url/${slug}/overview`);
         }
     }, [isSuccess, data]);
 
