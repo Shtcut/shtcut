@@ -2,15 +2,10 @@ import { PieChart, Tooltip, Pie, Cell } from 'recharts';
 
 export const DeviceStats = ({ analytics }) => {
     const COLORS = ['#0088FE', '#00C49F', ' #c84e89', '#FFBB28', '#FF8042'];
-
+    
     return (
-        <div className="mt-10 w-full">
-            <h3 className="text-xl font-semibold text-inherit mb-4">Device Analytics</h3>
+        <div className="w-full">
             <div className="rounded-xl border bg-white p-4">
-                <div className="mb-4">
-                    <h3 className="font-semibold text-md px-3 pb-1">Devices</h3>
-                    <p className="text-gray-500 text-sm px-3">Insights on devices your audience use</p>
-                </div>
                 <div className={`flex flex-row gap-4 justify-center ${'lg:flex-row justify-center lg:gap-x-10'}`}>
                     {analytics?.map(({ device, visits }, index) => (
                         <div key={device} className="flex flex-col gap-2">
