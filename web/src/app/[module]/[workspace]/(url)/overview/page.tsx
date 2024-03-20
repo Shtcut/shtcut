@@ -15,8 +15,11 @@ import {
 import { LayoutBody } from '@shtcut/components';
 import { BarChartStats } from '@shtcut/components/_shared/Analytics/BarChartStats';
 import { DeviceStats } from '@shtcut/components/_shared/Analytics/DeviceStats';
+import { useParams } from 'next/navigation';
 
 const Overview = () => {
+    const params = useParams();
+
     const analytics = [
         { device: 'desktop', visits: 2 },
         { device: 'mobile-android', visits: 1 }
@@ -89,7 +92,7 @@ const Overview = () => {
                             </CardContent>
                         </Card>
                         <Card className="col-span-1 lg:col-span-3">
-                        <CardHeader>
+                            <CardHeader>
                                 <CardTitle>Recent Sales</CardTitle>
                                 <CardDescription>You made 265 sales this month.</CardDescription>
                             </CardHeader>
@@ -100,7 +103,7 @@ const Overview = () => {
                     </div>
                     <div className="grid grid-cols-1 gap-4 lg:grid-cols-7">
                         <Card className="col-span-1 lg:col-span-4">
-                        <CardHeader>
+                            <CardHeader>
                                 <CardTitle>Recent Sales</CardTitle>
                                 <CardDescription>You made 265 sales this month.</CardDescription>
                             </CardHeader>

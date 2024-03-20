@@ -1,14 +1,28 @@
 'use client';
 
-import { Button, CommonProps, Separator, Skeleton } from '@shtcut-ui/react';
+import {
+    Button,
+    CommonProps,
+    Input,
+    Label,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    Separator,
+    Skeleton,
+    Textarea
+} from '@shtcut-ui/react';
 import { LayoutHeader, Logo, NavLink, TopNav, WorkspaceSwitcher } from '@shtcut/components';
+import { Feedback } from '@shtcut/components/_shared/Feedback';
 import { Notifications } from '@shtcut/components/_shared/Notifications';
 import Sidebar from '@shtcut/components/_shared/SideBar';
 import { UserNav } from '@shtcut/components/_shared/UserNav';
 import { IconMail } from '@tabler/icons-react';
+import { XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ReactNode, Suspense, useState } from 'react';
+  
 
 interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
@@ -44,9 +58,7 @@ const WorkspaceLayout = ({ children, header }: WorkspaceLayoutProps) => {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button variant="outline" size="sm">
-                                Feedback
-                            </Button>
+                            <Feedback />
 
                             <Separator orientation="vertical" className="h-5" />
 
