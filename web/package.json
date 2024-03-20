@@ -53,7 +53,7 @@
     "react-share": "^5.0.3",
     "react-slick": "^0.29.0",
     "react-slugify": "^3.0.3",
-    "recharts": "^2.10.4",
+    "recharts": "^2.12.3",
     "redux-logger": "^3.0.6",
     "redux-mock-store": "^1.5.4",
     "redux-persist": "^6.0.0",
