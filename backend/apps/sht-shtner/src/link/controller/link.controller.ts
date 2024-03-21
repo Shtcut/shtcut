@@ -1,5 +1,14 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateLinkDto, GetClientInfo, JwtAuthGuard, NOT_FOUND, OK, UpdateLinkDto } from 'shtcut/core';
+import {
+  AppController,
+  CreateLinkDto,
+  GetClientInfo,
+  JwtAuthGuard,
+  NOT_FOUND,
+  OK,
+  QueryParser,
+  UpdateLinkDto,
+} from 'shtcut/core';
 import { LinkService } from '../service/link.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
@@ -35,6 +44,22 @@ export class LinkController extends AppController {
       response = await this.service.getResponse({
         code: OK,
         value: link,
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  @Get('/metadata')
+  @HttpCode(OK)
+  public async urlMetaData(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    try {
+      const queryParser = new QueryParser(Object.assign({}, req.query));
+      const data = await this.service.urlMetadata(queryParser.query.url);
+      const response = await this.service.getResponse({
+        code: OK,
+        value: data,
       });
       return res.status(OK).json(response);
     } catch (e) {

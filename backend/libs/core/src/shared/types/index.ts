@@ -129,7 +129,37 @@ export type IpAddressInfo = {
     code: string | undefined;
   };
 };
+interface Image {
+  src: string;
+}
 
 export type Request<T = unknown> = {
   clientInfo: IpAddressInfo;
 } & ExpressRequest<T>;
+
+export type HtmlMetadata = {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
+  site_name?: string;
+};
+
+export interface HtmlMetadataResult {
+  images: Array<Image>;
+  meta: {
+    description?: string;
+    title?: string;
+  };
+  og: {
+    image?: string;
+    description?: string;
+    title?: string;
+    images?: Array<Image>;
+    site_name?: string;
+    type?: string;
+    url?: string;
+    videos?: Array<Image>;
+  };
+}

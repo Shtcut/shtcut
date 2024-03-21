@@ -18,6 +18,7 @@ export default {
     duplicate: 'The custom alias already exists; please choose a different one.',
     invalidExpiryDate: 'The expiry date is invalid; it must adhere to the ISO-8601 format.',
     invalidateExpiryFutureDate: 'The expiry date must be set in the future.',
+    emptyUrl: 'URL key is required',
   },
 
   plan: {

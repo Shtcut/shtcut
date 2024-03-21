@@ -11,6 +11,7 @@ import {
   DomainDocument,
   Hit,
   HitDocument,
+  HtmlMetaService,
   IpAddressInfo,
   IpService,
   Link,
@@ -41,6 +42,7 @@ export class LinkService extends MongoBaseService {
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
     @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
     protected hitService: HitService,
+    protected htmlMetaService: HtmlMetaService,
     protected ipService: IpService,
     protected redisService: RedisService,
   ) {
@@ -179,6 +181,18 @@ export class LinkService extends MongoBaseService {
       throw e;
     } finally {
       await session?.endSession();
+    }
+  }
+
+  public async urlMetadata(url: string) {
+    try {
+      if (!url) {
+        throw AppException.BAD_REQUEST(lang.get('links').emptyUrl);
+      }
+      const data = await this.htmlMetaService.getMetadata(url, this.cacheService);
+      return data;
+    } catch (e) {
+      throw e;
     }
   }
 
