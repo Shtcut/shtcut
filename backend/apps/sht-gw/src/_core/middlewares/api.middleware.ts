@@ -25,7 +25,6 @@ export class ApiMiddleware implements NestMiddleware {
       `/api/${currentVersion}/links/visit`,
       `/api/${currentVersion}/visit/*`,
     ];
-    console.log('req.originalUrl:::', req.originalUrl);
     if (excludeUrls.includes(req.originalUrl)) {
       return next();
     }
