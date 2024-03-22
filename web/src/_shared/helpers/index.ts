@@ -2,7 +2,7 @@
 
 import { jwtDecode } from 'jwt-decode';
 import Cookie from 'js-cookie';
-import { AUTH_TOKEN_KEY } from '../constant';
+import { AUTH_TOKEN_KEY, SECOND_LEVEL_DOMAINS, SPECIAL_APEX_DOMAINS, ccTLDs } from '../constant';
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup';
 // import slugify from 'slugify';
@@ -56,12 +56,24 @@ export const validateYulObj = (obj: ObjectShape) => {
     return Yup.object().shape(obj);
 };
 
-// export const slugifyText = (text: string) => {
-//     if (text === null || typeof text === 'undefined' || _.isEmpty(text)) {
-//         return text;
-//     }
-//     if (text.indexOf(' ') >= 0) {
-//         return slugify(text.toLowerCase());
-//     }
-//     return text.toLowerCase();
-// };
+export const getApexDomain = (url: string) => {
+    let domain: string;
+    try {
+        domain = new URL(url).hostname;
+    } catch (e) {
+        return '';
+    }
+
+    if (SPECIAL_APEX_DOMAINS[domain]) return SPECIAL_APEX_DOMAINS[domain];
+
+    const parts = domain.split('.');
+    if (parts.length > 2) {
+        if (SECOND_LEVEL_DOMAINS.has(parts[parts.length - 2]) && ccTLDs.has(parts[parts.length - 1])) {
+            return parts.slice(-3).join('.');
+        }
+        return parts.slice(-2).join('.');
+    }
+    return domain;
+};
+
+export const validDomainRegex = new RegExp(/^([a-zA-Z0-9]([a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/);

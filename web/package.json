@@ -10,6 +10,9 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@nivo/bar": "^0.85.1",
+    "@nivo/line": "^0.85.1",
+    "@nivo/pie": "^0.85.1",
     "@radix-ui/react-aspect-ratio": "^1.0.3",
     "@radix-ui/react-slot": "^1.0.2",
     "@react-oauth/google": "^0.12.1",
@@ -40,6 +43,7 @@
     "next-images": "^1.8.5",
     "next-redux-wrapper": "^8.1.0",
     "next-seo": "^6.5.0",
+    "nivo": "^0.31.0",
     "plyr": "^3.7.8",
     "postcss-nesting": "^12.0.4",
     "react": "^18",
