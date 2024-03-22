@@ -2,6 +2,11 @@
 
 import {
     Button,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
     CommonProps,
     Input,
     Label,
@@ -10,6 +15,11 @@ import {
     PopoverTrigger,
     Separator,
     Skeleton,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
     Textarea
 } from '@shtcut-ui/react';
 import { LayoutHeader, Logo, NavLink, TopNav, WorkspaceSwitcher } from '@shtcut/components';
@@ -18,11 +28,14 @@ import { Notifications } from '@shtcut/components/_shared/Notifications';
 import Sidebar from '@shtcut/components/_shared/SideBar';
 import { UserNav } from '@shtcut/components/_shared/UserNav';
 import { IconMail } from '@tabler/icons-react';
-import { XIcon } from 'lucide-react';
+import { ArrowRightIcon, BarChart, Package2Icon, SearchIcon, Table, XIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { ReactNode, Suspense, useState } from 'react';
-  
+import { ResponsiveBar } from '@nivo/bar';
+// import { ResponsiveScatterPlot } from "@nivo/scatterplot"
+// import { ResponsiveLine } from "@nivo/line"
+// import { ResponsivePie } from "@nivo/pie"
 
 interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
@@ -34,13 +47,11 @@ const WorkspaceLayout = ({ children, header }: WorkspaceLayoutProps) => {
     const params = useParams();
 
     return (
-        <div className="relative h-full overflow-hidden bg-white">
-            <Sidebar module={params.module as string} workspace={params.workspace as string} />
+        <div className="relative w-full h-full overflow-hidden bg-white">
+            {/* <Sidebar module={params.module as string} workspace={params.workspace as string} /> */}
             <main
                 id="content"
-                className={`overflow-x-hidden pt-16 transition-[margin] md:overflow-y-hidden md:pt-0 ${
-                    isCollapsed ? 'md:ml-14' : 'md:ml-64'
-                } h-full`}
+                className={`overflow-x-hidden pt-16 transition-[margin] mx-auto  md:overflow-y-hidden w-full md:pt-0 h-full`}
             >
                 {header ? (
                     header
