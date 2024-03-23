@@ -1,7 +1,9 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server';
-import { AppMiddleware, parse } from '@shtcut/_shared';
+import { NextRequest, NextResponse, userAgent } from 'next/server';
 
-
-export default async function middleware(req: NextRequest, ev: NextFetchEvent) {
-    const { domain, path, fullPath, key, fullKey } = parse(req);
+export function middleware(request: NextRequest) {
+    const url = request.nextUrl;
+    const { device } = userAgent(request);
+    const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
+    url.searchParams.set('viewport', viewport);
+    return NextResponse.rewrite(url);
 }
