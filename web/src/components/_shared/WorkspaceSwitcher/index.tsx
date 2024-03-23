@@ -36,12 +36,9 @@ type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
 type WorkspaceSwitcherProps = PopoverTriggerProps;
 
-export const WorkspaceSwitcher = ({ className }: WorkspaceSwitcherProps) => {
+export const WorkspaceSwitcher = () => {
     const [name, setName] = useState('');
     const [openCreateWorkspace, setOpenCreateWorkspace] = useState(false);
-    const [showNewWorkspaceDialog, setShowNewDialog] = useState(false);
-    const [isSettingWorkspace, setIsSettingWorkspace] = useState(false);
-
     const pathname = usePathname();
     const path = pathname.split('/')[pathname.split('/').length - 1];
 
@@ -58,7 +55,6 @@ export const WorkspaceSwitcher = ({ className }: WorkspaceSwitcherProps) => {
                 setName(data[index].name);
             }
         }
-        console.log('name', name);
         if (data?.length === 0) {
             setOpenCreateWorkspace(true);
         }
@@ -70,7 +66,7 @@ export const WorkspaceSwitcher = ({ className }: WorkspaceSwitcherProps) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger className="border p-2 rounded-md px-4 text-sm">
+            <DropdownMenuTrigger className={cn('border p-2 rounded-md px-4 text-sm')}>
                 <div className="flex items-center">
                     <span>{name}</span>
                     <IconChevronDown className="w-4 h-4 ml-3" />

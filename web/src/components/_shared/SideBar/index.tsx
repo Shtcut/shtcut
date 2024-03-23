@@ -18,7 +18,7 @@ interface SidebarProps extends CommonOptions, React.HtmlHTMLAttributes<HTMLEleme
 }
 
 export default function Sidebar(props: SidebarProps) {
-    const { workspace, module, className, isCollapsed = true } = props;
+    const { workspace, module,  className, isCollapsed = true } = props;
 
     const [navOpened, setNavOpened] = useState(false);
 

@@ -2,7 +2,6 @@ import {
     IconBrandGoogleAnalytics,
     IconBriefcase,
     IconLayoutDashboard,
-    IconLogout,
     IconQrcode,
     IconSettings
 } from '@tabler/icons-react';
@@ -11,7 +10,7 @@ export interface NavLink {
     title: string;
     label?: string;
     href: string;
-    icon: JSX.Element;
+    icon?: JSX.Element;
 }
 
 export interface SideLink extends NavLink {
@@ -19,50 +18,52 @@ export interface SideLink extends NavLink {
 }
 
 export const sideLinks = (module: string, workspace: string): SideLink[] => {
-    const prefix = `${workspace}`;
-
-    const urlNavs = [
+    const urlNavs: NavLink[] = [
         {
-            title: 'Dashboard',
-            label: '',
-            href: `${workspace}`,
-            icon: <IconLayoutDashboard size={18} />
+            title: 'Overview',
+            href: `/url/${workspace}/overview`,
+            icon: <IconBrandGoogleAnalytics width={10} height={10}/>
         },
         {
-            title: 'QR Codes',
-            label: '',
-            href: `${workspace}/qr-code`,
-            icon: <IconQrcode size={18} />
+            title: 'Links',
+            href: `/url/${workspace}/links`,
+            icon: <IconBriefcase />
         },
         {
-            title: 'Domain',
-            label: '',
-            href: `/domain`,
-            icon: <IconBriefcase size={18} />
+            title: 'QR Code',
+            href: `/url/${workspace}/qr-codes`,
+            icon: <IconQrcode />
         },
         {
-            title: 'Analytics',
-            label: '',
-            href: `/analytics`,
-            icon: <IconBrandGoogleAnalytics size={18} />
+            title: 'Domains',
+            href: `/url/${workspace}/domains`,
+            icon: <IconLayoutDashboard />
         },
         {
             title: 'Settings',
-            label: '',
-            href: `/settings`,
-            icon: <IconSettings size={18} />
+            href: `/url/${workspace}/settings`,
+            icon: <IconSettings />
+        }
+    ];
+
+    const socialNavs = [
+        {
+            title: 'Overview',
+            href: `/social/${workspace}/overview`
         },
         {
-            title: 'Sign out',
-            label: '',
-            href: '/auth/sign-in',
-            icon: <IconLogout size={18} />
+            title: 'Posts',
+            href: `/social/${workspace}/posts`
+        },
+        {
+            title: 'Calendars',
+            href: `/social/${workspace}/calendars`
         }
     ];
 
     const navs = {
         url: urlNavs,
-        social: [],
+        social: socialNavs,
         survey: [],
         marketing: []
     };
