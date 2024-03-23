@@ -9,14 +9,13 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { ReactNode, Suspense, useState } from 'react';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
+import Head from 'next/head';
 
 interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
 }
 
-const WorkspaceLayout = ({ children, header }: WorkspaceLayoutProps) => {
-    const [isCollapsed, setIsCollapsed] = useState(true);
-
+const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
     const params = useParams();
     const pathname = usePathname();
 
@@ -25,74 +24,68 @@ const WorkspaceLayout = ({ children, header }: WorkspaceLayoutProps) => {
     const navigationOptions = sideLinks(module as string, workspace as string);
 
     return (
-        <div className="relative w-full h-full overflow-hidden bg-white">
-            <main
-                id="content"
-                className={`overflow-x-hidden pt-16 transition-[margin] mx-auto  md:overflow-y-hidden w-full md:pt-0 h-full`}
-            >
-                {header ? (
-                    header
-                ) : (
-                    <div className="container z-40 bg-background flex items-center justify-between mt-4 border-b px-6 w-full">
-                        <div className="flex items-center gap-2">
-                            <span className="inline-flex items-center gap-2">
-                                <Logo />
-                            </span>
-                            <span>/</span>
-                            <WorkspaceSwitcher />
-                            <Button className="bg-gradient-to-tr from-rose-500 to-fuchsia-600 rounded-full via-pink-600 hover:to-rose-500 hover:from-fuchsia-600 hover:via-pink-600 transition-all">
-                                Upgrade
-                            </Button>
-                        </div>
+        <html lang="en">
+            <Head>
+                <link rel="icon" href="/favicon.ico" />
+                <title>Shtcut - marketing tools into a singular, Commonly known as an all-in-one</title>
+            </Head>
+            <body>
+                <div className="container sticky top-0 z-40 bg-background flex items-center justify-between mt-4">
+                    <div className="flex items-center gap-2">
+                        <span className="inline-flex items-center gap-2">
+                            <Logo />
+                        </span>
+                        <span>/</span>
+                        <WorkspaceSwitcher />
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <Feedback />
 
-                        <div className="">
-                            <div className="items-stretch flex gap-10 overflow-x-scroll mt-4 md:mt-0">
-                                {navigationOptions.map(({ href, title }, index) => (
-                                    <Link
-                                        href={href}
-                                        className={cn(
-                                            'h-8 hover:text-foreground/80 transition-colors text-sm',
-                                            href === `${pathname}`
-                                                ? 'border-b-2 border-foreground text-foreground hover:text-foreground'
-                                                : 'text-foreground/50'
-                                        )}
-                                        key={index}
-                                    >
-                                        {title}
-                                    </Link>
-                                ))}
-                            </div>
-                        </div>
+                        <Separator orientation="vertical" className="h-5" />
 
-                        <div className="flex items-center gap-4">
-                            <Feedback />
+                        <nav className="flex items-center space-x-6">
+                            <NavLink className="text-xs font-normal" href="/examples/dashboard">
+                                Changelog
+                            </NavLink>
+                            <NavLink className="text-xs font-normal" href="/examples/dashboard">
+                                Help
+                            </NavLink>
+                            <NavLink className="text-xs font-normal" href="/examples/dashboard">
+                                Docs
+                            </NavLink>
+                        </nav>
+                        <Separator orientation="vertical" className="h-5" />
 
-                            <Separator orientation="vertical" className="h-5" />
+                        <Notifications />
 
-                            <nav className="flex items-center space-x-6">
-                                <NavLink className="text-xs font-normal" href="/examples/dashboard">
-                                    Changelog
-                                </NavLink>
-                                <NavLink className="text-xs font-normal" href="/examples/dashboard">
-                                    Help
-                                </NavLink>
-                                <NavLink className="text-xs font-normal" href="/examples/dashboard">
-                                    Docs
-                                </NavLink>
-                            </nav>
-                            <Separator orientation="vertical" className="h-5" />
-
-                            <Notifications />
-
-                            <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
-                                <UserNav />
-                            </Suspense>
+                        <Suspense fallback={<Skeleton className="h-8 w-8 rounded-full" />}>
+                            <UserNav />
+                        </Suspense>
+                    </div>
+                </div>
+                <div className="container sticky top-0">
+                    <div className="border-b mt-5 mr-3 mb-0">
+                        <div className="items-stretch flex gap-10 overflow-x-scroll mt-4 md:mt:0">
+                            {navigationOptions.map(({ href, title }, index) => (
+                                <Link
+                                    href={href}
+                                    className={cn(
+                                        'h-8 hover:text-foreground/80 transition-colors text-sm',
+                                        href === `${pathname}`
+                                            ? 'border-b-2 border-foreground text-foreground hover:text-foreground'
+                                            : 'text-foreground/50'
+                                    )}
+                                    key={index}
+                                >
+                                    {title}
+                                </Link>
+                            ))}
                         </div>
                     </div>
-                )}
+                </div>
                 {children}
-            </main>
-        </div>
+            </body>
+        </html>
     );
 };
 
