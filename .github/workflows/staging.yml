@@ -28,4 +28,4 @@ jobs:
       - run: npm install -g yarn
       - run: yarn
         working-directory: ./backend
-      - run: pm2 restart 0 1 2 3
+      # - run: pm2 restart 0 1 2 3
