@@ -40,6 +40,11 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             icon: <IconLayoutDashboard />
         },
         {
+            title: 'Link bio',
+            href: `/url/${workspace}/link-bios`,
+            icon: <IconQrcode />
+        },
+        {
             title: 'Settings',
             href: `/url/${workspace}/settings`,
             icon: <IconSettings />

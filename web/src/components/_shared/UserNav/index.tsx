@@ -11,6 +11,7 @@ import {
     DropdownMenuTrigger
 } from '@shtcut-ui/react';
 import { useUser } from '@shtcut/hooks/user';
+import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 
 export const UserNav = () => {
@@ -40,9 +41,6 @@ export const UserNav = () => {
                         <Link href="/settings">Profile</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className="cursor-pointer">
-                        <Link href="/settings/teams">My teams</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="cursor-pointer">
                         <Link href="/settings/billing">Billing</Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild className="cursor-pointer">
@@ -50,6 +48,12 @@ export const UserNav = () => {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem className='cursor-pointer' asChild>
+                    <div className="flex items-center gap-2">
+                        <LogOut className="w-4 h-4" />
+                        <span>Sign out</span>
+                    </div>
+                </DropdownMenuItem>
             </DropdownMenuContent>
         </DropdownMenu>
     );

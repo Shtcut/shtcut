@@ -32,7 +32,7 @@ const Overview = () => {
     const pathname = usePathname();
 
     return (
-        <LayoutBody className=" bg-white w-full h-full">
+        <LayoutBody className="container">
             <div className="bg-white p-8">
                 <header className="flex items-center justify-between">
                     <h1 className="text-3xl font-bold">Analytics</h1>
