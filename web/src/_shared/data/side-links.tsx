@@ -20,7 +20,7 @@ export interface SideLink extends NavLink {
 export const sideLinks = (module: string, workspace: string): SideLink[] => {
     const urlNavs: NavLink[] = [
         {
-            title: 'Overview',
+            title: 'Overviews',
             href: `/url/${workspace}/overview`,
             icon: <IconBrandGoogleAnalytics width={10} height={10}/>
         },
@@ -30,7 +30,7 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             icon: <IconBriefcase />
         },
         {
-            title: 'QR Code',
+            title: 'QR Codes',
             href: `/url/${workspace}/qr-codes`,
             icon: <IconQrcode />
         },
@@ -40,7 +40,7 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             icon: <IconLayoutDashboard />
         },
         {
-            title: 'Link bio',
+            title: 'Link bios',
             href: `/url/${workspace}/link-bios`,
             icon: <IconQrcode />
         },
