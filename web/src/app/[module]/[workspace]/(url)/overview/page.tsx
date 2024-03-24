@@ -20,7 +20,16 @@ import {
 } from '@shtcut-ui/react';
 import { LayoutBody } from '@shtcut/components';
 import { useParams, usePathname } from 'next/navigation';
-import { ClipboardIcon, MousePointerClickIcon, TwitterIcon, YoutubeIcon } from 'lucide-react';
+import {
+    ActivityIcon,
+    ClipboardIcon,
+    CreditCardIcon,
+    DollarSignIcon,
+    MousePointerClickIcon,
+    TwitterIcon,
+    UsersIcon,
+    YoutubeIcon
+} from 'lucide-react';
 import { IconDownload } from '@tabler/icons-react';
 import Link from 'next/link';
 import { LineChart } from '@shtcut/components/_shared/Analytics/LineChart';
@@ -49,67 +58,58 @@ const Overview = () => {
                     <Button variant="outline">Last 24 hours</Button>
                     <Button variant="outline">Last 24 hours</Button>
                 </nav>
-                <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-                    <Card className="col-span-1">
-                        <CardHeader>
-                            <CardTitle>Today`s Clicks</CardTitle>
-                            <CardDescription>
-                                <div className="flex justify-between my-6">
-                                    Clicks Summary{' '}
-                                    <Button variant="outline">
-                                        <IconDownload size={15} className="mr-2" /> Export
-                                    </Button>
-                                </div>
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="pl-2">
-                            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Total Links</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-normal font-bold">200 of 300</div>
-                                        <p className="text-xs text-muted-foreground text-[#4079ED]">
-                                            +8% from yesterday
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Total QR Codes</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-normal font-bold">3 of 300</div>
-                                        <p className="text-xs text-muted-foreground text-[#4079ED]">
-                                            +8% from yesterday
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-normal font-bold">500</div>
-                                        <p className="text-xs text-muted-foreground text-[#4079ED]">
-                                            +8% from yesterday
-                                        </p>
-                                    </CardContent>
-                                </Card>
-                                <Card>
-                                    <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                                        <CardTitle className="text-sm font-medium">Total Scans</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="text-normal font-bold">200</div>
-                                        <p className="text-xs text-muted-foreground text-[#4079ED]">
-                                            +8% from yesterday
-                                        </p>
-                                    </CardContent>
-                                </Card>
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-3 mb-6">
+                    <Card className="flex flex-1 flex-col gap-4 p-4 md:gap-8 ">
+                        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                            <CardTitle>
+                                <span className='text-[#05004E] font-bold'>Today’s Clicks</span>
+                            </CardTitle>
+                            <div className="flex justify-between my-6">
+                                <Button variant="outline">
+                                    <IconDownload size={15} className="mr-2" /> Export
+                                </Button>
                             </div>
-                        </CardContent>
+                        </CardHeader>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Total Links</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-normal font-bold">200 of 300</div>
+                                    <p className="text-xs text-muted-foreground text-[#4079ED]">+8% from yesterday</p>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Total QR Codes</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-normal font-bold">3 of 300</div>
+                                    <p className="text-xs text-muted-foreground text-[#4079ED]">+8% from yesterday</p>
+                                </CardContent>
+                            </Card>
+                        </div>
+                        <div className="grid gap-4 md:grid-cols-2">
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Total Clicks</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-normal font-bold">500</div>
+                                    <p className="text-xs text-muted-foreground text-[#4079ED]">+8% from yesterday</p>
+                                </CardContent>
+                            </Card>
+                            <Card>
+                                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                                    <CardTitle className="text-sm font-medium">Total Scans</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-normal font-bold">200</div>
+                                    <p className="text-xs text-muted-foreground text-[#4079ED]">+8% from yesterday</p>
+                                </CardContent>
+                            </Card>
+                        </div>
                     </Card>
                     <Card className="col-span-1">
                         <CardHeader>
