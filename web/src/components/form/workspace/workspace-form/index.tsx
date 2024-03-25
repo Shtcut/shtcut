@@ -34,6 +34,7 @@ import z from 'zod';
 import { IconBrush, IconHeading, IconHelp } from '@tabler/icons-react';
 import { GRADIENTS, IMAGES } from '@shtcut/_shared/constant';
 import slugify from 'react-slugify';
+import { TooltipWrapper } from '@shtcut/components/_shared/TooltipWrapper';
 
 interface WorkspaceFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
@@ -127,6 +128,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                                             </div>
                                             <div>
                                                 <TooltipProvider>
+                                                    
                                                     <Tooltip>
                                                         <TooltipTrigger>
                                                             <IconHelp size={15} />

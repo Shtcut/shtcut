@@ -36,6 +36,7 @@ export * from './ui/skeleton';
 export * from './ui/slider';
 export * from './ui/switch';
 export * from './ui/slider';
+export * from './ui/select';
 export * from './ui/table';
 export * from './ui/tabs';
 export * from './ui/textarea';
