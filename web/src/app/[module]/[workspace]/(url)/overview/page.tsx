@@ -7,7 +7,6 @@ import {
     Button,
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
     Progress,
@@ -20,16 +19,7 @@ import {
 } from '@shtcut-ui/react';
 import { LayoutBody } from '@shtcut/components';
 import { useParams, usePathname } from 'next/navigation';
-import {
-    ActivityIcon,
-    ClipboardIcon,
-    CreditCardIcon,
-    DollarSignIcon,
-    MousePointerClickIcon,
-    TwitterIcon,
-    UsersIcon,
-    YoutubeIcon
-} from 'lucide-react';
+import { Copy, MousePointerClickIcon, TwitterIcon, YoutubeIcon } from 'lucide-react';
 import { IconDownload } from '@tabler/icons-react';
 import Link from 'next/link';
 import { LineChart } from '@shtcut/components/_shared/Analytics/LineChart';
@@ -62,7 +52,7 @@ const Overview = () => {
                     <Card className="flex flex-1 flex-col gap-4 p-4 md:gap-8 ">
                         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                             <CardTitle>
-                                <span className='text-[#05004E] font-bold'>Today’s Clicks</span>
+                                <span className="text-[#05004E] font-bold">Today’s Clicks</span>
                             </CardTitle>
                             <div className="flex justify-between my-6">
                                 <Button variant="outline">
@@ -213,7 +203,7 @@ const Overview = () => {
                                             <div className="flex items-center space-x-2">
                                                 <Link href="#">shtcut.com/Bn41aCOInxj</Link>
                                                 <Button variant="ghost">
-                                                    <ClipboardIcon className="text-gray-500" />
+                                                    <Copy size={15} color="grey" />
                                                 </Button>
                                             </div>
                                         </TableCell>
@@ -233,10 +223,10 @@ const Overview = () => {
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center space-x-2">
+                                            <div className="flex items-center">
                                                 <Link href="#">shtcut.com/Bn41aCOInxj</Link>
                                                 <Button variant="ghost">
-                                                    <ClipboardIcon className="text-gray-500" />
+                                                    <Copy size={15} color="grey" />
                                                 </Button>
                                             </div>
                                         </TableCell>

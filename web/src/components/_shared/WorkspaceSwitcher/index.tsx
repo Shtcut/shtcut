@@ -1,32 +1,19 @@
 'use client';
 
 import {
-    Avatar,
-    AvatarImage,
     Button,
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    Dialog,
-    DialogTrigger,
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuLabel,
     DropdownMenuTrigger,
     Modal,
-    Popover,
-    PopoverContent,
     PopoverTrigger,
     cn
 } from '@shtcut-ui/react';
 import { WorkspaceContainer } from '@shtcut/containers';
 import { useWorkspace } from '@shtcut/hooks/workspace';
-import { IconChevronDown, IconPlus } from '@tabler/icons-react';
+import { IconChevronDown } from '@tabler/icons-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
