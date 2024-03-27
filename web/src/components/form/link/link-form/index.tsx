@@ -10,17 +10,20 @@ import {
     CommonProps,
     Dict,
     Input,
+    Label,
     Modal,
     Select,
     SelectContent,
     SelectItem,
     SelectTrigger,
     SelectValue,
-    Switch
+    Switch,
+    cn
 } from '@shtcut-ui/react';
 import { LinkIcon } from 'lucide-react';
 import { useState } from 'react';
 import { LinkBrandForm } from '../link-brand-form';
+import { Logo } from '@shtcut/components';
 
 interface CreateLinkFormProps extends CommonProps {
     handleSubmitForm: (payload: Dict) => void;
@@ -36,12 +39,12 @@ export const LinkForm = (props: CreateLinkFormProps) => {
         <>
             <div className="overflow-y-auto">
                 {/* <div className="text-center">
-                <Logo width={150} className="mx-auto" />
-            </div> */}
+                    <Logo width={150} className="mx-auto" />
+                </div> */}
 
-                <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8 bg-white ">
-                    <div className="flex flex-col space-y-6 border rounded-md p-10 overflow-scroll w-full lg:w-1/2">
-                        <div className="flex items-center space-x-2">
+                <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
+                    <div className="flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
+                        <div className="sticky top-0 flex items-center space-x-2">
                             <LinkIcon className="h-6 w-6 text-gray-600" />
                             <h2 className="text-xl font-semibold">Create a new link</h2>
                         </div>
@@ -82,13 +85,21 @@ export const LinkForm = (props: CreateLinkFormProps) => {
                                     <SelectItem value="sales">Sales</SelectItem>
                                 </SelectContent>
                             </Select>
+                            <div className="relative my-5">
+                                <div className="absolute inset-0 flex items-center">
+                                    <span className="w-full border-t" />
+                                </div>
+                                <div className="relative flex justify-center text-xs uppercase">
+                                    <span className="bg-background px-2 text-black font-normal">Link Settings</span>
+                                </div>
+                            </div>
                             <div className="mt-4">
                                 <LinkBrandForm />
                             </div>
                         </div>
                         <Button>Create link</Button>
                     </div>
-                    <div className="flex flex-col border rounded-md p-6 space-y-4 w-full lg:w-1/2">
+                    <div className="flex flex-col border rounded-md p-6 bg-white space-y-4 w-full lg:w-1/2">
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-semibold">Social Previews</h2>
                         </div>
@@ -96,6 +107,19 @@ export const LinkForm = (props: CreateLinkFormProps) => {
                             <Card className="w-full">
                                 <CardHeader>
                                     <CardTitle>Twitter</CardTitle>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="flex justify-center items-center h-32 border-dashed border-2 border-gray-300 rounded-md">
+                                        <CameraIcon className="h-8 w-8 text-gray-400" />
+                                    </div>
+                                    <p className="text-center text-sm text-gray-500 mt-2">
+                                        Enter a link to generate a preview.
+                                    </p>
+                                </CardContent>
+                            </Card>
+                            <Card className="w-full">
+                                <CardHeader>
+                                    <CardTitle>Facebook</CardTitle>
                                 </CardHeader>
                                 <CardContent>
                                     <div className="flex justify-center items-center h-32 border-dashed border-2 border-gray-300 rounded-md">
@@ -129,7 +153,7 @@ export const LinkForm = (props: CreateLinkFormProps) => {
                 showCloseIcon={true}
                 useDrawer={true}
                 onClose={() => handleVisibility(false)}
-                className="max-w"
+                className="bg-white-50"
             >
                 <LinkBrandForm />
             </Modal>
