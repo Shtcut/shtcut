@@ -109,3 +109,20 @@
         @apply min-h-svh w-full bg-background text-foreground;
     }
 }
+
+
+.text-stratos-gradient {
+    background: linear-gradient(to right, rgb(62, 97, 255), rgb(0, 16, 255), rgb(0, 16, 255));
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.text-shade-gradient {
+    background: linear-gradient(to right, rgb(107, 114, 128), rgb(55, 65, 81), rgb(55, 65, 81));
+    background-clip: text;
+    color: transparent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}

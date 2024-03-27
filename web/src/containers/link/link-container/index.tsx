@@ -54,8 +54,9 @@ export const LinkContainer = (props: LinkContainer) => {
                     Create Link
                 </Button>
             </div>
+            <LinkForm handleSubmitForm={handleSubmitForm} />
             <div className="flex-1 p-6">
-                <div className="flex justify-between items-center mb-6">
+                {/* <div className="flex justify-between items-center mb-6">
                     <div className="relative rounded-md">
                         <Input className="w-[300px]" placeholder="Search here..." />
                     </div>
@@ -75,8 +76,9 @@ export const LinkContainer = (props: LinkContainer) => {
                         <LayoutGridIcon className="text-gray-400 h-6 w-6" />
                         <ListIcon className="text-blue-500 h-6 w-6" />
                     </div>
-                </div>
+                </div> */}
                 <div className="grid grid-cols-3 gap-6">
+                
                     <div className="col-span-2">
                         {/* {dummyLinkHistory.map(({ id, ...link }) => (
                                 <Fragment key={id}>
@@ -96,11 +98,11 @@ export const LinkContainer = (props: LinkContainer) => {
                                     </motion.div>
                                 </Fragment>
                             ))
-                        } */}
-                        {/* {Array.from({ length: 5 }).map((_, i) => (
+                        }
+                        {Array.from({ length: 5 }).map((_, i) => (
                             <LinkSkeleton key={i} />
                         ))} */}
-                        <div className="flex justify-center items-center flex-col border mb-4 p-6  rounded-lg text-center">
+                        {/* <div className="flex justify-center items-center flex-col border mb-4 p-6  rounded-lg text-center">
                             <div className="mt-4 w-[245px] h-auto flex flex-col mx-auto">
                                 <Image
                                     className="object-cover"
@@ -114,10 +116,10 @@ export const LinkContainer = (props: LinkContainer) => {
                             <Button className="bg-blue-600" onClick={() => handleVisibility(true)}>
                                 Create Link
                             </Button>
-                        </div>
+                        </div> */}
                         <p className="text-center text-sm text-gray-500 mt-4">Showing 0-0 of 0 links</p>
                     </div>
-                    <div className="p-6 border bg-white rounded-lg shadow">
+                    {/* <div className="p-6 border bg-white rounded-lg shadow">
                         <div className="flex justify-between items-center mb-4">
                             <h2 className="text-lg font-semibold">Domains</h2>
                             <ChevronDownIcon className="text-gray-400 h-5 w-5" />
@@ -129,7 +131,7 @@ export const LinkContainer = (props: LinkContainer) => {
                             <Badge variant="secondary">Analytics</Badge>
                             <Badge variant="secondary">Analytics</Badge>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
@@ -146,3 +148,4 @@ export const LinkContainer = (props: LinkContainer) => {
         </DndContext>
     );
 };
+
