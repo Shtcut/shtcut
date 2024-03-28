@@ -1,17 +1,6 @@
 'use client';
 
-import {
-    Dict,
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-    Input,
-    Label,
-    cn
-} from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input, cn } from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
@@ -55,7 +44,7 @@ export const SignInForm = (props: SignInFormProps) => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>Email</FormLabel>
+                                    <Label>Email</Label>
                                     <FormControl>
                                         <Input placeholder="name@example.com" className="h-12" {...field} />
                                     </FormControl>
@@ -69,7 +58,7 @@ export const SignInForm = (props: SignInFormProps) => {
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
                                     <div className="flex items-center justify-start">
-                                        <FormLabel>Password</FormLabel>
+                                        <Label>Password</Label>
                                     </div>
                                     <FormControl>
                                         <PasswordInput className="h-12" placeholder="********" {...field} />

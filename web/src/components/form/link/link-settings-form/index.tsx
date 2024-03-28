@@ -34,8 +34,17 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const [enableGeoTargeting, setEnableGeoTargeting] = useState<boolean>(isGeoTargeting);
     const [isQrCode, setIsQrCode] = useState<boolean>(false);
     const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
+    const [isUtmBuilderPayload, setIsUtmBuilderPayload] = useState<boolean>(false);
 
     const handleQRCodeVisibility = (open: boolean) => {};
+
+    const handleOnUtmSubmit = (payload: Dict) => {
+        console.log('handleOnUtmSubmit-payload:::', payload);
+        if (payload) {
+            setIsUtmBuilderEnabled(false);
+            setIsUtmBuilderPayload(true);
+        }
+    }
 
     return (
         <>
@@ -284,7 +293,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                 onClose={() => setIsUtmBuilderEnabled(false)}
                 className="bg-white"
             >
-                <LinkUtmForm />
+                <LinkUtmForm handleSubmitForm={handleOnUtmSubmit} />
             </Modal>
         </>
     );

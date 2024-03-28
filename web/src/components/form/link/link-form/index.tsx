@@ -102,9 +102,9 @@ export const LinkForm = (props: LinkFormProps) => {
                                         url: '',
                                         isExpirationDate: false,
                                         isAndroidTargeting: true,
-                                        isUTMBuilder: false,
+                                        isUTMBuilder: true,
                                         qrCode: {
-                                            enableQrCode: false,
+                                            enableQrCode: true,
                                             showLogo: false
                                         }
                                     }}

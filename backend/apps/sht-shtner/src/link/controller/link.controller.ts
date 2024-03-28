@@ -67,7 +67,6 @@ export class LinkController extends AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
   @Post('/')
   @HttpCode(OK)
   public async create(
