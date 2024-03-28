@@ -54,7 +54,7 @@ export const LinkContainer = (props: LinkContainer) => {
                     Create Link
                 </Button>
             </div>
-            <LinkForm handleSubmitForm={handleSubmitForm} />
+            <LinkForm linkProps={{ url: '' }} handleSubmitForm={handleSubmitForm} />
             <div className="flex-1 p-6">
                 {/* <div className="flex justify-between items-center mb-6">
                     <div className="relative rounded-md">
@@ -78,7 +78,6 @@ export const LinkContainer = (props: LinkContainer) => {
                     </div>
                 </div> */}
                 <div className="grid grid-cols-3 gap-6">
-                
                     <div className="col-span-2">
                         {/* {dummyLinkHistory.map(({ id, ...link }) => (
                                 <Fragment key={id}>
@@ -143,9 +142,8 @@ export const LinkContainer = (props: LinkContainer) => {
                 onClose={() => handleVisibility(false)}
                 className="max-w-screen-xl"
             >
-                <LinkForm handleSubmitForm={handleSubmitForm} />
+                <LinkForm linkProps={{ url: '' }} handleSubmitForm={handleSubmitForm} />
             </Modal>
         </DndContext>
     );
 };
-

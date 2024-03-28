@@ -7,7 +7,6 @@ import {
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage,
     Input,
     Label,
@@ -20,7 +19,6 @@ import { HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { IconBrandFacebook, IconBrandGithub, IconBrandGmail, IconBrandTwitter } from '@tabler/icons-react';
 import { signUpValidationSchema } from './validation';
 import { SocialLogin } from '../social-login';
 
@@ -61,7 +59,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                                     name="firstName"
                                     render={({ field }) => (
                                         <FormItem className="space-y-1">
-                                            <FormLabel>First name</FormLabel>
+                                            <Label>First name</Label>
                                             <FormControl>
                                                 <Input placeholder="John" className="h-12" {...field} />
                                             </FormControl>
@@ -76,7 +74,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                                     name="lastName"
                                     render={({ field }) => (
                                         <FormItem className="space-y-1">
-                                            <FormLabel>Last name</FormLabel>
+                                            <Label>Last name</Label>
                                             <FormControl>
                                                 <Input placeholder="Doe" className="h-12" {...field} />
                                             </FormControl>
@@ -91,7 +89,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>Email</FormLabel>
+                                    <Label>Email</Label>
                                     <FormControl>
                                         <Input placeholder="name@example.com" className="h-12" {...field} />
                                     </FormControl>
@@ -105,7 +103,7 @@ export const SignUpForm = (props: SignUpFormProps) => {
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
                                     <div className="flex items-center justify-between">
-                                        <FormLabel>Password</FormLabel>
+                                        <Label>Password</Label>
                                     </div>
                                     <FormControl>
                                         <PasswordInput className="h-12" placeholder="********" {...field} />

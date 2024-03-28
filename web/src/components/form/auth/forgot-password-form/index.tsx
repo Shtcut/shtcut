@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input, cn } from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { forgotPasswordValidationSchema } from './validation';
 import { AppButton } from '@shtcut/components/_shared';
@@ -39,7 +39,7 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                             name="email"
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>Email</FormLabel>
+                                    <Label>Email</Label>
                                     <FormControl>
                                         <Input placeholder="name@example.com" className="h-12" {...field} />
                                     </FormControl>

@@ -145,7 +145,7 @@ export class LinkService extends MongoBaseService {
       this.ensureDomainExists(domain);
 
       // Check if the domain is verified
-      this.checkDomainVerification(domain);
+      // this.checkDomainVerification(domain);
 
       // Create payload with additional properties and create link
       const payload = {

@@ -8,7 +8,7 @@ import {
     FormDescription,
     FormField,
     FormItem,
-    FormLabel,
+    Label,
     FormMessage,
     InputOTP,
     InputOTPGroup,
@@ -43,7 +43,7 @@ export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
 
     const handleFormSubmit = (data: z.infer<typeof FormSchema>) => {
         handleVerifyEmailSubmit({
-            verificationCode: data.pin,
+            verificationCode: data.pin
         });
     };
 
@@ -56,7 +56,7 @@ export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
                         name="pin"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Please enter the code sent to your email.</FormLabel>
+                                <Label>Please enter the code sent to your email.</Label>
                                 <FormControl>
                                     <InputOTP
                                         maxLength={6}

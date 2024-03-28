@@ -1,14 +1,17 @@
 import { configuration } from '@config';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
-import { App, AppSchema, CoreModule } from 'shtcut/core';
+import { App, AppSchema, Auth, AuthSchema, CoreModule } from 'shtcut/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserModule } from '../../sht-acl/src/user';
 import { LinkModule } from './link';
 import { DomainModule } from './domain';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './_shard';
 
 @Module({
   imports: [
@@ -17,6 +20,18 @@ import { DomainModule } from './domain';
     DomainModule,
     UserModule,
     LinkModule,
+    PassportModule,
+    PassportModule,
+    MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
+    JwtModule.registerAsync({
+      useFactory: (config: ConfigService) => {
+        return {
+          secret: config.get<string>('app.encryptionKey'),
+          signOptions: { expiresIn: config.get('app.jwtExpiry') },
+        };
+      },
+      inject: [ConfigService],
+    }),
     MongooseModule.forFeature([{ name: App.name, schema: AppSchema }]),
     ConfigModule.forRoot({
       isGlobal: true,
@@ -25,6 +40,6 @@ import { DomainModule } from './domain';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {}

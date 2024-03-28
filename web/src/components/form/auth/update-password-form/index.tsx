@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, cn } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input, cn } from '@shtcut-ui/react';
 import { AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { updatePasswordValidationSchema } from './validation';
 import { NavLink } from '@shtcut/components';
@@ -41,7 +41,7 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
                             name="resetPasswordCode"
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
-                                    <FormLabel>Reset Code</FormLabel>
+                                    <Label>Reset Code</Label>
                                     <FormControl>
                                         <Input placeholder="Enter Reset password code" className="h-12" {...field} />
                                     </FormControl>
@@ -55,7 +55,7 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
                                     <div className="flex items-center justify-between">
-                                        <FormLabel>Password</FormLabel>
+                                        <Label>Password</Label>
                                     </div>
                                     <FormControl>
                                         <PasswordInput className="h-12" placeholder="********" {...field} />
@@ -70,7 +70,7 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
                             render={({ field }) => (
                                 <FormItem className="space-y-1">
                                     <div className="flex items-center justify-between">
-                                        <FormLabel>Confirm Password</FormLabel>
+                                        <Label>Confirm Password</Label>
                                     </div>
                                     <FormControl>
                                         <PasswordInput className="h-12" placeholder="********" {...field} />
