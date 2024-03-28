@@ -22,19 +22,22 @@ import {
 } from '@shtcut-ui/react';
 import { LinkIcon } from 'lucide-react';
 import { useState } from 'react';
-import { LinkBrandForm } from '../link-brand-form';
+import { LinkSettingsForm } from '../link-settings-form';
 import { Logo } from '@shtcut/components';
+import { LinkType } from '@shtcut/types';
 
-interface CreateLinkFormProps extends CommonProps {
+interface LinkFormProps extends CommonProps {
+    linkProps: LinkType;
     handleSubmitForm: (payload: Dict) => void;
 }
 
-export const LinkForm = (props: CreateLinkFormProps) => {
+export const LinkForm = (props: LinkFormProps) => {
     const [openLinkBrandForm, setOpenLinkBrandForm] = useState(false);
 
     const handleVisibility = (open: boolean) => {
         setOpenLinkBrandForm(open);
     };
+
     return (
         <>
             <div className="overflow-y-auto">
@@ -94,7 +97,19 @@ export const LinkForm = (props: CreateLinkFormProps) => {
                                 </div>
                             </div>
                             <div className="mt-4">
-                                <LinkBrandForm />
+                                <LinkSettingsForm
+                                    linkProps={{
+                                        url: '',
+                                        isExpirationDate: false,
+                                        isAndroidTargeting: true,
+                                        isUTMBuilder: false,
+                                        qrCode: {
+                                            enableQrCode: false,
+                                            showLogo: false
+                                        }
+                                    }}
+                                    handleOnSubmit={(payload) => console.log(payload)}
+                                />
                             </div>
                         </div>
                         <Button>Create link</Button>
@@ -147,16 +162,6 @@ export const LinkForm = (props: CreateLinkFormProps) => {
                     </div>
                 </div>
             </div>
-            <Modal
-                showModel={openLinkBrandForm}
-                setShowModal={setOpenLinkBrandForm}
-                showCloseIcon={true}
-                useDrawer={true}
-                onClose={() => handleVisibility(false)}
-                className="bg-white-50"
-            >
-                <LinkBrandForm />
-            </Modal>
         </>
     );
 };
