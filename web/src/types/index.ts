@@ -5,6 +5,21 @@ type MaybePromise<T> = T | Promise<T>;
 
 export type UrlParams = Dict<string | string[] | undefined>;
 
+export interface QrCodeType  {
+    enableQrCode: boolean;
+    showLogo: boolean;
+}
+export interface LinkType  {
+    url: string;
+    isUTMBuilder?: boolean;
+    isExpirationDate?: boolean;
+    isPasswordProtection?: boolean;
+    qrCode?: QrCodeType;
+    isIOSTargeting?: boolean;
+    isAndroidTargeting?: boolean;
+    isGeoTargeting?: boolean;
+}
+
 export interface NextRequestWithParams<T> extends NextRequest {
     params: UrlParams;
     context?: T;

@@ -21,8 +21,6 @@ export const SignInContainer = () => {
     const { isSuccess: isLoginSuccess, isLoading, error, data } = signInResponse;
     const { isLoading: isSocialMediaLoading, isSuccess: isSocialLoginSuccess } = socialLoginResponse;
 
-    console.log('data:::', data);
-
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const isVerifiedEmail = authData?.verifications?.['email'];

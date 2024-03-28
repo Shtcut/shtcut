@@ -1,17 +1,41 @@
 'use client';
 
-import { Card, CardContent, Input, Modal, cn } from '@shtcut-ui/react';
+import { Card, CardContent, Dict, Input, Label, Modal, cn } from '@shtcut-ui/react';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
+import { LinkType } from '@shtcut/types';
+import { LinkUtmForm } from '../link-utm-form';
 
-export const LinkBrandForm = () => {
-    const [isEmailRequired, setIsEmailRequired] = useState<boolean>(false);
-    const [isVerifyEmail, setIsVerifyEmail] = useState<boolean>(false);
-    const [isPasswordRequired, setIsPasswordRequired] = useState<boolean>(false);
+interface LinkSettingsFormProps {
+    linkProps: LinkType;
+    handleOnSubmit: (payload: Dict) => void;
+}
+
+export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
+    const {
+        linkProps: {
+            url,
+            isPasswordProtection = false,
+            isIOSTargeting = false,
+            isAndroidTargeting = false,
+            isExpirationDate = false,
+            isGeoTargeting = false,
+            qrCode,
+            isUTMBuilder = false
+        },
+        handleOnSubmit
+    } = props;
+    const [enableExpirationDate, setEnableExpirationDate] = useState<boolean>(isExpirationDate);
+    const [enablePasswordProtection, setEnablePasswordProtection] = useState<boolean>(isPasswordProtection);
+    const [enableIOSTargeting, setEnableIOSTargeting] = useState<boolean>(isIOSTargeting);
+    const [enableAndroidTargeting, setAndroidTargeting] = useState<boolean>(isAndroidTargeting);
+    const [enableGeoTargeting, setEnableGeoTargeting] = useState<boolean>(isGeoTargeting);
     const [isQrCode, setIsQrCode] = useState<boolean>(false);
-    const [password, setPassword] = useState<string | null>('');
+    const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
+
+    const handleQRCodeVisibility = (open: boolean) => {};
 
     return (
         <>
@@ -22,12 +46,12 @@ export const LinkBrandForm = () => {
                             <form className="overflow-y-auto">
                                 <div className="">
                                     <LinkCheckBox
-                                        isChecked={isEmailRequired}
-                                        setIsChecked={setIsEmailRequired}
-                                        id={'required-email-checkbox'}
-                                        name={'required-email-checkbox'}
+                                        isChecked={enableExpirationDate}
+                                        setIsChecked={setEnableExpirationDate}
+                                        id={'expiration-date-checkbox'}
+                                        name={'expiration-date-checkbox'}
                                         label={'Expiration Date'}
-                                        disabled={false}
+                                        disabled={!isExpirationDate}
                                         description={
                                             <span>
                                                 Establish an expiration date for your links, after which they will no
@@ -39,8 +63,8 @@ export const LinkBrandForm = () => {
                                         }
                                     />
                                     <motion.div
-                                        initial={isEmailRequired}
-                                        animate={isEmailRequired ? 'open' : 'closed'}
+                                        initial={enableExpirationDate}
+                                        animate={enableExpirationDate ? 'open' : 'closed'}
                                         variants={{
                                             open: { height: 'auto', opacity: 1 },
                                             closed: { height: 0, opacity: 0 }
@@ -48,21 +72,19 @@ export const LinkBrandForm = () => {
                                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <AnimatePresence initial={isEmailRequired}>
+                                        <AnimatePresence initial={enableExpirationDate}>
                                             {
                                                 <Input
                                                     type="text"
                                                     name="link_password"
                                                     id="link_password"
-                                                    onChange={(e) => setPassword(e.target.value)}
                                                     className={cn(
                                                         'ml-7 w-full  mt-2 max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                        !isPasswordRequired ? 'cursor-not-allowed bg-shade-line/20' : ''
+                                                        !isExpirationDate ? 'cursor-not-allowed bg-shade-line/20' : ''
                                                     )}
                                                     placeholder="Enter password"
-                                                    defaultValue={password ? password : undefined}
                                                     maxLength={32}
-                                                    disabled={!isPasswordRequired}
+                                                    disabled={!isExpirationDate}
                                                 />
                                             }
                                         </AnimatePresence>
@@ -70,12 +92,12 @@ export const LinkBrandForm = () => {
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isPasswordRequired}
-                                        setIsChecked={setIsPasswordRequired}
-                                        id={'password-required-checkbox'}
-                                        name={'password-required-checkbox'}
+                                        isChecked={isUtmBuilderEnabled}
+                                        setIsChecked={setIsUtmBuilderEnabled}
+                                        id="UTMbuilder-checkbox"
+                                        name="UTMbuilder-checkbox"
                                         label={'UTM Builder'}
-                                        disabled={false}
+                                        disabled={!isUTMBuilder}
                                         description={
                                             <span>
                                                 Include UTM parameters in your abbreviated links to track conversions
@@ -86,71 +108,22 @@ export const LinkBrandForm = () => {
                                             </span>
                                         }
                                     />
-                                    <motion.div
-                                        initial={isEmailRequired}
-                                        animate={isEmailRequired ? 'open' : 'closed'}
-                                        variants={{
-                                            open: { height: 'auto', opacity: 1 },
-                                            closed: { height: 0, opacity: 0 }
-                                        }}
-                                        transition={{ duration: 0.3, ease: 'easeInOut' }}
-                                        style={{ overflow: 'hidden' }}
-                                    >
-                                        <AnimatePresence initial={isEmailRequired}>
-                                            {
-                                                <div className="accordion-content ml-2 mt-2 flex w-full flex-col space-y-4">
-                                                    <Input
-                                                        type="text"
-                                                        name="link_password"
-                                                        id="link_password"
-                                                        onChange={(e) => setPassword(e.target.value)}
-                                                        className={cn(
-                                                            'ml-5 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                            !isPasswordRequired
-                                                                ? 'cursor-not-allowed bg-shade-line/20'
-                                                                : ''
-                                                        )}
-                                                        placeholder="Enter password"
-                                                        defaultValue={password ? password : undefined}
-                                                        maxLength={32}
-                                                        disabled={!isPasswordRequired}
-                                                    />
-                                                    <Input
-                                                        type="text"
-                                                        name="link_password"
-                                                        id="link_password"
-                                                        onChange={(e) => setPassword(e.target.value)}
-                                                        className={cn(
-                                                            'ml-5 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                            !isPasswordRequired
-                                                                ? 'cursor-not-allowed bg-shade-line/20'
-                                                                : ''
-                                                        )}
-                                                        placeholder="Enter password"
-                                                        defaultValue={password ? password : undefined}
-                                                        maxLength={32}
-                                                        disabled={!isPasswordRequired}
-                                                    />
-                                                </div>
-                                            }
-                                        </AnimatePresence>
-                                    </motion.div>
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isPasswordRequired}
-                                        setIsChecked={setIsPasswordRequired}
-                                        id={'password-required-checkbox'}
-                                        name={'password-required-checkbox'}
+                                        isChecked={enablePasswordProtection}
+                                        setIsChecked={setEnablePasswordProtection}
+                                        id="password-protected-checkbox"
+                                        name="password-protected-checkbox"
                                         label={'Password Protection'}
-                                        disabled={false}
+                                        disabled={!isPasswordProtection}
                                         description={
                                             'Secure your shortened links by encrypting them with a password to restrict access.'
                                         }
                                     />
                                     <motion.div
-                                        initial={isPasswordRequired}
-                                        animate={isPasswordRequired ? 'open' : 'closed'}
+                                        initial={enablePasswordProtection}
+                                        animate={enablePasswordProtection ? 'open' : 'closed'}
                                         variants={{
                                             open: { height: 'auto', opacity: 1 },
                                             closed: { height: 0, opacity: 0 }
@@ -158,20 +131,18 @@ export const LinkBrandForm = () => {
                                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <AnimatePresence initial={isPasswordRequired}>
+                                        <AnimatePresence initial={enablePasswordProtection}>
                                             <Input
                                                 type="text"
-                                                name="link_password"
-                                                id="link_password"
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                name="password"
+                                                id="password"
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                    !isPasswordRequired ? 'cursor-not-allowed bg-shade-line/20' : ''
+                                                    !isPasswordProtection ? 'cursor-not-allowed bg-shade-line/20' : ''
                                                 )}
                                                 placeholder="Enter password"
-                                                defaultValue={password ? password : undefined}
                                                 maxLength={32}
-                                                disabled={!isPasswordRequired}
+                                                disabled={!isPasswordProtection}
                                             />
                                         </AnimatePresence>
                                     </motion.div>
@@ -183,7 +154,7 @@ export const LinkBrandForm = () => {
                                         id={'password-required-checkbox'}
                                         name={'password-required-checkbox'}
                                         label={'Qr Code'}
-                                        disabled={false}
+                                        disabled={!qrCode?.enableQrCode}
                                         description={
                                             'Utilize QR codes to promote your shortened URL on printed documents and marketing materials for easy access and engagement.'
                                         }
@@ -191,19 +162,19 @@ export const LinkBrandForm = () => {
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isPasswordRequired}
-                                        setIsChecked={setIsPasswordRequired}
-                                        id={'password-required-checkbox'}
-                                        name={'password-required-checkbox'}
+                                        isChecked={enableIOSTargeting}
+                                        setIsChecked={setEnableIOSTargeting}
+                                        id={'ios-targeting-checkbox'}
+                                        name={'ios-targeting-checkbox'}
                                         label={'IOS Targeting'}
-                                        disabled={false}
+                                        disabled={!isIOSTargeting}
                                         description={
                                             'Direct your iOS users to an alternate link for optimal user experience.'
                                         }
                                     />
                                     <motion.div
-                                        initial={isPasswordRequired}
-                                        animate={isPasswordRequired ? 'open' : 'closed'}
+                                        initial={enableIOSTargeting}
+                                        animate={enableIOSTargeting ? 'open' : 'closed'}
                                         variants={{
                                             open: { height: 'auto', opacity: 1 },
                                             closed: { height: 0, opacity: 0 }
@@ -211,39 +182,37 @@ export const LinkBrandForm = () => {
                                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <AnimatePresence initial={isPasswordRequired}>
+                                        <AnimatePresence initial={enableIOSTargeting}>
                                             <Input
                                                 type="text"
-                                                name="link_password"
-                                                id="link_password"
-                                                onChange={(e) => setPassword(e.target.value)}
+                                                name="iosTargeting"
+                                                id="iosTargeting"
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                    !isPasswordRequired ? 'cursor-not-allowed bg-shade-line/20' : ''
+                                                    !isIOSTargeting ? 'cursor-not-allowed bg-shade-line/20' : ''
                                                 )}
-                                                placeholder="Enter password"
-                                                defaultValue={password ? password : undefined}
+                                                placeholder="URL For IOS Device"
                                                 maxLength={32}
-                                                disabled={!isPasswordRequired}
+                                                disabled={!isIOSTargeting}
                                             />
                                         </AnimatePresence>
                                     </motion.div>
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isPasswordRequired}
-                                        setIsChecked={setIsPasswordRequired}
+                                        isChecked={enableAndroidTargeting}
+                                        setIsChecked={setAndroidTargeting}
                                         id={'password-required-checkbox'}
                                         name={'password-required-checkbox'}
                                         label={'Android Targeting'}
-                                        disabled={false}
+                                        disabled={!isAndroidTargeting}
                                         description={
                                             'Send Android users to a separate link for a tailored browsing experience.'
                                         }
                                     />
                                     <motion.div
-                                        initial={isPasswordRequired}
-                                        animate={isPasswordRequired ? 'open' : 'closed'}
+                                        initial={enableAndroidTargeting}
+                                        animate={enableAndroidTargeting ? 'open' : 'closed'}
                                         variants={{
                                             open: { height: 'auto', opacity: 1 },
                                             closed: { height: 0, opacity: 0 }
@@ -251,28 +220,26 @@ export const LinkBrandForm = () => {
                                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <AnimatePresence initial={isPasswordRequired}>
+                                        <AnimatePresence initial={enableAndroidTargeting}>
                                             <Input
                                                 type="text"
                                                 name="link_password"
                                                 id="link_password"
-                                                onChange={(e) => setPassword(e.target.value)}
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                    !isPasswordRequired ? 'cursor-not-allowed bg-shade-line/20' : ''
+                                                    !isAndroidTargeting ? 'cursor-not-allowed bg-shade-line/20' : ''
                                                 )}
-                                                placeholder="Enter password"
-                                                defaultValue={password ? password : undefined}
+                                                placeholder="URL For Android Device"
                                                 maxLength={32}
-                                                disabled={!isPasswordRequired}
+                                                disabled={!isAndroidTargeting}
                                             />
                                         </AnimatePresence>
                                     </motion.div>
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isPasswordRequired}
-                                        setIsChecked={setIsPasswordRequired}
+                                        isChecked={enableGeoTargeting}
+                                        setIsChecked={setEnableGeoTargeting}
                                         id={'password-required-checkbox'}
                                         name={'password-required-checkbox'}
                                         label={'Geo Targeting'}
@@ -282,8 +249,8 @@ export const LinkBrandForm = () => {
                                         }
                                     />
                                     <motion.div
-                                        initial={isPasswordRequired}
-                                        animate={isPasswordRequired ? 'open' : 'closed'}
+                                        initial={enableGeoTargeting}
+                                        animate={enableGeoTargeting ? 'open' : 'closed'}
                                         variants={{
                                             open: { height: 'auto', opacity: 1 },
                                             closed: { height: 0, opacity: 0 }
@@ -291,22 +258,7 @@ export const LinkBrandForm = () => {
                                         transition={{ duration: 0.3, ease: 'easeInOut' }}
                                         style={{ overflow: 'hidden' }}
                                     >
-                                        <AnimatePresence initial={isPasswordRequired}>
-                                            <Input
-                                                type="text"
-                                                name="link_password"
-                                                id="link_password"
-                                                onChange={(e) => setPassword(e.target.value)}
-                                                className={cn(
-                                                    'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                    !isPasswordRequired ? 'cursor-not-allowed bg-shade-line/20' : ''
-                                                )}
-                                                placeholder="Enter password"
-                                                defaultValue={password ? password : undefined}
-                                                maxLength={32}
-                                                disabled={!isPasswordRequired}
-                                            />
-                                        </AnimatePresence>
+                                        <AnimatePresence initial={enableGeoTargeting}></AnimatePresence>
                                     </motion.div>
                                 </div>
                             </form>
@@ -319,10 +271,20 @@ export const LinkBrandForm = () => {
                 setShowModal={setIsQrCode}
                 showCloseIcon={true}
                 useDrawer={true}
-                onClose={() => setIsQrCode(false)}
+                onClose={() => handleQRCodeVisibility(false)}
                 className="bg-white"
             >
                 <LinkQrCodeForm />
+            </Modal>
+            <Modal
+                showModel={isUtmBuilderEnabled}
+                setShowModal={setIsUtmBuilderEnabled}
+                showCloseIcon={true}
+                useDrawer={true}
+                onClose={() => setIsUtmBuilderEnabled(false)}
+                className="bg-white"
+            >
+                <LinkUtmForm />
             </Modal>
         </>
     );

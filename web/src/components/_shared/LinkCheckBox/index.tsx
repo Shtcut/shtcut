@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 
 type LinkFormCheckboxProps = {
     id: string;
-    isChecked: boolean;
+    isChecked: boolean | undefined;
     setIsChecked: React.Dispatch<React.SetStateAction<boolean>>;
     label: string;
     name: string;
@@ -43,7 +43,7 @@ export const LinkCheckBox = (props: LinkFormCheckboxProps): JSX.Element => {
                 >
                     {label}
                 </Label>
-                <p className="text-xs text-shade-pencil-light/80">{description}</p>
+                <p className="text-xs text-gray-500">{description}</p>
             </div>
         </div>
     );
