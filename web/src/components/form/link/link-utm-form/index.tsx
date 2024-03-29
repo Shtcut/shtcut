@@ -1,14 +1,7 @@
 'use client';
 
 import { Button, Dict, Form, FormControl, FormField, FormItem, FormMessage, Input, Label, cn } from '@shtcut-ui/react';
-import { Logo } from '@shtcut/components';
-import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
-import { IconCopy } from '@tabler/icons-react';
-import { QrCodeIcon } from 'lucide-react';
-import Image from 'next/image';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { QRCode } from 'react-qrcode-logo';
 import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 

@@ -1,10 +1,12 @@
+import { Button, Input } from '@shtcut-ui/react';
+import { ActivityIcon, LinkIcon, PieChartIcon } from 'lucide-react';
 import Image from 'next/image';
 
-export const MarketingSection = () => {
+export const ShortenerSection = () => {
     const features = [
         {
-            name: 'Have access to a robust email marketing tool.',
-            desc: 'Effortlessly manage, segment, and send targeted email campaigns to your subscribers with customizable templates, automation workflows and so on.',
+            name: 'Publishing',
+            desc: 'Effortlessly streamline your link strategy with our intuitive links Manager. Simplify publishing and enhance collaboration seamlessly.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -23,8 +25,8 @@ export const MarketingSection = () => {
             )
         },
         {
-            name: 'GDPR Compliant',
-            desc: 'Be completely transparent and GDPR compliant with GetResponse consent fields. Allow your contacts to provide their proper consent right when they sign up.',
+            name: 'Analytics',
+            desc: 'Get valuable insights and performance metrics for optimizing strategies.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -43,8 +45,8 @@ export const MarketingSection = () => {
             )
         },
         {
-            name: 'Start Conversations that get replies',
-            desc: 'Personalize cold emails, automate follow-ups, and engage across all channels.',
+            name: 'Engagement',
+            desc: 'Boost interaction and track performance effortlessly. Elevate engagement with streamlined link strategies.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -65,13 +67,13 @@ export const MarketingSection = () => {
     ];
 
     return (
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8">
+        <section className="relative max-w-screen-xl mx-auto md:px-2">
             <div className="absolute top-0 left-0 w-full h-full "></div>
             <div className="relative z-10 gap-5 items-center lg:flex">
                 <div className="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-                    <span className="text-blue-600 font-poppins font-medium">Email Marketing</span>
-                    <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
-                        Connect with customers using targeted email campaigns
+                    <span className="text-blue-600 font-heading font-medium">URL Shortener</span>
+                    <p className="text-black w-96 font-heading font-bold leading-relaxed mt-3 md:text-3xl">
+                        Generate short URLs with just a click
                     </p>
                     <div className="mt-10">
                         <ul className="flex-1 max-w-md space-y-10 px-4 md:px-0">
@@ -81,16 +83,16 @@ export const MarketingSection = () => {
                                         {item.icon}
                                     </div>
                                     <div>
-                                        <h4 className="text-lg text-gray-800 font-medium">{item.name}</h4>
-                                        <p className="text-gray-600 mt-2 md:text-sm">{item.desc}</p>
+                                        <h4 className="text-lg font-poppins text-gray-800 font-medium">{item.name}</h4>
+                                        <p className="text-gray-600 font-poppins mt-2 md:text-sm">{item.desc}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
                     </div>
                 </div>
-                <div className="flex-1 mt-10 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
-                    <Image src="/marketing-section.svg" alt="" width={500} height={500} />
+                <div className="flex-1 mt-2 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
+                    <Image src="/shortener-1.svg" className="w-full" alt="" width={500} height={500} />
                 </div>
             </div>
         </section>

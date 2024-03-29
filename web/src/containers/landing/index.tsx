@@ -1,5 +1,5 @@
-import { HomePage } from '@shtcut/components/ui';
+import { HomeLandingContainer } from '@shtcut/components/ui/home-landing';
 
 export const LandingPageContainer = () => {
-    return <HomePage />;
+    return <HomeLandingContainer />;
 };

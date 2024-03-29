@@ -1,11 +1,10 @@
-import { Button, Input } from '@shtcut-ui/react';
 import Image from 'next/image';
 
-export const ShortenerSection = () => {
+export const SocialSection = () => {
     const features = [
         {
-            name: 'Publishing',
-            desc: 'Effortlessly streamline your link strategy with our intuitive links Manager. Simplify publishing and enhance collaboration seamlessly.',
+            name: 'Social Listening',
+            desc: 'Discover trends and insights about your brand and competitors.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -25,7 +24,7 @@ export const ShortenerSection = () => {
         },
         {
             name: 'Analytics',
-            desc: 'Get valuable insights and performance metrics for optimizing strategies.',
+            desc: 'Offer insights into post performance, audience engagement, and follower growth to inform strategy.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,8 +43,8 @@ export const ShortenerSection = () => {
             )
         },
         {
-            name: 'Engagement',
-            desc: 'Boost interaction and track performance effortlessly. Elevate engagement with streamlined link strategies.',
+            name: 'Automation',
+            desc: 'Offers automation features for tasks like posting, replying to messages, and monitoring, saving time and effort.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -66,15 +65,23 @@ export const ShortenerSection = () => {
     ];
 
     return (
-        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8">
-            <div className="absolute top-0 left-0 w-full h-full "></div>
-            <div className="relative z-10 gap-5 items-center lg:flex">
-                <div className="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
-                    <span className="text-blue-600 font-medium">URL Shortener</span>
-                    <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
-                        Generate short URLs with just a click
-                    </p>
-                    <div className="mt-10">
+        <section className="py-14">
+            <div className="max-w-screen-xl mx-auto md:px-8">
+                <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
+                    <div className="flex-1 sm:hidden lg:block">
+                        <Image
+                            src="/social-section.svg"
+                            className="md:max-w-lg sm:rounded-lg w-full"
+                            alt=""
+                            width={500}
+                            height={500}
+                        />
+                    </div>
+                    <div className="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
+                        <span className="text-blue-600 font-medium">Social Media Management</span>
+                        <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
+                            Stay connected with your audience!
+                        </p>
                         <ul className="flex-1 max-w-md space-y-10 px-4 md:px-0">
                             {features.map((item, idx) => (
                                 <li key={idx} className="flex gap-x-3">
@@ -82,16 +89,13 @@ export const ShortenerSection = () => {
                                         {item.icon}
                                     </div>
                                     <div>
-                                        <h4 className="text-lg font-poppins text-gray-800 font-medium">{item.name}</h4>
-                                        <p className="text-gray-600 font-poppins mt-2 md:text-sm">{item.desc}</p>
+                                        <h4 className="text-lg text-gray-800 font-medium">{item.name}</h4>
+                                        <p className="text-gray-600 mt-2 md:text-sm">{item.desc}</p>
                                     </div>
                                 </li>
                             ))}
                         </ul>
                     </div>
-                </div>
-                <div className="flex-1 mt-10 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
-                    <Image src="/shortener-1.svg" alt="" width={500} height={500} />
                 </div>
             </div>
         </section>
