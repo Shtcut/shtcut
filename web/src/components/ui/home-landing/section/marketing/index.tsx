@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
-export const SurveySection = () => {
+export const MarketingSection = () => {
     const features = [
         {
-            name: 'Collaboration',
-            desc: 'Invite team members to collaborate on survey creation.',
+            name: 'Have access to a robust email marketing tool.',
+            desc: 'Effortlessly manage, segment, and send targeted email campaigns to your subscribers with customizable templates, automation workflows and so on.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -23,8 +23,8 @@ export const SurveySection = () => {
             )
         },
         {
-            name: 'Analytics',
-            desc: 'Get valuable insights and performance metrics for optimizing strategies.',
+            name: 'GDPR Compliant',
+            desc: 'Be completely transparent and GDPR compliant with GetResponse consent fields. Allow your contacts to provide their proper consent right when they sign up.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -43,8 +43,8 @@ export const SurveySection = () => {
             )
         },
         {
-            name: 'Automation',
-            desc: 'Schedule surveys, reminders, and follow-ups automatically.',
+            name: 'Start Conversations that get replies',
+            desc: 'Personalize cold emails, automate follow-ups, and engage across all channels.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -65,26 +65,18 @@ export const SurveySection = () => {
     ];
 
     return (
-        <section className="py-14">
-            <div className="max-w-screen-xl mx-auto md:px-8">
-                <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
-                    <div className="flex-1 sm:hidden lg:block">
-                        <Image
-                            src="/survey-section.svg"
-                            className="md:max-w-lg sm:rounded-lg"
-                            alt=""
-                            width={500}
-                            height={500}
-                        />
-                    </div>
-                    <div className="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
-                        <span className="text-blue-600 font-medium">Survey</span>
-                        <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
-                            Craft personalized surveys effortlessly
-                        </p>
+        <section className="relative max-w-screen-xl mx-auto py-4 px-4 md:px-8">
+            <div className="absolute top-0 left-0 w-full h-full "></div>
+            <div className="relative z-10 gap-5 items-center lg:flex">
+                <div className="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
+                    <span className="text-blue-600 font-poppins font-medium">Email Marketing</span>
+                    <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
+                        Connect with customers using targeted email campaigns
+                    </p>
+                    <div className="mt-10">
                         <ul className="flex-1 max-w-md space-y-10 px-4 md:px-0">
                             {features.map((item, idx) => (
-                                <li key={`${item.name}-${idx}`} className="flex gap-x-3">
+                                <li key={idx} className="flex gap-x-3">
                                     <div className="flex-none w-12 h-12 rounded-none bg-blue-50 text-blue-600 flex items-center justify-center">
                                         {item.icon}
                                     </div>
@@ -96,6 +88,9 @@ export const SurveySection = () => {
                             ))}
                         </ul>
                     </div>
+                </div>
+                <div className="flex-1 mt-10 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
+                    <Image src="/marketing-section.svg" className="w-full" alt="" width={500} height={500} />
                 </div>
             </div>
         </section>

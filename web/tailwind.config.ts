@@ -1,5 +1,7 @@
 import { Config } from 'tailwindcss';
 import twshtcut from '@shtcut-ui/react/tailwind-plugin';
+import { fontFamily } from 'tailwindcss/defaultTheme';
+import tailwindcssAnimate from "tailwindcss-animate";
 
 const SAFELIST_COLORS = 'colors';
 
@@ -13,36 +15,6 @@ const config: Config = {
         twshtcut.getContentPath()
     ],
     theme: {
-        fontFamily: {
-            sans: [
-                'Inter',
-                'ui-sans-serif',
-                'system-ui',
-                '-apple-system',
-                'BlinkMacSystemFont',
-                '"Segoe UI"',
-                'Roboto',
-                '"Helvetica Neue"',
-                'Arial',
-                '"Noto Sans"',
-                'sans-serif',
-                '"Apple Color Emoji"',
-                '"Segoe UI Emoji"',
-                '"Segoe UI Symbol"',
-                '"Noto Color Emoji"'
-            ],
-            serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-            mono: [
-                'ui-monospace',
-                'SFMono-Regular',
-                'Menlo',
-                'Monaco',
-                'Consolas',
-                '"Liberation Mono"',
-                '"Courier New"',
-                'monospace'
-            ]
-        },
         screens: {
             xs: '576',
             sm: '640px',
@@ -52,6 +24,30 @@ const config: Config = {
             '2xl': '1536px'
         },
         extend: {
+            fontFamily: {
+                sans: ['var(--font-sans)', ...fontFamily.sans],
+                mono: ['var(--font-mono)', ...fontFamily.mono],
+                heading: ['var(--font-heading)', ...fontFamily.sans],
+                handwriting: ['var(--font-handwriting)', ...fontFamily.sans]
+            },
+            keyframes: {
+                'accordion-down': {
+                    from: { height: '0' },
+                    to: { height: 'var(--radix-accordion-content-height)' }
+                },
+                'accordion-up': {
+                    from: { height: 'var(--radix-accordion-content-height)' },
+                    to: { height: '0' }
+                },
+                slide: {
+                    from: { transform: 'translateX(0)' },
+                    to: { transform: 'translateX(-100%)' }
+                }
+            },
+            animation: {
+                'accordion-down': 'accordion-down 0.2s ease-out',
+                'accordion-up': 'accordion-up 0.2s ease-out'
+            },
             colors: {
                 primary: {
                     100: '#b2d8d8',
@@ -115,7 +111,8 @@ const config: Config = {
             ]
         }),
         require('@tailwindcss/typography'),
-        twshtcut()
+        twshtcut(),
+        tailwindcssAnimate,
     ]
 };
 

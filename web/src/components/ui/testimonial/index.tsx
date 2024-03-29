@@ -1,73 +1,83 @@
-import { Card } from '@shtcut-ui/react';
+import {
+    Avatar,
+    AvatarFallback,
+    AvatarImage,
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+    cn
+} from '@shtcut-ui/react';
+import { USERS } from '@shtcut/_shared/constant';
 import Image from 'next/image';
+import crypto  from 'crypto';
 
 export const Testimonial = () => {
-    const testimonials = [
-        {
-            avatar: '/testmonial-1.svg',
-            name: 'Martin escobar',
-            title: 'Founder of meta',
-            quote: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc et est hendrerit, porta nunc vitae.'
-        },
-        {
-            avatar: '/testmonial-2.svg',
-            name: 'Angela stian',
-            title: 'Product designer',
-            quote: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.'
-        },
-        {
-            avatar: '/testmonial-3.svg',
-            name: 'Karim ahmed',
-            title: 'DevOp engineer',
-            quote: 'There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain.'
-        }
-    ];
-
     return (
-        <section className="relative py-14">
-            <div className="relative z-10 max-w-screen-xl mx-auto px-4 md:px-8">
-                <div className="max-w-xl sm:text-center md:mx-auto">
-                    <span className="text-blue-600 font-medium">TESTIMONIALS</span>
-                    <h3 className="text-gray-800 text-3xl font-semibold sm:text-4xl">What our clients say about us.</h3>
-                    <p className="mt-3 text-gray-800">
-                        Over 50 million users us SHTCUT to understand their businesses, brands and customers better.
-                    </p>
-                </div>
-                <div className="mt-12 mb-10">
-                    <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                        {testimonials.map((item, idx) => (
-                            <Card key={idx} className="bg-white p-4 w-full">
-                                <li>
-                                    <figure>
-                                        <div className="flex items-center justify-center">
-                                            <div className="text-center">
-                                                <Image
-                                                    src={item.avatar}
-                                                    alt={item.name}
-                                                    className="mx-auto mb-4 mt-10 items-center rounded-full"
-                                                    width={150}
-                                                    height={150}
-                                                />
-                                                <p className="text-lg font-poppins px-4 text-gray-600 font-normal">{item.quote}</p>
-                                                <div className="flex items-center justify-center">
-                                                    <span className="text-2xl pt-5">⭐⭐⭐⭐⭐</span>
-                                                </div>
-                                                <div className="mt-5 mb-10">
-                                                    <span className="block font-poppins text-blue-600 font-semibold">
-                                                        {item.name}
-                                                    </span>
-                                                    <span className="block pt-5 text-black font-poppins font-bold text-sm mt-0.5">
-                                                        {item.title}
-                                                    </span>
-                                                </div>
-                                            </div>
+        <section id="testimonials" className="container">
+            <div className="mx-auto flex max-w-3xl flex-col items-center space-y-4 text-center">
+                <h2 className="font-heading text-3xl drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent sm:text-3xl md:text-6xl">
+                    Trusted by all
+                </h2>
+
+                <p className="max-w-[85%] text-muted-foreground sm:text-lg">
+                    Join thousands of satisfied users who rely on our platform for their personal and professional
+                    productivity needs.
+                </p>
+            </div>
+
+            <div
+                className={cn(
+                    'relative -mx-10 flex flex-col overflow-hidden pb-10 md:mx-0',
+                    'before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-20 before:bg-gradient-to-r before:from-background md:before:w-72',
+                    'after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-20 after:bg-gradient-to-l after:from-background md:after:w-72'
+                )}
+            >
+                {[...Array(2)].map((_, i) => (
+                    <div
+                        key={i}
+                        className={cn(
+                            'mt-10 flex flex-nowrap gap-6 self-start',
+                            {
+                                'flex-row-reverse': i === 1,
+                                'animate-[slide_250s_linear_infinite]': true,
+                                'animate-[slide_250s_linear_infinite_reverse]': i === 1,
+                                'ml-[100vw]': i === 1
+                            },
+                            'hover:paused'
+                        )}
+                    >
+                        {USERS.map(({ name, message }, i) => (
+                            <div
+                                key={name}
+                                className="w-[28rem] shrink-0 p-6 border rounded-xl duration-300 hover:shadow-md dark:bg-gradient-to-br dark:from-border/50 dark:to-background"
+                            >
+                                <div>
+                                    <div className="flex items-center gap-4">
+                                        <Avatar>
+                                            <AvatarImage
+                                                src={`/placeholders/avatar-${i + 1}.png`}
+                                                alt={`Avatar of ${name}`}
+                                                loading="lazy"
+                                            />
+                                            <AvatarFallback>{name.slice(0, 1).toUpperCase()}</AvatarFallback>
+                                        </Avatar>
+
+                                        <div>
+                                            <CardTitle className="drop-shadow-2xl">{name}</CardTitle>
+                                            <CardDescription>@{name.toLocaleLowerCase()}</CardDescription>
                                         </div>
-                                    </figure>
-                                </li>
-                            </Card>
+                                    </div>
+                                </div>
+
+                                <CardContent>
+                                    <p className="text-[15px] leading-5">{message}</p>
+                                </CardContent>
+                            </div>
                         ))}
-                    </ul>
-                </div>
+                    </div>
+                ))}
             </div>
         </section>
     );

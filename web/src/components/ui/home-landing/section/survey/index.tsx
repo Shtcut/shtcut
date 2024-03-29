@@ -1,10 +1,10 @@
 import Image from 'next/image';
 
-export const SocialSection = () => {
+export const SurveySection = () => {
     const features = [
         {
-            name: 'Social Listening',
-            desc: 'Discover trends and insights about your brand and competitors.',
+            name: 'Collaboration',
+            desc: 'Invite team members to collaborate on survey creation.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +24,7 @@ export const SocialSection = () => {
         },
         {
             name: 'Analytics',
-            desc: 'Offer insights into post performance, audience engagement, and follower growth to inform strategy.',
+            desc: 'Get valuable insights and performance metrics for optimizing strategies.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -44,7 +44,7 @@ export const SocialSection = () => {
         },
         {
             name: 'Automation',
-            desc: 'Offers automation features for tasks like posting, replying to messages, and monitoring, saving time and effort.',
+            desc: 'Schedule surveys, reminders, and follow-ups automatically.',
             icon: (
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -70,21 +70,21 @@ export const SocialSection = () => {
                 <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
                     <div className="flex-1 sm:hidden lg:block">
                         <Image
-                            src="/social-section.svg"
-                            className="md:max-w-lg sm:rounded-lg"
+                            src="/survey-section.svg"
+                            className="md:max-w-lg sm:rounded-lg w-full"
                             alt=""
                             width={500}
                             height={500}
                         />
                     </div>
                     <div className="max-w-xl px-4 space-y-3 mt-6 sm:px-0 md:mt-0 lg:max-w-2xl">
-                        <span className="text-blue-600 font-medium">Social Media Management</span>
+                        <span className="text-blue-600 font-medium">Survey</span>
                         <p className="text-black w-96 font-bold leading-relaxed mt-3 md:text-3xl">
-                            Stay connected with your audience!
+                            Craft personalized surveys effortlessly
                         </p>
                         <ul className="flex-1 max-w-md space-y-10 px-4 md:px-0">
                             {features.map((item, idx) => (
-                                <li key={idx} className="flex gap-x-3">
+                                <li key={`${item.name}-${idx}`} className="flex gap-x-3">
                                     <div className="flex-none w-12 h-12 rounded-none bg-blue-50 text-blue-600 flex items-center justify-center">
                                         {item.icon}
                                     </div>
