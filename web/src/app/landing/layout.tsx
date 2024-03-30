@@ -1,3 +1,5 @@
+'use client';
+
 import { Footer } from '@shtcut/components';
 import { HomeNavbar } from '@shtcut/components/ui/home-landing/home-navbar';
 import React from 'react';
