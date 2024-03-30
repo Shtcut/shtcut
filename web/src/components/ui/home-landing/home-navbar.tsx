@@ -37,7 +37,7 @@ export const HomeNavbar = () => {
                         href="/auth/sign-up"
                         className={cn(
                             buttonVariants(),
-                            'h-8 rounded-full px-3 font-semibold transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
+                            'bg-blue-600 h-8 rounded-full px-3 font-semibold transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
                         )}
                     >
                         Sign Up

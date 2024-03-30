@@ -4,3 +4,4 @@ export * from './survey';
 export * from './social';
 export * from './hero';
 export * from './client';
+export * from './oss';
