@@ -1,5 +1,6 @@
 import {  Stats, Testimonial } from '../index';
-import { MarketingSection, ShortenerSection, SocialSection, SurveySection, Clients, Hero } from './section';
+import { MarketingSection, ShortenerSection, SocialSection, SurveySection, Clients, Hero, OSS } from './section';
+
 
 export const HomeLandingContainer = () => {
     return (
@@ -12,6 +13,7 @@ export const HomeLandingContainer = () => {
             <MarketingSection />
             <SocialSection />
             <Testimonial />
+            <OSS />
         </>
     );
 };

@@ -1,6 +1,6 @@
-import { Button, Input } from '@shtcut-ui/react';
-import { ActivityIcon, LinkIcon, PieChartIcon } from 'lucide-react';
+import { buttonVariants, cn } from '@shtcut-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const ShortenerSection = () => {
     const features = [
@@ -68,7 +68,6 @@ export const ShortenerSection = () => {
 
     return (
         <section className="relative max-w-screen-xl mx-auto md:px-2">
-            <div className="absolute top-0 left-0 w-full h-full "></div>
             <div className="relative z-10 gap-5 items-center lg:flex">
                 <div className="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
                     <span className="text-blue-600 font-heading font-medium">URL Shortener</span>
@@ -94,6 +93,17 @@ export const ShortenerSection = () => {
                 <div className="flex-1 mt-2 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
                     <Image src="/shortener-1.svg" className="w-full" alt="" width={500} height={500} />
                 </div>
+            </div>
+            <div className="flex items-center justify-center gap-2 py-2 duration-500" style={{ display: 'none'}}>
+                <Link
+                    href="/auth/login"
+                    className={cn(
+                        buttonVariants({ size: 'lg' }),
+                        ' bg-blue-600 font-semibold rounded-full shadow-lg transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
+                    )}
+                >
+                    Get Started
+                </Link>
             </div>
         </section>
     );

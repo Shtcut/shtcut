@@ -1,17 +1,5 @@
-import {
-    Avatar,
-    AvatarFallback,
-    AvatarImage,
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-    cn
-} from '@shtcut-ui/react';
+import { Avatar, AvatarFallback, AvatarImage, CardContent, CardDescription, CardTitle, cn } from '@shtcut-ui/react';
 import { USERS } from '@shtcut/_shared/constant';
-import Image from 'next/image';
-import crypto  from 'crypto';
 
 export const Testimonial = () => {
     return (
