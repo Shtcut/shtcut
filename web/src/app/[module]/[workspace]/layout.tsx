@@ -29,7 +29,7 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                 <link rel="icon" href="/favicon.ico" />
                 <title>Shtcut - marketing tools into a singular, Commonly known as an all-in-one</title>
             </Head>
-            <body>
+            <body className='bg-white'>
                 <div className="container sticky top-0 z-40 bg-background flex items-center justify-between mt-4">
                     <div className="flex items-center gap-2">
                         <span className="inline-flex items-center gap-2">

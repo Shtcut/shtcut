@@ -13,7 +13,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body
                 className={cn(
                     fontSans.variable,
-                    fontMono.variable,
                     fontHeading.variable,
                     fontHandwriting.variable,
                     'min-h-screen scroll-smooth font-sans antialiased selection:bg-foreground selection:text-background'
@@ -27,8 +26,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                             enableSystem={false}
                             disableTransitionOnChange
                         >
-                            <PageLayout className="bg-white-90">{children}</PageLayout>
-                            {/* {children} */}
+                            {/* <PageLayout className="bg-white-90">{children}</PageLayout> */}
+                            {children}
                             <Toaster />
                         </ShtcutProvider>
                     </PersistGate>
