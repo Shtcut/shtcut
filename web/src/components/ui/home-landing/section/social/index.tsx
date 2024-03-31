@@ -71,7 +71,7 @@ export const SocialSection = () => {
                     <div className="flex-1 sm:hidden lg:block">
                         <Image
                             src="/social-section.svg"
-                            className="md:max-w-lg sm:rounded-lg w-full"
+                            className="md:max-w-lg sm:rounded-lg "
                             alt=""
                             width={500}
                             height={500}

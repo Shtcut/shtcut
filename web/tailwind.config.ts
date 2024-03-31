@@ -25,7 +25,7 @@ const config: Config = {
         },
         extend: {
             fontFamily: {
-                sans: ['var(--font-sans)', ...fontFamily.sans],
+                // sans: ['var(--font-sans)', ...fontFamily.sans],
                 mono: ['var(--font-mono)', ...fontFamily.mono],
                 heading: ['var(--font-heading)', ...fontFamily.sans],
                 handwriting: ['var(--font-handwriting)', ...fontFamily.sans]
