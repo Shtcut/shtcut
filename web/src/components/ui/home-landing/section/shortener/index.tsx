@@ -91,7 +91,8 @@ export const ShortenerSection = () => {
                     </div>
                 </div>
                 <div className="flex-1 mt-2 mx-auto sm:w-9/12 lg:mt-0 lg:w-auto">
-                    <Image src="/shortener-1.svg" className="w-full" alt="" width={500} height={500} />
+                    {/* <Image src="/shortener-1.svg" className="w-full" alt="" width={500} height={500} /> */}
+                    <Image src="/marketing-section.svg" className="w-full" alt="" width={500} height={500} />
                 </div>
             </div>
             <div className="flex items-center justify-center gap-2 py-2 duration-500" style={{ display: 'none'}}>

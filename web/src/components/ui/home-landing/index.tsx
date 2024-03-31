@@ -1,5 +1,5 @@
 import {  Stats, Testimonial } from '../index';
-import { MarketingSection, ShortenerSection, SocialSection, SurveySection, Clients, Hero, OSS } from './section';
+import {  ShortenerSection, SocialSection, SurveySection, Clients, Hero, OSS } from './section';
 
 
 export const HomeLandingContainer = () => {
@@ -10,7 +10,6 @@ export const HomeLandingContainer = () => {
             <Stats />
             <ShortenerSection />
             <SurveySection />
-            <MarketingSection />
             <SocialSection />
             <Testimonial />
             <OSS />
