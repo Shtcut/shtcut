@@ -25,6 +25,8 @@ import { useState } from 'react';
 import { LinkSettingsForm } from '../link-settings-form';
 import { Logo } from '@shtcut/components';
 import { LinkType } from '@shtcut/types';
+import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
+import { IconBrandTwitter, IconLink } from '@tabler/icons-react';
 
 interface LinkFormProps extends CommonProps {
     linkProps: LinkType;
@@ -118,46 +120,29 @@ export const LinkForm = (props: LinkFormProps) => {
                         <div className="flex items-center justify-between">
                             <h2 className="text-xl font-semibold">Social Previews</h2>
                         </div>
-                        <div className="flex flex-col space-y-4">
-                            <Card className="w-full">
-                                <CardHeader>
-                                    <CardTitle>Twitter</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex justify-center items-center h-32 border-dashed border-2 border-gray-300 rounded-md">
-                                        <CameraIcon className="h-8 w-8 text-gray-400" />
-                                    </div>
-                                    <p className="text-center text-sm text-gray-500 mt-2">
-                                        Enter a link to generate a preview.
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card className="w-full">
-                                <CardHeader>
-                                    <CardTitle>Facebook</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex justify-center items-center h-32 border-dashed border-2 border-gray-300 rounded-md">
-                                        <CameraIcon className="h-8 w-8 text-gray-400" />
-                                    </div>
-                                    <p className="text-center text-sm text-gray-500 mt-2">
-                                        Enter a link to generate a preview.
-                                    </p>
-                                </CardContent>
-                            </Card>
-                            <Card className="w-full">
-                                <CardHeader>
-                                    <CardTitle>Facebook</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex justify-center items-center h-32 border-dashed border-2 border-gray-300 rounded-md">
-                                        <CameraIcon className="h-8 w-8 text-gray-400" />
-                                    </div>
-                                    <p className="text-center text-sm text-gray-500 mt-2">
-                                        Enter a link to generate a preview.
-                                    </p>
-                                </CardContent>
-                            </Card>
+                        <div className="flex flex-col space-y-4 ">
+                            <div className="border rounded-md p-6">
+                                <Label>Twitter</Label>
+                                <LinkPreview
+                                    className="border rounded-md p-6 mt-4 bg-gray-600"
+                                    url="https://github.com/dhaspden/nestjs-stripe/blob/master/src/providers/createStripeProvider.ts"
+                                    width={'500px'}
+                                    height={'400px'}
+                                    imageHeight={'200px'}
+                                    textAlign="left"
+                                />
+                            </div>
+                            <div className="border rounded-md p-6">
+                                <Label>Facebook</Label>
+                                <LinkPreview
+                                    className="border rounded-md p-6 mt-4"
+                                    url="https://en.as.com/latest_news/why-is-the-us-currency-called-dollar-what-is-its-origin-and-meaning-n/"
+                                    width={'500px'}
+                                    height={'400px'}
+                                    imageHeight={'200px'}
+                                    textAlign="left"
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>

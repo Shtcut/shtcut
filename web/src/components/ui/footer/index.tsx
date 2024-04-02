@@ -34,8 +34,8 @@ export const Footer = (props: FooterProps) => {
                 <div className="w-full space-y-4 xl:flex xl:w-1/2 xl:flex-col">
                     <div className="flex items-center gap-x-2">
                         <p className="max-w-xs text-sm text-shade-pencil-light">
-                            The open-source software functions as a marketing tool, this concept is designed to offer
-                            users a centralized solution encompassing multiple facets of marketing
+                            The open-source software functions as a marketing tool, Empowering Marketing Innovation,
+                            Together
                         </p>
                     </div>
                     <div className="flex items-center space-x-2">
