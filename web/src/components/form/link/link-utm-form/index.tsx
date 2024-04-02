@@ -31,6 +31,7 @@ export const LinkUtmForm = ({ handleSubmitForm }: LinkUtmFormProps) => {
     const handleFormSubmit = (values: z.infer<typeof utmFormValidationSchema>) => {
         handleSubmitForm(values);
     };
+    
     return (
         <div className="flex justify-center p-6">
             <div className="bg-white rounded-lg max-w-sm w-full p-8">

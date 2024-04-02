@@ -4,6 +4,8 @@ export const PUT = 'PUT';
 export const PATCH = 'PATCH';
 export const DELETE = 'DELETE';
 
+export const imagePlaceholder = 'https://i.imgur.com/UeDNBNQ.jpeg';
+
 export const ccTLDs = new Set([
     'af',
     'ax',
