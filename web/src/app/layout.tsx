@@ -5,8 +5,9 @@ import { fontHandwriting, fontHeading, fontSans } from '@shtcut/_shared/utils/fo
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-    title: 'Shtcut',
-    description: 'Empowering Marketing Innovation, Together...'
+    title: 'Shtcut - Empowering Marketing Innovation, Together... ',
+    description:
+        'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
