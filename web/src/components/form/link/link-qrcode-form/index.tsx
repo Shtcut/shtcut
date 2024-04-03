@@ -1,15 +1,33 @@
 'use client';
 
-import { Button, Input } from '@shtcut-ui/react';
+import { Button, Dict } from '@shtcut-ui/react';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
-import { IconCopy } from '@tabler/icons-react';
 import { QrCodeIcon } from 'lucide-react';
-import Image from 'next/image';
 import { useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
+import { HexColorPicker } from 'react-colorful';
 
-export const LinkQrCodeForm = () => {
-    const [isRemoveLogo, setIsRemoveLogo] = useState(false);
+interface LinkQRCodeForm {
+    url: string;
+    removeLogo?: boolean;
+    enableBrandLogo?: boolean;
+    handleSubmit: (payload: Dict) => void;
+}
+
+export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
+    const { removeLogo, enableBrandLogo, url, handleSubmit } = props;
+    const [isRemoveLogo, setIsRemoveLogo] = useState(removeLogo ?? false);
+    const [color, setColor] = useState('#000000');
+
+    const handleOnClick = () => {
+        const payload = {
+            fgColor: color,
+            value: url,
+            logoImage: '/favicon.ico'
+        };
+        console.log('payload:::', payload);
+        handleSubmit(payload);
+    };
 
     return (
         <div className="flex justify-center p-6">
@@ -23,12 +41,13 @@ export const LinkQrCodeForm = () => {
                 </p>
                 <div className="flex justify-center mb-4">
                     <QRCode
-                        value="https://www.npmjs.com/package/react-qr-code"
+                        value={url}
                         removeQrCodeBehindLogo={true}
                         ecLevel="L"
                         logoImage="/favicon.ico"
                         logoHeight={35}
                         logoWidth={35}
+                        fgColor={color}
                         logoPaddingStyle={'circle'}
                         style={{
                             aspectRatio: '192/192',
@@ -53,16 +72,17 @@ export const LinkQrCodeForm = () => {
                     }
                 />
                 <div className="border-t border-b py-4 my-6">
-                    <p className="text-center text-xs text-gray-500 uppercase mb-2">or enter the code manually</p>
+                    <p className="text-center text-xs text-gray-500 uppercase mb-2">
+                        or manually change the QRCode Color
+                    </p>
                     <div className="flex justify-center">
-                        <Input className="text-center" placeholder="HLA8G4L1B9ZX4" type="text" />
-                        <Button className="ml-2" variant="ghost">
-                            <IconCopy className="h-5 w-5 text-gray-500" />
-                        </Button>
+                        <HexColorPicker color={color} onChange={setColor} />
                     </div>
                 </div>
-                <div className="flex justify-center mb-6">
-                    <Button className="w-full">Continue</Button>
+                <div className="flex justify-center mb-2">
+                    <Button className="w-full" onClick={handleOnClick}>
+                        Continue
+                    </Button>
                 </div>
             </div>
         </div>

@@ -6,6 +6,8 @@ import { ApiResponse } from '@shtcut/_shared/namespace';
 import { LinkPreviewNamespace } from '@shtcut/_shared/namespace/link-preview';
 import { useLinkPreview } from '@shtcut/hooks/link-preview';
 import { LinkPreviewSkeleton } from './skeleton';
+import { Skeleton } from '@shtcut-ui/react';
+import LinkSkeleton from '../LinkSkeleton';
 
 export interface LinkPreviewProps {
     url: string;
@@ -75,40 +77,42 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
     const {
         meta: { title, description },
         og: { title: urlTitle, description: urlDescription, site_name: siteName, image }
-    } = metadata?.data as LinkPreviewNamespace.LinkPreviewData;
+    } = metadata?.data as LinkPreviewNamespace.LinkPreviewData || {};
 
     return (
-        <div
-            className={`container ${className}`}
-            style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
-        >
-            {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
-                <div
-                    style={{
-                        borderTopLeftRadius: borderRadius,
-                        borderTopRightRadius: borderRadius,
-                        backgroundImage: `url(${
-                            explicitImageSrc || image || fallbackImageSrc || showLockedImage
-                        }), url(${fallbackImageSrc})`,
-                        height: imageHeight
-                    }}
-                    className="image"
-                />
-            )}
-            <div className="lower-container">
-                <h3 className="title" style={{ color: primaryTextColor }}>
-                    {title || urlTitle}
-                </h3>
-                {(description || urlDescription) && (
-                    <span className="description secondary" style={{ color: secondaryTextColor }}>
-                        {descriptionLength
-                            ? description.length > descriptionLength
-                                ? description.slice(0, descriptionLength) + '...'
-                                : description
-                            : description}
-                    </span>
-                )}
-            </div>
-        </div>
+        <LinkSkeleton />
+        //  <LinkPreviewSkeleton width={width} imageHeight={imageHeight} margin={margin} />
+        // <div
+        //     className={`container ${className}`}
+        //     style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
+        // >
+        //     {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
+        //         <div
+        //             style={{
+        //                 borderTopLeftRadius: borderRadius,
+        //                 borderTopRightRadius: borderRadius,
+        //                 backgroundImage: `url(${
+        //                     explicitImageSrc || image || fallbackImageSrc || showLockedImage
+        //                 }), url(${fallbackImageSrc})`,
+        //                 height: imageHeight
+        //             }}
+        //             className="image"
+        //         />
+        //     )}
+        //     <div className="lower-container">
+        //         <h3 className="title" style={{ color: primaryTextColor }}>
+        //             {title || urlTitle}
+        //         </h3>
+        //         {(description || urlDescription) && (
+        //             <span className="description secondary" style={{ color: secondaryTextColor }}>
+        //                 {descriptionLength
+        //                     ? description.length > descriptionLength
+        //                         ? description.slice(0, descriptionLength) + '...'
+        //                         : description
+        //                     : description}
+        //             </span>
+        //         )}
+        //     </div>
+        // </div>
     );
 };

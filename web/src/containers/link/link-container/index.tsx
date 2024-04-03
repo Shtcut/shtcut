@@ -2,33 +2,12 @@
 
 import {
     Button,
-    Input,
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-    Badge,
     Modal,
-    Drawer,
-    DrawerTrigger,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerDescription,
-    DrawerFooter,
     Dict
 } from '@shtcut-ui/react';
-import Image from 'next/image';
-import { dummyLinkHistory } from '@shtcut/_shared/constant';
-import { LinkForm, LayoutBody } from '@shtcut/components';
-import { motion } from 'framer-motion';
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { LinkForm } from '@shtcut/components';
 import { DndContext } from '@dnd-kit/core';
-import { LinkCard } from '@shtcut/components/_shared/LinkCard';
-import { ChevronDownIcon, LayoutGridIcon, ListIcon } from 'lucide-react';
-import LinkSkeleton from '@shtcut/components/_shared/LinkSkeleton';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 interface LinkContainer {}
 

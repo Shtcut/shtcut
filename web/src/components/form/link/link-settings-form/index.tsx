@@ -34,7 +34,8 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const [enableGeoTargeting, setEnableGeoTargeting] = useState<boolean>(isGeoTargeting);
     const [isQrCode, setIsQrCode] = useState<boolean>(false);
     const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
-    const [isUtmBuilderPayload, setIsUtmBuilderPayload] = useState<boolean>(false);
+    const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
+    const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
 
     const handleQRCodeVisibility = (open: boolean) => {};
 
@@ -42,9 +43,31 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
         console.log('handleOnUtmSubmit-payload:::', payload);
         if (payload) {
             setIsUtmBuilderEnabled(false);
-            setIsUtmBuilderPayload(true);
+            setUtmBuilderPayload(payload);
         }
-    }
+    };
+
+    const handleOnQrCodeSubmit = (payload: Dict) => {
+        console.log('handleOnQrCodeSubmit-payload:::', payload);
+        if (payload) {
+            setIsQrCode(false);
+            setQrCodeBuilderPayload(payload);
+        }
+    };
+
+    const handleAllSubmit = () => {
+        const payload = {
+            qrCode: '',
+            utmParams: utmBuilderPayload,
+            password: '',
+            expiryDate: '',
+            devices: {
+                android: '',
+                ios: ''
+            }
+        };
+        handleOnSubmit(payload);
+    };
 
     return (
         <>
@@ -283,7 +306,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                 onClose={() => handleQRCodeVisibility(false)}
                 className="bg-white"
             >
-                <LinkQrCodeForm />
+                <LinkQrCodeForm url={url} removeLogo={qrCode?.removeLogo} handleSubmit={handleOnQrCodeSubmit} />
             </Modal>
             <Modal
                 showModel={isUtmBuilderEnabled}
