@@ -7,7 +7,8 @@ export type UrlParams = Dict<string | string[] | undefined>;
 
 export interface QrCodeType  {
     enableQrCode: boolean;
-    showLogo: boolean;
+    removeLogo: boolean;
+    enableBrandLogo: boolean;
 }
 export interface LinkType  {
     url: string;

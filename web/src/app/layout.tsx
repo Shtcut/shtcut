@@ -7,7 +7,23 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = {
     title: 'Shtcut - Empowering Marketing Innovation, Together... ',
     description:
-        'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.'
+        'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.',
+    keywords: [
+        'shtcut',
+        'shorten',
+        'url',
+        'marketing',
+        'email marketing',
+        'survey',
+        'social media',
+        'shortened',
+        'shortening',
+        'shorten link',
+        'link shorteners'
+    ],
+    applicationName: 'Shtcut',
+    robots: 'index, follow',
+    category: 'Technology, Marketing'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

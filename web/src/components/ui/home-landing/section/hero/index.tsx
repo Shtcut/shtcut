@@ -22,7 +22,7 @@ export const Hero = () => {
 
             <div className="flex items-center gap-2 py-2 duration-500 ease-out animate-in fade-in-0 zoom-in-50 slide-in-from-bottom-1/2">
                 <Link
-                    href="/auth/login"
+                    href="/auth/sign-in"
                     className={cn(
                         buttonVariants({ size: 'lg' }),
                         ' bg-blue-600 font-semibold rounded-full shadow-lg transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
