@@ -1,12 +1,27 @@
 'use client';
 
-import { Card, CardContent, Dict, Input, Label, Modal, cn } from '@shtcut-ui/react';
-import { useState } from 'react';
+import {
+    Button,
+    Card,
+    CardContent,
+    Dict,
+    Input,
+    Calendar,
+    Modal,
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+    cn
+} from '@shtcut-ui/react';
+import { ChangeEvent, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { LinkType } from '@shtcut/types';
 import { LinkUtmForm } from '../link-utm-form';
+import { CalendarIcon } from 'lucide-react';
+import { format } from 'date-fns';
+import { isEmpty } from 'lodash';
 
 interface LinkSettingsFormProps {
     linkProps: LinkType;
@@ -27,6 +42,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
         },
         handleOnSubmit
     } = props;
+    const [date, setDate] = useState<Date>();
     const [enableExpirationDate, setEnableExpirationDate] = useState<boolean>(isExpirationDate);
     const [enablePasswordProtection, setEnablePasswordProtection] = useState<boolean>(isPasswordProtection);
     const [enableIOSTargeting, setEnableIOSTargeting] = useState<boolean>(isIOSTargeting);
@@ -37,10 +53,15 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
     const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
 
+    const [value, setValue] = useState<Dict>({
+        android: '',
+        ios: '',
+        password: ''
+    });
+
     const handleQRCodeVisibility = (open: boolean) => {};
 
     const handleOnUtmSubmit = (payload: Dict) => {
-        console.log('handleOnUtmSubmit-payload:::', payload);
         if (payload) {
             setIsUtmBuilderEnabled(false);
             setUtmBuilderPayload(payload);
@@ -48,26 +69,31 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     };
 
     const handleOnQrCodeSubmit = (payload: Dict) => {
-        console.log('handleOnQrCodeSubmit-payload:::', payload);
         if (payload) {
             setIsQrCode(false);
             setQrCodeBuilderPayload(payload);
         }
     };
 
-    const handleAllSubmit = () => {
-        const payload = {
-            qrCode: '',
-            utmParams: utmBuilderPayload,
-            password: '',
-            expiryDate: '',
-            devices: {
-                android: '',
-                ios: ''
-            }
-        };
-        handleOnSubmit(payload);
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setValue((prev) => ({
+            ...prev,
+            [name]: value
+        }));
     };
+
+    const payload = {
+        qrCode: qrCodePayload,
+        utmParams: utmBuilderPayload,
+        password: value.password,
+        expiryDate: date,
+        devices: {
+            android: value.android,
+            ios: value.ios
+        }
+    };
+    // handleOnSubmit(payload);
 
     return (
         <>
@@ -106,26 +132,39 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                     >
                                         <AnimatePresence initial={enableExpirationDate}>
                                             {
-                                                <Input
-                                                    type="text"
-                                                    name="link_password"
-                                                    id="link_password"
-                                                    className={cn(
-                                                        'ml-7 w-full  mt-2 max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
-                                                        !isExpirationDate ? 'cursor-not-allowed bg-shade-line/20' : ''
-                                                    )}
-                                                    placeholder="Enter password"
-                                                    maxLength={32}
-                                                    disabled={!isExpirationDate}
-                                                />
+                                                <Popover>
+                                                    <PopoverTrigger asChild>
+                                                        <Button
+                                                            variant={'outline'}
+                                                            className={cn(
+                                                                'flex justify-start ml-7 mt-2 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
+                                                                !isExpirationDate
+                                                                    ? 'cursor-not-allowed bg-shade-line/20'
+                                                                    : ''
+                                                            )}
+                                                        >
+                                                            <CalendarIcon className="mr-2 h-4 w-4" />
+                                                            {date ? format(date, 'PPP') : <span>Pick a date</span>}
+                                                        </Button>
+                                                    </PopoverTrigger>
+                                                    <PopoverContent className="w-auto p-0" align="start">
+                                                        <Calendar
+                                                            mode="single"
+                                                            selected={date}
+                                                            onSelect={setDate}
+                                                            initialFocus
+                                                            disabled={(date) => new Date() > date}
+                                                        />
+                                                    </PopoverContent>
+                                                </Popover>
                                             }
                                         </AnimatePresence>
                                     </motion.div>
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-5">
                                     <LinkCheckBox
-                                        isChecked={isUtmBuilderEnabled}
-                                        setIsChecked={setIsUtmBuilderEnabled}
+                                        isChecked={isUtmBuilderEnabled || !isEmpty(payload.utmParams)}
+                                        setIsChecked={() => setIsUtmBuilderEnabled(!isUtmBuilderEnabled)}
                                         id="UTMbuilder-checkbox"
                                         name="UTMbuilder-checkbox"
                                         label={'UTM Builder'}
@@ -168,6 +207,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                                 type="text"
                                                 name="password"
                                                 id="password"
+                                                onChange={handleOnChange}
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
                                                     !isPasswordProtection ? 'cursor-not-allowed bg-shade-line/20' : ''
@@ -181,8 +221,8 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                 </div>
                                 <div className="flex flex-col space-y-4 mt-2">
                                     <LinkCheckBox
-                                        isChecked={isQrCode}
-                                        setIsChecked={setIsQrCode}
+                                        isChecked={isQrCode || !isEmpty(payload.qrCode)}
+                                        setIsChecked={() => setIsQrCode(!isQrCode)}
                                         id={'password-required-checkbox'}
                                         name={'password-required-checkbox'}
                                         label={'Qr Code'}
@@ -217,8 +257,9 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                         <AnimatePresence initial={enableIOSTargeting}>
                                             <Input
                                                 type="text"
-                                                name="iosTargeting"
-                                                id="iosTargeting"
+                                                name="ios"
+                                                id="ios"
+                                                onChange={handleOnChange}
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
                                                     !isIOSTargeting ? 'cursor-not-allowed bg-shade-line/20' : ''
@@ -234,8 +275,8 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                     <LinkCheckBox
                                         isChecked={enableAndroidTargeting}
                                         setIsChecked={setAndroidTargeting}
-                                        id={'password-required-checkbox'}
-                                        name={'password-required-checkbox'}
+                                        id={'android-required-checkbox'}
+                                        name={'android-required-checkbox'}
                                         label={'Android Targeting'}
                                         disabled={!isAndroidTargeting}
                                         description={
@@ -255,8 +296,9 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                         <AnimatePresence initial={enableAndroidTargeting}>
                                             <Input
                                                 type="text"
-                                                name="link_password"
-                                                id="link_password"
+                                                name="android"
+                                                id="android"
+                                                onChange={handleOnChange}
                                                 className={cn(
                                                     'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
                                                     !isAndroidTargeting ? 'cursor-not-allowed bg-shade-line/20' : ''
@@ -275,7 +317,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                                         id={'password-required-checkbox'}
                                         name={'password-required-checkbox'}
                                         label={'Geo Targeting'}
-                                        disabled={false}
+                                        disabled={!isGeoTargeting}
                                         description={
                                             'Direct users to distinct links depending on their geographic location for targeted content delivery.'
                                         }
@@ -306,7 +348,12 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                 onClose={() => handleQRCodeVisibility(false)}
                 className="bg-white"
             >
-                <LinkQrCodeForm url={url} removeLogo={qrCode?.removeLogo} handleSubmit={handleOnQrCodeSubmit} />
+                <LinkQrCodeForm
+                    qrPayload={qrCodePayload}
+                    url={url}
+                    removeLogo={qrCode?.removeLogo}
+                    handleSubmit={handleOnQrCodeSubmit}
+                />
             </Modal>
             <Modal
                 showModel={isUtmBuilderEnabled}
@@ -316,7 +363,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                 onClose={() => setIsUtmBuilderEnabled(false)}
                 className="bg-white"
             >
-                <LinkUtmForm handleSubmitForm={handleOnUtmSubmit} />
+                <LinkUtmForm utmPayload={utmBuilderPayload} handleSubmitForm={handleOnUtmSubmit} />
             </Modal>
         </>
     );
