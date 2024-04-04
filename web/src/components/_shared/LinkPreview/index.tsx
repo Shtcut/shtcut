@@ -66,53 +66,69 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
         if (customLoader) {
             return <>{customLoader}</>;
         } else {
-            return <LinkPreviewSkeleton width={width} imageHeight={imageHeight} margin={margin} />;
+            return <LinkSkeleton />;
         }
     }
 
     if (!metadata || !metadata.data) {
-        return <>{fallback}</>;
+        return (
+            <>
+                {fallback ? (
+                    fallback
+                ) : (
+                    <>
+                        <div
+                            style={{
+                                borderTopLeftRadius: borderRadius,
+                                borderTopRightRadius: borderRadius,
+                                backgroundImage: `url(${fallbackImageSrc}), url(${fallbackImageSrc})`,
+                                height: imageHeight
+                            }}
+                            className="image"
+                        />
+                    </>
+                )}
+            </>
+        );
     }
 
     const {
         meta: { title, description },
-        og: { title: urlTitle, description: urlDescription, site_name: siteName, image }
-    } = metadata?.data as LinkPreviewNamespace.LinkPreviewData || {};
+        og: { title: urlTitle, description: urlDescription, image }
+    } = (metadata?.data as LinkPreviewNamespace.LinkPreviewData) || {};
 
     return (
-        <LinkSkeleton />
-        //  <LinkPreviewSkeleton width={width} imageHeight={imageHeight} margin={margin} />
-        // <div
-        //     className={`container ${className}`}
-        //     style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
-        // >
-        //     {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
-        //         <div
-        //             style={{
-        //                 borderTopLeftRadius: borderRadius,
-        //                 borderTopRightRadius: borderRadius,
-        //                 backgroundImage: `url(${
-        //                     explicitImageSrc || image || fallbackImageSrc || showLockedImage
-        //                 }), url(${fallbackImageSrc})`,
-        //                 height: imageHeight
-        //             }}
-        //             className="image"
-        //         />
-        //     )}
-        //     <div className="lower-container">
-        //         <h3 className="title" style={{ color: primaryTextColor }}>
-        //             {title || urlTitle}
-        //         </h3>
-        //         {(description || urlDescription) && (
-        //             <span className="description secondary" style={{ color: secondaryTextColor }}>
-        //                 {descriptionLength
-        //                     ? description.length > descriptionLength
-        //                         ? description.slice(0, descriptionLength) + '...'
-        //                         : description
-        //                     : description}
-        //             </span>
-        //         )}
-        //     </div>
-        // </div>
+        <div
+            className={`container ${className}`}
+            style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
+        >
+            {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
+                <div
+                    style={{
+                        borderTopLeftRadius: borderRadius,
+                        borderTopRightRadius: borderRadius,
+                        backgroundImage: `url(${
+                            explicitImageSrc || image || fallbackImageSrc || showLockedImage
+                        }), url(${fallbackImageSrc})`,
+                        height: imageHeight
+                    }}
+                    className="image"
+                />
+            )}
+            <div className="lower-container">
+                <h3 className="title" style={{ color: primaryTextColor }}>
+                    {title || urlTitle}
+                </h3>
+                {(description || urlDescription) && (
+                    <span className="description secondary" style={{ color: secondaryTextColor }}>
+                        {descriptionLength
+                            ? description.length > descriptionLength
+                                ? description.slice(0, descriptionLength) + '...'
+                                : description
+                            : description}
+                    </span>
+                )}
+            </div>
+        </div>
     );
 };

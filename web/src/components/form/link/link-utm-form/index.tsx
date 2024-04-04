@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import z from 'zod';
 
 interface LinkUtmFormProps {
+    utmPayload?: Dict;
     handleSubmitForm: (payload: Dict) => void;
 }
 
@@ -16,7 +17,7 @@ const utmFormValidationSchema = z.object({
     term: z.string().min(1, 'Term name is required'),
     content: z.string().min(1, 'Content name is required')
 });
-export const LinkUtmForm = ({ handleSubmitForm }: LinkUtmFormProps) => {
+export const LinkUtmForm = ({ handleSubmitForm, utmPayload }: LinkUtmFormProps) => {
     const form = useForm<z.infer<typeof utmFormValidationSchema>>({
         resolver: zodResolver(utmFormValidationSchema),
         defaultValues: {
@@ -24,14 +25,15 @@ export const LinkUtmForm = ({ handleSubmitForm }: LinkUtmFormProps) => {
             medium: '',
             campaign: '',
             term: '',
-            content: ''
+            content: '',
+            ...utmPayload
         }
     });
 
     const handleFormSubmit = (values: z.infer<typeof utmFormValidationSchema>) => {
         handleSubmitForm(values);
     };
-    
+
     return (
         <div className="flex justify-center p-6">
             <div className="bg-white rounded-lg max-w-sm w-full p-8">

@@ -11,11 +11,12 @@ interface LinkQRCodeForm {
     url: string;
     removeLogo?: boolean;
     enableBrandLogo?: boolean;
+    qrPayload?: Dict;
     handleSubmit: (payload: Dict) => void;
 }
 
 export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
-    const { removeLogo, enableBrandLogo, url, handleSubmit } = props;
+    const { removeLogo, enableBrandLogo, url, handleSubmit, qrPayload } = props;
     const [isRemoveLogo, setIsRemoveLogo] = useState(removeLogo ?? false);
     const [color, setColor] = useState('#000000');
 
@@ -25,7 +26,6 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
             value: url,
             logoImage: '/favicon.ico'
         };
-        console.log('payload:::', payload);
         handleSubmit(payload);
     };
 
@@ -53,6 +53,7 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
                             aspectRatio: '192/192',
                             objectFit: 'cover'
                         }}
+                        {...qrPayload}
                     />
                 </div>
                 <LinkCheckBox
