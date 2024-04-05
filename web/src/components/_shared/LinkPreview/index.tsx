@@ -8,6 +8,7 @@ import { useLinkPreview } from '@shtcut/hooks/link-preview';
 import { LinkPreviewSkeleton } from './skeleton';
 import { Skeleton } from '@shtcut-ui/react';
 import LinkSkeleton from '../LinkSkeleton';
+import { isEmpty } from 'lodash';
 
 export interface LinkPreviewProps {
     url: string;
@@ -50,7 +51,7 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
         primaryTextColor = 'black',
         secondaryTextColor = 'rgb(100, 100, 100)',
         borderColor = '#ccc',
-        showLoader = true,
+        showLoader = false,
         customLoader = null,
         fetcher,
         fallbackImageSrc = imagePlaceholder,
@@ -60,7 +61,7 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
         onSuccess = (res) => {}
     } = props;
 
-    const { metadata, loading = true } = useLinkPreview({ onSuccess, url, fetcher });
+    const { metadata, loading } = useLinkPreview({ onSuccess, url, fetcher });
 
     if (loading && showLoader) {
         if (customLoader) {
@@ -68,6 +69,20 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
         } else {
             return <LinkSkeleton />;
         }
+    }
+
+    if (isEmpty(url)) {
+        <>
+            <div
+                style={{
+                    borderTopLeftRadius: borderRadius,
+                    borderTopRightRadius: borderRadius,
+                    backgroundImage: `url(${fallbackImageSrc}), url(${fallbackImageSrc})`,
+                    height: imageHeight
+                }}
+                className="image"
+            />
+        </>;
     }
 
     if (!metadata || !metadata.data) {
@@ -95,21 +110,37 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
     const {
         meta: { title, description },
         og: { title: urlTitle, description: urlDescription, image }
-    } = (metadata?.data as LinkPreviewNamespace.LinkPreviewData) || {};
+    } = metadata.data ? (metadata?.data as LinkPreviewNamespace.LinkPreviewData) : ({} as any);
 
     return (
         <div
             className={`container ${className}`}
             style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
         >
-            {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
+            {url ? (
+                <>
+                    {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
+                        <div
+                            style={{
+                                borderTopLeftRadius: borderRadius,
+                                borderTopRightRadius: borderRadius,
+                                backgroundImage: `url(${
+                                    showLockedImage
+                                        ? '/chain-and-locked-padlock.svg'
+                                        : explicitImageSrc || image || fallbackImageSrc
+                                }), url(${fallbackImageSrc})`,
+                                height: imageHeight
+                            }}
+                            className="image"
+                        />
+                    )}
+                </>
+            ) : (
                 <div
                     style={{
                         borderTopLeftRadius: borderRadius,
                         borderTopRightRadius: borderRadius,
-                        backgroundImage: `url(${
-                           showLockedImage ? '/password-locked.svg' : explicitImageSrc || image || fallbackImageSrc
-                        }), url(${fallbackImageSrc})`,
+                        backgroundImage: `url(${fallbackImageSrc}), url(${fallbackImageSrc})`,
                         height: imageHeight
                     }}
                     className="image"

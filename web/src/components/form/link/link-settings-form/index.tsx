@@ -13,7 +13,7 @@ import {
     PopoverTrigger,
     cn
 } from '@shtcut-ui/react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
@@ -52,6 +52,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
     const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
     const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
+    const [linkSettingsPayload, setLinkSettingsPayload] = useState<Dict>({});
 
     const [value, setValue] = useState<Dict>({
         android: '',
@@ -93,8 +94,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
             ios: value.ios
         }
     };
-    // handleOnSubmit(payload);
-
+    
     return (
         <>
             <div className="space-y-4 overflow-y-auto overflow-scroll">
