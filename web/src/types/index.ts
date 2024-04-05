@@ -11,7 +11,6 @@ export interface QrCodeType  {
     enableBrandLogo: boolean;
 }
 export interface LinkType  {
-    url: string;
     isUTMBuilder?: boolean;
     isExpirationDate?: boolean;
     isPasswordProtection?: boolean;
