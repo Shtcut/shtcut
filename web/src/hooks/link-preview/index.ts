@@ -17,13 +17,13 @@ export const useLinkPreview = (props: UseLinkPreviewProps) => {
 
     const _isMounted = useRef(true);
     const [metadata, setMetadata] = useState<ApiResponse<LinkPreviewNamespace.LinkPreviewData> | null>();
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         _isMounted.current = true;
-        setLoading(true);
 
         if (url) {
+            setLoading(false);
             fetch(`${baseUrl}/shtner/links/metadata?url=${url}&apiKey=${apiKey}`)
                 .then((res) => res.json())
                 .then((res) => {

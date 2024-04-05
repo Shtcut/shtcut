@@ -285,6 +285,8 @@ export const SECOND_LEVEL_DOMAINS = new Set(['com', 'co', 'net', 'org', 'edu', '
 
 export const SPECIAL_APEX_DOMAINS = ['youtu.be', 'youtube.com'];
 
+export const ALPHA_NUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
+
 export const PREVIEW_SOCIAL = ['Twitter', 'Facebook']
 
 export const SOCIAL_MEDIA = {

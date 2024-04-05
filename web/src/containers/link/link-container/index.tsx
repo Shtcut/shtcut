@@ -1,10 +1,6 @@
 'use client';
 
-import {
-    Button,
-    Modal,
-    Dict
-} from '@shtcut-ui/react';
+import { Button, Modal, Dict } from '@shtcut-ui/react';
 import { LinkForm } from '@shtcut/components';
 import { DndContext } from '@dnd-kit/core';
 import { useState } from 'react';
@@ -29,7 +25,10 @@ export const LinkContainer = (props: LinkContainer) => {
         <DndContext>
             <div className="flex items-center justify-between space-y-2">
                 <h1 className="text-2xl font-bold tracking-light md:text-3xl">Links</h1>
-                <Button className="bg-blue-600 w-[231px] font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700">
+                <Button
+                    onClick={() => handleVisibility(true)}
+                    className="bg-blue-600 w-[231px] font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700"
+                >
                     Create Link
                 </Button>
             </div>
