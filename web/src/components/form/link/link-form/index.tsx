@@ -162,7 +162,7 @@ export const LinkForm = (props: LinkFormProps) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleFormSubmit)}>
                         <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
-                            <div className="h-full max-h-screen overflow-y-auto flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
+                            <div className="overflow-y-auto flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
                                 <div className="flex items-center space-x-2">
                                     {form.getValues('target') ? (
                                         <Image

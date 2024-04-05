@@ -31,7 +31,6 @@ interface LinkSettingsFormProps {
 export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const {
         linkProps: {
-            url,
             isPasswordProtection = false,
             isIOSTargeting = false,
             isAndroidTargeting = false,
@@ -350,7 +349,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
             >
                 <LinkQrCodeForm
                     qrPayload={qrCodePayload}
-                    url={url}
+                    url={''}
                     removeLogo={qrCode?.removeLogo}
                     handleSubmit={handleOnQrCodeSubmit}
                 />
