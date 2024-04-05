@@ -108,7 +108,7 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
                         borderTopLeftRadius: borderRadius,
                         borderTopRightRadius: borderRadius,
                         backgroundImage: `url(${
-                            explicitImageSrc || image || fallbackImageSrc || showLockedImage
+                           showLockedImage ? '/password-locked.svg' : explicitImageSrc || image || fallbackImageSrc
                         }), url(${fallbackImageSrc})`,
                         height: imageHeight
                     }}
