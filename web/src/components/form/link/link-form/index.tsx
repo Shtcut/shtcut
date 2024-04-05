@@ -18,13 +18,16 @@ import {
     SelectValue
 } from '@shtcut-ui/react';
 import { LinkIcon } from 'lucide-react';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { LinkSettingsForm } from '../link-settings-form';
 import { LinkType } from '@shtcut/types';
 import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import Image from 'next/image';
+import { GOOGLE_FAVICON_URL, PREVIEW_SOCIAL } from '@shtcut/_shared/constant';
+import { getApexDomain } from '@shtcut/_shared';
 
 interface LinkFormProps extends CommonProps {
     linkProps: LinkType;
@@ -32,7 +35,7 @@ interface LinkFormProps extends CommonProps {
 }
 
 const linkFormValidationSchema = z.object({
-    target: z.string().min(1, 'Destination URL name is required'),
+    target: z.string().min(1, 'Destination URL name is required').url('Destination URL must be a valid URL'),
     domain: z.string().min(1, 'Domain name is required'),
     alias: z.string(),
     title: z.string(),
@@ -58,12 +61,18 @@ export const LinkForm = (props: LinkFormProps) => {
         setLinkSettingsFormPayload(payload);
     };
 
+    const apexDomain = getApexDomain(form.getValues('target'));
+
     const handleFormSubmit = (values: z.infer<typeof linkFormValidationSchema>) => {
         const payload = {
             ...values,
             ...linkSettingsFormPayload
         };
         handleSubmitForm(payload);
+    };
+
+    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
+        form.setValue('target', e.target.value);
     };
 
     return (
@@ -78,7 +87,28 @@ export const LinkForm = (props: LinkFormProps) => {
                         <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
                             <div className="flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
                                 <div className="sticky top-0 flex items-center space-x-2">
-                                    <LinkIcon className="h-6 w-6 text-gray-600" />
+                                    {form.getValues('target') ? (
+                                        <Image
+                                            src={`${GOOGLE_FAVICON_URL}${apexDomain}`}
+                                            alt={apexDomain}
+                                            className="h-8 w-8 blur-0 border  rounded-full sm:h-10 sm:w-10"
+                                            unoptimized
+                                            width={20}
+                                            height={20}
+                                            priority
+                                        />
+                                    ) : (
+                                        <Image
+                                            src="/world-link.png"
+                                            alt={apexDomain}
+                                            className="h-8 w-8 blur-0 border  rounded-full sm:h-10 sm:w-10"
+                                            unoptimized
+                                            width={20}
+                                            height={20}
+                                            priority
+                                        />
+                                    )}
+
                                     <h2 className="text-xl font-semibold">Create a new link</h2>
                                 </div>
                                 <div className="flex flex-col space-y-4">
@@ -93,6 +123,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                 <FormControl>
                                                     <Input
                                                         id="target"
+                                                        type="url"
                                                         placeholder="Example: https://long-link.com/shorten-long-URL"
                                                         {...field}
                                                     />
@@ -239,7 +270,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                     <div className="mt-4">
                                         <LinkSettingsForm
                                             linkProps={{
-                                                url: '',
+                                                url: form.getValues('target'),
                                                 isExpirationDate: true,
                                                 isAndroidTargeting: true,
                                                 isPasswordProtection: true,
@@ -262,29 +293,21 @@ export const LinkForm = (props: LinkFormProps) => {
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-semibold">Social Previews</h2>
                                 </div>
+
                                 <div className="flex flex-col space-y-4 ">
-                                    <div className="border rounded-md p-6">
-                                        <Label>Twitter</Label>
-                                        <LinkPreview
-                                            className="border rounded-md p-6 mt-4 bg-gray-600"
-                                            url="https://github.com/Shtcut/shtcut"
-                                            width={'500px'}
-                                            height={'400px'}
-                                            imageHeight={'200px'}
-                                            textAlign="left"
-                                        />
-                                    </div>
-                                    <div className="border rounded-md p-6">
-                                        <Label>Facebook</Label>
-                                        <LinkPreview
-                                            className="border rounded-md p-6 mt-4"
-                                            url="https://en.as.com/latest_news/why-is-the-us-currency-called-dollar-what-is-its-origin-and-meaning-n/"
-                                            width={'500px'}
-                                            height={'400px'}
-                                            imageHeight={'200px'}
-                                            textAlign="left"
-                                        />
-                                    </div>
+                                    {PREVIEW_SOCIAL.map((name, idx) => (
+                                        <div key={`${name}-${idx}`} className="border rounded-md p-6">
+                                            <Label>{name}</Label>
+                                            <LinkPreview
+                                                className="border rounded-md p-6 mt-4 bg-gray-600"
+                                                url={form.getValues('target')}
+                                                width={'500px'}
+                                                height={'400px'}
+                                                imageHeight={'200px'}
+                                                textAlign="left"
+                                            />
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
