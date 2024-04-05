@@ -32,7 +32,7 @@ export const LinkContainer = (props: LinkContainer) => {
                     Create Link
                 </Button>
             </div>
-            <LinkForm linkProps={{ url: '' }} handleSubmitForm={handleSubmitForm} />
+            <LinkForm linkProps={{  }} handleSubmitForm={handleSubmitForm} />
             <div className="flex-1 p-6">
                 {/* <div className="flex justify-between items-center mb-6">
                     <div className="relative rounded-md">
@@ -120,7 +120,7 @@ export const LinkContainer = (props: LinkContainer) => {
                 onClose={() => handleVisibility(false)}
                 className="max-w-screen-xl"
             >
-                <LinkForm linkProps={{ url: '' }} handleSubmitForm={handleSubmitForm} />
+                <LinkForm linkProps={{ }} handleSubmitForm={handleSubmitForm} />
             </Modal>
         </DndContext>
     );

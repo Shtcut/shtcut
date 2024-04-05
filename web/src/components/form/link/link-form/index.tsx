@@ -46,6 +46,7 @@ import { format } from 'date-fns';
 interface LinkFormProps extends CommonProps {
     linkProps: LinkType;
     handleSubmitForm: (payload: Dict) => void;
+    initialValues?: Dict;
 }
 
 const linkFormValidationSchema = z.object({
@@ -59,15 +60,15 @@ const linkFormValidationSchema = z.object({
 export const LinkForm = (props: LinkFormProps) => {
     const {
         linkProps: {
-            url,
             isPasswordProtection = true,
             isIOSTargeting = true,
             isAndroidTargeting = true,
             isExpirationDate = true,
             isUTMBuilder = true,
             isGeoTargeting = false,
-            qrCode,
-        }
+            qrCode
+        },
+        handleSubmitForm
     } = props;
     const [date, setDate] = useState<Date>();
     const [enableExpirationDate, setEnableExpirationDate] = useState<boolean>(isExpirationDate);
@@ -80,7 +81,7 @@ export const LinkForm = (props: LinkFormProps) => {
     const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
     const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
 
-    const enableQrCode = qrCode ? qrCode.enableQrCode : true ;
+    const enableQrCode = qrCode ? qrCode.enableQrCode : true;
 
     const [value, setValue] = useState<Dict>({
         android: '',
@@ -117,19 +118,21 @@ export const LinkForm = (props: LinkFormProps) => {
             ...values,
             ...linkSettingsFormPayload
         };
-        console.log('payload:::', payload);
+        handleSubmitForm(payload);
     };
 
     const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const nanoid = customAlphabet(ALPHA_NUMERIC, 10);
+        const nanoid = customAlphabet(ALPHA_NUMERIC, 10)(6);
         form.setValue('target', e.target.value);
         const { value, name } = e.target;
         if (value && name === 'target') {
-            form.setValue('alias', value ? nanoid(6) : '');
+            form.setValue('alias', value ? nanoid : '');
         }
     };
 
-    const handleQRCodeVisibility = (open: boolean) => {};
+    const handleQRCodeVisibility = (open: boolean) => {
+        setIsQrCode(false);
+    };
 
     const handleOnUtmSubmit = (payload: Dict) => {
         if (payload) {
@@ -159,8 +162,8 @@ export const LinkForm = (props: LinkFormProps) => {
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleFormSubmit)}>
                         <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
-                            <div className="flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
-                                <div className="sticky top-0 flex items-center space-x-2">
+                            <div className="h-full max-h-screen overflow-y-auto flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
+                                <div className="flex items-center space-x-2">
                                     {form.getValues('target') ? (
                                         <Image
                                             src={`${GOOGLE_FAVICON_URL}${apexDomain}`}
@@ -609,7 +612,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                     <h2 className="text-xl font-semibold">Social Previews</h2>
                                 </div>
 
-                                <div className="flex flex-col space-y-4 ">
+                                <div className="h-full max-h-screen overflow-y-auto flex flex-col space-y-4 ">
                                     {PREVIEW_SOCIAL.map((name, idx) => (
                                         <div key={`${name}-${idx}`} className="border rounded-md p-6">
                                             <Label>{name}</Label>
