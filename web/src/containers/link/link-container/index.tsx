@@ -1,9 +1,12 @@
 'use client';
 
-import { Button, Modal, Dict } from '@shtcut-ui/react';
+import { Button, Modal, Dict, toast } from '@shtcut-ui/react';
 import { LinkForm } from '@shtcut/components';
 import { DndContext } from '@dnd-kit/core';
 import { useState } from 'react';
+import { useLink } from '@shtcut/hooks/link';
+import { get } from 'lodash';
+import { useAuth } from '@shtcut/hooks';
 
 interface LinkContainer {}
 
@@ -11,15 +14,34 @@ export const LinkContainer = (props: LinkContainer) => {
     const [openLinkForm, setOpenLinkForm] = useState(false);
     const [showCreateForm, setShowCreateForm] = useState(false);
 
+    const { findAllLinksResponse: links, createLink, createLinkResponse } = useLink({ callLinks: true });
+    const { authData } = useAuth();
+    const { isLoading, error, isSuccess } = createLinkResponse;
+    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
+
     const handleVisibility = (open: boolean) => {
         setOpenLinkForm(open);
     };
 
-    const handleSubmitForm = (payload: Dict) => {};
+    const handleSubmitForm = (value: Dict) => {
+        const payload = {
+            enableTracking: !!authData,
+            ...value
+        };
+        if (value) {
+            createLink({
+                payload,
+                options: {
+                    successMessage: 'Link created successfully'
+                }
+            });
+        }
+    };
 
     const handleShowForm = () => {
         setShowCreateForm(true);
     };
+
 
     return (
         <DndContext>
@@ -32,7 +54,7 @@ export const LinkContainer = (props: LinkContainer) => {
                     Create Link
                 </Button>
             </div>
-            <LinkForm linkProps={{  }} handleSubmitForm={handleSubmitForm} />
+            <LinkForm linkProps={{}} isLoading={isLoading} handleSubmitForm={handleSubmitForm} />
             <div className="flex-1 p-6">
                 {/* <div className="flex justify-between items-center mb-6">
                     <div className="relative rounded-md">
@@ -120,7 +142,7 @@ export const LinkContainer = (props: LinkContainer) => {
                 onClose={() => handleVisibility(false)}
                 className="max-w-screen-xl"
             >
-                <LinkForm linkProps={{ }} handleSubmitForm={handleSubmitForm} />
+                <LinkForm linkProps={{}} isLoading={isLoading} handleSubmitForm={handleSubmitForm} />
             </Modal>
         </DndContext>
     );

@@ -149,10 +149,8 @@ export class LinkService extends MongoBaseService {
 
       // Create payload with additional properties and create link
       const payload = {
-        ...obj,
+        ..._.omit(obj, ['qrCode']),
         alias,
-        enableTracking: !!user,
-        isPrivate: !!password,
         domain: domain._id,
         workspace: domain.workspace,
       };
@@ -160,8 +158,10 @@ export class LinkService extends MongoBaseService {
       // Create and save associated QR code
       let link = await super.createNewObject(payload, session);
       const qrCode = await new this.qrCodeModel({
-        ...obj.qrCode,
-        ...obj,
+        properties: {
+          ...obj.qrCode,
+        },
+        ..._.omit(obj, ['qrCode']),
         publicId: Utils.generateUniqueId('qrc'),
         user,
         link: link._id,

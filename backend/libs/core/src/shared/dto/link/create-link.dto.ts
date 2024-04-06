@@ -1,4 +1,4 @@
-import { IsBoolean, IsDate, IsMongoId, IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
+import { IsBoolean, IsMongoId, IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
 import { Type } from 'class-transformer';
 import { CreateQrCodeDto } from '../qrcode';
 
@@ -28,14 +28,13 @@ export class CreateLinkDto {
   public readonly user: string;
 
   @IsMongoId()
-  @IsNotEmpty()
+  @IsOptional()
   public readonly workspace: string;
 
   @IsMongoId()
   @IsOptional()
   public readonly domain: string;
 
-  @IsMongoId()
   @Type(() => CreateQrCodeDto)
   @IsOptional()
   public readonly qrCode?: CreateQrCodeDto;

@@ -43,8 +43,10 @@ import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { AnimatePresence, motion } from 'framer-motion';
 import { isEmpty } from 'lodash';
 import { format } from 'date-fns';
+import { AppButton } from '@shtcut/components';
 interface LinkFormProps extends CommonProps {
     linkProps: LinkType;
+    isLoading: boolean;
     handleSubmitForm: (payload: Dict) => void;
     initialValues?: Dict;
 }
@@ -131,7 +133,7 @@ export const LinkForm = (props: LinkFormProps) => {
     };
 
     const handleQRCodeVisibility = (open: boolean) => {
-        setIsQrCode(false);
+        setIsQrCode(open);
     };
 
     const handleOnUtmSubmit = (payload: Dict) => {
@@ -326,7 +328,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                         </div>
                                     </div>
                                     <div className="mt-4">
-                                        <div className="space-y-4 overflow-y-auto overflow-scroll">
+                                        <div className="space-y-4 overflow-scroll">
                                             <div className="space-y-4">
                                                 <Card>
                                                     <CardContent className="space-y-2 mt-5">
@@ -605,14 +607,16 @@ export const LinkForm = (props: LinkFormProps) => {
                                         </div>
                                     </div>
                                 </div>
-                                <Button>Create link</Button>
+                                <AppButton loading={props.isLoading} type="submit">
+                                    Create link
+                                </AppButton>
                             </div>
                             <div className="flex flex-col border rounded-md p-6 bg-white space-y-4 w-full lg:w-1/2">
                                 <div className="flex items-center justify-between">
                                     <h2 className="text-xl font-semibold">Social Previews</h2>
                                 </div>
 
-                                <div className="h-full max-h-screen overflow-y-auto flex flex-col space-y-4 ">
+                                <div className="overflow-y-auto flex flex-col space-y-4 ">
                                     {PREVIEW_SOCIAL.map((name, idx) => (
                                         <div key={`${name}-${idx}`} className="border rounded-md p-6">
                                             <Label>{name}</Label>
