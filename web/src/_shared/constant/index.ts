@@ -325,6 +325,10 @@ export const ACL = {
     workspace: 'acl/workspaces'
 };
 
+export const SHTNER = {
+    links: 'shtner/links',
+};
+
 export const AUTH_TOKEN_KEY = process.env.NEXT_PUBLIC_STORAGE_KEY as string;
 export const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL as string;
 export const API_KEY = process.env.NEXT_PUBLIC_API_KEY as string;
