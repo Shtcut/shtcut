@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { Copy, BarChart } from 'lucide-react';
 import { useState } from 'react';
 import { IconTag } from '@tabler/icons-react';
+import { PopoverDesktop } from '../Popover';
 
 interface LinkCardProp {
     id: string;
@@ -52,7 +53,7 @@ export const LinkCard = (props: LinkCardProp) => {
                 className=" flex bg-white items-center p-2 rounded-lg drop-shadow-md my-5"
             >
                 <div
-                    className="text-gray-400 text-sm hover:bg-blue-100 rounded-sm p-[3px]"
+                    className=" text-gray-400 text-sm hover:bg-blue-100 rounded-sm p-[3px]"
                     {...attributes}
                     {...listeners}
                 >
@@ -69,69 +70,65 @@ export const LinkCard = (props: LinkCardProp) => {
                 />
                 <div className="flex-1 p-2 h-full relative">
                     <div className="flex">
-                        <div className="w-ful pr-3">
-                            <div className="grid mb-1 w-ful grid-cols-[minmax(0,90%)] items-baseline">
-                                <div className="w-full row-start-1 col-start-1 items-start">
-                                    <div className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2 gap-2 lg:gap-4">
-                                        <p className="truncate w-fit max-w-[80px] text-gray-500 text-sm whitespace-nowrap overflow-hidden font-semibold lg:w-fot lg:max-w-[150px]">
-                                            {title}
+                        <div className="w-full pr-3">
+                            <div className="grid mb-1 w-full grid-cols-[minmax(0,_90%)] items-baseline">
+                                <div className=" w-full row-start-1 col-start-1 items-center">
+                                    <div
+                                        className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2 gap-2 lg:gap-4"
+                                    >
+                                        <p className="truncate w-fit max-w-[80px] text-gray-500 text-sm whitespace-nowrap overflow-hidden font-semibold lg:w-fit lg:max-w-[150px]">
+                                            {props.title}
                                         </p>
+
                                         <div className="flex justify-between items-start">
                                             <div className="flex flex-wrap gap-2">
                                                 <Link
                                                     onClick={handleCopyLink}
                                                     href="#"
-                                                    className="group rounded-full bg-gray-100 p-1.5 transition-all duration-75 hover:scale:105 hover:bg-blue-100 active:scale-95"
+                                                    className="group rounded-full bg-gray-100 p-1.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-95"
                                                 >
-                                                    <Copy size={15} color="grey" />
+                                                    <Copy color="grey" size={15} />
                                                 </Link>
+
                                                 <Link
-                                                    href="#"
-                                                    className="flex items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:Scale-105 hover:bg-blue-100 active:scale-100"
+                                                    href="/admin/analytics"
+                                                    className="flex items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-100"
                                                 >
                                                     <BarChart color="grey" size={15} />
-                                                    <p className="whitespace-nowrap text-sm text-gray-500">{clicks}</p>
+                                                    <p className="whitespace-nowrap text-sm text-gray-500">
+                                                        {props.clicks}
+                                                        <span className="ml-1 hidden sm:inline-block">clicks</span>
+                                                    </p>
                                                 </Link>
-                                                {tags &&
-                                                    tags.length > 0 &&
-                                                    tags.map(({ title, color }, idx) => (
-                                                        <div
-                                                            key={`${title}-${idx}`}
-                                                            className={`flex items-center space-x-1 rounded-md bg-${color}-200 px-2 py-0.5 transition-all duration-75 hover:Scale-105 hover:bg-blue-100 active:scale-100`}
-                                                        >
-                                                            <p className="h-[20px] whitespace-nowrap text-sm text-500">
-                                                                <div className="flex justify-between">
-                                                                    <IconTag size={15} className="mt-1 mr-2" />
-                                                                    {title}
-                                                                </div>
-                                                            </p>
-                                                        </div>
-                                                    ))}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+
                                 <div className="">
                                     <div className="row-start-1 col-start-1 inline-flex">
                                         <a
                                             target="_blank"
-                                            href={url}
+                                            href={props.url}
                                             className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2"
                                         >
-                                            {url}
+                                            <p className="text-gray-500 w-[200px] text-sm lg:w-[320px] whitespace-nowrap overflow-hidden font-semibold text-ellipsis">
+                                                {props.url}
+                                            </p>
                                         </a>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <button className="flex justify-center items-center ">
+                            <div className="flex items-center">
+                                <small className="mr-8 hidden whitespace-nowrap text-sm text-gray-500 sm:block">
+                                    Added {timeAgo(props.createdAt)}
+                                </small>
+                                <PopoverDesktop id="" url="" archived="false" title="Simple" />
+                            </div>
+                        </button>
                     </div>
-                    <button className="flex justify-center items-center">
-                        <div className="flex items-center">
-                            <small className="mr-8 hidden whitespace-nowrap text-sm text-gray-500 sm:block">
-                                Added {timeAgo(createdAt)}
-                            </small>
-                        </div>
-                    </button>
                 </div>
             </div>
         </>
