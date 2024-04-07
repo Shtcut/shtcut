@@ -9,6 +9,7 @@ import { useGetLoggedInUserQuery } from '@shtcut/services/user';
 import {
     useCreateLinkMutation,
     useDeleteLinkMutation,
+    useGetLinkQuery,
     useLazyFindAllLinksQuery,
     useUpdateLinkMutation
 } from '@shtcut/services/link';
@@ -17,6 +18,7 @@ import { selectFindAllLinkData } from '@shtcut/redux/selectors/link';
 import { useAuth } from '..';
 
 interface UseLinkProps {
+    id?: string;
     key?: string;
     callLinks?: boolean;
     search?: string;
@@ -36,13 +38,14 @@ interface UseLinkReturnsType {
 }
 
 export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
-    const { callLinks = false, search, filter } = props;
+    const { callLinks = false, search, filter, id } = props;
 
     const { paginate, pagination } = usePagination({ key: 'findAllLinks' });
     const [createLink, createLinkResponse] = useCreateLinkMutation();
     const [updateLink, updateLinkResponse] = useUpdateLinkMutation();
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
     const [triggerLinks] = useLazyFindAllLinksQuery();
+    // const [getLink, getLinkResponse] = useGetLinkQuery('');
 
     const { authData } = useAuth();
 

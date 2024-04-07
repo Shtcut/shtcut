@@ -49,7 +49,7 @@ const LayoutBody = primitiveComponent<'div', LayoutBodyProps>(({ className, fixe
     <div
         ref={ref}
         className={cn(
-            'flex-1 overflow-hidden px-4 py-6 md:px-8',
+            'bg-white flex-1 overflow-hidden px-4 py-6 md:px-8',
             fixedHeight && 'h-[calc(100%-var(--header-height))]',
             className
         )}
