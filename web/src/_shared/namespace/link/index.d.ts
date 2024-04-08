@@ -20,7 +20,7 @@ export namespace LinkNameSpace {
         target: string;
         user?: string | UserNamespace.LoggedInUser;
         workspace: string;
-        domain: string;
+        domain: { slug: string };
         enableTracking?: string;
         title?: string;
         label?: [];

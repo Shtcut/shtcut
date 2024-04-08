@@ -1,26 +1,11 @@
 'use client';
 
-import {
-    Button,
-    Modal,
-    Dict,
-    toast,
-    Input,
-    Select,
-    SelectTrigger,
-    SelectContent,
-    SelectItem,
-    SelectValue,
-    Badge
-} from '@shtcut-ui/react';
-import { LinkForm } from '@shtcut/components';
+import { Button, Input, Select, SelectTrigger, SelectContent, SelectItem, SelectValue, Badge } from '@shtcut-ui/react';
 import { DndContext } from '@dnd-kit/core';
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { useLink } from '@shtcut/hooks/link';
-import { get } from 'lodash';
-import { useAuth } from '@shtcut/hooks';
 import { useParams, useRouter } from 'next/navigation';
-import { ChevronDownIcon, LayoutGridIcon, ListIcon } from 'lucide-react';
+import { ChevronDownIcon } from 'lucide-react';
 import { dummyLinkHistory } from '@shtcut/_shared/constant';
 import { motion } from 'framer-motion';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -34,7 +19,7 @@ export const LinkContainer = () => {
 
     const { module, workspace } = params;
 
-    const { findAllLinksResponse: links } = useLink({ callLinks: true });
+    const { findAllLinksResponse: links, isLoading } = useLink({ callLinks: true });
 
     const handleVisibility = () => {
         router.push(`/${module}/${workspace}/links/create`);
@@ -73,24 +58,30 @@ export const LinkContainer = () => {
                 <div className="bg-[#F9FAFB] flex flex-row h-screen z-0 ">
                     <div className="max-w-[px] border rounded-md p-6">
                         <div className="my-3">
-                            {dummyLinkHistory.map(({ id, ...link }) => (
-                                <Fragment key={id}>
-                                    <motion.div
-                                        key={id}
-                                        initial={{ opacity: 0, y: -20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -20 }}
-                                        transition={{ duration: 0.5 }}
-                                    >
-                                        <SortableContext
-                                            items={dummyLinkHistory && dummyLinkHistory}
-                                            strategy={verticalListSortingStrategy}
+                            {!isLoading &&
+                                links?.map(({ id, ...link }) => (
+                                    <Fragment key={id}>
+                                        <motion.div
+                                            key={id}
+                                            initial={{ opacity: 0, y: -20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -20 }}
+                                            transition={{ duration: 0.5 }}
                                         >
-                                            <LinkCard key={id} id={id} {...link} />
-                                        </SortableContext>
-                                    </motion.div>
-                                </Fragment>
-                            ))}
+                                            <SortableContext
+                                                items={dummyLinkHistory && dummyLinkHistory}
+                                                strategy={verticalListSortingStrategy}
+                                            >
+                                                <LinkCard
+                                                    key={id}
+                                                    id={id}
+                                                    {...link}
+                                                    domain={{ slug: link.domain.slug ?? 'shtcut.link' }}
+                                                />
+                                            </SortableContext>
+                                        </motion.div>
+                                    </Fragment>
+                                ))}
                         </div>
                     </div>
                     <div className="ml-20 relative  lg:border-[8px] border-black w-60 lg:w-60 xl:w-64  overflow-hidden max-w-sm mx-auto z-0 border rounded-md p-6 my-3">

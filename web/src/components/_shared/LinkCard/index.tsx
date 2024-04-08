@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, toast } from '@shtcut-ui/react';
+import { Card, Dict, toast } from '@shtcut-ui/react';
 import { getApexDomain, timeAgo } from '@shtcut/_shared';
 import { GripVertical } from 'lucide-react';
 import Image from 'next/image';
@@ -13,19 +13,33 @@ import { PopoverDesktop } from '../Popover';
 
 interface LinkCardProp {
     id: string;
-    url: string;
+    alias: string;
     target: string;
-    title: string;
-    createdAt: string;
+    title?: string;
+    domain: {
+        slug: string;
+    };
+    createdAt?: string;
     archived?: boolean;
     clicks?: number;
+    qrCode?: string | Dict;
     tags?: {
         title: string;
         color?: string;
     }[];
 }
 export const LinkCard = (props: LinkCardProp) => {
-    const { id, url, archived = false, title, tags = [], target, clicks = 0, createdAt } = props;
+    const {
+        id,
+        alias,
+        archived = false,
+        title,
+        tags = [],
+        target,
+        clicks = 0,
+        createdAt,
+        domain: { slug }
+    } = props;
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
 
     const [copiedClipboard, setCopiedClipboard] = useState(false);
@@ -35,11 +49,11 @@ export const LinkCard = (props: LinkCardProp) => {
         transition
     };
 
-    const apexDomain = getApexDomain(url);
+    const apexDomain = getApexDomain(target);
 
     const handleCopyLink = () => {
         setCopiedClipboard(copiedClipboard);
-        navigator.clipboard.writeText(url);
+        navigator.clipboard.writeText(`${slug}/${alias}`);
         toast({
             description: 'Copied URL to clipboard!'
         });
@@ -73,11 +87,15 @@ export const LinkCard = (props: LinkCardProp) => {
                         <div className="w-full pr-3">
                             <div className="grid mb-1 w-full grid-cols-[minmax(0,_90%)] items-baseline">
                                 <div className=" w-full row-start-1 col-start-1 items-center">
-                                    <div
-                                        className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2 gap-2 lg:gap-4"
-                                    >
+                                    <div className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2 gap-2 lg:gap-4">
                                         <p className="truncate w-fit max-w-[80px] text-gray-500 text-sm whitespace-nowrap overflow-hidden font-semibold lg:w-fit lg:max-w-[150px]">
-                                            {props.title}
+                                            <a
+                                                href={`https://${slug}/${alias}`}
+                                                target="_blank"
+                                                className="text-blue-600"
+                                            >
+                                                {`${slug}/${alias}`}
+                                            </a>
                                         </p>
 
                                         <div className="flex justify-between items-start">
@@ -91,7 +109,7 @@ export const LinkCard = (props: LinkCardProp) => {
                                                 </Link>
 
                                                 <Link
-                                                    href="/admin/analytics"
+                                                    href="/"
                                                     className="flex items-center space-x-1 rounded-md bg-gray-100 px-2 py-0.5 transition-all duration-75 hover:scale-105 hover:bg-blue-100 active:scale-100"
                                                 >
                                                     <BarChart color="grey" size={15} />
@@ -109,11 +127,12 @@ export const LinkCard = (props: LinkCardProp) => {
                                     <div className="row-start-1 col-start-1 inline-flex">
                                         <a
                                             target="_blank"
-                                            href={props.url}
+                                            href={`https://${slug}/${alias}`}
                                             className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2"
                                         >
                                             <p className="text-gray-500 w-[200px] text-sm lg:w-[320px] whitespace-nowrap overflow-hidden font-semibold text-ellipsis">
-                                                {props.url}
+                                                <span>{title}: </span>
+                                                <span className="ml-1 text-black">{target}</span>
                                             </p>
                                         </a>
                                     </div>
