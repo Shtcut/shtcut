@@ -29,6 +29,7 @@ interface UseLinkReturnsType {
     createLink: MutationTrigger<any>;
     deleteLink: MutationTrigger<any>;
     updateLink: MutationTrigger<any>;
+    isLoading: boolean;
 
     findAllLinksResponse: LinkNameSpace.Link[] | undefined;
     createLinkResponse: Dict;
@@ -44,6 +45,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [createLink, createLinkResponse] = useCreateLinkMutation();
     const [updateLink, updateLinkResponse] = useUpdateLinkMutation();
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
+    const [findAllLinks, { data: links, isLoading }] = useLazyFindAllLinksQuery();
     const [triggerLinks] = useLazyFindAllLinksQuery();
     // const [getLink, getLinkResponse] = useGetLinkQuery('');
 
@@ -59,10 +61,16 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const findAllLinksResponse = useAppSelector((state) => selectFindAllLinkData(state, params));
 
     useEffect(() => {
-        if (callLinks) triggerLinks(params);
+        if (callLinks) {
+            // triggerLinks(params);
+            findAllLinks({
+                ...params,
+            })
+        };
     }, [callLinks, triggerLinks]);
 
     return {
+        isLoading,
         createLink,
         updateLink,
         deleteLink,
