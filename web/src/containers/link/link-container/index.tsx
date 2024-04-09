@@ -10,6 +10,9 @@ import { dummyLinkHistory } from '@shtcut/_shared/constant';
 import { motion } from 'framer-motion';
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 import { LinkCard } from '@shtcut/components/_shared/LinkCard';
+import LinkSkeleton from '@shtcut/components/_shared/LinkSkeleton';
+import Image from 'next/image';
+import { useAuth } from '@shtcut/hooks';
 
 interface LinkContainer {}
 
@@ -19,9 +22,15 @@ export const LinkContainer = () => {
 
     const { module, workspace } = params;
 
-    const { findAllLinksResponse: links, isLoading } = useLink({ callLinks: true });
+    const { authData } = useAuth();
+    const workspaceObject = authData?.workspaces.find(({ slug }) => slug === workspace);
 
-    const handleVisibility = () => {
+    const { findAllLinksResponse: links, isLoading } = useLink({
+        callLinks: true,
+        filter: { workspace: workspaceObject?._id }
+    });
+
+    const handleOnClick = () => {
         router.push(`/${module}/${workspace}/links/create`);
     };
 
@@ -30,7 +39,7 @@ export const LinkContainer = () => {
             <div className="flex items-center justify-between space-y-2">
                 <h1 className="text-2xl font-bold tracking-light md:text-3xl">Links</h1>
                 <Button
-                    onClick={() => handleVisibility()}
+                    onClick={() => handleOnClick()}
                     className="bg-blue-600 w-[231px] font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700"
                 >
                     Create Link
@@ -56,32 +65,56 @@ export const LinkContainer = () => {
                     </div>
                 </div>
                 <div className="bg-[#F9FAFB] flex flex-row h-screen z-0 ">
-                    <div className="max-w-[px] border rounded-md p-6">
+                    <div className="max-w-[40px] border rounded-md p-6">
                         <div className="my-3">
-                            {!isLoading &&
-                                links?.map(({ id, ...link }) => (
-                                    <Fragment key={id}>
-                                        <motion.div
-                                            key={id}
-                                            initial={{ opacity: 0, y: -20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, y: -20 }}
-                                            transition={{ duration: 0.5 }}
+                            {!isLoading
+                                ? links?.map(({ id, ...link }) => (
+                                      <Fragment key={id}>
+                                          <motion.div
+                                              key={id}
+                                              initial={{ opacity: 0, y: -20 }}
+                                              animate={{ opacity: 1, y: 0 }}
+                                              exit={{ opacity: 0, y: -20 }}
+                                              transition={{ duration: 0.5 }}
+                                          >
+                                              <SortableContext
+                                                  items={dummyLinkHistory && dummyLinkHistory}
+                                                  strategy={verticalListSortingStrategy}
+                                              >
+                                                  <LinkCard
+                                                      key={id}
+                                                      id={id}
+                                                      {...link}
+                                                      domain={{ slug: link.domain.slug ?? 'shtcut.link' }}
+                                                  />
+                                              </SortableContext>
+                                          </motion.div>
+                                      </Fragment>
+                                  ))
+                                : Array.from({ length: 4 }).map((_, i) => <LinkSkeleton key={i} />)}
+
+                            {!isLoading && links?.length === 0 && (
+                                <div className="mt-4 w-[245px] h-auto flex flex-col justify-items-center mx-auto">
+                                    <Image
+                                        className="object-cover"
+                                        width="220"
+                                        height="220"
+                                        alt="not-found"
+                                        src="/no-data-found.svg"
+                                    />
+                                    <span className="font-normal justify-items-center mt-3 text-[#222]">
+                                        No Links Yet! Get started - create your unique link now
+                                    </span>
+                                    <p className="text-sm text-[#555] text-center px-3">
+                                        <Button
+                                            onClick={() => handleOnClick()}
+                                            className="bg-blue-600 w-[231px] justify-items-center font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700"
                                         >
-                                            <SortableContext
-                                                items={dummyLinkHistory && dummyLinkHistory}
-                                                strategy={verticalListSortingStrategy}
-                                            >
-                                                <LinkCard
-                                                    key={id}
-                                                    id={id}
-                                                    {...link}
-                                                    domain={{ slug: link.domain.slug ?? 'shtcut.link' }}
-                                                />
-                                            </SortableContext>
-                                        </motion.div>
-                                    </Fragment>
-                                ))}
+                                            Create Link
+                                        </Button>
+                                    </p>
+                                </div>
+                            )}
                         </div>
                     </div>
                     <div className="ml-20 relative  lg:border-[8px] border-black w-60 lg:w-60 xl:w-64  overflow-hidden max-w-sm mx-auto z-0 border rounded-md p-6 my-3">

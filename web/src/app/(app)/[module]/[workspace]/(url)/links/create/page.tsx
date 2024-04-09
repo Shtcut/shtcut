@@ -13,15 +13,21 @@ const CreateLink = () => {
 
     const { module, workspace } = params;
 
-    const { createLink, createLinkResponse } = useLink({ callLinks: true });
-    const { isLoading, isSuccess } = createLinkResponse;
     const { authData } = useAuth();
+    const workspaceObject = authData?.workspaces.find(({ slug }) => slug === workspace);
+
+    const { createLink, createLinkResponse } = useLink({ callLinks: false });
+    const { isLoading, isSuccess } = createLinkResponse;
 
     const handleSubmitForm = (value: Dict) => {
         const payload = {
             enableTracking: !!authData,
-            ...value
+            workspace: workspaceObject?._id,
+            user: authData?._id,
+            ...value,
+            tags: [],
         };
+        console.log('payload::', payload);
         if (value) {
             createLink({
                 payload,
@@ -32,21 +38,25 @@ const CreateLink = () => {
         }
     };
 
-    useEffect(() => {
-        if (isSuccess) {
-            router.push(`/${module}/${workspace}/links`);
-        }
-    }, [isSuccess, module, router, workspace]);
+    // if (isSuccess) {
+    //     router.push(`/${module}/${workspace}/links`);
+    // }
+
+    // useEffect(() => {
+    //     if (isSuccess) {
+    //         router.push(`/${module}/${workspace}/links`);
+    //     }
+    // }, [isSuccess, module, router, workspace]);
 
     return (
         <LayoutBody className="container bg-white">
             <div className="flex items-center justify-between space-y-2">
-                <h1 className="text-2xl font-bold tracking-light md:text-3xl">LinkBio</h1>
-                <div className="flex items-center space-x-2">
+                <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create Link</h1>
+                {/* <div className="flex items-center space-x-2">
                     <Button>LinkBio</Button>
-                </div>
+                </div> */}
             </div>
-            <LinkForm linkProps={{}} isLoading={isLoading} handleSubmitForm={handleSubmitForm} />
+            <LinkForm linkProps={{}} isLoading={false} handleSubmitForm={handleSubmitForm} />
         </LayoutBody>
     );
 };

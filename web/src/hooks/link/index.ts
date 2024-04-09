@@ -5,17 +5,14 @@ import { Pagination } from '@shtcut/_shared/namespace';
 import { usePagination } from '../usePagination';
 import { useEffect } from 'react';
 import { useAppSelector } from '@shtcut/redux/store';
-import { useGetLoggedInUserQuery } from '@shtcut/services/user';
 import {
     useCreateLinkMutation,
     useDeleteLinkMutation,
-    useGetLinkQuery,
     useLazyFindAllLinksQuery,
     useUpdateLinkMutation
 } from '@shtcut/services/link';
 import { LinkNameSpace } from '@shtcut/_shared/namespace/link';
 import { selectFindAllLinkData } from '@shtcut/redux/selectors/link';
-import { useAuth } from '..';
 
 interface UseLinkProps {
     id?: string;
@@ -47,9 +44,6 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
     const [findAllLinks, { data: links, isLoading }] = useLazyFindAllLinksQuery();
     const [triggerLinks] = useLazyFindAllLinksQuery();
-    // const [getLink, getLinkResponse] = useGetLinkQuery('');
-
-    const { authData } = useAuth();
 
     const params = {
         ...paginate,
@@ -60,14 +54,14 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
 
     const findAllLinksResponse = useAppSelector((state) => selectFindAllLinkData(state, params));
 
-    useEffect(() => {
-        if (callLinks) {
-            // triggerLinks(params);
-            findAllLinks({
-                ...params,
-            })
-        };
-    }, [callLinks, triggerLinks]);
+    // useEffect(() => {
+    //     if (callLinks) {
+    //         // triggerLinks(params);
+    //         findAllLinks({
+    //             ...params
+    //         });
+    //     }
+    // }, [callLinks, triggerLinks]);
 
     return {
         isLoading,
