@@ -120,6 +120,7 @@ export const LinkForm = (props: LinkFormProps) => {
             ...values,
             ...linkSettingsFormPayload
         };
+        // console.log('payload-submit:::', payload);
         handleSubmitForm(payload);
     };
 
@@ -285,7 +286,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                     </div>
                                     <FormField
                                         control={form.control}
-                                        name="domain"
+                                        name="tag"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <Label className="block text-sm font-medium mb-1" htmlFor="domain">

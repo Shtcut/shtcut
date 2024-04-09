@@ -206,7 +206,6 @@ LinkSchema.virtual('id').get(function () {
 LinkSchema.statics.config = () => {
   return {
     idToken: 'lnk',
-    uniques: ['alias'],
     cacheKeys: ['_id', 'target'],
     fillables: [
       'alias',

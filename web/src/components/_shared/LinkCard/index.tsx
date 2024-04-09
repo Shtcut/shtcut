@@ -27,6 +27,7 @@ interface LinkCardProp {
         title: string;
         color?: string;
     }[];
+    onSearch?: (search: string) => void;
 }
 export const LinkCard = (props: LinkCardProp) => {
     const {

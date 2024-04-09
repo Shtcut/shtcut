@@ -67,6 +67,7 @@ export class LinkService extends MongoBaseService {
    */
   public async validateCreate(obj: CreateLinkDto) {
     try {
+      console.log('validateCreate-obj:::', obj);
       const { alias, user: owner, expiryDate, workspace, domain } = obj;
       const link = await this.model.findOne({ alias });
 
@@ -87,6 +88,7 @@ export class LinkService extends MongoBaseService {
       if (workspace) {
         const foundWorkspace = await this.workspaceModel.find({
           ...Utils.conditionWithDelete({
+            workspace,
             user: owner,
             domains: { $in: domain },
           }),
@@ -109,6 +111,7 @@ export class LinkService extends MongoBaseService {
       }
       return null;
     } catch (e) {
+      console.log('err:::', e);
       throw e;
     }
   }
@@ -147,16 +150,8 @@ export class LinkService extends MongoBaseService {
       // Check if the domain is verified
       // this.checkDomainVerification(domain);
 
-      // Create payload with additional properties and create link
-      const payload = {
-        ..._.omit(obj, ['qrCode']),
-        alias,
-        domain: domain._id,
-        workspace: domain.workspace,
-      };
-
       // Create and save associated QR code
-      let link = await super.createNewObject(payload, session);
+      let link = await super.createNewObject({ ..._.omit(obj, ['qrCode']) }, session);
       const qrCode = await new this.qrCodeModel({
         properties: {
           ...obj.qrCode,
@@ -165,7 +160,7 @@ export class LinkService extends MongoBaseService {
         publicId: Utils.generateUniqueId('qrc'),
         user,
         link: link._id,
-        workspace: domain.workspace,
+        workspace: obj.workspace,
         domain: domain._id,
       }).save({ session });
 
@@ -177,6 +172,7 @@ export class LinkService extends MongoBaseService {
 
       return link;
     } catch (e) {
+      console.log('err:::', e);
       await session?.abortTransaction();
       throw e;
     } finally {
