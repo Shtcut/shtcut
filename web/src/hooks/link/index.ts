@@ -54,14 +54,14 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
 
     const findAllLinksResponse = useAppSelector((state) => selectFindAllLinkData(state, params));
 
-    // useEffect(() => {
-    //     if (callLinks) {
-    //         // triggerLinks(params);
-    //         findAllLinks({
-    //             ...params
-    //         });
-    //     }
-    // }, [callLinks, triggerLinks]);
+    useEffect(() => {
+        if (callLinks) {
+            // triggerLinks(params);
+            findAllLinks({
+                ...params
+            });
+        }
+    }, [callLinks, triggerLinks]);
 
     return {
         isLoading,
