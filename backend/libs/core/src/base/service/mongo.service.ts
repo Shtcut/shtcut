@@ -476,24 +476,24 @@ export class MongoBaseService extends BaseAbstract {
   public async retrieveExistingResource(obj) {
     const query: Dict = {};
     const uniqueKeys = this.entity.config.uniques;
-
     if (uniqueKeys && uniqueKeys.length > 0) {
       for (const key of uniqueKeys) {
         query[key] = obj[key];
       }
-    }
-    const cacheKey = this.getCacheKey(uniqueKeys[0]);
-    let object = await this.getCacheObject(cacheKey);
-    if (_.isUndefined(object)) {
-      object = !_.isEmpty(query)
-        ? await this.model.findOne({
-            ...Utils.conditionWithDelete(query),
-          })
-        : false;
+      const cacheKey = this.getCacheKey(uniqueKeys[0]);
+      let object = await this.getCacheObject(cacheKey);
+      if (_.isUndefined(object)) {
+        object = !_.isEmpty(query)
+          ? await this.model.findOne({
+              ...Utils.conditionWithDelete(query),
+            })
+          : false;
 
-      this.cacheObjectIfFound(object, cacheKey);
+        this.cacheObjectIfFound(object, cacheKey);
+      }
+      return object;
     }
-    return object ? object : null;
+    return null;
   }
 
   /**

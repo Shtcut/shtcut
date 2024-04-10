@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Input, Select, SelectTrigger, SelectContent, SelectItem, SelectValue, Badge } from '@shtcut-ui/react';
+import { Button, Input, Select, SelectTrigger, SelectContent, SelectItem, SelectValue, Badge, Separator } from '@shtcut-ui/react';
 import { DndContext } from '@dnd-kit/core';
 import { Fragment } from 'react';
 import { useLink } from '@shtcut/hooks/link';
@@ -23,7 +23,7 @@ export const LinkContainer = () => {
     const { module, workspace } = params;
 
     const { authData } = useAuth();
-    const workspaceObject = authData?.workspaces.find(({ slug }) => slug === workspace);
+    const workspaceObject = authData?.workspaces?.find(({ slug }) => slug === workspace);
 
     const { findAllLinksResponse: links, isLoading } = useLink({
         callLinks: true,
@@ -46,12 +46,12 @@ export const LinkContainer = () => {
                 </Button>
             </div>
             <div className="flex-1 p-6 ">
-                <div className="flex justify-between items-center mb-6">
-                    <div className="relative rounded-md">
-                        <Input className="max-w-[640px] h-10" placeholder="Search here..." />
+                <div className="flex justify-between w-full gap-4 items-center mb-6">
+                    <div className="w-full flex-1 rounded-md">
+                        <Input className="w-96 h-10" placeholder="Search here..." />
                     </div>
-                    <div className="flex space-x-2" />
-                    <div className="flex items-center space-x-4">
+                   
+                    <div className="flex items-center  space-x-4">
                         <Button variant="outline">Filter</Button>
                         <Select>
                             <SelectTrigger id="sort">
@@ -64,8 +64,8 @@ export const LinkContainer = () => {
                         </Select>
                     </div>
                 </div>
-                <div className="bg-[#F9FAFB] flex flex-row h-screen z-0 ">
-                    <div className="max-w-[40px] border rounded-md p-6">
+                <div className="bg-[#F9FAFB] flex lg:flex-row flex-col w-full gap-8  ">
+                    <div className=" w-full p-6">
                         <div className="my-3">
                             {!isLoading
                                 ? links?.map(({ id, ...link }) => (
@@ -108,7 +108,7 @@ export const LinkContainer = () => {
                                     <p className="text-sm text-[#555] text-center px-3">
                                         <Button
                                             onClick={() => handleOnClick()}
-                                            className="bg-blue-600 w-[231px] justify-items-center font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700"
+                                            className="bg-blue-600 mb-5 w-[231px] justify-items-center font-medium flex justify-center items-center h-10 px-8 rounded-md text-white hover:bg-blue-700"
                                         >
                                             Create Link
                                         </Button>
@@ -117,7 +117,11 @@ export const LinkContainer = () => {
                             )}
                         </div>
                     </div>
-                    <div className="ml-20 relative  lg:border-[8px] border-black w-60 lg:w-60 xl:w-64  overflow-hidden max-w-sm mx-auto z-0 border rounded-md p-6 my-3">
+                    <div className='w-4 hidden lg:flex'>  
+                    
+                    <Separator orientation='vertical'  />
+                    </div>
+                    <div className=" relative w-full h-fit lg:w-1/2 lg:border-[8px] border-black   overflow-hidden  border rounded-md p-6 my-3">
                         <div className="p-6 border bg-white rounded-lg shadow">
                             <div className="flex justify-between items-center mb-4">
                                 <h2 className="text-lg font-semibold">Domains</h2>

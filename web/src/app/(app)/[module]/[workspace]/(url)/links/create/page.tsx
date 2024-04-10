@@ -25,9 +25,8 @@ const CreateLink = () => {
             workspace: workspaceObject?._id,
             user: authData?._id,
             ...value,
-            tags: [],
+            tags: []
         };
-        console.log('payload::', payload);
         if (value) {
             createLink({
                 payload,
@@ -38,25 +37,16 @@ const CreateLink = () => {
         }
     };
 
-    // if (isSuccess) {
-    //     router.push(`/${module}/${workspace}/links`);
-    // }
-
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //         router.push(`/${module}/${workspace}/links`);
-    //     }
-    // }, [isSuccess, module, router, workspace]);
+    if (isSuccess) {
+        router.push(`/${module}/${workspace}/links`);
+    }
 
     return (
         <LayoutBody className="container bg-white">
             <div className="flex items-center justify-between space-y-2">
                 <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create Link</h1>
-                {/* <div className="flex items-center space-x-2">
-                    <Button>LinkBio</Button>
-                </div> */}
             </div>
-            <LinkForm linkProps={{}} isLoading={false} handleSubmitForm={handleSubmitForm} />
+            <LinkForm linkProps={{}} isLoading={isLoading} handleSubmitForm={handleSubmitForm} />
         </LayoutBody>
     );
 };

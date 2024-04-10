@@ -106,6 +106,7 @@ export abstract class BaseController {
       );
       return res.status(CREATED).json(response);
     } catch (e) {
+      console.log('err::', e);
       return next(e);
     }
   }
