@@ -9,7 +9,7 @@ import { useParams } from 'next/navigation';
 
 export const HomeNavbar = () => {
     const { authData } = useAuth();
-    const workspace = authData?.workspaces[0].slug;
+    const workspace = authData?.workspaces[0]?.slug;
 
     return (
         <header className="mt-3 h-14">

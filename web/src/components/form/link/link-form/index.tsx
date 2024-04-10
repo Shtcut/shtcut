@@ -120,7 +120,6 @@ export const LinkForm = (props: LinkFormProps) => {
             ...values,
             ...linkSettingsFormPayload
         };
-        // console.log('payload-submit:::', payload);
         handleSubmitForm(payload);
     };
 
@@ -608,7 +607,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                         </div>
                                     </div>
                                 </div>
-                                <AppButton loading={props.isLoading} type="submit">
+                                <AppButton className='mt-5' loading={props.isLoading} type="submit">
                                     Create link
                                 </AppButton>
                             </div>
