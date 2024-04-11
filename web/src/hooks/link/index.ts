@@ -9,6 +9,7 @@ import {
     useCreateLinkMutation,
     useDeleteLinkMutation,
     useLazyFindAllLinksQuery,
+    useLazyGetLinkQuery,
     useUpdateLinkMutation
 } from '@shtcut/services/link';
 import { LinkNameSpace } from '@shtcut/_shared/namespace/link';
@@ -30,6 +31,7 @@ interface UseLinkReturnsType {
 
     findAllLinksResponse: LinkNameSpace.Link[] | undefined;
     createLinkResponse: Dict;
+    getLinkResponse: Dict;
     updateLinkResponse: Dict;
     deleteLinkResponse: Dict;
     pagination: Pagination;
@@ -43,6 +45,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [updateLink, updateLinkResponse] = useUpdateLinkMutation();
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
     const [findAllLinks, { data: links, isLoading }] = useLazyFindAllLinksQuery();
+    const [getLink, getLinkResponse] = useLazyGetLinkQuery();
     const [triggerLinks] = useLazyFindAllLinksQuery();
 
     const params = {
@@ -56,12 +59,20 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
 
     useEffect(() => {
         if (callLinks) {
-            // triggerLinks(params);
             findAllLinks({
                 ...params
             });
         }
-    }, [callLinks, triggerLinks]);
+    }, [callLinks]);
+
+    useEffect(() => {
+        if (id) {
+            getLink({
+                id,
+                population: JSON.stringify([{ path: 'qrCode' }, { path: 'domain', select: ['slug', 'name'] }])
+            });
+        }
+    }, [id]);
 
     return {
         isLoading,
@@ -70,6 +81,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         deleteLink,
         findAllLinksResponse,
         createLinkResponse,
+        getLinkResponse,
         updateLinkResponse,
         deleteLinkResponse,
         pagination

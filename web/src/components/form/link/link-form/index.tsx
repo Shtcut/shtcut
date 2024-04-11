@@ -26,7 +26,7 @@ import {
     cn
 } from '@shtcut-ui/react';
 import { CalendarIcon, LinkIcon } from 'lucide-react';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { LinkSettingsForm } from '../link-settings-form';
 import { LinkType } from '@shtcut/types';
 import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
@@ -41,10 +41,12 @@ import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkUtmForm } from '../link-utm-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { AnimatePresence, motion } from 'framer-motion';
-import { isEmpty } from 'lodash';
+import { isEmpty, isString, isUndefined } from 'lodash';
 import { format } from 'date-fns';
 import { AppButton } from '@shtcut/components';
+import { useLink } from '@shtcut/hooks/link';
 interface LinkFormProps extends CommonProps {
+    id?: string;
     linkProps: LinkType;
     isLoading: boolean;
     handleSubmitForm: (payload: Dict) => void;
@@ -61,6 +63,8 @@ const linkFormValidationSchema = z.object({
 
 export const LinkForm = (props: LinkFormProps) => {
     const {
+        id,
+        initialValues,
         linkProps: {
             isPasswordProtection = true,
             isIOSTargeting = true,
@@ -82,10 +86,22 @@ export const LinkForm = (props: LinkFormProps) => {
     const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
     const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
     const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
+    const [defaultValues, setDefaultValues] = useState<Dict>({
+        target: '',
+        alias: '',
+        tag: '',
+        title: '',
+        ...initialValues,
+        domain: !isUndefined(initialValues?.domain)
+            ? isString(initialValues.domain)
+                ? initialValues.domain
+                : initialValues.domain._id
+            : ''
+    });
 
     const enableQrCode = qrCode ? qrCode.enableQrCode : true;
 
-    const [value, setValue] = useState<Dict>({
+    const [value, setValue] = useState({
         android: '',
         ios: '',
         password: ''
@@ -93,13 +109,7 @@ export const LinkForm = (props: LinkFormProps) => {
 
     const form = useForm<z.infer<typeof linkFormValidationSchema>>({
         resolver: zodResolver(linkFormValidationSchema),
-        defaultValues: {
-            target: '',
-            domain: '',
-            alias: '',
-            tag: '',
-            title: ''
-        }
+        defaultValues
     });
 
     const linkSettingsFormPayload = {
@@ -121,15 +131,6 @@ export const LinkForm = (props: LinkFormProps) => {
             ...linkSettingsFormPayload
         };
         handleSubmitForm(payload);
-    };
-
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const nanoid = customAlphabet(ALPHA_NUMERIC, 10)(6);
-        form.setValue('target', e.target.value);
-        const { value, name } = e.target;
-        if (value && name === 'target') {
-            form.setValue('alias', value ? nanoid : '');
-        }
     };
 
     const handleQRCodeVisibility = (open: boolean) => {
@@ -158,6 +159,34 @@ export const LinkForm = (props: LinkFormProps) => {
         }));
     };
 
+    useEffect(() => {
+        if (initialValues) {
+            setUtmBuilderPayload((prev) => ({
+                ...prev,
+                ...initialValues?.utmParams
+            }));
+            setDefaultValues((prev) => ({
+                ...prev,
+                ...initialValues,
+                domain: !isUndefined(initialValues?.domain)
+                    ? isString(initialValues.domain)
+                        ? initialValues.domain
+                        : initialValues.domain._id
+                    : ''
+            }));
+            setDate(initialValues.expiryDate);
+            setQrCodeBuilderPayload((prev) => ({
+                ...prev,
+                ...initialValues?.qrCode?.properties
+            }));
+            setValue((prev) => ({
+                ...prev,
+                password: initialValues?.password,
+                ...initialValues?.devices
+            }));
+        }
+    }, [initialValues]);
+
     return (
         <>
             <div className="overflow-y-auto">
@@ -166,7 +195,7 @@ export const LinkForm = (props: LinkFormProps) => {
                         <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
                             <div className="overflow-y-auto flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
                                 <div className="flex items-center space-x-2">
-                                    {form.getValues('target') ? (
+                                    {form.getValues('target') || initialValues?.target ? (
                                         <Image
                                             src={`${GOOGLE_FAVICON_URL}${apexDomain}`}
                                             alt={apexDomain}
@@ -187,14 +216,13 @@ export const LinkForm = (props: LinkFormProps) => {
                                             priority
                                         />
                                     )}
-
-                                    <h2 className="text-xl font-semibold">Create a new link</h2>
+                                    <h2 className="text-xl font-semibold">{id ? 'Edit' : 'Create a new'} link</h2>
                                 </div>
                                 <div className="flex flex-col space-y-4">
                                     <FormField
                                         control={form.control}
                                         name="target"
-                                        render={({ field: { onChange, ...rest } }) => (
+                                        render={({ field }) => (
                                             <FormItem>
                                                 <Label className="block text-sm font-medium mb-1" htmlFor="target">
                                                     Paste a destination URL
@@ -203,9 +231,8 @@ export const LinkForm = (props: LinkFormProps) => {
                                                     <Input
                                                         id="target"
                                                         type="url"
-                                                        onChange={handleOnChange}
                                                         placeholder="Example: https://long-link.com/shorten-long-URL"
-                                                        {...rest}
+                                                        {...field}
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
@@ -245,6 +272,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                     <Select
                                                         onValueChange={field.onChange}
                                                         defaultValue={field.value}
+                                                        disabled={Boolean(id && initialValues)}
                                                         value={field.value}
                                                     >
                                                         <FormControl>
@@ -276,7 +304,12 @@ export const LinkForm = (props: LinkFormProps) => {
                                                         Unique back-half (optional)
                                                     </Label>
                                                     <FormControl>
-                                                        <Input id="target" placeholder="Example: marketing" {...rest} />
+                                                        <Input
+                                                            id="target"
+                                                            placeholder="Example: marketing"
+                                                            {...rest}
+                                                            disabled={Boolean(id && initialValues)}
+                                                        />
                                                     </FormControl>
                                                     <FormMessage />
                                                 </FormItem>
@@ -303,8 +336,8 @@ export const LinkForm = (props: LinkFormProps) => {
                                                     </FormControl>
                                                     <SelectContent>
                                                         {[
-                                                            { id: '66059257bcb47c8944881927', name: 'Marketing' },
-                                                            { id: '66059257bcb47c8944881928', name: 'Sales' }
+                                                            { id: '66059257bcb47c8944881922', name: 'Marketing' },
+                                                            { id: '66059257bcb47c8944881924', name: 'Sales' }
                                                         ].map((tag) => (
                                                             <SelectItem key={tag.id} value={tag.id}>
                                                                 {tag.name}
@@ -393,7 +426,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                                                 >
                                                                                     <Calendar
                                                                                         mode="single"
-                                                                                        selected={date}
+                                                                                        selected={initialValues?.expiryDate ?? date}
                                                                                         onSelect={setDate}
                                                                                         initialFocus
                                                                                         disabled={(date) =>
@@ -463,6 +496,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                                             type="text"
                                                                             name="password"
                                                                             id="password"
+                                                                            value={value.password}
                                                                             onChange={handleOnValueChange}
                                                                             className={cn(
                                                                                 'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
@@ -520,6 +554,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                                             type="url"
                                                                             name="ios"
                                                                             id="ios"
+                                                                            value={value.ios}
                                                                             onChange={handleOnValueChange}
                                                                             className={cn(
                                                                                 'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
@@ -561,6 +596,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                                             name="android"
                                                                             id="android"
                                                                             onChange={handleOnValueChange}
+                                                                            value={value.android}
                                                                             className={cn(
                                                                                 'ml-7 w-full max-w-[20rem] p-5 rounded-md border-0 py-1.5 text-sm shadow-inner ring-1 ring-inset ring-shade-line placeholder:text-shade-disabled focus:ring-inset focus:ring-stratos-default ',
                                                                                 !isAndroidTargeting
@@ -607,8 +643,8 @@ export const LinkForm = (props: LinkFormProps) => {
                                         </div>
                                     </div>
                                 </div>
-                                <AppButton className='mt-5' loading={props.isLoading} type="submit">
-                                    Create link
+                                <AppButton className="mt-5" loading={props.isLoading} type="submit">
+                                    {id ? 'Update' : 'Create'} link
                                 </AppButton>
                             </div>
                             <div className="flex flex-col border rounded-md p-6 bg-white space-y-4 w-full lg:w-1/2">

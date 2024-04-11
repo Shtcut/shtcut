@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Edit, Trash, ArchiveIcon } from 'lucide-react';
@@ -6,8 +8,20 @@ import axios from 'axios';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import { Drawer } from 'vaul';
 import { MenuDropdown } from '../MenuDropdown';
+import { useRouter, useParams } from 'next/navigation';
 
-export const PopoverDesktop = ({ id, title, url, archived }) => {
+interface PopoverMenuProps {
+    id: string;
+    title?: string;
+    target: string;
+    archived?: boolean;
+}
+
+export const PopoverMenu = ({ id, title, target, archived }: PopoverMenuProps) => {
+    const router = useRouter();
+    const params = useParams();
+    const { module, workspace } = params;
+
     const [isArchived, setIsArchived] = useState(archived);
     const [openPopover, setOpenPopover] = useState(false);
     const [openDrawer, setOpenDrawer] = useState(false);
@@ -54,10 +68,14 @@ export const PopoverDesktop = ({ id, title, url, archived }) => {
         deleteAlertProps,
         title,
         id,
-        url,
+        target,
         archived,
         isArchived,
         closeDrawer
+    };
+
+    const handleOnEdit = () => {
+        router.push(`/${module}/${workspace}/links/${id}`);
     };
 
     return (
@@ -72,7 +90,10 @@ export const PopoverDesktop = ({ id, title, url, archived }) => {
                 >
                     <Dialog.Root>
                         <Dialog.Trigger asChild>
-                            <button className="group flex w-full items-center justify-between rounded-md p-3 text-sm font-medium text-gray-500 transition-all duration-75 hover:bg-gray-100">
+                            <button
+                                className="group flex w-full items-center justify-between rounded-md p-3 text-sm font-medium text-gray-500 transition-all duration-75 hover:bg-gray-100"
+                                onClick={handleOnEdit}
+                            >
                                 <h4>Edit</h4>
                                 <Edit size={17} color="gray" />
                             </button>

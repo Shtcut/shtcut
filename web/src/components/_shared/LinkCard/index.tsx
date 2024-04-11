@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { Copy, BarChart } from 'lucide-react';
 import { useState } from 'react';
 import { IconTag } from '@tabler/icons-react';
-import { PopoverDesktop } from '../Popover';
+import { PopoverMenu } from '../Popover';
 
 interface LinkCardProp {
     id: string;
@@ -145,7 +145,7 @@ export const LinkCard = (props: LinkCardProp) => {
                                 <small className="mr-8 hidden whitespace-nowrap text-sm text-gray-500 sm:block">
                                     Added {timeAgo(props.createdAt)}
                                 </small>
-                                <PopoverDesktop id="" url="" archived="false" title="Simple" />
+                                <PopoverMenu {...props} />
                             </div>
                         </button>
                     </div>

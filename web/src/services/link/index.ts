@@ -16,8 +16,11 @@ export const linkApi = api.injectEndpoints({
                 }) as unknown as FetchArgs,
             providesTags: [linkTag]
         }),
-        getLink: builder.query<ApiResponse<LinkNameSpace.Link>, string>({
-            query: (id: string) => `${SHTNER.links}/${id}` as unknown as FetchArgs,
+        getLink: builder.query<ApiResponse<LinkNameSpace.Link>,  Record<string, any> >({
+            query: (params: Record<string, string>) => ({
+                url: `${SHTNER.links}/${params?.id}`,
+                params,
+            }) as unknown as FetchArgs,
             providesTags: [linkTag]
         }),
         createLink: builder.mutation<ApiResponse<LinkNameSpace.Link>, LinkNameSpace.LinkRequest>({
@@ -55,7 +58,7 @@ export const linkApi = api.injectEndpoints({
 export const {
     useCreateLinkMutation,
     useLazyFindAllLinksQuery,
-    useGetLinkQuery,
+    useLazyGetLinkQuery,
     useUpdateLinkMutation,
     useDeleteLinkMutation,
     endpoints: { createLink, findAllLinks, getLink, updateLink, deleteLink }
