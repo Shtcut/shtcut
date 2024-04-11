@@ -6,29 +6,53 @@ import { LinkContainer } from '@shtcut/containers';
 import { Dict } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks';
 import { useLink } from '@shtcut/hooks/link';
+import { useParams, useRouter } from 'next/navigation';
 
 const EditLink = () => {
-    const { findAllLinksResponse: links, createLink, createLinkResponse } = useLink({ callLinks: true });
-    const { isLoading, error, isSuccess } = createLinkResponse;
+    const params = useParams();
+    const router = useRouter();
+
+    const { id, module, workspace } = params;
+
+    const { updateLinkResponse, updateLink, getLinkResponse } = useLink({ id: id as string });
+    const { isLoading: isUpdating, isSuccess } = updateLinkResponse;
+
+    const { data, isLoading: isFetching } = getLinkResponse;
+
+    const { data: link } = data || {};
+
     const { authData } = useAuth();
 
     const handleSubmitForm = (value: Dict) => {
         const payload = {
+            id,
             enableTracking: !!authData,
             ...value
         };
+        console.log('payload::', payload);
         if (value) {
-            createLink({
+            updateLink({
                 payload,
                 options: {
-                    successMessage: 'Link created successfully'
+                    successMessage: 'Update created successfully'
                 }
             });
         }
     };
+
+    if (isSuccess) {
+        router.push(`/${module}/${workspace}/links`);
+    }
+
     return (
         <LayoutBody className="container">
-            <LinkForm linkProps={{}} isLoading={isLoading} handleSubmitForm={handleSubmitForm} />
+            <LinkForm
+                id={id as string}
+                linkProps={{}}
+                isLoading={isUpdating || isFetching}
+                handleSubmitForm={handleSubmitForm}
+                initialValues={link}
+            />
         </LayoutBody>
     );
 };

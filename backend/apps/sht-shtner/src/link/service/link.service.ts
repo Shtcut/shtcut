@@ -50,7 +50,7 @@ export class LinkService extends MongoBaseService {
     this.routes = {
       create: true,
       find: true,
-      findOne: false,
+      findOne: true,
       update: true,
       patch: true,
       remove: true,
@@ -67,7 +67,6 @@ export class LinkService extends MongoBaseService {
    */
   public async validateCreate(obj: CreateLinkDto) {
     try {
-      console.log('validateCreate-obj:::', obj);
       const { alias, user: owner, expiryDate, workspace, domain } = obj;
       const link = await this.model.findOne({ alias });
 
@@ -111,7 +110,6 @@ export class LinkService extends MongoBaseService {
       }
       return null;
     } catch (e) {
-      console.log('err:::', e);
       throw e;
     }
   }
@@ -172,7 +170,6 @@ export class LinkService extends MongoBaseService {
 
       return link;
     } catch (e) {
-      console.log('err:::', e);
       await session?.abortTransaction();
       throw e;
     } finally {

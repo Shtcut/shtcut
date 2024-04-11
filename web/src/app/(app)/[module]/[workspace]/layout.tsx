@@ -25,7 +25,7 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
 
     return (
         <body className="bg-white">
-            <section className="container fixed left-0 z-50 right-0 top-0 bg-background">
+            <section className="container fixed left-0 z-30 right-0 top-0 bg-background">
                 <div className=" flex items-center justify-between mt-4">
                     <div className="flex items-center gap-2">
                         <span className="inline-flex items-center gap-2">

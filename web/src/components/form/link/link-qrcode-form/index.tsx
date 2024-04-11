@@ -30,8 +30,8 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
     };
 
     return (
-        <div className="flex justify-center p-6">
-            <div className="bg-white rounded-lg max-w-sm w-full p-8">
+        <div className="flex justify-center z-50 p-6">
+            <div className="bg-white z-50 rounded-lg max-w-sm w-full p-8">
                 <div className="flex justify-center mb-6">
                     <QrCodeIcon className="text-gray-400 h-6 w-6" />
                 </div>
