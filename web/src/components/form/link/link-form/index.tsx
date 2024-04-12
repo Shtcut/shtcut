@@ -23,7 +23,8 @@ import {
     SelectItem,
     SelectTrigger,
     SelectValue,
-    cn
+    cn,
+    toast
 } from '@shtcut-ui/react';
 import { CalendarIcon, LinkIcon } from 'lucide-react';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -35,7 +36,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { ALPHA_NUMERIC, GOOGLE_FAVICON_URL, PREVIEW_SOCIAL } from '@shtcut/_shared/constant';
-import { getApexDomain } from '@shtcut/_shared';
+import { getApexDomain, isValidURL } from '@shtcut/_shared';
 import { customAlphabet } from 'nanoid';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkUtmForm } from '../link-utm-form';
@@ -45,6 +46,7 @@ import { isEmpty, isString, isUndefined } from 'lodash';
 import { format } from 'date-fns';
 import { AppButton } from '@shtcut/components';
 import { useLink } from '@shtcut/hooks/link';
+import { title } from 'process';
 interface LinkFormProps extends CommonProps {
     id?: string;
     linkProps: LinkType;
@@ -130,6 +132,13 @@ export const LinkForm = (props: LinkFormProps) => {
             ...values,
             ...linkSettingsFormPayload
         };
+        if (!isValidURL(payload.target)) {
+            toast({
+                description: 'The target url is invalid',
+                variant: 'destructive'
+            });
+            return;
+        }
         handleSubmitForm(payload);
     };
 
@@ -195,7 +204,7 @@ export const LinkForm = (props: LinkFormProps) => {
                         <div className="flex flex-col lg:flex-row mt-5 gap-8 p-8  rounded-md ">
                             <div className="overflow-y-auto flex flex-col space-y-6 border bg-white rounded-md p-10 overflow-scroll w-full lg:w-1/2">
                                 <div className="flex items-center space-x-2">
-                                    {form.getValues('target') || initialValues?.target ? (
+                                    {form.getValues('target') && isValidURL(form.getValues('target')) ? (
                                         <Image
                                             src={`${GOOGLE_FAVICON_URL}${apexDomain}`}
                                             alt={apexDomain}
@@ -231,6 +240,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                     <Input
                                                         id="target"
                                                         type="url"
+                                                        autoComplete="off"
                                                         placeholder="Example: https://long-link.com/shorten-long-URL"
                                                         {...field}
                                                     />
@@ -307,6 +317,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                         <Input
                                                             id="target"
                                                             placeholder="Example: marketing"
+                                                            autoComplete="off"
                                                             {...rest}
                                                             disabled={Boolean(id && initialValues)}
                                                         />
@@ -426,7 +437,10 @@ export const LinkForm = (props: LinkFormProps) => {
                                                                                 >
                                                                                     <Calendar
                                                                                         mode="single"
-                                                                                        selected={initialValues?.expiryDate ?? date}
+                                                                                        selected={
+                                                                                            initialValues?.expiryDate ??
+                                                                                            date
+                                                                                        }
                                                                                         onSelect={setDate}
                                                                                         initialFocus
                                                                                         disabled={(date) =>

@@ -140,7 +140,9 @@ export class LinkService extends MongoBaseService {
       }
 
       // Generate alias and find associated domain
-      const alias = obj.alias ? obj.alias : Utils.generateCode(7, true);
+      if (!obj.alias) {
+        obj.alias = Utils.generateCode(7, true);
+      }
 
       const domain = await this.domainModel.findOne({ ...Utils.conditionWithDelete({ _id: obj.domain }) });
       this.ensureDomainExists(domain);
@@ -255,6 +257,34 @@ export class LinkService extends MongoBaseService {
     const { verification } = domain;
     if (!verification.verified) {
       throw AppException.NOT_FOUND(lang.get('domain').notVerified);
+    }
+  }
+
+  /**
+   * This TypeScript function deletes an object and its associated QR code link within a transaction
+   * using MongoDB sessions.
+   * @param {string} id - The `id` parameter in the `deleteObject` function is a string that represents
+   * the unique identifier of the object you want to delete. This identifier is used to locate and
+   * delete the corresponding object from the database.
+   * @returns The `deleteObject` method is returning the result of deleting the object with the
+   * specified id.
+   */
+  public async deleteObject(id: string) {
+    let session: ClientSession;
+    try {
+      session = await this.model.startSession();
+      session.startTransaction();
+      const [link, _] = await Promise.all([
+        await this.model.deleteOne({ ...Utils.conditionWithDelete({ _id: id }) }, { session }),
+        await this.qrCodeModel.deleteOne({ ...Utils.conditionWithDelete({ link: id }) }, { session }),
+      ]);
+      await session?.commitTransaction();
+      return link;
+    } catch (e) {
+      await session?.abortTransaction();
+      throw e;
+    } finally {
+      await session?.endSession();
     }
   }
 }

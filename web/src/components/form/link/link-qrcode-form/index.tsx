@@ -1,24 +1,39 @@
 'use client';
 
-import { Button, Dict } from '@shtcut-ui/react';
+import { Button, Dict, toast } from '@shtcut-ui/react';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { QrCodeIcon } from 'lucide-react';
 import { useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 import { HexColorPicker } from 'react-colorful';
+import html2canvas from 'html2canvas';
+import { omit } from 'lodash';
 
 interface LinkQRCodeForm {
     url: string;
     removeLogo?: boolean;
     enableBrandLogo?: boolean;
     qrPayload?: Dict;
-    handleSubmit: (payload: Dict) => void;
+    handleSubmit?: (payload: Dict) => void;
+    onClose?: () => void;
 }
 
 export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
     const { removeLogo, enableBrandLogo, url, handleSubmit, qrPayload } = props;
+
+    const qrCodeProps = omit(
+        {
+            ...qrPayload,
+            ...qrPayload?.properties
+        },
+        ['_id', 'id']
+    );
+    
     const [isRemoveLogo, setIsRemoveLogo] = useState(removeLogo ?? false);
-    const [color, setColor] = useState('#000000');
+    const [color, setColor] = useState(qrCodeProps?.fgColor ?? '#000000');
+    const [logo, setLogo] = useState(qrCodeProps?.logo ?? '/favicon.ico');
+
+    
 
     const handleOnClick = () => {
         const payload = {
@@ -26,7 +41,19 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
             value: url,
             logoImage: '/favicon.ico'
         };
-        handleSubmit(payload);
+        handleSubmit?.(payload);
+    };
+
+    const handleDownloadQRCode = () => {
+        html2canvas(document.querySelector('#shtcut-qrcode') as any).then(function (canvas) {
+            const link = document.createElement('a');
+            link.download = 'shtcut-qrcode.png';
+            link.href = canvas.toDataURL();
+            link.click();
+            toast({
+                description: 'QR Code Downloaded Successfully'
+            });
+        });
     };
 
     return (
@@ -41,10 +68,11 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
                 </p>
                 <div className="flex justify-center mb-4">
                     <QRCode
+                        id="shtcut-qrcode"
                         value={url}
                         removeQrCodeBehindLogo={true}
                         ecLevel="L"
-                        logoImage="/favicon.ico"
+                        logoImage={logo}
                         logoHeight={35}
                         logoWidth={35}
                         fgColor={color}
@@ -53,7 +81,6 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
                             aspectRatio: '192/192',
                             objectFit: 'cover'
                         }}
-                        {...qrPayload}
                     />
                 </div>
                 <LinkCheckBox
@@ -81,8 +108,8 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
                     </div>
                 </div>
                 <div className="flex justify-center mb-2">
-                    <Button className="w-full" onClick={handleOnClick}>
-                        Continue
+                    <Button className="w-full" onClick={qrPayload?._id ? handleDownloadQRCode : handleOnClick}>
+                        {qrPayload?._id ? 'Download' : 'Continue'}
                     </Button>
                 </div>
             </div>

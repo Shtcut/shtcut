@@ -50,7 +50,11 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
 
     const params = {
         ...paginate,
-        population: JSON.stringify([{ path: 'user' }, { path: 'domain', select: ['slug', 'name'] }]),
+        population: JSON.stringify([
+            { path: 'user' },
+            { path: 'domain', select: ['slug', 'name'] },
+            { path: 'qrCode' }
+        ]),
         search,
         ...filter
     };
@@ -69,7 +73,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         if (id) {
             getLink({
                 id,
-                population: JSON.stringify([{ path: 'qrCode' }, { path: 'domain', select: ['slug', 'name'] }])
+                population: params.population
             });
         }
     }, [id]);
