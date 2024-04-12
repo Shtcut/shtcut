@@ -21,7 +21,7 @@ export class CreateLinkDto {
 
   @IsString()
   @IsOptional()
-  public readonly alias: string;
+  public alias: string;
 
   @IsMongoId()
   @IsOptional()

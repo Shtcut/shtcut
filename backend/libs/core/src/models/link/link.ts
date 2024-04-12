@@ -207,6 +207,7 @@ LinkSchema.statics.config = () => {
   return {
     idToken: 'lnk',
     cacheKeys: ['_id', 'target'],
+    softDelete: false,
     fillables: [
       'alias',
       'target',
@@ -234,6 +235,7 @@ LinkSchema.statics.config = () => {
       'title',
       'description',
       'expiryDate',
+      'password',
       'isPrivate',
       'utmParams',
       'devices',
