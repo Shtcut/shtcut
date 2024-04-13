@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { isValidURL } from '@shtcut/_shared';
 import { ApiResponse } from '@shtcut/_shared/namespace';
 import { LinkPreviewNamespace } from '@shtcut/_shared/namespace/link-preview';
 import { useEffect, useRef, useState } from 'react';
@@ -22,7 +23,7 @@ export const useLinkPreview = (props: UseLinkPreviewProps) => {
     useEffect(() => {
         _isMounted.current = true;
 
-        if (url) {
+        if (url && isValidURL(url)) {
             setLoading(false);
             fetch(`${baseUrl}/shtner/links/metadata?url=${url}&apiKey=${apiKey}`)
                 .then((res) => res.json())

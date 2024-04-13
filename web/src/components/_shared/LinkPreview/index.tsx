@@ -9,6 +9,7 @@ import { LinkPreviewSkeleton } from './skeleton';
 import { Skeleton } from '@shtcut-ui/react';
 import LinkSkeleton from '../LinkSkeleton';
 import { isEmpty } from 'lodash';
+import { isValidURL } from '@shtcut/_shared';
 
 export interface LinkPreviewProps {
     url: string;
@@ -117,7 +118,7 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
             className={`container ${className}`}
             style={{ width, height, borderRadius, textAlign, margin, backgroundColor, borderColor }}
         >
-            {url ? (
+            {url && isValidURL(url) ? (
                 <>
                     {(image || fallbackImageSrc || showLockedImage) && showPlaceholderIfNoImage && (
                         <div
