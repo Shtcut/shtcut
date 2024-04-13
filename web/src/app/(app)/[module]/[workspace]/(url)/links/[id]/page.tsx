@@ -1,8 +1,6 @@
 'use client';
 
 import { LayoutBody, LinkForm } from '@shtcut/components';
-import { DndContext } from '@dnd-kit/core';
-import { LinkContainer } from '@shtcut/containers';
 import { Dict } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks';
 import { useLink } from '@shtcut/hooks/link';
@@ -29,7 +27,6 @@ const EditLink = () => {
             enableTracking: !!authData,
             ...value
         };
-        console.log('payload::', payload);
         if (value) {
             updateLink({
                 payload,
