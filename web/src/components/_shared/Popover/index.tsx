@@ -9,8 +9,9 @@ import * as AlertDialog from '@radix-ui/react-alert-dialog';
 import { Drawer } from 'vaul';
 import { MenuDropdown } from '../MenuDropdown';
 import { useRouter, useParams } from 'next/navigation';
-import { CustomAlert, Dict, Modal } from '@shtcut-ui/react';
+import { CustomAlert, Dict, Modal, toast } from '@shtcut-ui/react';
 import { LinkQrCodeForm } from '@shtcut/components/form';
+import { useLink } from '@shtcut/hooks/link';
 
 interface PopoverMenuProps {
     id: string;
@@ -24,6 +25,10 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
     const router = useRouter();
     const params = useParams();
     const { module, workspace } = params;
+
+    const { updateLink,  updateLinkResponse, deleteLinkResponse, deleteLink, } = useLink({});
+    const { isLoading: isUpdating, isSuccess: isUpdateSuccessful } = updateLinkResponse;
+    const { isLoading: isDeleting, isSuccess: isDeleteSuccessful } = deleteLinkResponse;
 
     const [isArchived, setIsArchived] = useState(archived);
     const [openPopover, setOpenPopover] = useState(false);
@@ -39,6 +44,9 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
     const handleDeleteLink = () => {
         setOpenPopover(false);
         setOpenDrawer(false);
+        toast({
+            description: 'Link deleted successfully'
+        })
     };
 
     const closePopOver = () => {
@@ -152,7 +160,6 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
                 showModel={isQrCode}
                 setShowModal={setIsQrCode}
                 showCloseIcon={true}
-                // useDrawer={true}
                 onClose={handleOnCloseQR}
                 className="bg-white"
             >

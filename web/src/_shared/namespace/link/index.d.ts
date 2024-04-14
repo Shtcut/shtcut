@@ -1,5 +1,5 @@
 import { Dict } from '@shtcut-ui/react';
-import { AppObject } from '../index';
+import { AppObject, QueryArgs } from '../index';
 import { UserNamespace } from '../user';
 
 export namespace LinkNameSpace {
@@ -33,6 +33,7 @@ export namespace LinkNameSpace {
     }
 
     export interface LinkRequest extends ApiRequest {
+        params?: QueryArgs,
         payload?: {
             _id?: string;
             id?: string;
