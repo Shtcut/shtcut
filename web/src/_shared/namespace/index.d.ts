@@ -33,7 +33,7 @@ export interface QueryArgs {
     user?: string;
     workspace?: string;
     search?: string;
-    filter?: string;
+    filter?: Dict;
     all?: boolean;
 }
 
