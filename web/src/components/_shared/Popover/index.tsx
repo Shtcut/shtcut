@@ -12,6 +12,7 @@ import { useRouter, useParams } from 'next/navigation';
 import { CustomAlert, Dict, Modal, toast } from '@shtcut-ui/react';
 import { LinkQrCodeForm } from '@shtcut/components/form';
 import { useLink } from '@shtcut/hooks/link';
+import { findAllLinks } from '@shtcut/services/link';
 
 interface PopoverMenuProps {
     id: string;
@@ -26,7 +27,7 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
     const params = useParams();
     const { module, workspace } = params;
 
-    const { updateLink,  updateLinkResponse, deleteLinkResponse, deleteLink, } = useLink({});
+    const { updateLink, updateLinkResponse, deleteLinkResponse, deleteLink } = useLink({ callLinks: true });
     const { isLoading: isUpdating, isSuccess: isUpdateSuccessful } = updateLinkResponse;
     const { isLoading: isDeleting, isSuccess: isDeleteSuccessful } = deleteLinkResponse;
 
@@ -39,14 +40,28 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
         setOpenPopover(false);
         setOpenDrawer(false);
         setIsArchived(!isArchived);
+        updateLink({
+            payload: {
+                id,
+                archived: !isArchived
+            },
+            options: {
+                successMessage: `Link successfully ${isArchived ? 'archived' : 'un-archived'}`
+            }
+        });
     };
 
     const handleDeleteLink = () => {
         setOpenPopover(false);
         setOpenDrawer(false);
-        toast({
-            description: 'Link deleted successfully'
-        })
+        deleteLink({
+            payload: {
+                id
+            },
+            options: {
+                successMessage: 'Link deleted successfully'
+            }
+        });
     };
 
     const closePopOver = () => {

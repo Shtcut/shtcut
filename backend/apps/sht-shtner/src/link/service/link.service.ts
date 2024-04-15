@@ -279,6 +279,7 @@ export class LinkService extends MongoBaseService {
         await this.qrCodeModel.deleteOne({ ...Utils.conditionWithDelete({ link: id }) }, { session }),
       ]);
       await session?.commitTransaction();
+      console.log('link::', link);
       return link;
     } catch (e) {
       await session?.abortTransaction();
