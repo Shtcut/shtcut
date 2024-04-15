@@ -43,24 +43,6 @@ export const linkApi = api.injectEndpoints({
                     body: payload
                 };
             },
-            async onQueryStarted(args, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    if (data) {
-                        const { workspace } = data.data;
-                        dispatch(
-                            findAllWorkspaces.initiate({
-                                workspace,
-                                population: JSON.stringify([
-                                    { path: 'user' },
-                                    { path: 'domain', select: ['slug', 'name'] },
-                                    { path: 'qrCode' }
-                                ])
-                            })
-                        );
-                    }
-                } catch (_) {}
-            },
             invalidatesTags: [linkTag]
         }),
         deleteLink: builder.mutation<Dict, LinkNameSpace.LinkRequest>({
@@ -69,24 +51,6 @@ export const linkApi = api.injectEndpoints({
                     url: `${SHTNER.links}/${payload?.id}`,
                     method: DELETE
                 };
-            },
-            async onQueryStarted(args, { dispatch, queryFulfilled }) {
-                try {
-                    const { data } = await queryFulfilled;
-                    if (data) {
-                        const { workspace } = data.data;
-                        dispatch(
-                            findAllWorkspaces.initiate({
-                                workspace,
-                                population: JSON.stringify([
-                                    { path: 'user' },
-                                    { path: 'domain', select: ['slug', 'name'] },
-                                    { path: 'qrCode' }
-                                ])
-                            })
-                        );
-                    }
-                } catch (_) {}
             },
             invalidatesTags: [linkTag]
         })

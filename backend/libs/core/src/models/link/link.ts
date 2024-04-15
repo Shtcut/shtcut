@@ -230,7 +230,6 @@ LinkSchema.statics.config = () => {
     ],
     updateFillables: [
       'target',
-      'archive',
       'labels',
       'title',
       'description',
@@ -238,6 +237,7 @@ LinkSchema.statics.config = () => {
       'password',
       'isPrivate',
       'utmParams',
+      'archived',
       'devices',
       'geo',
     ],

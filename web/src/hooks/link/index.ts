@@ -27,6 +27,7 @@ interface UseLinkReturnsType {
     createLink: MutationTrigger<any>;
     deleteLink: MutationTrigger<any>;
     updateLink: MutationTrigger<any>;
+    findAllLinks: any;
     isLoading: boolean;
 
     findAllLinksResponse: LinkNameSpace.Link[] | undefined;
@@ -83,6 +84,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         createLink,
         updateLink,
         deleteLink,
+        findAllLinks,
         findAllLinksResponse,
         createLinkResponse,
         getLinkResponse,
