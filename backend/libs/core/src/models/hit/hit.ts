@@ -28,6 +28,12 @@ export class Hit {
 
   @Prop({
     type: Types.ObjectId,
+    ref: 'Workspace',
+  })
+  public workspace: any;
+
+  @Prop({
+    type: Types.ObjectId,
     ref: 'Domain',
   })
   public domain: any;
@@ -193,7 +199,7 @@ HitSchema.statics.config = () => {
   return {
     idToken: 'hit',
     uniques: [],
-    fillables: ['type', 'timezone', 'location', 'company', 'country', 'browser', 'OS', 'link', 'qrcode'],
+    fillables: ['type', 'timezone', 'location', 'company', 'country', 'browser', 'OS', 'link', 'qrcode', 'workspace'],
     hiddenFields: ['deleted'],
   };
 };

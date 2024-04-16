@@ -13,6 +13,7 @@ import { CustomAlert, Dict, Modal, toast } from '@shtcut-ui/react';
 import { LinkQrCodeForm } from '@shtcut/components/form';
 import { useLink } from '@shtcut/hooks/link';
 import { findAllLinks } from '@shtcut/services/link';
+import { IconBrandGoogleAnalytics } from '@tabler/icons-react';
 
 interface PopoverMenuProps {
     id: string;
@@ -136,6 +137,17 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
                                 >
                                     <h4>Edit</h4>
                                     <Edit size={17} color="gray" />
+                                </button>
+                            </Dialog.Trigger>
+                        </Dialog.Root>
+                        <Dialog.Root>
+                            <Dialog.Trigger asChild>
+                                <button
+                                    className="group flex w-full items-center justify-between rounded-md p-3 text-sm font-medium text-gray-500 transition-all duration-75 hover:bg-gray-100"
+                                    onClick={handleOnEdit}
+                                >
+                                    <h4>Analytics</h4>
+                                    <IconBrandGoogleAnalytics size={17} color="gray" />
                                 </button>
                             </Dialog.Trigger>
                         </Dialog.Root>
