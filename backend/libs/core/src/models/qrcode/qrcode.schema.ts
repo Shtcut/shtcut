@@ -39,10 +39,22 @@ export class QrCode {
   domain: any;
 
   @Prop({
+    type: Number,
+    default: 0,
+  })
+  totalScanned: number;
+
+  @Prop({
     type: Types.ObjectId,
     ref: 'Link',
   })
   link: any;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  enableTracking: boolean;
 
   @Prop({
     type: Boolean,
@@ -76,6 +88,12 @@ export class QrCode {
 
   @Prop({
     type: Boolean,
+    default: false,
+  })
+  archived: boolean;
+
+  @Prop({
+    type: Boolean,
     default: true,
   })
   active: boolean;
@@ -98,8 +116,8 @@ QrCodeSchema.statics.config = () => {
   return {
     idToken: 'qr',
     uniques: ['link', 'domain', 'workspace'],
-    fillables: ['workspace', 'link', 'scanned', 'domain', 'properties'],
-    updateFillables: ['workspace', 'link', 'scanned', 'domain', 'imageFormat'],
+    fillables: ['workspace', 'link', 'scanned', 'domain', 'properties', 'enableTracking', 'archived'],
+    updateFillables: ['workspace', 'link', 'scanned', 'domain', 'imageFormat', 'archived'],
     hiddenFields: ['deleted'],
   };
 };

@@ -12,6 +12,7 @@ import { DomainModule } from './domain';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './_shard';
+import { QrCodeModule } from './qr-code';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { JwtStrategy } from './_shard';
     DomainModule,
     UserModule,
     LinkModule,
+    QrCodeModule,
     PassportModule,
     PassportModule,
     MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),

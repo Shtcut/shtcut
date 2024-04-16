@@ -674,6 +674,7 @@ export const LinkForm = (props: LinkFormProps) => {
                                                 className="border rounded-md p-6 mt-4 bg-gray-600"
                                                 url={form.getValues('target')}
                                                 width={'500px'}
+                                                showLockedImage={initialValues?.isPrivate || !isEmpty(value.password)}
                                                 height={'400px'}
                                                 imageHeight={'200px'}
                                                 textAlign="left"
