@@ -1,6 +1,16 @@
 'use client';
 
-import { Button, Input, Select, SelectTrigger, SelectContent, SelectItem, SelectValue, Badge, Separator } from '@shtcut-ui/react';
+import {
+    Button,
+    Input,
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue,
+    Badge,
+    Separator
+} from '@shtcut-ui/react';
 import { DndContext } from '@dnd-kit/core';
 import { Fragment } from 'react';
 import { useLink } from '@shtcut/hooks/link';
@@ -13,8 +23,9 @@ import { LinkCard } from '@shtcut/components/_shared/LinkCard';
 import LinkSkeleton from '@shtcut/components/_shared/LinkSkeleton';
 import Image from 'next/image';
 import { useAuth } from '@shtcut/hooks';
+import { QRCodeCard } from '@shtcut/components/_shared/QRCodeCard';
 
-interface QrcodeContainer {}
+interface QrCodeContainer {}
 
 export const QrCodeContainer = () => {
     const params = useParams();
@@ -50,7 +61,7 @@ export const QrCodeContainer = () => {
                     <div className="w-full flex-1 rounded-md">
                         <Input className="w-96 h-10" placeholder="Search here..." />
                     </div>
-                   
+
                     <div className="flex items-center  space-x-4">
                         <Button variant="outline">Filter</Button>
                         <Select>
@@ -81,7 +92,7 @@ export const QrCodeContainer = () => {
                                                   items={dummyLinkHistory && dummyLinkHistory}
                                                   strategy={verticalListSortingStrategy}
                                               >
-                                                  <LinkCard
+                                                  <QRCodeCard
                                                       key={id}
                                                       id={id}
                                                       {...link}
@@ -117,9 +128,8 @@ export const QrCodeContainer = () => {
                             )}
                         </div>
                     </div>
-                    <div className='w-4 hidden lg:flex'>  
-                    
-                    <Separator orientation='vertical'  />
+                    <div className="w-4 hidden lg:flex">
+                        <Separator orientation="vertical" />
                     </div>
                     <div className=" relative w-full h-fit lg:w-1/2 lg:border-[8px] border-black   overflow-hidden  border rounded-md p-6 my-3">
                         <div className="p-6 border bg-white rounded-lg shadow">

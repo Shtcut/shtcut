@@ -18,18 +18,24 @@ import {
     UploadIcon,
     YoutubeIcon
 } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 
 export const QRCodeForm = () => {
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
+    const [qrCodePattern, setQrCodePattern] = useState('L');
+
+    const handleOnChangePattern = (e, pattern) => {
+        e.preventDefault();
+        setQrCodePattern(pattern);
+    };
 
     return (
         <>
             <div className="flex items-center justify-between space-y-2">
-                <h1 className="text-2xl font-bold tracking-light md:text-3xl">QrCode</h1>
+                <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create QR Code</h1>
                 <div className="flex items-center space-x-2">
-                    <Button>QrCode</Button>
+                    <Button>Cancel</Button>
                 </div>
             </div>
             <div className="w-full my-8 p-6 bg-white  border rounded-lg">
@@ -98,11 +104,12 @@ export const QRCodeForm = () => {
                             <QRCode
                                 value="https://shtcut.link/auth/sign-in"
                                 removeQrCodeBehindLogo={true}
-                                ecLevel="L"
+                                ecLevel={qrCodePattern as any}
                                 logoImage="/favicon.ico"
                                 logoHeight={35}
                                 logoWidth={35}
                                 logoPaddingStyle={'circle'}
+                                qrStyle="dots"
                                 style={{
                                     aspectRatio: '192/192',
                                     objectFit: 'cover'
@@ -142,38 +149,29 @@ export const QRCodeForm = () => {
                     </div>
                     <div className="flex flex-col w-1/4 border rounded-md p-5">
                         <h2 className="text-lg font-semibold mb-4">Pattern</h2>
-                        <div className="grid grid-cols-3 gap-4 mb-8">
-                            <Button className="bg-[#eff3fe]">
-                                <Repeat1Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Code2Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <BarChart3Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <BarChart4Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Clock5Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Clock6Icon className="text-[#3b82f6]" />
-                            </Button>
-                        </div>
-                        <h2 className="text-lg font-semibold mb-4">Color</h2>
-                        <div className="grid grid-cols-3 gap-4 mb-8">
-                            <Button className="bg-black rounded-full w-8 h-8" />
-                            <Button className="bg-gray-500 rounded-full w-8 h-8" />
-                            <Button className="bg-red-500 rounded-full w-8 h-8" />
-                            <Button className="bg-pink-500 rounded-full w-8 h-8" />
-                            <Button className="bg-purple-500 rounded-full w-8 h-8" />
-                            <Button className="bg-blue-500 rounded-full w-8 h-8" />
-                            <Button className="bg-cyan-500 rounded-full w-8 h-8" />
-                            <Button className="bg-green-500 rounded-full w-8 h-8" />
-                            <Button className="bg-orange-500 rounded-full w-8 h-8" />
-                            <Button className="bg-yellow-600 rounded-full w-8 h-8" />
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                            {['L', 'M', 'Q', 'H'].map((p, idx) => (
+                                <div
+                                    key={`${p}-${idx}`}
+                                    className="border rounded-lg cursor-pointer"
+                                    onClick={(e) => handleOnChangePattern(e, p)}
+                                >
+                                    <QRCode
+                                        id="shtcut-qrcode"
+                                        value={''}
+                                        ecLevel={p as any}
+                                        quietZone={10}
+                                        fgColor={'#000000'}
+                                        size={100}
+                                        qrStyle="dots"
+                                        style={{
+                                            aspectRatio: '192/192',
+                                            objectFit: 'cover',
+                                            cursor: 'pointer'
+                                        }}
+                                    />
+                                </div>
+                            ))}
                         </div>
                         <h2 className="text-lg font-semibold">Frame</h2>
                         <div className="grid grid-cols-3 gap-4 mb-8">
