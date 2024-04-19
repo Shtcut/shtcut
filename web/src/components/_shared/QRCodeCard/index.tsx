@@ -76,9 +76,17 @@ export const QRCodeCard = (props: QRCodeProp) => {
                     <GripVertical color="grey" size={17} />
                 </div>
                 <QRCode
-                    value=''
+                    id="shtcut-qrcode"
+                    value={''}
+                    removeQrCodeBehindLogo={true}
+                    ecLevel="L"
+                    fgColor={'#000000'}
+                    size={50}
                     style={{
-                        
+                        aspectRatio: '192/192',
+                        objectFit: 'cover',
+                        width: 20,
+                        height: 20,
                     }}
                 />
                 <div className="flex-1 p-2 h-full relative">

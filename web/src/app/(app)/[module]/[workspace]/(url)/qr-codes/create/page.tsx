@@ -44,9 +44,6 @@ const CreateQRCode = () => {
 
     return (
         <LayoutBody className="container bg-white">
-            <div className="flex items-center justify-between space-y-2">
-                <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create QR Code</h1>
-            </div>
             <QRCodeForm />
         </LayoutBody>
     );

@@ -1,6 +1,6 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, Dict, toast } from '@shtcut-ui/react';
+import { Card, Dict, cn, toast } from '@shtcut-ui/react';
 import { getApexDomain, timeAgo } from '@shtcut/_shared';
 import { GripVertical } from 'lucide-react';
 import Image from 'next/image';
@@ -132,8 +132,8 @@ export const LinkCard = (props: LinkCardProp) => {
                                             className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2"
                                         >
                                             <p className="text-gray-500 w-[200px] text-sm lg:w-[320px] whitespace-nowrap overflow-hidden font-semibold text-ellipsis">
-                                                <span>{title}: </span>
-                                                <span className="ml-1 text-black">{target}</span>
+                                                {title && <span>{title}: </span>}
+                                                <span className={cn('text-black', title ? 'ml-1' : '')}>{target}</span>
                                             </p>
                                         </a>
                                     </div>
