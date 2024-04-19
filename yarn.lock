@@ -13213,10 +13213,10 @@ pure-rand@^6.0.0:
   resolved "https://registry.yarnpkg.com/pure-rand/-/pure-rand-6.0.4.tgz#50b737f6a925468679bff00ad20eade53f37d5c7"
   integrity sha512-LA0Y9kxMYv47GIPJy6MI84fqTd2HmYZI83W/kM/SkKfDlajnZYfmXFTxkbY+xSBPkLJxltMa9hIkmdc29eguMA==
 
-qr-code-styling@^1.6.0-rc.1:
-  version "1.6.0-rc.1"
-  resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.6.0-rc.1.tgz#6c89e185fa50cc9135101085c12ae95b06f1b290"
-  integrity sha512-ModRIiW6oUnsP18QzrRYZSc/CFKFKIdj7pUs57AEVH20ajlglRpN3HukjHk0UbNMTlKGuaYl7Gt6/O5Gg2NU2Q==
+qr-code-styling@^1.4.4:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/qr-code-styling/-/qr-code-styling-1.5.0.tgz#e2b34f5bd88a9cbe0a8e136dc4d94b96419fe1f9"
+  integrity sha512-7C+1cZGsZWH0BIRtv24faKZJwkxdYlynXktP9dDxKNSik2bqaUZck3B3MpQod/wqm9i3l4q7QsPGkRGKvcuqZw==
   dependencies:
     qrcode-generator "^1.4.3"
 

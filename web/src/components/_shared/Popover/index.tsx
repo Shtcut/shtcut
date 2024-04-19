@@ -19,11 +19,15 @@ interface PopoverMenuProps {
     id: string;
     title?: string;
     target: string;
+    alias: string;
+    domain: {
+        slug: string;
+    };
     archived?: boolean;
     qrCode?: string | Dict;
 }
 
-export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenuProps) => {
+export const PopoverMenu = ({ id, title, target, archived, qrCode, domain: { slug }, alias }: PopoverMenuProps) => {
     const router = useRouter();
     const params = useParams();
     const { module, workspace } = params;
@@ -95,17 +99,6 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
             : 'By unarchiving this link, it will show up on your main page again.',
         confirmMessage: !isArchived ? 'Yes, archive' : 'Yes, unarchive',
         close: (!openPopover && closeDrawer) || (!openDrawer && closePopOver)
-    };
-
-    const mobilePopOverProps = {
-        archiveProps,
-        deleteAlertProps,
-        title,
-        id,
-        target,
-        archived,
-        isArchived,
-        closeDrawer
     };
 
     const handleOnEdit = () => {
@@ -190,7 +183,7 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode }: PopoverMenu
                 onClose={handleOnCloseQR}
                 className="bg-white"
             >
-                <LinkQrCodeForm qrPayload={qrCode as Dict} url={target} onClose={handleOnCloseQR} />
+                <LinkQrCodeForm qrPayload={qrCode as Dict} url={`https://${slug}/${alias}`} onClose={handleOnCloseQR} />
             </Modal>
         </>
     );

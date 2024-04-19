@@ -285,9 +285,10 @@ export const SECOND_LEVEL_DOMAINS = new Set(['com', 'co', 'net', 'org', 'edu', '
 
 export const SPECIAL_APEX_DOMAINS = ['youtu.be', 'youtube.com'];
 
-export const ALPHA_NUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-
-export const PREVIEW_SOCIAL = ['Twitter', 'Facebook']
+export const ALPHA_NUMERIC = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+export const LOGO_FAV_ICON =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAIVBMVEVMaXEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+JJ50AAAACnRSTlMAYe6EDUIkn9m+6SpLswAAAAlwSFlzAAAD6AAAA+gBtXtSawAAA4NJREFUeJztWu2SwyAIDKJo8v4PfJPU72hi0LQzN+7Pa3NLAGGRLsvExMTExMTExMTExMS/BcEqtm3bhNFK/oJ9iyCQvsqOJma3Jsgfsh8w33CCqrEfgNfZxQX72xYofcf+pgWqwr4iACafqfHkssoOLusgJIYYnIkSquzJqUP/gfkB+w4lRqeBfMCeWCBGFCSZFtoQYV1mPyxwX8J+ehRP2eM86HYBlOjFfceTZkgWSF1kb7J8xEGQK5N9h3NBTy3QKbvBJ6UN+2OAfPa9U9sHNZtfxewMR5reJDA+8NAVQC4/OP6V+iLY6wATH3kCBGiUve4NOjNAUEH8VlpA+T8wDdBZMc+k96bpZQ8Y64DPq6pCP8JXDZDJKY5OZISb7OxLQmWfPk6grEhQcVmbrNMEzwCwHJScyEcWWKtXngFoKY4UKAuSGwugT5Lo2H+eTgNJqTAyKKkSCVauNqej68QG0KkTR4diHasHaB/34GzASQeETll2MQlGBMgOm5DlwMcnlTcsqz7ynYwYoy7kp6AIb0Gh4YfBADljPuR14EYvUV3Gt4liyqSXbtMzXvhifYRp068i5f8ktusFLQ1T1kaYpgDojN6Suj9fqaE1qdfnAUqz+NfPoO1ybG1wQRyzp/yYs3t3ioYwmmCkPPmxSUlC/ESqc/C22Ka6M8uke8GS9dmTyqIGT8bVIs6AZhmv/RPq4sO6L52RKjbgwQhD/pliOb2651AfEvuV0D2ejTDool9+qNpw9rKt4yzcP9eMAUpc+9iXuiRE9p7sZAA8H9+Uy7/aF0IQjsiSpFBoMTeAAbxNsrIa9nnnDz9zBF/t4xcHvS5HEwOZBoibCBwUFUWOiQ+Z4+vWEsCgbWLYcyv6rgC2Jv/JrF0cTpNJgLiXIFtjADPB4k97U78aYcCykB8F4lrj7GJfwmxPUlgqAPR38jt8aNj3YFtLElZxrcufGKA771D599HGvgGDPl6L8K+jNa+MZGubjptQYPhQ2h3xgAAsXo80H6P8oqrrIvak61lb2j7+xc/wkrelZd7hBvhaeh3Iyq5wxIoct7tqfrGpHLIQE+5t1IhtXVc9VbcHzn1zHPuOcK6wd1fIA4mz9KYq+xu/T1EJw76B/yb7pfBN2Zf3AD9lr65nuds6Fsj8kv1AYUXO2hUO29Kb77IfkK7jifCDlImJiYmJiYmJiYmJif+HP1zjXmgmoSYOAAAAAElFTkSuQmCC';
+export const PREVIEW_SOCIAL = ['Twitter', 'Facebook'];
 
 export const SOCIAL_MEDIA = {
     GOOGLE: 'google',
@@ -326,7 +327,7 @@ export const ACL = {
 };
 
 export const SHTNER = {
-    links: 'shtner/links',
+    links: 'shtner/links'
 };
 
 export const AUTH_TOKEN_KEY = process.env.NEXT_PUBLIC_STORAGE_KEY as string;
@@ -393,107 +394,106 @@ export const CLIENTS = [
     {
         logo: './next.svg',
         alt: 'next'
-    },
+    }
 ];
-
 
 export const USERS = [
     {
-      name: "Alice",
-      message:
-        "Shtcut has been a game-changer for our team. With its reliable end-to-end testing, we catch bugs early, leading to faster development cycles and improved collaboration.",
+        name: 'Alice',
+        message:
+            'Shtcut has been a game-changer for our team. With its reliable end-to-end testing, we catch bugs early, leading to faster development cycles and improved collaboration.'
     },
     {
-      name: "Bob",
-      message:
-        "I used to spend hours debugging frontend issues, but Shtcut simplified everything. Now, I'm more productive, and my colleagues can trust our code thanks to Shtcut.",
+        name: 'Bob',
+        message:
+            "I used to spend hours debugging frontend issues, but Shtcut simplified everything. Now, I'm more productive, and my colleagues can trust our code thanks to Shtcut."
     },
     {
-      name: "Charlie",
-      message:
-        "Shtcut has transformed the way we work. Our QA and development teams are on the same page, and our productivity has skyrocketed. It's a must-have tool.",
+        name: 'Charlie',
+        message:
+            "Shtcut has transformed the way we work. Our QA and development teams are on the same page, and our productivity has skyrocketed. It's a must-have tool."
     },
     {
-      name: "David",
-      message:
-        "I was skeptical at first, but Shtcut exceeded my expectations. Our project timelines have improved, and collaboration between teams is seamless.",
+        name: 'David',
+        message:
+            'I was skeptical at first, but Shtcut exceeded my expectations. Our project timelines have improved, and collaboration between teams is seamless.'
     },
     {
-      name: "Ella",
-      message:
-        "Shtcut made writing and running tests a breeze. Our team's productivity has never been higher, and we're delivering more reliable software.",
+        name: 'Ella',
+        message:
+            "Shtcut made writing and running tests a breeze. Our team's productivity has never been higher, and we're delivering more reliable software."
     },
     {
-      name: "Frank",
-      message:
-        "Thanks to Shtcut, we've eliminated testing bottlenecks. Our developers and testers collaborate effortlessly, resulting in quicker releases.",
+        name: 'Frank',
+        message:
+            "Thanks to Shtcut, we've eliminated testing bottlenecks. Our developers and testers collaborate effortlessly, resulting in quicker releases."
     },
     {
-      name: "Grace",
-      message:
-        "Shtcut has improved our development process significantly. We now have more time for innovation, and our products are of higher quality.",
+        name: 'Grace',
+        message:
+            'Shtcut has improved our development process significantly. We now have more time for innovation, and our products are of higher quality.'
     },
     {
-      name: "Hank",
-      message:
-        "Shtcut's user-friendly interface made it easy for our non-technical team members to contribute to testing. Our workflow is much more efficient now.",
+        name: 'Hank',
+        message:
+            "Shtcut's user-friendly interface made it easy for our non-technical team members to contribute to testing. Our workflow is much more efficient now."
     },
     {
-      name: "Ivy",
-      message:
-        "Our team's collaboration improved immensely with Shtcut. We catch issues early, leading to less friction and quicker feature deployments.",
+        name: 'Ivy',
+        message:
+            "Our team's collaboration improved immensely with Shtcut. We catch issues early, leading to less friction and quicker feature deployments."
     },
     {
-      name: "Jack",
-      message:
-        "Shtcut's robust testing capabilities have elevated our development standards. We work more harmoniously, and our releases are more reliable.",
+        name: 'Jack',
+        message:
+            "Shtcut's robust testing capabilities have elevated our development standards. We work more harmoniously, and our releases are more reliable."
     },
     {
-      name: "Katherine",
-      message:
-        "Shtcut is a lifesaver for our cross-functional teams. We're more productive, and there's a shared sense of responsibility for product quality.",
+        name: 'Katherine',
+        message:
+            "Shtcut is a lifesaver for our cross-functional teams. We're more productive, and there's a shared sense of responsibility for product quality."
     },
     {
-      name: "Liam",
-      message:
-        "Shtcut has helped us maintain high standards of quality. Our team's collaboration has improved, resulting in faster development cycles.",
+        name: 'Liam',
+        message:
+            "Shtcut has helped us maintain high standards of quality. Our team's collaboration has improved, resulting in faster development cycles."
     },
     {
-      name: "Mia",
-      message:
-        "Shtcut is a powerful tool that improved our productivity and collaboration. It's now an integral part of our development process.",
+        name: 'Mia',
+        message:
+            "Shtcut is a powerful tool that improved our productivity and collaboration. It's now an integral part of our development process."
     },
     {
-      name: "Nathan",
-      message:
-        "Shtcut's user-friendly interface and detailed reporting have made testing a breeze. Our team's productivity is at an all-time high.",
+        name: 'Nathan',
+        message:
+            "Shtcut's user-friendly interface and detailed reporting have made testing a breeze. Our team's productivity is at an all-time high."
     },
     {
-      name: "Olivia",
-      message:
-        "We saw immediate benefits in terms of productivity and collaboration after adopting Shtcut. It's an essential tool for our development workflow.",
+        name: 'Olivia',
+        message:
+            "We saw immediate benefits in terms of productivity and collaboration after adopting Shtcut. It's an essential tool for our development workflow."
     },
     {
-      name: "Paul",
-      message:
-        "Shtcut has streamlined our testing process and brought our teams closer. We're more efficient and deliver better results.",
+        name: 'Paul',
+        message:
+            "Shtcut has streamlined our testing process and brought our teams closer. We're more efficient and deliver better results."
     },
     {
-      name: "Quinn",
-      message:
-        "Shtcut has been a game-changer for us. Our productivity and collaboration have improved significantly, leading to better software.",
+        name: 'Quinn',
+        message:
+            'Shtcut has been a game-changer for us. Our productivity and collaboration have improved significantly, leading to better software.'
     },
     {
-      name: "Rachel",
-      message:
-        "Thanks to Shtcut, our testing process is now a seamless part of our development cycle. Our teams collaborate effortlessly.",
+        name: 'Rachel',
+        message:
+            'Thanks to Shtcut, our testing process is now a seamless part of our development cycle. Our teams collaborate effortlessly.'
     },
     {
-      name: "Sam",
-      message:
-        "Shtcut is a fantastic tool that has revolutionized our workflow. Our productivity and collaboration have reached new heights.",
-    },
-  ];
+        name: 'Sam',
+        message:
+            'Shtcut is a fantastic tool that has revolutionized our workflow. Our productivity and collaboration have reached new heights.'
+    }
+];
 
 export const topNav = [
     {

@@ -21,14 +21,94 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 
+import QRCodeStyling, {
+    DrawType,
+    TypeNumber,
+    Mode,
+    ErrorCorrectionLevel,
+    DotType,
+    CornerSquareType,
+    CornerDotType,
+    Extension,
+    Options
+} from 'qr-code-styling';
+import Image from 'next/image';
+import { LOGO_FAV_ICON } from '@shtcut/_shared/constant';
+
 export const QRCodeForm = () => {
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
     const [qrCodePattern, setQrCodePattern] = useState('L');
+
+    const [options, setOptions] = useState<Options>({
+        width: 300,
+        height: 300,
+        type: 'svg' as DrawType,
+        data: 'https://app.shtcut.link/',
+        image: LOGO_FAV_ICON,
+        margin: 10,
+        qrOptions: {
+            typeNumber: 0 as TypeNumber,
+            mode: 'Byte' as Mode,
+            errorCorrectionLevel: 'Q' as ErrorCorrectionLevel
+        },
+        imageOptions: {
+            hideBackgroundDots: true,
+            imageSize: 0.4,
+            margin: 20,
+            crossOrigin: 'anonymous'
+        },
+        dotsOptions: {
+            color: '#222222',
+            type: 'rounded' as DotType
+        },
+        cornersSquareOptions: {
+            color: '#222222',
+            type: 'extra-rounded' as CornerSquareType
+            // gradient: {
+            //   type: 'linear', // 'radial'
+            //   rotation: 180,
+            //   colorStops: [{ offset: 0, color: '#25456e' }, { offset: 1, color: '#4267b2' }]
+            // },
+        },
+        cornersDotOptions: {
+            color: '#222222',
+            type: 'dot' as CornerDotType,
+            gradient: {
+                type: 'linear', // 'radial'
+                rotation: 180,
+                colorStops: [
+                    { offset: 0, color: '#00266e' },
+                    { offset: 1, color: '#4060b3' }
+                ]
+            }
+        }
+    });
+    const [fileExt, setFileExt] = useState<Extension>('svg');
+    const [qrCode] = useState<QRCodeStyling>(new QRCodeStyling(options));
+    const ref = useRef<HTMLDivElement>(null);
 
     const handleOnChangePattern = (e, pattern) => {
         e.preventDefault();
         setQrCodePattern(pattern);
     };
+
+    const onDownloadClick = () => {
+        if (!qrCode) return;
+        qrCode.download({
+            extension: fileExt
+        });
+    };
+
+    useEffect(() => {
+        if (ref.current) {
+            qrCode.append(ref.current);
+        }
+    }, [qrCode, ref]);
+
+    useEffect(() => {
+        if (!qrCode) return;
+        qrCode.update(options);
+    }, [qrCode, options]);
 
     return (
         <>
@@ -101,20 +181,7 @@ export const QRCodeForm = () => {
                         <Input className="mb-8" placeholder="URL the website" />
                         <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
                         <div className="flex justify-center mb-4">
-                            <QRCode
-                                value="https://shtcut.link/auth/sign-in"
-                                removeQrCodeBehindLogo={true}
-                                ecLevel={qrCodePattern as any}
-                                logoImage="/favicon.ico"
-                                logoHeight={35}
-                                logoWidth={35}
-                                logoPaddingStyle={'circle'}
-                                qrStyle="dots"
-                                style={{
-                                    aspectRatio: '192/192',
-                                    objectFit: 'cover'
-                                }}
-                            />
+                            <div ref={ref} className="h-35 w-35" />
                         </div>
                         <LinkCheckBox
                             isChecked={isRemoveLogo}
@@ -144,25 +211,23 @@ export const QRCodeForm = () => {
                             </div>
                         </div>
                         <div className="flex justify-center mb-6">
-                            <Button className="w-full">Continue</Button>
+                            <Button className="w-full" onClick={onDownloadClick}>
+                                Continue
+                            </Button>
                         </div>
                     </div>
                     <div className="flex flex-col w-1/4 border rounded-md p-5">
                         <h2 className="text-lg font-semibold mb-4">Pattern</h2>
                         <div className="grid grid-cols-2 gap-4 mb-8">
                             {['L', 'M', 'Q', 'H'].map((p, idx) => (
-                                <div
-                                    key={`${p}-${idx}`}
-                                    className="border rounded-lg cursor-pointer"
-                                    onClick={(e) => handleOnChangePattern(e, p)}
-                                >
+                                <div key={`${p}-${idx}`} onClick={(e) => handleOnChangePattern(e, p)}>
                                     <QRCode
                                         id="shtcut-qrcode"
                                         value={''}
                                         ecLevel={p as any}
                                         quietZone={10}
                                         fgColor={'#000000'}
-                                        size={100}
+                                        size={50}
                                         qrStyle="dots"
                                         style={{
                                             aspectRatio: '192/192',
@@ -174,25 +239,17 @@ export const QRCodeForm = () => {
                             ))}
                         </div>
                         <h2 className="text-lg font-semibold">Frame</h2>
-                        <div className="grid grid-cols-3 gap-4 mb-8">
-                            <Button className="bg-[#eff3fe]">
-                                <Repeat1Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Code2Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <BarChart3Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <BarChart4Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Clock5Icon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <Clock6Icon className="text-[#3b82f6]" />
-                            </Button>
+                        <div className="grid grid-cols-2 gap-4 mb-8">
+                            {[...Array(6)].map((_, idx) => (
+                                <Image
+                                    className="cursor-pointer"
+                                    key={idx}
+                                    src={`/svg/qrcode-scanner-${idx + 1}.svg`}
+                                    alt={`qrcode-scanner-${idx + 1}`}
+                                    width={500}
+                                    height={500}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>
