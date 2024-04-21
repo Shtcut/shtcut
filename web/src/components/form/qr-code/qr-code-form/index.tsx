@@ -33,18 +33,19 @@ import QRCodeStyling, {
     Options
 } from 'qr-code-styling';
 import Image from 'next/image';
-import { LOGO_FAV_ICON } from '@shtcut/_shared/constant';
+import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, SOCIAL_ICONS_LOGOS } from '@shtcut/_shared/constant';
 
 export const QRCodeForm = () => {
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
     const [qrCodePattern, setQrCodePattern] = useState('L');
+    const [qrCodeLogo, setQrCodeLogo] = useState(LOGO_FAV_ICON);
 
     const [options, setOptions] = useState<Options>({
         width: 300,
         height: 300,
         type: 'svg' as DrawType,
         data: 'https://app.shtcut.link/',
-        image: LOGO_FAV_ICON,
+        image: qrCodeLogo,
         margin: 10,
         qrOptions: {
             typeNumber: 0 as TypeNumber,
@@ -59,7 +60,7 @@ export const QRCodeForm = () => {
         },
         dotsOptions: {
             color: '#222222',
-            type: 'rounded' as DotType
+            type: 'classy' as DotType
         },
         cornersSquareOptions: {
             color: '#222222',
@@ -92,6 +93,14 @@ export const QRCodeForm = () => {
         setQrCodePattern(pattern);
     };
 
+    const handleOnChangeLogo = (e, logo) => {
+        e.preventDefault();
+        setOptions((prev) => ({
+            ...prev,
+            image: logo,
+        }))
+    };
+
     const onDownloadClick = () => {
         if (!qrCode) return;
         qrCode.download({
@@ -110,6 +119,7 @@ export const QRCodeForm = () => {
         qrCode.update(options);
     }, [qrCode, options]);
 
+
     return (
         <>
             <div className="flex items-center justify-between space-y-2">
@@ -121,32 +131,23 @@ export const QRCodeForm = () => {
             <div className="w-full my-8 p-6 bg-white  border rounded-lg">
                 <div className="flex gap-8">
                     <div className="flex flex-col w-1/4  border rounded-lg p-6">
-                        <h2 className="text-lg font-semibold mb-4">Destination</h2>
+                        <h2 className="text-lg font-semibold mb-4">Logos</h2>
                         <div className="grid grid-cols-2 gap-4">
-                            <Button className="bg-[#eff3fe]">
-                                <FacebookIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <PaperclipIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <YoutubeIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <FacebookIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <UploadIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <InstagramIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <MessageCircleIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <MailIcon className="text-[#3b82f6]" />
-                            </Button>
+                            {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
+                                <div
+                                    className="w-100 h-100 border rounded-md justify-center bg-gray-100 cursor-pointer"
+                                    key={`${name}`}
+                                    onClick={(e) => handleOnChangeLogo(e, image)}
+                                >
+                                    <Image
+                                        className="flex items-center justify-center border rounded-md"
+                                        src={image}
+                                        alt={name}
+                                        width={50}
+                                        height={50}
+                                    />
+                                </div>
+                            ))}
                         </div>
                         <h2 className="text-lg font-semibold mb-4 mt-5">Destination</h2>
                         <div className="grid grid-cols-2 gap-4">
@@ -240,7 +241,7 @@ export const QRCodeForm = () => {
                         </div>
                         <h2 className="text-lg font-semibold">Frame</h2>
                         <div className="grid grid-cols-2 gap-4 mb-8">
-                            {[...Array(6)].map((_, idx) => (
+                            {[...Array(8)].map((_, idx) => (
                                 <Image
                                     className="cursor-pointer"
                                     key={idx}
