@@ -5,6 +5,7 @@ import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { IconCopy } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
+import satori from 'satori';
 
 import QRCodeStyling, {
     DrawType,
@@ -18,7 +19,7 @@ import QRCodeStyling, {
     Options
 } from 'qr-code-styling';
 import Image from 'next/image';
-import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, QR_PATTERNS, SOCIAL_ICONS_LOGOS } from '@shtcut/_shared/constant';
+import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, QR_PATTERNS, SOCIAL_ICONS_LOGOS, font } from '@shtcut/_shared/constant';
 import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
 
@@ -28,8 +29,8 @@ export const QRCodeForm = () => {
     const [link, setLink] = useState('https://shtcut.link/');
 
     const [options, setOptions] = useState<Options>({
-        width: 300,
-        height: 300,
+        width: 250,
+        height: 250,
         type: 'svg' as DrawType,
         data: 'https://app.shtcut.link/',
         image: qrCodeLogo,
@@ -74,7 +75,7 @@ export const QRCodeForm = () => {
         setLink(value);
         setOptions((prev) => ({
             ...prev,
-            data: !isEmpty(value) ? value : 'https://shtcut.link/',
+            data: !isEmpty(value) ? value : 'https://shtcut.link/'
         }));
     };
 
@@ -114,7 +115,7 @@ export const QRCodeForm = () => {
         }));
     };
 
-    const onDownloadClick = () => {
+    const onDownloadClick = async () => {
         if (!qrCode) return;
         if (isEmpty(link)) {
             if (!isValidURL(link)) {
@@ -130,9 +131,44 @@ export const QRCodeForm = () => {
             });
             return;
         }
-        qrCode.download({
-            extension: 'svg'
-        });
+        const svg = await qrCode.getRawData('svg');
+        console.log('svg::', svg);
+        const objectUrl = URL.createObjectURL(svg as Blob);
+        const qrSvg = await satori(
+            <div
+                tw="border rounded-md"
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                }}
+            >
+                <span>Hello World</span>
+                <img src={objectUrl} height={200} width={200} />
+            </div>,
+            {
+                width: 800,
+                height: 800,
+                fonts: [
+                    {
+                        name: 'CalSans-SemiBold',
+                        data: await font,
+                        weight: 700,
+                        style: 'normal'
+                    }
+                ]
+            }
+        );
+        const blob = new Blob([qrSvg], { type: 'image/svg+xml' });
+        const qrCodeObjectUrl = URL.createObjectURL(blob);
+        const qrCodeLink = document.createElement('a');
+        qrCodeLink.href = qrCodeObjectUrl;
+        qrCodeLink.download = 'qrCode.svg';
+        document.body.appendChild(qrCodeLink);
+        qrCodeLink.click();
+        document.body.removeChild(qrCodeLink);
+
+        setTimeout(() => URL.revokeObjectURL(qrCodeObjectUrl), 5000);
     };
 
     useEffect(() => {
@@ -151,7 +187,7 @@ export const QRCodeForm = () => {
             <div className="flex items-center justify-between space-y-2">
                 <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create QR Code</h1>
                 <div className="flex items-center space-x-2">
-                    <Button>Cancel</Button>
+                    <button>Cancel</button>
                 </div>
             </div>
             <div className="w-full my-8 p-6 bg-white  border rounded-lg">
