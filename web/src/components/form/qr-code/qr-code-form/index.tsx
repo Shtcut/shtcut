@@ -1,23 +1,8 @@
 'use client';
 
-import { Button, Input } from '@shtcut-ui/react';
+import { Button, Input, toast } from '@shtcut-ui/react';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { IconCopy } from '@tabler/icons-react';
-import {
-    BarChart3Icon,
-    BarChart4Icon,
-    Clock5Icon,
-    Clock6Icon,
-    Code2Icon,
-    FacebookIcon,
-    InstagramIcon,
-    MailIcon,
-    MessageCircleIcon,
-    PaperclipIcon,
-    Repeat1Icon,
-    UploadIcon,
-    YoutubeIcon
-} from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
 
@@ -33,12 +18,14 @@ import QRCodeStyling, {
     Options
 } from 'qr-code-styling';
 import Image from 'next/image';
-import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, SOCIAL_ICONS_LOGOS } from '@shtcut/_shared/constant';
+import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, QR_PATTERNS, SOCIAL_ICONS_LOGOS } from '@shtcut/_shared/constant';
+import { isEmpty } from 'lodash';
+import { isValidURL } from '@shtcut/_shared';
 
 export const QRCodeForm = () => {
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
-    const [qrCodePattern, setQrCodePattern] = useState('L');
     const [qrCodeLogo, setQrCodeLogo] = useState(LOGO_FAV_ICON);
+    const [link, setLink] = useState('https://shtcut.link/');
 
     const [options, setOptions] = useState<Options>({
         width: 300,
@@ -65,11 +52,6 @@ export const QRCodeForm = () => {
         cornersSquareOptions: {
             color: '#222222',
             type: 'extra-rounded' as CornerSquareType
-            // gradient: {
-            //   type: 'linear', // 'radial'
-            //   rotation: 180,
-            //   colorStops: [{ offset: 0, color: '#25456e' }, { offset: 1, color: '#4267b2' }]
-            // },
         },
         cornersDotOptions: {
             color: '#222222',
@@ -84,27 +66,72 @@ export const QRCodeForm = () => {
             }
         }
     });
-    const [fileExt, setFileExt] = useState<Extension>('svg');
     const [qrCode] = useState<QRCodeStyling>(new QRCodeStyling(options));
     const ref = useRef<HTMLDivElement>(null);
 
-    const handleOnChangePattern = (e, pattern) => {
-        e.preventDefault();
-        setQrCodePattern(pattern);
+    const handleOnChangeLink = (e) => {
+        const { value } = e.target;
+        setLink(value);
+        setOptions((prev) => ({
+            ...prev,
+            data: !isEmpty(value) ? value : 'https://shtcut.link/',
+        }));
     };
 
     const handleOnChangeLogo = (e, logo) => {
         e.preventDefault();
+        setQrCodeLogo(logo);
         setOptions((prev) => ({
             ...prev,
-            image: logo,
-        }))
+            image: logo
+        }));
+    };
+
+    const handleOnChangePattern = (e, pattern) => {
+        e.preventDefault();
+        console.log('pattern::', pattern);
+        setOptions((prev) => ({
+            ...prev,
+            dotsOptions: {
+                color: '#222222',
+                type: pattern as DotType
+            }
+        }));
+    };
+
+    const handleOnChangeCornerPattern = (e, pattern) => {
+        e.preventDefault();
+        setOptions((prev) => ({
+            ...prev,
+            cornersSquareOptions: {
+                color: '#222222',
+                type: pattern as CornerSquareType
+            },
+            cornersDotOptions: {
+                color: '#222222',
+                type: pattern as CornerDotType
+            }
+        }));
     };
 
     const onDownloadClick = () => {
         if (!qrCode) return;
+        if (isEmpty(link)) {
+            if (!isValidURL(link)) {
+                toast({
+                    variant: 'destructive',
+                    description: 'Link must be a valid URL'
+                });
+                return;
+            }
+            toast({
+                variant: 'destructive',
+                description: 'Link is required'
+            });
+            return;
+        }
         qrCode.download({
-            extension: fileExt
+            extension: 'svg'
         });
     };
 
@@ -119,7 +146,6 @@ export const QRCodeForm = () => {
         qrCode.update(options);
     }, [qrCode, options]);
 
-
     return (
         <>
             <div className="flex items-center justify-between space-y-2">
@@ -132,58 +158,6 @@ export const QRCodeForm = () => {
                 <div className="flex gap-8">
                     <div className="flex flex-col w-1/4  border rounded-lg p-6">
                         <h2 className="text-lg font-semibold mb-4">Logos</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
-                                <div
-                                    className="w-100 h-100 border rounded-md justify-center bg-gray-100 cursor-pointer"
-                                    key={`${name}`}
-                                    onClick={(e) => handleOnChangeLogo(e, image)}
-                                >
-                                    <Image
-                                        className="flex items-center justify-center border rounded-md"
-                                        src={image}
-                                        alt={name}
-                                        width={50}
-                                        height={50}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                        <h2 className="text-lg font-semibold mb-4 mt-5">Destination</h2>
-                        <div className="grid grid-cols-2 gap-4">
-                            <Button className="bg-[#eff3fe]">
-                                <FacebookIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <PaperclipIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <YoutubeIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <FacebookIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <UploadIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <InstagramIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <MessageCircleIcon className="text-[#3b82f6]" />
-                            </Button>
-                            <Button className="bg-[#eff3fe]">
-                                <MailIcon className="text-[#3b82f6]" />
-                            </Button>
-                        </div>
-                    </div>
-                    <div className="flex flex-col w-1/2 border rounded-md p-6">
-                        <h2 className="text-lg font-semibold mb-4">Enter your website URL</h2>
-                        <Input className="mb-8" placeholder="URL the website" />
-                        <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
-                        <div className="flex justify-center mb-4">
-                            <div ref={ref} className="h-35 w-35" />
-                        </div>
                         <LinkCheckBox
                             isChecked={isRemoveLogo}
                             setIsChecked={setIsRemoveLogo}
@@ -200,6 +174,44 @@ export const QRCodeForm = () => {
                                 </span>
                             }
                         />
+                        <div className="grid grid-cols-2 gap-4 mt-5">
+                            {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
+                                <div
+                                    className="w-100 h-100 border rounded-md p-4 justify-center bg-gray-100 cursor-pointer"
+                                    key={`${name}`}
+                                    onClick={(e) => handleOnChangeLogo(e, image)}
+                                >
+                                    <Image
+                                        className="flex items-center justify-center"
+                                        src={image}
+                                        alt={name}
+                                        width={50}
+                                        height={50}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                        <h2 className="text-lg font-semibold mb-4 mt-5">Frame</h2>
+                        <div className="grid grid-cols-2 gap-4">
+                            {[...Array(8)].map((_, idx) => (
+                                <Image
+                                    className="cursor-pointer"
+                                    key={idx}
+                                    src={`/svg/qrcode-scanner-${idx + 1}.svg`}
+                                    alt={`qrcode-scanner-${idx + 1}`}
+                                    width={500}
+                                    height={500}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                    <div className="flex flex-col w-1/2 border rounded-md p-6">
+                        <h2 className="text-lg font-semibold mb-4">Enter your website URL</h2>
+                        <Input className="mb-8" placeholder="URL the website" onChange={handleOnChangeLink} />
+                        <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
+                        <div className="flex justify-center mb-4">
+                            <div ref={ref} className="h-35 w-35" />
+                        </div>
                         <div className="border-t border-b py-4 my-6">
                             <p className="text-center text-xs text-gray-500 uppercase mb-2">
                                 or enter the code manually
@@ -220,36 +232,42 @@ export const QRCodeForm = () => {
                     <div className="flex flex-col w-1/4 border rounded-md p-5">
                         <h2 className="text-lg font-semibold mb-4">Pattern</h2>
                         <div className="grid grid-cols-2 gap-4 mb-8">
-                            {['L', 'M', 'Q', 'H'].map((p, idx) => (
-                                <div key={`${p}-${idx}`} onClick={(e) => handleOnChangePattern(e, p)}>
-                                    <QRCode
-                                        id="shtcut-qrcode"
-                                        value={''}
-                                        ecLevel={p as any}
-                                        quietZone={10}
-                                        fgColor={'#000000'}
-                                        size={50}
-                                        qrStyle="dots"
-                                        style={{
-                                            aspectRatio: '192/192',
-                                            objectFit: 'cover',
-                                            cursor: 'pointer'
-                                        }}
-                                    />
+                            {QR_PATTERNS.map(({ icon, type }) => (
+                                <div
+                                    key={type}
+                                    className="cursor-pointer border rounded-lg p-4 justify-center items-center"
+                                    onClick={(e) => handleOnChangePattern(e, type)}
+                                >
+                                    {icon}
                                 </div>
                             ))}
                         </div>
-                        <h2 className="text-lg font-semibold">Frame</h2>
-                        <div className="grid grid-cols-2 gap-4 mb-8">
-                            {[...Array(8)].map((_, idx) => (
-                                <Image
-                                    className="cursor-pointer"
-                                    key={idx}
-                                    src={`/svg/qrcode-scanner-${idx + 1}.svg`}
-                                    alt={`qrcode-scanner-${idx + 1}`}
-                                    width={500}
-                                    height={500}
-                                />
+                        <h2 className="text-lg font-semibold">Corners</h2>
+                        <LinkCheckBox
+                            isChecked={isRemoveLogo}
+                            setIsChecked={setIsRemoveLogo}
+                            id={'remove-logo-required-checkbox'}
+                            name={'password-required-checkbox'}
+                            label={'Remove Logo'}
+                            disabled={true}
+                            description={
+                                <span>
+                                    Click to change QR Code Corners.
+                                    <a className="underline" href="#" target="_blank">
+                                        Upgrade{' '}
+                                    </a>
+                                </span>
+                            }
+                        />
+                        <div className="grid grid-cols-2 gap-4 mt-5 mb-8">
+                            {QR_CORNER_PATTERNS.map(({ icon, type }) => (
+                                <div
+                                    key={type}
+                                    className="cursor-pointer border rounded-lg p-4 justify-center items-center"
+                                    onClick={(e) => handleOnChangeCornerPattern(e, type)}
+                                >
+                                    {icon}
+                                </div>
                             ))}
                         </div>
                     </div>
