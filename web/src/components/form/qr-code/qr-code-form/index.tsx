@@ -5,7 +5,6 @@ import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
 import { IconCopy } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import { QRCode } from 'react-qrcode-logo';
-import satori from 'satori';
 
 import QRCodeStyling, {
     DrawType,
@@ -15,14 +14,13 @@ import QRCodeStyling, {
     DotType,
     CornerSquareType,
     CornerDotType,
-    Extension,
     Options
 } from 'qr-code-styling';
 import Image from 'next/image';
-import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, QR_PATTERNS, SOCIAL_ICONS_LOGOS, font } from '@shtcut/_shared/constant';
+import { LOGO_FAV_ICON, QR_CORNER_PATTERNS, QR_PATTERNS, SOCIAL_ICONS_LOGOS } from '@shtcut/_shared/constant';
 import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
-
+import './style.css';
 export const QRCodeForm = () => {
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
     const [qrCodeLogo, setQrCodeLogo] = useState(LOGO_FAV_ICON);
@@ -115,7 +113,7 @@ export const QRCodeForm = () => {
         }));
     };
 
-    const onDownloadClick = async () => {
+    const onDownloadClick = () => {
         if (!qrCode) return;
         if (isEmpty(link)) {
             if (!isValidURL(link)) {
@@ -131,44 +129,9 @@ export const QRCodeForm = () => {
             });
             return;
         }
-        const svg = await qrCode.getRawData('svg');
-        console.log('svg::', svg);
-        const objectUrl = URL.createObjectURL(svg as Blob);
-        const qrSvg = await satori(
-            <div
-                tw="border rounded-md"
-                style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                }}
-            >
-                <span>Hello World</span>
-                <img src={objectUrl} height={200} width={200} />
-            </div>,
-            {
-                width: 800,
-                height: 800,
-                fonts: [
-                    {
-                        name: 'CalSans-SemiBold',
-                        data: await font,
-                        weight: 700,
-                        style: 'normal'
-                    }
-                ]
-            }
-        );
-        const blob = new Blob([qrSvg], { type: 'image/svg+xml' });
-        const qrCodeObjectUrl = URL.createObjectURL(blob);
-        const qrCodeLink = document.createElement('a');
-        qrCodeLink.href = qrCodeObjectUrl;
-        qrCodeLink.download = 'qrCode.svg';
-        document.body.appendChild(qrCodeLink);
-        qrCodeLink.click();
-        document.body.removeChild(qrCodeLink);
-
-        setTimeout(() => URL.revokeObjectURL(qrCodeObjectUrl), 5000);
+        qrCode.download({
+            extension: 'svg'
+        });
     };
 
     useEffect(() => {
@@ -187,7 +150,7 @@ export const QRCodeForm = () => {
             <div className="flex items-center justify-between space-y-2">
                 <h1 className="text-2xl font-bold tracking-light md:text-3xl">Create QR Code</h1>
                 <div className="flex items-center space-x-2">
-                    <button>Cancel</button>
+                    <Button>Cancel</Button>
                 </div>
             </div>
             <div className="w-full my-8 p-6 bg-white  border rounded-lg">
@@ -213,17 +176,11 @@ export const QRCodeForm = () => {
                         <div className="grid grid-cols-2 gap-4 mt-5">
                             {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
                                 <div
-                                    className="w-100 h-100 border rounded-md p-4 justify-center bg-gray-100 cursor-pointer"
+                                    className="w-full h-20 border rounded-md flex justify-center items-center bg-gray-100  cursor-pointer"
                                     key={`${name}`}
                                     onClick={(e) => handleOnChangeLogo(e, image)}
                                 >
-                                    <Image
-                                        className="flex items-center justify-center"
-                                        src={image}
-                                        alt={name}
-                                        width={50}
-                                        height={50}
-                                    />
+                                    <Image className="" src={image} alt={name} width={50} height={50} />
                                 </div>
                             ))}
                         </div>
@@ -245,8 +202,69 @@ export const QRCodeForm = () => {
                         <h2 className="text-lg font-semibold mb-4">Enter your website URL</h2>
                         <Input className="mb-8" placeholder="URL the website" onChange={handleOnChangeLink} />
                         <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
-                        <div className="flex justify-center mb-4">
-                            <div ref={ref} className="h-35 w-35" />
+                        {/* <div className=" w-56  flex justify-center items-center flex-col mx-auto ">
+                            <div className="border-black border-4 flex justify-center items-center  w-full rounded-2xl">
+                                <div ref={ref} className="h-35 w-35 rounded-lg " />
+                            </div>
+                            <section className='flex flex-col w-full items-center'>
+                                <div className="triangle" />
+                                <div className="bg-black  flex justify-center mx-auto w-full h-6 items-center  rounded-xl ">
+                                    <p className="text-white text-xs">SCAN ME!</p>
+                                </div>
+                            </section>
+                        </div> */}
+                        {/* <section className="border border-black  rounded-[3rem] w-60 mx-auto h-80 flex justify-center    bg-transparent">
+                            <div className="flex flex-col justify-between  w-full ">
+                                <div className=" bg-black h-10 w-full rounded-t-[3rem]" />
+                                <div className=" w-52  flex justify-center items-center flex-col mx-auto ">
+                                    <div className="border-black border-4 flex justify-center items-center  w-full rounded-2xl">
+                                        <div ref={ref} className="h-35 w-35 rounded-lg " />
+                                    </div>
+                                    <section className="flex flex-col w-full items-center">
+                                        <div className="triangle" />
+                                        <div className="bg-black  flex justify-center mx-auto w-full h-6 items-center  rounded-xl ">
+                                            <p className="text-white text-xs">SCAN ME!</p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div className="bg-black h-10  rounded-b-[3rem]" />
+                            </div>
+                        </section> */}
+                        {/* 
+                        <div className=" w-56  flex justify-center items-center flex-col mx-auto ">
+                            <div className="border-black rounded-bl-md rounded-tr rounded-br-3xl flex-col border flex justify-between items-center h-60   w-full rounded-tl-[1.7rem]">
+                                <div className="flex-1">
+                                    <div ref={ref} className="h-35 w-35 rounded-lg " />
+                                </div>
+
+                                <div className=" w-full bg-black ">
+                                    <div className=" bg-white   h-6 w-full rounded-b-2xl  " />
+                                </div>
+                                <div className="w-full rounded-br-[1.1rem]  h-12 flex justify-center items-center border  border-black rounded-bl bg-black">
+                                    <p className="text-xs text-center text-white font-medium">SCAN ME!</p>
+                                </div>
+                            </div>
+                        </div> */}
+
+                        {/* <div className=" w-48  flex justify-center items-center flex-col mx-auto ">
+                            <div className=" flex-col border-black border-2 rounded-lg   flex justify-between items-center    w-full ">
+                                <div ref={ref} className="h-35 w-35 rounded-lg " />
+                            </div>
+                            <div className="tooltip" />
+                            <p className='text-xs mt-3 border-black py-1 w-full  border-b-2 text-center'>SCAN ME!</p>
+                        </div> */}
+                        <div className="w-54 relative mx-auto">
+                            <div className="flex absolute top-[22%] left-[-10px] right-[-10px] justify-between items-center">
+                                <div className="bg-white h-44 w-4" />
+                                <div className="bg-white h-44 w-4" />
+                            </div>
+                            <div className=" flex justify-center items-center flex-col ">
+                                <div className="bg-white w-1/2 relative top-4 h-6" />
+                                <div className="  border-2 border-black rounded w-full ">
+                                    <div ref={ref} className="h-35 w-35 rounded-lg " />
+                                </div>
+                                <div className="bg-white w-1/2 relative bottom-4 h-6" />
+                            </div>
                         </div>
                         <div className="border-t border-b py-4 my-6">
                             <p className="text-center text-xs text-gray-500 uppercase mb-2">
@@ -271,7 +289,7 @@ export const QRCodeForm = () => {
                             {QR_PATTERNS.map(({ icon, type }) => (
                                 <div
                                     key={type}
-                                    className="cursor-pointer border rounded-lg p-4 justify-center items-center"
+                                    className="cursor-pointer border rounded-lg flex p-4 justify-center items-center"
                                     onClick={(e) => handleOnChangePattern(e, type)}
                                 >
                                     {icon}
@@ -299,7 +317,7 @@ export const QRCodeForm = () => {
                             {QR_CORNER_PATTERNS.map(({ icon, type }) => (
                                 <div
                                     key={type}
-                                    className="cursor-pointer border rounded-lg p-4 justify-center items-center"
+                                    className="cursor-pointer border rounded-lg flex p-4 justify-center items-center"
                                     onClick={(e) => handleOnChangeCornerPattern(e, type)}
                                 >
                                     {icon}
