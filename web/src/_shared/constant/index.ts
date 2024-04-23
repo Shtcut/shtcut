@@ -283,8 +283,6 @@ export const ccTLDs = new Set([
     'zw'
 ]);
 
-export const font = fetch(new URL('public/fonts/CalSans-SemiBold.woff', import.meta.url)).then((res) => res.arrayBuffer());
-
 export const SECOND_LEVEL_DOMAINS = new Set(['com', 'co', 'net', 'org', 'edu', 'gov', 'in']);
 
 export const SPECIAL_APEX_DOMAINS = ['youtu.be', 'youtube.com'];

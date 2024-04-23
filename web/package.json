@@ -34,6 +34,7 @@
     "axios": "^1.6.5",
     "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
+    "dom-to-svg": "^0.12.2",
     "env-cmd": "^10.1.0",
     "formik": "^2.4.5",
     "framer-motion": "^11.0.8",
