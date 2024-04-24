@@ -27,8 +27,10 @@ import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
 import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
+import { PopoverPicker } from '@shtcut/components/_shared';
 
 export const QRCodeForm = () => {
+    const [color, setColor] = useState('#aabbcc');
     const [isRemoveLogo, setIsRemoveLogo] = useState(false);
     const [qrCodeLogo, setQrCodeLogo] = useState(LOGO_FAV_ICON);
     const [link, setLink] = useState('https://shtcut.link/');
@@ -139,7 +141,7 @@ export const QRCodeForm = () => {
             });
             return;
         }
-      
+
         const svgDocument = elementToSVG(document.querySelector('#shtcut-qrcode') as Element);
         const svgString = new XMLSerializer().serializeToString(svgDocument);
 
@@ -234,7 +236,10 @@ export const QRCodeForm = () => {
                         <h2 className="text-lg font-semibold mb-4">Enter your website URL</h2>
                         <Input className="mb-8" placeholder="URL the website" onChange={handleOnChangeLink} />
                         <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
-                        <section id="shtcut-qrcode" className="border border-black  rounded-[3rem] w-60 mx-auto h-96 flex justify-center    bg-transparent">
+                        <section
+                            id="shtcut-qrcode"
+                            className="border border-black  rounded-[3rem] w-60 mx-auto h-96 flex justify-center    bg-transparent"
+                        >
                             <div className="flex flex-col justify-between  w-full ">
                                 <div className=" bg-black h-10 w-full rounded-t-[3rem]" />
                                 <div className=" w-52  flex justify-center items-center flex-col mx-auto ">
@@ -284,8 +289,9 @@ export const QRCodeForm = () => {
                             </p>
                             <div className="flex justify-center">
                                 <Input className="text-center" placeholder="HLA8G4L1B9ZX4" type="text" />
+
                                 <Button className="ml-2" variant="ghost">
-                                    <IconCopy className="h-5 w-5 text-gray-500" />
+                                    <PopoverPicker color={color} onChange={setColor} />
                                 </Button>
                             </div>
                         </div>
