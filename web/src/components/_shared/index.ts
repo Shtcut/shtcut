@@ -7,4 +7,3 @@ export * from './Container';
 export * from './Layout';
 export * from './TopNav';
 export * from './WorkspaceSwitcher';
-export * from './PopoverPicker';
