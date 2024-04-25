@@ -1,8 +1,7 @@
 'use client';
 
-import { Button, Input, toast } from '@shtcut-ui/react';
+import { Button, Input, Popover, PopoverContent, PopoverTrigger, toast } from '@shtcut-ui/react';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
-import { IconCopy } from '@tabler/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import QRCodeStyling, {
     DrawType,
@@ -27,7 +26,8 @@ import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
 import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
-import { PopoverPicker } from '@shtcut/components/_shared';
+import ColorPicker from 'react-best-gradient-color-picker';
+import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
     const [color, setColor] = useState('#aabbcc');
@@ -284,15 +284,49 @@ export const QRCodeForm = () => {
                             </div>
                         </div> */}
                         <div className="border-t border-b py-4 my-6">
-                            <p className="text-center text-xs text-gray-500 uppercase mb-2">
-                                or enter the code manually
-                            </p>
+                            <p className="text-center text-xs text-gray-500 uppercase mb-2">QR pattern color</p>
                             <div className="flex justify-center">
-                                <Input className="text-center" placeholder="HLA8G4L1B9ZX4" type="text" />
-
-                                <Button className="ml-2" variant="ghost">
-                                    <PopoverPicker color={color} onChange={setColor} />
-                                </Button>
+                                <Input className="text-center" placeholder="HLA8G4L1B9ZX4" type="text" value={color} />
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant={'outline'}>
+                                            <div
+                                                className="flex w-full items-center gap-2"
+                                                style={{ background: color }}
+                                            >
+                                                <div
+                                                    className="h-4 w-4 rounded !bg-cover !bg-center transition-all"
+                                                    style={{ background: color }}
+                                                ></div>
+                                            </div>
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <HexColorPicker color={color} onChange={setColor} />
+                                    </PopoverContent>
+                                </Popover>
+                            </div>
+                            <p className="text-center text-xs text-gray-500 uppercase my-2 ">QR background color</p>
+                            <div className="flex justify-center">
+                                <Input className="text-center" placeholder="HLA8G4L1B9ZX4" type="text" value={color} />
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button variant={'outline'}>
+                                            <div
+                                                className="flex w-full items-center gap-2"
+                                                style={{ background: color }}
+                                            >
+                                                <div
+                                                    className="h-4 w-4 rounded !bg-cover !bg-center transition-all"
+                                                    style={{ background: color }}
+                                                ></div>
+                                            </div>
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent>
+                                        <HexColorPicker color={color} onChange={setColor} />
+                                    </PopoverContent>
+                                </Popover>
                             </div>
                         </div>
                         <div className="flex justify-center mb-6">
