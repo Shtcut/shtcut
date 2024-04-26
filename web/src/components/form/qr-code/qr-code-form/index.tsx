@@ -100,7 +100,6 @@ export const QRCodeForm = () => {
 
     const handleOnChangePattern = (e, pattern) => {
         e.preventDefault();
-        console.log('pattern::', pattern);
         setOptions((prev) => ({
             ...prev,
             dotsOptions: {
