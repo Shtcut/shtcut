@@ -66,7 +66,7 @@ const Domains = () => {
                                     </div>
                                     <h3 className="mt-2 font-semibold">lizzy.com.ng</h3>
                                     <a className="text-sm text-blue-600 block mt-1" href="#">
-                                        https://long-link.com/shorten-long-URL
+                                        https://shtcut.link/dhSxuSS
                                     </a>
                                     <div className="flex space-x-2 items-center mt-2">
                                         <Badge variant="default">Invalid Configuration</Badge>
@@ -125,7 +125,7 @@ const Domains = () => {
                                     </div>
                                     <h3 className="mt-2 font-semibold">lizzy.com.ng</h3>
                                     <a className="text-sm text-blue-600 block mt-1" href="#">
-                                        https://long-link.com/shorten-long-URL
+                                        https://shtcut.link/dhSxuSS
                                     </a>
                                     <div className="flex space-x-2 items-center mt-2">
                                         <Badge variant="default">Invalid Configuration</Badge>
