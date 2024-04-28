@@ -329,7 +329,8 @@ export const ACL = {
 };
 
 export const SHTNER = {
-    links: 'shtner/links'
+    links: 'shtner/links',
+    domains: 'shtner/domains',
 };
 
 export const AUTH_TOKEN_KEY = process.env.NEXT_PUBLIC_STORAGE_KEY as string;
