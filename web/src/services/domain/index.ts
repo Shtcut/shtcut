@@ -1,77 +1,66 @@
 import { FetchArgs } from '@reduxjs/toolkit/query';
 import { api } from '@shtcut/_shared/api/app.api';
-import { ACL, DELETE, POST, PUT } from '@shtcut/_shared/constant';
-import { workspaceTag } from '../tags';
+import { DELETE, POST, PUT, SHTNER } from '@shtcut/_shared/constant';
+import { domainTag } from '../tags';
 import { Dict } from '@shtcut-ui/react';
-import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
 import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
+import { DomainNameSpace } from '@shtcut/_shared/namespace/domain';
 
 export const domainApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        findAllWorkspaces: builder.query<ApiResponse<WorkspaceNameSpace.Workspace[]>, QueryArgs>({
+        findAllDomains: builder.query<ApiResponse<DomainNameSpace.Domain[]>, QueryArgs>({
             query: (params: QueryArgs) =>
                 ({
-                    url: ACL.workspace,
+                    url: SHTNER.domains,
                     params
                 }) as unknown as FetchArgs,
-            providesTags: [workspaceTag]
+            providesTags: [domainTag]
         }),
-        searchOneWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, QueryArgs>({
-            query: (params: QueryArgs) =>
+        getDomain: builder.query<ApiResponse<DomainNameSpace.Domain>, Record<string, any>>({
+            query: (params: Record<string, string>) =>
                 ({
-                    url: `${ACL.workspace}/search/one`,
+                    url: `${SHTNER.domains}/${params?.id}`,
                     params
                 }) as unknown as FetchArgs,
-            providesTags: [workspaceTag]
+            providesTags: [domainTag]
         }),
-        getWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, string>({
-            query: (id: string) => `${ACL.workspace}/${id}` as unknown as FetchArgs,
-            providesTags: [workspaceTag]
-        }),
-        createWorkspace: builder.mutation<
-            ApiResponse<WorkspaceNameSpace.Workspace>,
-            WorkspaceNameSpace.WorkspaceRequest
-        >({
+        createDomain: builder.mutation<ApiResponse<DomainNameSpace.Domain>, DomainNameSpace.DomainRequest>({
             query: ({ payload }) => {
                 return {
-                    url: ACL.workspace,
+                    url: SHTNER.domains,
                     method: POST,
                     body: payload
                 };
             },
-            invalidatesTags: [workspaceTag]
+            invalidatesTags: [domainTag]
         }),
-        updateWorkspace: builder.mutation<
-            ApiResponse<WorkspaceNameSpace.Workspace>,
-            WorkspaceNameSpace.WorkspaceRequest
-        >({
+        updateDomain: builder.mutation<ApiResponse<DomainNameSpace.Domain>, DomainNameSpace.DomainRequest>({
             query: ({ payload }) => {
                 return {
-                    url: `${ACL.workspace}/${payload?.id}`,
+                    url: `${SHTNER.domains}/${payload?.id}`,
                     method: PUT,
                     body: payload
                 };
             },
-            invalidatesTags: [workspaceTag]
+            invalidatesTags: [domainTag]
         }),
-        deleteWorkspace: builder.mutation<Dict, WorkspaceNameSpace.WorkspaceRequest>({
+        deleteDomain: builder.mutation<Dict,  DomainNameSpace.DomainRequest>({
             query: ({ payload }) => {
                 return {
-                    url: `${ACL.workspace}/${payload?.id}`,
+                    url: `${SHTNER.domains}/${payload?.id}`,
                     method: DELETE
                 };
             },
-            invalidatesTags: [workspaceTag]
+            invalidatesTags: [domainTag]
         })
     })
 });
 
 export const {
-    useCreateWorkspaceMutation,
-    useLazyFindAllWorkspacesQuery,
-    useLazySearchOneWorkspaceQuery,
-    useGetWorkspaceQuery,
-    useUpdateWorkspaceMutation,
-    useDeleteWorkspaceMutation,
-    endpoints: { createWorkspace, findAllWorkspaces, searchOneWorkspace, getWorkspace, updateWorkspace, deleteWorkspace }
+    useCreateDomainMutation,
+    useLazyFindAllDomainsQuery,
+    useLazyGetDomainQuery,
+    useUpdateDomainMutation,
+    useDeleteDomainMutation,
+    endpoints: { createDomain, findAllDomains, getDomain, updateDomain, deleteDomain }
 } = domainApi;
