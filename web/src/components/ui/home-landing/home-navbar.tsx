@@ -12,7 +12,7 @@ export const HomeNavbar = () => {
     const workspace = authData?.workspaces[0]?.slug;
 
     return (
-        <header className="mt-3 h-14">
+        <header className=" h-14 fixed  left-0 right-0 bg-white">
             <nav className="container flex h-full items-center justify-between">
                 <Link
                     href="/"
