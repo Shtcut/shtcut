@@ -41,6 +41,7 @@
     "@google-cloud/storage": "^7.7.0",
     "@ipregistry/client": "^4.5.0",
     "@layered/dns-records": "^1.5.0",
+    "@liaoliaots/nestjs-redis": "^9.0.5",
     "@nestjs/apollo": "^12.0.11",
     "@nestjs/axios": "^3.0.1",
     "@nestjs/azure-storage": "^3.0.0",
