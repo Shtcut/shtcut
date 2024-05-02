@@ -252,6 +252,7 @@ text-.input
 text-.ring
 text-.background
 text-.foreground
+text-.primary-0
 text-.primary-100
 text-.primary-200
 text-.primary-500
@@ -280,6 +281,10 @@ text-.popover
 text-.popover-foreground
 text-.card
 text-.card-foreground
+text-.tertiary-100
+text-.tertiary-200
+text-.tertiary-300
+text-.tertiary-400
 bg-.inherit
 bg-.current
 bg-.transparent
@@ -534,6 +539,7 @@ bg-.input
 bg-.ring
 bg-.background
 bg-.foreground
+bg-.primary-0
 bg-.primary-100
 bg-.primary-200
 bg-.primary-500
@@ -562,6 +568,10 @@ bg-.popover
 bg-.popover-foreground
 bg-.card
 bg-.card-foreground
+bg-.tertiary-100
+bg-.tertiary-200
+bg-.tertiary-300
+bg-.tertiary-400
 dark:bg-.inherit
 dark:bg-.current
 dark:bg-.transparent
@@ -816,6 +826,7 @@ dark:bg-.input
 dark:bg-.ring
 dark:bg-.background
 dark:bg-.foreground
+dark:bg-.primary-0
 dark:bg-.primary-100
 dark:bg-.primary-200
 dark:bg-.primary-500
@@ -844,6 +855,10 @@ dark:bg-.popover
 dark:bg-.popover-foreground
 dark:bg-.card
 dark:bg-.card-foreground
+dark:bg-.tertiary-100
+dark:bg-.tertiary-200
+dark:bg-.tertiary-300
+dark:bg-.tertiary-400
 dark:hover:bg-.inherit
 dark:hover:bg-.current
 dark:hover:bg-.transparent
@@ -1098,6 +1113,7 @@ dark:hover:bg-.input
 dark:hover:bg-.ring
 dark:hover:bg-.background
 dark:hover:bg-.foreground
+dark:hover:bg-.primary-0
 dark:hover:bg-.primary-100
 dark:hover:bg-.primary-200
 dark:hover:bg-.primary-500
@@ -1126,6 +1142,10 @@ dark:hover:bg-.popover
 dark:hover:bg-.popover-foreground
 dark:hover:bg-.card
 dark:hover:bg-.card-foreground
+dark:hover:bg-.tertiary-100
+dark:hover:bg-.tertiary-200
+dark:hover:bg-.tertiary-300
+dark:hover:bg-.tertiary-400
 dark:active:bg-.inherit
 dark:active:bg-.current
 dark:active:bg-.transparent
@@ -1380,6 +1400,7 @@ dark:active:bg-.input
 dark:active:bg-.ring
 dark:active:bg-.background
 dark:active:bg-.foreground
+dark:active:bg-.primary-0
 dark:active:bg-.primary-100
 dark:active:bg-.primary-200
 dark:active:bg-.primary-500
@@ -1408,6 +1429,10 @@ dark:active:bg-.popover
 dark:active:bg-.popover-foreground
 dark:active:bg-.card
 dark:active:bg-.card-foreground
+dark:active:bg-.tertiary-100
+dark:active:bg-.tertiary-200
+dark:active:bg-.tertiary-300
+dark:active:bg-.tertiary-400
 hover:text-.inherit
 hover:text-.current
 hover:text-.transparent
@@ -1662,6 +1687,7 @@ hover:text-.input
 hover:text-.ring
 hover:text-.background
 hover:text-.foreground
+hover:text-.primary-0
 hover:text-.primary-100
 hover:text-.primary-200
 hover:text-.primary-500
@@ -1690,6 +1716,10 @@ hover:text-.popover
 hover:text-.popover-foreground
 hover:text-.card
 hover:text-.card-foreground
+hover:text-.tertiary-100
+hover:text-.tertiary-200
+hover:text-.tertiary-300
+hover:text-.tertiary-400
 hover:bg-.inherit
 hover:bg-.current
 hover:bg-.transparent
@@ -1944,6 +1974,7 @@ hover:bg-.input
 hover:bg-.ring
 hover:bg-.background
 hover:bg-.foreground
+hover:bg-.primary-0
 hover:bg-.primary-100
 hover:bg-.primary-200
 hover:bg-.primary-500
@@ -1972,6 +2003,10 @@ hover:bg-.popover
 hover:bg-.popover-foreground
 hover:bg-.card
 hover:bg-.card-foreground
+hover:bg-.tertiary-100
+hover:bg-.tertiary-200
+hover:bg-.tertiary-300
+hover:bg-.tertiary-400
 active:bg-.inherit
 active:bg-.current
 active:bg-.transparent
@@ -2226,6 +2261,7 @@ active:bg-.input
 active:bg-.ring
 active:bg-.background
 active:bg-.foreground
+active:bg-.primary-0
 active:bg-.primary-100
 active:bg-.primary-200
 active:bg-.primary-500
@@ -2254,6 +2290,10 @@ active:bg-.popover
 active:bg-.popover-foreground
 active:bg-.card
 active:bg-.card-foreground
+active:bg-.tertiary-100
+active:bg-.tertiary-200
+active:bg-.tertiary-300
+active:bg-.tertiary-400
 ring-.inherit
 ring-.current
 ring-.transparent
@@ -2508,6 +2548,7 @@ ring-.input
 ring-.ring
 ring-.background
 ring-.foreground
+ring-.primary-0
 ring-.primary-100
 ring-.primary-200
 ring-.primary-500
@@ -2536,6 +2577,10 @@ ring-.popover
 ring-.popover-foreground
 ring-.card
 ring-.card-foreground
+ring-.tertiary-100
+ring-.tertiary-200
+ring-.tertiary-300
+ring-.tertiary-400
 hover:ring-.inherit
 hover:ring-.current
 hover:ring-.transparent
@@ -2790,6 +2835,7 @@ hover:ring-.input
 hover:ring-.ring
 hover:ring-.background
 hover:ring-.foreground
+hover:ring-.primary-0
 hover:ring-.primary-100
 hover:ring-.primary-200
 hover:ring-.primary-500
@@ -2818,6 +2864,10 @@ hover:ring-.popover
 hover:ring-.popover-foreground
 hover:ring-.card
 hover:ring-.card-foreground
+hover:ring-.tertiary-100
+hover:ring-.tertiary-200
+hover:ring-.tertiary-300
+hover:ring-.tertiary-400
 focus:ring-.inherit
 focus:ring-.current
 focus:ring-.transparent
@@ -3072,6 +3122,7 @@ focus:ring-.input
 focus:ring-.ring
 focus:ring-.background
 focus:ring-.foreground
+focus:ring-.primary-0
 focus:ring-.primary-100
 focus:ring-.primary-200
 focus:ring-.primary-500
@@ -3100,6 +3151,10 @@ focus:ring-.popover
 focus:ring-.popover-foreground
 focus:ring-.card
 focus:ring-.card-foreground
+focus:ring-.tertiary-100
+focus:ring-.tertiary-200
+focus:ring-.tertiary-300
+focus:ring-.tertiary-400
 focus-within:ring-.inherit
 focus-within:ring-.current
 focus-within:ring-.transparent
@@ -3354,6 +3409,7 @@ focus-within:ring-.input
 focus-within:ring-.ring
 focus-within:ring-.background
 focus-within:ring-.foreground
+focus-within:ring-.primary-0
 focus-within:ring-.primary-100
 focus-within:ring-.primary-200
 focus-within:ring-.primary-500
@@ -3382,6 +3438,10 @@ focus-within:ring-.popover
 focus-within:ring-.popover-foreground
 focus-within:ring-.card
 focus-within:ring-.card-foreground
+focus-within:ring-.tertiary-100
+focus-within:ring-.tertiary-200
+focus-within:ring-.tertiary-300
+focus-within:ring-.tertiary-400
 border-.inherit
 border-.current
 border-.transparent
@@ -3636,6 +3696,7 @@ border-.input
 border-.ring
 border-.background
 border-.foreground
+border-.primary-0
 border-.primary-100
 border-.primary-200
 border-.primary-500
@@ -3664,6 +3725,10 @@ border-.popover
 border-.popover-foreground
 border-.card
 border-.card-foreground
+border-.tertiary-100
+border-.tertiary-200
+border-.tertiary-300
+border-.tertiary-400
 focus:border-.inherit
 focus:border-.current
 focus:border-.transparent
@@ -3918,6 +3983,7 @@ focus:border-.input
 focus:border-.ring
 focus:border-.background
 focus:border-.foreground
+focus:border-.primary-0
 focus:border-.primary-100
 focus:border-.primary-200
 focus:border-.primary-500
@@ -3946,6 +4012,10 @@ focus:border-.popover
 focus:border-.popover-foreground
 focus:border-.card
 focus:border-.card-foreground
+focus:border-.tertiary-100
+focus:border-.tertiary-200
+focus:border-.tertiary-300
+focus:border-.tertiary-400
 focus-within:border-.inherit
 focus-within:border-.current
 focus-within:border-.transparent
@@ -4200,6 +4270,7 @@ focus-within:border-.input
 focus-within:border-.ring
 focus-within:border-.background
 focus-within:border-.foreground
+focus-within:border-.primary-0
 focus-within:border-.primary-100
 focus-within:border-.primary-200
 focus-within:border-.primary-500
@@ -4228,6 +4299,10 @@ focus-within:border-.popover
 focus-within:border-.popover-foreground
 focus-within:border-.card
 focus-within:border-.card-foreground
+focus-within:border-.tertiary-100
+focus-within:border-.tertiary-200
+focus-within:border-.tertiary-300
+focus-within:border-.tertiary-400
 dark:text-.inherit
 dark:text-.current
 dark:text-.transparent
@@ -4482,6 +4557,7 @@ dark:text-.input
 dark:text-.ring
 dark:text-.background
 dark:text-.foreground
+dark:text-.primary-0
 dark:text-.primary-100
 dark:text-.primary-200
 dark:text-.primary-500
@@ -4510,6 +4586,10 @@ dark:text-.popover
 dark:text-.popover-foreground
 dark:text-.card
 dark:text-.card-foreground
+dark:text-.tertiary-100
+dark:text-.tertiary-200
+dark:text-.tertiary-300
+dark:text-.tertiary-400
 dark:hover:text-.inherit
 dark:hover:text-.current
 dark:hover:text-.transparent
@@ -4764,6 +4844,7 @@ dark:hover:text-.input
 dark:hover:text-.ring
 dark:hover:text-.background
 dark:hover:text-.foreground
+dark:hover:text-.primary-0
 dark:hover:text-.primary-100
 dark:hover:text-.primary-200
 dark:hover:text-.primary-500
@@ -4792,6 +4873,10 @@ dark:hover:text-.popover
 dark:hover:text-.popover-foreground
 dark:hover:text-.card
 dark:hover:text-.card-foreground
+dark:hover:text-.tertiary-100
+dark:hover:text-.tertiary-200
+dark:hover:text-.tertiary-300
+dark:hover:text-.tertiary-400
 h-.0
 h-.1
 h-.2
