@@ -10,8 +10,8 @@ export class RateLimiterService {
     return this.redis.zcount(key, 0, duration);
   }
 
-  async getFirstOfLimit(key: string, duration: number) {
-    return this.redis.zcount(key, 0, duration);
+  async getFirstOfLimit(key: string) {
+    return this.redis.zrange(key, 0, 0);
   }
 
   async getLastOfLimit(key: string) {
