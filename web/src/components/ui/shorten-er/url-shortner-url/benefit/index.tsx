@@ -17,7 +17,7 @@ const BenefitShorten = () => {
                         </h1>
                         <div className="flex flex-col gap-4 mt-6">
                             {BENEFITS.map((item) => (
-                                <div className="flex items-center gap-5">
+                                <div key={item.title} className="flex items-center gap-5">
                                     <div className="w-8 h-8 rounded-full bg-primary-0 flex justify-center items-center font-semibold text-white">
                                         <Check size={'18px'} />
                                     </div>
