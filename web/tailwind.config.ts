@@ -1,7 +1,7 @@
 import { Config } from 'tailwindcss';
 import twshtcut from '@shtcut-ui/react/tailwind-plugin';
 import { fontFamily } from 'tailwindcss/defaultTheme';
-import tailwindcssAnimate from "tailwindcss-animate";
+import tailwindcssAnimate from 'tailwindcss-animate';
 
 const SAFELIST_COLORS = 'colors';
 
@@ -50,6 +50,7 @@ const config: Config = {
             },
             colors: {
                 primary: {
+                    0: '#2F64E9',
                     100: '#b2d8d8',
                     200: '#66b2b2',
                     // 300: '#66b2b2', you can skip some colors like this or not even commnet them
@@ -68,6 +69,12 @@ const config: Config = {
                     700: '#a25000',
                     800: '#5f2f00',
                     900: '#472300'
+                },
+                tertiary: {
+                    100: '#737791',
+                    200: '#A6A6A6',
+                    300: '#171717',
+                    400: '#666666'
                 }
             },
             typography: (theme) => ({
@@ -112,7 +119,7 @@ const config: Config = {
         }),
         require('@tailwindcss/typography'),
         twshtcut(),
-        tailwindcssAnimate,
+        tailwindcssAnimate
     ]
 };
 

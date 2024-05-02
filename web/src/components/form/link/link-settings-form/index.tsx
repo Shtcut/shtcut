@@ -13,7 +13,7 @@ import {
     PopoverTrigger,
     cn
 } from '@shtcut-ui/react';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
