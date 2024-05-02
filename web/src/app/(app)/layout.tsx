@@ -4,7 +4,6 @@ import { PageLayout, ShtcutProvider, Toaster, cn } from '@shtcut-ui/react';
 import { Provider } from 'react-redux';
 import { persistor, store } from '@shtcut/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
-// import { fontHandwriting, fontHeading, fontMono, fontSans } from '@shtcut/_shared/utils/fonts';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (

@@ -11678,10 +11678,6 @@ lodash.templatesettings@^4.0.0:
 lodash.throttle@^4.0.1, lodash.throttle@^4.1.1:
   version "4.1.1"
   resolved "https://registry.npmjs.org/lodash.throttle/-/lodash.throttle-4.1.1.tgz"
-lodash.throttle@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/lodash.throttle/-/lodash.throttle-4.1.1.tgz#c23e91b710242ac70c37f1e1cda9274cc39bf2f4"
-  integrity sha512-wIkUCfVKpVsWo3JSZlc+8MB5it+2AN5W8J7YVMST30UrvcQNZ1Okbj+rbVniijTWE6FGYy4XJq/rHkas8qJMLQ==
 
 lodash.uniq@^4.5.0:
   version "4.5.0"
@@ -13626,6 +13622,7 @@ react-animate-on-scroll@^2.1.9:
   dependencies:
     lodash.throttle "^4.1.1"
     prop-types "^15.5.9"
+
 react-best-gradient-color-picker@^3.0.7:
   version "3.0.7"
   resolved "https://registry.yarnpkg.com/react-best-gradient-color-picker/-/react-best-gradient-color-picker-3.0.7.tgz#85899241b66db81919172ab62d9d0533410c547a"
