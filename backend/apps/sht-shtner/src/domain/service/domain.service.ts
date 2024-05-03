@@ -200,7 +200,7 @@ export class DomainService extends MongoBaseService {
       if (response instanceof AppException) {
         throw response;
       }
-      const { status, data } = response;
+      const { data } = response;
       return data;
     } catch (error) {
       throw error;
