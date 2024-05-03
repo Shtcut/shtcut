@@ -2,6 +2,7 @@ import { AMOUNTS, IMPACT } from '@shtcut/_shared/data';
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import _ from 'lodash';
 
 const ImpactShorten = () => {
     useEffect(() => {
@@ -39,7 +40,7 @@ const ImpactShorten = () => {
                     <div className="w-full mt-6 lg:w-1/2 mx-auto">
                         <section className="lg:w-3/4 mx-auto flex flex-col gap-6">
                             {IMPACT.map((_e) => (
-                                <section className="flex gap-2 sm:gap-6 ">
+                                <section key={_e.title} className="flex gap-2 sm:gap-6 ">
                                     <div className="relative top-2">
                                         {React.createElement(_e.icons, { size: 24, color: 'blue' })}
                                     </div>
