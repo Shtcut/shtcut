@@ -2,7 +2,7 @@ import { configuration } from '@config';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
-import { App, AppSchema, Auth, AuthSchema, CoreModule, RateLimiterModule } from 'shtcut/core';
+import { App, AppSchema, Auth, AuthSchema, CoreModule } from 'shtcut/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -40,18 +40,18 @@ import { QrCodeModule } from './qr-code';
       envFilePath: ['_env/shtner/.env.local', '_env/.env'],
       load: [configuration],
     }),
-    RateLimiterModule.forRoot({
-      framework: 'Express',
-      keyPrefix: 'global',
-      points: 10, // 10 requests,
-      duration: 60, // per 1 minute by IP
-      errorMessage: 'Too many requests, please try again',
-      logger: true,
-      redis: {
-        host: configuration().app.redis.host,
-        port: configuration().app.redis.port,
-      },
-    }),
+    // RateLimiterModule.forRoot({
+    //   framework: 'Express',
+    //   keyPrefix: 'global',
+    //   points: 10, // 10 requests,
+    //   duration: 60, // per 1 minute by IP
+    //   errorMessage: 'Too many requests, please try again',
+    //   logger: true,
+    //   redis: {
+    //     host: configuration().app.redis.host,
+    //     port: configuration().app.redis.port,
+    //   },
+    // }),
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

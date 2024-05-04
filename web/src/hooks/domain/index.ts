@@ -19,7 +19,7 @@ import { selectFindAllDomainData } from '@shtcut/redux/selectors/domain';
 interface UseDomainProps {
     id?: string;
     key?: string;
-    callLinks?: boolean;
+    callDomain?: boolean;
     search?: string;
     filter?: Dict;
 }
@@ -40,7 +40,7 @@ interface UseDomainReturnsType {
 }
 
 export const useDomain = (props: UseDomainProps): UseDomainReturnsType => {
-    const { callLinks = false, search, filter, id } = props;
+    const { callDomain = false, search, filter, id } = props;
 
     const { paginate, pagination } = usePagination({ key: 'findAllDomains' });
     const [createDomain, createDomainResponse] = useCreateDomainMutation();
@@ -59,12 +59,12 @@ export const useDomain = (props: UseDomainProps): UseDomainReturnsType => {
     const findAllDomainsResponse = useAppSelector((state) => selectFindAllDomainData(state, params));
 
     useEffect(() => {
-        if (callLinks) {
+        if (callDomain) {
             findAllDomains({
                 ...params
             });
         }
-    }, [callLinks]);
+    }, [callDomain]);
 
     useEffect(() => {
         if (id) {
