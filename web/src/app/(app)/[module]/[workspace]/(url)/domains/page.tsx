@@ -12,10 +12,12 @@ import {
     SelectTrigger,
     SelectValue
 } from '@shtcut-ui/react';
-import { LayoutBody } from '@shtcut/components';
-import { CalendarDaysIcon, ChevronRightIcon, DotIcon, FilterIcon } from 'lucide-react';
+import {LayoutBody} from '@shtcut/components';
+import {CalendarDaysIcon, ChevronRightIcon, DotIcon, FilterIcon} from 'lucide-react';
+import {useDomain} from "@shtcut/hooks/domain";
 
 const Domains = () => {
+    const { findAllDomainsResponse: links, isLoading} = useDomain({callDomain: true});
     return (
         <LayoutBody className="container">
             <div className="flex items-center justify-between space-y-2">
@@ -28,10 +30,10 @@ const Domains = () => {
                 <div className="flex mt-8">
                     <div className="flex-grow space-y-6">
                         <div className="flex space-x-4 items-center">
-                            <Input placeholder="Search here..." />
+                            <Input placeholder="Search here..."/>
                             <Select>
                                 <SelectTrigger id="sort">
-                                    <SelectValue placeholder="Sort by" />
+                                    <SelectValue placeholder="Sort by"/>
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="name">Name</SelectItem>
@@ -40,7 +42,7 @@ const Domains = () => {
                                 </SelectContent>
                             </Select>
                             <Button className="flex items-center space-x-2" variant="outline">
-                                <FilterIcon className="w-4 h-4" />
+                                <FilterIcon className="w-4 h-4"/>
                                 <span>Filter</span>
                             </Button>
                         </div>
@@ -54,13 +56,13 @@ const Domains = () => {
                                 <CardContent className="p-4">
                                     <div className="flex justify-between">
                                         <div className="flex space-x-2 items-center">
-                                            <CalendarDaysIcon className="w-5 h-5 text-gray-400" />
+                                            <CalendarDaysIcon className="w-5 h-5 text-gray-400"/>
                                             <span className="text-sm text-gray-500">Jan 20, 2024</span>
                                         </div>
                                         <div className="flex space-x-2 items-center">
                                             <Badge variant="secondary">24 Clicks</Badge>
                                             <Button variant="ghost">
-                                                <DotIcon className="w-5 h-5" />
+                                                <DotIcon className="w-5 h-5"/>
                                             </Button>
                                         </div>
                                     </div>
@@ -113,13 +115,13 @@ const Domains = () => {
                                 <CardContent className="p-4">
                                     <div className="flex justify-between">
                                         <div className="flex space-x-2 items-center">
-                                            <CalendarDaysIcon className="w-5 h-5 text-gray-400" />
+                                            <CalendarDaysIcon className="w-5 h-5 text-gray-400"/>
                                             <span className="text-sm text-gray-500">Jan 20, 2024</span>
                                         </div>
                                         <div className="flex space-x-2 items-center">
                                             <Badge variant="secondary">24 Clicks</Badge>
                                             <Button variant="ghost">
-                                                <DotIcon className="w-5 h-5" />
+                                                <DotIcon className="w-5 h-5"/>
                                             </Button>
                                         </div>
                                     </div>
@@ -176,26 +178,26 @@ const Domains = () => {
                             <CardContent className="p-4">
                                 <h3 className="font-semibold">Domains</h3>
                                 <div className="flex items-center mt-4">
-                                    <Input placeholder="Search tags" />
+                                    <Input placeholder="Search tags"/>
                                 </div>
                                 <div className="mt-4">
                                     <div className="flex items-center justify-between">
                                         <a className="text-sm text-blue-600" href="#">
                                             elizabetholoye.com
                                         </a>
-                                        <ChevronRightIcon className="w-4 h-4 text-gray-400" />
+                                        <ChevronRightIcon className="w-4 h-4 text-gray-400"/>
                                     </div>
                                     <div className="flex items-center justify-between mt-2">
                                         <a className="text-sm text-blue-600" href="#">
                                             elizabethlloloye.com
                                         </a>
-                                        <ChevronRightIcon className="w-4 h-4 text-gray-400" />
+                                        <ChevronRightIcon className="w-4 h-4 text-gray-400"/>
                                     </div>
                                     <div className="flex items-center justify-between mt-2">
                                         <a className="text-sm text-blue-600" href="#">
                                             elizabethlloloye.com
                                         </a>
-                                        <ChevronRightIcon className="w-4 h-4 text-gray-400" />
+                                        <ChevronRightIcon className="w-4 h-4 text-gray-400"/>
                                     </div>
                                 </div>
                                 <div className="border-t mt-4 pt-4">
