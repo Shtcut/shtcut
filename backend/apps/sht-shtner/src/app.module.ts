@@ -2,7 +2,7 @@ import { configuration } from '@config';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
-import { App, AppSchema, Auth, AuthSchema, CoreModule } from 'shtcut/core';
+import {App, AppSchema, Auth, AuthSchema, CoreModule, RateLimiterModule} from 'shtcut/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';

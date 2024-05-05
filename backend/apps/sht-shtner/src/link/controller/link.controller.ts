@@ -12,6 +12,7 @@ import {
 import { LinkService } from '../service/link.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
+import {RateLimiterGuard} from "shtcut/core/shared/guards/rate-limiter.guard";
 
 @Controller('links')
 export class LinkController extends AppController {
@@ -23,6 +24,7 @@ export class LinkController extends AppController {
   }
 
   @Get('/visit/:domain/:alias')
+  @UseGuards(RateLimiterGuard)
   @HttpCode(OK)
   public async visit(
     @Param('domain') domain: string,
