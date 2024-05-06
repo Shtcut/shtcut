@@ -43,6 +43,10 @@ export class AppException {
     return new AppException(HttpStatus.BAD_REQUEST, message);
   };
 
+  static TOO_MANY_REQUEST = (message) => {
+    return new AppException(HttpStatus.TOO_MANY_REQUESTS, message);
+  };
+
   getStatus() {
     return this.code;
   }

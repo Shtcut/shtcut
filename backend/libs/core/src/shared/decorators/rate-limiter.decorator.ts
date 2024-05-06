@@ -1,10 +1,9 @@
-import { SetMetadata } from '@nestjs/common';
-import { RateLimiterOptions } from '../types';
+import {SetMetadata} from '@nestjs/common';
+import {RateLimiterOptions} from '../types';
+import {RATE_LIMITER_PARAM_TOKEN} from "shtcut/core/shared";
+import {RateLimiterParams} from "shtcut/core/shared/common/rate-limiter-params";
 
-export const RateLimit = ({ points, duration, keyPrefix, errorMessage }: RateLimiterOptions) =>
-  SetMetadata('rate-limit-options', {
-    points,
-    duration,
-    keyPrefix,
-    errorMessage,
-  });
+// @ts-ignore
+export function RateLimiter(...params: RateLimiterParams[] | [false]) {
+    return SetMetadata(RATE_LIMITER_PARAM_TOKEN, params)
+}
