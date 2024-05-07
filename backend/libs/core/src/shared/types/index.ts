@@ -2,7 +2,6 @@ import { Request as ExpressRequest } from 'express';
 import { ExecutionContext } from '@nestjs/common';
 import { LimiterInfo } from 'ratelimiter';
 import { LimiterOption } from 'ratelimiter';
-import { FactoryProvider, ModuleMetadata } from '@nestjs/common';
 
 export type Dict<T = any> = Record<string, T>;
 export type Nullable<T> = T | null;
@@ -11,17 +10,15 @@ export type HttpErrorHandle<T> = (error: unknown) => T;
 export type CacheKeyArgument = string | Buffer;
 export type CacheValueArgument = string | Buffer;
 
-export type GetIdFn = (context: ExecutionContext, id: string) => string | Promise<string>;
+export type GetIdFn = (context: ExecutionContext) => string | Promise<string>;
 export type CreateErrorBodyFn = (limit: LimiterInfo) => unknown;
+
 export type RateLimiterParams = Pick<LimiterOption, 'max' | 'duration'> & {
   createErrorBody?: CreateErrorBodyFn
 } & ({ getId: GetIdFn } | { id: string } | {});
 
 export type RateLimiterModuleParams = Partial<RateLimiterParams> & Pick<LimiterOption, 'db'>;
 
-export interface RateLimiterModuleParamsAsync extends Pick<ModuleMetadata, 'imports' | 'providers'>,
-  Pick<FactoryProvider<RateLimiterModuleParams | Promise<RateLimiterModuleParams>>, 'useFactory' | 'inject'> {
-}
 
 export type CacheKeyValue = {
   key: CacheKeyArgument;

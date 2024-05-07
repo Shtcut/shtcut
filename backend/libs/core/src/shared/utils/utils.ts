@@ -4,7 +4,7 @@ import * as dateFns from 'date-fns';
 import { Between } from 'typeorm';
 import * as _ from 'lodash';
 import slugify from 'slugify';
-import { CreateErrorBodyFn, Dict } from '../types';
+import { CreateErrorBodyFn, Dict, RateLimiterParams } from '../types';
 import { LimiterInfo } from 'ratelimiter';
 import * as ms from 'moment';
 
@@ -230,5 +230,13 @@ export abstract class Utils {
     const delta = (limit.reset * 1000 - Date.now()) | 0;
     // @ts-ignore
     return `Rate limit exceed, retry in ${ms(delta).toLocaleString()}`;
+  }
+
+  /**
+   * @param params This is the rate limiter params
+   * @returns {Boolean}
+   */
+  public static isTurnedOff(params: RateLimiterParams[] | [false] | undefined): params is [false] {
+    return !!params && params.length === 1 && params[0] === false;
   }
 }
