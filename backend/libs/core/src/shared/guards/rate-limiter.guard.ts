@@ -1,11 +1,11 @@
 import {
-  CanActivate,
+  CanActivate, ClassProvider,
   ExecutionContext,
   Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
+import { APP_GUARD, Reflector } from '@nestjs/core';
 import {
   RATE_LIMITER_MODULE_PARAMS_TOKEN, RATE_LIMITER_PARAM_TOKEN,
   RATE_LIMITER_DECORATION_TOKEN,
@@ -84,5 +84,10 @@ export class RateLimiterGuard implements CanActivate {
     }
     return id;
   }
+}
+
+export const rateLimiterGuardProvider: ClassProvider<CanActivate> = {
+  provide: APP_GUARD,
+  useClass: RateLimiterGuard,
 }
 

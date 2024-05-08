@@ -1,44 +1,26 @@
-import { DynamicModule, Module } from '@nestjs/common';
+import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { RedisModule } from '@liaoliaots/nestjs-redis';
-import { RateLimiterOptions, rateLimiterOptions } from '../shared';
 import { RateLimiterService } from '../services';
+import { RATE_LIMITER_MODULE_PARAMS_TOKEN, RateLimiterModuleParams, rateLimiterGuardProvider } from 'shtcut/core/shared';
 
-@Module({
-  exports: ['RateLimiterOptions'],
-  providers: [{ provide: 'RateLimiterOptions', useValue: rateLimiterOptions }],
-})
+@Global()
+@Module({})
 export class RateLimiterModule {
-  static forRoot(options: RateLimiterOptions = rateLimiterOptions): DynamicModule {
+  static forRoot(params: RateLimiterModuleParams): DynamicModule {
+    const paramsProvider: Provider<RateLimiterModuleParams> = {
+      provide: RATE_LIMITER_MODULE_PARAMS_TOKEN,
+      useValue: params,
+    }
     return {
-      imports: [
-        RedisModule.forRoot({
-          config: {
-            host: options.redis.host,
-            port: options.redis.port,
-          },
-        }),
-      ],
       module: RateLimiterModule,
-      providers: [{ provide: 'RateLimiterOptions', useValue: options }],
-      exports: [RateLimiterService],
-    };
+      providers: [
+        paramsProvider,
+        rateLimiterGuardProvider
+      ]
+    }
   }
 
-  static forRootAsync(options: RateLimiterOptions = rateLimiterOptions): DynamicModule {
-    return {
-      imports: [
-        RedisModule.forRootAsync({
-          useFactory: () => ({
-            config: {
-              host: options.redis.host,
-              port: options.redis.port,
-            },
-          }),
-        }),
-      ],
-      module: RateLimiterModule,
-      providers: [{ provide: 'RateLimiterOptions', useValue: options }],
-      exports: [RateLimiterService],
-    };
-  }
+  // static forRootAsync(options: RateLimiterModuleParams): DynamicModule {
+  //   return {};
+  // }
 }
