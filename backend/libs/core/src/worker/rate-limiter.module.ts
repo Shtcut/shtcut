@@ -1,7 +1,10 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
-import { RedisModule } from '@liaoliaots/nestjs-redis';
-import { RateLimiterService } from '../services';
-import { RATE_LIMITER_MODULE_PARAMS_TOKEN, RateLimiterModuleParams, rateLimiterGuardProvider } from 'shtcut/core/shared';
+import {
+  RATE_LIMITER_MODULE_PARAMS_TOKEN,
+  RateLimiterModuleParams,
+  rateLimiterGuardProvider,
+  rateLimiterProvider,
+} from 'shtcut/core';
 
 @Global()
 @Module({})
@@ -15,7 +18,8 @@ export class RateLimiterModule {
       module: RateLimiterModule,
       providers: [
         paramsProvider,
-        rateLimiterGuardProvider
+        rateLimiterGuardProvider,
+        rateLimiterProvider,
       ]
     }
   }
