@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import slugify from 'slugify';
 import { CreateErrorBodyFn, Dict, RateLimiterParams } from '../types';
 import { LimiterInfo } from 'ratelimiter';
-import * as ms from 'moment';
+// import * as ms from 'moment';
 
 export abstract class Utils {
   /**
@@ -229,7 +229,7 @@ export abstract class Utils {
   public static defaultErrorBodyCreator(limit: LimiterInfo): CreateErrorBodyFn {
     const delta = (limit.reset * 1000 - Date.now()) | 0;
     // @ts-ignore
-    return `Rate limit exceed, retry in ${ms(delta).toLocaleString()}`;
+    return `Rate limit exceed, retry again later}`;
   }
 
   /**
