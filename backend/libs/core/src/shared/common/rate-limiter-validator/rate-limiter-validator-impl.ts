@@ -4,7 +4,7 @@ import {
   getRateLimit,
   RATE_LIMITER_MODULE_PARAMS_TOKEN, RATE_LIMITER_VALIDATOR_TOKEN, RateLimiterError,
   RateLimiterModuleParams,
-  RateLimiterValidator,
+  RateLimiterValidator, Utils,
 } from 'shtcut/core';
 import { ClassProvider, Inject, InternalServerErrorException } from '@nestjs/common';
 
@@ -33,7 +33,7 @@ export class RateLimiterValidatorImpl implements RateLimiterValidator {
 
     if (limiterInfo.remaining < 1) {
       const body = (
-        params.createErrorBody || this.defaultParams.createErrorBody
+        params.createErrorBody || this.defaultParams.createErrorBody || Utils.defaultErrorBodyCreator
       )(limiterInfo);
       throw new RateLimiterError(body, limiterInfo);
     }
