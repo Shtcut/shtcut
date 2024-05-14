@@ -3,8 +3,11 @@ import {
   RATE_LIMITER_MODULE_PARAMS_TOKEN,
   RateLimiterModuleParams,
   rateLimiterGuardProvider,
-  rateLimiterProvider,
+  rateLimiterProvider, RateLimiterModuleParamsAsync,
 } from 'shtcut/core';
+import {
+  rateLimiterValidateProvider
+} from 'shtcut/core/shared/common/rate-limiter-validator/rate-limiter-validator-impl';
 
 @Global()
 @Module({})
@@ -20,11 +23,27 @@ export class RateLimiterModule {
         paramsProvider,
         rateLimiterGuardProvider,
         rateLimiterProvider,
-      ]
+        rateLimiterValidateProvider,
+      ],
+      exports: [rateLimiterValidateProvider]
     }
   }
 
-  // static forRootAsync(options: RateLimiterModuleParams): DynamicModule {
-  //   return {};
-  // }
+  static forRootAsync(options: RateLimiterModuleParamsAsync): DynamicModule {
+    const paramsProvider: Provider<RateLimiterModuleParams> = {
+      provide: RATE_LIMITER_MODULE_PARAMS_TOKEN,
+      useFactory: options.useFactory,
+      inject: options.inject,
+    };
+    return {
+      module: RateLimiterModule,
+      imports: options.imports,
+      providers: [
+        rateLimiterGuardProvider,
+        rateLimiterProvider,
+        rateLimiterValidateProvider,
+      ],
+      exports: [rateLimiterValidateProvider]
+    }
+  }
 }
