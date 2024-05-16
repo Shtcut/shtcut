@@ -29,10 +29,11 @@ export class RateLimiterModule {
     }
   }
 
-  
+
   static forRootAsync(options: RateLimiterModuleParamsAsync): DynamicModule {
     const paramsProvider: Provider<RateLimiterModuleParams> = {
       provide: RATE_LIMITER_MODULE_PARAMS_TOKEN,
+      // @ts-ignore
       useFactory: options.useFactory,
       inject: options.inject,
     };
