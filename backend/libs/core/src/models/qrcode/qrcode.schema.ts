@@ -67,23 +67,9 @@ export class QrCode {
   })
   imageFormat: string;
 
-  @Prop(
-    raw({
-      value: String,
-      bgColor: String,
-      patternColor: String,
-      fgColor: String,
-      logoImage: String,
-      eye_color_2_outer: String,
-      eye_color_0_outer: String,
-      eye_color_0_inner: String,
-      eye_color1_inner: String,
-      eye_color_2_Inner: String,
-      logoPadding: String,
-      logoWidth: String,
-      qrStyle: String,
-    }),
-  )
+  @Prop({
+    type: Object,
+  })
   properties: QrCodeProps;
 
   @Prop({
