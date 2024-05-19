@@ -1,0 +1,17 @@
+name: CI FLOW
+
+on:
+  workflow_call:
+    secrets:
+      AWS_ACCESS_KEY_ID:
+        description: 'AWS Access Key ID'
+        required: true
+      AWS_SECRET_ACCESS_KEY:
+        description: 'AWS Secret Access Key'
+        required: true
+      AWS_DEFAULT_REGION:
+        description: 'AWS Default Region'
+        required: true
+      GH_CUSTOM_TOKEN:
+        description: 'GitHub Custom Token'
+        required: true
