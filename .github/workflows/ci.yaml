@@ -15,3 +15,6 @@ on:
       GH_CUSTOM_TOKEN:
         description: 'GitHub Custom Token'
         required: true
+      CI_SECRET:
+        description: 'CI Secret'
+        required: false
