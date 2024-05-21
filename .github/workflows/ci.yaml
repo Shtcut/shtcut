@@ -17,4 +17,21 @@ on:
         required: true
       CI_SECRET:
         description: 'CI Secret'
-        required: false
+    inputs:
+      is_workflow:
+        required: true
+        type: boolean
+        default: false
+      owner:
+        required: true
+        type: boolean
+      service:
+        required: true
+        type: string
+      name:
+        required: true
+        type: string
+      project:
+        required: true
+        type: string
+
