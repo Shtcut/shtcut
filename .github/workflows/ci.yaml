@@ -34,4 +34,64 @@ on:
       project:
         required: true
         type: string
+      region:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+      instance_type:
+        type: string
+      hostname-format:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      namespace:
+        required: true
+        type: string
+      port:
+        required: true
+        type: string
+      dockerfile:
+        required: true
+        type: string
+      probe_url:
+        type: string
+      buildCommand:
+        type: string
+      unitCommand:
+        type: string
+      e2eTestCommand:
+        type: string
+      app_secret:
+        type: string
+
+permissions:
+  id-tokens: write
+  contents: read
+
+
+jobs:
+  info:
+    name: CI workflow for ${{ inputs.service }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Initialize environment
+        run: |
+          echo "Service name : ${{ inputs.service }}"
+
+changes:
+  if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push'}}
+  runs-on: ubuntu-latest
+  needs: [ info ]
+  name: Test changed-files for ${{ inputs.service }}
+  outputs:
+    files-changed: ${{ steps.changes.outputs.files }}
+  steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+
 
