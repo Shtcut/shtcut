@@ -1,0 +1,79 @@
+name: AWS K8 CI
+
+on:
+  workflow_run:
+    workflows: ["SHTCUT AWS K8 Cloud BUILD"]
+    types:
+      - completed
+    workflow_call:
+      secrets:
+        AWS_ACCESS_KEY_ID:
+          description: 'AWS Access Key ID'
+          required: true
+        AWS_SECRET_ACCESS_KEY:
+          description: 'AWS Secret Access Key'
+          required: true
+        AWS_REGION:
+          description: 'AWS Region'
+          required: true
+        GH_CUSTOM_TOKEN:
+          description: 'GitHub Custom Token'
+          required: true
+        CI_SECRET:
+          description: 'CI Secret'
+          required: false
+    inputs:
+      is_workflow:
+        required: true
+        type: boolean
+        default: false
+      project:
+        required: true
+        type: string
+      region:
+        type: string
+      namespace:
+        required: true
+        type: string
+      service:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+      hostname-format:
+        required: true
+        type: string
+      port:
+        required: true
+        type: string
+      dockerfile:
+        required: true
+        type: string
+      docker_compose_file:
+        type: string
+      probe_url:
+        type: string
+      app_secret:
+        type: string
+        default: 'app-secret'
+      replica:
+        type: string
+        default: 1
+
+permissions:
+  id-token: write
+  contents: read
+
+
+envs:
+  current_project: shtcutstgtest
+  current_port: 7000
+  current_hostname_format: "app-${0}.starapp.xyz"
+  current_namespace: stg
+  current_service: shtcut-app
+  image-name: stmx
+  current_dockerfile: './ci/Dockerfile'
+  current_probe_url: '/api/v1/ping'
+  current_app_secret: 'app-secret'
+  current_replica: '1'
