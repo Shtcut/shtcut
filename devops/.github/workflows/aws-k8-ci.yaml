@@ -76,4 +76,12 @@ envs:
   current_dockerfile: './ci/Dockerfile'
   current_probe_url: '/api/v1/ping'
   current_app_secret: 'app-secret'
-  current_replica: '1'
+  current_replica: 1
+
+jobs:
+  envs:
+    if: ${{ inputs.TFAction == false && github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true  || github.event_name == 'push' }}
+    name: 'Validate ENV Variables'
+    runs-on: ubuntu-latest
+    outputs:
+      project: ${{ steps.variables.outputs.project }}
