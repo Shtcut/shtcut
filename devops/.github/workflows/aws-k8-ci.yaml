@@ -85,3 +85,44 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       project: ${{ steps.variables.outputs.project }}
+      namespace: ${{ steps.variables.outputs.namespace }}
+      port: ${{ steps.variables.outputs.port }}
+      dockerfile: ${{ steps.variables.outputs.port }}
+      service: ${{ steps.variables.outputs.service }}
+      probe_url: ${{ steps.variables.outputs.probe_url }}
+      app_secret: ${{ steps.variables.outputs.app_secret }}
+      replica: ${{ steps.variables.outputs.replica }}
+      hostname-format: ${{ steps.variables.outputs.hostname-format }}
+    steps:
+      - name: Initialize environments
+        run: |
+          EP="${{ inputs.project }}"
+          PRT="${{ inputs.port }}"
+          HOST_FMT="${{ inputs.hostname-format }}"
+          DOCFILE="${{ inputs.dockerfile }}"
+          PBURL="${{ inputs.probe_url }}"
+          APSCRT="${{ inputs.app_secret }}"
+          SRV="${{ inputs.service }}"
+          NSP="${{ inputs.namespace }}"
+          REP="${{ inputs.replica }}"
+          
+          ENV_HOST_FMT="${{ env.current_hostname-format }}"
+          
+          PROJECT="${EP:- ${{ env.current_project }}}"
+          PORT="${PRT:- ${{ env.current_port }}}"
+          DOCKERFILE="${DOCFILE:- ${{ env.current_dockerfile }}}"
+          PROBE_URL="${PBURL:- ${{ env.current_probe_url }}}"
+          APP_SECRET="${APSCRT:- ${{ env.current_app_secret }}}"
+          SERVICE="${SRV:- ${{ env.current_service }}}"
+          NAMESPACE="${NSP:- ${{ env.current_namespace }}}"
+          REPLICAS="${REP:- ${{ env.current_replica }}}"
+          
+          echo "project=${PROJECT}" >> $GITHUB_ENV
+          echo "port=${PORT}" >> $GITHUB_ENV
+          echo "dockerfile=${DOCKERFILE}" >> $GITHUB_ENV
+          echo "probe_url=${PROBE_URL}" >> $GITHUB_ENV
+          echo "app_secret=${APP_SECRET}" >> $GITHUB_ENV
+          echo "service=${SERVICE}" >> $GITHUB_ENV
+          echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
+          echo "replica=${REPLICAS}" >> $GITHUB_ENV
+          echo "hostname-format=${HOST_FMT}" >> $GITHUB_ENV
