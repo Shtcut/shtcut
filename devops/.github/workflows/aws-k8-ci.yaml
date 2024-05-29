@@ -126,3 +126,17 @@ jobs:
           echo "namespace=${NAMESPACE}" >> $GITHUB_ENV
           echo "replica=${REPLICAS}" >> $GITHUB_ENV
           echo "hostname-format=${HOST_FMT}" >> $GITHUB_ENV
+        
+
+      - name: Validate ENV Variables
+        id: variables
+        run: |
+          echo "project=${{ env.project }}" >> $GITHUB_OUTPUT
+          echo "port=${{ env.port }}}" >> $GITHUB_OUTPUT
+          echo "dockerfile=${{ env.dockerfile }}" >> $GITHUB_OUTPUT
+          echo "probe_url=${{ env.probe_url }}" >> $GITHUB_OUTPUT
+          echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
+          echo "service=${{ env.service }}" >> $GITHUB_OUTPUT
+          echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
+          echo "replica=${{ env.replica }}" >> $GITHUB_OUTPUT
+          echo "hostname-format=${{ env.hostname-format }}" >> $GITHUB_OUTPUT
