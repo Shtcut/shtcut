@@ -24,7 +24,8 @@ const WaitListComponent = () => {
                         style={{ objectFit: 'contain' }}
                         alt="logo"
                         src={'/images/logo.png'}
-                    />{' '}
+                    />
+                    {'   '}
                     Shtcut
                 </span>{' '}
                 <span className=""> Today!</span>
