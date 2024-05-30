@@ -27,7 +27,7 @@ export const HomeNavbar = () => {
         };
     }, []);
     return (
-        <header className={`h-14 fixed left-0 right-0 z-50 bg-white ${isScrolled ? 'shadow' : ''}`}>
+        <header className={`h-14 fixed left-0 right-0 z-50 bg-white ${isScrolled ? 'shadow  ' : ''}`}>
             <nav className="max-w-screen-xl mx-auto px-4   flex h-full items-center justify-between">
                 <section className="flex items-center space-x-4">
                     <Link

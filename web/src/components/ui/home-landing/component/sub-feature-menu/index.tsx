@@ -7,8 +7,7 @@ import {
     NavigationMenuList,
     NavigationMenuItem,
     NavigationMenuTrigger,
-    NavigationMenuContent,
-    NavigationMenuLink
+    NavigationMenuContent
 } from '@shtcut-ui/react';
 import Link from 'next/link';
 
@@ -22,7 +21,14 @@ const FeatureMenu = () => {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <div className=" p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            <Link href={'/url-shorten-er'} className='text-sm underline'>URL Shorten-er</Link>
+                            <Link href={'/url-shorten-er'} className="text-sm underline">
+                                URL Shorten-er
+                            </Link>
+                        </div>
+                        <div className=" p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                            <Link href={'/pricing'} className="text-sm underline">
+                                Pricing{' '}
+                            </Link>
                         </div>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
