@@ -17,7 +17,7 @@ const WaitListComponent = () => {
             </Button>
             <h1 className="text-4xl sm:text-6xl sm:w-[40rem] sm:leading-[55px] text-center  font-semibold ">
                 Join the waitlist for{' '}
-                <span className="inline-flex  relative top-2 sm:top-3">
+                <span className="inline-flex  relative top-2 text-primary-0 sm:top-3">
                     <Image
                         width={mobile ? 30 : 60}
                         height={mobile ? 30 : 60}
