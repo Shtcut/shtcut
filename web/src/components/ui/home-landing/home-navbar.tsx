@@ -79,7 +79,7 @@ export const HomeNavbar = () => {
                                             isDisabled={true}
                                             className={cn(
                                                 buttonVariants({ variant: 'outline' }),
-                                                'h-8 rounded-full px-5 font-semibold transition-all duration-200 border-none shadow-none '
+                                                'h-8 rounded-full px-5  transition-all duration-200 border-none shadow-none '
                                             )}
                                         >
                                             Log In
