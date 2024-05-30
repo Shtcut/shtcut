@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export const Hero = () => {
     return (
-        <section id="hero" className="flex w-full flex-col items-center justify-center gap-4 text-center">
+        <section id="hero" className="flex w-full flex-col items-center justify-center gap-4 text-center pt-20">
             <header className="mt-10 flex flex-col items-center gap-4">
                 <Badge className="shadow duration-500 ease-out animate-in fade-in-0 zoom-in-50 slide-in-from-bottom-1/2">
                     ✨ Your Workspace, Perfected
