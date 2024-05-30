@@ -255,6 +255,7 @@ text-.foreground
 text-.primary-0
 text-.primary-100
 text-.primary-200
+text-.primary-300
 text-.primary-500
 text-.primary-700
 text-.primary-900
@@ -285,6 +286,8 @@ text-.tertiary-100
 text-.tertiary-200
 text-.tertiary-300
 text-.tertiary-400
+text-.tertiary-500
+text-.tertiary-600
 bg-.inherit
 bg-.current
 bg-.transparent
@@ -542,6 +545,7 @@ bg-.foreground
 bg-.primary-0
 bg-.primary-100
 bg-.primary-200
+bg-.primary-300
 bg-.primary-500
 bg-.primary-700
 bg-.primary-900
@@ -572,6 +576,8 @@ bg-.tertiary-100
 bg-.tertiary-200
 bg-.tertiary-300
 bg-.tertiary-400
+bg-.tertiary-500
+bg-.tertiary-600
 dark:bg-.inherit
 dark:bg-.current
 dark:bg-.transparent
@@ -829,6 +835,7 @@ dark:bg-.foreground
 dark:bg-.primary-0
 dark:bg-.primary-100
 dark:bg-.primary-200
+dark:bg-.primary-300
 dark:bg-.primary-500
 dark:bg-.primary-700
 dark:bg-.primary-900
@@ -859,6 +866,8 @@ dark:bg-.tertiary-100
 dark:bg-.tertiary-200
 dark:bg-.tertiary-300
 dark:bg-.tertiary-400
+dark:bg-.tertiary-500
+dark:bg-.tertiary-600
 dark:hover:bg-.inherit
 dark:hover:bg-.current
 dark:hover:bg-.transparent
@@ -1116,6 +1125,7 @@ dark:hover:bg-.foreground
 dark:hover:bg-.primary-0
 dark:hover:bg-.primary-100
 dark:hover:bg-.primary-200
+dark:hover:bg-.primary-300
 dark:hover:bg-.primary-500
 dark:hover:bg-.primary-700
 dark:hover:bg-.primary-900
@@ -1146,6 +1156,8 @@ dark:hover:bg-.tertiary-100
 dark:hover:bg-.tertiary-200
 dark:hover:bg-.tertiary-300
 dark:hover:bg-.tertiary-400
+dark:hover:bg-.tertiary-500
+dark:hover:bg-.tertiary-600
 dark:active:bg-.inherit
 dark:active:bg-.current
 dark:active:bg-.transparent
@@ -1403,6 +1415,7 @@ dark:active:bg-.foreground
 dark:active:bg-.primary-0
 dark:active:bg-.primary-100
 dark:active:bg-.primary-200
+dark:active:bg-.primary-300
 dark:active:bg-.primary-500
 dark:active:bg-.primary-700
 dark:active:bg-.primary-900
@@ -1433,6 +1446,8 @@ dark:active:bg-.tertiary-100
 dark:active:bg-.tertiary-200
 dark:active:bg-.tertiary-300
 dark:active:bg-.tertiary-400
+dark:active:bg-.tertiary-500
+dark:active:bg-.tertiary-600
 hover:text-.inherit
 hover:text-.current
 hover:text-.transparent
@@ -1690,6 +1705,7 @@ hover:text-.foreground
 hover:text-.primary-0
 hover:text-.primary-100
 hover:text-.primary-200
+hover:text-.primary-300
 hover:text-.primary-500
 hover:text-.primary-700
 hover:text-.primary-900
@@ -1720,6 +1736,8 @@ hover:text-.tertiary-100
 hover:text-.tertiary-200
 hover:text-.tertiary-300
 hover:text-.tertiary-400
+hover:text-.tertiary-500
+hover:text-.tertiary-600
 hover:bg-.inherit
 hover:bg-.current
 hover:bg-.transparent
@@ -1977,6 +1995,7 @@ hover:bg-.foreground
 hover:bg-.primary-0
 hover:bg-.primary-100
 hover:bg-.primary-200
+hover:bg-.primary-300
 hover:bg-.primary-500
 hover:bg-.primary-700
 hover:bg-.primary-900
@@ -2007,6 +2026,8 @@ hover:bg-.tertiary-100
 hover:bg-.tertiary-200
 hover:bg-.tertiary-300
 hover:bg-.tertiary-400
+hover:bg-.tertiary-500
+hover:bg-.tertiary-600
 active:bg-.inherit
 active:bg-.current
 active:bg-.transparent
@@ -2264,6 +2285,7 @@ active:bg-.foreground
 active:bg-.primary-0
 active:bg-.primary-100
 active:bg-.primary-200
+active:bg-.primary-300
 active:bg-.primary-500
 active:bg-.primary-700
 active:bg-.primary-900
@@ -2294,6 +2316,8 @@ active:bg-.tertiary-100
 active:bg-.tertiary-200
 active:bg-.tertiary-300
 active:bg-.tertiary-400
+active:bg-.tertiary-500
+active:bg-.tertiary-600
 ring-.inherit
 ring-.current
 ring-.transparent
@@ -2551,6 +2575,7 @@ ring-.foreground
 ring-.primary-0
 ring-.primary-100
 ring-.primary-200
+ring-.primary-300
 ring-.primary-500
 ring-.primary-700
 ring-.primary-900
@@ -2581,6 +2606,8 @@ ring-.tertiary-100
 ring-.tertiary-200
 ring-.tertiary-300
 ring-.tertiary-400
+ring-.tertiary-500
+ring-.tertiary-600
 hover:ring-.inherit
 hover:ring-.current
 hover:ring-.transparent
@@ -2838,6 +2865,7 @@ hover:ring-.foreground
 hover:ring-.primary-0
 hover:ring-.primary-100
 hover:ring-.primary-200
+hover:ring-.primary-300
 hover:ring-.primary-500
 hover:ring-.primary-700
 hover:ring-.primary-900
@@ -2868,6 +2896,8 @@ hover:ring-.tertiary-100
 hover:ring-.tertiary-200
 hover:ring-.tertiary-300
 hover:ring-.tertiary-400
+hover:ring-.tertiary-500
+hover:ring-.tertiary-600
 focus:ring-.inherit
 focus:ring-.current
 focus:ring-.transparent
@@ -3125,6 +3155,7 @@ focus:ring-.foreground
 focus:ring-.primary-0
 focus:ring-.primary-100
 focus:ring-.primary-200
+focus:ring-.primary-300
 focus:ring-.primary-500
 focus:ring-.primary-700
 focus:ring-.primary-900
@@ -3155,6 +3186,8 @@ focus:ring-.tertiary-100
 focus:ring-.tertiary-200
 focus:ring-.tertiary-300
 focus:ring-.tertiary-400
+focus:ring-.tertiary-500
+focus:ring-.tertiary-600
 focus-within:ring-.inherit
 focus-within:ring-.current
 focus-within:ring-.transparent
@@ -3412,6 +3445,7 @@ focus-within:ring-.foreground
 focus-within:ring-.primary-0
 focus-within:ring-.primary-100
 focus-within:ring-.primary-200
+focus-within:ring-.primary-300
 focus-within:ring-.primary-500
 focus-within:ring-.primary-700
 focus-within:ring-.primary-900
@@ -3442,6 +3476,8 @@ focus-within:ring-.tertiary-100
 focus-within:ring-.tertiary-200
 focus-within:ring-.tertiary-300
 focus-within:ring-.tertiary-400
+focus-within:ring-.tertiary-500
+focus-within:ring-.tertiary-600
 border-.inherit
 border-.current
 border-.transparent
@@ -3699,6 +3735,7 @@ border-.foreground
 border-.primary-0
 border-.primary-100
 border-.primary-200
+border-.primary-300
 border-.primary-500
 border-.primary-700
 border-.primary-900
@@ -3729,6 +3766,8 @@ border-.tertiary-100
 border-.tertiary-200
 border-.tertiary-300
 border-.tertiary-400
+border-.tertiary-500
+border-.tertiary-600
 focus:border-.inherit
 focus:border-.current
 focus:border-.transparent
@@ -3986,6 +4025,7 @@ focus:border-.foreground
 focus:border-.primary-0
 focus:border-.primary-100
 focus:border-.primary-200
+focus:border-.primary-300
 focus:border-.primary-500
 focus:border-.primary-700
 focus:border-.primary-900
@@ -4016,6 +4056,8 @@ focus:border-.tertiary-100
 focus:border-.tertiary-200
 focus:border-.tertiary-300
 focus:border-.tertiary-400
+focus:border-.tertiary-500
+focus:border-.tertiary-600
 focus-within:border-.inherit
 focus-within:border-.current
 focus-within:border-.transparent
@@ -4273,6 +4315,7 @@ focus-within:border-.foreground
 focus-within:border-.primary-0
 focus-within:border-.primary-100
 focus-within:border-.primary-200
+focus-within:border-.primary-300
 focus-within:border-.primary-500
 focus-within:border-.primary-700
 focus-within:border-.primary-900
@@ -4303,6 +4346,8 @@ focus-within:border-.tertiary-100
 focus-within:border-.tertiary-200
 focus-within:border-.tertiary-300
 focus-within:border-.tertiary-400
+focus-within:border-.tertiary-500
+focus-within:border-.tertiary-600
 dark:text-.inherit
 dark:text-.current
 dark:text-.transparent
@@ -4560,6 +4605,7 @@ dark:text-.foreground
 dark:text-.primary-0
 dark:text-.primary-100
 dark:text-.primary-200
+dark:text-.primary-300
 dark:text-.primary-500
 dark:text-.primary-700
 dark:text-.primary-900
@@ -4590,6 +4636,8 @@ dark:text-.tertiary-100
 dark:text-.tertiary-200
 dark:text-.tertiary-300
 dark:text-.tertiary-400
+dark:text-.tertiary-500
+dark:text-.tertiary-600
 dark:hover:text-.inherit
 dark:hover:text-.current
 dark:hover:text-.transparent
@@ -4847,6 +4895,7 @@ dark:hover:text-.foreground
 dark:hover:text-.primary-0
 dark:hover:text-.primary-100
 dark:hover:text-.primary-200
+dark:hover:text-.primary-300
 dark:hover:text-.primary-500
 dark:hover:text-.primary-700
 dark:hover:text-.primary-900
@@ -4877,6 +4926,8 @@ dark:hover:text-.tertiary-100
 dark:hover:text-.tertiary-200
 dark:hover:text-.tertiary-300
 dark:hover:text-.tertiary-400
+dark:hover:text-.tertiary-500
+dark:hover:text-.tertiary-600
 h-.0
 h-.1
 h-.2

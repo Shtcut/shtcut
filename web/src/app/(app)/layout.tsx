@@ -11,8 +11,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <Provider store={store}>
             <PersistGate loading={null} persistor={persistor}>
                 <ShtcutProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
-                    <PageLayout className="bg-white-90">{children}</PageLayout>
-                    {/* {children} */}
+                    {/* <PageLayout className="bg-white-90">{children}</PageLayout> */}
+                    {children}
                     <Toaster />
                 </ShtcutProvider>
             </PersistGate>

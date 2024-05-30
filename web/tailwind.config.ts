@@ -53,6 +53,7 @@ const config: Config = {
                     0: '#2F64E9',
                     100: '#b2d8d8',
                     200: '#66b2b2',
+                    300: '#174FDC',
                     // 300: '#66b2b2', you can skip some colors like this or not even commnet them
                     // 400: '',
                     500: '#008080',
@@ -74,7 +75,9 @@ const config: Config = {
                     100: '#737791',
                     200: '#A6A6A6',
                     300: '#171717',
-                    400: '#666666'
+                    400: '#666666',
+                    500: '#726C6C',
+                    600: '#92939E'
                 }
             },
             typography: (theme) => ({

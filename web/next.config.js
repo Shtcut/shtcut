@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-
 module.exports = {
     webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
         config.resolve.alias.canvas = false;
@@ -9,7 +8,6 @@ module.exports = {
             issuer: /\.[jt]sx?$/,
             use: ['@svgr/webpack']
         });
-        // Important: return the modified config
         return config;
     },
     redirects: async () => {
