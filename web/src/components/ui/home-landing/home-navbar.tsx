@@ -53,7 +53,7 @@ export const HomeNavbar = () => {
                                 <DrawerTrigger>
                                     <MenuIcon />
                                 </DrawerTrigger>
-                                <DrawerContent style={{ width: '100%', height: '100%' }}>Navabr</DrawerContent>
+                                {/* <DrawerContent style={{ width: '100%', height: '100%' }}>Navabr</DrawerContent> */}
                             </Drawer>
                         </section>
 

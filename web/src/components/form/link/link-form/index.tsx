@@ -26,9 +26,8 @@ import {
     cn,
     toast
 } from '@shtcut-ui/react';
-import { CalendarIcon, LinkIcon } from 'lucide-react';
+import { CalendarIcon,  } from 'lucide-react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { LinkSettingsForm } from '../link-settings-form';
 import { LinkType } from '@shtcut/types';
 import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
 import { z } from 'zod';
