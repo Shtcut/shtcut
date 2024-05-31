@@ -7,7 +7,7 @@ import { useAuth } from '@shtcut/hooks/auth';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect, useState } from 'react';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
-import {  Drawer, DrawerContent, DrawerTrigger } from '@shtcut-ui/react';
+import {  Drawer, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
 import { useMediaQuery } from 'react-responsive';
