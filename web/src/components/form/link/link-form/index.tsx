@@ -94,9 +94,9 @@ export const LinkForm = (props: LinkFormProps) => {
         title: '',
         ...initialValues,
         domain: !isUndefined(initialValues?.domain)
-            ? isString(initialValues.domain)
-                ? initialValues.domain
-                : initialValues.domain._id
+            ? isString(initialValues?.domain)
+                ? initialValues?.domain
+                : initialValues?.domain._id
             : ''
     });
 
