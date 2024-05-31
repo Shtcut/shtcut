@@ -12,7 +12,7 @@ type LogoProps = {
 export const Logo = (props: LogoProps) => (
     <div className={cn('flex items-center justify-between py-5 md:block', props.className)}>
         <Image
-            src="/logo.svg"
+            src="/images/shtcut-logo.png"
             width={props.width ?? 120}
             height={props.height ?? 50}
             alt="Shtcut Logo"
