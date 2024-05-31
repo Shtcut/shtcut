@@ -1,13 +1,13 @@
 'use client';
 
-import Link from 'next/link';
+
 import { Logo } from '../logo';
 import { buttonVariants, cn } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks/auth';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect, useState } from 'react';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
-import { Button, Drawer, DrawerContent, DrawerTrigger } from '@shtcut-ui/react';
+import {  Drawer, DrawerContent, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
 import { useMediaQuery } from 'react-responsive';
@@ -53,7 +53,7 @@ export const HomeNavbar = () => {
                                 <DrawerTrigger>
                                     <MenuIcon />
                                 </DrawerTrigger>
-                                <DrawerContent style={{ width: '100%', height: '100%' }}>Navabr</DrawerContent>
+                                {/* <DrawerContent style={{ width: '100%', height: '100%' }}>Navabr</DrawerContent> */}
                             </Drawer>
                         </section>
 
@@ -65,7 +65,7 @@ export const HomeNavbar = () => {
                                         href={`/url/${workspace}/overview`}
                                         className={cn(
                                             buttonVariants(),
-                                            'bg-blue-600 h-8 rounded-full px-3 font-semibold transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
+                                            'bg-blue-600 h-8 rounded-full px-3  transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
                                         )}
                                     >
                                         Dashboard
@@ -79,7 +79,7 @@ export const HomeNavbar = () => {
                                             isDisabled={true}
                                             className={cn(
                                                 buttonVariants({ variant: 'outline' }),
-                                                'h-8 rounded-full px-5 font-semibold transition-all duration-200 border-none shadow-none '
+                                                'h-8 rounded-full px-5  transition-all duration-200 border-none shadow-none '
                                             )}
                                         >
                                             Log In
