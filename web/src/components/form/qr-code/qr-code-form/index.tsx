@@ -26,7 +26,6 @@ import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
 import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
-import ColorPicker from 'react-best-gradient-color-picker';
 import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
@@ -140,7 +139,7 @@ export const QRCodeForm = () => {
             });
             return;
         }
-
+      
         const svgDocument = elementToSVG(document.querySelector('#shtcut-qrcode') as Element);
         const svgString = new XMLSerializer().serializeToString(svgDocument);
 
@@ -235,10 +234,7 @@ export const QRCodeForm = () => {
                         <h2 className="text-lg font-semibold mb-4">Enter your website URL</h2>
                         <Input className="mb-8" placeholder="URL the website" onChange={handleOnChangeLink} />
                         <h2 className="text-lg font-semibold mb-4">Live Preview</h2>
-                        <section
-                            id="shtcut-qrcode"
-                            className="border border-black  rounded-[3rem] w-60 mx-auto h-96 flex justify-center    bg-transparent"
-                        >
+                        <section id="shtcut-qrcode" className="border border-black  rounded-[3rem] w-60 mx-auto h-96 flex justify-center    bg-transparent">
                             <div className="flex flex-col justify-between  w-full ">
                                 <div className=" bg-black h-10 w-full rounded-t-[3rem]" />
                                 <div className=" w-52  flex justify-center items-center flex-col mx-auto ">
