@@ -4,7 +4,7 @@ import { AxiosRequestConfig } from 'axios';
 import * as _ from 'lodash';
 import { parse as HTML, HTMLElement } from 'node-html-parser';
 import { firstValueFrom } from 'rxjs';
-import { Dict, HtmlMetadata, HtmlMetadataResult, RedisService } from 'shtcut/core';
+import { HtmlMetadata, HtmlMetadataResult, RedisService } from 'shtcut/core';
 
 @Injectable()
 export class HtmlMetaService {

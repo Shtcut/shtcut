@@ -4,7 +4,9 @@ import * as dateFns from 'date-fns';
 import { Between } from 'typeorm';
 import * as _ from 'lodash';
 import slugify from 'slugify';
-import { Dict } from '../types';
+import { CreateErrorBodyFn, Dict, RateLimiterParams } from '../types';
+import { LimiterInfo } from 'ratelimiter';
+// import * as ms from 'moment';
 
 export abstract class Utils {
   /**
@@ -219,7 +221,22 @@ export abstract class Utils {
   public static isLocalAddress(ip: string) {
     return /^(127\.0\.0\.1|::1|fe80(:1)?::1(%.*)?)$/i.test(ip);
   }
-  public static mongoDefaultUpdateProps(obj?) {
+
+  public static mongoDefaultUpdateProps(obj = {}) {
     return { upsert: true, new: true, ...obj };
+  }
+
+  public static defaultErrorBodyCreator(limit: LimiterInfo): CreateErrorBodyFn {
+    const delta = (limit.reset * 1000 - Date.now()) | 0;
+    // @ts-ignore
+    return `Rate limit exceed, retry again later}`;
+  }
+
+  /**
+   * @param params This is the rate limiter params
+   * @returns {Boolean}
+   */
+  public static isTurnedOff(params: RateLimiterParams[] | [false] | undefined): params is [false] {
+    return !!params && params.length === 1 && params[0] === false;
   }
 }

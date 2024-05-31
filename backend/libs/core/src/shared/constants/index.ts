@@ -5,6 +5,10 @@ export const WorkerService = {
 
 export const REDIS_MODULE_OPTIONS = Symbol('REDIS_MODULE_OPTIONS');
 export const REDIS_CLIENT = Symbol('REDIS_CLIENT');
+export const RATE_LIMITER_PARAM_TOKEN = Symbol.for('rate-limiter:params-token');
+export const RATE_LIMITER_DECORATION_TOKEN = Symbol.for('rate-limiter:params-decorator');
+export const RATE_LIMITER_MODULE_PARAMS_TOKEN = Symbol.for('rate-limiter:params-module');
+export const RATE_LIMITER_VALIDATOR_TOKEN = Symbol.for('rate-limiter:params-validator');
 
 export const POST = 'post';
 export const GET = 'get';

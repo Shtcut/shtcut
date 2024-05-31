@@ -1,10 +1,19 @@
 import { ClassyQRCode } from '@shtcut/components/ui/_shared/svg/classy';
-import { ClassyRoundedQRCode } from '@shtcut/components/ui/_shared/svg/classy-rounded';
+import { ClassyRoundedQRCode } from '@shtcut/components/ui/_shared/svg/rounded-classy';
 import { DotQRCode } from '@shtcut/components/ui/_shared/svg/dot';
 import { ExtraRoundedQRCode } from '@shtcut/components/ui/_shared/svg/extra-rounded';
 import { RoundedQRCode } from '@shtcut/components/ui/_shared/svg/rounded';
 import { SquareQRCode } from '@shtcut/components/ui/_shared/svg/square';
-import { CornerDotType, CornerSquareType, DotType, DrawType, ErrorCorrectionLevel, Mode, TypeNumber } from 'qr-code-styling';
+import Image from 'next/image';
+import {
+    CornerDotType,
+    CornerSquareType,
+    DotType,
+    DrawType,
+    ErrorCorrectionLevel,
+    Mode,
+    TypeNumber
+} from 'qr-code-styling';
 
 const LOGO_FAV_ICON =
     'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAIVBMVEVMaXEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC+JJ50AAAACnRSTlMAYe6EDUIkn9m+6SpLswAAAAlwSFlzAAAD6AAAA+gBtXtSawAAA4NJREFUeJztWu2SwyAIDKJo8v4PfJPU72hi0LQzN+7Pa3NLAGGRLsvExMTExMTExMTExMS/BcEqtm3bhNFK/oJ9iyCQvsqOJma3Jsgfsh8w33CCqrEfgNfZxQX72xYofcf+pgWqwr4iACafqfHkssoOLusgJIYYnIkSquzJqUP/gfkB+w4lRqeBfMCeWCBGFCSZFtoQYV1mPyxwX8J+ehRP2eM86HYBlOjFfceTZkgWSF1kb7J8xEGQK5N9h3NBTy3QKbvBJ6UN+2OAfPa9U9sHNZtfxewMR5reJDA+8NAVQC4/OP6V+iLY6wATH3kCBGiUve4NOjNAUEH8VlpA+T8wDdBZMc+k96bpZQ8Y64DPq6pCP8JXDZDJKY5OZISb7OxLQmWfPk6grEhQcVmbrNMEzwCwHJScyEcWWKtXngFoKY4UKAuSGwugT5Lo2H+eTgNJqTAyKKkSCVauNqej68QG0KkTR4diHasHaB/34GzASQeETll2MQlGBMgOm5DlwMcnlTcsqz7ynYwYoy7kp6AIb0Gh4YfBADljPuR14EYvUV3Gt4liyqSXbtMzXvhifYRp068i5f8ktusFLQ1T1kaYpgDojN6Suj9fqaE1qdfnAUqz+NfPoO1ybG1wQRyzp/yYs3t3ioYwmmCkPPmxSUlC/ESqc/C22Ka6M8uke8GS9dmTyqIGT8bVIs6AZhmv/RPq4sO6L52RKjbgwQhD/pliOb2651AfEvuV0D2ejTDool9+qNpw9rKt4yzcP9eMAUpc+9iXuiRE9p7sZAA8H9+Uy7/aF0IQjsiSpFBoMTeAAbxNsrIa9nnnDz9zBF/t4xcHvS5HEwOZBoibCBwUFUWOiQ+Z4+vWEsCgbWLYcyv6rgC2Jv/JrF0cTpNJgLiXIFtjADPB4k97U78aYcCykB8F4lrj7GJfwmxPUlgqAPR38jt8aNj3YFtLElZxrcufGKA771D599HGvgGDPl6L8K+jNa+MZGubjptQYPhQ2h3xgAAsXo80H6P8oqrrIvak61lb2j7+xc/wkrelZd7hBvhaeh3Iyq5wxIoct7tqfrGpHLIQE+5t1IhtXVc9VbcHzn1zHPuOcK6wd1fIA4mz9KYq+xu/T1EJw76B/yb7pfBN2Zf3AD9lr65nuds6Fsj8kv1AYUXO2hUO29Kb77IfkK7jifCDlImJiYmJiYmJiYmJif+HP1zjXmgmoSYOAAAAAElFTkSuQmCC';
@@ -167,3 +176,91 @@ export const SOCIAL_ICONS_LOGOS = [
         image: 'data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciICB2aWV3Qm94PSIwIDAgNTAgNTAiIHdpZHRoPSI1MHB4IiBoZWlnaHQ9IjUwcHgiPgo8cGF0aCBkPSJNNDEsNEg5QzYuMjQzLDQsNCw2LjI0Myw0LDl2MzJjMCwyLjc1NywyLjI0Myw1LDUsNWgzMmMyLjc1NywwLDUtMi4yNDMsNS01VjlDNDYsNi4yNDMsNDMuNzU3LDQsNDEsNHogTTM3LjAwNiwyMi4zMjMgYy0wLjIyNywwLjAyMS0wLjQ1NywwLjAzNS0wLjY5LDAuMDM1Yy0yLjYyMywwLTQuOTI4LTEuMzQ5LTYuMjY5LTMuMzg4YzAsNS4zNDksMCwxMS40MzUsMCwxMS41MzdjMCw0LjcwOS0zLjgxOCw4LjUyNy04LjUyNyw4LjUyNyBzLTguNTI3LTMuODE4LTguNTI3LTguNTI3czMuODE4LTguNTI3LDguNTI3LTguNTI3YzAuMTc4LDAsMC4zNTIsMC4wMTYsMC41MjcsMC4wMjd2NC4yMDJjLTAuMTc1LTAuMDIxLTAuMzQ3LTAuMDUzLTAuNTI3LTAuMDUzIGMtMi40MDQsMC00LjM1MiwxLjk0OC00LjM1Miw0LjM1MnMxLjk0OCw0LjM1Miw0LjM1Miw0LjM1MnM0LjUyNy0xLjg5NCw0LjUyNy00LjI5OGMwLTAuMDk1LDAuMDQyLTE5LjU5NCwwLjA0Mi0xOS41OTRoNC4wMTYgYzAuMzc4LDMuNTkxLDMuMjc3LDYuNDI1LDYuOTAxLDYuNjg1VjIyLjMyM3oiLz4KPC9zdmc+'
     }
 ];
+
+{
+    /* <section className="border border-black  rounded-[3rem] w-60 mx-auto h-80 flex justify-center    bg-transparent">
+                            <div className="flex flex-col justify-between  w-full ">
+                                <div className=" bg-black h-10 w-full rounded-t-[3rem]" />
+                                <div className=" w-52  flex justify-center items-center flex-col mx-auto ">
+                                    <div className="border-black border-4 flex justify-center items-center  w-full rounded-2xl">
+                                        <div ref={ref} className="h-35 w-35 rounded-lg " />
+                                    </div>
+                                    <section className="flex flex-col w-full items-center">
+                                        <div className="triangle" />
+                                        <div className="bg-black  flex justify-center mx-auto w-full h-6 items-center  rounded-xl ">
+                                            <p className="text-white text-xs">SCAN ME!</p>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div className="bg-black h-10  rounded-b-[3rem]" />
+                            </div>
+                        </section> */
+}
+
+{
+    /* <div className=" w-56  flex justify-center items-center flex-col mx-auto ">
+                            <div className="border-black rounded-bl-md rounded-tr rounded-br-3xl flex-col border flex justify-between items-center h-60   w-full rounded-tl-[1.7rem]">
+                                <div className="flex-1">
+                                    <div ref={ref} className="h-35 w-35 rounded-lg " />
+                                </div>
+
+                                <div className=" w-full bg-black ">
+                                    <div className=" bg-white   h-6 w-full rounded-b-2xl  " />
+                                </div>
+                                <div className="w-full rounded-br-[1.1rem]  h-12 flex justify-center items-center border  border-black rounded-bl bg-black">
+                                    <p className="text-xs text-center text-white font-medium">SCAN ME!</p>
+                                </div>
+                            </div>
+                        </div> */
+}
+
+export const QR_CODE_FRAMES = ({ children }: { children: JSX.Element }) => {
+    return [
+        {
+            id: 1,
+            icon: (
+                <Image
+                    className="cursor-pointer"
+                    src={`/svg/qrcode-scanner-1.svg`}
+                    alt={`qrcode-scanner-1`}
+                    width={500}
+                    height={500}
+                />
+            ),
+            frame: (
+                <div className=" w-56  flex justify-center items-center flex-col mx-auto ">
+                    <div className="border-black border-4 flex justify-center items-center  w-full rounded-2xl">
+                        {children}
+                    </div>
+                    <section className="flex flex-col w-full items-center">
+                        <div className="triangle" />
+                        <div className="bg-black  flex justify-center mx-auto w-full h-6 items-center  rounded-xl ">
+                            <p className="text-white text-xs">SCAN ME!</p>
+                        </div>
+                    </section>
+                </div>
+            )
+        },
+        {
+            id: 2,
+            icon: (
+                <Image
+                    className="cursor-pointer"
+                    src={`/svg/qrcode-scanner-7.svg`}
+                    alt={`qrcode-scanner-1`}
+                    width={500}
+                    height={500}
+                />
+            ),
+            frame: (
+                <div className=" w-48  flex justify-center items-center flex-col mx-auto ">
+                    <div className=" flex-col border-black border-2 rounded-lg   flex justify-between items-center    w-full ">
+                        {children}
+                    </div>
+                    <div className="tooltip" />
+                    <p className="text-xs mt-3 border-black py-1 w-full  border-b-2 text-center">SCAN ME!</p>
+                </div>
+            )
+        }
+    ];
+};
