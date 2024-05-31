@@ -26,6 +26,7 @@ import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
 import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
+import ColorPicker from 'react-best-gradient-color-picker';
 import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
