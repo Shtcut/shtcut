@@ -17,3 +17,14 @@ interface Plan {
     text: string;
     data: string[];
 }
+interface TypingTextProps {
+    text: string;
+    speed: number;
+}
+
+interface IntegrationSectionType {
+    text: string;
+    id: string;
+    img: string[];
+    title: string;
+}

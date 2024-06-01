@@ -1,20 +1,13 @@
 import React from 'react';
-import HeroShorten from './hero';
-import BrandShorten from './brands';
-import ImpactShorten from './impact';
-import FeaturedShorten from './featured';
-import BenefitShorten from './benefit';
-import PlanShorten from './plan';
+import { FeatureSection, HeroSection, IntegrationSection, PlanSection } from '..';
 
 const UrlShortenContainer = () => {
     return (
         <>
-            <HeroShorten />
-            <BrandShorten />
-            <ImpactShorten />
-            <FeaturedShorten />
-            <BenefitShorten/>
-            <PlanShorten />
+            <HeroSection />
+            <FeatureSection />
+            <IntegrationSection />
+            <PlanSection />
         </>
     );
 };

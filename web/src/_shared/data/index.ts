@@ -109,7 +109,7 @@ export const PLANS: Plan[] = [
         data: [
             'All features of Pro plan',
             'Multiple teams',
-            
+
             'SLA of 99.9% uptime',
             'Mobile targeting',
             'Tags for links',
@@ -117,5 +117,53 @@ export const PLANS: Plan[] = [
             'QR code',
             'Tools & Extensions'
         ]
+    }
+];
+
+export const featureData = [
+    {
+        id: 1,
+        title: 'Link Management',
+        text: 'Users can shorten long url links, customize links with branded domains, edit and options to set expiration dates',
+        img: '/images/user.png.png'
+    },
+    {
+        id: 2,
+        title: 'QR Codes',
+        text: 'Automatically generate QR codes for shortened links, customize and also track. ',
+        img: '/images/folder.png.png'
+    },
+    {
+        id: 3,
+        title: 'Custom Domains',
+        text: 'Set up payroll and bonuses for all your employees, and never be late on salaries.',
+        img: '/images/bulb.png.png'
+    },
+    {
+        id: 4,
+        title: 'Analytics',
+        text: 'Get real-time visibility into every expense and payment, with a neat dashboard.',
+        img: '/images/paper.png.png'
+    }
+];
+
+export const integrationData: IntegrationSectionType[] = [
+    {
+        id: '01.',
+        title: 'Social Media Platforms',
+        text: ' Integrate with social media platforms for seamless sharing of shortened links.',
+        img: ['/images/twitter.png', '/images/instagram.png', '/images/fb.png']
+    },
+    {
+        id: '02.',
+        title: 'Email Marketing Tools',
+        text: ' Provide integrations with email marketing platforms for link tracking and campaign optimization.',
+        img: ['/images/mailchimp.png', '/images/rate.png']
+    },
+    {
+        id: '03.',
+        title: 'Analytics Platforms',
+        text: 'Support integration with analytics platforms for comprehensive performance tracking and reporting.',
+        img: ['/images/circle.png', '/images/graph.png']
     }
 ];
