@@ -116,7 +116,7 @@ jobs:
           SERVICE="${SRV:- ${{ env.current_service }}}"
           NAMESPACE="${NSP:- ${{ env.current_namespace }}}"
           REPLICAS="${REP:- ${{ env.current_replica }}}"
-          
+  
           echo "project=${PROJECT}" >> $GITHUB_ENV
           echo "port=${PORT}" >> $GITHUB_ENV
           echo "dockerfile=${DOCKERFILE}" >> $GITHUB_ENV
