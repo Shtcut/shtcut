@@ -127,7 +127,6 @@ jobs:
           echo "replica=${REPLICAS}" >> $GITHUB_ENV
           echo "hostname-format=${HOST_FMT}" >> $GITHUB_ENV
         
-
       - name: Validate ENV Variables
         id: variables
         run: |
