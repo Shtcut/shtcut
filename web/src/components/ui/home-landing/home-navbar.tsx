@@ -15,7 +15,7 @@ import { useMediaQuery } from 'react-responsive';
 export const HomeNavbar = () => {
     const mobile = useMediaQuery({ query: '(max-width: 840px' });
     const { authData } = useAuth();
-    const workspace = authData?.workspaces[0]?.slug;
+    const workspace = authData && authData?.workspaces[0]?.slug || 0 ;
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {

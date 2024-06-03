@@ -42,12 +42,13 @@ const WaitListComponent = () => {
                         <TypingText text="Today!" speed={300} />
                     </span>
                 </h1>
-                <p className="text-center text-[#2B2829] w-full sm:w-[38rem]">
-                    Digital marketing platform with all you need ; URL Shorten-er, Survey Creation, Email Marketing and
-                    Social media management - all in one place!Sign up to our waitlist to get notified when we launch.
+                <p className="text-center text-[#2B2829] w-full ">
+                    Digital marketing platform with all you need ; URL Shorten-er, Survey
+                    <br className="sm:flex hidden" /> Creation, Email Marketing and Social media management - all in one
+                    place! <br className="sm:flex hidden" /> Sign up to our waitlist to get notified when we launch.
                 </p>
-                <div className=" flex w-full sm:w-fit justify-center gap-4">
-                    <div className="w-full sm:w-96 sm:mx-auto relative flex items-center ">
+                <div className="relative w-full sm:w-[40rem]">
+                    <div className="w-full  sm:w-96 sm:mx-auto relative flex items-center ">
                         <Input
                             className="border border-tertiary-500 w-full rounded-full text-tertiary-600 h-12 pr-12 "
                             placeholder="Your Email address"
@@ -56,13 +57,15 @@ const WaitListComponent = () => {
                             Join the waitlist
                         </Button>
                     </div>
-                    <Image
-                        width={mobile ? 30 : 60}
-                        height={mobile ? 30 : 60}
-                        style={{ objectFit: 'contain' }}
-                        alt="logo"
-                        src={'/images/Arrow.png'}
-                    />
+                    <section className="flex justify-end sm:absolute    right-12 top-2 ">
+                        <Image
+                            width={mobile ? 40 : 60}
+                            height={mobile ? 40 : 60}
+                            style={{ objectFit: 'contain' }}
+                            alt="logo"
+                            src={'/images/Arrow.png'}
+                        />
+                    </section>
                 </div>
             </div>
         </motion.div>
