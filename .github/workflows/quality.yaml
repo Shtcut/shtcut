@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 permissions:
-  id-token: read
+  id-token: write
   contents: read
 
 jobs:
