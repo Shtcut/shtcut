@@ -17,3 +17,8 @@ interface Plan {
     text: string;
     data: string[];
 }
+
+interface TypingTextProps {
+    text: string;
+    speed: number;
+}
