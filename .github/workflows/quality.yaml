@@ -6,6 +6,10 @@ concurrency:
   group: ${{github.workflow }}-${{github.event_pull_request.nummber || github.ref }}
   cancel-in-progress: true
 
+permissions:
+  actions: read|write|none
+  checks: read|write|none
+
 jobs:
   prettier:
     name: Prettier
