@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "prettier:format": "prettier --write \"**/*.{ts,tsx,js,md,mdx,css,yaml}\"",
+    "prettier:check:ci": "prettier --check \"**/*.{ts,tsx,js,md,mdx,css,yaml}\"",
     "start": "next start",
     "lint": "next lint"
   },
