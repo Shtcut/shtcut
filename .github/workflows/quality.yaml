@@ -28,4 +28,3 @@ jobs:
       - name: Check formatting with Prettier
         run: pnpm prettier:check:ci
 
-          
