@@ -1,13 +1,12 @@
 'use client';
 
-
 import { Logo } from '../logo';
 import { buttonVariants, cn } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks/auth';
 import { isEmpty, isUndefined } from 'lodash';
 import { useEffect, useState } from 'react';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
-import {  Drawer, DrawerContent, DrawerTrigger } from '@shtcut-ui/react';
+import { Drawer, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
 import { useMediaQuery } from 'react-responsive';
@@ -15,7 +14,7 @@ import { useMediaQuery } from 'react-responsive';
 export const HomeNavbar = () => {
     const mobile = useMediaQuery({ query: '(max-width: 840px' });
     const { authData } = useAuth();
-    const workspace = authData?.workspaces[0]?.slug;
+    const workspace =  authData?.workspaces?.[0]?.slug ;
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
