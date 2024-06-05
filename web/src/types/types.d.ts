@@ -22,3 +22,11 @@ interface TypingTextProps {
     text: string;
     speed: number;
 }
+
+
+interface IntegrationSectionType {
+    text: string;
+    id: string;
+    img: string[];
+    title: string;
+}
