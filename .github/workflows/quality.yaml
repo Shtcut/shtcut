@@ -6,17 +6,7 @@ concurrency:
   group: ${{github.workflow }}-${{github.event_pull_request.nummber || github.ref }}
   cancel-in-progress: true
 
-permissions:
-  actions: read|write|none
-  checks: read|write|none
-  contents: read|write|none
-  deployments: read|write|none
-  issues: read|write|none
-  packages: read|write|none
-  pull-requests: read|write|none
-  repository-projects: read|write|none
-  security-events: read|write|none
-  statuses: read|write|none
+permissions: read-all
 
 jobs:
   prettier:
@@ -24,7 +14,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 16.x, 18.x ]
+        node-version: [ 18.x ]
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
