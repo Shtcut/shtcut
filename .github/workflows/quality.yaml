@@ -6,9 +6,7 @@ concurrency:
   group: ${{github.workflow }}-${{github.event_pull_request.nummber || github.ref }}
   cancel-in-progress: true
 
-permissions:
-  id-token: write
-  contents: read
+permissions: read-all
 
 jobs:
   prettier:
