@@ -10,14 +10,14 @@ const FeatureSection = () => {
     return (
         <AnimatedContainer>
             <div className="max-w-screen-xl mx-auto px-4  pt-14">
-                <div className="flex flex-col lg:flex-row justify-between items-center">
-                    <h1 className="text-3xl md:text-5xl font-semibold text-center lg:text-start">
+                <div className="flex flex-col gap-y-8 lg:gap-y-0 lg:flex-row justify-between items-center">
+                    <h1 className="text-3xl md:text-5xl font-semibold text-center lg:text-start drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">
                         Features you can get <br className="lg:flex hidden" /> from Shtcut
                     </h1>
                     <p className="text-tertiary-100 sm:w-[30rem] leading-7 text-center lg:text-start w-full">
                         SaaS become a common delivery model for many business application, including office software,
-                        messaging software. <br /> We offer a variety of interesting features that you can help <br />{' '}
-                        brand and manage links
+                        messaging software. <br className="md:block hidden" /> We offer a variety of interesting
+                        features that you can help <br className="md:block hidden" /> brand and manage links
                     </p>
                 </div>
                 <section className="feature-card-container pt-20 w-full">
