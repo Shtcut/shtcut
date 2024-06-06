@@ -6,13 +6,15 @@ concurrency:
   group: ${{github.workflow }}-${{github.event_pull_request.nummber || github.ref }}
   cancel-in-progress: true
 
+permissions: read-all
+
 jobs:
   prettier:
     name: Prettier
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        node-version: [ 16.x, 18.x ]
+        node-version: [ 18.x ]
     steps:
       - uses: actions/checkout@v3
       - uses: pnpm/action-setup@v2
