@@ -4,13 +4,14 @@ import { Button, Tabs, TabsList, TabsTrigger } from '@shtcut-ui/react';
 import Image from 'next/image';
 import { PlanInfo } from '@shtcut/_shared/data';
 import { Check } from 'lucide-react';
+import PlanCard from './plan-card';
 
 const PlanSection = () => {
     return (
         <div>
             <div className="max-w-screen-xl mx-auto px-4 pt-16 md:pt-20">
                 <AnimatedContainer className="flex flex-col gap-4 items-center">
-                    <h1 className="text-4xl md:text-5xl font-semibold text-center">
+                    <h1 className="text-4xl md:text-5xl font-semibold text-center drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">
                         Powerful <span className="text-primary-0">features</span> on all plans for you
                     </h1>
                     <p className="md:w-[35rem] mx-auto text-center">
@@ -40,42 +41,15 @@ const PlanSection = () => {
                     </div>
                 </AnimatedContainer>
 
-                <AnimatedContainer className="flex justify-center  md:flex-row flex-col gap-6 w-full lg:w-3/4 mx-auto">
+                <AnimatedContainer className="flex justify-center md:w-2/3  lg:w-full  lg:flex-row flex-col gap-6 w-full mx-auto">
                     {PlanInfo.map((plan) => (
-                        <div className="flex flex-col gap-1 bg-white p-6 border border-gray-100 shadow-lg rounded-lg   md:w-1/2">
-                            <h1 className="text-[#191D23] text-lg font-semibold">{plan.title}</h1>
-                            <p className={`text-[#64748B] ${plan.id === 2 ? 'w-3/4' : ''} text-sm`}>{plan.text}</p>
-                            <div>
-                                <p className="font-semibold text-2xl flex items-center gap-x-1 text-[#191D23]">
-                                    {plan.amt}{' '}
-                                    <span className="font-normal text-sm text-[#4B5768]">
-                                        {plan.plan && `/ ${plan.plan}`}
-                                    </span>
-                                </p>
-                            </div>
-                            <Button
-                                variant={'outline'}
-                                className="border font-semibold mt-4 border-primary-0 text-primary-0 rounded-full "
-                            >
-                                {plan.btnText}
-                            </Button>
-                            <section className="flex flex-col gap-y-2 mt-8">
-                                {plan.plans.map((_e) => (
-                                    <div className="flex items-center gap-3">
-                                        <div className="bg-[#E8EDFB] w-8 h-8 rounded-full flex justify-center items-center">
-                                            <Check className="text-primary-0" size={16} />
-                                        </div>
-                                        <p className="text-[#191D23] text-sm">{_e}</p>
-                                    </div>
-                                ))}
-                            </section>
-                        </div>
+                       <PlanCard plan={plan} />
                     ))}
                 </AnimatedContainer>
                 <div>
                     <p className="font-medium text-center py-6 text-[#9F9C9C]">
                         Compare all plans & features on the{' '}
-                        <span className="text-primary-0 underline">pricing page.</span>
+                        <span className="text-primary-0 cursor-pointer underline">pricing page.</span>
                     </p>
                 </div>
             </div>

@@ -191,6 +191,24 @@ export const PlanInfo = [
     },
     {
         id: 2,
+        title: 'Professional',
+        text: 'Accelerate link creation seamlessly with our features ',
+        amt: '$20',
+        plan: 'per user / Month',
+        btnText: 'Start free trial',
+        plans: [
+            'All features of free plan',
+            'Country targeting',
+            'Region targeting',
+            'Link expiration by Date',
+            'Export raw click data to S3,',
+            'Unlimited Sharing',
+            'Create teams to collaborate on designs',
+            'Unlimited Sharing'
+        ]
+    },
+    {
+        id: 3,
 
         title: 'Enterprise',
         text: 'Accelerate link creation seamlessly with our features ',
@@ -207,5 +225,17 @@ export const PlanInfo = [
             'QR code',
             'Tools & Extensions'
         ]
+    }
+];
+
+export const manageData = [
+    {
+        name: 'No hidden fees.'
+    },
+    {
+        name: '100% security. Guaranteed.'
+    },
+    {
+        name: 'Team Collaboration'
     }
 ];
