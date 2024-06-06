@@ -8,7 +8,6 @@ concurrency:
 
 permissions: read-all
 
-
 jobs:
   prettier:
     name: Prettier
