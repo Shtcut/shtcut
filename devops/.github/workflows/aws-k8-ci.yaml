@@ -139,3 +139,13 @@ jobs:
           echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
           echo "replica=${{ env.replica }}" >> $GITHUB_OUTPUT
           echo "hostname-format=${{ env.hostname-format }}" >> $GITHUB_OUTPUT
+
+    config:
+      if: ${{ github.event.workflow_run_conclusion == 'success' || inputs.is_workflow == true ||  github_event_name == 'push'}}
+      name: 'Set Config Variables'
+      needs: [envs]
+      permissions: write-all
+      runs-on: ubuntu-latest
+      env:
+        project: ${{ needs.envs.outputs.project }}
+        port: ${{ needs.envs.outpus.namespace }}
