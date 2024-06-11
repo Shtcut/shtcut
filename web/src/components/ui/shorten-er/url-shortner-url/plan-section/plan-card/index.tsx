@@ -6,6 +6,7 @@ const PlanCard = ({ plan }: PlanCard) => {
     return (
         <div
             className={`flex flex-col gap-1  ${plan.id === 2 ? 'bg-primary-0 border-primary-0 text-white' : 'bg-white border-gray-100 '} p-6 border  shadow-lg rounded-xl cursor-pointer w-1/2 `}
+            key={plan.id}
         >
             <h1 className={`text-lg font-semibold ${plan.id === 2 ? 'text-white' : 'text-[#191D23]'} `}>
                 {plan.title}
