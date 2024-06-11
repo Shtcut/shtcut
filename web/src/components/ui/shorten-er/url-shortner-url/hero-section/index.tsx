@@ -64,7 +64,7 @@ const HeroSection = () => {
 
                         <div className="flex sm:flex-row sm:justify-around flex-col gap-y-4">
                             {rateData.map((rate, index) => (
-                                <div className="flex flex-col gap-y-1">
+                                <div className="flex flex-col gap-y-1" key={index}>
                                     <h1 className="text-2xl sm:text-4xl text-primary-0 font-semibold text-center">
                                         <SwingingText text={`${rate.amount}`} spanClassName="inline-block" />
                                         <span className={`${index === 0 ? 'px-1' : ''}`}>

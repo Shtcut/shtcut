@@ -41,8 +41,8 @@ const PlanSection = () => {
                 </AnimatedContainer>
 
                 <AnimatedContainer className="flex justify-center md:w-2/3  lg:w-full  lg:flex-row flex-col gap-6 w-full mx-auto">
-                    {PlanInfo.map((plan) => (
-                        <PlanCard plan={plan} />
+                    {PlanInfo.map((plan, index) => (
+                        <PlanCard plan={plan} key={index} />
                     ))}
                 </AnimatedContainer>
                 <div>

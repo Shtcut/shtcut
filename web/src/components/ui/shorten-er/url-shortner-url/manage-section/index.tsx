@@ -22,10 +22,10 @@ const ManageSection = () => {
                             insights on your financials. Connect your bank account and{' '}
                             <br className="md:block hidden" /> your card to Milestone.
                         </p>
-                        <section className='flex lg:justify-start justify-center'>
+                        <section className="flex lg:justify-start justify-center">
                             <div className="flex flex-col gap-y-2">
-                                {manageData.map((man) => (
-                                    <section className="flex space-x-4 items-center">
+                                {manageData.map((man, index) => (
+                                    <section className="flex space-x-4 items-center" key={index}>
                                         <div className="bg-black w-7 h-7 rounded-full flex justify-center items-center">
                                             <Check className="text-white" size={16} />
                                         </div>
