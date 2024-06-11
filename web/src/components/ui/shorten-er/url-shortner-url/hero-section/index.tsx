@@ -25,7 +25,7 @@ const HeroSection = () => {
     return (
         <section>
             <motion.div
-                initial={{ opacity: 0, y: 100 }}
+                initial={{ opacity: 1, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 1, ease: 'easeOut' }}
                 className="max-w-screen-xl mx-auto px-4 pt-40"
@@ -36,11 +36,8 @@ const HeroSection = () => {
                     </Button>
                     <h1 className="text-4xl sm:text-6xl sm:w-[40rem] sm:leading-[55px] text-center  font-semibold">
                         <h1 className="text-4xl sm:text-6xl sm:w-[40rem] sm:leading-[55px] text-center font-semibold">
-                            <SwingingText text="Generate " spanClassName="inline-block" />
-                            <span className="text-primary-0">
-                                <SwingingText text="short URLs" spanClassName="inline-block" />
-                            </span>
-                            <SwingingText text=" with just a click" spanClassName="inline-block" />
+                            Generate <span className="text-primary-0">short URLs </span>
+                            with just a click
                         </h1>
                     </h1>
                     <p className="text-[#2B2829] w-full sm:w-[30rem] text-center">
