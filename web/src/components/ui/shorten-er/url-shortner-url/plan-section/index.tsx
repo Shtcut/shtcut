@@ -1,9 +1,8 @@
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import React from 'react';
-import { Button, Tabs, TabsList, TabsTrigger } from '@shtcut-ui/react';
+import { Tabs, TabsList, TabsTrigger } from '@shtcut-ui/react';
 import Image from 'next/image';
 import { PlanInfo } from '@shtcut/_shared/data';
-import { Check } from 'lucide-react';
 import PlanCard from './plan-card';
 
 const PlanSection = () => {
@@ -43,7 +42,7 @@ const PlanSection = () => {
 
                 <AnimatedContainer className="flex justify-center md:w-2/3  lg:w-full  lg:flex-row flex-col gap-6 w-full mx-auto">
                     {PlanInfo.map((plan) => (
-                       <PlanCard plan={plan} />
+                        <PlanCard plan={plan} />
                     ))}
                 </AnimatedContainer>
                 <div>

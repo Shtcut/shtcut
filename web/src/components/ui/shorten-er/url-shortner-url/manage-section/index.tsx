@@ -12,7 +12,7 @@ const ManageSection = () => {
                     <div className="shadow bg-white w-fit h-fit">
                         <Image width={642} height={416} src={'/images/dashboard.svg.png'} alt="dashboard" />
                     </div>
-                    <div className="flex flex-col gap-y-4">
+                    <div className="flex flex-col gap-y-[30px]">
                         <h1 className="text-3xl md:text-5xl font-semibold text-center lg:text-start drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">
                             Manage all your marketing <br className="md:block hidden" />
                             tools - in one place{' '}

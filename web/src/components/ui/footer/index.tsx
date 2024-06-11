@@ -80,7 +80,7 @@ export const Footer = (props: FooterProps) => {
                 <div>
                     <div className="w-full ">
                         <div className="flex flex-col text-[#E3E3E3] gap-y-3 gap-x-2 items-center lg:items-start">
-                            <Logo />
+                            <Logo whiteLogo />
                             <p className="max-w-xs text-sm text-shade-pencil-light text-center lg:text-start">
                                 The open-source software functions as a marketing tool, Empowering Marketing Innovation,
                                 Together

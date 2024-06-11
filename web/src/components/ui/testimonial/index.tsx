@@ -17,7 +17,7 @@ export const Testimonial = () => {
 
             <div
                 className={cn(
-                    'relative -mx-10 flex flex-col overflow-hidden pb-10 md:mx-0',
+                    'relative  flex flex-col overflow-hidden pb-10 md:mx-0',
                     'before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-20 before:bg-gradient-to-r before:from-background md:before:w-72',
                     'after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-20 after:bg-gradient-to-l after:from-background md:after:w-72'
                 )}
