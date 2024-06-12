@@ -7,9 +7,10 @@ import { useInView } from 'react-intersection-observer';
 interface AnimatedContainerProps {
     children: React.ReactNode;
     className?: string;
+    direction?: 'left' | 'right' | 'default';
 }
 
-const AnimatedContainer = ({ children, className }: AnimatedContainerProps) => {
+const AnimatedContainer = ({ children, className, direction = 'default' }: AnimatedContainerProps) => {
     const controls = useAnimation();
     const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
 
@@ -19,15 +20,25 @@ const AnimatedContainer = ({ children, className }: AnimatedContainerProps) => {
         }
     }, [controls, inView]);
 
+    const variants = {
+        hidden: {
+            opacity: 0,
+            x: direction === 'left' ? -20 : direction === 'right' ? 20 : 0,
+            y: direction === 'default' ? 20 : 0
+        },
+        visible: {
+            opacity: 1,
+            x: 0,
+            y: 0
+        }
+    };
+
     return (
         <motion.div
             ref={ref}
             initial="hidden"
             animate={controls}
-            variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 }
-            }}
+            variants={variants}
             transition={{ duration: 1, ease: 'easeInOut' }}
             className={className}
         >
