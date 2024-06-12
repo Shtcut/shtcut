@@ -1,10 +1,15 @@
-import PricingList from '@shtcut/components/ui/pricing-ui/pricing-list';
-import React from 'react'
+import { FeatureTable, PricingHero, PricingList } from '@shtcut/components/ui/pricing-ui';
+
+import React from 'react';
 
 const PricingPageContainer = () => {
-    return <>
-    <PricingList />
-    </>
+    return (
+        <>
+            <PricingHero />
+            <PricingList />
+            <FeatureTable/>
+        </>
+    );
 };
 
 export default PricingPageContainer;

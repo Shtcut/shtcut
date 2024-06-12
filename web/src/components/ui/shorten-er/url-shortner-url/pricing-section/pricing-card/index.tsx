@@ -2,10 +2,10 @@ import { Button } from '@shtcut-ui/react';
 import { Check } from 'lucide-react';
 import React from 'react';
 
-const PlanCard = ({ plan }: PlanCard) => {
+const PricingCard = ({ plan }: PlanCard) => {
     return (
         <div
-            className={`flex flex-col gap-1  ${plan.id === 2 ? 'bg-primary-0 border-primary-0 text-white' : 'bg-white border-gray-100 '} p-6 border  shadow-lg rounded-xl cursor-pointer w-1/2 `}
+            className={`flex flex-col gap-1  ${plan.id === 2 ? 'bg-primary-0 border-primary-0 text-white' : 'bg-white border-gray-100 '} p-6 border  shadow rounded-xl cursor-pointer w-full sm:w-[400px] lg:w-1/2 `}
             key={plan.id}
         >
             <h1 className={`text-lg font-semibold ${plan.id === 2 ? 'text-white' : 'text-[#191D23]'} `}>
@@ -46,4 +46,4 @@ const PlanCard = ({ plan }: PlanCard) => {
     );
 };
 
-export default PlanCard;
+export default PricingCard;

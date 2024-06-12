@@ -1,9 +1,10 @@
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import React from 'react';
-import { Tabs, TabsList, TabsTrigger } from '@shtcut-ui/react';
 import Image from 'next/image';
-import { PlanInfo } from '@shtcut/_shared/data';
-import PlanCard from './plan-card';
+import { PricingData } from '@shtcut/_shared/data';
+import PlanCard from './pricing-card';
+import PricingTab from '@shtcut/components/tabs/pricing-tab';
+import PricingCard from './pricing-card';
 
 const PlanSection = () => {
     return (
@@ -17,20 +18,7 @@ const PlanSection = () => {
                         URL Shorten-er, Survey Creation, Email Marketing and Social media management - all in one place!
                     </p>
                     <div className="relative">
-                        <Tabs defaultValue="yearly" className="w-[329px] rounded-full bg-white">
-                            <TabsList className="grid w-full grid-cols-2 items-center rounded-full h-[46px] bg-[#FAFAFA] ">
-                                <TabsTrigger
-                                    value="yearly"
-                                    className="rounded-full  h-9 space-x-1 font-semibold text-[#433E3F]"
-                                >
-                                    Yearly
-                                </TabsTrigger>
-
-                                <TabsTrigger value="monthly" className="rounded-full h-9 font-semibold text-[#433E3F]">
-                                    Monthly
-                                </TabsTrigger>
-                            </TabsList>
-                        </Tabs>
+                        <PricingTab />
                     </div>
                 </AnimatedContainer>
                 <AnimatedContainer>
@@ -40,9 +28,9 @@ const PlanSection = () => {
                     </div>
                 </AnimatedContainer>
 
-                <AnimatedContainer className="flex justify-center md:w-2/3  lg:w-full  lg:flex-row flex-col gap-6 w-full mx-auto">
-                    {PlanInfo.map((plan, index) => (
-                        <PlanCard plan={plan} key={index} />
+                <AnimatedContainer className="flex justify-center  items-center lg:items-start   lg:flex-row flex-col gap-6 w-full mx-auto">
+                    {PricingData.map((plan, index) => (
+                        <PricingCard plan={plan} key={index} />
                     ))}
                 </AnimatedContainer>
                 <div>
