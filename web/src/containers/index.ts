@@ -2,3 +2,4 @@ export * from './auth';
 export * from './link';
 export * from './landing';
 export * from './waitlist';
+export * from './url-shorten-er'
