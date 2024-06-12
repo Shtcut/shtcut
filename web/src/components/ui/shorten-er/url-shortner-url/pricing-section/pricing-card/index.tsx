@@ -33,8 +33,8 @@ const PricingCard = ({ plan }: PlanCard) => {
                 {plan.btnText}
             </Button>
             <section className="flex flex-col gap-y-2 mt-8">
-                {plan.plans.map((_e) => (
-                    <div className="flex items-center gap-3">
+                {plan.plans.map((_e, index) => (
+                    <div className="flex items-center gap-3" key={index}>
                         <div className="bg-[#E8EDFB] w-8 h-8 rounded-full flex justify-center items-center">
                             <Check className="text-primary-0" size={16} />
                         </div>
