@@ -169,7 +169,7 @@ export const integrationData: IntegrationSectionType[] = [
     }
 ];
 
-export const PlanInfo = [
+export const PricingData = [
     {
         id: 1,
 

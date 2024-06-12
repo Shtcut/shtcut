@@ -227,3 +227,4 @@ $secondary: rgb(100, 100, 100); */
 .feature-big-card {
   @apply md:col-span-2;
 }
+
