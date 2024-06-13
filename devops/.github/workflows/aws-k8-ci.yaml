@@ -183,5 +183,35 @@ jobs:
             echo "event_name     ${{ env.event_name }}"
             echo "docker-tag     ${{ env.docker-tag }}"
             echo "dockerfile     ${{ env.dockerfile }}"
+  push-image:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    name: 'Push Image to Cloud Registry'
+    needs: [envs, config]
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      region: ${{ inputs.region }}
+      namespace: ${{ needs.envs.outputs.namepsace }}
+      port: ${{ needs.config.outputs.ports }}
+      hostname: ${{ needs.config.outputs.hostname }}
+      dockerfile: ${{ needs.config.outputs.dockerfile }}
+      service: ${{ needs.config.outputs.service }}
+    steps:
+      - name: --- For debugging ---
+        id: debug-context
+        run: |
+          echo "event_name     ${{ github.event_name }}"
+          echo "hostname       ${{ needs.config.outputs.hostname }}"
+          echo "docker-tag     ${{ needs.config.outputs.docker-tag }}"
+          echo "project        ${{ env.project }}"
+          echo "dockerfile     ${{ env.dockerfile }}"
+          echo "service        ${{ env.service }}"
+          echo "region         ${{ env.region }}"
+      - name: Checkout
+        uses: action/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+
             
             
