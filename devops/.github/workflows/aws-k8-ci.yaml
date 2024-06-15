@@ -2,7 +2,7 @@ name: AWS K8 CI
 
 on:
   workflow_run:
-    workflows: ["SHTCUT AWS K8 Cloud BUILD"]
+    workflows: [ "SHTCUT AWS K8 Cloud BUILD" ]
     types:
       - completed
     workflow_call:
@@ -116,7 +116,7 @@ jobs:
           SERVICE="${SRV:- ${{ env.current_service }}}"
           NAMESPACE="${NSP:- ${{ env.current_namespace }}}"
           REPLICAS="${REP:- ${{ env.current_replica }}}"
-  
+          
           echo "project=${PROJECT}" >> $GITHUB_ENV
           echo "port=${PORT}" >> $GITHUB_ENV
           echo "dockerfile=${DOCKERFILE}" >> $GITHUB_ENV
@@ -143,7 +143,7 @@ jobs:
     config:
       if: ${{ github.event.workflow_run_conclusion == 'success' || inputs.is_workflow == true ||  github_event_name == 'push'}}
       name: 'Set Config Variables'
-      needs: [envs]
+      needs: [ envs ]
       permissions: write-all
       runs-on: ubuntu-latest
       env:
@@ -153,9 +153,9 @@ jobs:
         dockerfile: ${{ needs.envs.output.dockerfile }}
         service: ${{ needs.envs.outputs.service }}
       outputs:
-        hostname:     ${{ steps.resolved.outputs.hostname }}
-        git-sha:      ${{ steps.resolved.outputs.git-sha }}
-        docker-tag:   ${{ steps.resolved.outputs.docker-tag }}
+        hostname: ${{ steps.resolved.outputs.hostname }}
+        git-sha: ${{ steps.resolved.outputs.git-sha }}
+        docker-tag: ${{ steps.resolved.outputs.docker-tag }}
       steps:
         - id: debug-context
           run: |
@@ -186,7 +186,7 @@ jobs:
   push-image:
     if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
     name: 'Push Image to Cloud Registry'
-    needs: [envs, config]
+    needs: [ envs, config ]
     runs-on: ubuntu-latest
     env:
       project: ${{ needs.envs.outputs.project }}
@@ -212,6 +212,23 @@ jobs:
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ env.region || secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+        
+      - name: Build & Push
+        if: ${{ inputs.dockerfile && inputs.dockerfile }}
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: ${{ env.dockerfile }}
+          tags: ${{ steps.login-ecr.outputs.registry}}/${{ env.project}}:${{ needs.config.outputs.docker-tag }}-${{ env.service}}
 
             
             
