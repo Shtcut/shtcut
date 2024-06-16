@@ -230,5 +230,14 @@ jobs:
           file: ${{ env.dockerfile }}
           tags: ${{ steps.login-ecr.outputs.registry}}/${{ env.project}}:${{ needs.config.outputs.docker-tag }}-${{ env.service}}
 
+      - name: Build & Push
+        if: ${{ inputs.dockerfile && inputs.docker_compose_file }}
+        run: |
+          docker-compose build
+          docker-compose push
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true  || github.event_name == 'push'}}
+
+
             
             
