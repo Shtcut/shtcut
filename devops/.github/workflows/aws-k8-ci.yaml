@@ -237,6 +237,20 @@ jobs:
           docker-compose push
   deploy:
     if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true  || github.event_name == 'push'}}
+    needs: [envs, push-image, config]
+    name: 'deploy to AWS EKS'
+    permissions: write-all
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      region: ${{ needs.envs.outputs.region }}
+      namespace: ${{ needs.envs.outputs.namespace }}
+      hostname: ${{ needs.envs.outputs.hostname }}
+      dockerfile: ${{ needs.envs.outputs.dockerfile }}
+      service: ${{ needs.envs.outputs.service }}
+      probe_url: ${{ needs.envs.outputs.probe_url }}
+      replica: ${{ needs.envs.outputs.replica }}
+
 
 
             
