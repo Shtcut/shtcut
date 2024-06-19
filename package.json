@@ -1,0 +1,44 @@
+{
+    "name": "shtcut",
+    "version": "1",
+    "description": "Shtcut Project monorepo",
+    "private": true,
+    "workspaces": [
+        "packages/*",
+        "packages/tsconfig",
+        "web"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Shtcut/shtcut.git"
+    },
+    "keywords": [
+        "react",
+        "tailwind",
+        "shortener",
+        "url",
+        "shortcut",
+        "shtcut",
+        "shtcut-ui",
+        "ui",
+        "component"
+    ],
+    "author": "Funmi Ayinde",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Shtcut/shtcut.git/issues"
+    },
+    "scripts": {
+        "build": "turbo run build",
+        "dev": "turbo run dev --parallel",
+        "format": "prettier --write \"{packages, web}/**/*.{js,ts, jsx,tsx,css}\"",
+        "prepare": "husky install"
+    },
+    "devDependencies": {
+        "@commitlint/config-angular": "^18.4.4",
+        "commitlint": "^18.4.4",
+        "husky": "^8.0.3",
+        "prettier": "^3.1.1",
+        "turbo": "^1.11.3"
+    }
+}

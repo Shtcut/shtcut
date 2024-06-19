@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json.schemastore.org/nest-cli",
+  "collection": "@nestjs/schematics",
+  "sourceRoot": "apps/sht-gw/src",
+  "monorepo": true,
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
+  },
+  "root": "apps/sht-gw",
+  "projects": {
+    "sht-gw": {
+      "type": "application",
+      "root": "apps/sht-gw",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-gw/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-gw/tsconfig.app.json"
+      }
+    },
+    "sht-acl": {
+      "type": "application",
+      "root": "apps/sht-acl",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-acl/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-acl/tsconfig.app.json"
+      }
+    },
+    "sht-shtner": {
+      "type": "application",
+      "root": "apps/sht-shtner",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-shtner/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-shtner/tsconfig.app.json"
+      }
+    },
+    "sht-worker": {
+      "type": "application",
+      "root": "apps/sht-worker",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-worker/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-worker/tsconfig.app.json"
+      }
+    },
+    "sht-admin": {
+      "type": "application",
+      "root": "apps/sht-admin",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-admin/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-admin/tsconfig.app.json"
+      }
+    },
+    "sht-survey": {
+      "type": "application",
+      "root": "apps/sht-survey",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-survey/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-survey/tsconfig.app.json"
+      }
+    },
+    "sht-marketing": {
+      "type": "application",
+      "root": "apps/sht-marketing",
+      "entryFile": "main",
+      "sourceRoot": "apps/sht-marketing/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/sht-marketing/tsconfig.app.json"
+      }
+    },
+    "core": {
+      "type": "library",
+      "root": "libs/core",
+      "entryFile": "index",
+      "sourceRoot": "libs/core/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/core/tsconfig.lib.json"
+      }
+    }
+  }
+}

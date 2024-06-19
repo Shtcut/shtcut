@@ -1,0 +1,31 @@
+## This is a temporary deploy before moving to the comprehensive one
+name: Node.js CI
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: [self-hosted, prod]
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+      - run: npm install -g yarn
+      - run: yarn
+      - run: cp /root/shtcut-api/.env /root/shtcut-api/_work/shtcut/shtcut/_env
+      - run: cp /root/shtcut-api/.env .
+      - run: npm install -g pm2
+      - run: pm2 restart 0
+      - run: pm2 restart 1
+      - run: pm2 restart 2
+      - run: pm2 restart 3

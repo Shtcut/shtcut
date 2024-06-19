@@ -1,0 +1,6 @@
+.next
+.vercel
+pnpm-lock.yaml
+.eslint.json
+.vscode
+.contentlayer

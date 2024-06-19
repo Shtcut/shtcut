@@ -1,0 +1,25 @@
+{
+  "name": "@shtcut-ui/tw-init",
+  "version": "0.0.0",
+  "description": "Tailwind Init",
+  "author": "Funmi Ayinde",
+  "license": "MIT",
+  "main": "index.js",
+  "private": true,
+  "files": [
+    "'index.js",
+    "initializer.js",
+    "base.json"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shtcut/shtcut.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Shtcut/shtcut.git/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.8",
+    "typescript": "^5.3.3"
+  }
+}

@@ -1,0 +1,31 @@
+## This is a temporary deploy before moving to the comprehensive one
+name: Node.js CI
+
+on:
+  push:
+    branches: [ develop ]
+
+jobs:
+  build:
+    runs-on: [self-hosted, dev]
+
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Enable Corepack before setting up Node
+        run: corepack enable
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+          # cache-dependency-path: 'backend/package-lock.json'
+      - run: cp /root/shtcut-stg-api/.env /root/shtcut-stg-api/_work/shtcut/shtcut/backend/_env
+      - run: cp /root/shtcut-stg-api/.env .
+      - run: npm install -g yarn
+      - run: yarn
+        working-directory: ./backend
+      # - run: pm2 restart 0 1 2 3

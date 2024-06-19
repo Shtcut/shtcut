@@ -1,0 +1,19 @@
+{
+    "name": "shtcut-devops",
+    "version": "1.0.0",
+    "author": "Funmi Ayinde",
+    "description": "The comprehensive repository for shtcut.link devOps scripts",
+    "keywords": ["DevOps", "shtcut", "link", "shortener"],
+    "license": "Apache-2.0",
+    "dependencies": {
+        "express": "^4.18.2"
+    },
+    "scripts": {
+        "start": "node ci/app.js",
+        "deploy:dev": "cd ./_env && ./secret.sh stg calcottech-dev-cluster eu-west-3",
+        "deploy:prod": "cd ./_env && ./secret.sh prod calcottech-dev-cluster eu-west-3",
+
+        "secret:dev": "cd ./_env && cat ../_env/env.yml | ./base64.sh",
+        "secret:ec3": "cd ./_env && cat ../ec2-setups.txt | ./base64.sh"
+    }
+}
