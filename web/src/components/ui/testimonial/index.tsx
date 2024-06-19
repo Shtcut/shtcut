@@ -1,9 +1,10 @@
 import { Avatar, AvatarFallback, AvatarImage, CardContent, CardDescription, CardTitle, cn } from '@shtcut-ui/react';
 import { USERS } from '@shtcut/_shared/constant';
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
 
 export const Testimonial = () => {
     return (
-        <section id="testimonials" className="container">
+        <AnimatedContainer className="container">
             <div className="mx-auto flex max-w-3xl flex-col items-center space-y-4 text-center">
                 <h2 className="font-heading text-3xl drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent sm:text-3xl md:text-6xl">
                     Trusted by all
@@ -17,7 +18,7 @@ export const Testimonial = () => {
 
             <div
                 className={cn(
-                    'relative -mx-10 flex flex-col overflow-hidden pb-10 md:mx-0',
+                    'relative  flex flex-col overflow-hidden pb-10 md:mx-0',
                     'before:absolute before:left-0 before:top-0 before:z-10 before:h-full before:w-20 before:bg-gradient-to-r before:from-background md:before:w-72',
                     'after:absolute after:right-0 after:top-0 after:z-10 after:h-full after:w-20 after:bg-gradient-to-l after:from-background md:after:w-72'
                 )}
@@ -67,6 +68,6 @@ export const Testimonial = () => {
                     </div>
                 ))}
             </div>
-        </section>
+        </AnimatedContainer>
     );
 };

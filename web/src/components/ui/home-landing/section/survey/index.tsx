@@ -1,3 +1,4 @@
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Image from 'next/image';
 
 export const SurveySection = () => {
@@ -65,7 +66,7 @@ export const SurveySection = () => {
     ];
 
     return (
-        <section className="py-14">
+        <AnimatedContainer className="py-14">
             <div className="max-w-screen-xl mx-auto md:px-8">
                 <div className="items-center gap-x-12 sm:px-4 md:px-0 lg:flex">
                     <div className="flex-1 sm:hidden lg:block">
@@ -98,6 +99,6 @@ export const SurveySection = () => {
                     </div>
                 </div>
             </div>
-        </section>
+        </AnimatedContainer>
     );
 };

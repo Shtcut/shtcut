@@ -1,10 +1,10 @@
-import { ForgotPasswordContainer } from '@shtcut/containers/auth';
 import AuthLayout from '../layout';
+import ForgotPasswordContainerPage from '@shtcut/containers/forget-password-container';
 
 const ForgotPassword = () => {
     return (
         <AuthLayout>
-            <ForgotPasswordContainer />
+            <ForgotPasswordContainerPage />
         </AuthLayout>
     );
 };

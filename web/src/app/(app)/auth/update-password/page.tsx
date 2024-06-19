@@ -1,10 +1,10 @@
-import { UpdatePasswordContainer } from '@shtcut/containers/auth';
 import AuthLayout from '../layout';
+import ResetPasswordContainer from '@shtcut/containers/auth/reset-password';
 
 const UpdatePassword = () => {
     return (
         <AuthLayout>
-            <UpdatePasswordContainer />
+            <ResetPasswordContainer />
         </AuthLayout>
     );
 };
