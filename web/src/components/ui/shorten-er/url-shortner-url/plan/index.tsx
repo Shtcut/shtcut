@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from '@shtcut-ui/react';
 import { PLANS } from '@shtcut/_shared/data';
-import PlanTab from '@shtcut/components/tabs';
+import PlanTab from '@shtcut/components/tabs/pricing-tab';
 import { Check } from 'lucide-react';
 
 import ConfettiExplosion, { ConfettiProps } from 'react-confetti-explosion';

@@ -10,12 +10,14 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@shtcut-ui/react';
+import { useAuth } from '@shtcut/hooks';
 import { useUser } from '@shtcut/hooks/user';
 import { LogOut } from 'lucide-react';
 import Link from 'next/link';
 
 export const UserNav = () => {
     const { loggedInUserData } = useUser({ callLoggedInUser: true });
+    const { handleLogout } = useAuth();
     const { data } = loggedInUserData;
     const { data: user } = data || {};
 
@@ -48,7 +50,7 @@ export const UserNav = () => {
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className='cursor-pointer' asChild>
+                <DropdownMenuItem className="cursor-pointer" asChild onClick={handleLogout}>
                     <div className="flex items-center gap-2">
                         <LogOut className="w-4 h-4" />
                         <span>Sign out</span>

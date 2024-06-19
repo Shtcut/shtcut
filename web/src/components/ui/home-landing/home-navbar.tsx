@@ -10,11 +10,12 @@ import { Drawer, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
 import { useMediaQuery } from 'react-responsive';
+import { routes } from '@shtcut/_shared/utils/route';
 
 export const HomeNavbar = () => {
     const mobile = useMediaQuery({ query: '(max-width: 840px' });
     const { authData } = useAuth();
-    const workspace =  authData?.workspaces?.[0]?.slug ;
+    const workspace = authData?.workspaces?.[0]?.slug;
     const [isScrolled, setIsScrolled] = useState(false);
 
     useEffect(() => {
@@ -37,7 +38,6 @@ export const HomeNavbar = () => {
                     <section className="flex items-center space-x-4">
                         <RouteLink
                             href="/"
-                            isDisabled={true}
                             className="flex gap-2 font-handwriting text-xl lowercase [text-shadow:_0_2px_0_#e1e1e1] dark:[text-shadow:none]"
                         >
                             <Logo />
@@ -60,7 +60,6 @@ export const HomeNavbar = () => {
                             {!isEmpty(authData) && !isUndefined(authData) ? (
                                 <>
                                     <RouteLink
-                                        isDisabled={true}
                                         href={`/url/${workspace}/overview`}
                                         className={cn(
                                             buttonVariants(),
@@ -74,8 +73,7 @@ export const HomeNavbar = () => {
                                 <>
                                     <section className="md:flex hidden items-center gap-4">
                                         <RouteLink
-                                            href="/auth/sign-in"
-                                            isDisabled={true}
+                                            href={routes.login}
                                             className={cn(
                                                 buttonVariants({ variant: 'outline' }),
                                                 'h-8 rounded-full px-5  transition-all duration-200 border-none shadow-none '
@@ -85,8 +83,7 @@ export const HomeNavbar = () => {
                                         </RouteLink>
 
                                         <RouteLink
-                                            href="/auth/sign-up"
-                                            isDisabled={true}
+                                            href={routes.signUp}
                                             className={cn(
                                                 buttonVariants(),
                                                 'bg-blue-600 h-8 rounded-full px-3 font-semibold transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'

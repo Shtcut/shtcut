@@ -1,6 +1,7 @@
 'use client';
 
 import { Card } from '@shtcut-ui/react';
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import CountUp from 'react-countup';
 
 export const Stats = () => {
@@ -19,7 +20,7 @@ export const Stats = () => {
         }
     ];
     return (
-        <section className="py-14 mt-5">
+        <AnimatedContainer className="py-14 mt-5">
             <div className="max-w-screen-xl mx-auto px-4 text-gray-600 md:px-8">
                 <div className="max-w-2xl mt-5 mx-auto text-center">
                     <h2 className="font-heading  text-2xl drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent sm:text-3xl md:text-4xl">
@@ -49,6 +50,6 @@ export const Stats = () => {
                     </div>
                 </Card>
             </div>
-        </section>
+        </AnimatedContainer>
     );
 };

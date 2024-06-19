@@ -2,7 +2,8 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { CommonProps, Dict } from '@shtcut-ui/react';
 import { SOCIAL_MEDIA } from '@shtcut/_shared/constant';
 import { AppButton } from '@shtcut/components';
-import { IconBrandGithub, IconBrandTwitter } from '@tabler/icons-react';
+import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
+import Image from 'next/image';
 import GitHubLogin from 'react-github-login';
 
 interface SocialLoginProps extends CommonProps {
@@ -49,26 +50,38 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
     });
 
     return (
-        <div className="flex items-center gap-2">
-            <AppButton variant="outline" className="w-full" type="submit" loading={isLoading}>
+        <div className="flex items-center justify-center gap-2">
+            <AppButton
+                variant="outline"
+                className="w-[124px] h-[52px] border border-[#726C6C]"
+                type="submit"
+                loading={isLoading}
+            >
                 <GitHubLogin
                     clientId={`${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                     onSuccess={(response) => handleSocialCallback(SOCIAL_MEDIA.GITHUB, response, 'success')}
                     onFailure={(error) => handleSocialCallback(SOCIAL_MEDIA.GITHUB, error, 'error')}
                     redirectUri={`${process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URL}`}
-                    buttonText={'Github'}
+                    buttonText={''}
                 />
-                <IconBrandGithub className="h-4 w-4 ml-3" />
+                <IconBrandGithub className="h-6 w-6 " />
             </AppButton>
             <AppButton
                 variant="outline"
-                className="w-full"
+                className="w-[124px] h-[52px] border border-[#726C6C]"
                 type="submit"
                 onClick={() => signUpGoogle()}
                 loading={isLoading}
             >
-                Google
-                <IconBrandTwitter className="h-4 w-4 ml-3" />
+                <Image src={'/images/google.png'} width={24} height={24} alt="google" />
+            </AppButton>
+            <AppButton
+                variant="outline"
+                className="w-[124px] h-[52px] border border-[#726C6C]"
+                type="submit"
+                loading={isLoading}
+            >
+                <Image src={'/images/apple.png'} width={24} height={24} alt="google" />
             </AppButton>
         </div>
     );

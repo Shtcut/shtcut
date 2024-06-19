@@ -1,8 +1,14 @@
 import { cn } from '@shtcut-ui/react';
 import Link from 'next/link';
+import { AnchorHTMLAttributes, FC, MouseEvent } from 'react';
 
-const RouteLink = ({ href, isDisabled, children, className, ...props }) => {
-    const handleClick = (e: { preventDefault: () => void }) => {
+interface RouteLinkProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
+    href: string;
+    isDisabled?: boolean;
+}
+
+const RouteLink: FC<RouteLinkProps> = ({ href, isDisabled = false, children, className, ...props }) => {
+    const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
         if (isDisabled) {
             e.preventDefault();
         }
@@ -13,7 +19,7 @@ const RouteLink = ({ href, isDisabled, children, className, ...props }) => {
             <a
                 onClick={handleClick}
                 aria-disabled={isDisabled}
-                className={cn(className, isDisabled && 'cursor-not-allowed ')}
+                className={cn(className, isDisabled && 'cursor-not-allowed')}
                 {...props}
             >
                 {children}
@@ -21,4 +27,5 @@ const RouteLink = ({ href, isDisabled, children, className, ...props }) => {
         </Link>
     );
 };
+
 export default RouteLink;

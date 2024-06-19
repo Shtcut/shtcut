@@ -1,9 +1,10 @@
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Link from 'next/link';
 import { FaGithub, FaMapMarkedAlt } from 'react-icons/fa';
 
 export const OSS = () => {
     return (
-        <div className="w-full p-4 backdrop-blur">
+        <AnimatedContainer className="w-full p-4 backdrop-blur">
             <div className="mx-auto max-w-md text-center sm:max-w-xl">
                 <h2 className="text-3xl text-shade-gradient font-extrabold leading-tight text-transparent sm:text-4xl sm:leading-tight">
                     Proudly <span className="text-stratos-gradient">open-source</span>
@@ -35,6 +36,6 @@ export const OSS = () => {
                     </div>
                 </Link>
             </div>
-        </div>
+        </AnimatedContainer>
     );
 };

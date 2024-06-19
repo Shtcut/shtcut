@@ -1,9 +1,8 @@
 'use client';
 
-import UrlShortenContainer from "@shtcut/components/ui/shorten-er/url-shortner-url";
+import UrlShortenComponent from "@shtcut/components/ui/shorten-er";
 
-
-
-export const ShortNerPageContainer = () => {
-    return <UrlShortenContainer />;
+const ShortNerPageContainer = () => {
+    return <UrlShortenComponent />;
 };
+export default ShortNerPageContainer;

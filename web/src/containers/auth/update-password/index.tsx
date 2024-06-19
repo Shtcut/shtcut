@@ -11,7 +11,6 @@ import { IconAlertCircle } from '@tabler/icons-react';
 export const UpdatePasswordContainer = () => {
     const searchParams = useSearchParams();
     const { push } = useRouter();
-
     const { updatePassword, updatePasswordResponse } = useAuth();
     const { isSuccess, isLoading, error } = updatePasswordResponse;
 
@@ -55,11 +54,11 @@ export const UpdatePasswordContainer = () => {
                 </p>
             </div>
             <div className="mt-2">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-            <UpdatePasswordForm
+            {/* <UpdatePasswordForm
                 handleUpdatePasswordSubmit={handleUpdatePasswordSubmit}
                 isLoading={isLoading}
                 error={error}
-            />
+            /> */}
         </Card>
     );
 };
