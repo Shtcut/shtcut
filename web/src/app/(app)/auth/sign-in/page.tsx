@@ -1,6 +1,5 @@
 import { SignInContainer } from '@shtcut/containers/auth';
 import AuthLayout from '../layout';
-import Head from 'next/head';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const SignIn = () => {
