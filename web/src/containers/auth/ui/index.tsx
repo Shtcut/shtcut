@@ -9,7 +9,6 @@ import { useMediaQuery } from 'react-responsive';
 
 export const AuthContainer = () => {
     const mobile = useMediaQuery({ query: '(max-width: 1024px' });
-
     return (
         <section className="px-4">
             <div className="flex items-center gap-6  p-4 h-screen ">
