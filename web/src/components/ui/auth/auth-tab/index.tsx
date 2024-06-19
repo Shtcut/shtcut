@@ -40,6 +40,7 @@ export const AuthTabs = () => {
             options: { noSuccessMessage: true }
         });
     };
+
     const ErrorAlert = ({ message }: { message: string }) => (
         <AppAlert
             variant="destructive"
