@@ -24,7 +24,6 @@ export class LinkController extends AppController {
   }
 
   @Get('/visit/:domain/:alias')
-  @UseGuards(RateLimiterGuard)
   @HttpCode(OK)
   public async visit(
     @Param('domain') domain: string,
