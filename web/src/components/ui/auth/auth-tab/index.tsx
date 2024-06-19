@@ -27,7 +27,6 @@ export const AuthTabs = () => {
     );
 
     const isVerifiedEmail = authData?.verifications?.['email'];
-
     const handleSignInSubmit = (payload: Dict) => {
         signIn({
             payload,
