@@ -1,4 +1,7 @@
 import { Request as ExpressRequest } from 'express';
+import { ExecutionContext } from '@nestjs/common';
+import { LimiterInfo } from 'ratelimiter';
+import { LimiterOption } from 'ratelimiter';
 
 export type Dict<T = any> = Record<string, T>;
 export type Nullable<T> = T | null;
@@ -7,10 +10,22 @@ export type HttpErrorHandle<T> = (error: unknown) => T;
 export type CacheKeyArgument = string | Buffer;
 export type CacheValueArgument = string | Buffer;
 
+export type GetIdFn = (context: ExecutionContext) => string | Promise<string>;
+export type CreateErrorBodyFn = (limit: LimiterInfo) => unknown;
+
+export type RateLimiterParams = Pick<LimiterOption, 'max' | 'duration'> & {
+  createErrorBody?: CreateErrorBodyFn
+} & ({ getId: GetIdFn } | { id: string } | {});
+
+export type RateLimiterModuleParams = Partial<RateLimiterParams> & Pick<LimiterOption, 'db'>;
+
+
 export type CacheKeyValue = {
   key: CacheKeyArgument;
   value: CacheValueArgument | CacheKeyArgument[];
 };
+
+export type RequiredField<T, K extends keyof any> = T extends Record<K, any> ? T : never;
 
 export type Country = {
   name: string;
@@ -129,6 +144,7 @@ export type IpAddressInfo = {
     code: string | undefined;
   };
 };
+
 interface Image {
   src: string;
 }
@@ -162,4 +178,27 @@ export interface HtmlMetadataResult {
     url?: string;
     videos?: Array<Image>;
   };
+}
+
+export type RateLimitFramework = 'Express' | 'Fastify' | 'Microservice' | 'ExpressGraphql' | 'FastifyGraphql';
+
+interface IRedis {
+  host: string;
+  port: number;
+}
+
+export interface RateLimiterOptions {
+  framework: RateLimitFramework;
+  redis?: IRedis;
+  keyPrefix: string;
+  points: number;
+  duration: number;
+  errorMessage?: string;
+  logger?: boolean;
+}
+
+export interface IRateLimiterResponse {
+  remainingPoints: number;
+  points: number;
+  beforeNext: number;
 }

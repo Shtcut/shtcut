@@ -5,5 +5,8 @@ export function middleware(request: NextRequest) {
     const { device } = userAgent(request);
     const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
     url.searchParams.set('viewport', viewport);
-    return NextResponse.rewrite(url);
+    if (url.pathname.match(/^\/(landing|pricing|coming-soon|url-shorten-er|auth)/)) {
+        return NextResponse.redirect(new URL('/waitlist', request.url));
+    }
+    return NextResponse.next();
 }

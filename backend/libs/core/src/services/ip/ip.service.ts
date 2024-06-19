@@ -27,7 +27,7 @@ export class IpService {
     const parser = require('ua-parser-js');
     const parsedUserAgent = parser(req.headers['user-agent']);
 
-    const { data } = await client.lookup('23.81.209.173');
+    const { data } = await client.lookup(ip ?? '23.81.209.173');
     const { browser, os: OS } = parsedUserAgent;
 
     const clientInfo: IpAddressInfo = {

@@ -4,6 +4,7 @@ import { MongooseModule, MongooseModuleFactoryOptions } from '@nestjs/mongoose';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AzureStorageModule } from '@nestjs/azure-storage';
 import { RedisModule } from './worker';
+
 @Global()
 @Module({
   imports: [

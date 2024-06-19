@@ -26,9 +26,8 @@ import {
     cn,
     toast
 } from '@shtcut-ui/react';
-import { CalendarIcon, LinkIcon } from 'lucide-react';
+import { CalendarIcon,  } from 'lucide-react';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { LinkSettingsForm } from '../link-settings-form';
 import { LinkType } from '@shtcut/types';
 import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
 import { z } from 'zod';
@@ -95,9 +94,9 @@ export const LinkForm = (props: LinkFormProps) => {
         title: '',
         ...initialValues,
         domain: !isUndefined(initialValues?.domain)
-            ? isString(initialValues.domain)
-                ? initialValues.domain
-                : initialValues.domain._id
+            ? isString(initialValues?.domain)
+                ? initialValues?.domain
+                : initialValues?.domain._id
             : ''
     });
 

@@ -17,7 +17,7 @@ import {
   WorkspaceSchema,
   RedisService,
   IpService,
-  HtmlMetaService,
+  HtmlMetaService, RateLimiterService,
 } from 'shtcut/core';
 import { HitModule } from '../hit';
 import { HttpModule } from '@nestjs/axios';
@@ -36,7 +36,7 @@ import { HttpModule } from '@nestjs/axios';
     ]),
   ],
   controllers: [LinkController],
-  providers: [LinkService, RedisService, IpService, HtmlMetaService],
+  providers: [LinkService, RedisService, IpService, HtmlMetaService, RateLimiterService],
   exports: [LinkService],
 })
 export class LinkModule {}

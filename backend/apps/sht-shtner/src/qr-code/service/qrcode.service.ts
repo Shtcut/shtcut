@@ -5,14 +5,8 @@ import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
 import {
   AppException,
-  CreateLinkDto,
-  Dict,
-  Domain,
-  DomainDocument,
   Hit,
   HitDocument,
-  HtmlMetaService,
-  IpAddressInfo,
   IpService,
   Link,
   LinkDocument,
@@ -20,14 +14,9 @@ import {
   QrCode,
   QrCodeDocument,
   RedisService,
-  User,
-  UserDocument,
   Utils,
-  Workspace,
-  WorkspaceDocument,
 } from 'shtcut/core';
 
-import * as bcrypt from 'bcrypt';
 import { HitService } from '../../hit';
 import * as _ from 'lodash';
 import { Request } from 'express';
@@ -35,9 +24,9 @@ import { Request } from 'express';
 @Injectable()
 export class QrCodeService extends MongoBaseService {
   constructor(
-    @InjectModel(Link.name) protected model: Model<QrCodeDocument>,
+    @InjectModel(QrCode.name) protected model: Model<QrCodeDocument>,
     @InjectModel(Hit.name) protected hitModel: Model<HitDocument>,
-    @InjectModel(QrCode.name) protected qrCodeModel: Model<QrCodeDocument>,
+    @InjectModel(Link.name) protected linkModel: Model<LinkDocument>,
     protected hitService: HitService,
     protected ipService: IpService,
     protected redisService: RedisService,
@@ -127,13 +116,12 @@ export class QrCodeService extends MongoBaseService {
     try {
       session = await this.model.startSession();
       session.startTransaction();
-      const [link, _] = await Promise.all([
+      const [qrCode, _] = await Promise.all([
         await this.model.deleteOne({ ...Utils.conditionWithDelete({ _id: id }) }, { session }),
-        await this.qrCodeModel.deleteOne({ ...Utils.conditionWithDelete({ link: id }) }, { session }),
+        await this.linkModel.deleteOne({ ...Utils.conditionWithDelete({ qrCode: id }) }, { session }),
       ]);
       await session?.commitTransaction();
-      console.log('link::', link);
-      return link;
+      return qrCode;
     } catch (e) {
       await session?.abortTransaction();
       throw e;
