@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as _ from 'lodash';
 import { Document, Types, Schema as MGSchema } from 'mongoose';
+import { configuration } from '@config';
 
 export type PlanDocument = Plan & Document;
 
@@ -85,6 +86,13 @@ export class Plan {
   quarterly: number;
 
   @Prop({
+    type: String,
+    enum: configuration().app.modules,
+    default: 'shtcut-shortener',
+  })
+  module: number;
+
+  @Prop({
     type: [
       {
         type: MGSchema.Types.ObjectId,
@@ -147,6 +155,7 @@ PlanSchema.statics.config = () => {
       'quarterly',
       'currency',
       'yearly',
+      'module',
       'features',
       'user',
       'limits',

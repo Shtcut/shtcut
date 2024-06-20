@@ -13,6 +13,7 @@ export const AclEndpoints = [
   { path: '/acl/user', method: RequestMethod.ALL },
   { path: '/acl/users/*', method: RequestMethod.ALL },
   { path: '/acl/workspaces*', method: RequestMethod.ALL },
+  { path: '/acl/plans*', method: RequestMethod.ALL },
 ];
 
 export const ShtnerEndpoints = [
