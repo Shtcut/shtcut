@@ -5,7 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
 const PricingTab = () => {
     return (
         <>
-            <Tabs defaultValue="yearly" className="w-full flex justify-center  rounded-full">
+            <Tabs defaultValue="yearly" className="w-full flex justify-center  rounded-full" >
                 <TabsList className="grid sm:w-[276px] rounded-full  h-12 border-b grid-cols-2  bg-[#f0f0f0] ">
                     <TabsTrigger
                         value="yearly"

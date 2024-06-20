@@ -1,35 +1,23 @@
 'use client';
 
 import { Logo } from '../logo';
-import { buttonVariants, cn } from '@shtcut-ui/react';
+import { Button, buttonVariants, cn } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks/auth';
 import { isEmpty, isUndefined } from 'lodash';
-import { useEffect, useState } from 'react';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
 import { Drawer, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
 import { useMediaQuery } from 'react-responsive';
 import { routes } from '@shtcut/_shared/utils/route';
+import usePricingNavigation from '@shtcut/hooks/usePricing-naviagtion';
 
 export const HomeNavbar = () => {
     const mobile = useMediaQuery({ query: '(max-width: 840px' });
+    const { scrollToPricing } = usePricingNavigation();
     const { authData } = useAuth();
     const workspace = authData?.workspaces?.[0]?.slug;
-    const [isScrolled, setIsScrolled] = useState(false);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrolled = window.scrollY > 0;
-            setIsScrolled(scrolled);
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
 
     return (
         <header className="">
@@ -82,15 +70,15 @@ export const HomeNavbar = () => {
                                             Log In
                                         </RouteLink>
 
-                                        <RouteLink
-                                            href={routes.signUp}
+                                        <Button
+                                            onClick={scrollToPricing}
                                             className={cn(
                                                 buttonVariants(),
                                                 'bg-blue-600 h-8 rounded-full px-3 font-semibold transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
                                             )}
                                         >
                                             Create an account
-                                        </RouteLink>
+                                        </Button>
                                     </section>
                                 </>
                             )}

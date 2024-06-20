@@ -110,6 +110,10 @@
     }
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 /* $primary: black;
 $secondary: rgb(100, 100, 100); */
 
@@ -124,8 +128,8 @@ $secondary: rgb(100, 100, 100); */
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 @keyframes contentShow {
@@ -194,37 +198,38 @@ $secondary: rgb(100, 100, 100); */
 }
 /* TypingText.css */
 .typing-text {
-
-  white-space: nowrap;
-  overflow: hidden;
-  /* border-right: 0.15em solid black; */
-  animation: blink-caret 0.75s step-end infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    /* border-right: 0.15em solid black; */
+    animation: blink-caret 0.75s step-end infinite;
 }
 
 /* Blinking cursor animation */
 @keyframes blink-caret {
-  from, to {
-    border-color: transparent;
-  }
-  50% {
-    border-color: black;
-  }
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: black;
+    }
 }
 
 ::-webkit-scrollbar {
-
-  display: none;
+    display: none;
 }
 
 .feature-card-container {
-  @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
 }
 
 .feature-card {
-  @apply md:p-4 lg:p-6 ;
+    @apply md:p-4 lg:p-6;
 }
 
 .feature-big-card {
-  @apply md:col-span-2;
+    @apply md:col-span-2;
 }
 
+#down {
+}

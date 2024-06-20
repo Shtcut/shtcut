@@ -1,9 +1,11 @@
-import { Badge, buttonVariants, cn } from '@shtcut-ui/react';
+import { Badge, Button, buttonVariants, cn } from '@shtcut-ui/react';
+import usePricingNavigation from '@shtcut/hooks/usePricing-naviagtion';
 
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const Hero = () => {
+    const { scrollToPricing } = usePricingNavigation();
     return (
         <section id="hero" className="flex w-full flex-col items-center justify-center gap-4 text-center pt-20">
             <header className="mt-10 flex flex-col items-center gap-4">
@@ -21,15 +23,15 @@ export const Hero = () => {
             </header>
 
             <div className="flex items-center gap-2 py-2 duration-500 ease-out animate-in fade-in-0 zoom-in-50 slide-in-from-bottom-1/2">
-                <Link
-                    href="/auth/sign-in"
+                <Button
+                    onClick={scrollToPricing}
                     className={cn(
                         buttonVariants({ size: 'lg' }),
                         ' bg-blue-600 font-semibold rounded-full shadow-lg transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
                     )}
                 >
                     Get Started
-                </Link>
+                </Button>
 
                 <div className="mt-5">
                     <Image src="/play-button.svg" alt="place button" width={70} height={70} />

@@ -11,13 +11,12 @@ const WelcomePage = () => {
             <div className="absolute inset-0 p-10 flex flex-col justify-between text-white text-3xl z-30">
                 <div>
                     <h1 className="text-4xl font-bold">Welcome to SHTCUT</h1>
-                    <p className="text-xl">Your Gateway to Effortless Management.</p>
+                    <p className="text-base">Your Gateway to Effortless Management.</p>
                 </div>
                 <div>
                     <h1 className="text-4xl ">URL Shortener</h1>
-                    <p className="text-xl">
-                        Paste in any long url, make it sharable,
-                        <br /> trackable and customizable with just <br /> a few clicks.
+                    <p className="text-sm">
+                        Paste in any long url, make it sharable, trackable and customizable with just a few clicks.
                     </p>
                 </div>
             </div>
