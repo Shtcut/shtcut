@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { cn } from '@shtcut-ui/react';
 import { fontHandwriting, fontHeading, fontSans } from '@shtcut/_shared/utils/fonts';
+import ScrollToTopButton from '@shtcut/components/scroll-to-top';
 
 import type { Metadata } from 'next';
 
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 )}
             >
                 {children}
+                <ScrollToTopButton />
             </body>
         </html>
     );

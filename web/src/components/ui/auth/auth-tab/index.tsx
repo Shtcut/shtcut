@@ -91,10 +91,9 @@ export const AuthTabs = () => {
                     const { data: authData } = data || {};
                     if (authData.workspaces && authData.workspaces.length > 0) {
                         const { workspaces } = authData;
-                        // window.location.href = `/url/${workspaces[0].slug}/overview`;
                         redirect(`/url/${workspaces[0].slug}/overview`);
                     } else {
-                        // redirect(routes.workspace);
+                        redirect(routes.workspace);
                     }
                 }
             }
@@ -118,17 +117,17 @@ export const AuthTabs = () => {
     const defaultTab = searchParams.get('tab') || 'sign-up';
 
     return (
-        <Tabs defaultValue={defaultTab} className="w-full   rounded-full" onValueChange={handleTabChange}>
-            <TabsList className="grid w-full rounded-full  h-[53px] border-b grid-cols-2  bg-[#ECF0FF] ">
+        <Tabs defaultValue={defaultTab} className="w-full relative  rounded-full" onValueChange={handleTabChange}>
+            <TabsList className="grid w-full static rounded-full h-fit  border-b grid-cols-2  bg-[#ECF0FF] ">
                 <TabsTrigger
                     value="sign-up"
-                    className="text-[#9C9AA5] font-medium rounded-full text-lg  h-full data-[state=active]:text-white data-[state=active]:border-primary-0 data-[state=active]:bg-primary-0  "
+                    className="text-[#9C9AA5] font-medium rounded-full text-lg   data-[state=active]:text-white data-[state=active]:border-primary-0 data-[state=active]:bg-primary-0  "
                 >
                     Sign Up
                 </TabsTrigger>
                 <TabsTrigger
                     value="sign-in"
-                    className="text-[#9C9AA5] font-medium rounded-full text-lg  h-full data-[state=active]:text-white data-[state=active]:border-primary data-[state=active]:bg-primary-0 "
+                    className="text-[#9C9AA5] font-medium rounded-full text-lg  data-[state=active]:text-white data-[state=active]:border-primary data-[state=active]:bg-primary-0 "
                 >
                     Sign In
                 </TabsTrigger>

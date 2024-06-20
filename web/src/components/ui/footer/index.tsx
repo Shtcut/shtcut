@@ -13,11 +13,13 @@ import { Mail } from 'lucide-react';
 import { MapPin } from 'lucide-react';
 import { Phone } from 'lucide-react';
 
+
 type FooterProps = {
     navs?: Dict[];
 };
 
 export const Footer = (props: FooterProps) => {
+
     const iconLink = [
         {
             name: 'Facebook',

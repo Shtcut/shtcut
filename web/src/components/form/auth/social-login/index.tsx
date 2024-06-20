@@ -53,7 +53,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
         <div className="flex items-center justify-center gap-2">
             <AppButton
                 variant="outline"
-                className="w-[124px] h-[52px] border border-[#726C6C]"
+                className="w-20 h-10 border border-[#726C6C]"
                 type="submit"
                 loading={isLoading}
             >
@@ -68,7 +68,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
             </AppButton>
             <AppButton
                 variant="outline"
-                className="w-[124px] h-[52px] border border-[#726C6C]"
+                className="w-20 h-10 border border-[#726C6C]"
                 type="submit"
                 onClick={() => signUpGoogle()}
                 loading={isLoading}
@@ -77,7 +77,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
             </AppButton>
             <AppButton
                 variant="outline"
-                className="w-[124px] h-[52px] border border-[#726C6C]"
+                className="w-20 h-10 border border-[#726C6C]"
                 type="submit"
                 loading={isLoading}
             >
