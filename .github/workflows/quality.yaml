@@ -29,11 +29,11 @@ jobs:
         run: yarn install
 
       - name: Run Prettier check
-        run: npx prettier --check "web/**/*.${js,jsx,ts,tsx,json,css,scss,md}"
+        run: npx prettier --check "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 
       - name: Display Unformatted Files
         if: failure()
-        run: npx prettier  --check "web/**/*.${js,jsx,ts,tsx,json,css,scss,md}" || true
+        run: npx prettier --check "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" || true
 
       - name: Upload formatting results
         if: failure()
@@ -72,6 +72,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Prettier check
+        run: npx prettier --write "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+
+      - name: Check for changes
+        id: git-status
+        run: |
+          echo "Checking for changes..."
+          git diff --exit-code || echo "Changes detected"
 
       - name: Commit and Push changes
         run: |
