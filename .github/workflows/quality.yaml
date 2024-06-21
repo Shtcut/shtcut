@@ -1,33 +1,83 @@
 name: Code Quality checks
+
 on:
   pull_request:
-    branches: [ web/develop ]
-concurrency:
-  group: ${{github.workflow }}-${{github.event_pull_request.nummber || github.ref }}
-  cancel-in-progress: true
+    branches: [ develop, web/develop ]
 
 
-permissions: read-all
+permissions:
+  contents: write
 
 jobs:
-  prettier:
-    name: Prettier
-    runs-on: ubuntu-22.04
+  prettier-check:
+    name: Prettier Check
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        node-version: [ 18.x ]
+        node-version: [ 14,16, 18 ]
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
         uses: action/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
-          cache: "pnpm"
-      - name: Install dependencies
-        run: pnpm install -D
-      - name: Check formatting with Prettier
-        run: pnpm prettier:check:ci
 
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Prettier check
+        run: npx prettier --check "**/*.${js,jsx,ts,tsx,json,css,scss,md}"
+
+      - name: Display Unformatted Files
+        if: failure()
+        run: npx prettier  --check "**/*.${js,jsx,ts,tsx,json,css,scss,md}" || true
+
+      - name: Upload formatting results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: prettier-results
+          path: ./**/*.log
+
+      - name: Create GitHub comment
+        if: failure()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const files = fs.readFileSync('output.log', 'utf8');
+            github.rest.issues.createComment({
+              ...context.repo,
+              issues_number: context.issue.number,
+              body: `### Prettier Formatting Check Failed\n\`\`\`\n${files}\n\`\`\`\nPlease run \`yarn prettier:fix\` to fix the formatting issues.`
+            })
+
+  pretter-fix:
+    name: Prettier Fix
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    strategy:
+      matrix:
+        node-version: [ 14,16, 18 ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: action/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-action[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -am "Auto-format code with Prettier"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
