@@ -45,7 +45,7 @@ jobs:
           path: prettier-output.log
 
       - name: Create GitHub comment
-        if: failure()
+        if: failure() && github.event.pull_request.head.repo.fork == false
         uses: actions/github-script@v6
         with:
           script: |
