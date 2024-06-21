@@ -29,11 +29,13 @@ jobs:
         run: yarn install
 
       - name: Run Prettier check
-        run: npx prettier --check "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+        id: prettier-check
+        run: |
+          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > prettier-output.log
 
       - name: Display Unformatted Files
         if: failure()
-        run: npx prettier --check "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}" || true
+        run: npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" || true
 
       - name: Upload formatting results
         if: failure()
@@ -77,7 +79,7 @@ jobs:
         run: yarn install
 
       - name: Run Prettier check
-        run: npx prettier --write "web/src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+        run: npx prettier --write "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
 
       - name: Check for changes
         id: git-status
