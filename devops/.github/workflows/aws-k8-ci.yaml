@@ -251,6 +251,31 @@ jobs:
       probe_url: ${{ needs.envs.outputs.probe_url }}
       replica: ${{ needs.envs.outputs.replica }}
 
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Repo to Artifact
+        if: ${{ inputs.is_workflow == true }}
+        uses: actions/download-artifact@master
+        with:
+          name: cloud-scripts
+          path: ${{ inputs.repository }}
+
+      - name: Copy Script files to context
+        if: ${{ inputs.is_workflow == true }}
+        run: |
+          ls
+          cp -a "${{ inputs.repository }}/." ./
+          rm -r "${{ inputs.repository }}"
+          ls -a
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.region || secrets.AWS_REGION }}
+
+
 
 
             
