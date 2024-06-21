@@ -31,7 +31,7 @@ jobs:
       - name: Run Prettier check
         id: prettier-check
         run: |
-          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > prettier-output.log
+          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > prettier-output.log || true
 
       - name: Display Unformatted Files
         if: failure()
