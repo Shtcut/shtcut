@@ -22,3 +22,38 @@ interface TypingTextProps {
     text: string;
     speed: number;
 }
+
+interface IntegrationSectionType {
+    text: string;
+    id: string;
+    img: string[];
+    title: string;
+}
+
+interface PlanCard {
+    plan: {
+        id: number;
+        title: string;
+        text: string;
+        amt: string;
+        plan: string;
+        btnText: string;
+        plans: string[];
+    };
+}
+
+interface SolutionType {
+    solutionValues?: string[];
+    handleSelect?: (val: string) => void;
+    toolsValues?: string[];
+    handleSelectTools?:(val:string)=>void
+}
+
+interface PropsCreate extends SolutionType {
+    userValue: string;
+    handleOptionChange: (value: 'team' | 'myself') => void;
+    form: any;
+    step: number;
+    handlePrevious: () => void;
+    handleNext: () => void;
+}

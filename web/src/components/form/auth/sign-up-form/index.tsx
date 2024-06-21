@@ -48,50 +48,48 @@ export const SignUpForm = (props: SignUpFormProps) => {
     });
 
     return (
-        <div className={cn('grid gap-6 px-1', className)} {...props}>
+        <div className=" mt-6">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleFormSubmit)}>
-                    <div className="grid gap-2">
-                        <div className="grid grid-cols-2 w-full mx-auto gap-x-2">
-                            <div>
-                                <FormField
-                                    control={form.control}
-                                    name="firstName"
-                                    render={({ field }) => (
-                                        <FormItem className="space-y-1">
-                                            <Label>First name</Label>
-                                            <FormControl>
-                                                <Input placeholder="John" className="h-12" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                            <div>
-                                <FormField
-                                    control={form.control}
-                                    name="lastName"
-                                    render={({ field }) => (
-                                        <FormItem className="space-y-1">
-                                            <Label>Last name</Label>
-                                            <FormControl>
-                                                <Input placeholder="Doe" className="h-12" {...field} />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
+                    <div className="flex flex-col w-full gap-3">
+                        <div className="flex items-center gap-3 w-full">
+                            <FormField
+                                control={form.control}
+                                name="firstName"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <Label>First name</Label>
+                                        <FormControl>
+                                            <Input placeholder="John" className="h-12" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="lastName"
+                                render={({ field }) => (
+                                    <FormItem className="w-full">
+                                        <Label>Last name</Label>
+                                        <FormControl>
+                                            <Input placeholder="Doe" className="h-12" {...field} />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
                         </div>
+
                         <FormField
                             control={form.control}
                             name="email"
                             render={({ field }) => (
-                                <FormItem className="space-y-1">
+                                <FormItem className="">
                                     <Label>Email</Label>
                                     <FormControl>
-                                        <Input placeholder="name@example.com" className="h-12" {...field} />
+                                        <Input placeholder="Enter your email" className="h-12" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -101,12 +99,12 @@ export const SignUpForm = (props: SignUpFormProps) => {
                             control={form.control}
                             name="password"
                             render={({ field }) => (
-                                <FormItem className="space-y-1">
-                                    <div className="flex items-center justify-between">
+                                <FormItem className="">
+                                    <div className="flex mt-1 mb-2 items-center justify-between">
                                         <Label>Password</Label>
                                     </div>
                                     <FormControl>
-                                        <PasswordInput className="h-12" placeholder="********" {...field} />
+                                        <PasswordInput className="h-12" placeholder="Must be 8 characters" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -118,45 +116,25 @@ export const SignUpForm = (props: SignUpFormProps) => {
                         >
                             Sign Up
                         </AppButton>
-                        <div className="mt-2 mb-2 items-top flex space-x-2">
-                            <Checkbox id="terms1" />
-                            <div className="grid gap-1.5 leading-none">
-                                <Label
-                                    htmlFor="terms1"
-                                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                >
-                                    Accept our{' '}
-                                    <NavLink href="#" className="underline underline-offset-4 hover:text-primary ">
-                                        terms
-                                    </NavLink>{' '}
-                                    and{' '}
-                                    <NavLink href="#" className="underline underline-offset-4 hover:text-primary ">
-                                        conditions
-                                    </NavLink>
-                                </Label>
-                            </div>
+                        <div>
+                            <p className="text-sm mt-1">
+                                By clicking signing up you agree to Shtcut{' '}
+                                <span className="text-primary-0">Terms and Conditions</span> and confirm you have read
+                                our Privacy Notice. You may receive offers, news and updates from us.
+                            </p>
                         </div>
-
-                        <div className="relative my-2">
+                        <div className="relative mb-4">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t" />
                             </div>
                             <div className="relative flex justify-center text-xs uppercase">
-                                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                                <span className="bg-background px-2 text-muted-foreground">Or</span>
                             </div>
                         </div>
                     </div>
                 </form>
             </Form>
             <SocialLogin onFailure={onFailure} onSuccess={onSuccess} isLoading={isLoading} />
-            <div className="text-center">
-                <div className="font-poppins font-normal-l">
-                    Already have an account?
-                    <NavLink href="/auth/sign-in" className="px-1 text-blue-600 hover:text-blue-500">
-                        Sign In
-                    </NavLink>
-                </div>
-            </div>
         </div>
     );
 };

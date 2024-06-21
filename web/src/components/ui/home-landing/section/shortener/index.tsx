@@ -1,4 +1,5 @@
 import { buttonVariants, cn } from '@shtcut-ui/react';
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -67,7 +68,7 @@ export const ShortenerSection = () => {
     ];
 
     return (
-        <section className="relative max-w-screen-xl mx-auto md:px-2">
+        <AnimatedContainer className="relative max-w-screen-xl mx-auto md:px-2">
             <div className="relative z-10 gap-5 items-center lg:flex">
                 <div className="flex-1 max-w-lg py-5 sm:mx-auto sm:text-center lg:max-w-max lg:text-left">
                     <span className="text-blue-600 font-heading font-medium">URL Shortener</span>
@@ -95,7 +96,7 @@ export const ShortenerSection = () => {
                     <Image src="/marketing-section.svg" className="w-full" alt="" width={500} height={500} />
                 </div>
             </div>
-            <div className="flex items-center justify-center gap-2 py-2 duration-500" style={{ display: 'none'}}>
+            <div className="flex items-center justify-center gap-2 py-2 duration-500" style={{ display: 'none' }}>
                 <Link
                     href="/auth/login"
                     className={cn(
@@ -106,6 +107,6 @@ export const ShortenerSection = () => {
                     Get Started
                 </Link>
             </div>
-        </section>
+        </AnimatedContainer>
     );
 };

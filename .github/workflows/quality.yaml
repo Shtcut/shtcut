@@ -1,0 +1,101 @@
+name: Code Quality checks
+
+on:
+  pull_request:
+    branches: [ develop, web/develop ]
+
+
+permissions:
+  contents: write
+
+jobs:
+  prettier-check:
+    name: Prettier Check
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Prettier check
+        id: prettier-check
+        run: |
+          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" 2>&1 | tee prettier-output.log
+
+      - name: Upload formatting results
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: prettier-output
+          path: prettier-output.log
+
+      - name: Check if PR is from a fork
+        id: check-fork
+        run: echo "isFork=${{ github.event.pull_request.head.repo.fork }}" >> $GITHUB_ENV
+
+      - name: Create GitHub comment
+        if: failure() && env.isFork == 'false'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const prettierOutput = fs.readFileSync('prettier-output.log', 'utf8');
+            github.rest.issues.createComment({
+              ...context.repo,
+              issue_number: context.issue.number,
+              body: `### Prettier Formatting Check Failed\n\`\`\`\n${prettierOutput}\n\`\`\`\nPlease run \`yarn prettier:fix\` to fix the formatting issues.`
+            })
+
+  pretter-fix:
+    name: Prettier Fix
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request_target'
+
+    strategy:
+      matrix:
+        node-version: [ 18.x ]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run Prettier check
+        run: npx prettier --write "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+
+      - name: Check for changes
+        id: git-status
+        run: |
+          echo "Checking for changes..."
+          git diff --exit-code || echo "Changes detected"
+
+      - name: Commit and Push changes
+        if: steps.git-status.outputs.changes != ''
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          BRANCH=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+          git checkout -B $BRANCH
+          git add .
+          git commit -m "Auto-format code with Prettier"
+          git push origin HEAD:$BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

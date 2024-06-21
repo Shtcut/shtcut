@@ -110,8 +110,12 @@
     }
 }
 
-$primary: black;
-$secondary: rgb(100, 100, 100);
+html {
+    scroll-behavior: smooth;
+}
+
+/* $primary: black;
+$secondary: rgb(100, 100, 100); */
 
 .contentShow {
     animation: contentShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -124,8 +128,8 @@ $secondary: rgb(100, 100, 100);
 
 /* Hide scrollbar for IE, Edge and Firefox */
 .no-scrollbar {
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
 }
 
 @keyframes contentShow {
@@ -191,4 +195,41 @@ $secondary: rgb(100, 100, 100);
     color: transparent;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+}
+/* TypingText.css */
+.typing-text {
+    white-space: nowrap;
+    overflow: hidden;
+    /* border-right: 0.15em solid black; */
+    animation: blink-caret 0.75s step-end infinite;
+}
+
+/* Blinking cursor animation */
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: black;
+    }
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.feature-card-container {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8;
+}
+
+.feature-card {
+    @apply md:p-4 lg:p-6;
+}
+
+.feature-big-card {
+    @apply md:col-span-2;
+}
+
+#down {
 }

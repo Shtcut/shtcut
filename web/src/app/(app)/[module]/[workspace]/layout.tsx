@@ -32,7 +32,7 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                             <Logo />
                         </span>
                         <span>/</span>
-                        <WorkspaceSwitcher />
+                        {/* <WorkspaceSwitcher /> */}
                     </div>
                     <div className="flex items-center gap-4">
                         <Feedback />

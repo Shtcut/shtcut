@@ -27,9 +27,6 @@ import { BarChart } from '@shtcut/components/_shared/Analytics/BarChart';
 import { LabelledpieChart } from '@shtcut/components/_shared/Analytics/LabelledpieChart';
 
 const Overview = () => {
-    const params = useParams();
-    const pathname = usePathname();
-
     return (
         <LayoutBody className="container z-0">
             <div className="bg-white p-8">

@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { HTMLAttributes } from 'react';
 import z from 'zod';
+import { routes } from '@shtcut/_shared/utils/route';
 
 interface ForgotPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
@@ -30,34 +31,46 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
     };
 
     return (
-        <div className={cn('grid gap-6', className)} {...props}>
+        <div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleFormSubmit)}>
-                    <div className="grid gap-2">
+                    <div className="">
                         <FormField
                             control={form.control}
                             name="email"
                             render={({ field }) => (
-                                <FormItem className="space-y-1">
-                                    <Label>Email</Label>
+                                <FormItem className="w-full">
+                                    <Label>Email address</Label>
                                     <FormControl>
-                                        <Input placeholder="name@example.com" className="h-12" {...field} />
+                                        <Input placeholder="Enter your email" className="h-12" {...field} />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                        <AppButton className="mt-2 h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150" loading={isLoading}>
-                            Continue
+                        <AppButton
+                            className="mt-8 w-full h-12  text-white font-semibold bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+                            loading={isLoading}
+                        >
+                            Reset Password
                         </AppButton>
                     </div>
                 </form>
             </Form>
+            <div className="relative my-4">
+                <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                </div>
+                <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">Or</span>
+                </div>
+            </div>
             <div className="text-center">
-                <div className="font-poppins font-normal-l">
-                    Don`t have account?
-                    <NavLink href="/auth/sign-up" className="px-1 text-blue-600 hover:text-blue-500">
-                        Sign up
+                <div className="font-poppins ">
+                    Back to
+                    <NavLink href={routes.login} className=" text-blue-600 hover:text-blue-500">
+                        {' '}
+                        Log in
                     </NavLink>
                 </div>
             </div>
