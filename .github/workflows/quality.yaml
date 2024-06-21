@@ -60,7 +60,7 @@ jobs:
   pretter-fix:
     name: Prettier Fix
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request_target'
 
     strategy:
       matrix:
@@ -88,10 +88,14 @@ jobs:
           git diff --exit-code || echo "Changes detected"
 
       - name: Commit and Push changes
+        if: steps.git-status.outputs.changes != ''
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git commit -am "Auto-format code with Prettier"
-          git push
+          BRANCH=$(echo $GITHUB_REF | sed 's/refs\/heads\///')
+          git checkout -B $BRANCH
+          git add .
+          git commit -m "Auto-format code with Prettier"
+          git push origin HEAD:$BRANCH
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
