@@ -31,7 +31,7 @@ jobs:
       - name: Run Prettier check
         id: prettier-check
         run: |
-          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" > prettier-output.log || true
+          npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" 2>&1 | tee prettier-output.log
 
       - name: Display Unformatted Files
         if: failure()
@@ -44,8 +44,12 @@ jobs:
           name: prettier-results
           path: prettier-output.log
 
+      - name: Check if PR is from a fork
+        id: check-fork
+        run: echo "isFork=${{ github.event.pull_request.head.repo.fork }}" >> $GITHUB_ENV
+
       - name: Create GitHub comment
-        if: failure() && github.event.pull_request.head.repo.fork == false
+        if: failure() && env.isFork == 'false'
         uses: actions/github-script@v6
         with:
           script: |
