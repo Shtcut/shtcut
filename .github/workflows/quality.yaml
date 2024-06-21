@@ -75,7 +75,7 @@ jobs:
 
       - name: Commit and Push changes
         run: |
-          git config --global user.name "github-action[bot]"
+          git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git commit -am "Auto-format code with Prettier"
           git push
