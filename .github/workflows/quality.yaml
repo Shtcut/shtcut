@@ -29,11 +29,11 @@ jobs:
         run: yarn install
 
       - name: Run Prettier check
-        run: npx prettier --check "**/*.${js,jsx,ts,tsx,json,css,scss,md}"
+        run: npx prettier --check "web/**/*.${js,jsx,ts,tsx,json,css,scss,md}"
 
       - name: Display Unformatted Files
         if: failure()
-        run: npx prettier  --check "**/*.${js,jsx,ts,tsx,json,css,scss,md}" || true
+        run: npx prettier  --check "web/**/*.${js,jsx,ts,tsx,json,css,scss,md}" || true
 
       - name: Upload formatting results
         if: failure()
