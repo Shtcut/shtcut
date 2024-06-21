@@ -33,15 +33,11 @@ jobs:
         run: |
           npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" 2>&1 | tee prettier-output.log
 
-      - name: Display Unformatted Files
-        if: failure()
-        run: npx prettier --check "web/**/*.{js,jsx,ts,tsx,json,css,scss,md}" || true
-
       - name: Upload formatting results
         if: failure()
         uses: actions/upload-artifact@v3
         with:
-          name: prettier-results
+          name: prettier-output
           path: prettier-output.log
 
       - name: Check if PR is from a fork
