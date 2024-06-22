@@ -275,6 +275,33 @@ jobs:
           aws-secret-access-id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.region || secrets.AWS_REGION }}
 
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Update kubernetes config
+        run: |
+          echo "aws eks update-kubeconfig --name ${{ env.project }}-clustoer  --region ${{ env.region ||  secrets.AWS_REGION }}"
+          aws eks update-kubeconfig --name ${{ env.project }}-clustoer  --region ${{ env.region ||  secrets.AWS_REGION }}
+
+      - name: Deploy image to kubernetes cluster
+        env:
+          APP_NAME: ${{ env.service }}
+          IMAGE_TAG: ${{ needs.config.outputs.docker-tag }}-${{ env.service }}
+          NAMESPACE: ${{ env.namespace }}
+          INGRESS_HOSTNAME: ${{ env.hostname  }}
+          PROBE_URL: ${{ env.proble_url }}
+          APP_SECRET: ${{ env.app_secret }}
+          REPLICA: ${{ env.replica }}
+          REPOSITORY: ${{ step.login-ecr.outputs.registry }}/${{ env.project }}
+          PORT: ${{ env.port }}
+        run: |
+          kubectl create namespace ${{ env.namespace }} --dry-run=client -o yaml | kubectrl apply -f -
+          cat ./_kubernetes/service.yml | envsubst | kubectl apply -f -
+          cat ./_kubernetes/deployment.yml | envsubst | kubectl apply -f -
+          cat ./_kubernetes/ingress.yml | envsubst | kubectl apply -f -
+          
+
 
 
 
