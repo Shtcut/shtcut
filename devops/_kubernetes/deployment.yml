@@ -16,3 +16,32 @@ spec:
     metadata:
       labels:
         app: ${APP_NAME}-pod
+    spec:
+      # Container details
+      securityContext:
+        runAsNonRoot: false
+        runAsUser: 0
+      containers:
+        - name: ${APP_NAME}
+          image: ${REPOSITORY}:${IMAGE_TAG}
+          imagePullPolicy: Always
+          # Ports to expose
+          ports:
+            - containerPort: ${PORT}
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: ${APP_SECRET}
+          readinessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              path: ${PROBE_URL}
+              port: ${PORT}
+            periodSeconds: 5
+          livenessProbe:
+            initialDelaySeconds: 5
+            httpGet:
+              path: ${PROBE_URL}
+              port: ${PORT}
+            periodSeconds: 5
+
