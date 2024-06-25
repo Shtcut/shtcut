@@ -112,4 +112,4 @@ This project is licensed under the MIT License. See the `LICENSE` file for detai
 For support and inquiries, please open an issue on GitHub or contact us at support@shtcut.link.
 
 ## Conclusion
-Shtcut's Comprehensive All-in-One Marketing Platform is your key to unlocking marketing excellence. With its streamlined workflow, data-driven insights, cost-effective solutions, and future-ready features, it is the ideal choice for developers looking to integrate and enhance marketing capabilities within their applications.
+Shtcut's Comprehensive All-in-One Marketing Platform is your key to unlocking marketing excellence. With its streamlined workflow, data-driven insights, cost-effective solutions, and future-ready features, it is the ideal choice for marketers looking to integrate and enhance marketing capabilities within their applications.
