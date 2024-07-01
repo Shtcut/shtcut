@@ -12,7 +12,7 @@ const LogoNavBar = () => {
             <Logo />
             <div className="flex items-center space-x-[14px]">
                 {subNav.map((nav) => (
-                    <AnimatedList>
+                    <AnimatedList key={nav.id}> 
                         <RouteLink href={nav.link} className="">
                             <div className="shadow w-[51px] border hover:border-none  border-gray-100 h-[45px] rounded flex justify-center items-center">
                                 <Image src={nav.images} width={24} height={24} alt="url-shorten" />

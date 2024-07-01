@@ -3,7 +3,7 @@
 import { cn } from '@shtcut-ui/react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import React, { PropsWithChildren, useRef, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useRef, useEffect,  } from 'react';
 
 export interface DockProps extends VariantProps<typeof dockVariants> {
     className?: string;
@@ -69,17 +69,19 @@ const DockIcon = ({
     ...props
 }: DockIconProps) => {
     const ref = useRef<HTMLDivElement>(null);
-    const [distanceCalc, setDistanceCalc] = useState(useMotionValue(0));
+    const distanceCalc = useMotionValue(0);
+
+    const transformValue = useTransform(mouseX, (val: number) => {
+        if (ref.current) {
+            const bounds = ref.current.getBoundingClientRect();
+            return val - bounds.x - bounds.width / 2;
+        }
+        return 0;
+    });
 
     useEffect(() => {
-        if (ref.current && mouseX) {
-            const bounds = ref.current.getBoundingClientRect();
-            const transformValue = useTransform(mouseX, (val: number) => {
-                return val - bounds.x - bounds.width / 2;
-            });
-            setDistanceCalc(transformValue);
-        }
-    }, [ref, mouseX]);
+        distanceCalc.set(transformValue.get());
+    }, [mouseX, ref]);
 
     const widthSync = useTransform(distanceCalc, [-distance, 0, distance], [40, magnification, 40]);
 

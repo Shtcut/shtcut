@@ -15,6 +15,7 @@ import { LogoNavBar, SearchInput } from '@shtcut/components/dashboard/nav-compon
 
 interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
+    
 }
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {

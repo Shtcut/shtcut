@@ -54,7 +54,7 @@ const HeaderSideNav = ({ isOpen }: { isOpen: boolean }) => {
                 </section>
                 <div className="flex flex-col gap-2 p-4">
                     {[1, 2, 3].map((data) => (
-                        <section>
+                        <section key={data}>
                             <div className="bg-black text-white w-[27px] h-[27px] flex justify-center rounded-full items-center float-left mr-2">
                                 <p className="text-[10px] font-medium">BA</p>
                             </div>
