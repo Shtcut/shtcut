@@ -1,19 +1,24 @@
 import { Avatar, AvatarFallback, AvatarImage, CardContent, CardDescription, CardTitle, cn } from '@shtcut-ui/react';
 import { USERS } from '@shtcut/_shared/constant';
+import BoxReveal from '@shtcut/components/_shared/animations/box-reveal';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 
 export const Testimonial = () => {
     return (
         <AnimatedContainer className="container">
-            <div className="mx-auto flex max-w-3xl flex-col items-center space-y-4 text-center">
-                <h2 className="font-heading text-3xl drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent sm:text-3xl md:text-6xl">
-                    Trusted by all
-                </h2>
+            <div className="mx-auto flex max-w-3xl flex-col items-center  text-center">
+                <BoxReveal boxColor={'#101010'} duration={1}>
+                    <h2 className="font-heading text-3xl drop-shadow-xl  h-20 dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent sm:text-3xl md:text-6xl">
+                        Trusted by all
+                    </h2>
+                </BoxReveal>
 
-                <p className="max-w-[85%] text-muted-foreground sm:text-lg">
-                    Join thousands of satisfied users who rely on our platform for their personal and professional
-                    productivity needs.
-                </p>
+                <BoxReveal boxColor={'#171717'} duration={1}>
+                    <p className="max-w-[85%] text-muted-foreground mx-auto sm:text-lg">
+                        Join thousands of satisfied users who rely on our platform for their personal and professional
+                        productivity needs.
+                    </p>
+                </BoxReveal>
             </div>
 
             <div

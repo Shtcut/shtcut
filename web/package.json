@@ -35,6 +35,7 @@
     "@videojs/themes": "^1.0.1",
     "aos": "^2.3.4",
     "axios": "^1.6.5",
+    "canvas-confetti": "^1.9.3",
     "chart.js": "^4.4.1",
     "class-variance-authority": "^0.7.0",
     "dom-to-svg": "^0.12.2",

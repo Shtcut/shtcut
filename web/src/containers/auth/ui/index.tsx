@@ -1,7 +1,6 @@
 'use client';
 
 import { Logo } from '@shtcut/components';
-
 import { WelcomePage } from '@shtcut/components/ui/auth/sign-in';
 import { AuthTabs } from '@shtcut/components/ui/auth/auth-tab';
 import { useMediaQuery } from 'react-responsive';

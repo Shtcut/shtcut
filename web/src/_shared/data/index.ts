@@ -109,7 +109,7 @@ export const PLANS: Plan[] = [
         data: [
             'All features of Pro plan',
             'Multiple teams',
-            
+
             'SLA of 99.9% uptime',
             'Mobile targeting',
             'Tags for links',
@@ -119,7 +119,6 @@ export const PLANS: Plan[] = [
         ]
     }
 ];
-
 
 export const featureData = [
     {
@@ -239,3 +238,26 @@ export const manageData = [
         name: 'Team Collaboration'
     }
 ];
+
+export const subNav = [
+    {
+        id: 1,
+        images: '/images/links.png',
+        link: '/url-shorten',
+        text: 'URL Shorten'
+    },
+    {
+        id: 2,
+        images: '/images/social-media.png',
+        link: '/pricing',
+        text: 'Social Media'
+    },
+    {
+        id: 3,
+        images: '/images/social-media.png',
+        link: '/pricing',
+        text: 'Email Marketing'
+    }
+];
+
+
