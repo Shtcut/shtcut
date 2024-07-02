@@ -15,7 +15,6 @@ import { LogoNavBar, SearchInput } from '@shtcut/components/dashboard/nav-compon
 
 interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
-    
 }
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
@@ -26,12 +25,13 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
     let isTab = useMediaQuery({ query: '(max-width:768px)' });
     const [isOpen, setIsOpen] = useState(isTab ? false : true);
     const navigationOptions = sideLinks(module as string, workspace as string);
+    const navigationOptionsSliced = navigationOptions.slice(0, -3);
 
     return (
         <body className="bg-[#f9fafb] w-full  ">
             <section className="w-full  bg-white">
                 <section className="fixed z-50   bg-white  top-0 w-full">
-                    <section className="shadow z-50   bg-white  w-full">
+                    <section className={`${isSideBarOpen ? 'shadow' : ''} z-50   bg-white  w-full`}>
                         <div className="container  mx-auto  flex items-center justify-between ">
                             <div>
                                 <LogoNavBar />
@@ -48,19 +48,20 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                         </div>
                     </section>
                     {!isSideBarOpen && (
-                        <div className="border-b container   z-30 bg-white mb-0">
-                            <div className="items-stretch flex gap-10 overflow-x-scroll mt-4 md:mt:0">
-                                {navigationOptions.map(({ href, title }, index) => (
+                        <div className="border-b  z-30 bg-white mb-0">
+                            <div className="items-stretch justify-center flex gap-10 overflow-x-scroll mt-4 md:mt:0">
+                                {navigationOptionsSliced.map(({ href, title, icon }, index) => (
                                     <Link
                                         href={href}
                                         className={cn(
-                                            'h-8 hover:text-foreground/80 transition-colors text-sm',
+                                            'h-8 flex items-center gap-x-2 hover:text-primary-0 transition-colors text-sm',
                                             href === `${pathname}`
-                                                ? 'border-b-2 border-foreground text-foreground hover:text-foreground'
+                                                ? 'border-b-2 border-primary-0 text-primary-0 '
                                                 : 'text-foreground/50'
                                         )}
                                         key={index}
                                     >
+                                        <div className="">{icon}</div>
                                         {title}
                                     </Link>
                                 ))}

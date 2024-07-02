@@ -6,6 +6,7 @@ import { Filter } from 'lucide-react';
 import { PiSortDescendingBold } from 'react-icons/pi';
 import { FormatName } from '@shtcut/_shared/constant';
 import { ActionsTable } from '../actions';
+import { SearchInput } from '../../nav-component';
 
 const MembersTable = ({
     onOpenRole,
@@ -103,22 +104,14 @@ const MembersTable = ({
                 </div>
 
                 <div className="flex items-center space-x-[12px]">
-                    <div className="relative">
-                        <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
-                            <Search size={18} />
-                        </div>
-                        <Input
-                            className="bg-[#fafafa] pl-8 w-48 text-xs text-[#433E3F] border border-[#CCCBCB] "
-                            placeholder="Enter email"
-                        />
-                    </div>
+                    <SearchInput />
                     <Button className="flex  items-center gap-x-2  bg-primary-0" onClick={onOpenAdded}>
                         Invite as Member <ChevronDown />
                     </Button>
-                    <Button className="flex border hover:bg-primary-0 hover:text-white shadow-none text-[#5A5555] items-center bg-[#fafafa] gap-x-2 ">
+                    <Button className="flex border hover:bg-primary-0 border-[#CCCBCB]  hover:text-white shadow-none text-[#5A5555] items-center bg-white gap-x-2 ">
                         <Filter size={20} /> Filter
                     </Button>
-                    <Button className="flex border  hover:bg-primary-0 hover:text-white shadow-none text-[#5A5555] items-center bg-[#fafafa] gap-x-2 ">
+                    <Button className="flex border border-[#CCCBCB]  hover:bg-primary-0 hover:text-white shadow-none text-[#5A5555] items-center bg-white gap-x-2 ">
                         <PiSortDescendingBold size={20} /> Sort by
                     </Button>
                 </div>

@@ -6,10 +6,10 @@ const SearchInput = () => {
     return (
         <div className="relative">
             <Input
-                className="bg-[#fafafa] pl-8 w-48 text-xs text-[#433E3F] border border-[#CCCBCB] "
-                placeholder="Search"
+                className="border-[#CCCBCB] pl-10 w-48 text-xs text-[#433E3F] font-medium border bg-white "
+                placeholder="Search "
             />
-            <div className="absolute top-2 left-2">
+            <div className="absolute top-2 left-[15px]">
                 <Search size={18} />
             </div>
         </div>
