@@ -1,26 +1,14 @@
-name: develop-repo
+name: set-aws-envs
 author: Funmi Ayinde
-description: Get dev ops repo
+description: A generic action to get app global based envs
 
 inputs:
-  inputs:
-    description: 'Repository'
-
+  config-file:
+    required: true
+    default: "configs/cloud.json"
 
 runs:
   using: 'composite'
   steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-
-    - name: Download Repo to Artifact
-      uses: actions/download-artifact@master
-      with:
-        name: cloud-scripts
-        path: ${{ inputs.repository }}
-
-    - name: Copy Script files to context
-      run: |
-        cp -a "${{ inputs.repository }}/." ./
-        rm -r "${{ inputs.repository }}"
-        ls -a
+    -name: Checkout
+    uses: actions/checkout@v3
