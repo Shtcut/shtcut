@@ -10,4 +10,5 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    -names
+    -name: Checkout
+    uses: actions/checkout@v3
