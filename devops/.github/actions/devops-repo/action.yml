@@ -1,0 +1,13 @@
+name: set-aws-envs
+author: Funmi Ayinde
+description: A generic action to get app global based envs
+
+inputs:
+  config-file:
+    required: true
+    default: "configs/cloud.json"
+
+runs:
+  using: 'composite'
+  steps:
+    -names
