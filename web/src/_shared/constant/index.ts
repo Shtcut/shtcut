@@ -587,3 +587,13 @@ export const dummyLinkHistory = [
 
 
 
+// utils/formatName.ts
+export const FormatName = (fullName: string): string => {
+  const names = fullName.split(' ');
+  if (names.length < 2) return '';
+
+  const firstNameInitial = names[0].charAt(0).toUpperCase();
+  const lastNameInitial = names[1].charAt(0).toUpperCase();
+
+  return `${firstNameInitial}${lastNameInitial}`;
+};

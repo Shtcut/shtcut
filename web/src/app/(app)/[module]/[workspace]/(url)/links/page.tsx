@@ -5,11 +5,10 @@ import { DndContext } from '@dnd-kit/core';
 import { LinkContainer } from '@shtcut/containers';
 
 const Links = () => {
-
     return (
         <DndContext>
-            <LayoutBody className="container">
-                <LinkContainer/>
+            <LayoutBody className="">
+                <LinkContainer />
             </LayoutBody>
         </DndContext>
     );

@@ -48,11 +48,7 @@ interface LayoutBodyProps extends CommonProps, React.HtmlHTMLAttributes<HTMLDivE
 const LayoutBody = primitiveComponent<'div', LayoutBodyProps>(({ className, fixedHeight, ...props }, ref) => (
     <div
         ref={ref}
-        className={cn(
-            'bg-white flex-1 overflow-hidden px-4 py-6 md:px-8',
-            fixedHeight && 'h-[calc(100%-var(--header-height))]',
-            className
-        )}
+        className={cn('bg-transparent ', fixedHeight && 'h-[calc(100%-var(--header-height))]', className)}
         {...props}
     />
 ));

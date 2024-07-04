@@ -39,7 +39,7 @@ export const Modal = (props: ModalProps) => {
         <>
             {useDrawer ? (
                 <Drawer.Root open={setShowModal ? showModel : false} onOpenChange={(open) => handleVisibility(open)}>
-                    <Drawer.Overlay className="fixed inset-0 z-40 bg-gray-100 bg-opacity-50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center" />
+                    <Drawer.Overlay className="fixed inset-0 z-50 bg-gray-100 bg-opacity-40 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center" />
                     <Drawer.Portal>
                         <Drawer.Content
                             className={cn(
@@ -63,7 +63,7 @@ export const Modal = (props: ModalProps) => {
                     <Dialog.Portal>
                         <Dialog.Overlay
                             id="modal-backdrop"
-                            className="fixed inset-0 z-40 bg-gray-100 bg-opacity-50 backdrop-blur-sm data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center"
+                            className="fixed inset-0 z-50 bg-black bg-opacity-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center"
                         >
                             <Dialog.Content
                                 onOpenAutoFocus={(e) => e.preventDefault()}

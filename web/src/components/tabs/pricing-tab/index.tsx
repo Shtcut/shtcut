@@ -1,11 +1,13 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
+import { Tabs, TabsList, TabsTrigger } from '@shtcut-ui/react';
+import useCanvasConfetti from '@shtcut/hooks/useCanvasConfetti';
 
 const PricingTab = () => {
+    const { handleClickCanvas } = useCanvasConfetti();
     return (
         <>
-            <Tabs defaultValue="yearly" className="w-full flex justify-center  rounded-full" >
+            <Tabs defaultValue="yearly" className="w-full flex justify-center  rounded-full">
                 <TabsList className="grid sm:w-[276px] rounded-full  h-12 border-b grid-cols-2  bg-[#f0f0f0] ">
                     <TabsTrigger
                         value="yearly"
@@ -13,12 +15,14 @@ const PricingTab = () => {
                     >
                         Yearly
                     </TabsTrigger>
-                    <TabsTrigger value="password" className="rounded-full h-full font-semibold">
+                    <TabsTrigger
+                        onClick={handleClickCanvas}
+                        value="password"
+                        className="rounded-full h-full font-semibold"
+                    >
                         Monthly
                     </TabsTrigger>
                 </TabsList>
-                {/* <TabsContent value="account">divhe</TabsContent> */}
-                <TabsContent value="password"></TabsContent>
             </Tabs>
         </>
     );
