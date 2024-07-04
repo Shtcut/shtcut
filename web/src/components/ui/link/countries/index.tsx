@@ -1,4 +1,4 @@
-import { Progress } from '@shtcut-ui/react';
+import { Card, Progress } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React, { ReactNode } from 'react';
 
@@ -29,7 +29,7 @@ const CountriesComponent = () => {
         );
     };
     return (
-        <div className="bg-white w-full rounded-xl py-4 px-[37px] drop-shadow-sm border border-gray-50 ">
+        <div className="bg-white w-full rounded-xl py-4 px-[37px]  border bg-card ">
             <h1 className="text-lg font-bold border-b pb-2">Countries</h1>
             <div className="flex justify-between items-center border-b py-2">
                 <p className="text-[#5b5a5b] font-medium">Name</p>

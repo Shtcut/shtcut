@@ -1,4 +1,4 @@
-import { Progress } from '@shtcut-ui/react';
+import { Card, Progress } from '@shtcut-ui/react';
 import React from 'react';
 
 const ReferralComponent = () => {
@@ -23,7 +23,7 @@ const ReferralComponent = () => {
         );
     };
     return (
-        <div className="bg-white drop-shadow-sm border border-gray-50 rounded-xl w-full py-4 px-[37px]">
+        <div className="bg-white rounded-xl w-full py-4 px-[37px]  border bg-card ">
             <h1 className="text-lg font-bold border-b pb-2">Referrals</h1>
             <div className="flex justify-between items-center border-b py-2">
                 <p className="text-[#5b5a5b] font-medium">Websites</p>

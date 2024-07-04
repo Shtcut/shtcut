@@ -1,4 +1,4 @@
-import { Checkbox } from '@shtcut-ui/react';
+import { Card, Checkbox } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React from 'react';
 import { Clock3 } from 'lucide-react';
@@ -7,7 +7,7 @@ import CardsActions from '../card-actions';
 
 const LinkListedComponent = ({ data, edit }: { edit?: boolean; data?: any }) => {
     return (
-        <div className="bg-white  drop-shadow-sm border cursor-pointer border-gray-50 rounded-[10px] p-4">
+        <div className="bg-white  cursor-pointer rounded-[10px] p-4 border bg-card ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     {!edit && (

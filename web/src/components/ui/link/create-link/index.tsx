@@ -1,13 +1,13 @@
 'use client';
 import { Button, Input, Label, Separator } from '@shtcut-ui/react';
 import React, { useState } from 'react';
-import { Tag } from 'lucide-react';
 import MultiTagsSelectInput from '@shtcut/components/form/multiple-select-input';
+import { LinkBreadCrumb } from '@shtcut/components/bread-crumb';
 
 const options = [
-    { label: 'Option 1', value: 'option1' },
-    { label: 'Option 2', value: 'option2' },
-    { label: 'Option 3', value: 'option3' }
+    { label: 'Link', value: 'link' },
+    { label: 'Dashboard', value: 'dashboard' },
+    { label: 'Landing', value: 'landing' }
 ];
 
 const CreateLinkComponent = () => {
@@ -19,6 +19,7 @@ const CreateLinkComponent = () => {
 
     return (
         <div className="my-[38px]">
+            <LinkBreadCrumb currentRoute="Create new link" />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold  text-[#2B2829] text-2xl">Create a new link</h1>
                 <Button className="bg-primary-0 flex justify-center items-center gap-x-2">
