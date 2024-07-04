@@ -50,7 +50,6 @@ jobs:
       - name: Build App
         run: ${{ inputs.buildCommand }}
 
-
       - name: Run Unit Test
         if: ${{ inputs.unitTestCommand }}
         run: ${{ inputs.unitTestCommand }}

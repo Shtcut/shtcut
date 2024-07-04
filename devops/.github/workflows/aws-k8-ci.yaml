@@ -2,7 +2,7 @@ name: AWS K8 CI
 
 on:
   workflow_run:
-    workflows: ["SHTCUT AWS K8 Cloud BUILD"]
+    workflows: [ "SHTCUT AWS K8 Cloud BUILD" ]
     types:
       - completed
     workflow_call:
@@ -66,7 +66,7 @@ permissions:
   contents: read
 
 
-envs:
+env:
   current_project: shtcutstgtest
   current_port: 7000
   current_hostname_format: "app-${0}.starapp.xyz"
@@ -87,7 +87,7 @@ jobs:
       project: ${{ steps.variables.outputs.project }}
       namespace: ${{ steps.variables.outputs.namespace }}
       port: ${{ steps.variables.outputs.port }}
-      dockerfile: ${{ steps.variables.outputs.port }}
+      dockerfile: ${{ steps.variables.outputs.dockerfile }}
       service: ${{ steps.variables.outputs.service }}
       probe_url: ${{ steps.variables.outputs.probe_url }}
       app_secret: ${{ steps.variables.outputs.app_secret }}
@@ -106,7 +106,7 @@ jobs:
           NSP="${{ inputs.namespace }}"
           REP="${{ inputs.replica }}"
           
-          ENV_HOST_FMT="${{ env.current_hostname-format }}"
+          ENV_HOST_FMT="${{ env.current_hostname_format }}"
           
           PROJECT="${EP:- ${{ env.current_project }}}"
           PORT="${PRT:- ${{ env.current_port }}}"
@@ -116,7 +116,7 @@ jobs:
           SERVICE="${SRV:- ${{ env.current_service }}}"
           NAMESPACE="${NSP:- ${{ env.current_namespace }}}"
           REPLICAS="${REP:- ${{ env.current_replica }}}"
-  
+          
           echo "project=${PROJECT}" >> $GITHUB_ENV
           echo "port=${PORT}" >> $GITHUB_ENV
           echo "dockerfile=${DOCKERFILE}" >> $GITHUB_ENV
@@ -139,3 +139,144 @@ jobs:
           echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
           echo "replica=${{ env.replica }}" >> $GITHUB_OUTPUT
           echo "hostname-format=${{ env.hostname-format }}" >> $GITHUB_OUTPUT
+
+    config:
+      if: ${{ github.event.workflow_run_conclusion == 'success' || inputs.is_workflow == true ||  github_event_name == 'push'}}
+      name: 'Set Config Variables'
+      needs: [ envs ]
+      permissions: write-all
+      runs-on: ubuntu-latest
+      env:
+        project: ${{ needs.envs.outputs.project }}
+        port: ${{ needs.envs.outpus.namespace }}
+        namespace: ${{ needs.envs.outputs.hostname-format }}
+        dockerfile: ${{ needs.envs.output.dockerfile }}
+        service: ${{ needs.envs.outputs.service }}
+      outputs:
+        hostname: ${{ steps.resolved.outputs.hostname }}
+        git-sha: ${{ steps.resolved.outputs.git-sha }}
+        docker-tag: ${{ steps.resolved.outputs.docker-tag }}
+      steps:
+        - id: debug-context
+          run: |
+            echo "event_name           ${{ github.event_name }}"
+            echo "project              ${{ env.project }}"
+            echo "hostnamw-format      ${{ env.hostname-format }}"
+        - name: Get branch name
+          id: branch-name
+          uses: tj-actions/branch-name@v6
+
+        - name: Slugify Value
+          uses: rlespinasse/slugify-value@1.4.0
+          with:
+            slug-maxlength: 30
+            key: feat-name
+            value: ${{ steps.branch-name.outputs.current_branch }}
+
+        - name: Resolve outputs
+          id: resolved
+          run: |
+            echo "git-sha=${{ env.git-sha }}" >> $GITHUB_OUTPUT
+            echo "hostname=${{ env.hostname }}" >> $GITHUB_OUTPUT
+            echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
+            echo "hostname     ${{ env.hostname }}"
+            echo "event_name     ${{ env.event_name }}"
+            echo "docker-tag     ${{ env.docker-tag }}"
+            echo "dockerfile     ${{ env.dockerfile }}"
+  push-image:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    name: 'Push Image to Cloud Registry'
+    needs: [ envs, config ]
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      region: ${{ inputs.region }}
+      namespace: ${{ needs.envs.outputs.namepsace }}
+      port: ${{ needs.config.outputs.ports }}
+      hostname: ${{ needs.config.outputs.hostname }}
+      dockerfile: ${{ needs.config.outputs.dockerfile }}
+      service: ${{ needs.config.outputs.service }}
+    steps:
+      - name: --- For debugging ---
+        id: debug-context
+        run: |
+          echo "event_name     ${{ github.event_name }}"
+          echo "hostname       ${{ needs.config.outputs.hostname }}"
+          echo "docker-tag     ${{ needs.config.outputs.docker-tag }}"
+          echo "project        ${{ env.project }}"
+          echo "dockerfile     ${{ env.dockerfile }}"
+          echo "service        ${{ env.service }}"
+          echo "region         ${{ env.region }}"
+      - name: Checkout
+        uses: action/checkout@v3
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ${{ env.region || secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
+
+        
+      - name: Build & Push
+        if: ${{ inputs.dockerfile && inputs.dockerfile }}
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: ${{ env.dockerfile }}
+          tags: ${{ steps.login-ecr.outputs.registry}}/${{ env.project}}:${{ needs.config.outputs.docker-tag }}-${{ env.service}}
+
+      - name: Build & Push
+        if: ${{ inputs.dockerfile && inputs.docker_compose_file }}
+        run: |
+          docker-compose build
+          docker-compose push
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true  || github.event_name == 'push'}}
+    needs: [envs, push-image, config]
+    name: 'deploy to AWS EKS'
+    permissions: write-all
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      region: ${{ needs.envs.outputs.region }}
+      namespace: ${{ needs.envs.outputs.namespace }}
+      hostname: ${{ needs.envs.outputs.hostname }}
+      dockerfile: ${{ needs.envs.outputs.dockerfile }}
+      service: ${{ needs.envs.outputs.service }}
+      probe_url: ${{ needs.envs.outputs.probe_url }}
+      replica: ${{ needs.envs.outputs.replica }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Download Repo to Artifact
+        if: ${{ inputs.is_workflow == true }}
+        uses: actions/download-artifact@master
+        with:
+          name: cloud-scripts
+          path: ${{ inputs.repository }}
+
+      - name: Copy Script files to context
+        if: ${{ inputs.is_workflow == true }}
+        run: |
+          ls
+          cp -a "${{ inputs.repository }}/." ./
+          rm -r "${{ inputs.repository }}"
+          ls -a
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-id: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.region || secrets.AWS_REGION }}
+
+
+
+
+            
+            
