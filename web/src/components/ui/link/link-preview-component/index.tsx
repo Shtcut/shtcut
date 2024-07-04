@@ -1,4 +1,4 @@
-import { Button, Card } from '@shtcut-ui/react';
+import { Button } from '@shtcut-ui/react';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
 import React, { createElement, useState } from 'react';
 import { PiSortDescendingBold } from 'react-icons/pi';

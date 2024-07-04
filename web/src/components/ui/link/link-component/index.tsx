@@ -8,7 +8,7 @@ import Link from 'next/link';
 const LinkComponent = () => {
     const pathName = usePathname();
     const route = useRouter();
-    
+
     const handleNavigateEdit = () => {
         route.push(`${pathName}/1234`);
     };
@@ -24,8 +24,8 @@ const LinkComponent = () => {
             </div>
             <SearchFilterActions />
             <div className="flex flex-col gap-y-[14px] mt-8">
-                {[1, 2, 3, 4, 5].map((data) => (
-                    <div onClick={handleNavigateEdit}>
+                {[1, 2, 3, 4, 5].map((data, index) => (
+                    <div onClick={handleNavigateEdit} key={index}>
                         <LinkListedComponent data={data} />
                     </div>
                 ))}

@@ -1,4 +1,4 @@
-import { Card, Progress } from '@shtcut-ui/react';
+import { Progress } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React, { ReactNode } from 'react';
 
