@@ -10,5 +10,23 @@ inputs:
 runs:
   using: 'composite'
   steps:
-    -name: Checkout
-    uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Cloud Config
+      id: env-config
+      uses: ActionsTools/read-json-action@main
+      with:
+        file_path: ${{ inputs.config-file }}
+
+    - name: Check file existence
+      id: check_files
+      uses: andstor/file-existence-actions@v1
+      with:
+        files: ${{ inputs.config-file }}
+
+    - name: APP config
+      id: config
+      uses: ActionsTools/read-json-action@main
+      with:
+        file_path: ${{ inputs.config-file }}
