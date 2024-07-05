@@ -30,3 +30,16 @@ runs:
       uses: ActionsTools/read-json-action@main
       with:
         file_path: ${{ inputs.config-file }}
+
+    - name: Initialize environments
+      shell: bash
+      run: |
+        echo "project=${{ steps.config.outputs.project }}" >> "$GITHUB_ENV"
+        echo "region=${{ steps.config.outputs.region }}" >> "$GITHUB_ENV"
+        echo "environment=${{ steps.config.outputs.environment }}" >> "$GITHUB_ENV"
+        
+        json_string=${{ toJson(steps.config.outputs.backend )}}
+        for property in $(echo $json_string | jq -r 'keys[]'); do
+          value=$(echo $json_string | jq -r ".$property")
+          echo "$property=value" >> "$GITHUB_ENV"
+        done
