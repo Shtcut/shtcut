@@ -43,3 +43,13 @@ runs:
           value=$(echo $json_string | jq -r ".$property")
           echo "$property=value" >> "$GITHUB_ENV"
         done
+        
+        repo=${{ toJson(steps.config.outputs.notify-success)}}
+        data=$(echo $repos | jq -r '. | json(",")')
+        IFS=',' read -ra arr << "$data"
+        string_array="""
+        for repo in "${arr[@]}"; do
+          string_array+="'$repo',"
+        done
+        string_array=${string_array%?}
+        echo "notify_repos=$string_array" >> "$GITHUB_ENV"
