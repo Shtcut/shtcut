@@ -1,11 +1,11 @@
-name: set-aws-envs
+name: develop-repo
 author: Funmi Ayinde
-description: A generic action to get app global based envs
+description: Get dev ops repo
 
 inputs:
-  config-file:
-    required: true
-    default: "configs/cloud.json"
+  inputs:
+    description: 'Repository'
+
 
 runs:
   using: 'composite'
@@ -13,43 +13,4 @@ runs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: Cloud Config
-      id: env-config
-      uses: ActionsTools/read-json-action@main
-      with:
-        file_path: ${{ inputs.config-file }}
-
-    - name: Check file existence
-      id: check_files
-      uses: andstor/file-existence-actions@v1
-      with:
-        files: ${{ inputs.config-file }}
-
-    - name: APP config
-      id: config
-      uses: ActionsTools/read-json-action@main
-      with:
-        file_path: ${{ inputs.config-file }}
-
-    - name: Initialize environments
-      shell: bash
-      run: |
-        echo "project=${{ steps.config.outputs.project }}" >> "$GITHUB_ENV"
-        echo "region=${{ steps.config.outputs.region }}" >> "$GITHUB_ENV"
-        echo "environment=${{ steps.config.outputs.environment }}" >> "$GITHUB_ENV"
-        
-        json_string=${{ toJson(steps.config.outputs.backend )}}
-        for property in $(echo $json_string | jq -r 'keys[]'); do
-          value=$(echo $json_string | jq -r ".$property")
-          echo "$property=value" >> "$GITHUB_ENV"
-        done
-        
-        repo=${{ toJson(steps.config.outputs.notify-success)}}
-        data=$(echo $repos | jq -r '. | json(",")')
-        IFS=',' read -ra arr << "$data"
-        string_array="""
-        for repo in "${arr[@]}"; do
-          string_array+="'$repo',"
-        done
-        string_array=${string_array%?}
-        echo "notify_repos=$string_array" >> "$GITHUB_ENV"
+    - name: Download Repo to Artifact
