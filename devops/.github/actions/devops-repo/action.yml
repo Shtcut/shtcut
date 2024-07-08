@@ -14,3 +14,13 @@ runs:
       uses: actions/checkout@v3
 
     - name: Download Repo to Artifact
+      uses: actions/download-artifact@master
+      with:
+        name: cloud-scripts
+        path: ${{ inputs.repository }}
+
+    - name: Copy Script files to context
+      run: |
+        cp -a "${{ inputs.repository }}/." ./
+        rm -r "${{ inputs.repository }}"
+        ls -a
