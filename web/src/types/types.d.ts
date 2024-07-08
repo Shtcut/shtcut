@@ -46,7 +46,7 @@ interface SolutionType {
     solutionValues?: string[];
     handleSelect?: (val: string) => void;
     toolsValues?: string[];
-    handleSelectTools?:(val:string)=>void
+    handleSelectTools?: (val: string) => void;
 }
 
 interface PropsCreate extends SolutionType {
@@ -57,3 +57,7 @@ interface PropsCreate extends SolutionType {
     handlePrevious: () => void;
     handleNext: () => void;
 }
+
+export type PropsColor = {
+    handleColorClick: (val: string) => void;
+};

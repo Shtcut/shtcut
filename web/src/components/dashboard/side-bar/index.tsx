@@ -65,6 +65,8 @@ export default function SideBar({ isOpen, isTab, setIsOpen }: Props) {
             setIsOpen(true);
         }
     }, [isTab, isMd]);
+
+    
     const handleTabClick = (tabId: string) => {
         setActiveTab(tabId);
     };

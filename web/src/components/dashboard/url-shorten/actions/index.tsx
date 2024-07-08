@@ -22,7 +22,7 @@ export function ActionsTable({ onOpenRole, onOpenDelete }: { onOpenRole: () => v
                     <IoEllipsisVerticalSharp />
                 </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-40">
+            <DropdownMenuContent className="w-44">
                 <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2" onClick={onOpenRole}>
                     <ArrowLeftRight size={16} /> Switch Role
                 </DropdownMenuCheckboxItem>

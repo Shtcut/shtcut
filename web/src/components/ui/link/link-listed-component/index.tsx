@@ -5,7 +5,15 @@ import { Clock3 } from 'lucide-react';
 import { Tag } from 'lucide-react';
 import CardsActions from '../card-actions';
 
-const LinkListedComponent = ({ data, edit }: { edit?: boolean; data?: any }) => {
+const LinkListedComponent = ({
+    data,
+    edit,
+    onClickNavigate
+}: {
+    edit?: boolean;
+    data?: any;
+    onClickNavigate?: (() => void) | null | undefined;
+}) => {
     return (
         <div className="bg-white  cursor-pointer rounded-[10px] p-4 border bg-card ">
             <div className="flex justify-between items-center">
@@ -18,7 +26,14 @@ const LinkListedComponent = ({ data, edit }: { edit?: boolean; data?: any }) => 
                     <div className="shadow border border-gray-50 w-[50px] h-[50px] rounded-[10px] flex justify-center items-center">
                         <Image src={'/images/figma.png'} width={26} height={26} alt="figma" />
                     </div>
-                    <div className="">
+                    <div
+                        className=""
+                        onClick={() => {
+                            if (!edit && onClickNavigate) {
+                                onClickNavigate();
+                            }
+                        }}
+                    >
                         <div>
                             <h1 className="font-semibold text-[#151314]">Figma</h1>
                             <p className="text-sm text-primary-0 font-normal">shrtcutdribble/34567f</p>

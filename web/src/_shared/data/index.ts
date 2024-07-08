@@ -260,7 +260,6 @@ export const subNav = [
     }
 ];
 
-
 export const months = [
     { label: 'January', value: 'January' },
     { label: 'February', value: 'February' },
@@ -274,4 +273,19 @@ export const months = [
     { label: 'October', value: 'October' },
     { label: 'November', value: 'November' },
     { label: 'December', value: 'December' }
+];
+
+export const colors = [
+    { id: '1', value: '#000000' },
+    { id: '2', value: '#DE3221' },
+    { id: '3', value: '#EF8001' },
+    { id: '4', value: '#188639' },
+    { id: '5', value: '#229CE0' },
+    { id: '6', value: '#2B5BD7' },
+    { id: '7', value: '#6B52D1' },
+    { id: '8', value: '#D94280' },
+    { id: '9', value: '#764B24' },
+    { id: '10', value: '#7C7D7D' },
+    { id: '11', value: '#0000FB' },
+    { id: '12', value: '#EEAAFF' }
 ];
