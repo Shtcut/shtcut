@@ -44,4 +44,42 @@ jobs:
         with:
           files: |
             backed/src/**
-            .git
+            .github/workflows/**
+            config/**
+            docker/**
+            **json
+            **.js
+
+      - name: Run step if any file(s) in the docs folder change
+        if: steps.changed-files.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the docs folder has changed."
+          echo "List all the files that have changed: ${{ stepds.changed-files.outputs.all_changed_files }}"
+
+  envs:
+    name: "Envs"
+    needs: [ changes ]
+    runs-on: ubuntu-latest
+    outputs:
+      owner: ${{ steps.varuables.outputs.owner }}
+      repository: ${{ steps.variables.outputs.repository }}
+      project: ${{ steps.variables.outputs.project }}
+      region: ${{ steps.variables.outputs.region }}
+      domain: ${{ steps.variables.outputs.domain }}
+      port: ${{ steps.variables.outputs.port }}
+      namespace: ${{ steps.variables.outputs.namespace }}
+      environment: ${{ steps.variables.outputs.environment }}
+      app_secret: ${{ steps.variables.outputs.app_secret }}
+
+    steps:
+      - name: Set Env Outputs
+        id: variables
+        run: |
+          echo "owner=${{ env.owner }}" >> $GITHUB_OUTPUT
+          echo "repository=${{ env.repository }}" >> $GITHUB_OUTPUT
+          echo "project=${{ env.project }}" >> $GITHUB_OUTPUT
+          echo "region=${{ env.region }}" >> $GITHUB_OUTPUT
+          echo "domain=${{ env.domain }}" >> $GITHUB_OUTPUT
+          echo "port=${{ env.port }}" >> $GITHUB_OUTPUT
+          echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
+          echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
