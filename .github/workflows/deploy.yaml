@@ -54,7 +54,7 @@ jobs:
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
-          echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
+          echo "List all the files that have changed: ${{ stepds.changed-files.outputs.all_changed_files }}"
 
   envs:
     name: "Envs"
@@ -82,5 +82,4 @@ jobs:
           echo "domain=${{ env.domain }}" >> $GITHUB_OUTPUT
           echo "port=${{ env.port }}" >> $GITHUB_OUTPUT
           echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
-          echo "environment=${{ env.environment }}" >> $GITHUB_OUTPUT
           echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
