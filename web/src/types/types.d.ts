@@ -57,7 +57,40 @@ interface PropsCreate extends SolutionType {
     handlePrevious: () => void;
     handleNext: () => void;
 }
+interface QrCodeInterface {
+    step?: number;
+    setStep?: Dispatch<SetStateAction<number>>;
+    onPrevStep?: () => void;
+    onNextStep?: (() => void) | undefined;
+    selectedColor?: string;
+    btnColor?: string;
+    bgColor?: string;
+    selectedFrame?: number;
+    setSelectedFrame?: (val: number) => void;
+    handleColorClick: (color: string) => void;
+    setBtnColor?: Dispatch<SetStateAction<string>>;
+    setBgColor?: Dispatch<SetStateAction<string>>;
+    qrCodeName?: string;
+    setQrCodeName?: Dispatch<SetStateAction<string>>;
+    handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleSelectQrCodeLogo?: (logo: string | undefined) => void;
+    qrCodeLogo?: string;
+}
 
-export type PropsColor = {
+export interface PropsColor extends QrCodeInterface {
     handleColorClick: (val: string) => void;
-};
+    setBgColor?: Dispatch<SetStateAction<string>>;
+    bgColor?: string;
+    setBtnColor?: Dispatch<SetStateAction<string>>;
+    btnColor?: string;
+    setSelectedFrame?: Dispatch<SetStateAction<number>>;
+    selectedFrame?: number;
+}
+
+export interface QrCodeFrameType {
+    bgColor: string | undefined;
+    selectedColor: string | undefined;
+    btnColor: string | undefined;
+    qrCodeName: string | undefined;
+    qrCodeLogo?: string;
+}

@@ -1,3 +1,4 @@
+import { GeneralType, IntegrationSectionType, Plan } from '@shtcut/types/types';
 import { Activity, Command, PieChart } from 'lucide-react';
 
 export const IMPACT: GeneralType[] = [
@@ -289,3 +290,53 @@ export const colors = [
     { id: '11', value: '#0000FB' },
     { id: '12', value: '#EEAAFF' }
 ];
+
+export const logos = [
+    {
+        id: '1',
+        name: 'whatsapp',
+        logoUrl: '/logos/logos_whatsapp-icon.png'
+    },
+    {
+        id: '2',
+        name: 'shtcut',
+        logoUrl: '/logos/shtcut.png'
+    },
+    {
+        id: '3',
+        name: 'instagram',
+        logoUrl: '/logos/skill-icons_instagram.png'
+    },
+    {
+        id: '4',
+        name: 'facebook',
+        logoUrl: '/logos/facebook.png'
+    },
+    {
+        id: '5',
+        name: 'youtube',
+        logoUrl: '/logos/logos_youtube-icon.png'
+    },
+    {
+        id: '6',
+        name: 'bitly',
+        logoUrl: '/logos/bitl.png'
+    },
+    {
+        id: '7',
+        name: 'twitter',
+        logoUrl: '/logos/prime_twitter.png'
+    },
+    {
+        id: '8',
+        name: 'cloud',
+        logoUrl: '/logos/simple-icons_icloud.png'
+    },
+    {
+        id: '8',
+        name: 'scan',
+        logoUrl: '/logos/Scan.png'
+    }
+];
+
+

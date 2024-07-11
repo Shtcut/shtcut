@@ -1,7 +1,7 @@
 'use client';
 
 import { Dict } from '@shtcut-ui/react';
-import { AppAlert, ForgotPasswordForm, Logo } from '@shtcut/components';
+import { AppAlert, ForgotPasswordForm } from '@shtcut/components';
 import { WelcomePage } from '@shtcut/components/ui/auth/sign-in';
 import { useAuth } from '@shtcut/hooks';
 import { IconAlertCircle } from '@tabler/icons-react';

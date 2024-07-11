@@ -74,7 +74,7 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
             <section className="container  p-0  w-full flex">
                 {isSideBarOpen && <SideBar setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />}
                 <div
-                    className={`w-full px-8 ${isSideBarOpen ? 'pt-14' : 'pt-32'}  ${isSideBarOpen ? `${isOpen ? 'ml-64' : 'ml-12'}` : ''} `}
+                    className={`w-full  md:px-8 ${isSideBarOpen ? 'pt-14' : 'pt-32'}  ${isSideBarOpen ? `${isOpen ? 'ml-64' : 'md:ml-12'}` : ''} `}
                 >
                     {children}
                 </div>

@@ -6,9 +6,19 @@ import React from 'react';
 import WebsiteComponent from '../website-component';
 import { PropsColor } from '@shtcut/types/types';
 
-
-
-const QrCodeSelectTabs = ({ handleColorClick }: PropsColor) => {
+const QrCodeSelectTabs = ({
+    setBgColor,
+    bgColor,
+    btnColor,
+    setBtnColor,
+    handleColorClick,
+    step,
+    handleInputChange,
+    qrCodeName,
+    setSelectedFrame,
+    handleSelectQrCodeLogo,
+    selectedFrame
+}: PropsColor) => {
     return (
         <div>
             <Tabs defaultValue="website" className="w-full">
@@ -45,7 +55,19 @@ const QrCodeSelectTabs = ({ handleColorClick }: PropsColor) => {
                 </TabsList>
                 <div className="mt-32  ">
                     <TabsContent value="website">
-                        <WebsiteComponent handleColorClick={handleColorClick} />
+                        <WebsiteComponent
+                            step={step}
+                            handleColorClick={handleColorClick}
+                            setBgColor={setBgColor}
+                            bgColor={bgColor}
+                            setBtnColor={setBtnColor}
+                            btnColor={btnColor}
+                            handleInputChange={handleInputChange}
+                            qrCodeName={qrCodeName}
+                            setSelectedFrame={setSelectedFrame}
+                            handleSelectQrCodeLogo={handleSelectQrCodeLogo}
+                            selectedFrame={selectedFrame}
+                        />
                     </TabsContent>
                     <TabsContent value="multi">multi</TabsContent>
                     <TabsContent value="pdf">pdf</TabsContent>

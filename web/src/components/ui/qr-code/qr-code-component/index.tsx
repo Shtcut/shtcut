@@ -1,17 +1,36 @@
 import { Checkbox } from '@shtcut-ui/react';
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
 import { Calendar } from 'lucide-react';
 import CardsActions from '../card-actions';
 
-const QrCodeCard = () => {
+interface QrCodeCardProps {
+    id: number;
+    handleCheckboxChange: (id: number, isChecked: boolean) => void;
+}
+
+const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
+    const [isChecked, setIsChecked] = useState(false);
+
+    const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const isChecked = event.target.checked;
+        setIsChecked(isChecked);
+        handleCheckboxChange(id, isChecked);
+    };
+
     return (
         <div>
             <div className="bg-white  cursor-pointer rounded-[10px] p-4 border bg-card ">
                 <div className="flex justify-between items-center">
                     <div className="flex gap-x-3">
-                        <div className="relative ">
-                            <Checkbox id="terms" className="p-0 m-0 border shadow-none border-[#D2D5DA] " />
+                        <div className="relative checkbox-container">
+                            <input
+                                type="checkbox"
+                                id={`qr-checkbox-${id}`}
+                                checked={isChecked}
+                                onChange={onCheckboxChange}
+                                className="cbox"
+                            />
                         </div>
                         <Image src={'/images/qrcode.png'} width={66} height={66} alt="figma" />
                         <div className="">

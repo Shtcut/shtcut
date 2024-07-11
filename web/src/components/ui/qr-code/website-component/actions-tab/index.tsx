@@ -2,10 +2,21 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
 import React from 'react';
 import ColorsQrCode from './colors-component';
 import { PropsColor } from '@shtcut/types/types';
+import LogosQrCode from './logos-qrcode';
+import FramesSelector from '../../qr-code-frames/frame-selector';
 
-const ActionQrCodeTab = ({ handleColorClick }:PropsColor) => {
+const ActionQrCodeTab = ({
+    setBgColor,
+    bgColor,
+    btnColor,
+    setBtnColor,
+    handleColorClick,
+    setSelectedFrame,
+    handleSelectQrCodeLogo,
+    selectedFrame
+}: PropsColor) => {
     return (
-        <div className="mt-8">
+        <div className="mt-5">
             <Tabs defaultValue="frame" className="">
                 <TabsList className="block bg-transparent border w-fit h-[40px] gap-0   ">
                     <TabsTrigger
@@ -35,11 +46,21 @@ const ActionQrCodeTab = ({ handleColorClick }:PropsColor) => {
                 </TabsList>
                 <div className="mt-2">
                     <p className="text-sm py-3 font-medium">Presets</p>
-                    <TabsContent value="frame">frame</TabsContent>
+                    <TabsContent value="frame">
+                        <FramesSelector setSelectedFrame={setSelectedFrame} selectedFrame={selectedFrame} />
+                    </TabsContent>
                     <TabsContent value="shape">Shape</TabsContent>
-                    <TabsContent value="logo">Logo</TabsContent>
+                    <TabsContent value="logo">
+                        <LogosQrCode handleSelectQrCodeLogo={handleSelectQrCodeLogo} />
+                    </TabsContent>
                     <TabsContent value="colors">
-                        <ColorsQrCode handleColorClick={handleColorClick} />
+                        <ColorsQrCode
+                            handleColorClick={handleColorClick}
+                            setBgColor={setBgColor}
+                            bgColor={bgColor}
+                            setBtnColor={setBtnColor}
+                            btnColor={btnColor}
+                        />
                     </TabsContent>
                 </div>
             </Tabs>
