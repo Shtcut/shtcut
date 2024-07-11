@@ -155,5 +155,21 @@ jobs:
     name: "CI"
     permissions: write-all
     needs: [ setups ]
-    uses: shtcut/devops/.github/workflows/ci.yaml@develop
-
+    uses: shtcut/devops/.github/workflows/aws-k8-ci.yaml@develop
+    with:
+      is_workflow: true
+      project: ${{ inputs.project }}
+      region: ${{ inputs.region }}
+      service: ${{ inputs.service }}
+      repository: ${{ inputs.repository }}
+      environment: ${{ inputs.environment }}
+      app_secret: ${{ inputs.app_secret }}
+      probe_url: ${{ inputs.probe_url }}
+      hostname-format: ${{ inputs.hostname-format }}
+      port: ${{ inputs.port }}
+      dockerfile: ${{ inputs.dockerfile }}
+    secrets:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
