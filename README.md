@@ -3,35 +3,9 @@
 ## Overview
 Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to revolutionize your marketing efforts. This platform is engineered to streamline workflows, provide data-driven insights, and offer a cost-effective solution for holistic campaign management. With future-ready features, Shtcut ensures your marketing strategies remain ahead of the curve.
 
-## Key Features
+⭐ If you find ToolJet useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
 
-### 1. Streamlined Workflow
-- **Integrated Tools**: Consolidate various marketing tools into a single platform to enhance efficiency.
-- **Smooth Collaboration**: Simplify team collaboration by reducing the need to switch between multiple applications.
-
-### 2. Data-Driven Insights
-- **Comprehensive Analytics**: Access detailed analytics on URL shortener click-through rates, survey responses, and email campaign performance.
-- **Actionable Data**: Leverage insights to make informed decisions and optimize marketing strategies.
-
-### 3. Cost-Effective Solution
-- **Subscription Savings**: Save on costs by combining multiple marketing tools into one platform.
-- **Budget Streamlining**: Optimize your marketing budget with a unified solution.
-
-### 4. Holistic Campaign Management
-- **Unified Interface**: Plan, execute, and analyze marketing campaigns seamlessly.
-- **End-to-End Solution**: Oversee every aspect of your marketing campaigns efficiently within one platform.
-
-### 5. Future-Ready Features
-- **Continuous Improvement**: Benefit from regular updates and new features.
-- **Upcoming Website Builder**: Look forward to innovative tools that keep pace with the evolving digital marketing landscape.
-
-## Use Cases
-
-### Marketing Professionals
-Marketing professionals will appreciate the efficiency and cohesion provided by the integrated tools, enabling them to manage campaigns more effectively and gain deeper insights into their performance.
-
-### Businesses and Organizations
-Businesses and organizations of all sizes can leverage Shtcut to streamline their marketing operations, reduce costs, and enhance decision-making with robust analytics.
+![GitHub Logo](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
 
 ## Getting Started
 
