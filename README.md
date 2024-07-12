@@ -3,7 +3,7 @@
 ## Overview
 Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to revolutionize your marketing efforts. This platform is engineered to streamline workflows, provide data-driven insights, and offer a cost-effective solution for holistic campaign management. With future-ready features, Shtcut ensures your marketing strategies remain ahead of the curve.
 
-⭐ If you find ToolJet useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
+⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
 
 ![GitHub Logo](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
 
