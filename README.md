@@ -3,6 +3,8 @@
 ## Overview
 Shtcut is designed to revolutionize marketing efforts by streamlining workflows, providing data-driven insights, and offering a cost-effective solution for holistic campaign management. It ensures your marketing strategies stay ahead of the curve.
 
+![Project Analysis](https://shtcut-stg.s3.amazonaws.com/analysis.png)
+
 ⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
 
 ![Project Overview](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
