@@ -35,8 +35,7 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         {
             id: '3',
             title: 'QR Codes',
-            // href: `/url/${workspace}/qr-codes`,
-            href: '#',
+            href: `/url/${workspace}/qr-codes`,
             icon: <PiQrCodeBold size={20} />
         },
         {

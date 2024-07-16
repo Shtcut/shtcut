@@ -1,12 +1,13 @@
 import { Button, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shtcut-ui/react';
 import React from 'react';
 import { User } from 'lucide-react';
+
 const SwitchRoleModal = () => {
     const roles = ['Admin', 'HR', 'Manager', 'Developer', 'Designer'];
     return (
         <div className="py-3">
             <h1 className="font-semibold text-lg">Switch User Role</h1>
-            <p className="text-[#475467] text-sm">To update users role and give them more access select an option.</p>
+            <p className="text-[#475467]  mt-2 text-sm">To update users role and give them more access select an option.</p>
             <section className="mt-4">
                 <div className="bg-[#FF7BA3] text-white w-[38px] h-[38px] flex justify-center rounded-full items-center float-left mr-2">
                     <p className="text-xs font-medium">AS</p>

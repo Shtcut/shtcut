@@ -28,11 +28,11 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
     const navigationOptionsSliced = navigationOptions.slice(0, -3);
 
     return (
-        <body className="bg-[#f9fafb] w-full  ">
+        <body className="bg-[#edf2f98a] w-full  ">
             <section className="w-full  bg-white">
-                <section className="fixed z-50   bg-white  top-0 w-full">
-                    <section className={`${isSideBarOpen ? 'shadow' : ''} z-50   bg-white  w-full`}>
-                        <div className="container  mx-auto  flex items-center justify-between ">
+                <section className="fixed  h-16 z-50 shadow-sm  top-0 w-full">
+                    <section className={`bg-white px-4  w-full`}>
+                        <div className="flex items-center justify-between ">
                             <div>
                                 <LogoNavBar />
                             </div>
@@ -49,7 +49,7 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                     </section>
                     {!isSideBarOpen && (
                         <div className="border-b  z-30 bg-white mb-0">
-                            <div className="items-stretch justify-center flex gap-10 overflow-x-scroll mt-4 md:mt:0">
+                            <div className="items-stretch justify-center flex gap-10 overflow-x-scroll  md:mt:0">
                                 {navigationOptionsSliced.map(({ href, title, icon }, index) => (
                                     <Link
                                         href={href}
@@ -71,10 +71,13 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                 </section>
             </section>
 
-            <section className="container  p-0  w-full flex">
+            <section className="  w-full flex">
                 {isSideBarOpen && <SideBar setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />}
+
                 <div
-                    className={`w-full px-8 ${isSideBarOpen ? 'pt-14' : 'pt-32'}  ${isSideBarOpen ? `${isOpen ? 'ml-64' : 'ml-12'}` : ''} `}
+                    className={`w-full ${
+                        isSideBarOpen && `${isOpen ? 'md:ml-[17rem]' : 'md:ml-[4rem]'} `
+                    } px-4 md:px-20  ${isSideBarOpen ? 'py-16 ' : 'py-32'} `}
                 >
                     {children}
                 </div>

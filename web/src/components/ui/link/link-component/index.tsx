@@ -13,7 +13,7 @@ const LinkComponent = () => {
         route.push(`${pathName}/1234`);
     };
     return (
-        <section className=" my-[38px]">
+        <section className=" ">
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Link Shortener</h1>
                 <Link href={`${pathName}/create`}>
@@ -25,8 +25,8 @@ const LinkComponent = () => {
             <SearchFilterActions />
             <div className="flex flex-col gap-y-[14px] mt-8">
                 {[1, 2, 3, 4, 5].map((data, index) => (
-                    <div onClick={handleNavigateEdit} key={index}>
-                        <LinkListedComponent data={data} />
+                    <div key={index}>
+                        <LinkListedComponent data={data} onClickNavigate={handleNavigateEdit} />
                     </div>
                 ))}
             </div>

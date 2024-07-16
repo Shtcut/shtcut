@@ -10,7 +10,7 @@ import ReferralComponent from '../referrals';
 import CountriesComponent from '../countries';
 import { LineChart } from '@shtcut/components/_shared/Analytics/LineChart';
 import SelectMonths from './select-months';
-import { LinkBreadCrumb } from '@shtcut/components/bread-crumb';
+import BreadCrumb from '@shtcut/components/bread-crumb';
 
 const SingleLinkPreviewComponent = () => {
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
@@ -40,7 +40,7 @@ const SingleLinkPreviewComponent = () => {
     ];
     return (
         <div className="my-[38px] ">
-            <LinkBreadCrumb currentRoute="Analytics" />
+            <BreadCrumb currentRoute="Analytics" />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Analytics</h1>
                 <div className="flex items-center gap-x-2">

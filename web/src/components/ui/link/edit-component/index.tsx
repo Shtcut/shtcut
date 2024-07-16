@@ -5,6 +5,7 @@ import { Link } from 'lucide-react';
 import { PiCopyFill } from 'react-icons/pi';
 import MultiTagsInput from '@shtcut/components/form/multi-tag-input';
 import { Tag } from 'lucide-react';
+import BreadCrumb from '@shtcut/components/bread-crumb';
 
 const EditComponent = ({ form }: { form: any }) => {
     const [tags, setTags] = useState<string[]>([]);
@@ -15,6 +16,7 @@ const EditComponent = ({ form }: { form: any }) => {
 
     return (
         <div className="my-[38px]">
+            <BreadCrumb currentRoute="Edit link" />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold  text-[#2B2829] text-2xl">Edit Link</h1>
                 <Button className="bg-primary-0  ">Save Changes</Button>

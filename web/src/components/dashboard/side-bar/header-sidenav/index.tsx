@@ -14,7 +14,9 @@ import { Progress } from '@shtcut/components/_shared/Progress-bar';
 
 const HeaderSideNav = ({ isOpen }: { isOpen: boolean }) => {
     const [open, setOpen] = React.useState(false);
-    const handleToggle = () => setOpen(!isOpen);
+    const handleToggle = () => {
+        setOpen(!open);
+    };
     return (
         <DropdownMenu onOpenChange={handleToggle}>
             <DropdownMenuTrigger asChild>
@@ -35,8 +37,8 @@ const HeaderSideNav = ({ isOpen }: { isOpen: boolean }) => {
                     {isOpen && <> {open ? <ChevronUp /> : <ChevronDown />}</>}
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-60  relative bottom-10 p-0">
-                <section className="bg-primary-0 p-4 rounded-t-[10px] rounded-b-[16px]">
+            <DropdownMenuContent className="w-60  rounded-[10px] relative bottom-2 p-0">
+                <section className="bg-primary-0 p-4 rounded-[10px]">
                     <div className="flex items-center justify-between">
                         <div className="flex text-white items-center space-x-[4px]">
                             <Image src={'/images/icon.png'} width={21} height={21} alt="logo" />
@@ -52,7 +54,7 @@ const HeaderSideNav = ({ isOpen }: { isOpen: boolean }) => {
                         <Progress className="bg-[#D6F9D8] h-[6px]" value={33} />
                     </div>
                 </section>
-                <div className="flex flex-col gap-2 p-4">
+                <div className="flex flex-col gap-4 p-4">
                     {[1, 2, 3].map((data) => (
                         <section key={data}>
                             <div className="bg-black text-white w-[27px] h-[27px] flex justify-center rounded-full items-center float-left mr-2">

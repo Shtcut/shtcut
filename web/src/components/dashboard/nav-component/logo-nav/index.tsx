@@ -5,6 +5,7 @@ import RouteLink from '@shtcut/components/ui/nav-link/route-link';
 import Image from 'next/image';
 import React from 'react';
 import { Plus } from 'lucide-react';
+import { Card } from '@shtcut-ui/react';
 
 const LogoNavBar = () => {
     return (
@@ -12,11 +13,11 @@ const LogoNavBar = () => {
             <Logo />
             <div className="flex items-center space-x-[14px]">
                 {subNav.map((nav) => (
-                    <AnimatedList key={nav.id}> 
+                    <AnimatedList key={nav.id}>
                         <RouteLink href={nav.link} className="">
-                            <div className="shadow w-[51px] border hover:border-none  border-gray-100 h-[45px] rounded flex justify-center items-center">
+                            <Card className=" w-[51px]  h-[45px] rounded flex justify-center items-center  cursor-pointer shadow-sm border-gray-100 border">
                                 <Image src={nav.images} width={24} height={24} alt="url-shorten" />
-                            </div>
+                            </Card>
                         </RouteLink>
                     </AnimatedList>
                 ))}

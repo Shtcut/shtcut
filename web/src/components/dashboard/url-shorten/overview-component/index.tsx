@@ -17,7 +17,7 @@ const OverviewComponent = () => {
 
     return (
         <div>
-            <div className="flex justify-between mt-[38px] items-center">
+            <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Timeweb</h1>
                 <Button onClick={() => handleModalVisibility('manage')} className="bg-primary-0">
                     Manage Workspace
