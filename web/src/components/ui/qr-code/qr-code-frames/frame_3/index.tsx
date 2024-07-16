@@ -2,7 +2,7 @@ import { QrCodeFrameType } from '@shtcut/types/types';
 import React from 'react';
 import { QRCode } from 'react-qrcode-logo';
 
-const Frame_3 = ({ bgColor, btnColor, qrCodeName, selectedColor, qrCodeLogo }: QrCodeFrameType) => {
+const Frame_3 = ({ bgColor, btnColor, qrCodeName, selectedColor, qrCodeLogo, qrCodeShape ,eyeRadius}: QrCodeFrameType) => {
     return (
         <div className="flex flex-col justify-center items-center flex-1 h-full  w-full">
             <div className="flex justify-center items-center   relative ">
@@ -47,11 +47,8 @@ const Frame_3 = ({ bgColor, btnColor, qrCodeName, selectedColor, qrCodeLogo }: Q
                         logoHeight={30}
                         logoImage={qrCodeLogo}
                         // qrStyle="dots"
-                        eyeRadius={[
-                            { outer: 10, inner: 4 }, // Top-left eye
-                            { outer: 10, inner: 4 }, // Top-right eye
-                            { outer: 10, inner: 4 } // Bottom-left eye
-                        ]}
+                        eyeRadius={eyeRadius}
+                        qrStyle={qrCodeShape}
                     />
                 </div>
             </div>

@@ -1,9 +1,11 @@
-import { Button } from '@shtcut-ui/react';
+import { Button, Modal } from '@shtcut-ui/react';
 import BreadCrumb from '@shtcut/components/bread-crumb';
-import React from 'react';
+import React, { useRef } from 'react';
 import QrCodeSelectTabs from '../qr-code-select-tabs';
 import { QrCodeInterface } from '@shtcut/types/types';
 import { Frame_5, Frame_1, Frame_8, Frame_2, Frame_6, Frame_9, Frame_7, Frame_3, Frame_4 } from '../qr-code-frames';
+import Image from 'next/image';
+import DownloadBtn from './download-btn';
 
 const QRCodeCreateComponent = ({
     setStep,
@@ -21,8 +23,15 @@ const QRCodeCreateComponent = ({
     selectedFrame,
     setSelectedFrame,
     handleSelectQrCodeLogo,
-    qrCodeLogo
+    qrCodeLogo,
+    handleChangeQrCodeShape,
+    qrCodeShape,
+    eyeRadius,
+    handleEyeRadiusChange,
+    saveModal,
+    setSaveModal
 }: QrCodeInterface) => {
+    const qrCodeRef = useRef(null);
     const renderFrame = () => {
         switch (selectedFrame) {
             case 1:
@@ -33,6 +42,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 2:
@@ -43,6 +54,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 3:
@@ -53,6 +66,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 4:
@@ -63,6 +78,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 5:
@@ -73,6 +90,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 6:
@@ -83,6 +102,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 7:
@@ -93,6 +114,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 8:
@@ -103,6 +126,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             case 9:
@@ -113,6 +138,8 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
             default:
@@ -123,13 +150,15 @@ const QRCodeCreateComponent = ({
                         qrCodeName={qrCodeName}
                         btnColor={btnColor}
                         qrCodeLogo={qrCodeLogo}
+                        qrCodeShape={qrCodeShape}
+                        eyeRadius={eyeRadius}
                     />
                 );
         }
     };
 
     return (
-        <div className="my-[38px] ">
+        <div className=" ">
             <BreadCrumb currentRoute="Create QR Code" />
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Create QR Codes</h1>
@@ -145,7 +174,7 @@ const QRCodeCreateComponent = ({
                     <Button
                         onClick={() => {
                             if (step && step > 2) {
-                                return;
+                                setSaveModal(true);
                             } else if (onNextStep) {
                                 onNextStep();
                             }
@@ -172,6 +201,8 @@ const QRCodeCreateComponent = ({
                             setSelectedFrame={setSelectedFrame}
                             handleSelectQrCodeLogo={handleSelectQrCodeLogo}
                             selectedFrame={selectedFrame}
+                            handleChangeQrCodeShape={handleChangeQrCodeShape}
+                            handleEyeRadiusChange={handleEyeRadiusChange}
                         />
                     </div>
                 </div>
@@ -190,6 +221,32 @@ const QRCodeCreateComponent = ({
                     </div>
                 </div>
             </div>
+            <Modal
+                setShowModal={setSaveModal}
+                showModel={saveModal}
+                onClose={() => setSaveModal(false)}
+                className=" bg-gray-50  p-4"
+            >
+                <div className="flex flex-col gap-4 items-center">
+                    <div className="flex flex-col items-center gap-2">
+                        {qrCodeLogo ? (
+                            <Image src={qrCodeLogo as string} width={50} height={50} alt="qr-code" />
+                        ) : (
+                            <div></div>
+                        )}
+                        <p className="font-semibold text-lg">Download QR Code</p>
+                    </div>
+                    <div className="w-fit h-40" ref={qrCodeRef}>
+                        {renderFrame()}
+                    </div>
+                    <div className="flex mt-10 items-center w-full gap-4">
+                        <Button variant={'outline'} className="w-full" onClick={() => setSaveModal(false)}>
+                            Cancel
+                        </Button>
+                        <DownloadBtn qrCodeRef={qrCodeRef} />
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };

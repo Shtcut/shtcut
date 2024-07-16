@@ -13,7 +13,7 @@ const LinkComponent = () => {
         route.push(`${pathName}/1234`);
     };
     return (
-        <section className=" my-[38px]">
+        <section className=" ">
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Link Shortener</h1>
                 <Link href={`${pathName}/create`}>

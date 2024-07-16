@@ -4,6 +4,7 @@ import ColorsQrCode from './colors-component';
 import { PropsColor } from '@shtcut/types/types';
 import LogosQrCode from './logos-qrcode';
 import FramesSelector from '../../qr-code-frames/frame-selector';
+import QrCodeShapes from './qrcode-shape';
 
 const ActionQrCodeTab = ({
     setBgColor,
@@ -13,11 +14,13 @@ const ActionQrCodeTab = ({
     handleColorClick,
     setSelectedFrame,
     handleSelectQrCodeLogo,
-    selectedFrame
+    selectedFrame,
+    handleChangeQrCodeShape,
+    handleEyeRadiusChange
 }: PropsColor) => {
     return (
         <div className="mt-5">
-            <Tabs defaultValue="frame" className="">
+            <Tabs defaultValue="shape" className="">
                 <TabsList className="block bg-transparent border w-fit h-[40px] gap-0   ">
                     <TabsTrigger
                         value="frame"
@@ -49,7 +52,12 @@ const ActionQrCodeTab = ({
                     <TabsContent value="frame">
                         <FramesSelector setSelectedFrame={setSelectedFrame} selectedFrame={selectedFrame} />
                     </TabsContent>
-                    <TabsContent value="shape">Shape</TabsContent>
+                    <TabsContent value="shape">
+                        <QrCodeShapes
+                            handleChangeQrCodeShape={handleChangeQrCodeShape}
+                            handleEyeRadiusChange={handleEyeRadiusChange}
+                        />
+                    </TabsContent>
                     <TabsContent value="logo">
                         <LogosQrCode handleSelectQrCodeLogo={handleSelectQrCodeLogo} />
                     </TabsContent>

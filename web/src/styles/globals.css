@@ -113,17 +113,28 @@
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+h1 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+h3,
+h5,
+h6,
+p {
+    font-family: 'Plus Jakarta Sans', sans-serif;
 }
 
 html {
     scroll-behavior: smooth;
 }
 
-h5 {
+/* h5 {
     font-family: 'Satisfy', cursive;
     font-weight: 400;
     font-style: normal;
-}
+} */
 
 /* $primary: black;
 $secondary: rgb(100, 100, 100); */
@@ -248,4 +259,7 @@ $secondary: rgb(100, 100, 100); */
 
 #shtcut-qrcode {
     border-radius: 6px;
+}
+#qrcode-shape {
+    border-radius: 8px;
 }

@@ -1,9 +1,8 @@
 'use client';
-import { Button, Input, Label, Separator } from '@shtcut-ui/react';
+import { Button, Card, Input, Label, Separator } from '@shtcut-ui/react';
 import React, { useState } from 'react';
 import MultiTagsSelectInput from '@shtcut/components/form/multiple-select-input';
 import BreadCrumb from '@shtcut/components/bread-crumb';
-
 
 const options = [
     { label: 'Link', value: 'link' },
@@ -19,7 +18,7 @@ const CreateLinkComponent = () => {
     };
 
     return (
-        <div className="my-[38px]">
+        <div className="">
             <BreadCrumb currentRoute="Create new link" />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold  text-[#2B2829] text-2xl">Create a new link</h1>
@@ -27,7 +26,7 @@ const CreateLinkComponent = () => {
                     Create Link <div className="border border-white w-2 h-2 font-semibold rounded-full" />
                 </Button>
             </div>
-            <div className="mt-6 py-10 px-16  shadow border border-gray-50 bg-white">
+            <Card className="mt-6 py-10 rounded-[10px] px-16  ">
                 <section className="flex flex-col gap-y-4 ">
                     <div className="border-b pb-4">
                         <Label className="text-base font-medium">Destination URL:</Label>
@@ -56,7 +55,7 @@ const CreateLinkComponent = () => {
                         />
                     </div>
                 </section>
-            </div>
+            </Card>
         </div>
     );
 };

@@ -17,7 +17,9 @@ const QrCodeSelectTabs = ({
     qrCodeName,
     setSelectedFrame,
     handleSelectQrCodeLogo,
-    selectedFrame
+    selectedFrame,
+    handleChangeQrCodeShape,
+    handleEyeRadiusChange
 }: PropsColor) => {
     return (
         <div>
@@ -67,6 +69,8 @@ const QrCodeSelectTabs = ({
                             setSelectedFrame={setSelectedFrame}
                             handleSelectQrCodeLogo={handleSelectQrCodeLogo}
                             selectedFrame={selectedFrame}
+                            handleChangeQrCodeShape={handleChangeQrCodeShape}
+                            handleEyeRadiusChange={handleEyeRadiusChange}
                         />
                     </TabsContent>
                     <TabsContent value="multi">multi</TabsContent>

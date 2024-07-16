@@ -1,19 +1,36 @@
 import QRCodeCreateComponent from '@shtcut/components/ui/qr-code/qr-code-create';
-import { log } from 'console';
+import { EyeRadiusType, QrCodeShape } from '@shtcut/types/types';
 import React, { useState } from 'react';
 
 const QRCodeCreateContainer = () => {
-    const [step, setStep] = useState<number>(2);
+    const [saveModal, setSaveModal] = useState(false);
+    const [step, setStep] = useState<number>(1);
     const [selectedColor, setSelectedColor] = useState<string>('#000000');
     const [btnColor, setBtnColor] = useState<string>('#000000');
     const [bgColor, setBgColor] = useState<string>('#000000');
     const [qrCodeName, setQrCodeName] = useState<string>('');
     const [qrCodeLogo, setQrCodeLogo] = useState<string | undefined>('');
     const [selectedFrame, setSelectedFrame] = useState(1);
+    const [qrCodeShape, setQrCodeShape] = useState<QrCodeShape>('squares');
+    const [eyeRadius, setEyeRadius] = useState<EyeRadiusType>([
+        { outer: 8, inner: 4 },
+        { outer: 8, inner: 4 },
+        { outer: 8, inner: 4 }
+    ]);
+    const handleEyeRadiusChange = (outer: number, inner: number) => {
+        setEyeRadius([
+            { outer, inner },
+            { outer, inner },
+            { outer, inner }
+        ]);
+    };
+
     const handleColorClick = (colorValue: string) => {
         setSelectedColor(colorValue);
     };
-
+    const handleChangeQrCodeShape = (shape: QrCodeShape) => {
+        setQrCodeShape(shape);
+    };
     const onNextStep = () => {
         setStep((prevStep) => prevStep + 1);
     };
@@ -49,6 +66,12 @@ const QRCodeCreateContainer = () => {
             selectedFrame={selectedFrame}
             handleSelectQrCodeLogo={handleSelectQrCodeLogo}
             qrCodeLogo={qrCodeLogo}
+            handleChangeQrCodeShape={handleChangeQrCodeShape}
+            qrCodeShape={qrCodeShape}
+            eyeRadius={eyeRadius}
+            handleEyeRadiusChange={handleEyeRadiusChange}
+            saveModal={saveModal}
+            setSaveModal={setSaveModal}
         />
     );
 };

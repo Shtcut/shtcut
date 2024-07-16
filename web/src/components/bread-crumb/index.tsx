@@ -17,21 +17,21 @@ const BreadCrumb = ({ currentRoute, goBack }: { currentRoute?: string; goBack?: 
     };
     return (
         <div className="flex items-center gap-x-2 ">
-            <Button variant={'unstyled'} className="text-[#898384] p-0  text-sm">
+            <Button variant={'unstyled'} className="text-[#898384] p-0  font-normal text-sm">
                 Home
             </Button>{' '}
             <ChevronRight size={16} color="#898384" />
             <Button
                 onClick={back}
                 variant={'unstyled'}
-                className={` ${currentRoute ? 'text-[#898384]' : 'text-primary-0'} p-0  text-sm`}
+                className={` ${currentRoute ? 'text-[#898384]' : 'text-primary-0'} font-normal p-0  text-sm`}
             >
                 {pageRoute}
             </Button>
             {currentRoute && (
                 <>
                     <ChevronRight size={16} color="#898384" />
-                    <Button variant={'unstyled'} className="text-primary-0 p-0 text-sm">
+                    <Button variant={'unstyled'} className="text-primary-0 font-normal p-0 text-sm">
                         {currentRoute}
                     </Button>
                 </>

@@ -16,7 +16,9 @@ const WebsiteComponent = ({
     qrCodeName,
     setSelectedFrame,
     handleSelectQrCodeLogo,
-    selectedFrame
+    selectedFrame,
+    handleChangeQrCodeShape,
+    handleEyeRadiusChange
 }: PropsColor) => {
     return (
         <div className=" flex flex-col gap-2">
@@ -46,6 +48,8 @@ const WebsiteComponent = ({
                             setSelectedFrame={setSelectedFrame}
                             handleSelectQrCodeLogo={handleSelectQrCodeLogo}
                             selectedFrame={selectedFrame}
+                            handleChangeQrCodeShape={handleChangeQrCodeShape}
+                            handleEyeRadiusChange={handleEyeRadiusChange}
                         />
                     </div>
                 </section>

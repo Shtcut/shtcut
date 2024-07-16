@@ -22,7 +22,7 @@ const QrCodeComponent = () => {
         setSelectedQRCodes([]);
     };
     return (
-        <div className="my-[38px] ">
+        <div className="">
             <BreadCrumb />
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">QR Codes</h1>

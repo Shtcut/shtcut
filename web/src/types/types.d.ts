@@ -57,6 +57,13 @@ interface PropsCreate extends SolutionType {
     handlePrevious: () => void;
     handleNext: () => void;
 }
+type QrCodeShape = 'squares' | 'dots' | 'fluid' | undefined;
+export type EyeRadiusType = [
+    { outer: number; inner: number },
+    { outer: number; inner: number },
+    { outer: number; inner: number }
+];
+
 interface QrCodeInterface {
     step?: number;
     setStep?: Dispatch<SetStateAction<number>>;
@@ -75,6 +82,12 @@ interface QrCodeInterface {
     handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
     handleSelectQrCodeLogo?: (logo: string | undefined) => void;
     qrCodeLogo?: string;
+    qrCodeShape?: QrCodeShape;
+    handleChangeQrCodeShape?: Dispatch<SetStateAction<QrCodeShape>>;
+    eyeRadius?: EyeRadiusType;
+    handleEyeRadiusChange?: (outer: number, inner: number) => void;
+    saveModal?: boolean;
+    setSaveModal?: Dispatch<SetStateAction<boolean>>;
 }
 
 export interface PropsColor extends QrCodeInterface {
@@ -88,9 +101,12 @@ export interface PropsColor extends QrCodeInterface {
 }
 
 export interface QrCodeFrameType {
-    bgColor: string | undefined;
+    bgColor?: string | undefined;
     selectedColor: string | undefined;
-    btnColor: string | undefined;
-    qrCodeName: string | undefined;
+    btnColor?: string | undefined;
+    qrCodeName?: string | undefined;
     qrCodeLogo?: string;
+    qrCodeShape?: QrCodeShape;
+    eyeRadius?: EyeRadiusType;
+    cancelModal?: () => void;
 }
