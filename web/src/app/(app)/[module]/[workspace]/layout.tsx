@@ -70,10 +70,8 @@ const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
                     )}
                 </section>
             </section>
-
-            <section className="  w-full flex">
+            <section className="w-full flex">
                 {isSideBarOpen && <SideBar setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />}
-
                 <div
                     className={`w-full ${
                         isSideBarOpen && `${isOpen ? 'md:ml-[17rem]' : 'md:ml-[4rem]'} `

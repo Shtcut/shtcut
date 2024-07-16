@@ -1,83 +1,71 @@
-Shtcut.link is the open-source All-in-One Marketing Platform.
+# Shtcut - Comprehensive All-in-One Marketing Platform
 
-<p>
-    <a href="https://app.shtcht.link" target="_blank">
-      <img
-        src="https://visaintel-stg.s3.amazonaws.com/Screenshot-2024-01-22-at-4.17.21%E2%80%AFPM.webp"
-        alt="Shtcut Screens"
-        width="100%"
-      />
-    </a>
-</p>
+## Overview
+Shtcut is designed to revolutionize marketing efforts by streamlining workflows, providing data-driven insights, and offering a cost-effective solution for holistic campaign management. It ensures your marketing strategies stay ahead of the curve.
 
-# Comprehensive All-in-One Marketing Platform: Unlocking Marketing Excellence
+![Project Analysis](https://shtcut-stg.s3.amazonaws.com/home-page.png)
+
+⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
+
+![Project Overview](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
 
 ## Usefulness
+Our platform streamlines marketing for professionals, businesses, and organizations, providing efficiency, cohesion, and data-driven decision-making.
 
-Our Comprehensive All-in-One Marketing Platform is a game-changer for marketing professionals, businesses, and organizations seeking efficiency, cohesion, and data-driven decision-making in their marketing endeavors. Here's why and who stands to benefit the most:
-
-### Why
-
-1. **Streamlined Workflow:** Integrate diverse marketing tools into one platform, reducing the need to navigate multiple applications. This streamlining leads to improved efficiency and smoother collaboration among marketing teams.
-
-2. **Data-Driven Insights:** Gain a comprehensive understanding of your marketing efforts through robust analytics. From URL shortener click-through rates to detailed survey responses and email campaign performance metrics, our platform provides actionable insights for informed decision-making.
-
-3. **Cost-Effective Solution:** By consolidating multiple marketing tools into a single platform, businesses can potentially save on subscription costs and streamline their budget, making the Comprehensive All-in-One Marketing Platform a cost-effective solution.
-
-4. **Holistic Campaign Management:** Plan, execute, and analyze marketing campaigns seamlessly within a unified interface. This end-to-end solution empowers marketers to oversee every aspect of their campaigns efficiently.
-
-5. **Future-Ready Features:** Our commitment to continuous improvement means that users can anticipate cutting-edge features like the upcoming Website Builder. This future-ready approach ensures the platform evolves with the ever-changing landscape of digital marketing.
+### Key Benefits
+- **Streamlined Workflow**: Integrate diverse tools into one platform for improved efficiency and collaboration.
+- **Data-Driven Insights**: Access comprehensive analytics on marketing efforts.
+- **Cost-Effective**: Save on subscription costs by consolidating multiple tools.
+- **Holistic Campaign Management**: Manage all aspects of campaigns in a unified interface.
+- **Future-Ready**: Continuous updates and new features like the upcoming Website Builder.
 
 ## Key Features
+- **URL Shortener**: Efficiently create and track shortened URLs.
+- **Survey Module**: Easily create surveys and analyze responses.
+- **Email Marketing**: Manage and analyze email campaigns seamlessly.
+- **Social Media Manager**: Schedule, post, and analyze social media content across multiple platforms.
 
-### URL Shortener
+## Future Roadmap
+- **Website Builder**: Customize websites and create dynamic landing pages.
 
-- **Efficiency at Scale:** Rapidly shorten URLs to create concise and impactful links for your campaigns.
-- **Robust Analytics:** Track click-through rates, analyze user engagement, and gain valuable insights into link performance.
+### Prerequisites
+- Node.js (v12 or higher)
+- npm (v6 or higher)
 
-### Survey Module
+### Installation
+1. Clone the repository: `git clone https://github.com/yourusername/shtcut.git`
+2. Navigate to the project directory: `cd shtcut`
+3. Install dependencies: `npm install`
 
-- **Intuitive Survey Creation:** Effortlessly create and distribute surveys to capture actionable feedback.
-- **Advanced Analytics:** Dive deep into survey responses, empowering data-driven decision-making for your marketing strategy.
+### Configuration
+1. Create a `.env` file with your configuration settings (e.g., `DATABASE_URL`, `API_KEY`).
 
-### Email Marketing
+### Running the Application
+1. Start the development server: `npm start`
+2. Access the platform at `http://localhost:3000`
 
-- **Campaign Mastery:** Manage end-to-end email marketing campaigns seamlessly within the platform.
-- **Granular Performance Metrics:** Monitor and analyze campaign performance metrics for targeted and effective audience engagement.
-
-### Future Roadmap
-
-We are committed to enhancing our platform and have exciting features on the horizon:
-
-#### Website Builder
-
-- **Web Presence Optimization:** Craft and customize websites directly within the platform.
-- **Dynamic Landing Pages:** Develop captivating landing pages to bolster your online presence and conversion rates.
-
-## Getting Started
-
-Embark on your journey with our Comprehensive All-in-One Marketing Platform through the following steps:
-
-1. **Installation**
-   - Clone the repository to your local environment.
-   - Refer to the comprehensive documentation for seamless installation and configuration.
-
-2. **Configuration**
-   - Configure API keys and settings for integrated tools such as the URL shortener, survey module, and email marketing.
-
-3. **Utilization**
-   - Dive into the expansive feature set of the platform, integrating them into your marketing activities with ease.
+## Project Structure
+- **/shtcut**
+   - **/backend**: Backend services and APIs
+   - **/devops**: DevOps configuration
+   - **/packages**: Reusable packages
+   - **/web**: Frontend application
+      - **/config**: Configuration files
+      - **/public**: Public assets
+      - **/src**: Source code (React components, pages, services, utilities)
 
 ## Contributing
-
-We welcome contributions! If you'd like to contribute, please follow our [contribution guidelines](CONTRIBUTING.md) for details on the process.
+1. Fork the repository.
+2. Create a new branch: `git checkout -b feature-name`
+3. Commit your changes: `git commit -m "Description"`
+4. Push to the branch: `git push origin feature-name`
+5. Open a pull request.
 
 ## License
+Licensed under the MIT License. See the `LICENSE` file for details.
 
-Our Comprehensive All-in-One Marketing Platform is open-source and released under the GNU AFFERO GENERAL PUBLIC LICENSE. Refer to the [MIT License](https://github.com/funmiayinde/shtcut-backend/blob/main/LICENSE) file for an in-depth understanding of the terms.
+## Support
+For support, open an issue on GitHub or contact us at support@shtcut.link.
 
-## Support and Feedback
-
-For assistance or to share your valuable feedback, kindly [open an issue](https://github.com/Shtcut/shtcut/issues) on our GitHub repository. Your contributions and insights are invaluable to us.
-
-Thank you for selecting our Comprehensive All-in-One Marketing Platform. Elevate your marketing experience!
+## Conclusion
+Shtcut is your key to marketing excellence with its streamlined workflows, data-driven insights, cost-effective solutions, and future-ready features.
