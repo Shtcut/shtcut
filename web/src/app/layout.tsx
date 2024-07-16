@@ -35,7 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     fontSans.variable,
                     fontHeading.variable,
                     fontHandwriting.variable,
-                    'min-h-screen scroll-smooth font-sans antialiased selection:bg-foreground selection:text-background'
+                    'min-h-screen scroll-smooth antialiased selection:bg-foreground selection:text-background'
                 )}
             >
                 {children}

@@ -1,12 +1,11 @@
-import {
-    IconBrandGoogleAnalytics,
-    IconBriefcase,
-    IconLayoutDashboard,
-    IconQrcode,
-    IconSettings
-} from '@tabler/icons-react';
+import { LogOut, MailOpen, Link, Settings } from 'lucide-react';
+import { PiQrCodeBold } from 'react-icons/pi';
+import { AiFillAppstore } from 'react-icons/ai';
+import { PiProjectorScreenChartBold } from 'react-icons/pi';
+import { BsFillQuestionCircleFill } from 'react-icons/bs';
 
 export interface NavLink {
+    id: string;
     title: string;
     label?: string;
     href: string;
@@ -20,34 +19,57 @@ export interface SideLink extends NavLink {
 export const sideLinks = (module: string, workspace: string): SideLink[] => {
     const urlNavs: NavLink[] = [
         {
-            title: 'Overviews',
+            id: '1',
+            title: 'Dashboard',
             href: `/url/${workspace}/overview`,
-            icon: <IconBrandGoogleAnalytics width={10} height={10}/>
+
+            icon: <AiFillAppstore size={20} />
         },
         {
+            id: '2',
             title: 'Links',
             href: `/url/${workspace}/links`,
-            icon: <IconBriefcase />
+
+            icon: <Link size={20} />
         },
         {
+            id: '3',
             title: 'QR Codes',
             href: `/url/${workspace}/qr-codes`,
-            icon: <IconQrcode />
+            icon: <PiQrCodeBold size={20} />
         },
         {
+            id: '4',
             title: 'Domains',
-            href: `/url/${workspace}/domains`,
-            icon: <IconLayoutDashboard />
+            // href: `/url/${workspace}/domains`,
+            href: '#',
+            icon: <PiProjectorScreenChartBold size={20} />
         },
         {
-            title: 'Link bios',
-            href: `/url/${workspace}/link-bios`,
-            icon: <IconQrcode />
+            id: '5',
+            title: 'Analytics',
+            // href: `/url/${workspace}/link-bios`,
+            href: '#',
+            icon: <MailOpen size={20} />
         },
         {
+            id: '6',
+            title: 'Sign out',
+            // href: `/url/${workspace}/settings`,
+            href: '#',
+            icon: <LogOut size={20} />
+        },
+        {
+            id: '7',
             title: 'Settings',
-            href: `/url/${workspace}/settings`,
-            icon: <IconSettings />
+            href: '#',
+            icon: <Settings size={20} />
+        },
+        {
+            id: '8',
+            title: 'Help Center',
+            href: '#',
+            icon: <BsFillQuestionCircleFill size={20} />
         }
     ];
 

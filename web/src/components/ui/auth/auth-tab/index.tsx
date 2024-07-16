@@ -91,7 +91,8 @@ export const AuthTabs = () => {
                     const { data: authData } = data || {};
                     if (authData.workspaces && authData.workspaces.length > 0) {
                         const { workspaces } = authData;
-                        redirect(`/url/${workspaces[0].slug}/overview`);
+                        // redirect(`/url/${workspaces[0].slug}/overview`);
+                          redirect(`/url/social-media/overview`);
                     } else {
                         redirect(routes.workspace);
                     }

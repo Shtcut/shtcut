@@ -1,3 +1,4 @@
+import { GeneralType, IntegrationSectionType, Plan } from '@shtcut/types/types';
 import { Activity, Command, PieChart } from 'lucide-react';
 
 export const IMPACT: GeneralType[] = [
@@ -109,7 +110,7 @@ export const PLANS: Plan[] = [
         data: [
             'All features of Pro plan',
             'Multiple teams',
-            
+
             'SLA of 99.9% uptime',
             'Mobile targeting',
             'Tags for links',
@@ -119,7 +120,6 @@ export const PLANS: Plan[] = [
         ]
     }
 ];
-
 
 export const featureData = [
     {
@@ -239,3 +239,104 @@ export const manageData = [
         name: 'Team Collaboration'
     }
 ];
+
+export const subNav = [
+    {
+        id: 1,
+        images: '/images/links.png',
+        link: '/url-shorten',
+        text: 'URL Shorten'
+    },
+    {
+        id: 2,
+        images: '/images/social-media.png',
+        link: '/pricing',
+        text: 'Social Media'
+    },
+    {
+        id: 3,
+        images: '/images/social-media.png',
+        link: '/pricing',
+        text: 'Email Marketing'
+    }
+];
+
+export const months = [
+    { label: 'January', value: 'January' },
+    { label: 'February', value: 'February' },
+    { label: 'March', value: 'March' },
+    { label: 'April', value: 'April' },
+    { label: 'May', value: 'May' },
+    { label: 'June', value: 'June' },
+    { label: 'July', value: 'July' },
+    { label: 'August', value: 'August' },
+    { label: 'September', value: 'September' },
+    { label: 'October', value: 'October' },
+    { label: 'November', value: 'November' },
+    { label: 'December', value: 'December' }
+];
+
+export const colors = [
+    { id: '1', value: '#000000' },
+    { id: '2', value: '#DE3221' },
+    { id: '3', value: '#EF8001' },
+    { id: '4', value: '#188639' },
+    { id: '5', value: '#229CE0' },
+    { id: '6', value: '#2B5BD7' },
+    { id: '7', value: '#6B52D1' },
+    { id: '8', value: '#D94280' },
+    { id: '9', value: '#764B24' },
+    { id: '10', value: '#7C7D7D' },
+    { id: '11', value: '#0000FB' },
+    { id: '12', value: '#EEAAFF' }
+];
+
+export const logos = [
+    {
+        id: '1',
+        name: 'whatsapp',
+        logoUrl: '/logos/logos_whatsapp-icon.png'
+    },
+    {
+        id: '2',
+        name: 'shtcut',
+        logoUrl: '/logos/shtcut.png'
+    },
+    {
+        id: '3',
+        name: 'instagram',
+        logoUrl: '/logos/skill-icons_instagram.png'
+    },
+    {
+        id: '4',
+        name: 'facebook',
+        logoUrl: '/logos/facebook.png'
+    },
+    {
+        id: '5',
+        name: 'youtube',
+        logoUrl: '/logos/logos_youtube-icon.png'
+    },
+    {
+        id: '6',
+        name: 'bitly',
+        logoUrl: '/logos/bitl.png'
+    },
+    {
+        id: '7',
+        name: 'twitter',
+        logoUrl: '/logos/prime_twitter.png'
+    },
+    {
+        id: '8',
+        name: 'cloud',
+        logoUrl: '/logos/simple-icons_icloud.png'
+    },
+    {
+        id: '8',
+        name: 'scan',
+        logoUrl: '/logos/Scan.png'
+    }
+];
+
+

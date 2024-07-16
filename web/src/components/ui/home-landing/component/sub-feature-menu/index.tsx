@@ -9,8 +9,10 @@ import {
     NavigationMenuTrigger,
     NavigationMenuContent
 } from '@shtcut-ui/react';
-import Link from 'next/link';
 import RouteLink from '@shtcut/components/ui/nav-link/route-link';
+import Image from 'next/image';
+import { AnimatedList } from '@shtcut/components/_shared/animations/animated-list';
+import { subNav } from '@shtcut/_shared/data';
 
 const FeatureMenu = () => {
     const navData = [
@@ -30,6 +32,7 @@ const FeatureMenu = () => {
             title: 'Contact us'
         }
     ];
+ 
     return (
         <section className="flex items-center gap-2">
             <NavigationMenu>
@@ -38,17 +41,22 @@ const FeatureMenu = () => {
                         <NavigationMenuTrigger className="transition-colors   hover:text-foreground text-sm  text-[#433E3F] ">
                             Our Products
                         </NavigationMenuTrigger>
-                        <NavigationMenuContent>
-                            {/* <div className=" p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            <RouteLink href={'/url-shorten-er'} isDisabled={true} className="text-sm underline">
-                                URL Shorten-er
-                            </RouteLink>
-                        </div>
-                        <div className=" p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            <RouteLink isDisabled={true} href={'/pricing'} className="text-sm underline">
-                                Pricing{' '}
-                            </RouteLink>
-                        </div> */}
+                        <NavigationMenuContent className="bg-gray-100/20">
+                            <section className="w-60  flex flex-col ">
+                                {subNav.map((nav) => (
+                                    <AnimatedList key={nav.id}>
+                                        <RouteLink
+                                            href={nav.link}
+                                            className="hover:bg-slate-100 px-4 py-2 hover:border-none  gap-x-2 w-full flex items-center "
+                                        >
+                                            <div className="shadow w-12 border hover:border-none  border-gray-100 h-12 rounded flex justify-center items-center">
+                                                <Image src={nav.images} width={24} height={24} alt="url-shorten" />
+                                            </div>
+                                            <p className="text-sm font-medium">{nav.text}</p>
+                                        </RouteLink>
+                                    </AnimatedList>
+                                ))}
+                            </section>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                 </NavigationMenuList>
