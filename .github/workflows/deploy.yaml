@@ -82,4 +82,5 @@ jobs:
           echo "domain=${{ env.domain }}" >> $GITHUB_OUTPUT
           echo "port=${{ env.port }}" >> $GITHUB_OUTPUT
           echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
+          echo "environment=${{ env.environment }}" >> $GITHUB_OUTPUT
           echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
