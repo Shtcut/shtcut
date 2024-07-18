@@ -4,7 +4,6 @@ import { PricingData } from '@shtcut/_shared/data';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import PricingTab from '@shtcut/components/tabs/pricing-tab';
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
 import PricingCard from '../../shorten-er/url-shortner-url/pricing-section/pricing-card';
 
 const PricingList = () => {

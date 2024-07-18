@@ -5,6 +5,7 @@ import HeadersTitle from './headers';
 import { HowTopPlan, SolutionUi } from './steps-ui';
 import InviteForm from './invite-form';
 import ToolsUi from './tools-ui';
+import { PropsCreate } from '@shtcut/types/types';
 
 const WorkSpaceMain = ({
     handleOptionChange,

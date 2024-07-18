@@ -1,4 +1,5 @@
 import { Button } from '@shtcut-ui/react';
+import { PlanCard } from '@shtcut/types/types';
 import { Check } from 'lucide-react';
 import React from 'react';
 
