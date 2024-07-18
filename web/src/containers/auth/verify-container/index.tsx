@@ -1,19 +1,17 @@
 'use client';
 
-import React, { useEffect } from 'react';
-import { Button, Dict, Label, ToastAction, toast } from '@shtcut-ui/react';
-import { Logo, NavLink } from '@shtcut/components/ui';
+import { Dict, ToastAction, toast } from '@shtcut-ui/react';
 import { VerifyEmailPasswordForm } from '@shtcut/components/form';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@shtcut/hooks/auth';
 import { AppAlert } from '@shtcut/components/_shared';
 import { get } from 'lodash';
 import { WelcomePage } from '@shtcut/components/ui/auth/sign-in';
-import { useMediaQuery } from 'react-responsive';
 import { routes } from '@shtcut/_shared/utils/route';
+import useResponsiveScreen from '@shtcut/hooks/responsive-hook';
 
 const VerifyEmailContainer = () => {
-    const mobile = useMediaQuery({ query: '(max-width: 1024px' });
+    const { mobileDesktop, mobileTab, smallScreen } = useResponsiveScreen();
     const { push } = useRouter();
     const searchParams = useSearchParams();
     const { verifyEmail, verifyEmailResponse, sendVerification, sendVerificationResponse, authData } = useAuth();
@@ -75,12 +73,15 @@ const VerifyEmailContainer = () => {
         push(routes.workspace);
     }
     return (
-        <section className="px-4">
-            <div className="flex items-center gap-6 p-4 h-screen ">
-                <WelcomePage />
-                <div className="bg-black-500 mx-auto" style={{ width: mobile ? '100%' : '500px' }}>
-                    <div className="">
-                        <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-4xl">Verification Code</h3>
+        <section>
+            <div className="flex items-center   h-screen ">
+                {!mobileTab && <WelcomePage />}
+                <div className=" w-full h-full" style={{ paddingTop: mobileTab ? '100px' : '196px' }}>
+                    <div
+                        style={{ width: smallScreen ? '100%' : mobileDesktop ? '83%' : '511px' }}
+                        className={`${smallScreen && 'px-4'} mx-auto `}
+                    >
+                        <h1 className=" text-3xl font-bold text-[#0F172A]">Verification Code</h1>
 
                         {error && errorMessage && (
                             <AppAlert
@@ -94,6 +95,7 @@ const VerifyEmailContainer = () => {
                             handleVerifyEmailSubmit={handleVerifyEmailSubmit}
                             isLoading={isLoading || isResendingCode}
                             handleResendVerification={handleResendVerification}
+                            mobileDesktop={mobileDesktop}
                         />
                     </div>
                 </div>

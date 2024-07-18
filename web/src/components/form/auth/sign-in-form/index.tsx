@@ -92,10 +92,7 @@ export const SignInForm = (props: SignInFormProps) => {
                                 </NavLink>
                             </div>
                         </div>
-                        <AppButton
-                            className="mt-10 h-12 px-4 py-2 text-white font-semibold bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-                            loading={isLoading}
-                        >
+                        <AppButton className="mt-10 h-10" loading={isLoading}>
                             Sign In
                         </AppButton>
 

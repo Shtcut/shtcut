@@ -8,12 +8,12 @@ import { get, omit } from 'lodash';
 import { AppAlert, UpdatePasswordForm } from '@shtcut/components';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { WelcomePage } from '@shtcut/components/ui/auth/sign-in';
-import { useMediaQuery } from 'react-responsive';
 import { routes } from '@shtcut/_shared/utils/route';
+import useResponsiveScreen from '@shtcut/hooks/responsive-hook';
 
 const ResetPasswordContainer = () => {
     const [step, setStep] = useState(1);
-    const mobile = useMediaQuery({ query: '(max-width: 1024px' });
+    const { mobileDesktop, mobileTab, smallScreen } = useResponsiveScreen();
     const searchParams = useSearchParams();
     const emailParams = searchParams.get('email');
     const { push } = useRouter();
@@ -53,28 +53,35 @@ const ResetPasswordContainer = () => {
         push(routes.login);
     }
     return (
-        <section className="px-4">
-            <div className="flex items-center gap-6 p-4 h-screen ">
-                <WelcomePage />
-                <div className="bg-black-500" style={{ width: mobile ? '100%' : '500px', margin: 'auto' }}>
-                    <div className="">
-                        <h3 className="text-gray-800 text-2xl font-poppins font-bold sm:text-4xl">
+        <section>
+            <div className="flex items-center   h-screen ">
+                {!mobileTab && <WelcomePage />}
+                <div className=" w-full h-full" style={{ paddingTop: mobileTab ? '100px' : '196px' }}>
+                    <div
+                        style={{ width: smallScreen ? '100%' : mobileDesktop ? '83%' : '511px' }}
+                        className={`${smallScreen && 'px-4'} mx-auto `}
+                    >
+                        <h1 className=" text-3xl font-bold text-[#0F172A]">
                             {step === 1 ? 'Verification Code' : ' Reset account password'}
-                        </h3>
-                        <p className="text-sm  text-muted-foreground my-4">
+                        </h1>
+                        <p className="text-sm  text-[#475569] mt-2">
                             {step === 1
                                 ? `Check your email, a verification was sent to ${emailParams} reset your password`
                                 : ` Please enter a new password for ${emailParams}`}
                         </p>
+
+                        <div className="mt-6">
+                            <div className="">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
+                            <UpdatePasswordForm
+                                handleUpdatePasswordSubmit={handleUpdatePasswordSubmit}
+                                isLoading={isLoading}
+                                error={error}
+                                onNext={handleNextStep}
+                                step={step}
+                                mobileDesktop={mobileDesktop}
+                            />
+                        </div>
                     </div>
-                    <div className="">{error && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-                    <UpdatePasswordForm
-                        handleUpdatePasswordSubmit={handleUpdatePasswordSubmit}
-                        isLoading={isLoading}
-                        error={error}
-                        onNext={handleNextStep}
-                        step={step}
-                    />
                 </div>
             </div>
         </section>

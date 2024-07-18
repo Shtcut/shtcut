@@ -49,7 +49,7 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                             )}
                         />
                         <AppButton
-                            className="mt-8 w-full h-12  text-white font-semibold bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+                            className="mt-8 "
                             loading={isLoading}
                         >
                             Reset Password
@@ -66,13 +66,13 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                 </div>
             </div>
             <div className="text-center">
-                <div className="font-poppins ">
+                <p className="text-[#64748B] text-sm ">
                     Back to
-                    <NavLink href={routes.login} className=" text-blue-600 hover:text-blue-500">
+                    <NavLink href={routes.login} className=" text-primary-0 font-medium">
                         {' '}
                         Log in
                     </NavLink>
-                </div>
+                </p>
             </div>
         </div>
     );

@@ -40,7 +40,9 @@ export const authApi = api?.injectEndpoints({
                 try {
                     const { data } = await queryFulfilled;
                     // todo dispatch to go get current logged user
-                } catch (_) {}
+                } catch (e) {
+                    console.log('error::', e);
+                }
             }
         }),
         social: builder.mutation<AuthResponseType, SocialAuthRequestType>({

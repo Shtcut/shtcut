@@ -8,11 +8,14 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
+
 import { routes } from '@shtcut/_shared/utils/route';
+import AnimatedContainer from '@shtcut/components/framer/animate-div';
+import BlurIn from '@shtcut/components/_shared/animations/blur-animation';
+import Tabs from '@shtcut/components/_shared/Tabs';
 
 export const AuthTabs = () => {
-    const router = useRouter();
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const searchParams = useSearchParams();
     const [socialError, setSocialError] = useState<string | undefined>(undefined);
     const { push } = useRouter();
@@ -92,7 +95,7 @@ export const AuthTabs = () => {
                     if (authData.workspaces && authData.workspaces.length > 0) {
                         const { workspaces } = authData;
                         // redirect(`/url/${workspaces[0].slug}/overview`);
-                          redirect(`/url/social-media/overview`);
+                        redirect(`/url/social-media/overview`);
                     } else {
                         redirect(routes.workspace);
                     }
@@ -112,47 +115,59 @@ export const AuthTabs = () => {
         }
     }, [isSignUpSuccess, isVerifiedEmail, isSocialLoginSuccess]);
 
-    const handleTabChange = (value: string) => {
-        router.push(`/auth?tab=${value}`);
-    };
-    const defaultTab = searchParams.get('tab') || 'sign-up';
+    const defaultTab = searchParams.get('tab') || 'sign-in';
+    const tabs = [
+        { id: 'sign-in', label: 'Sign In' },
+        { id: 'sign-up', label: 'Sign Up' }
+    ];
 
     return (
-        <Tabs defaultValue={defaultTab} className="w-full relative  rounded-full" onValueChange={handleTabChange}>
-            <TabsList className="grid w-full static rounded-full h-fit  border-b grid-cols-2  bg-[#ECF0FF] ">
-                <TabsTrigger
-                    value="sign-up"
-                    className="text-[#9C9AA5] font-medium rounded-full text-lg   data-[state=active]:text-white data-[state=active]:border-primary-0 data-[state=active]:bg-primary-0  "
-                >
-                    Sign Up
-                </TabsTrigger>
-                <TabsTrigger
-                    value="sign-in"
-                    className="text-[#9C9AA5] font-medium rounded-full text-lg  data-[state=active]:text-white data-[state=active]:border-primary data-[state=active]:bg-primary-0 "
-                >
-                    Sign In
-                </TabsTrigger>
-            </TabsList>
-            <TabsContent value="sign-in">
-                <div className="mt-2">{signInError && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-                <SignInForm
-                    handleLoginSubmit={handleSignInSubmit}
-                    isLoading={signInLoading || isSocialMediaLoading}
-                    error={signInError}
-                    onFailure={onFailure}
-                    onSuccess={onSuccess}
-                />
-            </TabsContent>
-            <TabsContent value="sign-up">
-                <div className="mt-2">{signUpError && errorMessage && <ErrorAlert message={errorMessage} />}</div>
-                <SignUpForm
-                    handleSignUpSubmit={handleSignUpSubmit}
-                    isLoading={signUpLoading || isSocialMediaLoading}
-                    error={signInError}
-                    onFailure={onFailure}
-                    onSuccess={onSuccess}
-                />
-            </TabsContent>
-        </Tabs>
+        <div>
+            <BlurIn
+                className="text-[#0F172A]   text-3xl font-bold"
+                word={defaultTab === 'sign-up' ? 'Let’s get you started with Shtcut' : 'Welcome back to Shtcut'}
+            />
+            <Tabs
+                classNames="mt-[28px]"
+                tabs={tabs}
+                selectedTabIndex={selectedTabIndex}
+                onTabClick={setSelectedTabIndex}
+            />
+
+            <div className="">
+                {selectedTabIndex === 0 && (
+                    <div>
+                        <div className="mt-2">
+                            {signInError && errorMessage && <ErrorAlert message={errorMessage} />}
+                        </div>
+                        <AnimatedContainer direction="right">
+                            <SignInForm
+                                handleLoginSubmit={handleSignInSubmit}
+                                isLoading={signInLoading || isSocialMediaLoading}
+                                error={signInError}
+                                onFailure={onFailure}
+                                onSuccess={onSuccess}
+                            />
+                        </AnimatedContainer>
+                    </div>
+                )}
+                {selectedTabIndex === 1 && (
+                    <div>
+                        <div className="mt-2">
+                            {signUpError && errorMessage && <ErrorAlert message={errorMessage} />}
+                        </div>
+                        <AnimatedContainer direction="left">
+                            <SignUpForm
+                                handleSignUpSubmit={handleSignUpSubmit}
+                                isLoading={signUpLoading || isSocialMediaLoading}
+                                error={signInError}
+                                onFailure={onFailure}
+                                onSuccess={onSuccess}
+                            />
+                        </AnimatedContainer>
+                    </div>
+                )}
+            </div>
+        </div>
     );
 };

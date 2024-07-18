@@ -1,19 +1,7 @@
 'use client';
 
-import {
-    Checkbox,
-    Dict,
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormMessage,
-    Input,
-    Label,
-    cn
-} from '@shtcut-ui/react';
-import { NavLink } from '@shtcut/components';
-import { AppAlert, AppButton, PasswordInput } from '@shtcut/components/_shared';
+import { Checkbox, Dict, Form, FormControl, FormField, FormItem, FormMessage, Input, Label } from '@shtcut-ui/react';
+import { AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { get } from 'lodash';
 import { HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
@@ -110,12 +98,6 @@ export const SignUpForm = (props: SignUpFormProps) => {
                                 </FormItem>
                             )}
                         />
-                        <AppButton
-                            className="mt-2 h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
-                            loading={isLoading}
-                        >
-                            Sign Up
-                        </AppButton>
                         <div>
                             <p className="text-sm mt-1">
                                 By clicking signing up you agree to Shtcut{' '}
@@ -123,7 +105,11 @@ export const SignUpForm = (props: SignUpFormProps) => {
                                 our Privacy Notice. You may receive offers, news and updates from us.
                             </p>
                         </div>
-                        <div className="relative mb-4">
+                        <AppButton className="mt-2  " loading={isLoading}>
+                            Sign Up
+                        </AppButton>
+
+                        <div className="relative my-4 mb-6">
                             <div className="absolute inset-0 flex items-center">
                                 <span className="w-full border-t" />
                             </div>
