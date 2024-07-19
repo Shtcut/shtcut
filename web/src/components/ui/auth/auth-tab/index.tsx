@@ -155,6 +155,7 @@ export const AuthTabs = () => {
                         />
                     </div>
                 )}
+
                 {selectedTabIndex === 1 && (
                     <div>
                         <div className="mt-2">
