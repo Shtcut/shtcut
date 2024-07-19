@@ -15,8 +15,12 @@ import BlurIn from '@shtcut/components/_shared/animations/blur-animation';
 import Tabs from '@shtcut/components/_shared/Tabs';
 
 export const AuthTabs = () => {
-    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const searchParams = useSearchParams();
+    const router = useRouter();
+    const [selectedTabIndex, setSelectedTabIndex] = useState(() => {
+        const defaultTab = searchParams.get('tab') || 'sign-in';
+        return defaultTab === 'sign-up' ? 1 : 0;
+    });
     const [socialError, setSocialError] = useState<string | undefined>(undefined);
     const { push } = useRouter();
     const { signUp, signIn, authData, signInResponse, socialLogin, socialLoginResponse, signUpResponse } = useAuth();
@@ -115,6 +119,12 @@ export const AuthTabs = () => {
         }
     }, [isSignUpSuccess, isVerifiedEmail, isSocialLoginSuccess]);
 
+    const handleTabChange = (index: number) => {
+        const tabId = index === 0 ? 'sign-in' : 'sign-up';
+        setSelectedTabIndex(index);
+        router.push(`/auth?tab=${tabId}`);
+    };
+
     const defaultTab = searchParams.get('tab') || 'sign-in';
     const tabs = [
         { id: 'sign-in', label: 'Sign In' },
@@ -124,31 +134,25 @@ export const AuthTabs = () => {
     return (
         <div>
             <BlurIn
-                className="text-[#0F172A]   text-3xl font-bold"
+                className="text-[#0F172A] text-3xl font-bold"
                 word={defaultTab === 'sign-up' ? 'Let’s get you started with Shtcut' : 'Welcome back to Shtcut'}
             />
-            <Tabs
-                classNames="mt-[28px]"
-                tabs={tabs}
-                selectedTabIndex={selectedTabIndex}
-                onTabClick={setSelectedTabIndex}
-            />
+            <Tabs classNames="mt-[28px]" tabs={tabs} selectedTabIndex={selectedTabIndex} onTabClick={handleTabChange} />
 
-            <div className="">
+            <div>
                 {selectedTabIndex === 0 && (
                     <div>
                         <div className="mt-2">
                             {signInError && errorMessage && <ErrorAlert message={errorMessage} />}
                         </div>
-                        <AnimatedContainer direction="right">
-                            <SignInForm
-                                handleLoginSubmit={handleSignInSubmit}
-                                isLoading={signInLoading || isSocialMediaLoading}
-                                error={signInError}
-                                onFailure={onFailure}
-                                onSuccess={onSuccess}
-                            />
-                        </AnimatedContainer>
+
+                        <SignInForm
+                            handleLoginSubmit={handleSignInSubmit}
+                            isLoading={signInLoading || isSocialMediaLoading}
+                            error={signInError}
+                            onFailure={onFailure}
+                            onSuccess={onSuccess}
+                        />
                     </div>
                 )}
                 {selectedTabIndex === 1 && (
@@ -156,15 +160,14 @@ export const AuthTabs = () => {
                         <div className="mt-2">
                             {signUpError && errorMessage && <ErrorAlert message={errorMessage} />}
                         </div>
-                        <AnimatedContainer direction="left">
-                            <SignUpForm
-                                handleSignUpSubmit={handleSignUpSubmit}
-                                isLoading={signUpLoading || isSocialMediaLoading}
-                                error={signInError}
-                                onFailure={onFailure}
-                                onSuccess={onSuccess}
-                            />
-                        </AnimatedContainer>
+
+                        <SignUpForm
+                            handleSignUpSubmit={handleSignUpSubmit}
+                            isLoading={signUpLoading || isSocialMediaLoading}
+                            error={signInError}
+                            onFailure={onFailure}
+                            onSuccess={onSuccess}
+                        />
                     </div>
                 )}
             </div>

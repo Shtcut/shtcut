@@ -67,7 +67,7 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
                 loading={isLoading}
             >
                 <Image src={'/images/google.png'} width={24} height={24} alt="google" />
-                <span className="text-sm text-[#433E3F]">Continue with Github</span>
+                <span className="text-sm text-[#433E3F]">Continue with Google</span>
             </AppButton>
             <AppButton
                 variant="outline"

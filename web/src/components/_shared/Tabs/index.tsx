@@ -11,9 +11,10 @@ interface TabsProps {
     selectedTabIndex: number;
     onTabClick: (index: number) => void;
     classNames?: string;
+    onChange?: (tabId: string) => void;
 }
 
-const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNames }) => {
+const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNames, onChange }) => {
     return (
         <div className={`w-full ${classNames}`}>
             <div
@@ -45,7 +46,10 @@ const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNa
                         type="button"
                         aria-selected={selectedTabIndex === index}
                         tabIndex={selectedTabIndex === index ? 0 : -1}
-                        onClick={() => onTabClick(index)}
+                        onClick={() => {
+                            onTabClick(index);
+                            if (onChange) onChange(tab.id);
+                        }}
                     >
                         <span className="scale-110">{tab.label}</span>
                     </button>
