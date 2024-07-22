@@ -1,11 +1,13 @@
 import { SolutionType } from '@shtcut/types/types';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
+    const [isVisible, setIsVisible] = useState(false);
+
     const tools = [
         {
-            title: 'URL Shortner',
+            title: 'URL Shortener',
             others: [
                 {
                     key: '',
@@ -65,17 +67,32 @@ const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
             ]
         }
     ];
+
+    useEffect(() => {
+        setIsVisible(true);
+    }, []);
+
     return (
         <div>
             <section className="flex gap-y-4 flex-col cursor-pointer items-center">
                 {tools.map((tool, index) => (
                     <div className="flex flex-col gap-y-2" key={index}>
-                        <h1 className="text-[#433E3F] font-semibold text-sm text-center">{tool.title}</h1>
+                        <h1
+                            className={`text-[#433E3F] font-semibold text-sm text-center ${
+                                isVisible ? 'animate-fall' : 'opacity-0'
+                            }`}
+                            style={{ animationDelay: `${index * 0.5}s` }}
+                        >
+                            {tool.title}
+                        </h1>
                         <div className="flex items-center flex-wrap justify-center gap-3">
-                            {tool.others.map((tol, index) => (
+                            {tool.others.map((tol, idx) => (
                                 <div
-                                    className={`flex justify-center px-4 h-11 border-[#726C6C] rounded-md items-center gap-x-2 border`}
-                                    key={index}
+                                    className={`flex justify-center px-4 h-11 border-[#726C6C] rounded-md items-center gap-x-2 border ${
+                                        isVisible ? 'animate-fall' : 'opacity-0'
+                                    }`}
+                                    key={idx}
+                                    style={{ animationDelay: `${index * 0.5 + (idx + 1) * 1.5}s` }}
                                 >
                                     <Image src={tol.img} width={24} height={24} alt={tol.name} />
                                     <p>{tol.name}</p>
@@ -85,6 +102,22 @@ const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
                     </div>
                 ))}
             </section>
+            <style jsx>{`
+                @keyframes fall {
+                    0% {
+                        transform: translateY(-200%);
+                        opacity: 0;
+                    }
+                    100% {
+                        transform: translateY(0);
+                        opacity: 1;
+                    }
+                }
+
+                .animate-fall {
+                    animation: fall 0.5s ease-out forwards;
+                }
+            `}</style>
         </div>
     );
 };

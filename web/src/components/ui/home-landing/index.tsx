@@ -1,18 +1,14 @@
-import {  Stats, Testimonial } from '../index';
-import {  ShortenerSection, SocialSection, SurveySection, Clients, Hero, OSS } from './section';
-
+import { Stats, Testimonial } from '../index';
+import { ShortenerSection, SocialSection, SurveySection, Clients, Hero, OSS } from './section';
+import HeroLanding from './section/hero-landing';
 
 export const HomeLandingContainer = () => {
     return (
         <>
-            <Hero />
-            <Clients />
-            <Stats />
-            <ShortenerSection />
-            <SurveySection />
-            <SocialSection />
-            <Testimonial />
-            <OSS />
+            <HeroLanding />
+            <div>
+                <Hero />
+            </div>
         </>
     );
 };

@@ -7,7 +7,7 @@ const LandingLayout = ({ children }: React.PropsWithChildren) => {
         <>
             <HomeNavbar />
             <main className="container space-y-10">{children}</main>
-            <Footer />
+            {/* <Footer /> */}
         </>
     );
 };
