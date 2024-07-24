@@ -5,10 +5,9 @@ import { Button, buttonVariants, cn } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks/auth';
 import { isEmpty, isUndefined } from 'lodash';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
-import { Drawer, DrawerTrigger } from '@shtcut-ui/react';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
-import { useMediaQuery } from 'react-responsive';
+
 import { routes } from '@shtcut/_shared/utils/route';
 import usePricingNavigation from '@shtcut/hooks/usePricing-naviagtion';
 import useWindowSize from '@shtcut/components/_shared/Responsiveness';
