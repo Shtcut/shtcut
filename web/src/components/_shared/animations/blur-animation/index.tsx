@@ -2,9 +2,10 @@
 
 import { cn } from '@shtcut-ui/react';
 import { motion } from 'framer-motion';
+import { ReactNode } from 'react';
 
 interface BlurIntProps {
-    word: string;
+    word: string | ReactNode;
     className?: string;
     variant?: {
         hidden: { filter: string; opacity: number };

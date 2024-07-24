@@ -2,7 +2,7 @@
     perspective: 800px;
     flex-direction: column;
     justify-content: flex-start;
-    height: 120vh;
+    height: 62vh;
     display: flex;
     overflow: hidden;
 }
@@ -12,10 +12,7 @@
     object-fit: contain;
     transform-style: preserve-3d;
     width: 100%;
-    max-width: 80%;
-    position: absolute;
     inset: 0%;
     overflow: hidden;
     margin: auto;
-  
 }

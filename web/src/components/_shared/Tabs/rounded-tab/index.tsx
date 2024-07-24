@@ -9,22 +9,34 @@ interface Tab {
 interface TabsProps {
     tabs: Tab[];
     selectedTabIndex: number;
-    onTabClick: (index: number) => void;
+    onTabClick: (index: number, id: string) => void;
     classNames?: string;
     onChange?: (tabId: string) => void;
+    activeClassName?: string;
+    activeTextClassName?: string;
+    textClassName?: string;
 }
 
-const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNames, onChange }) => {
+const RoundedTab: React.FC<TabsProps> = ({
+    tabs,
+    selectedTabIndex,
+    onTabClick,
+    classNames,
+    onChange,
+    activeClassName,
+    activeTextClassName,
+    textClassName
+}) => {
     return (
-        <div className={`w-full ${classNames}`}>
+        <div className={`w-full ${classNames} rounded-full`}>
             <div
-                className="relative border-[0.5px] border-custom-border-200 rounded bg-custom-background-80  grid"
+                className="relative h-full border-[0.5px] border-custom-border-200 rounded-full bg-custom-background-80 grid"
                 role="tablist"
                 aria-orientation="horizontal"
                 style={{ gridTemplateColumns: `repeat(${tabs.length}, 1fr)` }}
             >
                 <div
-                    className="absolute top-1/2 left-[2px] bg-primary-0  rounded-[3px] transition-all duration-500 ease-in-out shadow-[2px_0_8px_rgba(167,169,174,0.15)]"
+                    className={`absolute top-1/2 left-[2px] bg-primary-0 rounded-full transition-all duration-500 ease-in-out shadow-[2px_0_8px_rgba(167,169,174,0.15)] ${activeClassName}`}
                     style={{
                         height: 'calc(100% - 2px)',
                         width: `calc(100% / ${tabs.length} - 1px)`,
@@ -37,7 +49,8 @@ const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNa
                         className={cn(
                             'relative z-[1] font-semibold text-xs rounded-[3px] py-1.5 focus:outline-none transition duration-500',
                             {
-                                'text-white': selectedTabIndex === index,
+                                'text-white ': selectedTabIndex === index && !activeTextClassName,
+                                [activeTextClassName || 'text-custom-text-400']: selectedTabIndex === index,
                                 'text-custom-text-400 hover:text-custom-text-300': selectedTabIndex !== index
                             }
                         )}
@@ -46,12 +59,9 @@ const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNa
                         type="button"
                         aria-selected={selectedTabIndex === index}
                         tabIndex={selectedTabIndex === index ? 0 : -1}
-                        onClick={() => {
-                            onTabClick(index);
-                            if (onChange) onChange(tab.id);
-                        }}
+                        onClick={() => onTabClick(index, tab.id)}
                     >
-                        <span className="scale-110">{tab.label}</span>
+                        <span className={`scale-110 ${textClassName}`}>{tab.label}</span>
                     </button>
                 ))}
             </div>
@@ -59,4 +69,4 @@ const Tabs: React.FC<TabsProps> = ({ tabs, selectedTabIndex, onTabClick, classNa
     );
 };
 
-export default Tabs;
+export default RoundedTab;

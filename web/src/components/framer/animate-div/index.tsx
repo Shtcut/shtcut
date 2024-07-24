@@ -8,17 +8,30 @@ interface AnimatedContainerProps {
     children: React.ReactNode;
     className?: string;
     direction?: 'left' | 'right' | 'default';
+    repeat?: boolean; // New prop to control animation repeat
+    style?: React.CSSProperties;
 }
 
-const AnimatedContainer = ({ children, className, direction = 'default' }: AnimatedContainerProps) => {
+const AnimatedContainer = ({
+    children,
+    className,
+    direction = 'default',
+    repeat = false ,
+    style
+}: AnimatedContainerProps) => {
     const controls = useAnimation();
-    const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
+    const [ref, inView] = useInView({ triggerOnce: !repeat, threshold: 0.1 });
 
     useEffect(() => {
         if (inView) {
             controls.start('visible');
+            if (repeat) {
+                controls.start('hidden').then(() => {
+                    controls.start('visible');
+                });
+            }
         }
-    }, [controls, inView]);
+    }, [controls, inView, repeat]);
 
     const variants = {
         hidden: {
@@ -41,6 +54,7 @@ const AnimatedContainer = ({ children, className, direction = 'default' }: Anima
             variants={variants}
             transition={{ duration: 1, ease: 'easeInOut' }}
             className={className}
+            style={style}
         >
             {children}
         </motion.div>

@@ -6,3 +6,4 @@ export * from './hero';
 export * from './client';
 export * from './oss';
 export * from './hero-landing';
+export * from './product-section';
