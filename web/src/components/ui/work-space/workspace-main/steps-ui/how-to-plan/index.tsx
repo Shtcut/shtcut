@@ -3,7 +3,7 @@ import SelectValue from '../../select-value';
 import { HiUserGroup } from 'react-icons/hi';
 import { RiUserFill } from 'react-icons/ri';
 import TeamForm from '../../team-form';
-import { Button } from '@shtcut-ui/react';
+import { PropsCreate } from '@shtcut/types/types';
 
 const HowTopPlan = ({ userValue, handleOptionChange, form }: PropsCreate) => {
     return (

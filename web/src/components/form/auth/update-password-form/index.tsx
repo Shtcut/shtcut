@@ -11,15 +11,15 @@ import {
     cn,
     InputOTP,
     InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot
+    InputOTPSlot,
+    Button
 } from '@shtcut-ui/react';
 import { AppButton, PasswordInput } from '@shtcut/components/_shared';
 import { updatePasswordValidationSchema } from './validation';
 import { NavLink } from '@shtcut/components';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Fragment, HTMLAttributes, useState } from 'react';
+import { Fragment, HTMLAttributes } from 'react';
 import z from 'zod';
 
 interface UpdatePasswordFormProps extends HTMLAttributes<HTMLDivElement> {
@@ -28,10 +28,11 @@ interface UpdatePasswordFormProps extends HTMLAttributes<HTMLDivElement> {
     error?: Dict;
     onNext: () => void;
     step?: number;
+    mobileDesktop?: boolean;
 }
 
 export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
-    const { isLoading, handleUpdatePasswordSubmit, className, onNext, step } = props;
+    const { isLoading, handleUpdatePasswordSubmit, className, onNext, step, mobileDesktop } = props;
     const form = useForm<z.infer<typeof updatePasswordValidationSchema>>({
         resolver: zodResolver(updatePasswordValidationSchema),
         defaultValues: {
@@ -62,14 +63,13 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
                                                 maxLength={6}
                                                 className="w-full mt-6"
                                                 render={({ slots }) => (
-                                                    <InputOTPGroup className="w-full">
+                                                    <InputOTPGroup className="w-full flex items-center gap-x-3 sm:gap-x-5 lg:gap-x-[30px]">
                                                         {slots.map((slot, index) => (
                                                             <Fragment key={index}>
                                                                 <InputOTPSlot
-                                                                    className="h-10 w-10  rounded-md border"
+                                                                    className="h-14 w-14  rounded-[10px] md:rounded-[15px] border border-[#D8DADC]"
                                                                     {...slot}
                                                                 />
-                                                                {index !== slots.length - 1 && <InputOTPSeparator />}
                                                             </Fragment>
                                                         ))}{' '}
                                                     </InputOTPGroup>
@@ -116,25 +116,39 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
                                 />
                             </Fragment>
                         )}
+                        {step === 1 && (
+                            <div className="flex justify-center flex-col items-center">
+                                <p className=" mt-10 text-center text-sm text-[#64748B]">
+                                    Send Code in <span className="text-[#151314] font-bold">00:10</span>{' '}
+                                </p>
+                                <Button
+                                    variant="unstyled"
+                                    className="text-center p-0 m-0 text-primary-0 hover:text-blue-500"
+                                >
+                                    Resend
+                                </Button>
+                            </div>
+                        )}
                         <AppButton
-                            className="mt-2 h-12 px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
+                            className={`${mobileDesktop || step === 2 ? 'w-full' : 'w-[95%]'} ${step === 2 ? 'mt-6' : ''}`}
                             loading={step === 1 ? undefined : isLoading}
                             onClick={() => {
                                 step === 1 ? onNext() : undefined;
                             }}
                         >
-                            Continue
+                            {step === 1 ? ' Continue' : 'Verify'}
                         </AppButton>
                     </div>
                 </form>
             </Form>
+
             <div className="text-center">
-                <div className="font-poppins font-normal-l">
-                    Back to
-                    <NavLink href="/auth" className="px-1 text-blue-600 hover:text-blue-500">
+                <p className="text-[#64748B] text-sm ">
+                    Back to{' '}
+                    <NavLink href="/auth?tab=sign-in" className=" text-primary-0 hover:text-blue-500">
                         Log in
                     </NavLink>
-                </div>
+                </p>
             </div>
         </div>
     );

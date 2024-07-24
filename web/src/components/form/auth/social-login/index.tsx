@@ -13,9 +13,7 @@ interface SocialLoginProps extends CommonProps {
 }
 
 export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: SocialLoginProps) => {
-
     const handleSocialCallback = (social: string, response: Dict, callbackType: 'error' | 'success') => {
-
         if (callbackType === 'success') {
             let accessToken: string | undefined;
 
@@ -50,13 +48,8 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
     });
 
     return (
-        <div className="flex items-center justify-center gap-2">
-            <AppButton
-                variant="outline"
-                className="w-20 h-10 border border-[#726C6C]"
-                type="submit"
-                loading={isLoading}
-            >
+        <div className="flex w-full items-center justify-center gap-2">
+            {/* <AppButton variant="outline" className=" h-10 border border-[#726C6C] w-full" type="submit" loading={isLoading}>
                 <GitHubLogin
                     clientId={`${process.env.NEXT_PUBLIC_GITHUB_CLIENT_ID}`}
                     onSuccess={(response) => handleSocialCallback(SOCIAL_MEDIA.GITHUB, response, 'success')}
@@ -64,24 +57,26 @@ export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: Socia
                     redirectUri={`${process.env.NEXT_PUBLIC_GITHUB_REDIRECT_URL}`}
                     buttonText={''}
                 />
-                <IconBrandGithub className="h-6 w-6 " />
-            </AppButton>
+                <IconBrandGithub className="h-6 w-6 " /> <span className="text-sm">Continue with Github</span>
+            </AppButton> */}
             <AppButton
                 variant="outline"
-                className="w-20 h-10 border border-[#726C6C]"
+                className="w-full flex items-center gap-3 justify-center h-[52px] border border-[#9F9C9C]"
                 type="submit"
                 onClick={() => signUpGoogle()}
                 loading={isLoading}
             >
                 <Image src={'/images/google.png'} width={24} height={24} alt="google" />
+                <span className="text-sm text-[#433E3F]">Continue with Google</span>
             </AppButton>
             <AppButton
                 variant="outline"
-                className="w-20 h-10 border border-[#726C6C]"
+                className="flex items-center gap-3 justify-center h-[52px] border border-[#9F9C9C] w-full"
                 type="submit"
                 loading={isLoading}
             >
                 <Image src={'/images/apple.png'} width={24} height={24} alt="google" />
+                <span className="text-sm text-[#433E3F]">Continue with Github</span>
             </AppButton>
         </div>
     );

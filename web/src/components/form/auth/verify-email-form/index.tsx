@@ -11,7 +11,6 @@ import {
     FormMessage,
     InputOTP,
     InputOTPGroup,
-    InputOTPSeparator,
     InputOTPSlot
 } from '@shtcut-ui/react';
 import { AppButton } from '@shtcut/components';
@@ -31,10 +30,11 @@ interface VerifyEmailFormProps {
     error?: Dict;
     handleResendVerification: () => void;
     email: string;
+    mobileDesktop?: boolean;
 }
 
 export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
-    const { isLoading, handleVerifyEmailSubmit, handleResendVerification, email } = props;
+    const { isLoading, handleVerifyEmailSubmit, handleResendVerification, email, mobileDesktop } = props;
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -51,11 +51,10 @@ export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
     return (
         <div className="">
             <p className="my-4">
-                Check your email, a verification was sent to <br className="lg:flex hidden" /> {email || ''} reset your
-                password
+                Check your email, a verification was sent to {email || 'amanda@gmail.com'} reset your password
             </p>
             <Form {...form}>
-                <form onSubmit={form.handleSubmit(handleFormSubmit)} className=" w-[360px]">
+                <form onSubmit={form.handleSubmit(handleFormSubmit)} className=" mt-8 ">
                     <FormField
                         control={form.control}
                         name="pin"
@@ -66,14 +65,13 @@ export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
                                         maxLength={6}
                                         className="w-full mt-6"
                                         render={({ slots }) => (
-                                            <InputOTPGroup className="w-full">
+                                            <InputOTPGroup className="w-full flex items-center gap-x-3 sm:gap-x-5 lg:gap-x-[30px]">
                                                 {slots.map((slot, index) => (
                                                     <Fragment key={index}>
                                                         <InputOTPSlot
-                                                            className="h-10 w-10  rounded-md border"
+                                                            className="h-14 w-14  rounded-[10px] md:rounded-[15px] border border-[#D8DADC]"
                                                             {...slot}
                                                         />
-                                                        {index !== slots.length - 1 && <InputOTPSeparator />}
                                                     </Fragment>
                                                 ))}{' '}
                                             </InputOTPGroup>
@@ -86,24 +84,24 @@ export function VerifyEmailPasswordForm(props: VerifyEmailFormProps) {
                         )}
                     />
                     <div className="flex justify-center flex-col items-center">
-                        <p className=" mt-8 text-center text-sm text-[#64748B]">
+                        <p className=" mt-10 text-center text-sm text-[#64748B]">
                             Send Code in <span className="text-[#151314] font-bold">00:10</span>{' '}
                         </p>
                         <Button
                             variant="link"
-                            className="px-1 mb-8 text-center font-poppins font-normal text-blue-600 hover:text-blue-500"
+                            className="  text-center text-primary-0 hover:text-blue-500"
                             onClick={handleResendVerification}
                         >
                             Resend
                         </Button>
                     </div>
                     <AppButton
+                        className={mobileDesktop ? 'w-full' : 'w-[95%]'}
                         type="submit"
                         loading={isLoading}
                         disabled={isLoading}
-                        className="w-full h-12  px-4 py-2 text-white font-medium bg-blue-600 hover:bg-blue-500 active:bg-blue-600 rounded-lg duration-150"
                     >
-                        Continue
+                        Verify
                     </AppButton>
                 </form>
             </Form>

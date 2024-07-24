@@ -1,4 +1,8 @@
 import React from 'react';
+type Props = {
+    color?: string;
+    size?: string;
+};
 
 const MenuIcon: React.FC<Props> = ({ color = '#303237', size = 24 }) => {
     return (
