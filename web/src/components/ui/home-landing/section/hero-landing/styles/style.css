@@ -1,0 +1,18 @@
+.hero-header_content-bottom {
+    perspective: 800px;
+    flex-direction: column;
+    justify-content: flex-start;
+    height: 62vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.image-wrapper_image {
+    z-index: 2;
+    object-fit: contain;
+    transform-style: preserve-3d;
+    width: 100%;
+    inset: 0%;
+    overflow: hidden;
+    margin: auto;
+}

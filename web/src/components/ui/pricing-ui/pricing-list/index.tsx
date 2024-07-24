@@ -4,7 +4,6 @@ import { PricingData } from '@shtcut/_shared/data';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import PricingTab from '@shtcut/components/tabs/pricing-tab';
 import Image from 'next/image';
-import React, { useEffect, useRef } from 'react';
 import PricingCard from '../../shorten-er/url-shortner-url/pricing-section/pricing-card';
 
 const PricingList = () => {
@@ -12,7 +11,6 @@ const PricingList = () => {
         <AnimatedContainer className="">
             <div className="max-w-screen-xl mx-auto  px-4 ">
                 <PricingTab />
-
                 <div className="md:w-[45rem] mx-auto">
                     <span className="text-sm text-primary-0 font-medium float-left mt-11">Save 25%</span>
                     <Image src={'/mark-line.png'} width={90} height={55} alt="line marker" />

@@ -1,5 +1,5 @@
+import { TypingTextProps } from '@shtcut/types/types';
 import React, { useEffect, useState } from 'react';
-
 
 const TypingText = ({ text, speed }: TypingTextProps) => {
     const [displayedText, setDisplayedText] = useState('');

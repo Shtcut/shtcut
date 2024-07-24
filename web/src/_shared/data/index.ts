@@ -227,6 +227,53 @@ export const PricingData = [
         ]
     }
 ];
+export const PlanCardsData = [
+    {
+        id: 1,
+
+        title: 'Free',
+        text: 'Everything you need to track work ',
+        amt: '$0',
+        plan: 'Month',
+        btnText: 'Get Started',
+        plans: ['Unlimited issues', 'Unlimited projects', '50 users + guests', 'Importers', 'APIs']
+    },
+    {
+        id: 2,
+        title: 'Pro',
+        text: 'Best for tracking and measuring progress ',
+        amt: '$20',
+        plan: 'per user / Month',
+        btnText: 'Get Started',
+        plans: [
+            'Active Cycles',
+            'Advanced analytics',
+            'Integrations + automation',
+            'Integrations + automation',
+            'Plane AI',
+            'Tailored onboarding'
+        ]
+    },
+    {
+        id: 3,
+
+        title: 'Custom',
+        text: 'Ideal for unique, cross-functional set-ups',
+        amt: 'Custom',
+        plan: '',
+        btnText: 'Get custom pricing',
+        plans: [
+            'RBAC and audit logs',
+            'Custom SAML + OIDC',
+            'Auto-backups',
+            'Auto-backups',
+            'Managed cloud',
+            'Managed cloud',
+            'Whiteglove implementation + support',
+            'Whiteglove implementation + support'
+        ]
+    }
+];
 
 export const manageData = [
     {
@@ -338,5 +385,3 @@ export const logos = [
         logoUrl: '/logos/Scan.png'
     }
 ];
-
-
