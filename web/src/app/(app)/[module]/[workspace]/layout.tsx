@@ -12,7 +12,6 @@ import { useMediaQuery } from 'react-responsive';
 import { useSidebar } from '@shtcut/components/dashboard/side-bar-context';
 import { Bell } from 'lucide-react';
 import { LogoNavBar, SearchInput } from '@shtcut/components/dashboard/nav-component';
-import { WorkspaceLayoutProps } from '@shtcut/types/types';
 
 const WorkspaceLayout = ({ children }: any) => {
     const params = useParams();
