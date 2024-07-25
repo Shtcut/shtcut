@@ -110,3 +110,11 @@ export interface QrCodeFrameType {
     eyeRadius?: EyeRadiusType;
     cancelModal?: () => void;
 }
+export interface CommonProps {
+    className?: string;
+    children?: ReactNode;
+    style?: CSSProperties;
+}
+export interface WorkspaceLayoutProps extends CommonProps {
+    header?: ReactNode | ReactNode[];
+}
