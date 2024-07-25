@@ -44,4 +44,3 @@ spec:
               path: ${PROBE_URL}
               port: ${PORT}
             periodSeconds: 5
-
