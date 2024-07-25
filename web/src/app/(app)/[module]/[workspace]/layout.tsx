@@ -14,7 +14,7 @@ import { Bell } from 'lucide-react';
 import { LogoNavBar, SearchInput } from '@shtcut/components/dashboard/nav-component';
 import { WorkspaceLayoutProps } from '@shtcut/types/types';
 
-const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
+const WorkspaceLayout = ({ children }: any) => {
     const params = useParams();
     const pathname = usePathname();
     const { isSideBarOpen } = useSidebar();

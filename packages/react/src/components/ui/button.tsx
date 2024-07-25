@@ -5,20 +5,22 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { cn } from '../../utils';
 
 const buttonVariants = cva(
-    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50',
+    'inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
     {
         variants: {
             variant: {
-                default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90',
-                destructive: 'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90',
-                outline: 'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground',
-                secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80',
+                default: 'bg-primary text-primary-foreground shadow hover:bg-primary/90 cursor-pointer',
+                destructive:
+                    'bg-destructive text-destructive-foreground shadow-sm hover:bg-destructive/90 cursor-pointer',
+                outline:
+                    'border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground cursor-pointer',
+                secondary: 'bg-secondary text-secondary-foreground shadow-sm hover:bg-secondary/80 cursor-pointer',
                 ghost: 'hover:bg-accent hover:text-accent-foreground',
-                link: 'text-primary underline-offset-4 hover:underline',
-                unstyled: 'border-none focus:border-none focus-visible:ring-0 focus-visible:ring-ring',
+                link: 'text-primary underline-offset-4 hover:underline cursor-pointer',
+                unstyled: 'border-none focus:border-none focus-visible:ring-0 focus-visible:ring-ring cursor-pointer',
             },
             size: {
-                default: 'h-9 text-sm px-4 py-2',
+                default: 'h-9 text-sm px-4 py-2 cursor-pointer',
                 sm: 'h-8 rounded-md px-3 text-xs',
                 lg: 'h-10 rounded-md px-8',
                 icon: 'h-9 w-9',
