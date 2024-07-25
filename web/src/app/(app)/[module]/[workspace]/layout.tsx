@@ -1,21 +1,18 @@
 'use client';
 
-import { CommonProps, Skeleton, cn } from '@shtcut-ui/react';
+import { Skeleton, cn } from '@shtcut-ui/react';
 import { Activity } from 'lucide-react';
 import { UserNav } from '@shtcut/components/_shared/UserNav';
 import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
-import { ReactNode, Suspense, useState } from 'react';
+import { Suspense, useState } from 'react';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
 import { SideBar } from '@shtcut/components/dashboard';
 import { useMediaQuery } from 'react-responsive';
 import { useSidebar } from '@shtcut/components/dashboard/side-bar-context';
 import { Bell } from 'lucide-react';
 import { LogoNavBar, SearchInput } from '@shtcut/components/dashboard/nav-component';
-
-interface WorkspaceLayoutProps extends CommonProps {
-    header?: ReactNode | ReactNode[];
-}
+import { WorkspaceLayoutProps } from '@shtcut/types/types';
 
 const WorkspaceLayout = ({ children }: WorkspaceLayoutProps) => {
     const params = useParams();

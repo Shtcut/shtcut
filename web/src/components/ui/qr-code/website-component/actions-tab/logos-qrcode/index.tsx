@@ -1,14 +1,14 @@
 import { logos } from '@shtcut/_shared/data';
 import Image from 'next/image';
-import React, { ReactNode } from 'react';
-import { PiEmpty } from 'react-icons/pi';
+import React from 'react';
+import { Ban } from 'lucide-react';
 import { IoImageOutline } from 'react-icons/io5';
 import { Plus } from 'lucide-react';
 
 interface ReusableComponentProps {
     logoUrl?: string;
     title: string;
-    icons?: ReactNode;
+    icons?: any;
     onClick?: () => void;
 }
 
@@ -40,7 +40,7 @@ const LogosQrCode = ({ handleSelectQrCodeLogo }: { handleSelectQrCodeLogo: any }
                 <ReusableComponent
                     onClick={() => handleSelectQrCodeLogo('')}
                     title="empty"
-                    icons={<PiEmpty size={54} color="#9F9C9C" />}
+                    icons={<Ban size={54} color="#9F9C9C" />}
                 />
                 {logos.map((data) => (
                     <div key={data.id}>
