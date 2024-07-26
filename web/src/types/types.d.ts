@@ -115,6 +115,3 @@ export interface CommonProps {
     children?: ReactNode;
     style?: CSSProperties;
 }
-export interface WorkspaceLayoutProps extends CommonProps {
-    header?: ReactNode | ReactNode[];
-}
