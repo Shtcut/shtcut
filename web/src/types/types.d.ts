@@ -118,3 +118,11 @@ export interface CommonProps {
 export interface WorkspaceLayoutProps extends CommonProps {
     header?: ReactNode | ReactNode[];
 }
+
+export type RoutePaths = {
+    login: string;
+    signUp: string;
+    welcome: string;
+    verify: string;
+    workspace: string;
+};
