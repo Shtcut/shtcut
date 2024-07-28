@@ -66,6 +66,13 @@ export class Workspace {
   ])
   domains: any[];
 
+  @Prop({
+    type: String,
+    enum: configuration().app.data.workspaceCapacity,
+  })
+  capacity: string;
+
+
   @Prop([
     {
       type: MGS.Types.ObjectId,
@@ -97,7 +104,7 @@ export class Workspace {
 
 const WorkspaceSchema = SchemaFactory.createForClass(Workspace);
 
-WorkspaceSchema.virtual('id').get(function () {
+WorkspaceSchema.virtual('id').get(function() {
   return this._id.toHexString();
 });
 
@@ -105,7 +112,19 @@ WorkspaceSchema.statics.config = () => {
   return {
     idToken: 'wrk',
     uniques: ['name', 'slug', 'user'],
-    fillables: ['user', 'name', 'slug', 'plan', 'type', 'domains', 'isDefault', 'modules', 'subscriptions', 'logo'],
+    fillables: [
+      'user',
+      'name',
+      'slug',
+      'plan',
+      'type',
+      'domains',
+      'isDefault',
+      'modules',
+      'subscriptions',
+      'logo',
+      'capacity',
+    ],
     updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules', 'logo'],
     hiddenFields: ['deleted'],
   };

@@ -76,6 +76,7 @@ export const configuration = () => ({
     },
     data: {
       permissionValueType: ['boolean', 'list', 'number'],
+      workspaceCapacity: ['0-10', '11-30', '31-50', '51-100', 'Above 100'],
     },
     redisUrl: process.env.REDIS_SERVER_HOST_URL,
     ipregistry: {
