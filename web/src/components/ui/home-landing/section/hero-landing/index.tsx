@@ -4,7 +4,11 @@ import { Button } from '@shtcut-ui/react';
 import Image from 'next/image';
 import BlurIn from '@shtcut/components/_shared/animations/blur-animation';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
+import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 const HeroLanding = () => {
+    const { height, width } = useWindowSize();
+    const mobile = height !== undefined && height <= 1181;
+    const mobileWidth = width !== undefined && width <= 768;
     const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
@@ -32,7 +36,7 @@ const HeroLanding = () => {
         <AnimatedContainer className="relative max-w-screen-custom mx-auto px-4 ">
             {/* Sticky Header */}
             <div
-                className="sticky flex flex-col gap-y-6 top-20 w-full md:w-[584px] mx-auto mb-2 z-0 p-6 "
+                className={`md:sticky   flex flex-col gap-y-6 top-20 w-full md:w-[584px] mx-auto mb-2 z-0 p-6 ${mobileWidth ? 'pt-28' : 'md:pt-0'} `}
                 style={{ opacity: opacity }}
             >
                 <BlurIn
@@ -54,7 +58,9 @@ const HeroLanding = () => {
                     </Button>
                 </div>
             </div>
-            <div className=" z-20 h-screen overflow-hidden relative md:top-6 w-full mx-auto hero-header_content-bottom ">
+            <div
+                className={` z-20 h-screen overflow-hidden relative  md:top-6 w-full mx-auto hero-header_content-bottom ${mobile ? 'top-10' : ''} `}
+            >
                 <Image
                     width={0}
                     height={0}

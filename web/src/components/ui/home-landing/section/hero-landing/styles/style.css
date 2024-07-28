@@ -16,3 +16,8 @@
     overflow: hidden;
     margin: auto;
 }
+@media screen and (max-width: 768px) {
+    .hero-header_content-bottom {
+        display: none;
+    }
+}
