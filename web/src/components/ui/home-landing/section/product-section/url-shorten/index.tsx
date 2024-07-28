@@ -1,38 +1,47 @@
 import { Button, Card } from '@shtcut-ui/react';
+import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Image from 'next/image';
 import React from 'react';
 
 const UrlShortener = () => {
+      const { width } = useWindowSize();
+      const mobileTab = width !== undefined && width <= 1073;
+      const tab = width !== undefined && width <= 768;
     return (
         <AnimatedContainer>
             <div id="url-shorten" className=" ">
-                <Card className="bg-white  p-4 lg:py-0">
-                    <div className="flex md:flex-row flex-col bg-white items-center  md:w-[95%]  lg:w-[90%] mx-auto">
-                        <div className="md:w-2/3 flex flex-col gap-y-3 md:gap-y-6">
-                            <div className="flex items-center gap-2">
-                                <Image src={'/url.png'} width={20} height={20} alt="url shorten" />
-                                <p className="text-sm md:text-base  font-medium">URL Shortener</p>
+                <Card className="bg-white">
+                    <div className="md:pl-[20px] lg:pl-[50px] ">
+                        <div className="flex bg-white md:flex-row flex-col-reverse items-center   mx-auto">
+                            <div className="md:w-2/3 p-4 flex flex-col gap-y-6">
+                                <div className="flex items-center gap-2">
+                                    <Image src={'/url.png'} width={20} height={20} alt="survey creation" />
+                                    <p className="font-medium">URL Shortener</p>
+                                    <Button className="text-[10px] bg-primary-0 w-[90px] h-[23px]">COMING SOON</Button>
+                                </div>
+                                <h1 className="text-2xl md:text-[42px] font-semibold md:leading-[48px]">
+                                    Generate short URLs with just a click
+                                </h1>
+                                <p className="text-sm text-[#404625]">
+                                    Optimize URL management for individuals, businesses, and organizations with a robust
+                                    range of features to streamline tracking and enhance link management.
+                                </p>
+                                <Button className='w-32 bg-primary-0'>
+                                    Get started
+                                </Button>
                             </div>
-                            <h1 className="text-2xl md:text-[42px] font-semibold md:leading-[48px]">
-                                Generate short URLs with just a click
-                            </h1>
-                            <p className="w-full sm:text-sm text-xs md:text-base sm:w-5/6">
-                                Optimize URL management for individuals, businesses, and organizations with a robust
-                                range of features to streamline tracking and enhance link management.
-                            </p>
-                            <Button className="text-xs w-full sm:w-28 bg-primary-0">Get Started</Button>
-                        </div>
-                        <div className="w-1/2 pt-6 bg-white z-20">
-                            <Image
-                                alt="icons"
-                                width={0}
-                                height={0}
-                                className="bg-white w-full h-full"
-                                src="/images/icons.svg.png"
-                                sizes="100vw"
-                                loading="eager"
-                            />
+                            <div className={` bg-white z-20 ${mobileTab ? 'w-1/2' : ''} ${tab ? 'w-full' : ''}`}>
+                                <Image
+                                    alt="icons"
+                                    width={0}
+                                    height={0}
+                                    className={`bg-white w-full  md:w-[624px] h-80 md:h-[488px]`}
+                                    src="/images/url-shorten.png"
+                                    sizes="100vw"
+                                    loading="eager"
+                                />
+                            </div>
                         </div>
                     </div>
                 </Card>
