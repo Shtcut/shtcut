@@ -7,73 +7,257 @@ import {
     NavigationMenuList,
     NavigationMenuItem,
     NavigationMenuTrigger,
-    NavigationMenuContent
+    NavigationMenuContent,
+    NavigationMenuLink,
+    navigationMenuTriggerStyle
 } from '@shtcut-ui/react';
-import RouteLink from '@shtcut/components/ui/nav-link/route-link';
+import Link from 'next/link';
+import { ListItem } from '@shtcut/components/_shared/ListItem';
+
+import { IoQrCodeOutline } from 'react-icons/io5';
+import { PiUsersThreeLight } from 'react-icons/pi';
+import { PiUserListLight } from 'react-icons/pi';
+import { PiChartLineUp } from 'react-icons/pi';
+import { GoLink } from 'react-icons/go';
+import { BiTask } from 'react-icons/bi';
+import { MdEmail } from 'react-icons/md';
 import Image from 'next/image';
-import { AnimatedList } from '@shtcut/components/_shared/animations/animated-list';
-import { subNav } from '@shtcut/_shared/data';
+import { BsCodeSlash } from 'react-icons/bs';
+import { IoIosHelpCircleOutline } from 'react-icons/io';
+import { BsBuildings } from 'react-icons/bs';
+import { FaRegNewspaper } from 'react-icons/fa';
 
 const FeatureMenu = () => {
-    const navData = [
+    const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
-            route: true,
-            link: '/about-us',
-            title: 'About us'
+            title: 'Link Management',
+            href: '#',
+            description: 'Generate short URLs with just a click, metrics and track performance',
+            icon: GoLink
         },
         {
-            route: false,
-            link: 'pricing',
-            title: 'Pricing'
+            title: 'QR Code',
+            href: '#',
+            description: 'Collaborate with team members, performance metrics and schedule',
+            icon: IoQrCodeOutline
         },
         {
-            route: true,
-            link: 'contact-us',
-            title: 'Contact us'
+            title: 'Progress',
+            href: '#',
+            description: 'Discover trends and insights about your brand and competitors and offer ',
+            icon: PiUsersThreeLight
+        },
+        {
+            title: 'Hover Card',
+            href: '#',
+            description: 'Discover trends and insights about your brand and competitors and offer ',
+            icon: PiUserListLight
+        },
+        {
+            title: 'Progress',
+            href: '#',
+            description: 'Discover trends and insights about your brand and competitors and offer ',
+            icon: PiChartLineUp
+        }
+    ];
+    const product: { title: string; href: string; description: string; icon?: any; img?: string }[] = [
+        {
+            title: 'URL Shortner',
+            href: '#',
+            description:
+                'Generate short URLs with just a click, streamline your link strategy with links manager, get performance metrics and track performance',
+            icon: GoLink
+        },
+        {
+            title: 'Survey Creation',
+            href: '#',
+            description: 'Collaborate with team members, performance metrics and schedule surveys.',
+            icon: BiTask
+        },
+        {
+            title: 'Email Marketing',
+            href: '#',
+            description:
+                'Discover trends and insights about your brand and competitors and offer more automation features.',
+            icon: MdEmail
+        },
+        {
+            title: 'Social Media Management',
+            href: '#',
+            description:
+                'Discover trends and insights about your brand and competitors and offer more automation features.',
+            img: '/images/social-icon.png'
+        }
+    ];
+    const solutions: { title: string; href: string; description: string; icon?: any; img?: string }[] = [
+        {
+            title: 'Developers',
+            href: '#',
+            description: 'Generate short URLs with just a click, metrics and track performance',
+            icon: BsCodeSlash
+        },
+        {
+            title: 'Cooperate',
+            href: '#',
+            description: 'Collaborate with team members, performance metrics and schedule',
+            // icon: IoIosHelpCircleOutline
+            icon: BsBuildings
+        }
+    ];
+    const resources: { title: string; href: string; description: string; icon?: any; img?: string }[] = [
+        {
+            title: 'Blog',
+            href: '#',
+            description: 'Generate short URLs with just a click, metrics and track performance',
+            icon: FaRegNewspaper
+        },
+        {
+            title: 'Help Center',
+            href: '#',
+            description: 'Collaborate with team members, performance metrics and schedule',
+            icon: IoIosHelpCircleOutline
         }
     ];
 
     return (
-        <section className="flex items-center gap-1">
-            <NavigationMenu>
-                <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <NavigationMenuTrigger className=" bg-transparent  text-xs font-semibold   ">
-                            Our Products
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="bg-gray-100/20">
-                            <section className="w-60  flex flex-col ">
-                                {subNav.map((nav) => (
-                                    <AnimatedList key={nav.id}>
-                                        <RouteLink
-                                            href={nav.link}
-                                            className="hover:bg-slate-100 px-4 py-2 hover:border-none  gap-x-2 w-full flex items-center "
+        <NavigationMenu>
+            <NavigationMenuList>
+                <NavigationMenuItem className=''>
+                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
+                        Product
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="rounded-[20px]">
+                        <div className=" flex w-[400px] gap-3 p-6 md:w-[500px]  lg:w-[600px]">
+                            <div className="w-1/2">
+                                <h1 className="font-semibold text-xs uppercase px-3">Features</h1>
+                                <ul className="mt-2  ">
+                                    {features.map((component, index) => (
+                                        <ListItem
+                                            key={component.title}
+                                            title={component.title}
+                                            href={component.href}
+                                            icon={
+                                                component.icon ? (
+                                                    <component.icon
+                                                        className={`${index === 0 || index === 1 ? 'w-4 h-4' : 'w-5 h-5'} text-[#424242]`}
+                                                    />
+                                                ) : null
+                                            }
+                                            className="text-[#777777] text-xs"
                                         >
-                                            <div className="shadow w-12 border hover:border-none  border-gray-100 h-12 rounded flex justify-center items-center">
-                                                <Image src={nav.images} width={24} height={24} alt="url-shorten" />
-                                            </div>
-                                            <p className="text-xs font-semibold">{nav.text}</p>
-                                        </RouteLink>
-                                    </AnimatedList>
+                                            {component.description}
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            </div>
+                            <div className="w-1/2">
+                                <h1 className="font-semibold text-xs uppercase px-3">Our Products</h1>
+                                <ul className="mt-2 ">
+                                    {product.map((component, index) => (
+                                        <ListItem
+                                            key={component.title}
+                                            title={component.title}
+                                            href={component.href}
+                                            icon={
+                                                component.icon || component.img ? (
+                                                    component.img ? (
+                                                        <Image
+                                                            src={component.img}
+                                                            width={20}
+                                                            height={20}
+                                                            alt={component.title}
+                                                        />
+                                                    ) : (
+                                                        <component.icon
+                                                            className={`${index === 0 ? 'w-4 h-4' : 'w-[18px] h-[18px]'}  text-[#424242]`}
+                                                        />
+                                                    )
+                                                ) : null
+                                            }
+                                            className="text-xs text-[#777777]"
+                                        >
+                                            {component.description}
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
+                        Solutions
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <div className="p-6">
+                            <h1 className="font-semibold text-xs uppercase px-3">Solutions</h1>
+                            <ul className="grid w-[400px] gap-3 mt-4  md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                {solutions.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={component.title}
+                                        href={component.href}
+                                        icon={
+                                            component.icon ? (
+                                                <component.icon className="w-4 h-4 text-[#424242]" />
+                                            ) : null
+                                        }
+                                        className="text-xs text-[#777777]"
+                                    >
+                                        {component.description}
+                                    </ListItem>
                                 ))}
-                            </section>
-                        </NavigationMenuContent>
-                    </NavigationMenuItem>
-                </NavigationMenuList>
-            </NavigationMenu>
-            <section className="flex items-center gap-1 ">
-                {navData.map((nav, index) => (
-                    <RouteLink
-                        key={index}
-                        href={nav.link}
-                        isDisabled={nav.route}
-                        className="group inline-flex h-9 w-max items-center justify-center rounded-md bg-none px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50  "
-                    >
-                        {nav.title}
-                    </RouteLink>
-                ))}
-            </section>
-        </section>
+                            </ul>
+                        </div>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
+                        Resources
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent>
+                        <div className="p-6">
+                            <h1 className="font-semibold text-xs uppercase px-3">Resources</h1>
+                            <ul className="grid w-[400px] px-2 gap-3 mt-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                {resources.map((component) => (
+                                    <ListItem
+                                        key={component.title}
+                                        title={component.title}
+                                        href={component.href}
+                                        icon={
+                                            component.icon ? (
+                                                <component.icon className="w-4 h-4 text-[#424242]" />
+                                            ) : null
+                                        }
+                                        className="text-xs text-[#777777]"
+                                    >
+                                        {component.description}
+                                    </ListItem>
+                                ))}
+                            </ul>
+                        </div>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/pricing" legacyBehavior passHref>
+                        <NavigationMenuLink
+                            className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                        >
+                            Pricing
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <Link href="/blogs" legacyBehavior passHref>
+                        <NavigationMenuLink
+                            className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                        >
+                            Blogs
+                        </NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 };
 
