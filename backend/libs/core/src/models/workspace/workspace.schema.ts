@@ -66,12 +66,19 @@ export class Workspace {
   ])
   domains: any[];
 
+  @Prop([
+    {
+      type: MGS.Types.ObjectId,
+      ref: 'WorkspaceMember',
+    },
+  ])
+  members: any[];
+
   @Prop({
     type: String,
     enum: configuration().app.data.workspaceCapacity,
   })
   capacity: string;
-
 
   @Prop([
     {
