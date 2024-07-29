@@ -5,7 +5,7 @@ import { Model } from 'mongoose';
 import {
   AppException,
   CreateWorkspaceDto,
-  Dict,
+  Dict, Invitation, InvitationDocument,
   MongoBaseService,
   Plan,
   PlanDocument,
@@ -30,6 +30,7 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
+    @InjectModel(Invitation.name) protected invitationModel: Model<InvitationDocument>,
     protected subscriptionService: SubscriptionService,
     protected redisService: RedisService,
   ) {
@@ -103,6 +104,7 @@ export class WorkspaceService extends MongoBaseService {
       await session?.endSession();
     }
   }
+
 
   /**
    * The function updates a workspace object and creates a subscription if the module specified in the
@@ -203,7 +205,6 @@ export class WorkspaceService extends MongoBaseService {
       }
       user.save({ session });
     } catch (e) {
-      console.log('err:', e);
       throw e;
     }
   }
