@@ -7,7 +7,9 @@ import SocialMedia from './social-media';
 
 const ProductSection = () => {
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+    const [isSticky, setIsSticky] = useState(false);
     const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const sectionRef = useRef<HTMLDivElement | null>(null);
 
     const tabs = [
         { id: 'url-shorten', label: 'URL Shorten' },
@@ -64,19 +66,30 @@ const ProductSection = () => {
             scrollTimeoutRef.current = setTimeout(handleScroll, 100);
         };
 
+        const handleSticky = () => {
+            if (sectionRef.current) {
+                const rect = sectionRef.current.getBoundingClientRect();
+                setIsSticky(rect.top <= 0);
+            }
+        };
+
         window.addEventListener('scroll', handleScrollDebounced);
+        window.addEventListener('scroll', handleSticky);
         return () => {
             if (scrollTimeoutRef.current) {
                 clearTimeout(scrollTimeoutRef.current);
             }
             window.removeEventListener('scroll', handleScrollDebounced);
+            window.removeEventListener('scroll', handleSticky);
         };
     }, [selectedTabIndex, tabs]);
-
     return (
         <div className=" md:mt-14 ">
             <div className="md:flex flex-col">
-                <div className="sticky top-0 z-50 bg-white/75 backdrop-blur-xl dark:bg-black/75 transition-all inset-x-0 ">
+                <div
+                    ref={sectionRef}
+                    className={`sticky top-0 transition-all inset-x-0 ${isSticky ? 'z-50' : 'z-40'} bg-white/75 backdrop-blur-xl dark:bg-black/75`}
+                >
                     <div className=" px-1 sm:px-4 max-w-screen-custom mx-auto">
                         <div className="flex items-center py-4">
                             <div className="w-2/3  md:block hidden ">
@@ -88,7 +101,7 @@ const ProductSection = () => {
                                     selectedTabIndex={selectedTabIndex}
                                     onTabClick={handleTabClick}
                                     activeTextClassName="text-white h-10"
-                                    textClassName='sm:text-xs text-[10px]'
+                                    textClassName="sm:text-xs text-[10px]"
                                 />
                             </div>
                         </div>

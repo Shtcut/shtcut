@@ -27,7 +27,12 @@ import { IoIosHelpCircleOutline } from 'react-icons/io';
 import { BsBuildings } from 'react-icons/bs';
 import { FaRegNewspaper } from 'react-icons/fa';
 
-const FeatureMenu = () => {
+type IProps = {
+    onMouseEnter: () => void;
+    onMouseLeave: () => void;
+};
+
+const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
     const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
             title: 'Link Management',
@@ -107,7 +112,7 @@ const FeatureMenu = () => {
     const resources: { title: string; href: string; description: string; icon?: any; img?: string }[] = [
         {
             title: 'Blog',
-            href: '#',
+            href: '/blog',
             description: 'Generate short URLs with just a click, metrics and track performance',
             icon: FaRegNewspaper
         },
@@ -120,58 +125,99 @@ const FeatureMenu = () => {
     ];
 
     return (
-        <NavigationMenu>
-            <NavigationMenuList>
-                <NavigationMenuItem className=''>
-                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
-                        Product
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent className="rounded-[20px]">
-                        <div className=" flex w-[400px] gap-3 p-6 md:w-[500px]  lg:w-[600px]">
-                            <div className="w-1/2">
-                                <h1 className="font-semibold text-xs uppercase px-3">Features</h1>
-                                <ul className="mt-2  ">
-                                    {features.map((component, index) => (
+        <>
+            <NavigationMenu>
+                <NavigationMenuList>
+                    <NavigationMenuItem className="">
+                        <NavigationMenuTrigger
+                            className="text-sm font-normal bg-transparent"
+                            onMouseLeave={onMouseLeave}
+                            onMouseEnter={onMouseEnter}
+                        >
+                            Product
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent
+                            onMouseLeave={onMouseLeave}
+                            onMouseEnter={onMouseEnter}
+                            className="rounded-[20px]"
+                        >
+                            <div className=" flex w-[400px] gap-3 p-6 md:w-[500px]  lg:w-[600px]">
+                                <div className="w-1/2">
+                                    <h1 className="font-semibold text-xs uppercase px-3">Features</h1>
+                                    <ul className="mt-2  ">
+                                        {features.map((component, index) => (
+                                            <ListItem
+                                                key={component.title}
+                                                title={component.title}
+                                                href={component.href}
+                                                icon={
+                                                    component.icon ? (
+                                                        <component.icon
+                                                            className={`${index === 0 || index === 1 ? 'w-4 h-4' : 'w-5 h-5'} text-[#424242]`}
+                                                        />
+                                                    ) : null
+                                                }
+                                                className="text-[#777777] text-xs"
+                                            >
+                                                {component.description}
+                                            </ListItem>
+                                        ))}
+                                    </ul>
+                                </div>
+                                <div className="w-1/2">
+                                    <h1 className="font-semibold text-xs uppercase px-3">Our Products</h1>
+                                    <ul className="mt-2 ">
+                                        {product.map((component, index) => (
+                                            <ListItem
+                                                key={component.title}
+                                                title={component.title}
+                                                href={component.href}
+                                                icon={
+                                                    component.icon || component.img ? (
+                                                        component.img ? (
+                                                            <Image
+                                                                src={component.img}
+                                                                width={20}
+                                                                height={20}
+                                                                alt={component.title}
+                                                            />
+                                                        ) : (
+                                                            <component.icon
+                                                                className={`${index === 0 ? 'w-4 h-4' : 'w-[18px] h-[18px]'}  text-[#424242]`}
+                                                            />
+                                                        )
+                                                    ) : null
+                                                }
+                                                className="text-xs text-[#777777]"
+                                            >
+                                                {component.description}
+                                            </ListItem>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger
+                            className="text-sm font-normal bg-transparent"
+                            onMouseLeave={onMouseLeave}
+                            onMouseEnter={onMouseEnter}
+                        >
+                            Solutions
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+                            <div className="p-6">
+                                <h1 className="font-semibold text-xs uppercase px-3">Solutions</h1>
+                                <ul className="grid w-[400px] gap-3 mt-4  md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                    {solutions.map((component) => (
                                         <ListItem
                                             key={component.title}
                                             title={component.title}
                                             href={component.href}
                                             icon={
                                                 component.icon ? (
-                                                    <component.icon
-                                                        className={`${index === 0 || index === 1 ? 'w-4 h-4' : 'w-5 h-5'} text-[#424242]`}
-                                                    />
-                                                ) : null
-                                            }
-                                            className="text-[#777777] text-xs"
-                                        >
-                                            {component.description}
-                                        </ListItem>
-                                    ))}
-                                </ul>
-                            </div>
-                            <div className="w-1/2">
-                                <h1 className="font-semibold text-xs uppercase px-3">Our Products</h1>
-                                <ul className="mt-2 ">
-                                    {product.map((component, index) => (
-                                        <ListItem
-                                            key={component.title}
-                                            title={component.title}
-                                            href={component.href}
-                                            icon={
-                                                component.icon || component.img ? (
-                                                    component.img ? (
-                                                        <Image
-                                                            src={component.img}
-                                                            width={20}
-                                                            height={20}
-                                                            alt={component.title}
-                                                        />
-                                                    ) : (
-                                                        <component.icon
-                                                            className={`${index === 0 ? 'w-4 h-4' : 'w-[18px] h-[18px]'}  text-[#424242]`}
-                                                        />
-                                                    )
+                                                    <component.icon className="w-4 h-4 text-[#424242]" />
                                                 ) : null
                                             }
                                             className="text-xs text-[#777777]"
@@ -181,83 +227,60 @@ const FeatureMenu = () => {
                                     ))}
                                 </ul>
                             </div>
-                        </div>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
-                        Solutions
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <div className="p-6">
-                            <h1 className="font-semibold text-xs uppercase px-3">Solutions</h1>
-                            <ul className="grid w-[400px] gap-3 mt-4  md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                {solutions.map((component) => (
-                                    <ListItem
-                                        key={component.title}
-                                        title={component.title}
-                                        href={component.href}
-                                        icon={
-                                            component.icon ? (
-                                                <component.icon className="w-4 h-4 text-[#424242]" />
-                                            ) : null
-                                        }
-                                        className="text-xs text-[#777777]"
-                                    >
-                                        {component.description}
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </div>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuTrigger className="text-sm font-normal bg-transparent">
-                        Resources
-                    </NavigationMenuTrigger>
-                    <NavigationMenuContent>
-                        <div className="p-6">
-                            <h1 className="font-semibold text-xs uppercase px-3">Resources</h1>
-                            <ul className="grid w-[400px] px-2 gap-3 mt-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                                {resources.map((component) => (
-                                    <ListItem
-                                        key={component.title}
-                                        title={component.title}
-                                        href={component.href}
-                                        icon={
-                                            component.icon ? (
-                                                <component.icon className="w-4 h-4 text-[#424242]" />
-                                            ) : null
-                                        }
-                                        className="text-xs text-[#777777]"
-                                    >
-                                        {component.description}
-                                    </ListItem>
-                                ))}
-                            </ul>
-                        </div>
-                    </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/pricing" legacyBehavior passHref>
-                        <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <NavigationMenuTrigger
+                            className="text-sm font-normal bg-transparent"
+                            onMouseLeave={onMouseLeave}
+                            onMouseEnter={onMouseEnter}
                         >
-                            Pricing
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <Link href="/blogs" legacyBehavior passHref>
-                        <NavigationMenuLink
-                            className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
-                        >
-                            Blogs
-                        </NavigationMenuLink>
-                    </Link>
-                </NavigationMenuItem>
-            </NavigationMenuList>
-        </NavigationMenu>
+                            Resources
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent onMouseLeave={onMouseLeave} onMouseEnter={onMouseEnter}>
+                            <div className="p-6">
+                                <h1 className="font-semibold text-xs uppercase px-3">Resources</h1>
+                                <ul className="grid w-[400px] px-2 gap-3 mt-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                                    {resources.map((component) => (
+                                        <ListItem
+                                            key={component.title}
+                                            title={component.title}
+                                            href={component.href}
+                                            icon={
+                                                component.icon ? (
+                                                    <component.icon className="w-4 h-4 text-[#424242]" />
+                                                ) : null
+                                            }
+                                            className="text-xs text-[#777777]"
+                                        >
+                                            {component.description}
+                                        </ListItem>
+                                    ))}
+                                </ul>
+                            </div>
+                        </NavigationMenuContent>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link href="/pricing" legacyBehavior passHref>
+                            <NavigationMenuLink
+                                className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                            >
+                                Pricing
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                    <NavigationMenuItem>
+                        <Link href="/blogs" legacyBehavior passHref>
+                            <NavigationMenuLink
+                                className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                            >
+                                Blogs
+                            </NavigationMenuLink>
+                        </Link>
+                    </NavigationMenuItem>
+                </NavigationMenuList>
+            </NavigationMenu>
+        </>
     );
 };
 

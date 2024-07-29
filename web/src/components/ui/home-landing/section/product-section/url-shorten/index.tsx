@@ -5,9 +5,9 @@ import Image from 'next/image';
 import React from 'react';
 
 const UrlShortener = () => {
-      const { width } = useWindowSize();
-      const mobileTab = width !== undefined && width <= 1073;
-      const tab = width !== undefined && width <= 768;
+    const { width } = useWindowSize();
+    const mobileTab = width !== undefined && width <= 1073;
+    const tab = width !== undefined && width <= 768;
     return (
         <AnimatedContainer>
             <div id="url-shorten" className=" ">
@@ -27,16 +27,14 @@ const UrlShortener = () => {
                                     Optimize URL management for individuals, businesses, and organizations with a robust
                                     range of features to streamline tracking and enhance link management.
                                 </p>
-                                <Button className='w-32 bg-primary-0'>
-                                    Get started
-                                </Button>
+                                <Button className="w-32 bg-primary-0">Get started</Button>
                             </div>
                             <div className={` bg-white z-20 ${mobileTab ? 'w-1/2' : ''} ${tab ? 'w-full' : ''}`}>
                                 <Image
                                     alt="icons"
                                     width={0}
                                     height={0}
-                                    className={`bg-white w-full  md:w-[624px] h-80 md:h-[488px]`}
+                                    className={`bg-white w-full   md:w-[624px] h-80 md:h-[488px]`}
                                     src="/images/url-shorten.png"
                                     sizes="100vw"
                                     loading="eager"
@@ -45,6 +43,7 @@ const UrlShortener = () => {
                         </div>
                     </div>
                 </Card>
+
                 <div className="flex flex-col  gap-y-4 md:gap-y-0 lg:gap-y-4">
                     <div className="flex gap-4 md:gap-5 lg:gap-[30px] w-full mt-4 md:mt-[30px] md:flex-row flex-col ">
                         <Card className="w-full  shadow-none flex flex-col gap-y-6 md:gap-y-0 justify-between px-4 lg:px-8 h-fit md:h-[400px]   bg-[#f7f7f7] border border-[#E3E3E3]">
