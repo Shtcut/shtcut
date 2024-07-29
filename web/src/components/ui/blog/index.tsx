@@ -31,7 +31,7 @@ const BlogComponent = () => {
                                 sizes="100vw"
                                 loading="eager"
                             />
-                            <div className='flex flex-col gap-2 mt-[32px]'> 
+                            <div className="flex flex-col gap-2 mt-[32px]">
                                 <div className="">
                                     <p className="text-xs text-primary-0 font-semibold">Olivia Rhye • 20 Jan 2024</p>
                                     <h1 className="font-semibold text-2xl">
@@ -42,11 +42,7 @@ const BlogComponent = () => {
                                     How do you create compelling presentations that wow your colleagues and impress your
                                     managers?
                                 </p>
-                                <div>
-                               {data.map(blogs)=>(
-                                     <SectionTabs text={blogs.text} bg={''} textColor={''} />
-                               )}
-                                </div>
+                                <div></div>
                             </div>
                         </div>
                         <div className="w-1/2">hey</div>
