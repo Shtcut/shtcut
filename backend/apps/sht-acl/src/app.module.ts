@@ -12,6 +12,7 @@ import { WorkspaceModule } from './workspace';
 import { SubscriptionModule } from './subscription';
 import { SecurityModule } from './security/security.module';
 import { PlanModule } from './plan';
+import { InvitationModule } from './invitation';
 
 
 @Module({
@@ -24,6 +25,7 @@ import { PlanModule } from './plan';
     SecurityModule,
     WorkspaceModule,
     PlanModule,
+    InvitationModule,
     MongooseModule.forFeature([{ name: App.name, schema: AppSchema }]),
     ConfigModule.forRoot({
       isGlobal: true,
