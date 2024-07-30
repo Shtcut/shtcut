@@ -32,4 +32,8 @@ export default {
     notFound: 'This workspace is not found',
     invalidDomain: 'The workspace does not have ownership of this domain.',
   },
+
+  invitation: {
+    existingEmail: 'Invitation already sent to one or more of the current email address',
+  },
 };

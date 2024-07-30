@@ -30,7 +30,6 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Subscription.name) protected subscriptionModel: Model<SubscriptionDocument>,
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
-    @InjectModel(Invitation.name) protected invitationModel: Model<InvitationDocument>,
     protected subscriptionService: SubscriptionService,
     protected redisService: RedisService,
   ) {
