@@ -1,15 +1,14 @@
 import React from 'react';
 
 type IProps = {
-    bg: string;
     text: string;
     textColor: string;
 };
 
-const SectionTabs = ({ bg, text, textColor }: IProps) => {
+const SectionTabs = ({ text, textColor }: IProps) => {
     return (
-        <div className={`bg-[${bg}] text-[${textColor}]`}>
-            <p>{text}</p>
+        <div style={{ backgroundColor: `${textColor}10`, color: textColor }} className='shadow-sm cursor-pointer p-1 w-fit px-2 rounded-[16px]'>
+            <p className='text-[13px] font-medium'>{text}</p>
         </div>
     );
 };

@@ -128,3 +128,12 @@ export type RoutePaths = {
     workspace: string;
 };
 
+export interface PostInterface {
+    id: string;
+    title: string;
+    images: string;
+    color: string;
+    text: string;
+    timeline: string;
+    objectData: { text: string; color: string }[];
+}

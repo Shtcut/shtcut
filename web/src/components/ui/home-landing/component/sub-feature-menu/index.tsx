@@ -269,15 +269,6 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                             </NavigationMenuLink>
                         </Link>
                     </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link href="/blogs" legacyBehavior passHref>
-                            <NavigationMenuLink
-                                className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
-                            >
-                                Blogs
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
         </>

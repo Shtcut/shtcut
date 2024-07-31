@@ -1,4 +1,4 @@
-import { GeneralType, IntegrationSectionType, Plan } from '@shtcut/types/types';
+import { GeneralType, IntegrationSectionType, Plan, PostInterface } from '@shtcut/types/types';
 import { Activity, Command, PieChart } from 'lucide-react';
 
 export const IMPACT: GeneralType[] = [
@@ -383,5 +383,106 @@ export const logos = [
         id: '8',
         name: 'scan',
         logoUrl: '/logos/Scan.png'
+    }
+];
+export const postData_2 = [
+    {
+        title: 'Migrating to Shtcut',
+        images: '/blog/customer-service.png',
+        color: '#3538CD',
+        text: 'Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get...',
+        timeline: 'Lana Steiner • 18 Jan 2024',
+        objectData: [
+            { text: 'Engineering', color: '#026AA2' },
+            { text: 'Customer Stories', color: '#C11574' }
+        ]
+    },
+    {
+        title: 'Building your API Stack',
+        images: '/blog/building.png',
+        color: '#C11574',
+        text: 'Linear helps streamline software projects, sprints, tasks, and bug tracking. Here’s how to get...',
+        timeline: 'Phoenix Baker • 19 Jan 2024',
+        objectData: [
+            { text: 'Education', color: '#027A48' },
+            { text: 'Customer Stories', color: '#C11574' }
+        ]
+    }
+];
+
+export const postData_3: PostInterface[] = [
+    {
+        id: '1',
+        title: 'Bill Walsh leadership lessons',
+        images: '/blog/leadership.png',
+        color: '#3538CD',
+        text: 'Like to know the secrets of transforming a 2-14 team into a 3x Super Bowl winning Dynasty?',
+        timeline: 'Alec Whitten • 17 Jan 2022',
+        objectData: [
+            { text: 'Leadership', color: '#6941C6' },
+            { text: 'Company News', color: '#363F72' }
+        ]
+    },
+    {
+        id: '2',
+        title: 'PM mental models',
+        images: '/blog/mental.png',
+        color: '#C11574',
+        text: 'Mental models are simple expressions of complex processes or relationships.',
+        timeline: 'Demi WIlkinson • 16 Jan 2022',
+        objectData: [
+            { text: 'Engineering', color: '#026AA2' },
+            { text: 'Education', color: '#3538CD' },
+            { text: 'Changelog', color: '#C4320A' }
+        ]
+    },
+    {
+        id: '3',
+        title: 'What is Wireframing?',
+        images: '/blog/Wireframing.png',
+        color: '#C11574',
+        text: 'Introduction to Wireframing and its Principles. Learn from the best in the industry.',
+        timeline: 'Candice Wu • 15 Jan 2022',
+        objectData: [
+            { text: 'Leadership', color: '#6941C6' },
+            { text: 'Engineering', color: '#026AA2' }
+        ]
+    },
+    {
+        id: '4',
+        title: 'How collaboration makes us better designers',
+        images: '/blog/collabo.png',
+        color: '#C11574',
+        text: 'Collaboration can make our teams stronger, and our individual designs better.',
+        timeline: 'Natali Craig • 14 Jan 2022',
+        objectData: [
+            { text: 'Design', color: '#6941C6' },
+            { text: 'Research', color: '#026AA2' }
+        ]
+    },
+    {
+        id: '5',
+        title: 'Our top 10 Javascript frameworks to use',
+        images: '/blog/javascript.png',
+        color: '#C11574',
+        text: 'JavaScript frameworks make development easy with extensive features and functionalities.',
+        timeline: 'Drew Cano • 13 Jan 2022',
+        objectData: [
+            { text: 'Changelogs', color: '#6941C6' },
+            { text: 'Tools', color: '#C11574' },
+            { text: 'SaaS', color: '#C01048' }
+        ]
+    },
+    {
+        id: '6',
+        title: 'Podcast: Creating a better CX Community',
+        images: '/blog/creating.png',
+        color: '#C11574',
+        text: 'Starting a community doesn’t need to be complicated, but how do you get started?',
+        timeline: 'Orlando Diggs • 12 Jan 2022',
+        objectData: [
+            { text: 'Podcasts', color: '#6941C6' },
+            { text: 'Customer Success', color: '#363F72' }
+        ]
     }
 ];

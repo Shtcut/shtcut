@@ -9,7 +9,7 @@ interface BlurOverlayProps {
 const BlurOverlay: React.FC<BlurOverlayProps> = ({ isVisible }) => {
     return (
         <div
-            className={`fixed inset-0 bg-white/10 backdrop-blur-sm transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'} z-50`}
+            className={`  ${isVisible ? 'opacity-100 fixed inset-0 bg-white/10 backdrop-blur-sm ' : 'opacity-0'} z-50 duration-300 transition-opacity `}
         />
     );
 };

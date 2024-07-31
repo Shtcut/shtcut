@@ -1,2 +1,4 @@
 import SectionTabs from './sections-tab';
-export { SectionTabs };
+import TabsFilter from './tabs-filter';
+import AllBlogPost from './all-blog-post';
+export { SectionTabs, TabsFilter, AllBlogPost };

@@ -8,7 +8,7 @@ interface AnimatedContainerProps {
     children: React.ReactNode;
     className?: string;
     direction?: 'left' | 'right' | 'default';
-    repeat?: boolean; // New prop to control animation repeat
+    repeat?: boolean;
     style?: React.CSSProperties;
 }
 
@@ -16,7 +16,7 @@ const AnimatedContainer = ({
     children,
     className,
     direction = 'default',
-    repeat = false ,
+    repeat = false,
     style
 }: AnimatedContainerProps) => {
     const controls = useAnimation();
