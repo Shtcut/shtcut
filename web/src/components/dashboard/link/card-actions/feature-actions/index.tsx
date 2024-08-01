@@ -18,23 +18,23 @@ const FeatureActions = () => {
                     <IoEllipsisVerticalSharp />
                 </div>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-36 ">
-                <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-sm items-center gap-x-2">
+            <DropdownMenuContent className="w-36 right-6 relative">
+                <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2">
                     <PencilLine size={16} /> Edit Link
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-sm items-center gap-x-2">
+                <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2">
                     <PiQrCodeBold size={16} /> QR Code
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2">
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2">
                     <PiFolders size={16} /> Duplicate
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2">
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2">
                     <Archive size={16} /> Archive
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2">
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2">
                     <FiShare2 size={16} /> Share
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2">
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2">
                     <Trash2 size={16} /> Delete
                 </DropdownMenuCheckboxItem>
             </DropdownMenuContent>

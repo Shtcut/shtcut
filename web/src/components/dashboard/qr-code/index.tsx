@@ -37,7 +37,7 @@ const QrCodeComponent = () => {
                     </Button>
                 </div>
             )}
-            {data.length <= 0 ? (
+            {data.length > 0 ? (
                 data.map((id) => (
                     <div key={id} className="mt-[22px]">
                         <QrCodeCard id={id} handleCheckboxChange={handleCheckboxChange} />

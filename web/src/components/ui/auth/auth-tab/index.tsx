@@ -10,7 +10,6 @@ import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { routes } from '@shtcut/_shared/utils/route';
-import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import BlurIn from '@shtcut/components/_shared/animations/blur-animation';
 import Tabs from '@shtcut/components/_shared/Tabs';
 

@@ -24,7 +24,7 @@ const LinkListedComponent = ({
                         </div>
                     )}
                     <div className="shadow border border-gray-50 w-[50px] h-[50px] rounded-[10px] flex justify-center items-center">
-                        <Image src={'/images/figma.png'} width={26} height={26} alt="figma" />
+                        <Image src={'/images/figma.png'} width={18} height={18} alt="figma" />
                     </div>
                     <div
                         className=""
@@ -35,9 +35,9 @@ const LinkListedComponent = ({
                         }}
                     >
                         <div>
-                            <h1 className="font-semibold text-[#151314]">Figma</h1>
-                            <p className="text-sm text-primary-0 font-normal">shrtcutdribble/34567f</p>
-                            <p className="text-[#2B2829] text-sm">
+                            <h1 className="font-semibold text-sm text-[#151314]">Figma</h1>
+                            <p className="text-xs text-primary-0 font-normal">shrtcutdribble/34567f</p>
+                            <p className="text-[#2B2829] text-xs">
                                 https://dribble.com/shots/1971969600-justadmin-Finance-SaaS-Hero
                             </p>
                         </div>
@@ -45,7 +45,7 @@ const LinkListedComponent = ({
                             <Clock3 size={16} />
                             <span className="text-[#726C6C] text-xs font-medium">Oct 15, 2024</span>
                             <div className="flex items-center space-x-1 w-[60px] h-6  rounded justify-center border bg-[#ECFFFC] border-[#0B7B69]">
-                                <Tag size={16} color="#0B7B69" />
+                                <Tag size={14} color="#0B7B69" />
                                 <span className="text-xs text-[#0B7B69]">Tags</span>
                             </div>
                         </div>

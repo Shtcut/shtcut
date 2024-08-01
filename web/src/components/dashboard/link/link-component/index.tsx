@@ -17,8 +17,8 @@ const LinkComponent = () => {
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Link Shortener</h1>
                 <Link href={`${pathName}/create`}>
-                    <Button className="bg-primary-0 flex justify-center items-center gap-x-2">
-                        Create Link <div className="border border-white w-2 h-2 font-semibold rounded-full" />
+                    <Button className="bg-primary-0 text-xs h-8 rounded ">
+                        Create Link
                     </Button>
                 </Link>
             </div>

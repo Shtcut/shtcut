@@ -16,7 +16,7 @@ const CardsActions = ({ edit }: { edit: boolean | undefined }) => {
             {edit ? (
                 <div
                     onClick={handleNavigateEdit}
-                    className={`text-xs cursor-pointer flex mx-auto items-center w-[95px] justify-center text-primary-0 rounded h-[34px] bg-white text-sm  font-medium border gap-x-2 border-primary-0`}
+                    className={`text-xs cursor-pointer flex mx-auto items-center w-[95px] justify-center text-primary-0 rounded h-[34px] bg-white   font-medium border gap-x-2 border-primary-0`}
                 >
                     <PencilLine size={16} /> <span>Edit Link</span>
                 </div>

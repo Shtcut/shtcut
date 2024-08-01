@@ -137,3 +137,14 @@ export interface PostInterface {
     timeline: string;
     objectData: { text: string; color: string }[];
 }
+export interface DomainsTypes {
+    setShowModal?: Dispatch<SetStateAction<boolean>>;
+    showModal?: boolean;
+    handleModalShow: (open: boolean) => void;
+    setCnModal?: Dispatch<SetStateAction<boolean>>;
+    cnModal?: boolean;
+    handleModalCn: (open: boolean) => void;
+    selectedTabIndex: number;
+    setSelectedTabIndex: Dispatch<SetStateAction<number>>;
+    handleTabClick: (tab: number) => void;
+}
