@@ -19,7 +19,7 @@ const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
     };
 
     return (
-        <Card className=" cursor-pointer border-none shadow-sm  rounded-[10px] p-4  ">
+        <Card className=" cursor-pointer border border-gray-50   rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     <div className="relative checkbox-container">

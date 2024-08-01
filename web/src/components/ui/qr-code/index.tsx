@@ -37,7 +37,7 @@ const QrCodeComponent = () => {
                     </Button>
                 </div>
             )}
-            {data.length > 0 ? (
+            {data.length <= 0 ? (
                 data.map((id) => (
                     <div key={id} className="mt-[22px]">
                         <QrCodeCard id={id} handleCheckboxChange={handleCheckboxChange} />
@@ -46,7 +46,7 @@ const QrCodeComponent = () => {
             ) : (
                 <div className="flex flex-col items-center rounded-[10px] bg-white h-[500px]  justify-center gap-4 mt-10">
                     <Image src="/images/qrcode-data.png" width={232} height={172} alt="No Data" />
-                    <p className="text-center  text-lg font-medium ">Get started with QR Codes</p>
+                    <p className="text-center  text-lg font-medium ">No QR Code found for this workspace</p>
                     <Link href={`${pathName}/create`}>
                         <Button className="bg-primary-0 ">Create QR Code</Button>
                     </Link>
