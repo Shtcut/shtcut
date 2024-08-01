@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 import AddDomainsForm from './add-domain-form';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import { ConfigurationInfo } from './component';
+import { dummyData } from '@shtcut/_shared/data';
 
 const DomainsComponent = ({
     handleModalShow,
@@ -18,12 +19,10 @@ const DomainsComponent = ({
     cnModal,
     setCnModal,
     handleTabClick,
-    setSelectedTabIndex,
     selectedTabIndex
 }: DomainsTypes) => {
     const pathName = usePathname();
 
-    const data = [1, 2, 3, 4, 5];
     const tabs = [
         { id: 'record', label: 'A Record' },
         { id: 'c-name', label: 'CNAME Record' }
@@ -45,8 +44,8 @@ const DomainsComponent = ({
                 </Button>
             </div>
             <div className=" mt-6 flex flex-col gap-3">
-                {data.length > 0 ? (
-                    data.map((id) => (
+                {dummyData.length > 0 ? (
+                    dummyData.map((id) => (
                         <div key={id} className="">
                             <DomainsCard handleModalCn={handleModalCn} />
                         </div>
@@ -101,7 +100,12 @@ const DomainsComponent = ({
                     <p className="text-xs mt-1 text-[#898384]">
                         To configure your domain, set the records on your DNS provider
                     </p>
-                    <Tabs classNames='mt-4' tabs={tabs} selectedTabIndex={selectedTabIndex} onTabClick={handleTabClick} />
+                    <Tabs
+                        classNames="mt-4"
+                        tabs={tabs}
+                        selectedTabIndex={selectedTabIndex}
+                        onTabClick={handleTabClick}
+                    />
                     <ConfigurationInfo />
                 </div>
             </Modal>
