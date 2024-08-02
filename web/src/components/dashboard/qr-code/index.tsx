@@ -27,12 +27,14 @@ const QrCodeComponent = () => {
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">QR Codes</h1>
                 <Link href={`${pathName}/create`}>
-                    <Button className="bg-primary-0 flex justify-center items-center gap-x-2">Create QR Code</Button>
+                    <Button className="bg-primary-0 h-8 text-xs rounded flex justify-center items-center gap-x-2">
+                        Create QR Code
+                    </Button>
                 </Link>
             </div>
             {selectedQRCodes.length > 0 && (
                 <div className="flex justify-end mt-4">
-                    <Button className="bg-red-500 text-white" onClick={handleDelete}>
+                    <Button className="bg-red-500 text-xs h-8 rounded  text-white" onClick={handleDelete}>
                         Delete Selected
                     </Button>
                 </div>
@@ -48,7 +50,7 @@ const QrCodeComponent = () => {
                     <Image src="/images/qrcode-data.png" width={232} height={172} alt="No Data" />
                     <p className="text-center  text-lg font-medium ">No QR Code found for this workspace</p>
                     <Link href={`${pathName}/create`}>
-                        <Button className="bg-primary-0 ">Create QR Code</Button>
+                        <Button className="bg-primary-0  text-xs h-8 rounded ">Create QR Code</Button>
                     </Link>
                 </div>
             )}

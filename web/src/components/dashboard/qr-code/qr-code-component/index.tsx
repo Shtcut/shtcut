@@ -34,8 +34,8 @@ const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
                     <Image src={'/images/qrcode.png'} width={66} height={66} alt="figma" />
                     <div className="">
                         <div>
-                            <h1 className="font-semibold text-[#151314]">Amazon QR Code</h1>
-                            <p className="text-sm text-primary-0 font-normal">Multi-Links Website</p>
+                            <h1 className="font-semibold text-sm text-[#151314]">Amazon QR Code</h1>
+                            <p className="text-xs text-primary-0 font-normal">Multi-Links Website</p>
                         </div>
                         <div className="flex items-center gap-x-2 mt-[6px]">
                             <Calendar color="#2B2829" size={16} />

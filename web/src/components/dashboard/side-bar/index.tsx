@@ -13,9 +13,10 @@ type Props = {
     setIsOpen: (val: boolean) => void;
     isOpen: boolean;
     isTab: boolean;
+    workSpaceTitle?: string;
 };
 
-export default function SideBar({ isOpen, isTab, setIsOpen }: Props) {
+export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Props) {
     const params = useParams();
     const pathName = usePathname();
     const { module, workspace } = params;
@@ -78,25 +79,30 @@ export default function SideBar({ isOpen, isTab, setIsOpen }: Props) {
             initial={{ x: isTab ? -250 : 0 }}
             variants={Sidebar_animation}
             animate={isOpen ? 'open' : 'closed'}
-            className="bg-white flex flex-col justify-between border-l border-r h-full w-60 fixed"
+            className="bg-white flex flex-col justify-between border-l border-r h-full z-40 w-60 fixed"
         >
             <div className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  `}>
-                {isOpen ? (
-                    <Button className="bg-primary-0 text-xs rounded h-8">Create New</Button>
-                ) : (
-                    <div className="bg-primary-0 cursor-pointer w-6 h-6 rounded-full flex justify-center items-center text-white">
-                        <TooltipProvider delayDuration={0}>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <Plus size={16} />
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <Label className="font-light text-xs">Create New</Label>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    </div>
+                {workSpaceTitle === 'Url Shortener' && (
+                    <>
+                        {isOpen ? (
+                            <Button className="bg-primary-0 text-xs rounded h-8">Create New</Button>
+                        ) : (
+                            <div className="bg-primary-0 cursor-pointer w-6 h-6 rounded-full flex justify-center items-center text-white">
+                                <TooltipProvider delayDuration={0}>
+                                    <Tooltip>
+                                        <TooltipTrigger>
+                                            <Plus size={16} />
+                                        </TooltipTrigger>
+                                        <TooltipContent>
+                                            <Label className="font-light text-xs">Create New</Label>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            </div>
+                        )}
+                    </>
                 )}
+
                 <ul className={`flex flex-col  ${isOpen ? '' : ''} mt-[14px] gap-1 w-full `}>
                     {navigationOptions.map((data) => (
                         <li key={data.id} className="w-full">

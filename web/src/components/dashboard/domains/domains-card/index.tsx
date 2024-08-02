@@ -1,6 +1,5 @@
 import { Checkbox } from '@shtcut-ui/react';
 import React from 'react';
-import { Clock3 } from 'lucide-react';
 import { Globe, Calendar } from 'lucide-react';
 import DomainActions from '../domain-actions';
 
@@ -22,7 +21,7 @@ const DomainsCard = ({ edit, handleModalCn }: { handleModalCn: (open: boolean) =
                             <h1 className="font-semibold text-sm text-[#151314]">amandadaniels.com</h1>
                             <p className="text-xs text-primary-0 font-normal">No redirect configured</p>
                         </div>
-                        <div className="flex items-center gap-x-2 mt-2">
+                        <div className="flex text-[#726C6C]  items-center gap-x-2 mt-2">
                             <Calendar size={16} />
                             <span className="text-[#726C6C] text-xs font-medium">Oct 15, 2024</span>
                         </div>

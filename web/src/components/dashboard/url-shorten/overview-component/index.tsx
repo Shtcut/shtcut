@@ -19,7 +19,7 @@ const OverviewComponent = () => {
         <div>
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-2xl">Timeweb</h1>
-                <Button onClick={() => handleModalVisibility('manage')} className="bg-primary-0">
+                <Button onClick={() => handleModalVisibility('manage')} className="bg-primary-0 h-8 text-xs rounded">
                     Manage Workspace
                 </Button>
             </div>
@@ -35,7 +35,7 @@ const OverviewComponent = () => {
                 setShowModal={setIsModalOpen}
                 showCloseIcon={modalContent === 'add' ? false : modalContent === 'delete' ? false : true}
                 onClose={() => handleModalVisibility(null)}
-                className={`px-[24px] z-50 bg-gray-50  ${modalContent === 'add' ? 'max-w-sm' : modalContent === 'delete' ? 'max-w-sm' : modalContent === 'role' ? 'max-w-sm' : 'max-w-lg'}`}
+                className={`px-[24px] z-50 bg-white  ${modalContent === 'add' ? 'max-w-sm' : modalContent === 'delete' ? 'max-w-sm' : modalContent === 'role' ? 'max-w-sm' : 'max-w-lg'}`}
             >
                 {modalContent === 'manage' && <ManageWorkSpaceModal />}
                 {modalContent === 'role' && <SwitchRoleModal />}

@@ -1,6 +1,6 @@
 'use client';
 
-import { Skeleton } from '@shtcut-ui/react';
+import { Label, Skeleton, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
 import { MdEmail } from 'react-icons/md';
 import { UserNav } from '@shtcut/components/_shared/UserNav';
 import { useParams, usePathname, useRouter } from 'next/navigation';
@@ -13,8 +13,6 @@ import Image from 'next/image';
 import { IoIosLink } from 'react-icons/io';
 import { RiSurveyFill } from 'react-icons/ri';
 import { ChevronRight } from 'lucide-react';
-import Link from 'next/link';
-import Tabs from '@shtcut/components/_shared/Tabs';
 import NavTabs from '@shtcut/components/ui/nav-bar';
 
 const WorkspaceLayout = ({ children }: any) => {
@@ -72,34 +70,40 @@ const WorkspaceLayout = ({ children }: any) => {
         setActiveTab(activeLink?.id || null);
     }, [pathName, navigationOptions]);
 
-    const handleTabClick = (tabId: string) => {
-        setActiveTab(tabId);
-    };
-
     const handleTabChange = (index: number) => {
         setSelectedTabIndex(index);
     };
     return (
         <div className="bg-[#fcfcfc] w-full h-screen flex">
-            <div className="bg-white w-12 h-full fixed">
+            <div className="bg-white w-12  z-50 h-full fixed">
                 <div className="h-[63px] bg-white flex items-center justify-center">
                     <Image src={'/images/shtcut-logo-icon.png'} width={24} height={24} alt="shtcut logo" />
                 </div>
                 <div className="flex flex-col items-center gap-y-2 mt-2">
                     {sideNav.map((navs) => (
-                        <div
-                            key={navs.id}
-                            className={`p-2 rounded-md cursor-pointer ${
-                                params?.workspace === navs.workspace ? 'bg-[#E5EDFD] text-primary-0' : 'bg-transparent'
-                            }`}
-                            onClick={() => handleNavigation(navs.url, navs.id)}
-                        >
-                            {navs.id === '4' ? (
-                                <Image src={navs.img as string} width={20} height={20} alt="workspace" />
-                            ) : (
-                                navs.icon
-                            )}
-                        </div>
+                        <TooltipProvider key={navs.id} delayDuration={0}>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <div
+                                        className={`p-2 rounded-md cursor-pointer ${
+                                            params?.workspace === navs.workspace
+                                                ? 'bg-[#E5EDFD] text-primary-0'
+                                                : 'bg-transparent'
+                                        }`}
+                                        onClick={() => handleNavigation(navs.url, navs.id)}
+                                    >
+                                        {navs.id === '4' ? (
+                                            <Image src={navs.img as string} width={20} height={20} alt="workspace" />
+                                        ) : (
+                                            navs.icon
+                                        )}
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <Label className="font-light text-xs">{navs.title}</Label>
+                                </TooltipContent>
+                            </Tooltip>
+                        </TooltipProvider>
                     ))}
                 </div>
             </div>
@@ -133,7 +137,9 @@ const WorkspaceLayout = ({ children }: any) => {
                     </div>
                 </div>
                 <section className="flex relative h-screen w-full top-[63px]">
-                    {isSideBarOpen && <SideBar setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />}
+                    {isSideBarOpen && (
+                        <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
+                    )}
                     <div
                         className={`w-full relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6`}
                     >
