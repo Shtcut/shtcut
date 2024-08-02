@@ -1,6 +1,6 @@
 'use client';
 
-import QrCodeComponent from '@shtcut/components/ui/qr-code';
+import QrCodeComponent from '@shtcut/components/dashboard/qr-code';
 
 export const QrCodeContainer = () => {
     return <QrCodeComponent />;

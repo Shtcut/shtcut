@@ -10,7 +10,6 @@ const PlanCards = () => {
     const { handleClickCanvas } = useCanvasConfetti();
     const tabs = [
         { id: 'yearly', label: 'Yearly' },
-        { id: 'quarterly', label: 'Quarterly' },
         { id: 'monthly', label: 'Monthly' }
     ];
     const handleTabClick = (index: number, id: string) => {

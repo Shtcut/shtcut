@@ -1,6 +1,6 @@
 'use client';
 import { Form } from '@shtcut-ui/react';
-import EditComponent from '@shtcut/components/ui/link/edit-component';
+import EditComponent from '@shtcut/components/dashboard/link/edit-component';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 

@@ -43,8 +43,8 @@ const EmailMarketing = () => {
                                     alt="icons"
                                     width={0}
                                     height={0}
-                                    className={`bg-white w-full  md:w-[624px] h-80 md:h-[488px]`}
-                                    src="/images/review.png"
+                                    className={`bg-white w-full object-fill  md:w-[624px] h-80 md:h-[488px]`}
+                                    src="/images/container_1.png"
                                     sizes="100vw"
                                     loading="eager"
                                 />
