@@ -13,10 +13,10 @@ const DeleteModal = ({ onClose }: { onClose: () => void }) => {
                 Are you sure you want to remove this member? This action cannot be undone.
             </p>
             <div className="flex items-center gap-x-4 mt-6 w-full">
-                <Button variant={'outline'} className="w-full " onClick={onClose}>
+                <Button variant={'outline'} className="w-full  h-8 text-xs rounded" onClick={onClose}>
                     Cancel
                 </Button>
-                <Button className="bg-primary-0 w-full">Confirm</Button>
+                <Button className="bg-primary-0 w-full h-8 text-xs rounded">Confirm</Button>
             </div>
         </div>
     );

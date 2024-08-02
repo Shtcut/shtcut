@@ -128,3 +128,23 @@ export type RoutePaths = {
     workspace: string;
 };
 
+export interface PostInterface {
+    id: string;
+    title: string;
+    images: string;
+    color: string;
+    text: string;
+    timeline: string;
+    objectData: { text: string; color: string }[];
+}
+export interface DomainsTypes {
+    setShowModal?: Dispatch<SetStateAction<boolean>>;
+    showModal?: boolean;
+    handleModalShow: (open: boolean) => void;
+    setCnModal?: Dispatch<SetStateAction<boolean>>;
+    cnModal?: boolean;
+    handleModalCn: (open: boolean) => void;
+    selectedTabIndex: number;
+    setSelectedTabIndex: Dispatch<SetStateAction<number>>;
+    handleTabClick: (tab: number) => void;
+}

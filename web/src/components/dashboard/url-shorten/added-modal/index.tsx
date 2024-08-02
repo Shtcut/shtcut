@@ -13,7 +13,7 @@ const AddedModal = ({ onClose }: { onClose: () => void }) => {
                 You have successfully added a new member to the timelab workspace.
             </p>
             <div className="flex  items-center gap-x-4 mt-6 w-full">
-                <Button onClick={onClose} className=" w-full bg-primary-0">
+                <Button onClick={onClose} className=" w-full bg-primary-0 h-8 text-xs rounded">
                     Done
                 </Button>
             </div>

@@ -32,14 +32,14 @@ export const UserNav = () => {
     return (
         <DropdownMenu onOpenChange={handleToggle}>
             <DropdownMenuTrigger asChild>
-                <div className="flex items-center bg-[#F7F7F7] space-x-1 h-[31px] cursor-pointer  justify-center rounded-full pr-2">
+                <div className="flex items-center w-[135px] p-0 bg-[#F7F7F7] space-x-1 h-[31px] cursor-pointer   rounded-full pr-2">
                     <div className="relative">
                         <div className="relative h-8 w-8 select-none rounded-full bg-primary/10">
                             <Avatar className="h-8 w-8">
                                 <AvatarImage src={user?.avatar} alt="" />
                             </Avatar>
                         </div>
-                        <div className='absolute top-6 right-0'>
+                        <div className="absolute top-6 right-0">
                             <span className="relative flex h-2 w-2">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#15B097] opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-[#15B097]"></span>
@@ -47,7 +47,7 @@ export const UserNav = () => {
                         </div>
                     </div>
                     <p className="text-xs font-medium text-[#433E3F]">Uziel Renta</p>
-                    {isOpen ? <ChevronUp /> : <ChevronDown />}
+                    {isOpen ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56" align="end" forceMount>

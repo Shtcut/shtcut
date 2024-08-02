@@ -23,53 +23,40 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             title: 'Dashboard',
             href: `/url/${workspace}/overview`,
 
-            icon: <AiFillAppstore size={20} />
+            icon: <AiFillAppstore size={16} />
         },
         {
             id: '2',
             title: 'Links',
             href: `/url/${workspace}/links`,
 
-            icon: <Link size={20} />
+            icon: <Link size={16} />
         },
         {
             id: '3',
             title: 'QR Codes',
             href: `/url/${workspace}/qr-codes`,
-            icon: <PiQrCodeBold size={20} />
+            icon: <PiQrCodeBold size={16} />
         },
         {
             id: '4',
             title: 'Domains',
-            // href: `/url/${workspace}/domains`,
-            href: '#',
-            icon: <PiProjectorScreenChartBold size={20} />
+            href: `/url/${workspace}/domains`,
+            icon: <PiProjectorScreenChartBold size={16} />
         },
         {
             id: '5',
             title: 'Analytics',
             // href: `/url/${workspace}/link-bios`,
             href: '#',
-            icon: <MailOpen size={20} />
+            icon: <MailOpen size={16} />
         },
         {
             id: '6',
             title: 'Sign out',
             // href: `/url/${workspace}/settings`,
             href: '#',
-            icon: <LogOut size={20} />
-        },
-        {
-            id: '7',
-            title: 'Settings',
-            href: '#',
-            icon: <Settings size={20} />
-        },
-        {
-            id: '8',
-            title: 'Help Center',
-            href: '#',
-            icon: <BsFillQuestionCircleFill size={20} />
+            icon: <LogOut size={16} />
         }
     ];
 

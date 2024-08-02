@@ -52,7 +52,7 @@ const HeroLanding = () => {
                     track issues easily, and adopt in days, not weeks.
                 </p>
                 <div className="flex justify-center items-center gap-x-3">
-                    <Button className="bg-primary-0 cursor-pointer text-xs">Watch a Demo</Button>
+                    <Button className="bg-primary-0 cursor-pointer text-xs">Get Started</Button>
                     <Button variant={'outline'} className="border cursor-pointer text-xs border-black">
                         Watch a Demo
                     </Button>

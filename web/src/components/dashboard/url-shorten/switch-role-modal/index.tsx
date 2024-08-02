@@ -7,7 +7,9 @@ const SwitchRoleModal = () => {
     return (
         <div className="py-3">
             <h1 className="font-semibold text-lg">Switch User Role</h1>
-            <p className="text-[#475467]  mt-2 text-sm">To update users role and give them more access select an option.</p>
+            <p className="text-[#475467]  mt-2 text-sm">
+                To update users role and give them more access select an option.
+            </p>
             <section className="mt-4">
                 <div className="bg-[#FF7BA3] text-white w-[38px] h-[38px] flex justify-center rounded-full items-center float-left mr-2">
                     <p className="text-xs font-medium">AS</p>
@@ -36,10 +38,10 @@ const SwitchRoleModal = () => {
             </div>
 
             <div className="flex items-center gap-x-4 mt-10 w-full">
-                <Button variant={'outline'} className="w-full ">
+                <Button variant={'outline'} className="w-full  h-8 text-xs rounded">
                     Cancel
                 </Button>
-                <Button className="bg-primary-0 w-full">Confirm</Button>
+                <Button className="bg-primary-0 w-full h-8 text-xs rounded">Confirm</Button>
             </div>
         </div>
     );

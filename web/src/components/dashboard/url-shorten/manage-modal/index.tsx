@@ -15,7 +15,7 @@ const ManageWorkSpaceModal = () => {
                 <h1 className="text-sm mt-6  text-[#344054] font-medium">Workspace Color/Image</h1>
                 <div className="flex mt-4 justify-between items-center">
                     <Image src={'/images/icon.png'} width={40} height={40} alt="logo" />
-                    <Button className="bg-primary-0">Change</Button>
+                    <Button className="bg-primary-0 h-8 text-xs rounded">Change</Button>
                 </div>
             </div>
             <div className="border-b pb-4">
@@ -30,11 +30,13 @@ const ManageWorkSpaceModal = () => {
                     <h1 className="text-sm   font-medium text-[#C03744]">DEACTIVATION</h1>
                     <p className="text-sm text-[#433E3F]">Do you want to deactivate this work space?</p>
                 </div>
-                <Button className="bg-[#C03744]">Change</Button>
+                <Button className="bg-[#C03744] h-8 text-xs rounded">Change</Button>
             </div>
             <div className="flex items-center gap-x-4 mt-6 w-full">
-                <Button variant={'outline'} className="w-full ">Cancel</Button>
-                <Button className="bg-primary-0 w-full">Save</Button>
+                <Button variant={'outline'} className="w-full h-8 text-xs rounded ">
+                    Cancel
+                </Button>
+                <Button className="bg-primary-0 w-full h-8 text-xs rounded">Save</Button>
             </div>
         </div>
     );

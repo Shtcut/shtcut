@@ -1,4 +1,4 @@
-import QRCodeCreateComponent from '@shtcut/components/ui/qr-code/qr-code-create';
+import QRCodeCreateComponent from '@shtcut/components/dashboard/qr-code/qr-code-create';
 import { EyeRadiusType, QrCodeShape } from '@shtcut/types/types';
 import React, { useState } from 'react';
 
