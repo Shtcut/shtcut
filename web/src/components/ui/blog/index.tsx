@@ -71,7 +71,7 @@ const BlogComponent = () => {
                                             <p className="text-sm text-[#726C6C]">{data.text}</p>
                                             <div className="flex items-center gap-2 mt-1">
                                                 {data.objectData.map((dt) => (
-                                                    <SectionTabs text={dt.text} textColor={dt.color} />
+                                                    <SectionTabs text={dt.text} textColor={dt.color} key={dt.text} />
                                                 ))}
                                             </div>
                                         </div>
