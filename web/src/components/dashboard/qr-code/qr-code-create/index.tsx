@@ -219,20 +219,6 @@ const QRCodeCreateComponent = ({
                         </div>
                     </div>
                 </div>
-                {/* <div className="bg-white w-1/2 shadow-sm border border-gray-100 rounded-[10px] h-full p-[23px]">
-                    <h2 className=" font-medium ">Preview</h2>
-                    <div className="w-[230px] h-[454px]  p-[1px] mt-10 mx-auto rounded-[37px]">
-                        <div
-                            className={`flex border-8 border-black flex-col   w-full h-full justify-center items-center rounded-[35px] `}
-                        >
-                            <div className="bg-black w-20 h-4 flex justify-end mx-auto items-center px-4  rounded-b-lg">
-                                <div className="w-1 h-1 bg-slate-500 rounded-full" />
-                            </div>
-
-                            <div className="flex-1 h-full">{renderFrame()}</div>
-                        </div>
-                    </div>
-                </div> */}
             </div>
             <Modal
                 setShowModal={setSaveModal}
