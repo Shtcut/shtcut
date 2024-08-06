@@ -63,15 +63,18 @@ export const Modal = (props: ModalProps) => {
                     <Dialog.Portal>
                         <Dialog.Overlay
                             id="modal-backdrop"
-                            className="fixed inset-0 z-50 backdrop-blur-[2px]  bg-white bg-opacity-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center"
+                            className="animate-fade-in fixed overflow-y-auto max-h-screen grid place-items-center inset-0 z-50 bg-gray-100 bg-opacity-50 backdrop-blur-sm"
+                            // className="fixed inset-0 z-50 backdrop-blur-md  bg-white bg-opacity-50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 overflow-y-auto max-h-screen grid place-items-center"
+                            aria-hidden="true"
                         >
                             <Dialog.Content
                                 onOpenAutoFocus={(e) => e.preventDefault()}
                                 onCloseAutoFocus={(e) => e.preventDefault()}
                                 className={cn(
-                                    'fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-gray-200 bg-white  p-0 shadow-xl sm:rounded-2xl',
+                                    'fixed inset-0 z-40 m-auto max-h-fit w-full max-w-md overflow-hidden border border-gray-200 animate-scale-in  bg-white  p-0 shadow-xl sm:rounded-2xl',
                                     className,
                                 )}
+                                aria-labelledby="radix-:r35:"
                             >
                                 {children}
                                 {showCloseIcon && (
