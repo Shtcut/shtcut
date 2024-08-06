@@ -38,7 +38,7 @@ const DomainsComponent = ({
     return (
         <div>
             <div className="flex items-center justify-between">
-                <h1 className="font-semibold text-2xl">Domain</h1>
+                <h1 className="font-semibold text-xl">Domain</h1>
                 <Button className="text-xs h-8 rounded bg-primary-0" onClick={() => handleModalShow(true)}>
                     Add Domain
                 </Button>
@@ -63,9 +63,9 @@ const DomainsComponent = ({
             <Modal
                 showModel={showModal}
                 setShowModal={setShowModal}
-                showCloseIcon={true}
+                showCloseIcon
                 onClose={() => handleModalShow(false)}
-                className="bg-white relative max-w-[436px] h-fit"
+                className="bg-white relative px-8 py-6  max-w-[436px] h-fit"
             >
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleFormSubmit)}>
@@ -78,7 +78,7 @@ const DomainsComponent = ({
                             <div className="w-full mt-5">
                                 <AddDomainsForm form={form} />
                                 <Button
-                                    className="text-xs h-8 rounded bg-primary-0 mt-7 w-full"
+                                    className="text-xs h-8 rounded bg-primary-0 mt-8 w-full"
                                     onClick={() => handleModalShow(false)}
                                 >
                                     Add Domain

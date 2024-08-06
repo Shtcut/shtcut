@@ -21,13 +21,13 @@ const WebsiteComponent = ({
     handleEyeRadiusChange
 }: PropsColor) => {
     return (
-        <div className=" flex flex-col gap-2">
+        <div className=" flex flex-col shadow-sm border border-gray-100  rounded-[10px] gap-2">
             <section className="w-full h-24  bg-white rounded-[10px]">
                 <Stepper step={step} />
             </section>
             {step === 1 && (
                 <div className="bg-white p-[23px] rounded-[10px]">
-                    <p className="font-medium mb-4">Website URL</p>
+                    <p className="font-medium text-sm mb-2">Website URL</p>
                     <Input placeholder="https//shtcut/help/example/what-is-shtcut" />
                 </div>
             )}

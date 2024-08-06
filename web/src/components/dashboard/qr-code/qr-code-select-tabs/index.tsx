@@ -24,33 +24,36 @@ const QrCodeSelectTabs = ({
     return (
         <div>
             <Tabs defaultValue="website" className="w-full">
-                <TabsList className="block bg-transparent gap-0 m-0 p-0 ">
-                    <section className="bg-white rounded-[10px] p-[23px]">
-                        <h2 className="text-lg font-medium mb-[22px] text-[#151314]">Select QR Code Type</h2>
-                        <section className="justify-between w-full gap-x-[10px] flex flex-1">
+                <TabsList className="block border-none bg-transparent gap-0 m-0 p-0 ">
+                    <section className="bg-white shadow-sm border border-gray-100  rounded-[10px] p-[23px]">
+                        <h2 className="font-medium mb-[22px] text-[#151314]">Select QR Code Type</h2>
+                        <section className=" w-full gap-x-[10px] flex flex-1">
                             <TabsTrigger
-                                className="border border-tertiary-700 shadow-none text-black h-[48px] w-full data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
+                                className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                                 value="website"
                             >
-                                <Link size={20} /> Website URL
+                                <div>
+                                    <Link size={16} />
+                                </div>{' '}
+                                Website URL
                             </TabsTrigger>
                             <TabsTrigger
-                                className="border border-tertiary-700 shadow-none text-black h-[48px] w-full data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 data-[state=active]:shadow-none  flex items-center justify-center gap-x-2"
+                                className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                                 value="multi"
                             >
-                                <List size={20} /> Multi links
+                                <List size={18} /> Multi links
                             </TabsTrigger>
                             <TabsTrigger
                                 value="pdf"
-                                className="border border-tertiary-700 shadow-none text-black h-[48px] w-full data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 data-[state=active]:shadow-none flex items-center justify-center gap-x-2"
+                                className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                             >
-                                <PiFilePdfDuotone size={20} /> PDF
+                                <PiFilePdfDuotone size={18} /> PDF
                             </TabsTrigger>
                             <TabsTrigger
                                 value="vCard"
-                                className="border border-tertiary-700 shadow-none text-black h-[48px] w-full data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 data-[state=active]:shadow-none flex items-center justify-center gap-x-2"
+                                className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                             >
-                                <PiIdentificationCard size={20} /> vCard Plus
+                                <PiIdentificationCard size={18} /> vCard Plus
                             </TabsTrigger>
                         </section>
                     </section>

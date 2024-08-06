@@ -11,31 +11,30 @@ const UrlShortener = () => {
     return (
         <AnimatedContainer>
             <div id="url-shorten" className=" ">
-                <Card className="bg-white">
-                    <div className="md:pl-[20px] lg:pl-[50px] ">
-                        <div className="flex bg-white md:flex-row flex-col-reverse items-center   mx-auto">
-                            <div className="md:w-2/3 p-4 flex flex-col gap-y-6">
-                                <div className="flex items-center gap-2">
-                                    <Image src={'/url.png'} width={20} height={20} alt="survey creation" />
-                                    <p className="font-medium">URL Shortener</p>
-                                    <Button className="text-[10px] bg-primary-0 w-[90px] h-[23px]">COMING SOON</Button>
+                <Card className="bg-white h-full md:h-[490px]">
+                    <div className="md:pl-[20px] h-full lg:pl-[50px] ">
+                        <div className="flex bg-white md:flex-row  flex-col-reverse items-center justify-center h-full   mx-auto">
+                            <div className="md:w-1/2 p-4 flex flex-col gap-y-6">
+                                <div className="flex items-center gap-2 bg-[#FF5E51]/10 w-40 h-11 justify-center cursor-pointer rounded">
+                                    <Image src={'/images/url.png'} width={20} height={20} alt="survey creation" />
+                                    <p className="font-medium text-sm text-[#FF5E51]">URL Shortener</p>
                                 </div>
-                                <h1 className="text-2xl md:text-[42px] font-semibold md:leading-[48px]">
+                                <h1 className="text-2xl  md:text-[35px] md:leading-[44px]  font-semibold ">
                                     Generate short URLs with just a click
                                 </h1>
                                 <p className="text-sm text-[#404625]">
                                     Optimize URL management for individuals, businesses, and organizations with a robust
                                     range of features to streamline tracking and enhance link management.
                                 </p>
-                                <Button className="w-32 bg-primary-0">Get started</Button>
+                                <Button className="w-32 bg-primary-0 text-xs h-10">Get started</Button>
                             </div>
                             <div className={` bg-white z-20 ${mobileTab ? 'w-1/2' : ''} ${tab ? 'w-full' : ''}`}>
                                 <Image
                                     alt="icons"
                                     width={0}
                                     height={0}
-                                    className={`bg-white w-full   md:w-[624px] h-80 md:h-[488px]`}
-                                    src="/images/url-shorten.png"
+                                    className={`bg-white w-full   md:w-[624px] h-80 md:h-[388px]`}
+                                    src="/images/url-img.png"
                                     sizes="100vw"
                                     loading="eager"
                                 />

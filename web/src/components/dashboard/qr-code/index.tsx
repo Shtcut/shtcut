@@ -23,9 +23,9 @@ const QrCodeComponent = () => {
     };
     return (
         <div className="">
-            <BreadCrumb />
+            
             <div className="flex justify-between  items-center">
-                <h1 className="font-semibold text-[#2B2829] text-2xl">QR Codes</h1>
+                <h1 className="font-semibold text-[#2B2829] text-xl">QR Codes</h1>
                 <Link href={`${pathName}/create`}>
                     <Button className="bg-primary-0 h-8 text-xs rounded flex justify-center items-center gap-x-2">
                         Create QR Code

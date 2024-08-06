@@ -15,7 +15,7 @@ const LinkComponent = () => {
     return (
         <section className=" ">
             <div className="flex justify-between  items-center">
-                <h1 className="font-semibold text-[#2B2829] text-2xl">Link Shortener</h1>
+                <h1 className="font-semibold text-[#2B2829] text-xl">Link Shortener</h1>
                 <Link href={`${pathName}/create`}>
                     <Button className="bg-primary-0 text-xs h-8 rounded ">
                         Create Link

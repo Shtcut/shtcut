@@ -81,6 +81,9 @@ const config: Config = {
                     500: '#726C6C',
                     600: '#92939E',
                     700: '#5A5555'
+                },
+                textColor: {
+                    DEFAULT: '#252525'
                 }
             },
             typography: (theme) => ({

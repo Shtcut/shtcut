@@ -10,48 +10,52 @@ const Stepper = ({ step }: { step: number | undefined }) => {
                 <div className="flex items-center w-full">
                     <div className="flex items-center text-muted-grey relative">
                         <div
-                            className={` ${step === 2 || step === 3 ? 'bg-[#06B217] ' : 'border-[#D9D9D9] border-2'} rounded-full transition duration-500 ease-in-out h-[26px] w-[26px]  text-white flex justify-center items-center`}
+                            className={` ${step === 2 || step === 3 ? 'bg-primary-0 ' : 'border-[#D9D9D9] border-[1.5px] '} rounded-full transition duration-500 ease-in-out h-[16px] w-[16px]  text-white flex justify-center items-center`}
                         >
-                            {step === 1 && <div className="bg-[#06B217] w-[13px] h-[13px] rounded-full" />}
+                            {step === 1 && <div className="bg-primary-0  w-[7px] h-[7px] rounded-full" />}
                             {step === 2 ? (
-                                <Check size={20} color="white" className="text-white" />
+                                <Check size={8} color="white" className="text-white" />
                             ) : step === 3 ? (
-                                <Check size={20} color="white" className="text-white" />
+                                <Check size={8} color="white" className="text-white" />
                             ) : null}
                         </div>
-                        <h1 className="absolute top-0 -ml-12 text-center mt-8  w-32 text-xs sm:text-base font-medium  text-black">
+                        <h1 className="absolute top-0 -ml-14 text-center mt-8  w-32 text-sm  font-medium  text-black">
                             URL
                         </h1>
                     </div>
                     <div
-                        className={`flex-auto border-t-[10px] transition duration-500 ease-in-out  ${step === 2 || step === 3 ? 'border-[#06B217]' : 'border-[#F1F1F1]'} `}
+                        className={`flex-auto border-t-[2px] transition duration-500 ease-in-out  ${step === 2 || step === 3 ? 'border-primary-0' : 'border-[#F1F1F1]'} `}
                     ></div>
                     <div className="flex items-center text-white relative">
                         <div
-                            className={`rounded-full transition duration-500 ease-in-out h-[26px] w-[26px]  ${
-                                step === 1 ? 'border-2' : step === 2 ? ' border-2' : step === 3 ? 'bg-[#06B217] ' : ''
+                            className={`rounded-full transition duration-500 ease-in-out h-[16px] w-[16px]  ${
+                                step === 1
+                                    ? 'border-[1.5px] '
+                                    : step === 2
+                                      ? ' border-[1.5px] '
+                                      : step === 3
+                                        ? 'bg-primary-0 '
+                                        : ''
                             }  flex justify-center items-center `}
                         >
-                            {step === 2 && <div className="bg-[#06B217] w-[13px] h-[13px] rounded-full" />}
-                            {step === 3 && <Check size={20} />}
+                            {step === 2 && <div className="bg-black w-[7px] h-[7px] rounded-full" />}
+                            {step === 3 && <Check size={8} />}
                         </div>
-                        <h1
-                            className={`absolute top-0 -ml-10 text-center mt-8  w-32 text-xs sm:text-base font-medium  text-black`}
-                        >
+                        <h1 className={`absolute top-0 -ml-14 text-center mt-8  w-32 text-sm font-medium  text-black`}>
                             Appearance
                         </h1>
                     </div>
-                    <div className="flex-auto border-t-[10px] transition duration-500 ease-in-out border-[#F1F1F1]"></div>
+                    <div className="flex-auto border-t-[2px] transition duration-500 ease-in-out border-[#F1F1F1]"></div>
                     <div className="flex items-center  relative">
                         <div
-                            className={`rounded-full text-white flex justify-center border-2  items-center transition duration-500 ${
+                            className={`rounded-full text-white flex justify-center border-[1.5px]  items-center transition duration-500 ${
                                 step === 3 ? '' : ' border-[#D9D9D9] border-muted-grey'
-                            }  ease-in-out h-[26px] w-[26px] text-white`}
+                            }  ease-in-out h-[16px] w-[16px] text-white`}
                         >
-                            {step === 3 && <div className="bg-[#06B217] w-[13px] h-[13px] rounded-full" />}
+                            {step === 3 && <div className="bg-black w-[7px] h-[7px] rounded-full" />}
                         </div>
                         <h1
-                            className={`absolute top-0 sm:w-40 mt-8 sm:-ml-16 text-center -ml-2  text-xs sm:text-base font-medium `}
+                            className={`absolute top-0 sm:w-40 mt-8 sm:-ml-20 text-center -ml-2  text-sm  font-medium `}
                         >
                             Done
                         </h1>
