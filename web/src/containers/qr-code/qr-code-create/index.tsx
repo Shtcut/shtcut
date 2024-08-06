@@ -17,6 +17,8 @@ const QRCodeCreateContainer = () => {
         { outer: 8, inner: 4 },
         { outer: 8, inner: 4 }
     ]);
+
+    
     const handleEyeRadiusChange = (outer: number, inner: number) => {
         setEyeRadius([
             { outer, inner },

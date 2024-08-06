@@ -1,6 +1,5 @@
 import { Button, Modal } from '@shtcut-ui/react';
-import BreadCrumb from '@shtcut/components/bread-crumb';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import QrCodeSelectTabs from '../qr-code-select-tabs';
 import { QrCodeInterface } from '@shtcut/types/types';
 import { Frame_5, Frame_1, Frame_8, Frame_2, Frame_6, Frame_9, Frame_7, Frame_3, Frame_4 } from '../qr-code-frames';
@@ -31,6 +30,10 @@ const QRCodeCreateComponent = ({
     saveModal,
     setSaveModal
 }: QrCodeInterface) => {
+    const [switchTab, setSwitchTab] = useState<string>('website');
+    const handleTabChange = (tabs: string) => {
+        setSwitchTab(tabs);
+    };
     const qrCodeRef = useRef(null);
     const renderFrame = () => {
         switch (selectedFrame) {
@@ -202,6 +205,7 @@ const QRCodeCreateComponent = ({
                             selectedFrame={selectedFrame}
                             handleChangeQrCodeShape={handleChangeQrCodeShape}
                             handleEyeRadiusChange={handleEyeRadiusChange}
+                            handleTabChange={handleTabChange}
                         />
                     </div>
                 </div>
@@ -215,7 +219,9 @@ const QRCodeCreateComponent = ({
                                 <div className="w-1 h-1 bg-slate-500 rounded-full" />
                             </div>
 
-                            <div className="flex-1 h-full">{renderFrame()}</div>
+                            <div className="flex-1 h-full">
+                                {switchTab === 'website' ? renderFrame() : switchTab === 'multi' ? renderFrame() : null}{' '}
+                            </div>
                         </div>
                     </div>
                 </div>

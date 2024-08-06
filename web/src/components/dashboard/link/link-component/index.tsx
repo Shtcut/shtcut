@@ -1,11 +1,11 @@
-import { Button } from '@shtcut-ui/react';
-import React from 'react';
+import { Button, Modal, Separator } from '@shtcut-ui/react';
+import React, { useState } from 'react';
 import LinkListedComponent from '../link-listed-component';
 import SearchFilterActions from '../search-filter-actions';
 import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
 
 const LinkComponent = () => {
+    const [showModal, setShowModal] = useState(false);
     const pathName = usePathname();
     const route = useRouter();
 
@@ -16,11 +16,10 @@ const LinkComponent = () => {
         <section className=" ">
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Link Shortener</h1>
-                <Link href={`${pathName}/create`}>
-                    <Button className="bg-primary-0 text-xs h-8 rounded ">
-                        Create Link
-                    </Button>
-                </Link>
+
+                <Button className="bg-primary-0 text-xs h-8 rounded " onClick={() => setShowModal(true)}>
+                    Create Link
+                </Button>
             </div>
             <SearchFilterActions />
             <div className="flex flex-col gap-y-[14px] mt-8">
@@ -30,6 +29,18 @@ const LinkComponent = () => {
                     </div>
                 ))}
             </div>
+            <Modal
+                showModel={showModal}
+                className="h-[80%] max-w-screen-lg"
+                setShowModal={setShowModal}
+                onClose={() => setShowModal(false)}
+            >
+                <div className="flex">
+                    <div className=" h-screen w-full ">hey</div>
+                    <Separator orientation="vertical" className=' h-screen'/>
+                    <div className=" h-screen w-4/5">hey</div>
+                </div>
+            </Modal>
         </section>
     );
 };

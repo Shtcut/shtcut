@@ -19,7 +19,8 @@ const QrCodeSelectTabs = ({
     handleSelectQrCodeLogo,
     selectedFrame,
     handleChangeQrCodeShape,
-    handleEyeRadiusChange
+    handleEyeRadiusChange,
+    handleTabChange
 }: PropsColor) => {
     return (
         <div>
@@ -31,6 +32,7 @@ const QrCodeSelectTabs = ({
                             <TabsTrigger
                                 className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                                 value="website"
+                                onClick={() => handleTabChange('website')}
                             >
                                 <div>
                                     <Link size={16} />
@@ -40,6 +42,7 @@ const QrCodeSelectTabs = ({
                             <TabsTrigger
                                 className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
                                 value="multi"
+                                onClick={() => handleTabChange('multi')}
                             >
                                 <List size={18} /> Multi links
                             </TabsTrigger>
@@ -52,6 +55,7 @@ const QrCodeSelectTabs = ({
                             <TabsTrigger
                                 value="vCard"
                                 className="border shadow-none text-black/60 h-9 w-32 data-[state=active]:text-primary-0 data-[state=active]:border-primary-0 text-xs flex items-center justify-center gap-x-2 data-[state=active]:shadow-none"
+                                onClick={() => handleTabChange('vCard')}
                             >
                                 <PiIdentificationCard size={18} /> vCard Plus
                             </TabsTrigger>
