@@ -487,3 +487,37 @@ export const postData_3: PostInterface[] = [
     }
 ];
 export const dummyData: number[] = [1, 2, 3, 4, 5];
+export   const authSlides = [
+    {
+        id: 1,
+        image: '/images/qrcode-d.png',
+        title: '  Generate short URLs with just a click',
+        text: 'Say goodbye to chaos and hello to productivity',
+        subTitle: 'URL Shortener',
+        subText: 'Paste in any long url, make it sharable, trackable and customizable with just a few clicks.'
+    },
+    {
+        id: 2,
+        image: '/images/qrcode-d.png',
+        title: 'Craft personalized surveys effortlessly',
+        text: 'Say goodbye to chaos and hello to productivity',
+        subTitle: 'Survey Creation',
+        subText: 'Paste in any long url, make it sharable, trackable and customizable with just a few clicks.'
+    },
+    {
+        id: 3,
+        image: '/images/qrcode-d.png',
+        title: 'Engage customers through targeted email campaigns.',
+        text: 'Say goodbye to chaos and hello to productivity',
+        subTitle: 'Email Marketing',
+        subText: 'Paste in any long url, make it sharable, trackable and customizable with just a few clicks.'
+    },
+    {
+        id: 4,
+        image: '/images/qrcode-d.png',
+        title: 'Stay connected with your audience!',
+        text: 'Say goodbye to chaos and hello to productivity',
+        subTitle: 'Social Media Management',
+        subText: 'Paste in any long url, make it sharable, trackable and customizable with just a few clicks.'
+    }
+];
