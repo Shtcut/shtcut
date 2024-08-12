@@ -68,7 +68,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
     const product: { title: string; href: string; description: string; icon?: any; img?: string }[] = [
         {
             title: 'URL Shortner',
-            href: '#',
+            href: '/product/url-shortener',
             description:
                 'Generate short URLs with just a click, streamline your link strategy with links manager, get performance metrics and track performance',
             icon: GoLink
@@ -81,14 +81,14 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
         },
         {
             title: 'Email Marketing',
-            href: '#',
+            href: '/product/email-marketing',
             description:
                 'Discover trends and insights about your brand and competitors and offer more automation features.',
             icon: MdEmail
         },
         {
             title: 'Social Media Management',
-            href: '#',
+            href: '/product/social-media',
             description:
                 'Discover trends and insights about your brand and competitors and offer more automation features.',
             img: '/images/social-icon.png'

@@ -487,7 +487,7 @@ export const postData_3: PostInterface[] = [
     }
 ];
 export const dummyData: number[] = [1, 2, 3, 4, 5];
-export   const authSlides = [
+export const authSlides = [
     {
         id: 1,
         image: '/images/qrcode-d.png',
@@ -521,3 +521,5 @@ export   const authSlides = [
         subText: 'Paste in any long url, make it sharable, trackable and customizable with just a few clicks.'
     }
 ];
+
+export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png','mag.png'];

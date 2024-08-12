@@ -149,3 +149,9 @@ export interface DomainsTypes {
     setSelectedTabIndex: Dispatch<SetStateAction<number>>;
     handleTabClick: (tab: number) => void;
 }
+export interface CountryType {
+    code: string;
+    label: string;
+    phone: string;
+    suggested?: boolean;
+}

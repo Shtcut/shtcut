@@ -2,12 +2,14 @@ import { Button, Card } from '@shtcut-ui/react';
 import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import React from 'react';
 
 const UrlShortener = () => {
     const { width } = useWindowSize();
     const mobileTab = width !== undefined && width <= 1073;
     const tab = width !== undefined && width <= 768;
+    const router = useRouter();
     return (
         <AnimatedContainer>
             <div id="url-shorten" className=" ">
@@ -26,7 +28,7 @@ const UrlShortener = () => {
                                     Optimize URL management for individuals, businesses, and organizations with a robust
                                     range of features to streamline tracking and enhance link management.
                                 </p>
-                                <Button className="w-32 bg-primary-0 text-xs h-10">Get started</Button>
+                                <Button onClick={()=>router.push('/url-shortener')} className="w-32 bg-primary-0 text-xs h-10">Get started</Button>
                             </div>
                             <div className={` bg-white z-20 ${mobileTab ? 'w-1/2' : ''} ${tab ? 'w-full' : ''}`}>
                                 <Image
