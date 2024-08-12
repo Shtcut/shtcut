@@ -39,9 +39,9 @@ const Analytics = () => {
                         height={0}
                         sizes="100vw"
                         loading="eager"
-                        src="https://img.youtube.com/vi/RB4RCOe-ZEw/maxresdefault.jpg"
+                        src="/images/pro-5.png"
                         alt="Video Thumbnail"
-                        className="w-full h-[450px] rounded-[20px]"
+                        className="w-full h-[300px] sm:h-[400px] rounded-[20px]"
                     />
                     <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 gap-3 rounded-[20px] flex-col">
                         <div
@@ -53,20 +53,21 @@ const Analytics = () => {
                         </div>
                     </div>
                 </AnimatedContainer>
-                <section className="grid grid-cols-1 gap-6 mt-6 md:grid-cols-3">
+                <AnimatedContainer className="md:flex-row flex-col flex w-full gap-4 mt-6">
                     {/* Top Row */}
                     <ReusableCard
                         text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                         title="Intuitive Dashboard"
-                        className="md:col-span-1"
+                        className="lg:w-2/3"
                     />
                     <ReusableCard
                         text="Gain valuable insights with our comprehensive analytics tools. Track link performance, monitor user behavior, and optimize your strategies with real-time data"
                         title="Easily Create short links"
-                        className="md:col-span-2 "
-                        textClassName="w-3/4"
+                        textClassName="lg:w-3/4"
                     />
                     {/* Bottom Row */}
+                </AnimatedContainer>
+                <AnimatedContainer className="sm:grid-cols-2 grid-cols-1 lg:grid-cols-3 mt-4 w-full gap-4 grid">
                     <ReusableCard
                         text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                         title="Manage your links"
@@ -82,14 +83,14 @@ const Analytics = () => {
                         title="Share Links"
                         className="md:col-span-1"
                     />
-                </section>
+                </AnimatedContainer>
 
                 <Modal
                     showModel={showModal}
                     setShowModal={setShowModal}
                     onClose={closeModal}
                     showCloseIcon={true}
-                    className="w-full h-full max-w-screen-lg max-h-[30rem]"
+                    className="w-full h-full max-w-screen-lg border-none relative max-h-[30rem]"
                 >
                     <div className="relative w-full h-full">
                         <iframe

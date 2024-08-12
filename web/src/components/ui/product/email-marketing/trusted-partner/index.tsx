@@ -37,20 +37,20 @@ const TrustedPartner = () => {
                             create, edit and manage all your links from a single, intuitive dashboard.
                         </p>
                     </AnimatedContainer>
-                    <AnimatedContainer className="grid grid-cols-1 gap-6 mt-14 md:grid-cols-3">
+                    <AnimatedContainer className="md:flex-row flex-col flex w-full gap-4 mt-6">
                         {/* Top Row */}
                         <ReusableCard
                             text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                             title="Create Email Campaigns"
-                            className="md:col-span-1"
+                            className="lg:w-2/3"
                         />
                         <ReusableCard
                             text="Gain valuable insights with our comprehensive analytics tools. Track link performance, monitor user behavior, and optimize your strategies with real-time data"
                             title="Advanced analytics"
-                            className="md:col-span-2 "
-                            textClassName="w-3/4"
+                            textClassName="lg:w-3/4"
                         />
-                        {/* Bottom Row */}
+                    </AnimatedContainer>
+                    <AnimatedContainer className="sm:grid-cols-2 grid-cols-1 lg:grid-cols-3 mt-4 w-full gap-4 grid">
                         <ReusableCard
                             text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                             title="Optimize maximum impact"

@@ -21,10 +21,8 @@ const HeroSection = () => {
                 </h1>
                 <div>
                     <p className="text-[#737A8A] w-full  text-center">
-                        Transform how you manage and share your links with shtcut – the smarter way to connect.
-                    </p>
-                    <p className="text-[#737A8A] w-full  text-center">
-                        share your links with shtcut – the smarter way to connect.
+                        Transform how you manage and share your links with shtcut – the smarter way to connect.{' '}
+                        <br className="md:flex hidden" /> share your links with shtcut – the smarter way to connect.
                     </p>
                 </div>
                 <div className="flex justify-center items-center gap-x-3">
@@ -40,11 +38,11 @@ const HeroSection = () => {
                     height={0}
                     sizes="100vw"
                     loading="eager"
-                    src="https://img.youtube.com/vi/lIEiJPNYPyM/maxresdefault.jpg"
+                    src="/images/group-pro.png"
                     alt="Video Thumbnail"
-                    className="w-full h-[450px] rounded-[20px]"
+                    className="w-full h-[300px] sm:h-[400px] rounded-[20px]"
                 />
-                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 gap-3 rounded-[20px] flex-col">
+                <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 gap-3 rounded-[20px] flex-col">
                     <Card className="w-14 h-14 rounded-full flex justify-center items-center">
                         <Link className="text-primary-0" />
                     </Card>
@@ -63,7 +61,7 @@ const HeroSection = () => {
                 setShowModal={setShowModal}
                 onClose={closeModal}
                 showCloseIcon={true}
-                className="w-full h-full max-w-screen-lg max-h-[30rem]"
+                className="w-full h-full relative max-w-screen-lg border-none max-h-[30rem]"
             >
                 <div className="relative w-full h-full">
                     <iframe

@@ -1,4 +1,4 @@
-import { Button } from '@shtcut-ui/react';
+
 import { trustImage } from '@shtcut/_shared/data';
 import Marquee from '@shtcut/components/_shared/animations/cards-animation';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
@@ -10,7 +10,7 @@ const TrustedPartner = () => {
     return (
         <div>
             <div className="relative max-w-screen-custom mx-auto px-4  pt-10">
-                <h1 className="text-center w-96 mx-auto">
+                <h1 className="text-center sm:w-96 mx-auto">
                     <span className="text-primary-0">Trusted</span> by fast-growing companies around the world
                 </h1>
                 <Marquee className="[--duration:20s] mt-8" gap="gap-12">
@@ -37,20 +37,20 @@ const TrustedPartner = () => {
                             create, edit and manage all your links from a single, intuitive dashboard.
                         </p>
                     </AnimatedContainer>
-                    <AnimatedContainer className="grid grid-cols-1 gap-6 mt-14 md:grid-cols-3">
-                        {/* Top Row */}
+                    <AnimatedContainer className="md:flex-row flex-col flex w-full gap-4 mt-6">
                         <ReusableCard
                             text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                             title="Create Email Campaigns"
-                            className="md:col-span-1"
+                       
                         />
                         <ReusableCard
                             text="Gain valuable insights with our comprehensive analytics tools. Track link performance, monitor user behavior, and optimize your strategies with real-time data"
                             title="Advanced analytics"
-                            className="md:col-span-2 "
-                            textClassName="w-3/4"
+                          
+                            textClassName="lg:w-3/4"
                         />
-                        {/* Bottom Row */}
+                    </AnimatedContainer>
+                    <AnimatedContainer className="sm:grid-cols-2 grid-cols-1 lg:grid-cols-3 mt-6 w-full gap-4 grid">
                         <ReusableCard
                             text="Create a personalized bio link page to showcase all your important links in one place. Ideal for social media profiles, allowing your audience to find everything they need with a single click."
                             title="Optimize maximum impact"
@@ -64,7 +64,7 @@ const TrustedPartner = () => {
                         <ReusableCard
                             text="Gain valuable insights with our comprehensive analytics tools. Track link performance, monitor user behavior, and optimize your strategies with real-time data"
                             title="Share Links"
-                            className="md:col-span-1"
+                            className="md:col-span-1 "
                         />
                     </AnimatedContainer>
                 </div>

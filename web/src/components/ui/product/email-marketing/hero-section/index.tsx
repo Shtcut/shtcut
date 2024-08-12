@@ -30,11 +30,11 @@ const HeroSection = () => {
                       height={0}
                       sizes="100vw"
                       loading="eager"
-                      src="https://img.youtube.com/vi/lIEiJPNYPyM/maxresdefault.jpg"
+                      src="/images/email-m.png"
                       alt="Video Thumbnail"
-                      className="w-full h-[450px] rounded-[20px]"
+                      className="w-full h-[400px] rounded-[20px]"
                   />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 gap-3 rounded-[20px] flex-col">
+                  <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 gap-3 rounded-[20px] flex-col">
                       <Card className="w-14 h-14 rounded-full flex justify-center items-center">
                           <Image
                               src={'/images/social-icon.png'}

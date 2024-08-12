@@ -75,7 +75,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
         },
         {
             title: 'Survey Creation',
-            href: '#',
+            href: '/product/survey-creation',
             description: 'Collaborate with team members, performance metrics and schedule surveys.',
             icon: BiTask
         },
