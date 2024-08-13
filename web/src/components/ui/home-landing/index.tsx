@@ -1,9 +1,8 @@
 import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 import { Testimonial } from '../index';
-import { Clients } from './section';
-import HeroLanding from './section/hero-landing';
-import ProductSection from './section/product-section';
-import PlanCards from './section/product-section/plan-cards';
+import { Clients, HeroLanding, PlanCards, ProductSection, StatsSection } from './section';
+
+
 
 export const HomeLandingContainer = () => {
     const { width } = useWindowSize();
@@ -12,6 +11,7 @@ export const HomeLandingContainer = () => {
         <>
             <HeroLanding />
             <div className={` ${mobileWidth ? '' : 'bottom-16  lg:bottom-0 relative'} `}>
+                <StatsSection />
                 <Clients />
                 <ProductSection />
                 <Testimonial />

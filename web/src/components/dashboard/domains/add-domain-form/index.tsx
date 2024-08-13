@@ -25,7 +25,7 @@ const AddDomainsForm = ({ form }: any) => {
                     <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Domain name
                     </p>
-                    <div className="flex items-center rounded-md border h-12">
+                    <div className="flex items-center rounded-md border h-10">
                         <FormField
                             control={form.control}
                             name="subdomain"
@@ -34,7 +34,7 @@ const AddDomainsForm = ({ form }: any) => {
                                     <FormControl>
                                         <Input
                                             placeholder="Subdomain"
-                                            className="h-12 focus-visible:ring-0  border-none shadow-none w-full"
+                                            className="h-10 focus-visible:ring-0  border-none shadow-none w-full"
                                             {...field}
                                         />
                                     </FormControl>
@@ -51,7 +51,7 @@ const AddDomainsForm = ({ form }: any) => {
                                     <FormControl>
                                         <Input
                                             placeholder="Enter domain "
-                                            className="h-12 border-none focus-visible:ring-0  shadow-none  w-full"
+                                            className="h-10 border-none focus-visible:ring-0  shadow-none  w-full"
                                             {...field}
                                         />
                                     </FormControl>
@@ -69,7 +69,7 @@ const AddDomainsForm = ({ form }: any) => {
                         <FormItem className="space-y-1  mb-2 w-full">
                             <Label className="">Domain name</Label>
                             <FormControl>
-                                <Input placeholder="Enter domain  " className="h-12 w-full" {...field} />
+                                <Input placeholder="Enter domain  " className="h-10 w-full" {...field} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
@@ -81,13 +81,13 @@ const AddDomainsForm = ({ form }: any) => {
                 <RadioGroup defaultValue="spare" className="flex flex-col gap-y-4" onValueChange={handleRadioChange}>
                     <div className="flex items-center space-x-2">
                         <RadioGroupItem value="spare" />
-                        <Label htmlFor="r2" className="text-[#5A5555]">
+                        <Label htmlFor="r2" className="text-gray-600 font-normal">
                             This is a spare domain
                         </Label>
                     </div>
                     <div className="flex items-center space-x-2">
                         <RadioGroupItem value="subdomain" id="r3" />
-                        <Label htmlFor="r3" className="text-[#5A5555]">
+                        <Label htmlFor="r2" className="text-gray-600 font-normal">
                             This is a domain I already use for website{' '}
                         </Label>
                     </div>

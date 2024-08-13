@@ -13,9 +13,9 @@ const ProductSection = () => {
 
     const tabs = [
         { id: 'url-shorten', label: 'URL Shorten' },
+        { id: 'social-media', label: 'Social Media Management' },
         { id: 'survey-creation', label: 'Survey Creation' },
-        { id: 'email-marketing', label: 'Email Marketing' },
-        { id: 'social-media', label: 'Social Media Management' }
+        { id: 'email-marketing', label: 'Email Marketing' }
     ];
 
     const scrollToSection = (id: string) => {
@@ -110,9 +110,9 @@ const ProductSection = () => {
 
                 <div className="md:mt-10 flex flex-col px-4 max-w-screen-custom mx-auto gap-y-8 lg:gap-y-16 sm:w-3/4 md:w-full ">
                     <UrlShortener />
+                    <SocialMedia />
                     <SurveySectionTab />
                     <EmailMarketing />
-                    <SocialMedia />
                 </div>
             </div>
         </div>

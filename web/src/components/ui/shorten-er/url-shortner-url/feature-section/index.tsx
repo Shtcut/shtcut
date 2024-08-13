@@ -9,7 +9,7 @@ import AnimatedContainer from '@shtcut/components/framer/animate-div';
 const FeatureSection = () => {
     return (
         <AnimatedContainer>
-            <div className="max-w-screen-xl mx-auto px-4  pt-14">
+            <div className="max-w-screen-custom mx-auto px-4  pt-14">
                 <div className="flex flex-col gap-y-8 lg:gap-y-0 lg:flex-row justify-between items-center">
                     <h1 className="text-3xl md:text-5xl font-semibold text-center lg:text-start drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">
                         Features you can get <br className="lg:flex hidden" /> from Shtcut

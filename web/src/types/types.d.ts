@@ -98,6 +98,7 @@ export interface PropsColor extends QrCodeInterface {
     btnColor?: string;
     setSelectedFrame?: Dispatch<SetStateAction<number>>;
     selectedFrame?: number;
+    handleTabChange?: Dispatch<SetStateAction<string>>;
 }
 
 export interface QrCodeFrameType {
@@ -147,4 +148,10 @@ export interface DomainsTypes {
     selectedTabIndex: number;
     setSelectedTabIndex: Dispatch<SetStateAction<number>>;
     handleTabClick: (tab: number) => void;
+}
+export interface CountryType {
+    code: string;
+    label: string;
+    phone: string;
+    suggested?: boolean;
 }
