@@ -10,7 +10,7 @@ import BoxReveal from '@shtcut/components/_shared/animations/box-reveal';
 const PlanSection = () => {
     return (
         <div>
-            <div className="max-w-screen-xl mx-auto px-4 pt-16 md:pt-20">
+            <div className="max-w-screen-custom mx-auto px-4 pt-16 md:pt-20">
                 <AnimatedContainer className="flex flex-col  items-center">
                     <BoxReveal boxColor={'#101010'} duration={1}>
                         <h1 className="text-4xl h-[72px] md:text-5xl font-semibold text-center drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">

@@ -8,7 +8,7 @@ import { LineChart as Chart } from 'lucide-react';
 import { BiPieChartAlt } from 'react-icons/bi';
 import ReferralComponent from '../referrals';
 import CountriesComponent from '../countries';
-import { LineChart } from '@shtcut/components/_shared/Analytics/LineChart';
+import { LineChartComponent } from '@shtcut/components/_shared/Analytics/LineChart';
 import SelectMonths from './select-months';
 import BreadCrumb from '@shtcut/components/bread-crumb';
 
@@ -77,7 +77,7 @@ const SingleLinkPreviewComponent = () => {
                     <h1 className="text-lg font-bold text-[#202224]">Engagements </h1>
                     <SelectMonths selectedMonth={selectedMonth} handleSelect={handleSelect} />
                 </div>
-                <LineChart className="w-full h-[300px]" />
+                <LineChartComponent />
             </div>
 
             <section className="flex items-center gap-8 mt-[22px]">

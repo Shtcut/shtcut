@@ -8,7 +8,7 @@ const IntegrationSection = () => {
     const cardTab = useMediaQuery({ query: '(max-width: 1194px' });
     return (
         <AnimatedContainer>
-            <div className="max-w-screen-xl mx-auto px-4 pt-16 md:pt-20">
+            <div className="max-w-screen-custom mx-auto px-4 pt-16 md:pt-20">
                 <div
                     className="relative flex  justify-center flex-col p-4 md:p-8 h-full rounded-xl w-full"
                     style={{

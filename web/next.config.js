@@ -10,6 +10,9 @@ module.exports = {
         });
         return config;
     },
+    images: {
+        domains: ['img.youtube.com'] 
+    },
     redirects: async () => {
         return [
             {

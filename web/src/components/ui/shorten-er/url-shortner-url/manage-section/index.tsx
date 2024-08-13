@@ -7,7 +7,7 @@ import React from 'react';
 const ManageSection = () => {
     return (
         <AnimatedContainer>
-            <div className="max-w-screen-xl mx-auto px-4 pt-16 md:pt-20">
+            <div className="max-w-screen-custom mx-auto px-4 pt-16 md:pt-20">
                 <section className="flex lg:flex-row gap-y-10 lg:gap-x-6 flex-col justify-between items-center">
                     <div className="shadow bg-white w-fit h-fit">
                         <Image width={642} height={416} src={'/images/dashboard.svg.png'} alt="dashboard" />

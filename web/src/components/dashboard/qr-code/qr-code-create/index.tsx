@@ -1,6 +1,5 @@
 import { Button, Modal } from '@shtcut-ui/react';
-import BreadCrumb from '@shtcut/components/bread-crumb';
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import QrCodeSelectTabs from '../qr-code-select-tabs';
 import { QrCodeInterface } from '@shtcut/types/types';
 import { Frame_5, Frame_1, Frame_8, Frame_2, Frame_6, Frame_9, Frame_7, Frame_3, Frame_4 } from '../qr-code-frames';
@@ -31,6 +30,10 @@ const QRCodeCreateComponent = ({
     saveModal,
     setSaveModal
 }: QrCodeInterface) => {
+    const [switchTab, setSwitchTab] = useState<string>('website');
+    const handleTabChange = (tabs: string) => {
+        setSwitchTab(tabs);
+    };
     const qrCodeRef = useRef(null);
     const renderFrame = () => {
         switch (selectedFrame) {
@@ -159,14 +162,13 @@ const QRCodeCreateComponent = ({
 
     return (
         <div className=" ">
-            <BreadCrumb currentRoute="Create QR Code" />
             <div className="flex justify-between  items-center">
-                <h1 className="font-semibold text-[#2B2829] text-2xl">Create QR Codes</h1>
+                <h1 className="font-semibold text-[#2B2829] text-xl">Create QR Codes</h1>
                 <div className="flex items-center gap-x-3">
                     {step && step > 1 && (
                         <Button
                             onClick={onPrevStep}
-                            className="bg-primary-0 flex justify-center w-28 items-center gap-x-2"
+                            className="bg-primary-0 flex justify-center w-28 items-center h-8 text-xs rounded gap-x-2"
                         >
                             Back
                         </Button>
@@ -179,7 +181,7 @@ const QRCodeCreateComponent = ({
                                 onNextStep();
                             }
                         }}
-                        className="bg-primary-0 flex justify-center w-28 items-center gap-x-2"
+                        className="bg-primary-0 flex justify-center w-28 h-8 text-xs rounded items-center gap-x-2"
                     >
                         {step && step > 2 ? 'Save' : ' Next'}
                     </Button>
@@ -203,11 +205,12 @@ const QRCodeCreateComponent = ({
                             selectedFrame={selectedFrame}
                             handleChangeQrCodeShape={handleChangeQrCodeShape}
                             handleEyeRadiusChange={handleEyeRadiusChange}
+                            handleTabChange={handleTabChange}
                         />
                     </div>
                 </div>
-                <div className="bg-white w-1/2 rounded-[10px] h-full p-[23px]">
-                    <h2 className="text-lg font-medium ">Preview</h2>
+                <div className="bg-white w-1/2 shadow-sm border border-gray-100 rounded-[10px] h-full p-[23px]">
+                    <h2 className=" font-medium ">Preview</h2>
                     <div className="border w-56 h-[454px] border-[#A6A6A4] p-[1px] mt-10 mx-auto rounded-[37px]">
                         <div
                             className={`flex border-4 border-black flex-col   w-full h-full justify-center items-center rounded-[37px] `}
@@ -216,7 +219,9 @@ const QRCodeCreateComponent = ({
                                 <div className="w-1 h-1 bg-slate-500 rounded-full" />
                             </div>
 
-                            <div className="flex-1 h-full">{renderFrame()}</div>
+                            <div className="flex-1 h-full">
+                                {switchTab === 'website' ? renderFrame() : switchTab === 'multi' ? renderFrame() : null}{' '}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -229,18 +234,14 @@ const QRCodeCreateComponent = ({
             >
                 <div className="flex flex-col gap-4 items-center">
                     <div className="flex flex-col items-center gap-2">
-                        {qrCodeLogo ? (
-                            <Image src={qrCodeLogo as string} width={50} height={50} alt="qr-code" />
-                        ) : (
-                            <div></div>
-                        )}
-                        <p className="font-semibold text-lg">Download QR Code</p>
+                        {qrCodeLogo ? <Image src={qrCodeLogo as string} width={50} height={50} alt="qr-code" /> : null}
+                        <p className="font-semibold ">Download QR Code</p>
                     </div>
                     <div className="w-fit h-40" ref={qrCodeRef}>
                         {renderFrame()}
                     </div>
                     <div className="flex mt-10 items-center w-full gap-4">
-                        <Button variant={'outline'} className="w-full" onClick={() => setSaveModal(false)}>
+                        <Button variant={'outline'} className="w-full h-8 text-xs" onClick={() => setSaveModal(false)}>
                             Cancel
                         </Button>
                         <DownloadBtn qrCodeRef={qrCodeRef} />

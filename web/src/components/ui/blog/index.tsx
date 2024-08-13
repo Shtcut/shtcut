@@ -41,21 +41,23 @@ const BlogComponent = () => {
                                         Why marketing agencies should switch to Shtcut
                                     </h1>
                                 </div>
-                                <p className="text-sm text-[#726C6C]">
+                                <p className="text-sm text-[#726C6C] ">
                                     How do you create compelling presentations that wow your colleagues and impress your
                                     managers?
                                 </p>
                                 <div className="flex items-center flex-wrap gap-2">
-                                    {postData.map((blogs, index) => (
-                                        <SectionTabs text={blogs.text} textColor={blogs.color} key={index} />
+                                    {postData.map((blogs) => (
+                                        <div className="w-full" key={blogs.text}>
+                                            <SectionTabs text={blogs.text} textColor={blogs.color} />
+                                        </div>
                                     ))}
                                 </div>
                             </div>
                         </div>
                         <div className="w-full sm:w-1/2">
                             <div className="flex flex-col gap-6">
-                                {postData_2.map((data, index) => (
-                                    <div key={index} className="flex lg:flex-row flex-col lg:items-center gap-4">
+                                {postData_2.map((data) => (
+                                    <div key={data.text} className="flex lg:flex-row flex-col lg:items-center gap-4">
                                         <Image
                                             width={300}
                                             height={200}
@@ -69,7 +71,7 @@ const BlogComponent = () => {
                                             <p className="text-sm text-[#726C6C]">{data.text}</p>
                                             <div className="flex items-center gap-2 mt-1">
                                                 {data.objectData.map((dt) => (
-                                                    <SectionTabs text={dt.text} textColor={dt.color} />
+                                                    <SectionTabs text={dt.text} textColor={dt.color} key={dt.text} />
                                                 ))}
                                             </div>
                                         </div>

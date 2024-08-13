@@ -35,8 +35,8 @@ const ColorsQrCode = ({ setBgColor, bgColor, btnColor, setBtnColor, handleColorC
                 ))}
             </div>
             <section className="mt-6 rounded-[10px] p-[23px] bg-[#F7F7F7]">
-                <h2 className="text-lg font-medium">Border and background color</h2>
-                <div className="bg-white flex justify-between p-4 lg:p-7">
+                <h2 className=" font-medium">Border and background color</h2>
+                <div className="bg-white mt-4 flex justify-between p-4 lg:p-7">
                     <div className="relative">
                         <p className="text-sm font-medium">Button color</p>
                         <div className="flex border items-center w-52 rounded px-4 h-[42px] justify-between mt-6">

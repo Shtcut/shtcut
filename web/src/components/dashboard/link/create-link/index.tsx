@@ -22,8 +22,8 @@ const CreateLinkComponent = () => {
             <BreadCrumb currentRoute="Create new link" />
             <div className="flex justify-between items-center">
                 <h1 className="font-semibold  text-[#2B2829] text-2xl">Create a new link</h1>
-                <Button className="bg-primary-0 flex justify-center items-center gap-x-2">
-                    Create Link <div className="border border-white w-2 h-2 font-semibold rounded-full" />
+                <Button className="bg-primary-0 flex h-8 text-xs justify-center items-center gap-x-2">
+                    Create Link 
                 </Button>
             </div>
             <Card className="mt-6 py-10 rounded-[10px] px-16  ">

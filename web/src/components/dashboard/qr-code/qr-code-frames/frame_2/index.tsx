@@ -16,7 +16,7 @@ const Frame_2 = ({
             <div className={` border-[3.2px]   w-fit rounded-[6px]`} style={{ borderColor: bgColor }}>
                 <QRCode
                     id="shtcut-qrcode"
-                    value={''}
+                    value={'https://meet.google.com/landing'}
                     removeQrCodeBehindLogo={true}
                     ecLevel="L"
                     fgColor={selectedColor}

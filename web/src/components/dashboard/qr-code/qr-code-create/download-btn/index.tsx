@@ -53,8 +53,8 @@ const DownloadBtn = ({ qrCodeRef }: any) => {
         <div className="w-full">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild className="w-full">
-                    <Button className="w-full flex items-center gap-x-2 bg-primary-0">
-                        <Download size={16} />
+                    <Button className="w-full flex items-center h-8 text-xs gap-x-2 bg-primary-0">
+                        <Download size={14} />
                         Download
                     </Button>
                 </DropdownMenuTrigger>

@@ -6,7 +6,7 @@ import React from 'react';
 const CreateSection = () => {
     return (
         <AnimatedContainer>
-            <div className="max-w-screen-xl mx-auto px-4 pt-16 md:pt-20">
+            <div className="max-w-screen-custom mx-auto px-4 pt-16 md:pt-20">
                 <section className="flex lg:flex-row gap-y-10 lg:gap-x-6 flex-col-reverse justify-between items-center">
                     <div className="flex flex-col gap-y-[30px]">
                         <h1 className="text-3xl md:text-5xl font-semibold text-center lg:text-start drop-shadow-xl dark:bg-gradient-to-br dark:from-neutral-200 dark:to-neutral-600 dark:bg-clip-text dark:text-transparent">

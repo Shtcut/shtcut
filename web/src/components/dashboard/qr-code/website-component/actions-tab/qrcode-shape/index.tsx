@@ -88,7 +88,7 @@ const QrCodeShapes = ({
                 </div>
             </section>
             <section className="mt-6 rounded-[10px] p-[23px] bg-[#F7F7F7]">
-                <h2 className="text-lg font-medium">Corners & Colors</h2>
+                <h2 className=" font-medium">Corners & Colors</h2>
                 <AllShapes
                     colorPickerRef={colorPickerRef}
                     setShowColorPicker={setShowColorPicker}
