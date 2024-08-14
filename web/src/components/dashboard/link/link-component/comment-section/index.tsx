@@ -15,7 +15,7 @@ const CommentSection = () => {
 
     const handleEmojiClick = (event: React.MouseEvent, emojiData: EmojiClickData) => {
         setComment(comment + emojiData.emoji);
-        setShowEmojiPicker(false); // Hide the picker after selecting an emoji
+        setShowEmojiPicker(false);
     };
 
     return (
