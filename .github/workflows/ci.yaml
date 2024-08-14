@@ -62,6 +62,8 @@ on:
         type: string
       buildCommand:
         type: string
+      unitTestCommand:
+        type: string
       unitCommand:
         type: string
       e2eTestCommand:

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types} from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type InvitationDocument = Invitation & Document;
 
@@ -56,7 +56,7 @@ export class Invitation {
 
 const InvitationSchema = SchemaFactory.createForClass(Invitation);
 
-InvitationSchema.virtual('id').get(function() {
+InvitationSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
@@ -64,20 +64,8 @@ InvitationSchema.statics.config = () => {
   return {
     idToken: 'inv',
     uniques: ['email'],
-    fillables: [
-      'email',
-      'workspace',
-      'publicId',
-      'token',
-      'accepted',
-    ],
-    updateFillables: [
-      'email',
-      'workspace',
-      'publicId',
-      'token',
-      'accepted',
-    ],
+    fillables: ['email', 'workspace', 'publicId', 'token', 'accepted'],
+    updateFillables: ['email', 'workspace', 'publicId', 'token', 'accepted'],
     hiddenFields: ['deleted'],
   };
 };

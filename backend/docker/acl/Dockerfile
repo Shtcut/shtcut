@@ -1,5 +1,5 @@
 ## Stage 1. Compile TS souces to JS
-FROM node:16-alpine as builder
+FROM node:16-alpine AS builder
 
 # Set build directory
 WORKDIR /user/src/app
@@ -13,9 +13,9 @@ COPY ./package*.json  ./*.lock ./tsconfig.cjson  ./tsconfig.build.json ./nest-cl
 RUN yarn install  --frozen-lockfile --dev
 
 # Copy Sources
-COPY ./app/sht-acl ./apps/sht-acl
-COPY ./config ./config
-COPY ./libs ./libs
+#COPY ./app/sht-acl ./apps/sht-acl
+#COPY ./config ./config
+#COPY ./libs ./libs
 
 #Build app
 RUN yarn run build:acl
@@ -29,7 +29,7 @@ FROM node:16-alpine
 WORKDIR /usr/src/app
 
 # Install app dependencies
-COPY package.json ./
+#COPY package.json ./
 RUN yarn install --fronzen-lockfile --production
 COPY --from=builder /usr/src/app/dist/apps/sht-acl ./dist
 

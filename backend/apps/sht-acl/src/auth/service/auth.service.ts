@@ -29,7 +29,6 @@ import * as _ from 'lodash';
 import lang from 'apps/sht-acl/lang';
 import { UserService } from '../../user';
 
-
 @Injectable()
 export class AuthService extends MongoBaseService {
   constructor(
