@@ -6,7 +6,10 @@ import {
   Invitation,
   CreateInvitationDto,
   Utils,
-  WorkService, Workspace, WorkspaceDocument, AppException,
+  WorkService,
+  Workspace,
+  WorkspaceDocument,
+  AppException,
 } from 'shtcut/core';
 import { ClientSession, Model } from 'mongoose';
 import { InvitationEmail } from '../invitation.email';
@@ -32,6 +35,20 @@ export class InvitationService extends MongoBaseService {
     };
   }
 
+  /**
+   * The function creates new invitations for a workspace, checks for existing emails, generates unique
+   * tokens, saves the invites, and sends invitation emails.
+   * @param {CreateInvitationDto} obj - The `obj` parameter in the `createNewObject` function is of
+   * type `CreateInvitationDto`, which likely contains information needed to create a new invitation
+   * object. This object includes properties such as `emails`, `workspace`, and `token`. The function
+   * checks if any existing invitations with the same
+   * @param {ClientSession} [session] - The `session` parameter in the `createNewObject` function is an
+   * optional parameter of type `ClientSession`. It allows you to pass a MongoDB client session to the
+   * function for handling transactions or other database operations within the session scope. If a
+   * session is provided when calling this function, the operations will
+   * @returns The `createNewObject` function is returning the saved invitations after creating new
+   * objects and sending invitation emails.
+   */
   public async createNewObject(obj: CreateInvitationDto, session?: ClientSession): Promise<any> {
     try {
       const { emails, workspace, token } = obj;
@@ -54,12 +71,7 @@ export class InvitationService extends MongoBaseService {
       savedInvites.forEach((invitation) => {
         const { email, token } = invitation;
         const link = `${obj.redirectLink}/${workspace}/${token}`;
-        this.sendInvitationEmail({
-          email,
-          token,
-          workspace: inviteeWorkspace.name,
-          link,
-        });
+        this.sendInvitationEmail({ email, workspace: inviteeWorkspace.name, link });
       });
 
       return savedInvites;
@@ -68,11 +80,16 @@ export class InvitationService extends MongoBaseService {
     }
   }
 
-  private async sendInvitationEmail(payload: { email: string, token: string, workspace: string, link: string }) {
-    const { email, token, workspace, link } = payload;
-    const invitationEmail = await InvitationEmail.sendEmail({
+  /**
+   * The function `sendInvitationEmail` sends an invitation email to a specified email address for a
+   * workspace with a provided link.
+   * @param payload - The `payload` object contains the following properties:
+   */
+  private async sendInvitationEmail(payload: { email: string; workspace: string; link: string }) {
+    const { email, workspace, link } = payload;
+    const invitationEmail = InvitationEmail.sendEmail({
       to: email,
-      from: this.config.get('worker.email.noReply.email'),
+      from: this.config.get('worker.email.sendgrid.email'),
       workspace,
       link,
       template: this.config.get('app.templates.workspaceInvite'),

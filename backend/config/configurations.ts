@@ -121,7 +121,10 @@ export const configuration = () => ({
       },
     },
     email: {
-      noReply: { email: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>', name: process.env.APP_NAME || 'ShtCut' },
+      noReply: {
+        email: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',
+        name: process.env.APP_NAME || 'ShtCut',
+      },
       mailOption: process.env.MAIL_OPTION || 'sendgrid',
       sendgrid: {
         fromEmail: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',

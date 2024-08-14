@@ -1,6 +1,5 @@
 import { MailOption } from 'shtcut/core';
 
-
 type EmailType = {
   to: string;
   from: string;
@@ -11,7 +10,7 @@ type EmailType = {
 };
 
 export class InvitationEmail {
-  static async sendEmail(config: EmailType): Promise<MailOption> {
+  static sendEmail(config: EmailType): MailOption {
     return {
       emailName: {
         email: config.to,
