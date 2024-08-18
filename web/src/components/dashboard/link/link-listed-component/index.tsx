@@ -4,9 +4,11 @@ import React from 'react';
 import { Clock3 } from 'lucide-react';
 import { Tag } from 'lucide-react';
 import CardsActions from '../card-actions';
+import { HiUsers } from 'react-icons/hi';
+import { BiPieChartAlt } from 'react-icons/bi';
+import { LineChart as Chart } from 'lucide-react';
 
 const LinkListedComponent = ({
-    data,
     edit,
     onClickNavigate
 }: {
@@ -14,8 +16,9 @@ const LinkListedComponent = ({
     data?: any;
     onClickNavigate?: (() => void) | null | undefined;
 }) => {
+
     return (
-        <div className="bg-white  cursor-pointer rounded-[10px] p-4 border bg-card ">
+        <Card className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     {!edit && (
@@ -55,7 +58,7 @@ const LinkListedComponent = ({
                     <CardsActions edit={edit} />
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 

@@ -1,15 +1,13 @@
-import { Card } from '@shtcut-ui/react';
+import { Button, Card } from '@shtcut-ui/react';
+import { Calendar } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
-import { Calendar } from 'lucide-react';
-import CardsActions from '../card-actions';
 
-interface QrCodeCardProps {
+interface AnalyticsCardProps {
     id: number;
     handleCheckboxChange: (id: number, isChecked: boolean) => void;
 }
-
-const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
+const AnalyticsCard = ({ handleCheckboxChange, id }: AnalyticsCardProps) => {
     const [isChecked, setIsChecked] = useState(false);
 
     const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,7 +15,6 @@ const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
         setIsChecked(isChecked);
         handleCheckboxChange(id, isChecked);
     };
-
     return (
         <Card className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
@@ -43,10 +40,14 @@ const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
                         </div>
                     </div>
                 </div>
-                <CardsActions />
+                <div>
+                    <Button className="text-xs border-primary-0 text-primary-0" variant={'outline'}>
+                        Edit QR Code
+                    </Button>
+                </div>
             </div>
         </Card>
     );
 };
 
-export default QrCodeCard;
+export default AnalyticsCard;

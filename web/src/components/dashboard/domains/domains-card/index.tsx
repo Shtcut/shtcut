@@ -1,11 +1,11 @@
-import { Checkbox } from '@shtcut-ui/react';
+import { Card, Checkbox } from '@shtcut-ui/react';
 import React from 'react';
 import { Globe, Calendar } from 'lucide-react';
 import DomainActions from '../domain-actions';
 
 const DomainsCard = ({ edit, handleModalCn }: { handleModalCn: (open: boolean) => void; edit?: any }) => {
     return (
-        <div className="bg-white  cursor-pointer rounded-[10px] p-4 border bg-card ">
+        <Card className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     {!edit && (
@@ -31,7 +31,7 @@ const DomainsCard = ({ edit, handleModalCn }: { handleModalCn: (open: boolean) =
                     <DomainActions handleModalCn={handleModalCn} />
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 

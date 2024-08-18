@@ -8,13 +8,13 @@ import React, { useState } from 'react';
 import { FiPlayCircle } from 'react-icons/fi';
 import ReusableCard from '../../reusable-card';
 
-const LinkManagement = () => {
+const LinkManagement = ({ id }: { id?: string }) => {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
     return (
-        <div className="bg-[#FAFAFA]">
+        <div className="bg-[#FAFAFA]" id={id}>
             <section className="relative max-w-screen-custom mx-auto px-4  py-14">
                 <AnimatedContainer className="flex flex-col items-center gap-y-4">
                     <h1 className="text-4xl sm:text-[50px]  sm:leading-[60px] mx-auto text-center font-semibold">
