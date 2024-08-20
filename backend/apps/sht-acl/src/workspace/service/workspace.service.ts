@@ -4,8 +4,9 @@ import lang from 'apps/sht-shtner/lang';
 import { Model } from 'mongoose';
 import {
   AppException,
+  CreateInvitationDto,
   CreateWorkspaceDto,
-  Dict, Invitation, InvitationDocument,
+  Dict,
   MongoBaseService,
   Plan,
   PlanDocument,
@@ -22,6 +23,7 @@ import {
 import * as _ from 'lodash';
 import { ClientSession } from 'mongodb';
 import { SubscriptionService } from '../../subscription';
+import { InvitationService } from '../../invitation';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -31,6 +33,7 @@ export class WorkspaceService extends MongoBaseService {
     @InjectModel(Plan.name) protected planModel: Model<PlanDocument>,
     @InjectModel(User.name) protected userModel: Model<UserDocument>,
     protected subscriptionService: SubscriptionService,
+    protected invitationService: InvitationService,
     protected redisService: RedisService,
   ) {
     super(model);
@@ -84,6 +87,15 @@ export class WorkspaceService extends MongoBaseService {
 
       const workspace = await super.createNewObject(obj, session);
 
+      if (obj.memberEmails && obj.memberEmails.length) {
+        const invitationPayload: CreateInvitationDto = {
+          emails: obj.memberEmails,
+          redirectLink: obj.redirectUrl,
+          workspace: workspace._id,
+        };
+        await this.invitationService.createNewObject(invitationPayload, session);
+      }
+
       const [subscription, _] = await Promise.all([
         this.createSubscription(workspace, obj, session),
         this.updateUser({ workspace, module }, session),
@@ -103,7 +115,6 @@ export class WorkspaceService extends MongoBaseService {
       await session?.endSession();
     }
   }
-
 
   /**
    * The function updates a workspace object and creates a subscription if the module specified in the

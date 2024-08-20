@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@shtcut-ui/react';
 import { useMediaQuery } from 'react-responsive';
 import HeadersTitle from './headers';
-import { HowTopPlan, SolutionUi } from './steps-ui';
+import { HowTopPlan, ModuleUi } from './steps-ui';
 import InviteForm from './invite-form';
 import ToolsUi from './tools-ui';
 import { PropsCreate } from '@shtcut/types/types';
@@ -15,11 +15,10 @@ const WorkSpaceMain = ({
     handleNext,
     handlePrevious,
     handleSelect,
-    solutionValues,
+    modules,
     toolsValues,
     handleSelectTools
 }: PropsCreate) => {
-    const isTabletOrMobile = useMediaQuery({ query: '(max-width: 1125px)' });
     const isTab = useMediaQuery({ query: '(max-width: 1247px)' });
     return (
         <div
@@ -38,7 +37,7 @@ const WorkSpaceMain = ({
                             userValue={userValue}
                         />
                     )}
-                    {step === 2 && <SolutionUi handleSelect={handleSelect} solutionValues={solutionValues} />}
+                    {step === 2 && <ModuleUi handleSelect={handleSelect} modules={modules} />}
                     {step === 3 && <InviteForm form={form} />}
                     {step === 4 && <ToolsUi handleSelectTools={handleSelectTools} toolsValues={toolsValues} />}
                     <div className="flex justify-between gap-x-4  w-full mt-10">
@@ -46,11 +45,9 @@ const WorkSpaceMain = ({
                             <Button
                                 variant={'outline'}
                                 className="border border-[#2B2829] w-full"
-                                onClick={() => {
-                                    step === 3 ? handleNext() : handlePrevious();
-                                }}
+                                onClick={()=>handlePrevious()}
                             >
-                                {step === 3 ? 'Skip for now' : '   Previous'}
+                                 Previous
                             </Button>
                         )}
                         <Button className="bg-primary-0 w-full" onClick={handleNext}>

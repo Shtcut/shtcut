@@ -1,4 +1,4 @@
 import HowTopPlan from './how-to-plan';
-import SolutionUi from './solution-ui';
+import ModuleUi from './module-ui';
 
-export { HowTopPlan, SolutionUi };
+export { HowTopPlan, ModuleUi };

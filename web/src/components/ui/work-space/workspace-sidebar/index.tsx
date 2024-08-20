@@ -14,7 +14,7 @@ const WorkSpaceSideBar = ({ step }: { step: number }) => {
                 <p className="text-[#CCCBCB]">Shutcut 2024</p>
                 <p className="text-[#CCCBCB] flex items-center gap-x-2">
                     <div className="w-4 h-4 bg-[#D9D9D9]" />
-                    help@shrtcut.com
+                    help@shtcut.com
                 </p>
             </div>
         </div>

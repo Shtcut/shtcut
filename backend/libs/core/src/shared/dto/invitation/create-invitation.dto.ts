@@ -16,5 +16,4 @@ export class CreateInvitationDto {
   @IsString()
   @IsNotEmpty()
   readonly workspace: string;
-
 }
