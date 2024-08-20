@@ -5,7 +5,15 @@ import { RiUserFill } from 'react-icons/ri';
 import TeamForm from '../../team-form';
 import { PropsCreate } from '@shtcut/types/types';
 
-const HowTopPlan = ({ userValue, handleOptionChange, form }: PropsCreate) => {
+const HowTopPlan = ({ userValue, handleOptionChange, form, handleNext, formValidation }: PropsCreate) => {
+    const handleOnNext = () => {
+    };
+
+    const handleOnChangeOptions = (value) => {
+        console.log();
+        handleOnChangeOptions?.(value);
+    };
+
     return (
         <div>
             <div className="flex items-center gap-x-5 justify-center w-full ">
@@ -19,8 +27,8 @@ const HowTopPlan = ({ userValue, handleOptionChange, form }: PropsCreate) => {
                 />
                 <SelectValue
                     label="For my self"
-                    value="myself"
-                    selected={userValue === 'myself'}
+                    value="personal"
+                    selected={userValue === 'personal'}
                     onSelect={handleOptionChange}
                     description="For a private project for myself"
                     icon={<RiUserFill size={24} />}

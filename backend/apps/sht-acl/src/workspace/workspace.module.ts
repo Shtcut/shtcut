@@ -15,10 +15,12 @@ import {
   User,
   UserSchema,
 } from 'shtcut/core';
-import { SubscriptionModule, SubscriptionService } from '../subscription';
+import { SubscriptionService } from '../subscription';
+import { InvitationModule } from '../invitation';
 
 @Module({
   imports: [
+    InvitationModule,
     MongooseModule.forFeature([
       { name: Domain.name, schema: DomainSchema },
       { name: Workspace.name, schema: WorkspaceSchema },

@@ -522,4 +522,28 @@ export const authSlides = [
     }
 ];
 
-export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png','mag.png'];
+export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png', 'mag.png'];
+
+export const capacities = ['0-10', '11-30', '31-50', '51-100', 'Above 100'];
+export const modules = [
+    {
+        key: 'URL Shortener',
+        value: 'shtcut-shortener'
+    },
+    {
+        key: 'Social Media Manager',
+        value: 'shtcut-social-manager'
+    },
+    {
+        key: 'Survey Creation',
+        value: 'shtcut-survey'
+    },
+    {
+        key: 'Email Marketing',
+        value: 'shtcut-marketing'
+    },
+    {
+        key: 'Web Builder',
+        value: 'shtcut-web-builder'
+    }
+];

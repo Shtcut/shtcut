@@ -1,3 +1,5 @@
+import { Dict } from "@shtcut-ui/react";
+
 interface Props {
     color?: string;
     size?: number;
@@ -43,7 +45,7 @@ interface PlanCard {
 }
 
 interface SolutionType {
-    solutionValues?: string[];
+    modules?: string[];
     handleSelect?: (val: string) => void;
     toolsValues?: string[];
     handleSelectTools?: (val: string) => void;
@@ -51,8 +53,9 @@ interface SolutionType {
 
 interface PropsCreate extends SolutionType {
     userValue: string;
-    handleOptionChange: (value: 'team' | 'myself') => void;
-    form: any;
+    handleOptionChange: (value: 'team' | 'personal') => void;
+    form: Dict;
+    formValidation?: Dict;
     step: number;
     handlePrevious: () => void;
     handleNext: () => void;

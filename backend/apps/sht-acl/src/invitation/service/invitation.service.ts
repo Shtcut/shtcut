@@ -64,7 +64,7 @@ export class InvitationService extends MongoBaseService {
       }));
 
       const [savedInvites, inviteeWorkspace] = await Promise.all([
-        await this.model.insertMany(invitations),
+        await this.model.insertMany(invitations, { session }),
         await this.workspaceModel.findOne({ ...Utils.conditionWithDelete({ _id: workspace, active: true }) }),
       ]);
 

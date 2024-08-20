@@ -111,7 +111,7 @@ export class Workspace {
 
 const WorkspaceSchema = SchemaFactory.createForClass(Workspace);
 
-WorkspaceSchema.virtual('id').get(function() {
+WorkspaceSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 
