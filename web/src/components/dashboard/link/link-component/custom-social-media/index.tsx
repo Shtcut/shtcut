@@ -42,28 +42,28 @@ const CustomSocialMedia = ({
 
             {isSwitchOn && (
                 <>
-                    {preview ? (
-                        <>
-                            <div className="relative">
-                                <Image
-                                    src={preview}
-                                    alt="Preview"
-                                    className="mt-4 object-cover w-full h-[200px]  rounded-md"
-                                    height={0}
-                                    width={100}
-                                />
-                                <div
-                                    onClick={handleEmptyImage}
-                                    className="absolute top-1 cursor-pointer right-1 bg-white w-5 h-5 rounded-full flex justify-center items-center"
-                                >
-                                    <X size={14} />
+                    {' '}
+                    <div className="flex flex-col gap-4 mb-4 mt-6">
+                        {preview ? (
+                            <>
+                                <div className="relative">
+                                    <Image
+                                        src={preview}
+                                        alt="Preview"
+                                        className="mt-4 object-cover w-full h-40  rounded-md"
+                                        height={0}
+                                        width={0}
+                                    />
+                                    <div
+                                        onClick={handleEmptyImage}
+                                        className="absolute top-5 cursor-pointer right-1 bg-white w-5 h-5 rounded-full flex justify-center items-center"
+                                    >
+                                        <X size={14} />
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            {' '}
-                            <div className="flex flex-col gap-4 mb-4 mt-6">
+                            </>
+                        ) : (
+                            <>
                                 <FormField
                                     control={form.control}
                                     name="file1"
@@ -92,49 +92,50 @@ const CustomSocialMedia = ({
                                         </FormItem>
                                     )}
                                 />
-                                <FormField
-                                    control={form.control}
-                                    name="title"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <div className="flex justify-between  items-center">
-                                                <Label className="text-xs">Title</Label>
-                                                <Label className="text-xs text-[#433E3F]">7/100</Label>
-                                            </div>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="Shtcut- Open source link management"
-                                                    className="h-10"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                                <FormField
-                                    control={form.control}
-                                    name="description"
-                                    render={({ field }) => (
-                                        <FormItem className="w-full">
-                                            <div className="flex justify-between  items-center">
-                                                <Label className="text-xs">Description</Label>
-                                                <Label className="text-xs text-[#433E3F]">7/100</Label>
-                                            </div>
-                                            <FormControl>
-                                                <Input
-                                                    placeholder="Shtcut- Open source link management"
-                                                    className="h-10"
-                                                    {...field}
-                                                />
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-                            </div>
-                        </>
-                    )}
+                            </>
+                        )}
+
+                        <FormField
+                            control={form.control}
+                            name="title"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <div className="flex justify-between  items-center">
+                                        <Label className="text-xs">Title</Label>
+                                        <Label className="text-xs text-[#433E3F]">7/100</Label>
+                                    </div>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Shtcut- Open source link management"
+                                            className="h-10"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="description"
+                            render={({ field }) => (
+                                <FormItem className="w-full">
+                                    <div className="flex justify-between  items-center">
+                                        <Label className="text-xs">Description</Label>
+                                        <Label className="text-xs text-[#433E3F]">7/100</Label>
+                                    </div>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Shtcut- Open source link management"
+                                            className="h-10"
+                                            {...field}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
                 </>
             )}
         </div>

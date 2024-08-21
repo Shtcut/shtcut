@@ -45,31 +45,31 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
     const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
             title: 'Link Management',
-            href: '#',
+            href: '/product/url-shortener#link-management',
             description: 'Generate short URLs with just a click, metrics and track performance',
             icon: GoLink
         },
         {
             title: 'QR Code',
-            href: '#',
+            href: '/product/url-shortener#qr-code',
             description: 'Collaborate with team members, performance metrics and schedule',
             icon: IoQrCodeOutline
         },
         {
-            title: 'Progress',
-            href: '#',
+            title: 'Custom Domain',
+            href: '/product/url-shortener#customer-domain',
             description: 'Discover trends and insights about your brand and competitors and offer ',
             icon: PiUsersThreeLight
         },
         {
-            title: 'Hover Card',
-            href: '#',
+            title: 'Bio-Link',
+            href: '/product/url-shortener#bio-link',
             description: 'Discover trends and insights about your brand and competitors and offer ',
             icon: PiUserListLight
         },
         {
-            title: 'Progress',
-            href: '#',
+            title: 'Analytics',
+            href: '/product/url-shortener#analytics',
             description: 'Discover trends and insights about your brand and competitors and offer ',
             icon: PiChartLineUp
         }
@@ -167,7 +167,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                                                     ) : null
                                                 }
                                                 className="text-[#777777] text-xs"
-                                                onClick={showToast}
+                                                // onClick={showToast}
                                             >
                                                 {component.description}
                                             </ListItem>

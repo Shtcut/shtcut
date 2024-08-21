@@ -28,7 +28,7 @@ const CreateLinkForm = ({
 }) => {
     return (
         <div className="w-full py-6">
-            <div className="flex flex-col px-8 gap-4">
+            <div className="flex flex-col px-14 gap-4">
                 <FormField
                     control={form.control}
                     name="link"
@@ -93,18 +93,28 @@ const CreateLinkForm = ({
                     </SelectContent>
                 </Select>
             </div>
-            <Separator orientation="horizontal" className="mt-6" />
+            {/* <Separator orientation="horizontal" className="mt-6" /> */}
             <div>
-                <h1 className="font-semibold px-8 py-6    ">Social media preview</h1>
-                <div className="px-8 ">
+                <h1 className="font-semibold px-14 py-3">Social media preview</h1>
+                <div className="px-14  ">
                     {preview ? (
-                        <Image
-                            src={preview}
-                            alt="Preview"
-                            className="mt-4 w-full  rounded-md object-cover"
-                            height={112}
-                            width={200}
-                        />
+                        <div className="border rounded-md shadow-sm">
+                            <Image
+                                src={preview}
+                                alt="Preview"
+                                className=" w-full  rounded-t-md h-40 object-cover"
+                                height={0}
+                                width={0}
+                            />
+                            <div className="p-4 bg-gray-50">
+                                <h1 className=" font-semibold">About image title</h1>
+                                <p className="text-xs text-[#726C6C] mt-2">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, repellat.
+                                    Temporibus obcaecati repellat iusto, eveniet possimus ipsum velit cum eos? Magni
+                                    voluptas quisquam quos est error eaque illo culpa ducimus!
+                                </p>
+                            </div>
+                        </div>
                     ) : (
                         <Card className="bg-[#FCFCFC] cursor-pointer flex flex-col gap-y-2 items-center justify-center shadow-none border-gray-100 h-28 w-full">
                             <ImageIcon color="#726C6C" />
@@ -112,7 +122,7 @@ const CreateLinkForm = ({
                         </Card>
                     )}
                 </div>
-                <Separator orientation="horizontal" className="mt-8" />
+                {/* <Separator orientation="horizontal" className="mt-8" /> */}
             </div>
         </div>
     );
