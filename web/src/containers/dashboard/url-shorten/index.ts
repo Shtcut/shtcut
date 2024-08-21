@@ -1,3 +1,3 @@
-import OverviewContainer from './overview-container';
-import OverviewComponent from '@shtcut/components/dashboard/url-shorten/overview-component';
-export { OverviewContainer, OverviewComponent };
+import OverviewContainer from '../../members/members-container';
+import MembersComponent from '@shtcut/components/dashboard/url-shorten/members-component';
+export { OverviewContainer, MembersComponent };
