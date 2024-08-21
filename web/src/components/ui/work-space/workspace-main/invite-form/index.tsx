@@ -7,12 +7,10 @@ const InviteForm = ({ form }: { form: any }) => {
     const [emails, setEmails] = useState([]);
 
     const addInput = () => {
-        const emails = [];
         if (inputs.length < 10) {
             setInputs([...inputs, '']);
         }
     };
-    console.log('inputs:::', inputs);
 
     const removeInput = () => {
         setInputs(inputs.slice(0, -1));
