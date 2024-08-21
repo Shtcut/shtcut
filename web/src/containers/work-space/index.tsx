@@ -12,9 +12,9 @@ const WorkSpaceContainer = () => {
     const handleSelect = (value: string) => {
         setSolutionValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
     };
-     const handleSelectTools = (value: string) => {
-         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
-     };
+    const handleSelectTools = (value: string) => {
+        setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+    };
 
     const handleNext = () => {
         if (step < 4) {
@@ -32,9 +32,7 @@ const WorkSpaceContainer = () => {
     };
 
     const handleFormSubmit = (values: any) => {
-        /**
-         * todo Your form submit logic
-         */
+        console.log('value:::', values);
     };
 
     const form = useForm({
