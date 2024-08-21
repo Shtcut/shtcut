@@ -1,4 +1,4 @@
-import { Button } from '@shtcut-ui/react';
+import { Button, Card } from '@shtcut-ui/react';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
 import React, { createElement, useState } from 'react';
 import { PiSortDescendingBold } from 'react-icons/pi';
@@ -6,10 +6,10 @@ import LinkListedComponent from '../link-listed-component';
 import { HiUsers } from 'react-icons/hi';
 import { LineChart as Chart } from 'lucide-react';
 import { BiPieChartAlt } from 'react-icons/bi';
-import ReferralComponent from '../referrals';
-import CountriesComponent from '../countries';
+import ReferralComponent from '../../../referrals';
+import CountriesComponent from '../../../countries';
 import { LineChartComponent } from '@shtcut/components/_shared/Analytics/LineChart';
-import SelectMonths from './select-months';
+import SelectMonths from '../../../select-months';
 import BreadCrumb from '@shtcut/components/bread-crumb';
 
 const SingleLinkPreviewComponent = () => {
@@ -54,14 +54,14 @@ const SingleLinkPreviewComponent = () => {
                 <LinkListedComponent edit={true} />
             </div>
 
-            <div className="mt-[22px] flex items-center w-full gap-8 ">
+            <div className="mt-[22px] flex items-center w-full gap-6 ">
                 {analticsScore.map((data, index) => (
-                    <div
-                        className="flex h-28 justify-between  gap-4 rounded-2xl w-full items-center bg-white border bg-card  px-4"
-                        key={index}
+                    <Card
+                        className="w-full flex cursor-pointer border border-gray-200 justify-between  items-center   h-28 shadow-sm  rounded-[10px]  px-4  gap-4"
+                        key={data.id}
                     >
                         <div>
-                            <p className="text-[#636466] font-semibold">{data.text}</p>
+                            <p className="text-[#636466] font-semibold text-sm">{data.text}</p>
                             <h1 className="text-2xl font-bold">{data.totalNumber}</h1>
                         </div>
                         <div
@@ -69,7 +69,7 @@ const SingleLinkPreviewComponent = () => {
                         >
                             {createElement(data.icon)}
                         </div>
-                    </div>
+                    </Card>
                 ))}
             </div>
             <div className="mt-[22px] p-8 border bg-card rounded-[10px]">

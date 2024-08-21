@@ -12,11 +12,18 @@ import {
 import { Plus, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
 import { Progress } from '@shtcut/components/_shared/Progress-bar';
+import { useParams, useRouter } from 'next/navigation';
 
 const HeaderSideNav = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) => {
     const [open, setOpen] = React.useState(false);
+    const { module, workspace } = useParams();
+    const router = useRouter();
     const handleToggle = () => {
         setOpen(!open);
+    };
+    const handleNavigateMember = () => {
+        router.push(`/${module}/${workspace}/members`);
+        handleToggle();
     };
     return (
         <div className={`border-t flex w-full ${isOpen ? 'flex-row h-14 ' : 'flex-col items-center justify-center'} `}>
@@ -49,7 +56,7 @@ const HeaderSideNav = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val
                                 <p className="text-xs font-medium text-white">Manage</p>
                             </div>
                             <div className="bg-white rounded-[10px] pb-3 mt-4 px-2">
-                                <div className="flex justify-between items-center py-3">
+                                <div className="flex justify-between cursor-pointer items-center py-3">
                                     <Button className="w-[52px] h-[24px] rounded-[10px] text-xs">Team</Button>
                                     <p className="text-[#2B2829] text-xs font-semibold">2 of 10 seats used</p>
                                 </div>
@@ -58,7 +65,7 @@ const HeaderSideNav = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val
                         </section>
                         <div className="flex flex-col gap-4 p-4">
                             {[1, 2, 3].map((data) => (
-                                <section key={data}>
+                                <section key={data} className=" cursor-pointer" onClick={handleNavigateMember}>
                                     <div className="bg-black text-white w-[27px] h-[27px] flex justify-center rounded-full items-center float-left mr-2">
                                         <p className="text-[10px] font-medium">BA</p>
                                     </div>

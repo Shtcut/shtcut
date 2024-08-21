@@ -47,8 +47,8 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         {
             id: '5',
             title: 'Analytics',
-            // href: `/url/${workspace}/link-bios`,
-            href: '#',
+            href: `/url/${workspace}/analytics`,
+
             icon: <MailOpen size={16} />
         },
         {

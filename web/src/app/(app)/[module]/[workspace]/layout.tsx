@@ -141,7 +141,7 @@ const WorkspaceLayout = ({ children }: any) => {
                         <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
                     )}
                     <div
-                        className={`w-full relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6`}
+                        className={`w-full  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6`}
                     >
                         {children}
                     </div>

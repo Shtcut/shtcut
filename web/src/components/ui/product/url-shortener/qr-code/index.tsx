@@ -7,13 +7,13 @@ import React, { useState } from 'react';
 import { FiPlayCircle } from 'react-icons/fi';
 import ReusableCard from '../../reusable-card';
 
-const QrCode = () => {
+const QrCode = ({ id }: { id :string}) => {
     const [showModal, setShowModal] = useState(false);
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
     return (
-        <section className="relative max-w-screen-custom mx-auto px-4  pt-14">
+        <section className="relative max-w-screen-custom mx-auto px-4  pt-14" id={id}>
             <AnimatedContainer className="flex flex-col items-center gap-y-4">
                 <h1 className="text-4xl sm:text-[50px]  sm:leading-[60px] mx-auto text-center font-semibold">
                     QR Code

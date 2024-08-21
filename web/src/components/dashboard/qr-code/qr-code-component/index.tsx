@@ -1,4 +1,4 @@
-import { Card, Checkbox } from '@shtcut-ui/react';
+import { Card } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { Calendar } from 'lucide-react';
@@ -19,7 +19,7 @@ const QrCodeCard = ({ handleCheckboxChange, id }: QrCodeCardProps) => {
     };
 
     return (
-        <Card className=" cursor-pointer border border-gray-50   rounded-[10px] p-4  ">
+        <Card className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     <div className="relative checkbox-container">

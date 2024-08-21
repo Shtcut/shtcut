@@ -522,4 +522,4 @@ export const authSlides = [
     }
 ];
 
-export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png','mag.png'];
+export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png', 'mag.png'];

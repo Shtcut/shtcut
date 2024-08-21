@@ -6,7 +6,7 @@ import SwitchRoleModal from '../switch-role-modal';
 import DeleteModal from '../delete-modal';
 import AddedModal from '../added-modal';
 
-const OverviewComponent = () => {
+const MembersComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<'manage' | 'role' | 'delete' | 'add' | null>(null);
 
@@ -46,4 +46,4 @@ const OverviewComponent = () => {
     );
 };
 
-export default OverviewComponent;
+export default MembersComponent;
