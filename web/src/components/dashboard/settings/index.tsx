@@ -38,12 +38,15 @@ const SettingComponent = () => {
         setSelectedTabIndex(index);
     };
 
-    useEffect(() => {
-        const index = tabs.findIndex((tab) => tab.id === queryTag);
-        if (index !== -1) {
-            setSelectedTabIndex(index);
-        }
-    }, [queryTag]);
+ useEffect(() => {
+     const findTabIndex = () => {
+         const index = tabs.findIndex((tab) => tab.id === queryTag);
+         return index !== -1 ? index : 0;
+     };
+
+     setSelectedTabIndex(findTabIndex());
+ }, [queryTag, tabs]);
+
 
     return (
         <div className='px-10'>

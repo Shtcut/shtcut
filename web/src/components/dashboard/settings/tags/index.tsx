@@ -28,7 +28,7 @@ const TagsScreen = () => {
             <section>
                 <Card className="shadow-none mt-4 rounded-[4px]">
                     {tagsData.map((tag) => (
-                        <section className="flex border-b p-4 items-center justify-between">
+                        <section className="flex border-b p-4 items-center justify-between" key={tag.title}>
                             <div className="flex items-center gap-2">
                                 <div
                                     style={{ backgroundColor: hexToRgba(tag.color, 0.05), borderColor: tag.color }}
@@ -38,7 +38,7 @@ const TagsScreen = () => {
                                 </div>
                                 <p className="text-xs font-medium">{tag.title}</p>
                             </div>
-                            <section className='flex items-center gap-2'>
+                            <section className="flex items-center gap-2">
                                 <div
                                     className="
                                 bg-[#F9FAFB] border border-[#E6E7EB] w-14 h-6 flex items-center justify-center rounded-[4px]"

@@ -58,7 +58,7 @@ const BillingsScreen = () => {
                 <TableHeader className="">
                     <TableRow className="  ">
                         {headers.map((h) => (
-                            <TableHead className="text-xs text-[#898384] "> {h}</TableHead>
+                            <TableHead key={h} className="text-xs text-[#898384] "> {h}</TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>

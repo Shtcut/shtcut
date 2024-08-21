@@ -21,7 +21,10 @@ const WorkspaceScreen = () => {
                         </section>
                         <section className="flex flex-col gap-4 mt-6">
                             {[1, 2, 3, 4].map((list) => (
-                                <div className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center ">
+                                <div
+                                    key={list}
+                                    className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
+                                >
                                     <div className="flex items-center gap-4">
                                         <Image src={'/images/send-icon.png'} width={44} height={44} alt="send" />
                                         <div>
