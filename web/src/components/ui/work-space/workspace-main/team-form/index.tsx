@@ -11,9 +11,12 @@ import {
     SelectValue,
     SelectContent,
     SelectItem,
-    FormDescription
+    FormDescription,
+    Dict
 } from '@shtcut-ui/react';
-const TeamForm = ({ form }: { form: any }) => {
+import { capacities } from '@shtcut/_shared/data';
+
+const TeamForm = ({ form }: { form: Dict }) => {
     return (
         <div className="flex gap-x-3 items-center w-full relative">
             <FormField
@@ -25,31 +28,31 @@ const TeamForm = ({ form }: { form: any }) => {
                         <FormControl>
                             <Input placeholder="" className="" {...field} />
                         </FormControl>
-                        <FormDescription className='absolute'>You can change this later</FormDescription>
+                        <FormDescription className="absolute">You can change this later</FormDescription>
                     </FormItem>
                 )}
             />
             <FormField
                 control={form.control}
-                name="gender"
+                name="capacity"
                 render={({ field }) => (
                     <FormItem className="w-full">
                         <FormLabel className="text-[#0F172A]">Number of users</FormLabel>
                         <FormControl>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <SelectTrigger>
-                                    <SelectValue>{field.value || ' Number of users'}</SelectValue>
+                                    <SelectValue>{field.value || 'Number of users'}</SelectValue>
                                 </SelectTrigger>
                                 <SelectContent className="">
-                                    <SelectItem value="1-5">1-5</SelectItem>
-                                    <SelectItem value="5-10">5-10</SelectItem>
-                                    <SelectItem value="10-50">10-50</SelectItem>{' '}
-                                    <SelectItem value="50-100">50-100</SelectItem>
+                                    {capacities.map((capacity, idx) => (
+                                        <SelectItem key={`${capacity}-${idx}`} value={capacity}>
+                                            {capacity}
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </FormControl>
                         <FormMessage />
-                       
                     </FormItem>
                 )}
             />

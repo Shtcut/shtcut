@@ -16,8 +16,8 @@ export const configuration = () => ({
     modules: ['shtcut-shortener', 'shtcut-survey', 'shtcut-marketing', 'shtcut-web-builder', 'shtcut-social-manager'],
     jwtExpiry: process.env.JWT_EXPIRY || '30000m',
     showDeveloperError: process.env.SHOW_DEVELOPER_ERROR || true,
-    fromEmail: process.env.EMAIL_NO_REPLY || 'noreply@shtcut.link',
-    errorReportEmail: process.env.ERROR_REPORT_EMAIL || 'bug@shtcut.link',
+    fromEmail: process.env.EMAIL_NO_REPLY || 'noreply@shtcut.co',
+    errorReportEmail: process.env.ERROR_REPORT_EMAIL || 'bug@shtcut.co',
     defaultVerifyCode: '123456',
     messageBroker: process.env.MESSAGE_BROKER || 'redis',
     rabbitMQ: process.env.RABBIT_MQ_URL || 'amp://localhost:5672',
@@ -46,6 +46,7 @@ export const configuration = () => ({
         passwordReset: 'password-reset',
         otp: 'otp',
         error: 'error',
+        workspaceInvite: 'workspace-invitation',
       },
       sms: {
         verify: 'verify',
@@ -120,16 +121,19 @@ export const configuration = () => ({
       },
     },
     email: {
-      noReply: { email: process.env.NO_REPLY || 'no-reply@shtcut.link', name: process.env.APP_NAME || 'ShtCut' },
+      noReply: {
+        email: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',
+        name: process.env.APP_NAME || 'ShtCut',
+      },
       mailOption: process.env.MAIL_OPTION || 'sendgrid',
       sendgrid: {
-        fromEmail: process.env.NO_REPLY || 'no-reply@shtcut.link',
+        fromEmail: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',
         apiKey: process.env.SENDGRID_API_KEY,
         contactForRecipient: process.env.CONTACT_FORM_EMAIL_RECIPIENT,
       },
       postmark: {
         username: process.env.POSTMARK_USERNAME || 'John Doe',
-        fromEmail: process.env.NO_REPLY || 'no-reply@shtcut.link',
+        fromEmail: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',
         url: process.env.POSTMARK_URL || '',
         apiKey: process.env.POSTMARK_API_KEY,
       },
@@ -137,7 +141,7 @@ export const configuration = () => ({
   },
   admin: {
     superUser: {
-      email: process.env.ADMIN_EMAIL || 'superadmin@shtcut.link',
+      email: process.env.ADMIN_EMAIL || 'superadmin@shtcut.co',
       password: process.env.ADMIN_PASSWORD || 'password',
     },
   },

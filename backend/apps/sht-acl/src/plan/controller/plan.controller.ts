@@ -1,4 +1,4 @@
-import {  Controller, Get, HttpCode, Next, Param, Req, Res } from '@nestjs/common';
+import { Controller, Get, HttpCode, Next, Param, Req, Res } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
 import { AppController, OK } from 'shtcut/core';
