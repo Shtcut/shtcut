@@ -13,9 +13,7 @@ const WorkSpaceContainer = () => {
 
     const handleOnSelectModule = (value: string) => {
         setModuleValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
-        
     };
-    console.log('modules:::', moduleValues);
 
     const handleSelectTools = (value: string) => {
         setToolsValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
