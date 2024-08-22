@@ -53,7 +53,7 @@ export class InvitationService extends MongoBaseService {
     try {
       const { emails, workspace, token } = obj;
       const found = await this.model.find({ email: { $in: emails }, workspace, deleted: false });
-      if (found) {
+      if (found && found.length) {
         throw AppException.CONFLICT(lang.get('invitation').existingEmail);
       }
       const invitations = emails.map((email) => ({
@@ -71,7 +71,7 @@ export class InvitationService extends MongoBaseService {
       savedInvites.forEach((invitation) => {
         const { email, token } = invitation;
         const link = `${obj.redirectLink}/${workspace}/${token}`;
-        this.sendInvitationEmail({ email, workspace: inviteeWorkspace.name, link });
+        this.sendInvitationEmail({ email, workspace: inviteeWorkspace?.name, link });
       });
 
       return savedInvites;

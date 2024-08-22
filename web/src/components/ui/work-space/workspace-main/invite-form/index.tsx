@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Button, FormControl, FormField, FormItem, Input } from '@shtcut-ui/react';
-import { Plus } from 'lucide-react';
-import { Minus } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 
 const InviteForm = ({ form }: { form: any }) => {
     const [inputs, setInputs] = useState(['', '', '']);
+    const [emails, setEmails] = useState([]);
 
     const addInput = () => {
         if (inputs.length < 10) {
@@ -15,10 +15,13 @@ const InviteForm = ({ form }: { form: any }) => {
     const removeInput = () => {
         setInputs(inputs.slice(0, -1));
     };
+
     const shouldApplyMaxHeight = inputs.length > 4;
 
     return (
-        <div className={`flex  flex-col gap-y-2 relative ${shouldApplyMaxHeight ? 'max-h-[200px] overflow-y-auto' : ''}`}>
+        <div
+            className={`flex  flex-col gap-y-2 relative ${shouldApplyMaxHeight ? 'max-h-[200px] overflow-y-auto' : ''}`}
+        >
             {inputs.map((value, index) => (
                 <div key={index} className="relative">
                     <FormField

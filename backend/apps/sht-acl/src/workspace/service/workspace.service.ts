@@ -91,7 +91,7 @@ export class WorkspaceService extends MongoBaseService {
         const invitationPayload: CreateInvitationDto = {
           emails: obj.memberEmails,
           redirectLink: obj.redirectUrl,
-          workspace: workspace._id,
+          workspace: String(workspace._id),
         };
         await this.invitationService.createNewObject(invitationPayload, session);
       }
