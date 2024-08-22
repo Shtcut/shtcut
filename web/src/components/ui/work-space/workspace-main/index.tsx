@@ -6,6 +6,7 @@ import { HowTopPlan, ModuleUi } from './steps-ui';
 import InviteForm from './invite-form';
 import ToolsUi from './tools-ui';
 import { PropsCreate } from '@shtcut/types/types';
+import { AppButton } from '@shtcut/components/_shared';
 
 const WorkSpaceMain = ({
     handleOptionChange,
@@ -17,7 +18,8 @@ const WorkSpaceMain = ({
     handleSelect,
     modules,
     toolsValues,
-    handleSelectTools
+    handleSelectTools,
+    isLoading
 }: PropsCreate) => {
     const isTab = useMediaQuery({ query: '(max-width: 1247px)' });
     return (
@@ -42,17 +44,24 @@ const WorkSpaceMain = ({
                     {step === 4 && <ToolsUi handleSelectTools={handleSelectTools} toolsValues={toolsValues} />}
                     <div className="flex justify-between gap-x-4  w-full mt-10">
                         {step > 1 && (
-                            <Button
+                            <AppButton
+                                type="button"
                                 variant={'outline'}
                                 className="border border-[#2B2829] w-full"
-                                onClick={()=>handlePrevious()}
+                                onClick={() => handlePrevious()}
+                                loading={isLoading}
                             >
-                                 Previous
-                            </Button>
+                                Previous
+                            </AppButton>
                         )}
-                        <Button className="bg-primary-0 w-full" onClick={handleNext}>
+                        <AppButton
+                            type={step === 4 ? 'submit' : 'button'}
+                            className="bg-primary-0 w-full"
+                            onClick={handleNext}
+                            loading={isLoading}
+                        >
                             {step < 4 ? 'Next' : 'Submit'}
-                        </Button>
+                        </AppButton>
                     </div>
                     <div className="flex justify-center mt-20 items-center gap-x-2">
                         {[1, 2, 3, 4].map((page) => (
