@@ -66,12 +66,19 @@ export class Workspace {
   ])
   domains: any[];
 
+  @Prop([
+    {
+      type: MGS.Types.ObjectId,
+      ref: 'WorkspaceMember',
+    },
+  ])
+  members: any[];
+
   @Prop({
     type: String,
     enum: configuration().app.data.workspaceCapacity,
   })
   capacity: string;
-
 
   @Prop([
     {
@@ -104,7 +111,7 @@ export class Workspace {
 
 const WorkspaceSchema = SchemaFactory.createForClass(Workspace);
 
-WorkspaceSchema.virtual('id').get(function() {
+WorkspaceSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
 

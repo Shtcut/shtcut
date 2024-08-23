@@ -6,3 +6,4 @@ export * from './domain';
 export * from './workspace';
 export * from './qrcode';
 export * from './feature';
+export * from './invitation';

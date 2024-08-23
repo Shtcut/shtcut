@@ -1,17 +1,26 @@
 'use client';
 
+import { Dict, toast } from '@shtcut-ui/react';
 import { WorkSpaceMain, WorkSpaceSideBar } from '@shtcut/components/ui/work-space';
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
 const WorkSpaceContainer = () => {
     const [step, setStep] = useState(1);
-    const [solutionValues, setSolutionValues] = useState<string[]>([]);
+    const [moduleValues, setModuleValues] = useState<string[]>([]);
     const [toolsValues, setToolsValues] = useState<string[]>([]);
-    const [userValue, setUserValue] = useState<'team' | 'myself'>('team');
-    const handleSelect = (value: string) => {
-        setSolutionValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+    const [userValue, setUserValue] = useState<'team' | 'personal'>('team');
+
+    const handleOnSelectModule = (value: string) => {
+        setModuleValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
+        
     };
+    console.log('modules:::', moduleValues);
+
+    const handleSelectTools = (value: string) => {
+        setToolsValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
+    };
+
     const handleSelectTools = (value: string) => {
         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
     };
@@ -27,18 +36,26 @@ const WorkSpaceContainer = () => {
             setStep(step - 1);
         }
     };
-    const handleOptionChange = (value: 'team' | 'myself') => {
+    const handleOptionChange = (value: 'team' | 'personal') => {
         setUserValue(value);
     };
 
+
     const handleFormSubmit = (values: any) => {
         console.log('value:::', values);
+
+    const handleFormSubmit = (values: Dict) => {
+        console.log('values:::', values);
+        /**
+         * todo Your form submit logic
+         */
+
     };
 
     const form = useForm({
         defaultValues: {
             name: '',
-            users: ''
+            type: ''
         }
     });
 
@@ -55,8 +72,8 @@ const WorkSpaceContainer = () => {
                             form={form}
                             handleNext={handleNext}
                             handlePrevious={handlePrevious}
-                            solutionValues={solutionValues}
-                            handleSelect={handleSelect}
+                            modules={moduleValues}
+                            handleSelect={handleOnSelectModule}
                             handleSelectTools={handleSelectTools}
                             toolsValues={toolsValues}
                         />

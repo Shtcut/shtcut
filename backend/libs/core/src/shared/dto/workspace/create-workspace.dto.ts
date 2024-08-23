@@ -1,5 +1,5 @@
 import { configuration } from '@config';
-import { IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString } from '@nestjs/class-validator';
+import { IsArray, IsEnum, IsMongoId, IsNotEmpty, IsOptional, IsString, ValidateIf } from '@nestjs/class-validator';
 
 export class CreateWorkspaceDto {
   @IsString()
@@ -22,4 +22,13 @@ export class CreateWorkspaceDto {
   @IsEnum(configuration().app.modules)
   @IsNotEmpty()
   public module: string;
+
+  @IsArray()
+  @IsOptional()
+  public memberEmails?: string[];
+
+  @IsString()
+  @ValidateIf((o) => o.memberEmails && o.memberEmails.length > 0)
+  @IsNotEmpty()
+  public redirectUrl?: string;
 }

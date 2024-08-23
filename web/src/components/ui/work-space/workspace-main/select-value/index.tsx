@@ -8,9 +8,9 @@ const SelectValue = ({
     description
 }: {
     label: string;
-    value: 'team' | 'myself';
+    value: 'team' | 'personal';
     selected: boolean;
-    onSelect: (value: 'team' | 'myself') => void;
+    onSelect: (value: 'team' | 'personal') => void;
     description: string;
     icon: React.ReactNode;
 }) => {
