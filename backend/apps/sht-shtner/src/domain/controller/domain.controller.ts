@@ -44,7 +44,7 @@ export class DomainController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    return super.create(payload, req, res, next);
+    super.create(payload, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -52,7 +52,7 @@ export class DomainController extends AppController {
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     _.extend(req.query, { user: req.user['_id'] });
-    return super.find(req, res, next);
+    super.find(req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -60,6 +60,6 @@ export class DomainController extends AppController {
   @HttpCode(OK)
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     _.extend(req.query, { user: req.user['_id'] });
-    return super.findOne(id, req, res, next);
+    super.findOne(id, req, res, next);
   }
 }

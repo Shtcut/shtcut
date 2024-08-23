@@ -10,6 +10,7 @@ import {
     WorkspaceScreen
 } from './component';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { tabs } from '@shtcut/_shared/data';
 
 const SettingComponent = () => {
     const params = useParams();
@@ -17,16 +18,6 @@ const SettingComponent = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
     const queryTag = searchParams.get('tag') || 'general';
-
-    const tabs = [
-        { id: 'general', label: 'General' },
-        { id: 'tags', label: 'Tags' },
-        { id: 'billings', label: 'Billing' },
-        { id: 'workspace', label: 'Workspace' },
-        { id: 'security', label: 'Security' },
-        { id: 'notification', label: 'Notification' },
-        { id: 'api-keys', label: 'API Keys' }
-    ];
 
     const [selectedTabIndex, setSelectedTabIndex] = useState(() => {
         const index = tabs.findIndex((tab) => tab.id === queryTag);
