@@ -1,12 +1,11 @@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shtcut-ui/react';
-import { headers } from 'next/headers';
 import React from 'react';
 import ActionsTable from '../action-table';
 
 const ApiKeyDataTable = ({ headers, data }: { headers: string[]; data: number[] }) => {
     return (
         <div>
-            <Table className='border mt-6'>
+            <Table className="border mt-6">
                 <TableHeader>
                     <TableRow>
                         {headers.map((header, index) => (

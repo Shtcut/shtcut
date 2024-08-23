@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@shtcut-ui/react';
+
 import { LayoutBody } from '@shtcut/components';
 import SettingContainer from '@shtcut/containers/settings';
 

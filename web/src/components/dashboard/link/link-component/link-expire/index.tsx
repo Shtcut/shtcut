@@ -2,7 +2,13 @@ import { Switch } from '@shtcut-ui/react';
 import { DatePicker } from '@shtcut/components/_shared/DatePicker';
 import React, { useState } from 'react';
 
-const LinkExpire = () => {
+const LinkExpire = ({
+    selectedDate,
+    handleDateChange
+}: {
+    handleDateChange?: (date: Date | undefined) => void;
+    selectedDate?: Date | undefined;
+}) => {
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const handleSwitchChange = (checked: boolean) => {
         setIsSwitchOn(checked);
@@ -19,7 +25,7 @@ const LinkExpire = () => {
             {isSwitchOn && (
                 <div>
                     <p className="text-xs mb-2 mt-3">End date</p>
-                    <DatePicker showIcon={false} />
+                    <DatePicker selectedDate={selectedDate} onDateChange={handleDateChange} />
                 </div>
             )}
         </div>

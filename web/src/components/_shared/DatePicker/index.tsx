@@ -8,24 +8,33 @@ import { Button, Calendar, cn, Popover, PopoverContent, PopoverTrigger } from '@
 
 type IProps = {
     showIcon?: boolean;
+    onDateChange?: (date: Date | undefined) => void;
+    selectedDate?: Date | undefined; 
 };
 
-export function DatePicker({ showIcon }: IProps) {
-    const [date, setDate] = React.useState<Date>();
+export function DatePicker({ showIcon, onDateChange, selectedDate }: IProps) {
+    const handleDateChange = (selectedDate: Date | undefined) => {
+        if (onDateChange) {
+            onDateChange(selectedDate); // Pass the selected date to the parent component
+        }
+    };
 
     return (
         <Popover>
             <PopoverTrigger asChild>
                 <Button
                     variant={'outline'}
-                    className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}
+                    className={cn(
+                        'w-full justify-start text-left font-normal',
+                        !selectedDate && 'text-muted-foreground'
+                    )}
                 >
                     {showIcon && <CalendarIcon className="mr-2 text-xs h-4 w-4" />}
-                    {date ? format(date, 'PPP') : <span className=" text-xs ">DD/MM/YYYY</span>}
+                    {selectedDate ? format(selectedDate, 'PPP') : <span className=" text-xs ">DD/MM/YYYY</span>}
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-auto   p-0">
-                <Calendar className=" " mode="single" selected={date} onSelect={setDate} />
+            <PopoverContent className="w-auto p-0">
+                <Calendar className=" " mode="single" selected={selectedDate} onSelect={handleDateChange} />
             </PopoverContent>
         </Popover>
     );

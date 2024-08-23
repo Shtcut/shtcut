@@ -27,6 +27,10 @@ const WorkSpaceContainer = () => {
         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
     };
 
+    const handleSelectTools = (value: string) => {
+        setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+    };
+
     const handleNext = () => {
         if (step < 4) {
             setStep(step + 1);
@@ -42,6 +46,8 @@ const WorkSpaceContainer = () => {
         setWorkspaceType(value);
     };
 
+
+    const handleFormSubmit = (values: Dict) => {
     if (isSuccess && data) {
         push(`/url/${get(data, ['data','slug'])}/links`);
     }

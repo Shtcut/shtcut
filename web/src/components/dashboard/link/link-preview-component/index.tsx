@@ -39,10 +39,9 @@ const SingleLinkPreviewComponent = () => {
         }
     ];
     return (
-        <div className="my-[38px] ">
-            <BreadCrumb currentRoute="Analytics" />
+        <div className=" ">
             <div className="flex justify-between items-center">
-                <h1 className="font-semibold text-[#2B2829] text-2xl">Analytics</h1>
+                <h1 className="font-semibold text-[#2B2829] text-xl">Analytics</h1>
                 <div className="flex items-center gap-x-2">
                     <SearchInput />
                     <Button className="flex border  hover:bg-primary-0 hover:text-white shadow-none text-sm text-[#5A5555] items-center font-normal bg-white gap-x-2 border-[#CCCBCB]">

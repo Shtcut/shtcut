@@ -5,7 +5,7 @@ import FeatureActions from './feature-actions';
 import { PencilLine, Trash2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 
-const CardsActions = ({ edit }: { edit: boolean | undefined }) => {
+const CardsActions = ({ edit, onClickNavigation }: { edit: boolean | undefined; onClickNavigation: () => void }) => {
     const route = useRouter();
     const pathName = usePathname();
     const handleNavigateEdit = () => {
@@ -36,7 +36,7 @@ const CardsActions = ({ edit }: { edit: boolean | undefined }) => {
                     <Trash2 color="#726C6C" size={16} />
                 </div>
             ) : (
-                <FeatureActions />
+                <FeatureActions onClickNavigation={onClickNavigation} />
             )}
         </div>
     );
