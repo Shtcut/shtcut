@@ -3,10 +3,13 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import ApiKeyDataTable from './api-key-table';
 import { FormControl, FormField, FormItem, FormMessage } from '@shtcut-ui/react';
+import { IoCopyOutline } from 'react-icons/io5';
+
 import { FormProvider, useForm } from 'react-hook-form';
 import Tabs from '@shtcut/components/_shared/Tabs';
 const ApiKeysScreen = () => {
     const [showModal, setShowModal] = useState(false);
+    const [copyKey, setCopyKey] = useState(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const data = [1, 2, 3, 4, 5];
     const headers: string[] = ['Name', 'Key', 'Last Used', ''];
@@ -49,43 +52,88 @@ const ApiKeysScreen = () => {
                 showModel={showModal}
                 setShowModal={setShowModal}
                 showCloseIcon
-                onClose={() => setShowModal(false)}
+                onClose={() => {
+                    setCopyKey(false);
+                    setShowModal(false);
+                }}
                 className="relative max-w-md h-fit py-2"
             >
-                <div className="">
-                    <section className="border-b p-3">
-                        <h1 className="text-sm font-semibold">Create API Key</h1>
-                        <p className="text-xs text-[#898384]">Use tags to organize your links</p>
-                    </section>
-                    <section className="py-4 px-10">
-                        <FormProvider {...form}>
-                            <div className="">
-                                <FormField
-                                    control={form.control}
-                                    name="apiKey"
-                                    render={({ field }) => (
-                                        <FormItem className="space-y-1 w-full">
-                                            <div className="flex mb-2 items-center justify-start">
-                                                <Label className="text-xs"> Name</Label>
-                                            </div>
-                                            <FormControl>
-                                                <FormControl>
-                                                    <Input className="h-11" placeholder="Enter API name" />
-                                                </FormControl>
-                                            </FormControl>
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
+                {copyKey ? (
+                    <div>
+                        <section className="border-b p-3 flex items-center flex-col">
+                            <h1 className="text-sm font-semibold">Copy API Key</h1>
+                            <p className="text-xs text-center mt-1 text-[#898384]">
+                                Copy and save this access key somewhere safe. For security reasons you won’t be able to
+                                see this key after you hit DONE
+                            </p>
+                        </section>
+                        <section className="p-4">
+                            <div className="relative">
+                                <Input
+                                    defaultValue={'shrtcurnxapi.sfhskcnfjdbcjdbnkicfndjc'}
+                                    className="h-11"
+                                    disabled
                                 />
-                                <section className="w-2/3 mt-4">
-                                    <p className='text-xs mb-1'>Permissions</p>
-                                    <Tabs selectedTabIndex={selectedTabIndex} onTabClick={handleTabClick} tabs={tabs} />
-                                </section>
-                                <Button className="text-xs h-9 bg-primary-0 w-full mt-6">Create API Key</Button>
+                                <div className="absolute top-3 cursor-pointer right-2">
+                                    <IoCopyOutline size={18} />
+                                </div>
                             </div>
-                        </FormProvider>
-                    </section>
-                </div>
+                            <Button
+                                onClick={() => {
+                                    setShowModal(false);
+                                    setCopyKey(false);
+                                }}
+                                className="text-xs bg-primary-0 w-full mt-6"
+                            >
+                                Done
+                            </Button>
+                        </section>
+                    </div>
+                ) : (
+                    <div className="">
+                        <section className="border-b p-3 flex items-center flex-col">
+                            <h1 className="text-sm font-semibold">Create API Key</h1>
+                            <p className="text-xs text-[#898384]">Use tags to organize your links</p>
+                        </section>
+                        <section className="py-4 px-10">
+                            <FormProvider {...form}>
+                                <div className="">
+                                    <FormField
+                                        control={form.control}
+                                        name="apiKey"
+                                        render={({ field }) => (
+                                            <FormItem className="space-y-1 w-full">
+                                                <div className="flex mb-2 items-center justify-start">
+                                                    <Label className="text-xs"> Name</Label>
+                                                </div>
+                                                <FormControl>
+                                                    <FormControl>
+                                                        <Input className="h-11" placeholder="Enter API name" />
+                                                    </FormControl>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <section className="w-2/3 mt-4">
+                                        <p className="text-xs mb-1">Permissions</p>
+                                        <Tabs
+                                            selectedTabIndex={selectedTabIndex}
+                                            onTabClick={handleTabClick}
+                                            tabs={tabs}
+                                        />
+                                    </section>
+                                    <Button
+                                        onClick={() => setCopyKey(true)}
+                                        className="text-xs h-9 bg-primary-0 w-full mt-6"
+                                    >
+                                        Create API Key
+                                    </Button>
+                                </div>
+                            </FormProvider>
+                        </section>
+                    </div>
+                )}
             </Modal>
         </div>
     );

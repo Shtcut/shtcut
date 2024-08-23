@@ -7,11 +7,15 @@ import { WiCloudUp } from 'react-icons/wi';
 const CustomSocialMedia = ({
     form,
     setPreview,
-    preview
+    preview,
+    handleInputChangeTitle,
+    handleInputChangeDesc
 }: {
     form: any;
     setPreview: (value: string | null) => void;
     preview: string | null;
+    handleInputChangeTitle: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    handleInputChangeDesc: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }) => {
     const [isSwitchOn, setIsSwitchOn] = useState(false);
     const handleSwitchChange = (checked: boolean) => {
@@ -109,6 +113,7 @@ const CustomSocialMedia = ({
                                             placeholder="Shtcut- Open source link management"
                                             className="h-10"
                                             {...field}
+                                            onChange={handleInputChangeTitle}
                                         />
                                     </FormControl>
                                     <FormMessage />
@@ -129,6 +134,7 @@ const CustomSocialMedia = ({
                                             placeholder="Shtcut- Open source link management"
                                             className="h-10"
                                             {...field}
+                                            onChange={handleInputChangeDesc}
                                         />
                                     </FormControl>
                                     <FormMessage />

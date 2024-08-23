@@ -23,11 +23,11 @@ export function ActionsTable({ onOpenRole, onOpenDelete }: { onOpenRole: () => v
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-44">
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2" onClick={onOpenRole}>
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2" onClick={onOpenRole}>
                     <ArrowLeftRight size={16} /> Switch Role
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuCheckboxItem className="p-2 flex text-sm items-center gap-x-2" onClick={onOpenDelete}>
+                <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2" onClick={onOpenDelete}>
                     <Trash2 size={16} /> Remove Member
                 </DropdownMenuCheckboxItem>
             </DropdownMenuContent>

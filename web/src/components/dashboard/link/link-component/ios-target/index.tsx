@@ -19,7 +19,7 @@ const IosTarget = (form: any) => {
                 <div className="mt-2">
                     <FormField
                         control={form.control}
-                        name="password"
+                        name="iosURL"
                         render={({ field }) => (
                             <FormItem className="border-none w-full">
                                 <FormLabel className="text-xs">URL</FormLabel>

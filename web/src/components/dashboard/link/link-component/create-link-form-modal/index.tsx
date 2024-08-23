@@ -13,19 +13,34 @@ import {
     SelectValue,
     Separator
 } from '@shtcut-ui/react';
-import React from 'react';
+import React, { useState } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 import Image from 'next/image';
+import MultiTagsInput from '@shtcut/components/form/multi-tag-input';
 
 const CreateLinkForm = ({
     form,
     handleSelect,
-    preview
+    preview,
+    title,
+    description,
+    tags,
+    setTags
 }: {
     form: any;
     handleSelect: (val: string) => void;
     preview: string | null;
+    title: string;
+    description: string;
+    tags: string[];
+    setTags: React.Dispatch<React.SetStateAction<string[]>>;
 }) => {
+    const handleTagsChange = (newTags: string[]) => {
+        setTags(newTags);
+        console.log('Selected Tags:', newTags);
+    };
+    const predefinedTags = ['JavaScript', 'React', 'CSS', 'TypeScript', 'HTML'];
+
     return (
         <div className="w-full py-6">
             <div className="flex flex-col px-14 gap-4">
@@ -63,7 +78,7 @@ const CreateLinkForm = ({
                         <Separator orientation="vertical" />
                         <FormField
                             control={form.control}
-                            name="short-link"
+                            name="shortLink"
                             render={({ field }) => (
                                 <FormItem className=" border-none   w-full">
                                     <FormControl>
@@ -79,19 +94,26 @@ const CreateLinkForm = ({
                         />
                     </div>
                 </div>
-                <Select onValueChange={handleSelect}>
-                    <Label>Select Tag</Label>
-                    <SelectTrigger id="select-tag" className=" text-xs text-[#2B3034]  shadow-none h-10  ">
-                        <SelectValue placeholder="select tag" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        {[1, 2, 3, 4, 5].map((links) => (
-                            <SelectItem key={links} value={''} className="text-sm text-[#2B3034]">
-                                tag
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
+
+                <div>
+                    <MultiTagsInput
+                        initialTags={tags}
+                        onTagsChange={handleTagsChange}
+                        placeholder="Type a tag and press enter"
+                        className=""
+                        label="Select Tag"
+                        selectOptions={predefinedTags}
+                    />
+                    {/* <div className="mt-4">
+                        {tags.length > 0 ? (
+                            <ul className="list-disc pl-5">
+                                {tags.map((tag, index) => (
+                                    <li key={index}>{tag}</li>
+                                ))}
+                            </ul>
+                        ) : null}
+                    </div> */}
+                </div>
             </div>
             {/* <Separator orientation="horizontal" className="mt-6" /> */}
             <div>
@@ -107,12 +129,8 @@ const CreateLinkForm = ({
                                 width={0}
                             />
                             <div className="p-4 bg-gray-50">
-                                <h1 className=" font-semibold">About image title</h1>
-                                <p className="text-xs text-[#726C6C] mt-2">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, repellat.
-                                    Temporibus obcaecati repellat iusto, eveniet possimus ipsum velit cum eos? Magni
-                                    voluptas quisquam quos est error eaque illo culpa ducimus!
-                                </p>
+                                <h1 className=" font-semibold">{title}</h1>
+                                <p className="text-xs text-[#726C6C] w-96 mt-2">{description}</p>
                             </div>
                         </div>
                     ) : (

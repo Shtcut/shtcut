@@ -30,6 +30,13 @@ const WorkspaceLayout = ({ children }: any) => {
 
     const sideNav = [
         {
+            id: '4',
+            img: params?.workspace === 'social-media' ? '/images/social-icon.png' : '/images/social.png',
+            workspace: 'social-media',
+            url: '/url/social-media/overview',
+            title: 'Social Media'
+        },
+        {
             id: '1',
             icon: <IoIosLink size={20} />,
             workspace: 'url-shortener',
@@ -49,13 +56,6 @@ const WorkspaceLayout = ({ children }: any) => {
             workspace: 'email-marketing',
             url: '/url/email-marketing/overview',
             title: 'Email Marketing'
-        },
-        {
-            id: '4',
-            img: params?.workspace === 'social-media' ? '/images/social-icon.png' : '/images/social.png',
-            workspace: 'social-media',
-            url: '/url/social-media/overview',
-            title: 'Social Media'
         }
     ];
     const currentNav = sideNav.find((nav) => nav.workspace === workspace);
