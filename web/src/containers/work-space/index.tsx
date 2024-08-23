@@ -21,6 +21,10 @@ const WorkSpaceContainer = () => {
         setToolsValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
     };
 
+    const handleSelectTools = (value: string) => {
+        setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+    };
+
     const handleNext = () => {
         if (step < 4) {
             setStep(step + 1);
@@ -36,11 +40,16 @@ const WorkSpaceContainer = () => {
         setUserValue(value);
     };
 
+
+    const handleFormSubmit = (values: any) => {
+        console.log('value:::', values);
+
     const handleFormSubmit = (values: Dict) => {
         console.log('values:::', values);
         /**
          * todo Your form submit logic
          */
+
     };
 
     const form = useForm({

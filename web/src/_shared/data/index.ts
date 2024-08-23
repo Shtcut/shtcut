@@ -524,6 +524,104 @@ export const authSlides = [
 
 export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png', 'mag.png'];
 
+
+export const InviteList = [
+    { label: 'Member', value: 'member' },
+    { label: 'Client', value: 'client' }
+];
+
+export const PropPlan = [
+    'All features of Pro plan',
+    'Multiple teams',
+    'SLA of 99.9% uptime',
+    'Mobile targeting',
+    'Tags for links',
+    'SAML Single-Sign-On (SSO)',
+    'QR code',
+    'Tools & Extensions'
+];
+export const PlanLimit = [
+    '20 Users',
+    '10  Custom domains',
+    '10 Branded links total',
+    '10 Link automation',
+    '05 Redirects',
+    '10 Tracked clicks'
+];
+
+export const users = [
+    {
+        id: 1,
+        name: 'Neil Sims',
+        email: 'neil.sims@flowbite.com',
+        position: 'Member',
+        status: 'Online',
+        img: '/docs/images/people/profile-picture-1.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 2,
+        name: 'Bonnie Green',
+        email: 'bonnie@flowbite.com',
+        position: 'Member',
+        status: 'Online',
+        img: '/docs/images/people/profile-picture-3.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 3,
+        name: 'Jese Leos',
+        email: 'jese@flowbite.com',
+        position: 'Vue JS Developer',
+        status: 'Online',
+        img: '/docs/images/people/profile-picture-2.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 4,
+        name: 'Thomas Lean',
+        email: 'thomes@flowbite.com',
+        position: 'UI/UX Engineer',
+        status: 'Online',
+        img: '/docs/images/people/profile-picture-5.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 5,
+        name: 'Leslie Livingston',
+        email: 'leslie@flowbite.com',
+        position: 'SEO Specialist',
+        status: 'Offline',
+        img: '/docs/images/people/profile-picture-4.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 6,
+        name: 'Leslie Livingston',
+        email: 'leslie@flowbite.com',
+        position: 'SEO Specialist',
+        status: 'Offline',
+        img: '/docs/images/people/profile-picture-4.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 7,
+        name: 'Leslie Livingston',
+        email: 'leslie@flowbite.com',
+        position: 'SEO Specialist',
+        status: 'Offline',
+        img: '/docs/images/people/profile-picture-4.jpg',
+        date: '2/04/24'
+    },
+    {
+        id: 8,
+        name: 'Leslie Livingston',
+        email: 'leslie@flowbite.com',
+        position: 'SEO Specialist',
+        status: 'Offline',
+        img: '/docs/images/people/profile-picture-4.jpg',
+        date: '2/04/24'
+
 export const capacities = ['0-10', '11-30', '31-50', '51-100', 'Above 100'];
 export const modules = [
     {
@@ -545,5 +643,6 @@ export const modules = [
     {
         key: 'Web Builder',
         value: 'shtcut-web-builder'
+
     }
 ];

@@ -1,6 +1,6 @@
 'use client';
 
-import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input, cn } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input } from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { forgotPasswordValidationSchema } from './validation';
 import { AppButton } from '@shtcut/components/_shared';
@@ -48,10 +48,7 @@ export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
                                 </FormItem>
                             )}
                         />
-                        <AppButton
-                            className="mt-8 "
-                            loading={isLoading}
-                        >
+                        <AppButton className="mt-8 " loading={isLoading}>
                             Reset Password
                         </AppButton>
                     </div>

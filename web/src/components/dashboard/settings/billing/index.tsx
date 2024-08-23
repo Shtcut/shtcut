@@ -1,7 +1,27 @@
-import React from 'react';
-import { Button, Table, TableBody, TableCell, TableHead, TableHeader, TableRow, Separator } from '@shtcut-ui/react';
+import React, { useState } from 'react';
+import {
+    Button,
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+    Separator,
+    Modal
+} from '@shtcut-ui/react';
+import { PlanLimit, PropPlan } from '@shtcut/_shared/data';
+import { Check } from 'lucide-react';
+
+import { ConfettiStars } from '@shtcut/hooks/useCanvasConfetti/useCanvasStar';
 const BillingsScreen = () => {
+    const { handleClickCanvasStar } = ConfettiStars();
+    const [showPlan, setShowPlan] = useState(false);
     const headers = ['Invoice', 'Billing Date', 'Amount', 'Plan'];
+    const handleCloseUpgradeModal = () => {
+        handleClickCanvasStar();
+        setShowPlan(false);
+    };
     const ReusableCard = ({ title, text }: { title: string; text: string }) => {
         return (
             <section className="flex items-center justify-between">
@@ -30,11 +50,13 @@ const BillingsScreen = () => {
             </section>
             <section className="flex items-center justify-between border h-[54px] px-4 rounded bg-white border-[#e3e3e3]">
                 <p className="text-xs mt-2">For higher limits upgrade to the Pro plan.</p>
-                <Button className="text-xs bg-primary-0 h-9 rounded">Upgrade to Pro</Button>
+                <Button className="text-xs bg-primary-0 h-9 rounded" onClick={() => setShowPlan(true)}>
+                    Upgrade to Pro
+                </Button>
             </section>
             <section className="flex justify-between gap-4 mt-6">
                 <div className="w-1/2 border rounded">
-                    <h1 className="text-sm rounded-b bg-[#F7F7F7] font-semibold border-b p-2">Monthly Usage</h1>
+                    <h1 className="text-sm rounded-b bg-[#F7F7F7] font-semibold border-b p-3">Monthly Usage</h1>
                     <div className="flex p-3 flex-col gap-4">
                         <ReusableCard text="2 Of 10 Created" title="Created Links" />
                         <Separator />
@@ -46,8 +68,17 @@ const BillingsScreen = () => {
                     </div>
                 </div>
                 <div className="w-1/2 border rounded">
-                    <h1 className="text-sm rounded-b bg-[#F7F7F7] font-semibold border-b p-2">Plan Limits</h1>
-                    <div className="flex p-3 flex-col gap-4"></div>
+                    <h1 className="text-sm rounded-b bg-[#F7F7F7] font-semibold border-b p-3">Plan Limits</h1>
+                    <div className="flex p-3 flex-col gap-3">
+                        {PlanLimit.map((plan) => (
+                            <section className="flex items-center gap-3" key={plan}>
+                                <div className="w-6 h-6 rounded-full bg-[#E8EDFB] flex justify-center items-center font-semibold text-white relative top-0.5">
+                                    <Check size={'12px'} className="font-bold text-primary-0" />
+                                </div>
+                                <p className="text-xs font-medium">{plan}</p>
+                            </section>
+                        ))}
+                    </div>
                 </div>
             </section>
             <section className="h-10 mt-6 flex items-center px-4 border border-[#e3e3e3] bg-[#f7f7f7] rounded-[4px]">
@@ -58,7 +89,10 @@ const BillingsScreen = () => {
                 <TableHeader className="">
                     <TableRow className="  ">
                         {headers.map((h) => (
-                            <TableHead key={h} className="text-xs text-[#898384] "> {h}</TableHead>
+                            <TableHead key={h} className="text-xs text-[#898384] ">
+                                {' '}
+                                {h}
+                            </TableHead>
                         ))}
                     </TableRow>
                 </TableHeader>
@@ -73,6 +107,33 @@ const BillingsScreen = () => {
                     ))}
                 </TableBody>
             </Table>
+            <Modal showModel={showPlan} setShowModal={setShowPlan} onClose={() => setShowPlan(false)}>
+                <div className="p-4">
+                    <h1 className="text-sm font-semibold">Upgrade to Professional</h1>
+                    <p className="text-xs text-[#898384] mt-1">Upgrade your plan to benefit </p>
+                    <div className="flex items-center mt-6 gap-6">
+                        <h1 className="text-sm font-semibold">Professional</h1>
+                        <Button variant={'outline'}>
+                            <p className="text-lg font-medium">
+                                $20 <span className="text-xs">per month</span>
+                            </p>
+                        </Button>
+                    </div>
+                    <section className="flex flex-col gap-2 mt-6">
+                        {PropPlan.map((plan) => (
+                            <section key={plan} className="flex items-center gap-3">
+                                <div className="w-6 h-6 rounded-full bg-[#E8EDFB] flex justify-center items-center font-semibold text-white relative top-0.5">
+                                    <Check size={'12px'} className="font-bold text-primary-0" />
+                                </div>
+                                <p className="text-xs font-medium">{plan}</p>
+                            </section>
+                        ))}
+                    </section>
+                    <Button onClick={handleCloseUpgradeModal} className="text-xs w-full mt-6 bg-primary-0">
+                        Upgrade to Pro
+                    </Button>
+                </div>
+            </Modal>
         </div>
     );
 };
