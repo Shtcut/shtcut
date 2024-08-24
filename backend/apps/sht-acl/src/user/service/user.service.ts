@@ -69,7 +69,6 @@ export class UserService extends MongoBaseService {
       await this.assignOwnerRole(user, Roles.OWNER, session);
       return user;
     } catch (e) {
-      console.log('err::', e);
       throw e;
     }
   }
