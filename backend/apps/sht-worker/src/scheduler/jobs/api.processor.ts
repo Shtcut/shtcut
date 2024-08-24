@@ -61,7 +61,6 @@ export class ApiProcessor extends WorkerHost {
           return true;
       }
     } catch (e) {
-      console.log('err:', e);
       throw e;
     }
   }

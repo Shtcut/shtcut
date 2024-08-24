@@ -221,8 +221,8 @@ export const QR_CODE_FRAMES = ({ children }: { children: JSX.Element }) => {
             icon: (
                 <Image
                     className="cursor-pointer"
-                    src={`/svg/qrcode-scanner-1.svg`}
-                    alt={`qrcode-scanner-1`}
+                    src={'/svg/qrcode-scanner-1.svg'}
+                    alt={'qrcode-scanner-1'}
                     width={500}
                     height={500}
                 />
