@@ -1,7 +1,8 @@
 'use client';
 
-import { Dict, toast } from '@shtcut-ui/react';
-import { WorkSpaceMain, WorkSpaceSideBar } from '@shtcut/components/ui/work-space';
+import { Dict } from '@shtcut-ui/react';
+import WorkSpaceMain from '@shtcut/components/ui/work-space/workspace-main';
+import WorkSpaceSideBar from '@shtcut/components/ui/work-space/workspace-sidebar';
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 
@@ -12,14 +13,9 @@ const WorkSpaceContainer = () => {
     const [userValue, setUserValue] = useState<'team' | 'personal'>('team');
 
     const handleOnSelectModule = (value: string) => {
-        setModuleValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
-        
+        setModuleValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
     };
     console.log('modules:::', moduleValues);
-
-    const handleSelectTools = (value: string) => {
-        setToolsValues((prev) => prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]);
-    };
 
     const handleSelectTools = (value: string) => {
         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
@@ -40,48 +36,46 @@ const WorkSpaceContainer = () => {
         setUserValue(value);
     };
 
-
     const handleFormSubmit = (values: any) => {
         console.log('value:::', values);
 
-    const handleFormSubmit = (values: Dict) => {
-        console.log('values:::', values);
-        /**
-         * todo Your form submit logic
-         */
+        const handleFormSubmit = (values: Dict) => {
+            console.log('values:::', values);
+            /**
+             * todo Your form submit logic
+             */
+        };
 
+        const form = useForm({
+            defaultValues: {
+                name: '',
+                type: ''
+            }
+        });
+
+        return (
+            <div className="mx-auto px-4">
+                <section className="flex py-4 h-screen">
+                    <WorkSpaceSideBar step={step} />
+                    <FormProvider {...form}>
+                        <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
+                            <WorkSpaceMain
+                                step={step}
+                                userValue={userValue}
+                                handleOptionChange={handleOptionChange}
+                                form={form}
+                                handleNext={handleNext}
+                                handlePrevious={handlePrevious}
+                                modules={moduleValues}
+                                handleSelect={handleOnSelectModule}
+                                handleSelectTools={handleSelectTools}
+                                toolsValues={toolsValues}
+                            />
+                        </form>
+                    </FormProvider>
+                </section>
+            </div>
+        );
     };
-
-    const form = useForm({
-        defaultValues: {
-            name: '',
-            type: ''
-        }
-    });
-
-    return (
-        <div className="mx-auto px-4">
-            <section className="flex py-4 h-screen">
-                <WorkSpaceSideBar step={step} />
-                <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
-                        <WorkSpaceMain
-                            step={step}
-                            userValue={userValue}
-                            handleOptionChange={handleOptionChange}
-                            form={form}
-                            handleNext={handleNext}
-                            handlePrevious={handlePrevious}
-                            modules={moduleValues}
-                            handleSelect={handleOnSelectModule}
-                            handleSelectTools={handleSelectTools}
-                            toolsValues={toolsValues}
-                        />
-                    </form>
-                </FormProvider>
-            </section>
-        </div>
-    );
 };
-
 export default WorkSpaceContainer;
