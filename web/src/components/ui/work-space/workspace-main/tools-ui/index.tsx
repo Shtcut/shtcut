@@ -89,7 +89,7 @@ const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
                         </h1>
                         <div className="flex items-center flex-wrap justify-center gap-3">
                             {tool.others.map((tol, idx) => (
-                                <section className="relative" onClick={() => handleSelectTools?.(tol.name)}>
+                                <section className="relative" onClick={() => handleSelectTools?.(tol.name)} key={idx}>
                                     <Card
                                         className={`flex gap-4 flex-col cursor-pointer ${toolsValues?.includes(tol.name) ? 'border-primary-0' : ''}  justify-center px-4 h-28 w-40 shadow-sm rounded-md items-center gap-x-2 border ${
                                             isVisible ? 'animate-fall' : 'opacity-0'
