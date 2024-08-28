@@ -1,15 +1,21 @@
 'use client';
 
+
+
+import WorkSpaceMain from '@shtcut/components/ui/work-space/workspace-main';
+import WorkSpaceSideBar from '@shtcut/components/ui/work-space/workspace-sidebar';
+
 import { Dict, toast } from '@shtcut-ui/react';
-import { WorkSpaceMain, WorkSpaceSideBar } from '@shtcut/components/ui/work-space';
+
 import { useWorkspace } from '@shtcut/hooks';
 import { get } from 'lodash';
 import { useRouter } from 'next/navigation';
+
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import slugify from 'react-slugify';
 
-const WorkSpaceContainer = () => {
+const WorkSpaceContainer: React.FC = () => {
     const [step, setStep] = useState(1);
     const [moduleValues, setModuleValues] = useState<string[]>([]);
     const [toolsValues, setToolsValues] = useState<string[]>([]);
@@ -21,15 +27,15 @@ const WorkSpaceContainer = () => {
 
     const handleOnSelectModule = (value: string) => {
         setModuleValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+
     };
 
     const handleSelectTools = (value: string) => {
         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+
     };
 
-    const handleSelectTools = (value: string) => {
-        setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
-    };
+
 
     const handleNext = () => {
         if (step < 4) {
@@ -42,9 +48,11 @@ const WorkSpaceContainer = () => {
             setStep(step - 1);
         }
     };
+
     const handleOptionChange = (value: 'team' | 'personal') => {
         setWorkspaceType(value);
     };
+
 
 
     const handleFormSubmit = (values: Dict) => {
@@ -71,6 +79,7 @@ const WorkSpaceContainer = () => {
                 successMessage: 'Welcome to shtcut, your workspace was created successfully'
             }
         });
+
     };
 
     const form = useForm({

@@ -1,6 +1,8 @@
+import { Card } from '@shtcut-ui/react';
 import { SolutionType } from '@shtcut/types/types';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import { IoIosCheckmarkCircle } from 'react-icons/io';
 
 const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
     const [isVisible, setIsVisible] = useState(false);
@@ -87,16 +89,23 @@ const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
                         </h1>
                         <div className="flex items-center flex-wrap justify-center gap-3">
                             {tool.others.map((tol, idx) => (
-                                <div
-                                    className={`flex justify-center px-4 h-11 border-[#726C6C] rounded-md items-center gap-x-2 border ${
-                                        isVisible ? 'animate-fall' : 'opacity-0'
-                                    }`}
-                                    key={idx}
-                                    style={{ animationDelay: `${index * 0.5 + (idx + 1) * 1.5}s` }}
-                                >
-                                    <Image src={tol.img} width={24} height={24} alt={tol.name} />
-                                    <p>{tol.name}</p>
-                                </div>
+                                <section className="relative" onClick={() => handleSelectTools?.(tol.name)} key={idx}>
+                                    <Card
+                                        className={`flex gap-4 flex-col cursor-pointer ${toolsValues?.includes(tol.name) ? 'border-primary-0' : ''}  justify-center px-4 h-28 w-40 shadow-sm rounded-md items-center gap-x-2 border ${
+                                            isVisible ? 'animate-fall' : 'opacity-0'
+                                        }`}
+                                        key={idx}
+                                        style={{ animationDelay: `${index * 0.5 + (idx + 1) * 1.5}s` }}
+                                    >
+                                        <Image src={tol.img} width={24} height={24} alt={tol.name} />
+                                        <p className="text-center text-sm">{tol.name}</p>
+                                    </Card>
+                                    {toolsValues?.includes(tol.name) && (
+                                        <div className="text-primary-0 absolute top-2 right-2">
+                                            <IoIosCheckmarkCircle />
+                                        </div>
+                                    )}
+                                </section>
                             ))}
                         </div>
                     </div>
