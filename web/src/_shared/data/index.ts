@@ -524,7 +524,6 @@ export const authSlides = [
 
 export const trustImage = ['cornell.png', 'elastic.png', 'kissflow.png', 'thought.png', 'trans.png', 'mag.png'];
 
-
 export const InviteList = [
     { label: 'Member', value: 'member' },
     { label: 'Client', value: 'client' }
@@ -621,7 +620,8 @@ export const users = [
         status: 'Offline',
         img: '/docs/images/people/profile-picture-4.jpg',
         date: '2/04/24'
-
+    }
+];
 export const capacities = ['0-10', '11-30', '31-50', '51-100', 'Above 100'];
 export const modules = [
     {
@@ -643,6 +643,5 @@ export const modules = [
     {
         key: 'Web Builder',
         value: 'shtcut-web-builder'
-
     }
 ];
