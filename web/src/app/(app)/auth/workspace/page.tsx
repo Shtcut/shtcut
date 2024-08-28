@@ -1,8 +1,9 @@
-import WorkSpaceContainer from '@shtcut/containers/work-space';
-import React from 'react';
+'use client';
+
+import WorkSpaceContainerPage from '@shtcut/containers/work-space';
 
 const WorkSpace = () => {
-    return <WorkSpaceContainer />;
+    return <WorkSpaceContainerPage />;
 };
 
 export default WorkSpace;
