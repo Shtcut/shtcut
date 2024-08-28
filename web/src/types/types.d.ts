@@ -49,6 +49,7 @@ interface SolutionType {
     handleSelect?: (val: string) => void;
     toolsValues?: string[];
     handleSelectTools?: (val: string) => void;
+    isLoading?: boolean;
 }
 
 interface PropsCreate extends SolutionType {

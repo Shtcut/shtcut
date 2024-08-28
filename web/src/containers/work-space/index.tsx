@@ -1,24 +1,41 @@
 'use client';
 
-import { Dict } from '@shtcut-ui/react';
+
+
 import WorkSpaceMain from '@shtcut/components/ui/work-space/workspace-main';
 import WorkSpaceSideBar from '@shtcut/components/ui/work-space/workspace-sidebar';
+
+import { Dict, toast } from '@shtcut-ui/react';
+
+import { useWorkspace } from '@shtcut/hooks';
+import { get } from 'lodash';
+import { useRouter } from 'next/navigation';
+
 import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
+import slugify from 'react-slugify';
 
 const WorkSpaceContainer: React.FC = () => {
     const [step, setStep] = useState(1);
     const [moduleValues, setModuleValues] = useState<string[]>([]);
     const [toolsValues, setToolsValues] = useState<string[]>([]);
-    const [userValue, setUserValue] = useState<'team' | 'personal'>('team');
+    const [workspaceType, setWorkspaceType] = useState<'team' | 'personal'>('team');
+    const { push } = useRouter();
+
+    const { createWorkspace, createWorkspaceResponse } = useWorkspace({});
+    const { isSuccess, isLoading, error, data } = createWorkspaceResponse;
 
     const handleOnSelectModule = (value: string) => {
         setModuleValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+
     };
 
     const handleSelectTools = (value: string) => {
         setToolsValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
+
     };
+
+
 
     const handleNext = () => {
         if (step < 4) {
@@ -33,12 +50,36 @@ const WorkSpaceContainer: React.FC = () => {
     };
 
     const handleOptionChange = (value: 'team' | 'personal') => {
-        setUserValue(value);
+        setWorkspaceType(value);
     };
 
+
+
     const handleFormSubmit = (values: Dict) => {
-        console.log('values:::', values);
-        // todo Your form submit logic
+    if (isSuccess && data) {
+        push(`/url/${get(data, ['data','slug'])}/links`);
+    }
+
+    const handleFormSubmit = (values: Dict) => {
+        const emailFields = Object.keys(values).filter((key) => key.startsWith('email'));
+        const emailArray = emailFields.map((key) => values[key]);
+
+        const payload = {
+            ...values,
+            type: workspaceType,
+            slug: slugify(values.name),
+            memberEmails: emailArray,
+            module: moduleValues[0],
+            redirectUrl: `${process.env.NEXT_PUBLIC_REDIRECT_URL}`,
+        };
+        
+        createWorkspace({
+            payload,
+            options: {
+                successMessage: 'Welcome to shtcut, your workspace was created successfully'
+            }
+        });
+
     };
 
     const form = useForm({
@@ -56,7 +97,7 @@ const WorkSpaceContainer: React.FC = () => {
                     <form onSubmit={form.handleSubmit(handleFormSubmit)} className="w-full">
                         <WorkSpaceMain
                             step={step}
-                            userValue={userValue}
+                            userValue={workspaceType}
                             handleOptionChange={handleOptionChange}
                             form={form}
                             handleNext={handleNext}
@@ -65,6 +106,7 @@ const WorkSpaceContainer: React.FC = () => {
                             handleSelect={handleOnSelectModule}
                             handleSelectTools={handleSelectTools}
                             toolsValues={toolsValues}
+                            isLoading={isLoading}
                         />
                     </form>
                 </FormProvider>

@@ -7,3 +7,4 @@ export * from './vercel';
 export * from './stripe';
 export * from './html-metadata';
 export * from './rate-limiter';
+export * from './dnsimple';
