@@ -15,7 +15,7 @@ import React, { useState } from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import slugify from 'react-slugify';
 
-const WorkSpaceContainer: React.FC = () => {
+const WorkSpaceContainerPage = () => {
     const [step, setStep] = useState(1);
     const [moduleValues, setModuleValues] = useState<string[]>([]);
     const [toolsValues, setToolsValues] = useState<string[]>([]);
@@ -115,4 +115,4 @@ const WorkSpaceContainer: React.FC = () => {
     );
 };
 
-export default WorkSpaceContainer;
+export default WorkSpaceContainerPage;
