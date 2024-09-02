@@ -1,21 +1,10 @@
 import * as React from 'react';
 import Image from 'next/image';
-import { Inter } from 'next/font/google';
 import { IconAlertCircle } from '@tabler/icons-react';
-import { Input, Label, toast } from '@shtcut-ui/react';
+import { Input, Label } from '@shtcut-ui/react';
 import { AppButton } from '@shtcut/components';
 
 export default function ComingSoon() {
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    toast({
-      title: 'Success',
-      description: 'Thank you for joining our wait list! 🚀',
-    });
-  };
-
-
   return (
     <>
       <section className="w-screen h-dvh grid bg-gray-100 grids-cols-1 md:grid-cols-2 gap-6">

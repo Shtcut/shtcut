@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { MutationHooks, MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
+import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
-import { Pagination, TriggerResponse } from '@shtcut/_shared/namespace';
+import { Pagination } from '@shtcut/_shared/namespace';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
 import { usePagination } from '../usePagination';
 import {
     useCreateWorkspaceMutation,
     useDeleteWorkspaceMutation,
-    useGetWorkspaceQuery,
     useLazyFindAllWorkspacesQuery,
     useLazySearchOneWorkspaceQuery,
     useUpdateWorkspaceMutation
@@ -15,7 +14,6 @@ import {
 import { useEffect } from 'react';
 import { useAppSelector } from '@shtcut/redux/store';
 import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
-import { useGetLoggedInUserQuery } from '@shtcut/services/user';
 
 interface UseWorkspaceProps {
     key?: string;

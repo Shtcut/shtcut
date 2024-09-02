@@ -8,9 +8,9 @@ const FramesSelector9 = ({ onClick, selectedFrame }: { onClick: () => void; sele
             >
                 <div className="border-[1.5px] border-black  rounded-[4px]">
                     <div className=" bg-black  flex  justify-center items-center py-[3px] w-full">
-                        <p className={`text-[10px] text-white uppercase`}>SCAN ME</p>
+                        <p className={'text-[10px] text-white uppercase'}>SCAN ME</p>
                     </div>
-                    <div className={` w-14  h-14 `} />
+                    <div className={' w-14  h-14 '} />
                 </div>
             </div>
         </div>

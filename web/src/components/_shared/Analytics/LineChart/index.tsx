@@ -1,8 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@shtcut-ui/react';
-import { TrendingUp } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Dot, Tooltip, Line, ResponsiveContainer } from 'recharts';
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Dot, Line, ResponsiveContainer } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '../Chart';
 
 // Function to normalize data to a range of 20% to 100%
@@ -61,7 +59,7 @@ const CustomDot = (props: any) => {
                     <stop offset="100%" stopColor="#e3ebfe" />
                 </linearGradient>
             </defs>
-            <Dot cx={cx} cy={cy} stroke={stroke} fill={`#2F64E9`} strokeWidth={0.5} r={4} />
+            <Dot cx={cx} cy={cy} stroke={stroke} fill={'#2F64E9'} strokeWidth={0.5} r={4} />
         </>
     );
 };

@@ -10,6 +10,6 @@ const resetPasswordCode = z.string().min(1, 'Reset code is required');
 export const updatePasswordValidationSchema = z
     .object({ password, confirmPassword, resetPasswordCode })
     .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords don't match",
+        message: 'Passwords don\'t match',
         path: ['confirmPassword']
     });

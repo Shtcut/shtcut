@@ -8,7 +8,7 @@ import { useForm, FormProvider } from 'react-hook-form';
 import { Camera } from 'lucide-react';
 
 const GeneralScreen = () => {
-    const [preview, setPreview] = useState<null | string>(null);
+    const [, setPreview] = useState<null | string>(null);
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files ? event.target.files[0] : null;
@@ -71,7 +71,7 @@ const GeneralScreen = () => {
                                 <FormField
                                     control={form.control}
                                     name="file"
-                                    render={({ field: { value, onChange, ...fieldProps } }) => (
+                                    render={({ field: { ...fieldProps } }) => (
                                         <FormItem className="flex flex-col items-center  rounded-full  justify-center">
                                             <FormLabel className="cursor-pointer  rounded-lg flex-col justify-center w-36 h-36 ">
                                                 <ImageSkeleton />

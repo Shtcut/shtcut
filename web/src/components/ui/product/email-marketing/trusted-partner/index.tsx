@@ -1,4 +1,3 @@
-import { Button } from '@shtcut-ui/react';
 import { trustImage } from '@shtcut/_shared/data';
 import Marquee from '@shtcut/components/_shared/animations/cards-animation';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';

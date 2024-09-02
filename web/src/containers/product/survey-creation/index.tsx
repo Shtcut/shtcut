@@ -1,10 +1,8 @@
-import SurveyCreationComponent from '@shtcut/components/ui/product/survey-creation'
-import React from 'react'
+import SurveyCreationComponent from '@shtcut/components/ui/product/survey-creation';
+import React from 'react';
 
 const SurveyCreationContainer = () => {
-  return (
-   <SurveyCreationComponent/>
-  )
-}
+    return <SurveyCreationComponent />;
+};
 
-export default SurveyCreationContainer
+export default SurveyCreationContainer;

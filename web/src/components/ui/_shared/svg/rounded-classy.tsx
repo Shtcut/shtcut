@@ -7,7 +7,7 @@ export const ClassyRoundedQRCode = ({ className }: { className?: string }) => (
         xmlns="http://www.w3.org/2000/svg"
         className={className}
     >
-        <g clip-path="url(#clip0_6048_52555)">
+        <g clipPath="url(#clip0_6048_52555)">
             <path
                 d="M0.5 22.4974H7.8326V18.8278C7.8326 16.8016 6.1892 15.1582 4.163 15.1582C2.1368 15.1582 0.5 16.8082 0.5 18.8344"
                 fill="black"

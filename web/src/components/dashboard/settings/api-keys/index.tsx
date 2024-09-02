@@ -1,8 +1,7 @@
-import { Button, Input, Label, Modal } from '@shtcut-ui/react';
+import { Button, Input, Label, Modal, FormControl, FormField, FormItem, FormMessage } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import ApiKeyDataTable from './api-key-table';
-import { FormControl, FormField, FormItem, FormMessage } from '@shtcut-ui/react';
 import { IoCopyOutline } from 'react-icons/io5';
 
 import { FormProvider, useForm } from 'react-hook-form';
@@ -101,7 +100,7 @@ const ApiKeysScreen = () => {
                                     <FormField
                                         control={form.control}
                                         name="apiKey"
-                                        render={({ field }) => (
+                                        render={() => (
                                             <FormItem className="space-y-1 w-full">
                                                 <div className="flex mb-2 items-center justify-start">
                                                     <Label className="text-xs"> Name</Label>

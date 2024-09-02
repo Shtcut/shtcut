@@ -38,9 +38,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
             isGeoTargeting = false,
             qrCode,
             isUTMBuilder = false
-        },
-        handleOnSubmit
-    } = props;
+        }    } = props;
     const [date, setDate] = useState<Date>();
     const [enableExpirationDate, setEnableExpirationDate] = useState<boolean>(isExpirationDate);
     const [enablePasswordProtection, setEnablePasswordProtection] = useState<boolean>(isPasswordProtection);
@@ -51,7 +49,6 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
     const [isUtmBuilderEnabled, setIsUtmBuilderEnabled] = useState<boolean>(false);
     const [utmBuilderPayload, setUtmBuilderPayload] = useState<Dict>({});
     const [qrCodePayload, setQrCodeBuilderPayload] = useState<Dict>({});
-    const [linkSettingsPayload, setLinkSettingsPayload] = useState<Dict>({});
 
     const [value, setValue] = useState<Dict>({
         android: '',
@@ -59,7 +56,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
         password: ''
     });
 
-    const handleQRCodeVisibility = (open: boolean) => {};
+    const handleQRCodeVisibility = () => {};
 
     const handleOnUtmSubmit = (payload: Dict) => {
         if (payload) {
@@ -344,7 +341,7 @@ export const LinkSettingsForm = (props: LinkSettingsFormProps) => {
                 setShowModal={setIsQrCode}
                 showCloseIcon={true}
                 useDrawer={true}
-                onClose={() => handleQRCodeVisibility(false)}
+                onClose={() => handleQRCodeVisibility()}
                 className="bg-white"
             >
                 <LinkQrCodeForm

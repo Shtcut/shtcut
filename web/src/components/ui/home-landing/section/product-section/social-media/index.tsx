@@ -1,4 +1,4 @@
-import { Button, Card } from '@shtcut-ui/react';
+import { Card } from '@shtcut-ui/react';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import { Check } from 'lucide-react';
 import Image from 'next/image';

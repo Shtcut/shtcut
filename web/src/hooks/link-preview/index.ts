@@ -14,7 +14,7 @@ interface UseLinkPreviewProps {
 }
 
 export const useLinkPreview = (props: UseLinkPreviewProps) => {
-    const { url, fetcher, onSuccess } = props;
+    const { url, onSuccess } = props;
 
     const _isMounted = useRef(true);
     const [metadata, setMetadata] = useState<ApiResponse<LinkPreviewNamespace.LinkPreviewData> | null>();

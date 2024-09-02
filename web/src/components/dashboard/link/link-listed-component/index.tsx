@@ -2,7 +2,6 @@ import { Card, Checkbox } from '@shtcut-ui/react';
 import Image from 'next/image';
 import React from 'react';
 import { Clock3 } from 'lucide-react';
-import { Tag } from 'lucide-react';
 import CardsActions from '../card-actions';
 
 const LinkListedComponent = ({

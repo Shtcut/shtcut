@@ -1,5 +1,3 @@
-import { NextRequest } from 'next/server';
-
-export async function SurveyMiddleware(req: NextRequest) {}
+export async function SurveyMiddleware() {}
 
 export default SurveyMiddleware;

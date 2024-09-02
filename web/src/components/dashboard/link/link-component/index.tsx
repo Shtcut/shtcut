@@ -20,7 +20,7 @@ const LinkComponent = () => {
     const [showModal, setShowModal] = useState(false);
     const pathName = usePathname();
     const route = useRouter();
-    const [shortLink, setShortLink] = useState<string>('');
+    const [, setShortLink] = useState<string>('');
     const [preview, setPreview] = useState<string | null>(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');

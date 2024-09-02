@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Switch, Textarea } from '@shtcut-ui/react';
 import Image from 'next/image';
-import Picker, { EmojiClickData } from 'emoji-picker-react';
 import EmojiPicker from 'emoji-picker-react';
 
 const CommentSection = () => {
@@ -13,10 +12,6 @@ const CommentSection = () => {
         setIsSwitchOn(checked);
     };
 
-    const handleEmojiClick = (event: React.MouseEvent, emojiData: EmojiClickData) => {
-        setComment(comment + emojiData.emoji);
-        setShowEmojiPicker(false);
-    };
 
     return (
         <div>

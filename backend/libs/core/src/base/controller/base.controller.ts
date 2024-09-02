@@ -150,6 +150,7 @@ export abstract class BaseController {
 
       return res.status(OK).json(response);
     } catch (e) {
+      Logger.log('err::', e);
       return next(e);
     }
   }

@@ -6,7 +6,6 @@ import { AUTH_TOKEN_KEY, SECOND_LEVEL_DOMAINS, SPECIAL_APEX_DOMAINS, ccTLDs } fr
 import * as Yup from 'yup';
 import { ObjectShape } from 'yup';
 import ms from 'ms';
-import * as _ from 'lodash';
 
 type AuthTokenReturnsProps = {
     isLoggedIn: boolean;
@@ -40,7 +39,7 @@ export const AuthToken = (token: string | undefined): AuthTokenReturnsProps => {
     return defaultState;
 };
 
-/*** Handle token inside cookie, so it is available for both client and server rendering */
+/** * Handle token inside cookie, so it is available for both client and server rendering */
 export const AppCookie = ({ cookie = null, userRole = ['unknown-user'], allowDelete = false }: AppCookieProp) => {
     if (cookie && !allowDelete) {
         Cookie.set(AUTH_TOKEN_KEY, cookie);

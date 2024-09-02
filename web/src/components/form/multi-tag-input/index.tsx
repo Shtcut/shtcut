@@ -1,4 +1,4 @@
-import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shtcut-ui/react';
+import { Button, Input, Select, SelectContent, SelectItem, SelectTrigger } from '@shtcut-ui/react';
 import React, { useState, KeyboardEvent, ChangeEvent } from 'react';
 
 interface MultiTagsInputProps {
@@ -80,7 +80,6 @@ const MultiTagsInput = ({
             onTagsChange([]);
         }
     };
-    const [show, setShow] = useState(false);
 
     return (
         <div className={`w-full relative rounded ${className}`}>

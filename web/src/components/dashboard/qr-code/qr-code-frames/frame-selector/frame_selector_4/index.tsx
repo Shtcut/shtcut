@@ -7,7 +7,7 @@ const FramesSelector4 = ({ onClick, selectedFrame }: { onClick: () => void; sele
                 className={`bg-[#F9F9F9]  cursor-pointer rounded-[10px] border ${selectedFrame === 4 ? 'border-primary-0' : 'border-[#E3E3E3]'}  w-full h-full flex justify-center flex-col items-center gap-y-2`}
             >
                 <div className="relative bottom-6">
-                    <p className={`text-[10px] uppercase`}>SCAN ME</p>
+                    <p className="text-[10px] uppercase">SCAN ME</p>
                 </div>
                 <div className="flex justify-center items-center   relative ">
                     {/* Top Left */}
