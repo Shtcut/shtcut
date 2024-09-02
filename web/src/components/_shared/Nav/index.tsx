@@ -126,7 +126,7 @@ const NavLinkIcon = ({ title, icon, label, href, defaultPath }: NavLinkProps) =>
     );
 };
 
-const NavLinkIconDropdown = ({ title, icon, label, sub, defaultPath }: NavLinkProps) => {
+const NavLinkIconDropdown = ({ title, icon, label, sub }: NavLinkProps) => {
     const { checkActiveNav } = useCheckActiveNav();
 
     /**
@@ -168,7 +168,7 @@ const NavLinkIconDropdown = ({ title, icon, label, sub, defaultPath }: NavLinkPr
     );
 };
 
-export const Nav = ({ links, isCollapsed, className, closeNav, ...props }: NavProps) => {
+export const Nav = ({ links, isCollapsed, className, closeNav }: NavProps) => {
     const renderLink = ({ sub, ...rest }: SideLink) => {
         const key = `${rest.title}-${rest.href}`;
         if (isCollapsed && sub) {

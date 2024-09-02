@@ -1,4 +1,4 @@
-import { BellIcon, ExclamationTriangleIcon, GearIcon } from '@radix-ui/react-icons';
+import { BellIcon, GearIcon } from '@radix-ui/react-icons';
 
 import Link from 'next/link';
 import { Merge, Rocket, Split } from 'lucide-react';

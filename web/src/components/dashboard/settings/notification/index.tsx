@@ -1,7 +1,6 @@
 import React from 'react';
-import { Link, Mail } from 'lucide-react';
+import { Link, Mail, Globe } from 'lucide-react';
 import { Separator, Switch } from '@shtcut-ui/react';
-import { Globe } from 'lucide-react';
 
 const NotificationScreen = () => {
     const ReusableCard = ({ title, text, icon }: { title: string; text: string; icon: React.ReactNode }) => {

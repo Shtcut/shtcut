@@ -1,5 +1,3 @@
-import { NextRequest } from 'next/server';
-
-export async function MarketingMiddleware(req: NextRequest) {}
+export async function MarketingMiddleware() {}
 
 export default MarketingMiddleware;

@@ -9,7 +9,6 @@ import { PiFilePdfDuotone, PiIdentificationCard } from 'react-icons/pi';
 import WebsiteComponent from '../website-component';
 
 const QRCodeCreateComponent = ({
-    setStep,
     step,
     onNextStep,
     onPrevStep,
@@ -260,9 +259,7 @@ const QRCodeCreateComponent = ({
                 <div className="bg-white w-1/2 shadow-sm border border-gray-100 rounded-[10px] h-full p-[23px]">
                     <h2 className=" font-medium ">Preview</h2>
                     <div className="border w-56 h-[454px] border-[#A6A6A4] p-[1px] mt-10 mx-auto rounded-[37px]">
-                        <div
-                            className={`flex border-4 border-black flex-col   w-full h-full justify-center items-center rounded-[37px] `}
-                        >
+                        <div className="flex border-4 border-black flex-col   w-full h-full justify-center items-center rounded-[37px]">
                             <div className="bg-black w-12 h-4 flex justify-end items-center px-2 mt-2 rounded-full">
                                 <div className="w-1 h-1 bg-slate-500 rounded-full" />
                             </div>

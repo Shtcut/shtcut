@@ -3,9 +3,7 @@
 import * as React from 'react';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@shtcut-ui/react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { Trash2, Settings } from 'lucide-react';
-import { Archive } from 'lucide-react';
-import { PencilLine } from 'lucide-react';
+import { Trash2, Settings, Archive, PencilLine } from 'lucide-react';
 
 const FeatureActions = ({ handleModalCn }: { handleModalCn: (open: boolean) => void }) => {
     return (

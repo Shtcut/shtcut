@@ -7,7 +7,7 @@ export const SquareQRCode = ({ className }: { className?: string }) => (
         xmlns="http://www.w3.org/2000/svg"
         className={className}
     >
-        <g clip-path="url(#clip0_6048_176828)">
+        <g clipPath="url(#clip0_6048_176828)">
             <path d="M7.8326 15.166H0.5V22.4986H7.8326V15.166Z" fill="black"></path>
             <path d="M7.8326 22.498H0.5V29.8306H7.8326V22.498Z" fill="black"></path>
             <path d="M7.8326 37.1699H0.5V44.5025H7.8326V37.1699Z" fill="black"></path>

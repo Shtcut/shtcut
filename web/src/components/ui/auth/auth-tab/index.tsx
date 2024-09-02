@@ -69,7 +69,7 @@ export const AuthTabs = () => {
         });
     };
 
-    const onFailure = (social: string, response: Dict) => {
+    const onFailure = () => {
         setSocialError('An error occurred, please try again');
         toast({
             variant: 'destructive',
@@ -96,9 +96,7 @@ export const AuthTabs = () => {
                 if (data) {
                     const { data: authData } = data || {};
                     if (authData.workspaces && authData.workspaces.length > 0) {
-                        const { workspaces } = authData;
-                        // redirect(`/url/${workspaces[0].slug}/overview`);
-                        redirect(`/url/social-media/overview`);
+                        redirect('/url/social-media/overview');
                     } else {
                         redirect(routes.workspace);
                     }

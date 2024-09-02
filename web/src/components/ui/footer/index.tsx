@@ -1,25 +1,15 @@
 'use client';
 
-import { Dict } from '@shtcut-ui/react';
 import Link from 'next/link';
-import { FaGithub } from 'react-icons/fa';
 import { Logo } from '../logo';
-import { FaFacebookF } from 'react-icons/fa';
-import { FaTwitter } from 'react-icons/fa';
+import { FaFacebookF, FaTwitter, FaLinkedinIn, FaYoutube,FaGithub } from 'react-icons/fa';
 import { AiFillInstagram } from 'react-icons/ai';
-import { FaLinkedinIn } from 'react-icons/fa';
-import { FaYoutube } from 'react-icons/fa';
-import { Mail } from 'lucide-react';
-import { MapPin } from 'lucide-react';
-import { Phone } from 'lucide-react';
+
+import { Mail, MapPin, Phone } from 'lucide-react';
 
 
-type FooterProps = {
-    navs?: Dict[];
-};
 
-export const Footer = (props: FooterProps) => {
-
+export const Footer = () => {
     const iconLink = [
         {
             name: 'Facebook',

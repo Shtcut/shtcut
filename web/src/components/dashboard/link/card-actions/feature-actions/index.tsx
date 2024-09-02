@@ -3,12 +3,10 @@
 import * as React from 'react';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@shtcut-ui/react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { Trash2 } from 'lucide-react';
-import { PiFolders } from 'react-icons/pi';
-import { Archive } from 'lucide-react';
+import { PiFolders, PiQrCodeBold } from 'react-icons/pi';
+import { Archive, PencilLine, Trash2 } from 'lucide-react';
 import { FiShare2 } from 'react-icons/fi';
-import { PencilLine } from 'lucide-react';
-import { PiQrCodeBold } from 'react-icons/pi';
+
 import { RiLineChartLine } from 'react-icons/ri';
 
 const FeatureActions = ({ onClickNavigation }: { onClickNavigation: () => void }) => {

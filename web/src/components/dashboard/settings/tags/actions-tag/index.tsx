@@ -1,8 +1,7 @@
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@shtcut-ui/react';
-import { PencilLine, Trash2 } from 'lucide-react';
+import { PencilLine, Trash2, Copy } from 'lucide-react';
 import React from 'react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { Copy } from 'lucide-react';
 
 const ActionsTag = () => {
     return (

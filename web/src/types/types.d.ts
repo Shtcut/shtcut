@@ -1,4 +1,4 @@
-import { Dict } from "@shtcut-ui/react";
+import { Dict } from '@shtcut-ui/react';
 
 interface Props {
     color?: string;

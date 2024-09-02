@@ -18,7 +18,7 @@ export const DeviceStats = ({ analytics }) => {
                                 />
                                 <h3 className={`capitalize text-sm ${'lg:text-md'}`}>{device}</h3>
                             </div>
-                            <h3 className={`font-semibold text-center `}>{visits}</h3>
+                            <h3 className={'font-semibold text-center '}>{visits}</h3>
                         </div>
                     ))}
                 </div>

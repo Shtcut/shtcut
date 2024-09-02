@@ -14,18 +14,7 @@ interface TextFieldProps extends InputProps {
 }
 
 export const TextField = (props: TextFieldProps) => {
-    const {
-        label,
-        type,
-        labelClassName,
-        className,
-        id,
-        errorText,
-        onShowPassword,
-        showPasswordIcon = true,
-        size = 'lg',
-        ...rest
-    } = props;
+    const { label, type, className, id, errorText, ...rest } = props;
 
     const _id = useId();
     const hasError = errorText && !isEmpty(errorText);
@@ -37,12 +26,7 @@ export const TextField = (props: TextFieldProps) => {
                 {type === 'password' ? (
                     <PasswordInput className="h-12" {...rest} />
                 ) : (
-                    <Input
-                        id={`${id ?? ''}${type}-${_id}`}
-                        type={type}
-                        className={cn('h-12', className)}
-                        {...rest}
-                    />
+                    <Input id={`${id ?? ''}${type}-${_id}`} type={type} className={cn('h-12', className)} {...rest} />
                 )}
 
                 {hasError && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errorText}</p>}

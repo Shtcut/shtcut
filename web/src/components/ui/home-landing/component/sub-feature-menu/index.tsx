@@ -16,16 +16,13 @@ import Link from 'next/link';
 import { ListItem } from '@shtcut/components/_shared/ListItem';
 
 import { IoQrCodeOutline } from 'react-icons/io5';
-import { PiUsersThreeLight } from 'react-icons/pi';
-import { PiUserListLight } from 'react-icons/pi';
-import { PiChartLineUp } from 'react-icons/pi';
+import { PiUserListLight,PiChartLineUp, PiUsersThreeLight } from 'react-icons/pi';
 import { GoLink } from 'react-icons/go';
 import { BiTask } from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md';
 import Image from 'next/image';
-import { BsCodeSlash } from 'react-icons/bs';
+import { BsCodeSlash, BsBuildings } from 'react-icons/bs';
 import { IoIosHelpCircleOutline } from 'react-icons/io';
-import { BsBuildings } from 'react-icons/bs';
 import { FaRegNewspaper } from 'react-icons/fa';
 
 type IProps = {

@@ -41,7 +41,7 @@ const Stepper = ({ step }: { step: number | undefined }) => {
                             {step === 2 && <div className="bg-black w-[7px] h-[7px] rounded-full" />}
                             {step === 3 && <Check size={8} />}
                         </div>
-                        <h1 className={`absolute top-0 -ml-14 text-center mt-8  w-32 text-sm font-medium  text-black`}>
+                        <h1 className={'absolute top-0 -ml-14 text-center mt-8  w-32 text-sm font-medium  text-black'}>
                             Appearance
                         </h1>
                     </div>
@@ -55,7 +55,7 @@ const Stepper = ({ step }: { step: number | undefined }) => {
                             {step === 3 && <div className="bg-black w-[7px] h-[7px] rounded-full" />}
                         </div>
                         <h1
-                            className={`absolute top-0 sm:w-40 mt-8 sm:-ml-20 text-center -ml-2  text-sm  font-medium `}
+                            className={'absolute top-0 sm:w-40 mt-8 sm:-ml-20 text-center -ml-2  text-sm  font-medium '}
                         >
                             Done
                         </h1>

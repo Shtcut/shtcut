@@ -1,4 +1,4 @@
-import { Button, Input, Label, Popover, PopoverContent, PopoverTrigger, Textarea } from '@shtcut-ui/react';
+import { Button, Label, Popover, PopoverContent, PopoverTrigger, Textarea } from '@shtcut-ui/react';
 import { XIcon } from 'lucide-react';
 
 export const Feedback = () => {

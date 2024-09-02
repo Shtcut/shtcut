@@ -1,10 +1,8 @@
-import PricingPageContainer from '@shtcut/containers/pricing'
-import React from 'react'
+import PricingPageContainer from '@shtcut/containers/pricing';
+import React from 'react';
 
 const Pricing = () => {
-  return (
-    <PricingPageContainer />
-  )
-}
+    return <PricingPageContainer />;
+};
 
-export default Pricing
+export default Pricing;

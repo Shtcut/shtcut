@@ -10,9 +10,7 @@ import {
     DropdownMenuTrigger
 } from '@shtcut-ui/react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { Trash2 } from 'lucide-react';
-
-import { ArrowLeftRight } from 'lucide-react';
+import { Trash2, ArrowLeftRight } from 'lucide-react';
 
 export function ActionsTable({ onOpenRole, onOpenDelete }: { onOpenRole: () => void; onOpenDelete: () => void }) {
     return (

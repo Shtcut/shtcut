@@ -5,7 +5,7 @@ import { QRCode } from 'react-qrcode-logo';
 const Frame_1 = ({ bgColor, selectedColor, qrCodeLogo, qrCodeShape, eyeRadius }: QrCodeFrameType) => {
     return (
         <div className="h-full flex flex-col justify-center">
-            <div className={` border-[3.2px]  w-fit rounded-[6px]`} style={{ borderColor: bgColor }}>
+            <div className={' border-[3.2px]  w-fit rounded-[6px]'} style={{ borderColor: bgColor }}>
                 <QRCode
                     id="shtcut-qrcode"
                     value={''}

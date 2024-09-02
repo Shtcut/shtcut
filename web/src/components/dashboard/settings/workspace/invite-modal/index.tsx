@@ -43,7 +43,7 @@ const InviteModal = ({
                                         <FormField
                                             key={index}
                                             control={form.control}
-                                            name={`email`}
+                                            name="email"
                                             render={({ field }) => (
                                                 <FormItem className="w-full">
                                                     <FormControl>

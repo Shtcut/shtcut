@@ -1,4 +1,4 @@
-import { ApiRequest, AppObject } from '..';
+import { AppObject } from '..';
 import { WorkspaceNameSpace } from '../workspace';
 
 export namespace UserNamespace {

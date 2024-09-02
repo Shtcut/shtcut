@@ -1,2 +1,2 @@
-import FeatureMenu from "./sub-feature-menu";
+import FeatureMenu from './sub-feature-menu';
 export { FeatureMenu };

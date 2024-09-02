@@ -4,7 +4,6 @@ import React from 'react';
 
 const SelectMonths = ({
     handleSelect,
-    selectedMonth
 }: {
     handleSelect: (val: string) => void;
     selectedMonth: string | null;

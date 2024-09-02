@@ -1,5 +1,4 @@
 import Brands from '@shtcut/components/brand';
-import { Logo } from '@shtcut/components/ui/logo';
 import React from 'react';
 
 const BrandShorten = () => {

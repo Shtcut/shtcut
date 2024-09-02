@@ -19,7 +19,7 @@ interface LinkQRCodeForm {
 }
 
 export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
-    const { removeLogo, enableBrandLogo, url, handleSubmit, qrPayload } = props;
+    const { removeLogo, url, handleSubmit, qrPayload } = props;
 
     const qrCodeProps = omit(
         {
@@ -31,7 +31,7 @@ export const LinkQrCodeForm = (props: LinkQRCodeForm) => {
     
     const [isRemoveLogo, setIsRemoveLogo] = useState(removeLogo ?? false);
     const [color, setColor] = useState(qrCodeProps?.fgColor ?? '#000000');
-    const [logo, setLogo] = useState(qrCodeProps?.logo ?? '/favicon.ico');
+    const [logo, ] = useState(qrCodeProps?.logo ?? '/favicon.ico');
 
     
 

@@ -20,12 +20,12 @@ const WorkspaceLayout = ({ children }: any) => {
     const pathName = usePathname();
     const { isSideBarOpen } = useSidebar();
     const { module, workspace } = params;
-    let isTab = useMediaQuery({ query: '(max-width:768px)' });
+    const isTab = useMediaQuery({ query: '(max-width:768px)' });
     const [isOpen, setIsOpen] = useState(!isTab);
     const navigationOptions = sideLinks(module as string, workspace as string);
-    const [activeId, setActiveId] = useState<string | null>('1');
+    const [, setActiveId] = useState<string | null>('1');
     const router = useRouter();
-    const [activeTab, setActiveTab] = useState<string | null>(null);
+    const [, setActiveTab] = useState<string | null>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
     const sideNav = [

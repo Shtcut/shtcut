@@ -1,8 +1,6 @@
-import { LogOut, MailOpen, Link, Settings } from 'lucide-react';
-import { PiQrCodeBold } from 'react-icons/pi';
+import { LogOut, MailOpen, Link } from 'lucide-react';
+import { PiProjectorScreenChartBold, PiQrCodeBold } from 'react-icons/pi';
 import { AiFillAppstore } from 'react-icons/ai';
-import { PiProjectorScreenChartBold } from 'react-icons/pi';
-import { BsFillQuestionCircleFill } from 'react-icons/bs';
 
 export interface NavLink {
     id: string;

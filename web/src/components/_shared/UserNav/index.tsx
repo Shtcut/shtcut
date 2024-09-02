@@ -1,7 +1,6 @@
 import {
     Avatar,
     AvatarImage,
-    Button,
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
@@ -10,15 +9,11 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@shtcut-ui/react';
-import { ChevronDown, ChevronUp } from 'lucide-react';
-import { Settings } from 'lucide-react';
-
 import { useSidebar } from '@shtcut/components/dashboard/side-bar-context';
 import { useAuth } from '@shtcut/hooks';
 import { useUser } from '@shtcut/hooks/user';
-import { LogOut } from 'lucide-react';
+import { LogOut, Settings, PanelRightOpen, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { PanelRightOpen } from 'lucide-react';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 

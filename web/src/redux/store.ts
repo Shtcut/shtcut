@@ -1,5 +1,5 @@
 import storage from 'redux-persist/lib/storage';
-import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE } from 'redux-persist';
+import { FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER } from 'redux-persist';
 import appReducer from './slices';
 import { AnyAction, ConfigureStoreOptions, configureStore } from '@reduxjs/toolkit';
 import { logout } from './slices/auth';

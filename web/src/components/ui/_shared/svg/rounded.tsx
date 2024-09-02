@@ -7,7 +7,7 @@ export const RoundedQRCode = ({ className }: { className?: string }) => (
         xmlns="http://www.w3.org/2000/svg"
         className={className}
     >
-        <g clip-path="url(#clip0_6048_41302)">
+        <g clipPath="url(#clip0_6048_41302)">
             <path d="M0.5 22.4986H7.8326V15.166H4.1696C2.1434 15.166 0.5 16.8094 0.5 18.8356" fill="black"></path>
             <path d="M7.8326 22.498H0.5V29.8306H4.1696C6.1958 29.8306 7.8392 28.1872 7.8392 26.161" fill="black"></path>
             <path d="M0.5 44.5025H7.8326V37.1699H4.1696C2.1434 37.1699 0.5 38.8067 0.5 40.8329" fill="black"></path>

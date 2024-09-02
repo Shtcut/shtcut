@@ -1,4 +1,4 @@
-import { CommonProps, cn } from '@shtcut-ui/react';
+import { CommonProps } from '@shtcut-ui/react';
 import Link from 'next/link';
 
 interface NavLinkProps extends CommonProps {

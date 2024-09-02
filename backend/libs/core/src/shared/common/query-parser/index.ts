@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import * as _ from 'lodash';
 import mongoose from 'mongoose';
 
@@ -121,7 +122,7 @@ export class QueryParser {
       const exclude = JSON.parse(value);
       this._exclude = Object.values(exclude);
     } catch (e) {
-      console.log('exclude-error:', e.getMessages());
+      Logger.log('exclude-error:', e.getMessages());
     }
   }
 
@@ -292,7 +293,7 @@ export class QueryParser {
           return this.processNestedObject(value);
         }
       } catch (e) {
-        console.log(e);
+        Logger.log(e);
       }
     }
     return result;
@@ -335,7 +336,7 @@ export class QueryParser {
       iter(query);
       return ret;
     } catch (e) {
-      console.log('nestedObject-err', e);
+      Logger.log('nestedObject-err', e);
     }
   }
 

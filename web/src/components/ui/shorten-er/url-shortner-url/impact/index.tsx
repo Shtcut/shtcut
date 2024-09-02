@@ -2,7 +2,6 @@ import { AMOUNTS, IMPACT } from '@shtcut/_shared/data';
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import _ from 'lodash';
 
 const ImpactShorten = () => {
     useEffect(() => {

@@ -26,7 +26,7 @@ import {
     cn,
     toast
 } from '@shtcut-ui/react';
-import { CalendarIcon,  } from 'lucide-react';
+import { CalendarIcon } from 'lucide-react';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { LinkType } from '@shtcut/types';
 import { LinkPreview } from '@shtcut/components/_shared/LinkPreview';
@@ -34,9 +34,8 @@ import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { ALPHA_NUMERIC, GOOGLE_FAVICON_URL, PREVIEW_SOCIAL } from '@shtcut/_shared/constant';
+import { GOOGLE_FAVICON_URL, PREVIEW_SOCIAL } from '@shtcut/_shared/constant';
 import { getApexDomain, isValidURL } from '@shtcut/_shared';
-import { customAlphabet } from 'nanoid';
 import { LinkQrCodeForm } from '../link-qrcode-form';
 import { LinkUtmForm } from '../link-utm-form';
 import { LinkCheckBox } from '@shtcut/components/_shared/LinkCheckBox';
@@ -44,8 +43,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { isEmpty, isString, isUndefined } from 'lodash';
 import { format } from 'date-fns';
 import { AppButton } from '@shtcut/components';
-import { useLink } from '@shtcut/hooks/link';
-import { title } from 'process';
 interface LinkFormProps extends CommonProps {
     id?: string;
     linkProps: LinkType;
