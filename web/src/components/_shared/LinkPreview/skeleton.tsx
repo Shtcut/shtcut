@@ -9,7 +9,7 @@ interface SkeletonProps {
     margin?: string | number;
 }
 
-export const LinkPreviewSkeleton: FC<SkeletonProps> = ({ width = '100%', imageHeight = '30vh', margin }) => {
+export const LinkPreviewSkeleton: FC<SkeletonProps> = ({  }) => {
     return (
         <>
             <Skeleton />
@@ -18,18 +18,5 @@ export const LinkPreviewSkeleton: FC<SkeletonProps> = ({ width = '100%', imageHe
             <Skeleton />
             <Skeleton />
         </>
-        // <div className="skeleton-container" style={{ width, margin }}>
-        //     <Skeleton className={`w-[${width}] h-[${imageHeight}]`} />
-        //     <Skeleton />
-        //     <Skeleton />
-        //     <Skeleton /> <Skeleton />
-        //     <Skeleton />
-        //     <Skeleton />
-        //     <div className="skeleton-lower-container">
-        //         <Skeleton />
-        //         <Skeleton />
-        //         <Skeleton />
-        //     </div>
-        // </div>
     );
 };

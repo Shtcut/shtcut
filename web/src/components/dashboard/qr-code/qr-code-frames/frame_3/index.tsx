@@ -46,14 +46,13 @@ const Frame_3 = ({ bgColor, btnColor, qrCodeName, selectedColor, qrCodeLogo, qrC
                         logoWidth={30}
                         logoHeight={30}
                         logoImage={qrCodeLogo}
-                        // qrStyle="dots"
                         eyeRadius={eyeRadius}
                         qrStyle={qrCodeShape}
                     />
                 </div>
             </div>
             <div className="relative top-20">
-                <p style={{ color: btnColor ? btnColor : 'white' }} className={`text-sm uppercase`}>
+                <p style={{ color: btnColor ? btnColor : 'white' }} className={'text-sm uppercase'}>
                     {qrCodeName ? qrCodeName : 'SCAN ME'}
                 </p>
             </div>

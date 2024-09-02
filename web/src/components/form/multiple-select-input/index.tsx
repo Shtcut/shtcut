@@ -1,5 +1,4 @@
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@shtcut-ui/react';
-import { X } from 'lucide-react';
 import React, { useState } from 'react';
 import { Tag } from 'lucide-react'; // Example icon, replace with your desired icon
 

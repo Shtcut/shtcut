@@ -1,7 +1,4 @@
-import { NextRequest } from "next/server";
-
-
-async function SocialMiddleware(req: NextRequest) {
+async function SocialMiddleware() {
     
 }
 

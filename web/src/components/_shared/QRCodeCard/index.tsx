@@ -1,14 +1,10 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, Dict, toast } from '@shtcut-ui/react';
-import { getApexDomain, timeAgo } from '@shtcut/_shared';
-import { GripVertical } from 'lucide-react';
-import Image from 'next/image';
-import { GOOGLE_FAVICON_URL } from '@shtcut/_shared/constant';
+import { Dict, toast } from '@shtcut-ui/react';
+import { timeAgo } from '@shtcut/_shared';
+import { GripVertical, Copy, BarChart} from 'lucide-react';
 import Link from 'next/link';
-import { Copy, BarChart } from 'lucide-react';
 import { useState } from 'react';
-import { IconTag } from '@tabler/icons-react';
 import { PopoverMenu } from '../Popover';
 import { QRCode } from 'react-qrcode-logo';
 
@@ -34,12 +30,8 @@ export const QRCodeCard = (props: QRCodeProp) => {
     const {
         id,
         alias,
-        archived = false,
         title,
-        tags = [],
         target,
-        clicks = 0,
-        createdAt,
         domain: { slug }
     } = props;
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -51,7 +43,6 @@ export const QRCodeCard = (props: QRCodeProp) => {
         transition
     };
 
-    const apexDomain = getApexDomain(target);
 
     const handleCopyLink = () => {
         setCopiedClipboard(copiedClipboard);
@@ -99,7 +90,7 @@ export const QRCodeCard = (props: QRCodeProp) => {
                                             <a
                                                 href={`https://${slug}/${alias}`}
                                                 target="_blank"
-                                                className="text-blue-600"
+                                                className="text-blue-600" rel="noreferrer"
                                             >
                                                 {`${slug}/${alias}`}
                                             </a>
@@ -135,7 +126,7 @@ export const QRCodeCard = (props: QRCodeProp) => {
                                         <a
                                             target="_blank"
                                             href={`https://${slug}/${alias}`}
-                                            className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2"
+                                            className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2" rel="noreferrer"
                                         >
                                             <p className="text-gray-500 w-[200px] text-sm lg:w-[320px] whitespace-nowrap overflow-hidden font-semibold text-ellipsis">
                                                 <span>{title}: </span>

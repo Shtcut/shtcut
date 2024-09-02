@@ -5,14 +5,8 @@ import { RiUserFill } from 'react-icons/ri';
 import TeamForm from '../../team-form';
 import { PropsCreate } from '@shtcut/types/types';
 
-const HowTopPlan = ({ userValue, handleOptionChange, form, handleNext, formValidation }: PropsCreate) => {
-    const handleOnNext = () => {
-    };
-
-    const handleOnChangeOptions = (value) => {
-        console.log();
-        handleOnChangeOptions?.(value);
-    };
+const HowTopPlan = ({ userValue, handleOptionChange, form }: PropsCreate) => {
+    
 
     return (
         <div>

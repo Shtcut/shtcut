@@ -16,7 +16,6 @@ import QRCodeStyling, {
 import Image from 'next/image';
 import {
     LOGO_FAV_ICON,
-    QR_CODE_FRAMES,
     QR_CORNER_PATTERNS,
     QR_PATTERNS,
     SOCIAL_ICONS_LOGOS
@@ -25,8 +24,7 @@ import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
-import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
-import ColorPicker from 'react-best-gradient-color-picker';
+import { elementToSVG } from 'dom-to-svg';
 import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
@@ -206,7 +204,7 @@ export const QRCodeForm = () => {
                             }
                         />
                         <div className="grid grid-cols-2 gap-4 mt-5">
-                            {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
+                            {SOCIAL_ICONS_LOGOS.map(({ name, image }) => (
                                 <div
                                     className="w-full h-20 border rounded-md flex justify-center items-center bg-gray-100  cursor-pointer"
                                     key={`${name}`}

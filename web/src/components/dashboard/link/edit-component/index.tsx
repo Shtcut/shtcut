@@ -1,10 +1,9 @@
 'use client';
 import { Button, Input, Label } from '@shtcut-ui/react';
 import React, { useState } from 'react';
-import { Link } from 'lucide-react';
+import { Link,Tag } from 'lucide-react';
 import { PiCopyFill } from 'react-icons/pi';
 import MultiTagsInput from '@shtcut/components/form/multi-tag-input';
-import { Tag } from 'lucide-react';
 import BreadCrumb from '@shtcut/components/bread-crumb';
 
 const EditComponent = ({ form }: { form: any }) => {

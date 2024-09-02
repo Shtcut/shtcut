@@ -71,7 +71,7 @@ const CustomSocialMedia = ({
                                 <FormField
                                     control={form.control}
                                     name="file1"
-                                    render={({ field: { value, onChange, ...fieldProps } }) => (
+                                    render={({ field: { ...fieldProps } }) => (
                                         <FormItem className="flex flex-col items-center justify-center">
                                             <FormLabel className="flex cursor-pointer  items-center gap-1 rounded-lg flex-col justify-center w-full  h-24  border ">
                                                 <WiCloudUp size={20} />

@@ -1,7 +1,6 @@
 'use client';
 
-import { FormControl, FormField, FormItem, FormMessage, Input, Separator } from '@shtcut-ui/react';
-import { Switch } from '@shtcut-ui/react';
+import { FormControl, FormField, FormItem, FormMessage, Input, Separator, Switch } from '@shtcut-ui/react';
 import React, { useState } from 'react';
 
 const UTMbuilder = (form: any) => {

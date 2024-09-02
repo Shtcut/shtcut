@@ -22,7 +22,6 @@ const RoundedTab: React.FC<TabsProps> = ({
     selectedTabIndex,
     onTabClick,
     classNames,
-    onChange,
     activeClassName,
     activeTextClassName,
     textClassName

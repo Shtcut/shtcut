@@ -3,7 +3,7 @@ import Image from 'next/image';
 import React, { ReactNode } from 'react';
 
 const CountriesComponent = () => {
-    const [progress, setProgress] = React.useState(50);
+    const [progress,] = React.useState(50);
     const ReusableComponent = ({
         title,
         content,
@@ -17,7 +17,7 @@ const CountriesComponent = () => {
     }) => {
         return (
             <div className={`${noBorder ? '' : 'border-b'}  pb-4`}>
-                <div className={`flex items-center justify-between py-2`}>
+                <div className={'flex items-center justify-between py-2'}>
                     <div className="flex items-center gap-x-2">
                         <Image src={src} width={24} height={24} alt={title as string} />
                         <p className="text-sm font-medium ">{title}</p>

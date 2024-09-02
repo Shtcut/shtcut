@@ -1,7 +1,6 @@
 import { Button, Switch } from '@shtcut-ui/react';
 import CountriesInput from '@shtcut/components/form/countries-form';
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
 import { Trash2 } from 'lucide-react';
 
 const GeoTargeting = ({
@@ -24,16 +23,8 @@ const GeoTargeting = ({
     const removeInput = (indexToRemove: number) => {
         setInputsGeo(inputsGeo.filter((_, index) => index !== indexToRemove));
     };
-    // const removeInput = () => {
-    //     setInputs(inputs.slice(0, -1));
-    // };
-    const shouldApplyMaxHeight = inputsGeo.length > 4;
+    
 
-    const form = useForm({
-        defaultValues: {
-            location: ''
-        }
-    });
     return (
         <div>
             <div className="flex justify-between items-center gap-4">

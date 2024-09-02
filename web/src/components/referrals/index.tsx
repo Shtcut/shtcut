@@ -1,8 +1,8 @@
-import { Card, Progress } from '@shtcut-ui/react';
+import { Progress } from '@shtcut-ui/react';
 import React from 'react';
 
 const ReferralComponent = () => {
-    const [progress, setProgress] = React.useState(50);
+    const [progress,] = React.useState(50);
     const ReusableComponent = ({
         title,
         content,
@@ -14,7 +14,7 @@ const ReferralComponent = () => {
     }) => {
         return (
             <div className={`${noBorder ? '' : 'border-b'}  pb-4`}>
-                <div className={`flex items-center justify-between py-2`}>
+                <div className={'flex items-center justify-between py-2'}>
                     <p className="text-sm font-medium ">{title}</p>
                     <p className="text-sm font-medium ">{content}</p>
                 </div>

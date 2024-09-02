@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button } from '@shtcut-ui/react';
 import { useMediaQuery } from 'react-responsive';
 import HeadersTitle from './headers';
 import { HowTopPlan, ModuleUi } from './steps-ui';
@@ -28,7 +27,7 @@ const WorkSpaceMain = ({
         >
             <div className="flex flex-col  lg:pl-4 items-center w-full gap-y-2">
                 <HeadersTitle step={step} />
-                <section className={`w-full  mt-4`}>
+                <section className={'w-full  mt-4'}>
                     {step === 1 && (
                         <HowTopPlan
                             form={form}

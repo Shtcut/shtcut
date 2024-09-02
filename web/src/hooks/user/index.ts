@@ -17,7 +17,7 @@ export interface UseUserReturnType {
     loggedInUserData: Dict;
 }
 
-export const useUser = ({ callLoggedInUser = false, key }: UseUserProps): UseUserReturnType => {
+export const useUser = ({ callLoggedInUser = false }: UseUserProps): UseUserReturnType => {
     const [updateLoggedInUser, updateLoggedInUserResponse] = useUpdateLoggedInUserMutation();
     const [triggerLoggedInUser] = useLazyGetLoggedInUserQuery();
     const loggedInUserData = useAppSelector(selectUser);

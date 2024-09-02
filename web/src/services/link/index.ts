@@ -5,7 +5,6 @@ import { linkTag } from '../tags';
 import { Dict } from '@shtcut-ui/react';
 import { LinkNameSpace } from '@shtcut/_shared/namespace/link';
 import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
-import { findAllWorkspaces } from '../workspace';
 
 export const linkApi = api.injectEndpoints({
     endpoints: (builder) => ({

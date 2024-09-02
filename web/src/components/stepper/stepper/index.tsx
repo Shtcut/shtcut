@@ -3,6 +3,47 @@
 import { Check } from 'lucide-react';
 import React from 'react';
 
+const StepperStep = ({
+    number,
+    label,
+    isActive,
+    isCompleted
+}: {
+    number: number;
+    label: any;
+    isActive: boolean;
+    isCompleted: boolean;
+}) => {
+    return (
+        <div className="flex items-center relative">
+            <div
+                className={`font-bold rounded-full transition duration-500 ease-in-out h-12 w-12 py-3  flex justify-center items-center ${
+                    isActive
+                        ? 'bg-white text-primary-0'
+                        : isCompleted
+                          ? 'bg-green-500 border-2 border-[#7498F0] text-white'
+                          : ' bg-[#CCCBCB] text-white'
+                }`}
+            >
+                {isCompleted ? <Check /> : number}
+            </div>
+            <h1 className={`ml-2 text-xs sm:text-base font-medium ${isActive ? 'text-black' : 'text-muted-grey'}`}>
+                {label}
+            </h1>
+        </div>
+    );
+};
+
+const StepperDivider = ({ isActive }: { isActive: boolean }) => (
+    <div className="flex items-center h-14 ml-6">
+        <div
+            className={`border-l-[3px] transition duration-500 ease-in-out h-full ${
+                isActive ? 'border-[#2d5fdd]' : 'border-muted-grey'
+            }`}
+        ></div>
+    </div>
+);
+
 
 const Stepper = ({ step }: { step: number }) => {
     return (
@@ -59,46 +100,4 @@ const Stepper = ({ step }: { step: number }) => {
         </div>
     );
 };
-
-const StepperStep = ({
-    number,
-    label,
-    isActive,
-    isCompleted
-}: {
-    number: number;
-    label: any;
-    isActive: boolean;
-    isCompleted: boolean;
-}) => {
-    return (
-        <div className="flex items-center relative">
-            <div
-                className={`font-bold rounded-full transition duration-500 ease-in-out h-12 w-12 py-3  flex justify-center items-center ${
-                    isActive
-                        ? 'bg-white text-primary-0'
-                        : isCompleted
-                          ? 'bg-green-500 border-2 border-[#7498F0] text-white'
-                          : ' bg-[#CCCBCB] text-white'
-                }`}
-            >
-                {isCompleted ? <Check /> : number}
-            </div>
-            <h1 className={`ml-2 text-xs sm:text-base font-medium ${isActive ? 'text-black' : 'text-muted-grey'}`}>
-                {label}
-            </h1>
-        </div>
-    );
-};
-
-const StepperDivider = ({ isActive }: { isActive: boolean }) => (
-    <div className="flex items-center h-14 ml-6">
-        <div
-            className={`border-l-[3px] transition duration-500 ease-in-out h-full ${
-                isActive ? 'border-[#2d5fdd]' : 'border-muted-grey'
-            }`}
-        ></div>
-    </div>
-);
-
 export default Stepper;

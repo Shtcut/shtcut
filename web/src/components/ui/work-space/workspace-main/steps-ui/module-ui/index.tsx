@@ -4,7 +4,7 @@ import React from 'react';
 
 const ModuleUi = ({ handleSelect, modules }) => {
     return (
-        <div className={`flex flex-wrap gap-4 max-w-lg mx-auto justify-center items-center`}>
+        <div className={'flex flex-wrap gap-4 max-w-lg mx-auto justify-center items-center'}>
             {solutions.map((box, index) => (
                 <Button
                     type="button"

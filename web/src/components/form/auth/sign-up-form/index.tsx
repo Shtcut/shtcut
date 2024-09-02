@@ -1,8 +1,7 @@
 'use client';
 
-import { Checkbox, Dict, Form, FormControl, FormField, FormItem, FormMessage, Input, Label } from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, FormMessage, Input, Label } from '@shtcut-ui/react';
 import { AppButton, PasswordInput } from '@shtcut/components/_shared';
-import { get } from 'lodash';
 import { HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,9 +18,8 @@ interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const SignUpForm = (props: SignUpFormProps) => {
-    const { isLoading, handleSignUpSubmit, error, className, onFailure, onSuccess } = props;
+    const { isLoading, handleSignUpSubmit, onFailure, onSuccess } = props;
 
-    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
     const handleFormSubmit = (values: z.infer<typeof signUpValidationSchema>) => {
         handleSignUpSubmit(values);

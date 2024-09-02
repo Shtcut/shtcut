@@ -4,15 +4,12 @@ import React, { useState } from 'react';
 import * as PopoverPrimitive from '@radix-ui/react-popover';
 import { Edit, Trash, ArchiveIcon, QrCode } from 'lucide-react';
 import * as Dialog from '@radix-ui/react-dialog';
-import axios from 'axios';
 import * as AlertDialog from '@radix-ui/react-alert-dialog';
-import { Drawer } from 'vaul';
 import { MenuDropdown } from '../MenuDropdown';
 import { useRouter, useParams } from 'next/navigation';
-import { CustomAlert, Dict, Modal, toast } from '@shtcut-ui/react';
+import { CustomAlert, Dict, Modal } from '@shtcut-ui/react';
 import { LinkQrCodeForm } from '@shtcut/components/form';
 import { useLink } from '@shtcut/hooks/link';
-import { findAllLinks } from '@shtcut/services/link';
 import { IconBrandGoogleAnalytics } from '@tabler/icons-react';
 
 interface PopoverMenuProps {
@@ -27,14 +24,12 @@ interface PopoverMenuProps {
     qrCode?: string | Dict;
 }
 
-export const PopoverMenu = ({ id, title, target, archived, qrCode, domain: { slug }, alias }: PopoverMenuProps) => {
+export const PopoverMenu = ({ id, archived, qrCode, domain: { slug }, alias }: PopoverMenuProps) => {
     const router = useRouter();
     const params = useParams();
     const { module, workspace } = params;
 
-    const { updateLink, updateLinkResponse, deleteLinkResponse, deleteLink } = useLink({ callLinks: true });
-    const { isLoading: isUpdating, isSuccess: isUpdateSuccessful } = updateLinkResponse;
-    const { isLoading: isDeleting, isSuccess: isDeleteSuccessful } = deleteLinkResponse;
+    const { updateLink, deleteLink } = useLink({ callLinks: true });
 
     const [isArchived, setIsArchived] = useState(archived);
     const [openPopover, setOpenPopover] = useState(false);
@@ -95,7 +90,7 @@ export const PopoverMenu = ({ id, title, target, archived, qrCode, domain: { slu
         action: handleToggleArchiving,
         title: !isArchived ? 'Archive Link?' : 'Unarchive Link?',
         description: !isArchived
-            ? "Archived links will still work - they just won't show up on your main page."
+            ? 'Archived links will still work - they just won\'t show up on your main page.'
             : 'By unarchiving this link, it will show up on your main page again.',
         confirmMessage: !isArchived ? 'Yes, archive' : 'Yes, unarchive',
         close: (!openPopover && closeDrawer) || (!openDrawer && closePopOver)
