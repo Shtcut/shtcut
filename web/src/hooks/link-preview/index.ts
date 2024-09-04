@@ -34,7 +34,7 @@ export const useLinkPreview = (props: UseLinkPreviewProps) => {
                         setLoading(false);
                     }
                 })
-                .catch((err: Error) => {
+                .catch(() => {
                     console.error('No metadata could be found for this URL.');
                     if (_isMounted.current) {
                         onSuccess?.(null);

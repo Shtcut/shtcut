@@ -1,5 +1,5 @@
 import { Dispatch, isFulfilled, isRejectedWithValue } from '@reduxjs/toolkit';
-import { Dict, ToastAction, toast } from '@shtcut-ui/react';
+import { Dict, toast } from '@shtcut-ui/react';
 import { get, isEmpty, isObject, keys } from 'lodash';
 import { OptionType } from '../auth/auth';
 import { paginate } from '@shtcut/redux/slices/ui';

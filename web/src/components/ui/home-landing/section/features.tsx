@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,7 +7,6 @@ import {
     AdjustmentsVerticalIcon,
     ChartBarIcon,
     CheckBadgeIcon,
-    CreditCardIcon,
     PresentationChartLineIcon,
     UserGroupIcon,
     PencilSquareIcon

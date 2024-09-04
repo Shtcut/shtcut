@@ -43,7 +43,7 @@ const Frame_7 = ({
                 className=" flex  justify-center items-center  w-full h-10 rounded-[6px]  "
                 style={{ backgroundColor: bgColor }}
             >
-                <p style={{ color: bgColor === '#000000' ? 'white' : btnColor }} className={`text-sm  uppercase`}>
+                <p style={{ color: bgColor === '#000000' ? 'white' : btnColor }} className={'text-sm  uppercase'}>
                     {qrCodeName ? qrCodeName : 'SCAN ME'}
                 </p>
             </div>

@@ -7,7 +7,7 @@ interface SearchInputProps {
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-const SearchInput = ({ placeholder, className, value, onChange }: SearchInputProps) => {
+const SearchInput = ({ value, onChange }: SearchInputProps) => {
     return (
         <div className="relative">
             <Input

@@ -21,7 +21,7 @@ const WorkspaceScreen = () => {
     const [showInvite, setShowInvite] = useState(false);
     const [inputs, setInputs] = useState(['', '', '']);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-    const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
+    const [selectedStatus,] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string | null>(null);
     const addInput = () => {
         if (inputs.length < 10) {
@@ -32,7 +32,6 @@ const WorkspaceScreen = () => {
     const removeInput = () => {
         setInputs(inputs.slice(0, -1));
     };
-    const shouldApplyMaxHeight = inputs.length > 4;
 
     const form = useForm({
         defaultValues: {

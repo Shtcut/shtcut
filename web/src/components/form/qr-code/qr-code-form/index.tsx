@@ -24,7 +24,6 @@ import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
-import { elementToSVG } from 'dom-to-svg';
 import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
@@ -138,20 +137,6 @@ export const QRCodeForm = () => {
             });
             return;
         }
-
-        const svgDocument = elementToSVG(document.querySelector('#shtcut-qrcode') as Element);
-        const svgString = new XMLSerializer().serializeToString(svgDocument);
-
-        // const blob = new Blob([svgString], { type: 'image/svg+xml' });
-        // const qrCodeObjectUrl = URL.createObjectURL(blob);
-        // const qrCodeLink = document.createElement('a');
-        // qrCodeLink.href = qrCodeObjectUrl;
-        // qrCodeLink.download = 'qrCode.svg';
-        // document.body.appendChild(qrCodeLink);
-        // qrCodeLink.click();
-        // document.body.removeChild(qrCodeLink);
-
-        // setTimeout(() => URL.revokeObjectURL(qrCodeObjectUrl), 5000);
 
         html2canvas(document.querySelector('#shtcut-qrcode') as any).then(function (canvas) {
             const link = document.createElement('a');

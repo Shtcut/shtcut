@@ -10,7 +10,6 @@ import {
     NavigationMenuContent,
     NavigationMenuLink,
     navigationMenuTriggerStyle,
-    useToast
 } from '@shtcut-ui/react';
 import Link from 'next/link';
 import { ListItem } from '@shtcut/components/_shared/ListItem';
@@ -31,14 +30,6 @@ type IProps = {
 };
 
 const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
-    const { toast } = useToast();
-    const showToast = () => {
-        toast({
-            title: 'Coming Soon',
-            description: 'This feature is coming soon!',
-            variant: 'default'
-        });
-    };
     const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
             title: 'Link Management',

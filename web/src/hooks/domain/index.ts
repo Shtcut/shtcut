@@ -46,7 +46,7 @@ export const useDomain = (props: UseDomainProps): UseDomainReturnsType => {
     const [createDomain, createDomainResponse] = useCreateDomainMutation();
     const [updateDomain, updateDomainResponse] = useUpdateDomainMutation();
     const [deleteDomain, deleteDomainResponse] = useDeleteDomainMutation();
-    const [findAllDomains, { data: domains, isLoading }] = useLazyFindAllDomainsQuery();
+    const [findAllDomains, { isLoading }] = useLazyFindAllDomainsQuery();
     const [getDomain, getDomainResponse] = useLazyGetDomainQuery();
 
     const params = {

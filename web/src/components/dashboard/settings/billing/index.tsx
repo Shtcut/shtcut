@@ -97,7 +97,7 @@ const BillingsScreen = () => {
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {[1, 2, 3, 4, 5, 6].map((invoice, index) => (
+                    {[1, 2, 3, 4, 5, 6].map((invoice) => (
                         <TableRow key={invoice}>
                             <TableCell className="font-medium text-xs ">Invoice 456t7</TableCell>
                             <TableCell className="font-medium text-xs text-[#5A5555]">Dec 1, 2024</TableCell>

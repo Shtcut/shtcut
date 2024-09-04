@@ -4,7 +4,6 @@ import { Plus, Minus } from 'lucide-react';
 
 const InviteForm = ({ form }: { form: any }) => {
     const [inputs, setInputs] = useState(['', '', '']);
-    const [emails, setEmails] = useState([]);
 
     const addInput = () => {
         if (inputs.length < 10) {
