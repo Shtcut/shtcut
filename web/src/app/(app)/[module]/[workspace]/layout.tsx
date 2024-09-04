@@ -28,14 +28,9 @@ const WorkspaceLayout = ({ children }: any) => {
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
 
+    console.log('module', module);
+    console.log('workspace', workspace);
     const sideNav = [
-        {
-            id: '4',
-            img: params?.workspace === 'social-media' ? '/images/social-icon.png' : '/images/social.png',
-            workspace: 'social-media',
-            url: '/url/social-media/overview',
-            title: 'Social Media'
-        },
         {
             id: '1',
             icon: <IoIosLink size={20} />,
@@ -44,17 +39,25 @@ const WorkspaceLayout = ({ children }: any) => {
             title: 'Url Shortener'
         },
         {
+            id: '4',
+            img: params?.workspace === 'social-media' ? '/images/social-icon.png' : '/images/social.png',
+            workspace: 'social-media',
+            url: '/social/social-media/overview',
+            title: 'Social Media'
+        },
+
+        {
             id: '2',
             icon: <RiSurveyFill size={20} />,
             workspace: 'survey-creation',
-            url: '/url/survey-creation/overview',
+            url: '/survey/survey-creation/overview',
             title: 'Survey Creation'
         },
         {
             id: '3',
             icon: <MdEmail size={20} />,
             workspace: 'email-marketing',
-            url: '/url/email-marketing/overview',
+            url: '/email/email-marketing/overview',
             title: 'Email Marketing'
         }
     ];
@@ -66,7 +69,7 @@ const WorkspaceLayout = ({ children }: any) => {
     };
 
     useEffect(() => {
-        const activeLink = navigationOptions.find((link) => link.href === pathName);
+        const activeLink = navigationOptions?.find((link) => link.href === pathName);
         setActiveTab(activeLink?.id || null);
     }, [pathName, navigationOptions]);
 

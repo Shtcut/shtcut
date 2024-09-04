@@ -13,13 +13,11 @@ import { Mail } from 'lucide-react';
 import { MapPin } from 'lucide-react';
 import { Phone } from 'lucide-react';
 
-
 type FooterProps = {
     navs?: Dict[];
 };
 
 export const Footer = (props: FooterProps) => {
-
     const iconLink = [
         {
             name: 'Facebook',
@@ -78,7 +76,7 @@ export const Footer = (props: FooterProps) => {
 
     return (
         <footer className="w-full bg-primary-400 text-white">
-            <div className="max-w-screen-custom border-b- mx-auto flex justify-between  lg:flex-row flex-col items-center lg:items-start  px-4 py-16 ">
+            <div className="max-w-screen-custom border-b mx-auto flex justify-between  lg:flex-row flex-col items-center lg:items-start  px-4 py-16 ">
                 <div>
                     <div className="w-full ">
                         <div className="flex flex-col text-[#E3E3E3] gap-y-3 gap-x-2 items-center lg:items-start">
@@ -162,7 +160,7 @@ export const Footer = (props: FooterProps) => {
                     </div>
                 </div>
             </div>
-            <section className="max-w-screen-xl mx-auto flex border-t justify-between  sm:flex-row flex-col items-center px-4 py-3">
+            <section className="max-w-screen-custom mx-auto flex border-t justify-between  sm:flex-row flex-col items-center px-4 py-3">
                 <div className="flex items-center space-x-2">
                     <Link
                         href="https://github.com/Shtcut/shtcut"

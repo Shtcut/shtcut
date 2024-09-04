@@ -6,8 +6,9 @@ import Link from 'next/link';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
 import { useParams, usePathname } from 'next/navigation';
 import HeaderSideNav from './header-sidenav';
-import { Button, Label, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
+import { Button, Label, Modal, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
 import { Plus } from 'lucide-react';
+import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
 
 type Props = {
     setIsOpen: (val: boolean) => void;
@@ -23,7 +24,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
     const navigationOptions = sideLinks(module as string, workspace as string);
     const isMd = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
     const [activeTab, setActiveTab] = useState<string | null>(null);
-
+    const [showModal, setShowModal] = useState(false);
     const Sidebar_animation = isTab
         ? {
               open: {
@@ -66,7 +67,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
     }, [isTab, isMd]);
 
     useEffect(() => {
-        const activeLink = navigationOptions.find((link) => link.href === pathName);
+        const activeLink = navigationOptions?.find((link) => link.href === pathName);
         setActiveTab(activeLink?.id || null);
     }, [pathName, navigationOptions]);
 
@@ -104,7 +105,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
                 )}
 
                 <ul className={`flex flex-col  ${isOpen ? '' : ''} mt-[14px] gap-1 w-full `}>
-                    {navigationOptions.map((data) => (
+                    {navigationOptions?.map((data) => (
                         <li key={data.id} className="w-full">
                             <Link href={data.href}>
                                 <div
@@ -138,8 +139,17 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
                     ))}
                 </ul>
             </div>
+            <Modal
+                showModel={showModal}
+                setShowModal={setShowModal}
+                onClose={() => setShowModal(false)}
+                className={`relative max-w-lg`}
+                showCloseIcon
+            >
+                <CreateWorkSpace />
+            </Modal>
             <div className="pb-[63px] ">
-                <HeaderSideNav isOpen={isOpen} setIsOpen={setIsOpen} />
+                <HeaderSideNav isOpen={isOpen} openCreateWorkSpace={() => setShowModal(true)} setIsOpen={setIsOpen} />
             </div>
         </motion.div>
     );

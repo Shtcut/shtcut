@@ -14,7 +14,15 @@ import Image from 'next/image';
 import { Progress } from '@shtcut/components/_shared/Progress-bar';
 import { useParams, useRouter } from 'next/navigation';
 
-const HeaderSideNav = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val: boolean) => void }) => {
+const HeaderSideNav = ({
+    isOpen,
+    setIsOpen,
+    openCreateWorkSpace
+}: {
+    isOpen: boolean;
+    setIsOpen: (val: boolean) => void;
+    openCreateWorkSpace: () => void;
+}) => {
     const [open, setOpen] = React.useState(false);
     const { module, workspace } = useParams();
     const router = useRouter();
@@ -75,7 +83,10 @@ const HeaderSideNav = ({ isOpen, setIsOpen }: { isOpen: boolean; setIsOpen: (val
                                     </div>
                                 </section>
                             ))}
-                            <DropdownMenuCheckboxItem className=" flex  items-center gap-x-2 text-xs mt-2 font-semibold text-[#433E3F] p-2 cursor-pointer">
+                            <DropdownMenuCheckboxItem
+                                onClick={openCreateWorkSpace}
+                                className=" flex  items-center gap-x-2 text-xs mt-2 font-semibold text-[#433E3F] p-2 cursor-pointer"
+                            >
                                 <Plus size={16} /> Add New Workspace
                             </DropdownMenuCheckboxItem>
                         </div>
