@@ -14,7 +14,7 @@ const Frame_4 = ({
     return (
         <div className="flex flex-col justify-center items-center flex-1 h-full relative w-full">
             <div className="relative bottom-20 ">
-                <p style={{ color: btnColor ? btnColor : 'white' }} className={`text-sm uppercase`}>
+                <p style={{ color: btnColor ? btnColor : 'white' }} className={'text-sm uppercase'}>
                     {qrCodeName ? qrCodeName : 'SCAN ME'}
                 </p>
             </div>

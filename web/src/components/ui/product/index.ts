@@ -1,2 +1,2 @@
-import ProUrlShortenerComponent from "./url-shortener";
-export {ProUrlShortenerComponent}
+import ProUrlShortenerComponent from './url-shortener';
+export { ProUrlShortenerComponent };

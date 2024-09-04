@@ -2,7 +2,6 @@ import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import React from 'react';
 import Image from 'next/image';
 import { PricingData } from '@shtcut/_shared/data';
-import PlanCard from './pricing-card';
 import PricingTab from '@shtcut/components/tabs/pricing-tab';
 import PricingCard from './pricing-card';
 import BoxReveal from '@shtcut/components/_shared/animations/box-reveal';

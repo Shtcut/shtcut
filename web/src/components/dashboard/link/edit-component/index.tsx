@@ -6,7 +6,7 @@ import { PiCopyFill } from 'react-icons/pi';
 import MultiTagsInput from '@shtcut/components/form/multi-tag-input';
 import BreadCrumb from '@shtcut/components/bread-crumb';
 
-const EditComponent = ({ form }: { form: any }) => {
+const EditComponent = ({  }: { form: any }) => {
     const [tags, setTags] = useState<string[]>([]);
 
     const handleTagsChange = (newTags: string[]) => {

@@ -2,7 +2,7 @@
 
 import { Dict, ToastAction, toast } from '@shtcut-ui/react';
 import { VerifyEmailPasswordForm } from '@shtcut/components/form';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '@shtcut/hooks/auth';
 import { AppAlert } from '@shtcut/components/_shared';
 import { get } from 'lodash';
@@ -13,7 +13,6 @@ import useResponsiveScreen from '@shtcut/hooks/responsive-hook';
 const VerifyEmailContainer = () => {
     const { mobileDesktop, mobileTab, smallScreen } = useResponsiveScreen();
     const { push } = useRouter();
-    const searchParams = useSearchParams();
     const { verifyEmail, verifyEmailResponse, sendVerification, sendVerificationResponse, authData } = useAuth();
     const { isSuccess, isError, isLoading, error } = verifyEmailResponse;
     const email = authData && authData?.email;
@@ -32,9 +31,6 @@ const VerifyEmailContainer = () => {
             options: { noSuccessMessage: true, noErrorMessage: true }
         });
     };
-    // useEffect(() => {
-    //     handleResendVerification();
-    // }, []);
 
     const variant = {
         success: 'default',

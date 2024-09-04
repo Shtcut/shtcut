@@ -17,7 +17,7 @@ interface ForgotPasswordFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const ForgotPasswordForm = (props: ForgotPasswordFormProps) => {
-    const { isLoading, handleForgotPasswordSubmit, error, className } = props;
+    const { isLoading, handleForgotPasswordSubmit} = props;
 
     const form = useForm<z.infer<typeof forgotPasswordValidationSchema>>({
         resolver: zodResolver(forgotPasswordValidationSchema),
