@@ -35,7 +35,7 @@ const UrlShortener = () => {
                                     alt="icons"
                                     width={0}
                                     height={0}
-                                    className={`bg-white w-full   md:w-[624px] h-80 md:h-[388px]`}
+                                    className={'bg-white w-full md:w-[624px] h-80 md:h-[388px]'}
                                     src="/images/url-img.png"
                                     sizes="100vw"
                                     loading="eager"

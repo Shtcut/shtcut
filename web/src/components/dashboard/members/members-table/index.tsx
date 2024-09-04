@@ -7,7 +7,6 @@ import { highlightText } from '@shtcut/_shared';
 const MembersTable = ({
     onOpenRole = () => {},
     onOpenDelete = () => {},
-    onOpenAdded = () => {},
     filteredData,
     searchQuery
 }: {

@@ -1,7 +1,6 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
 import { Link, List } from 'lucide-react';
-import { PiFilePdfDuotone } from 'react-icons/pi';
-import { PiIdentificationCard } from 'react-icons/pi';
+import { PiFilePdfDuotone, PiIdentificationCard } from 'react-icons/pi';
 import React from 'react';
 import WebsiteComponent from '../website-component';
 import { PropsColor } from '@shtcut/types/types';

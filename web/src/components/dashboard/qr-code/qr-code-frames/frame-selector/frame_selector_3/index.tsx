@@ -25,7 +25,7 @@ const FramesSelector3 = ({ onClick, selectedFrame }: { onClick: () => void; sele
                     </div>
                 </div>
                 <div className="relative top-6">
-                    <p className={`text-[10px] uppercase`}>SCAN ME</p>
+                    <p className={'text-[10px] uppercase'}>SCAN ME</p>
                 </div>
             </div>
         </div>

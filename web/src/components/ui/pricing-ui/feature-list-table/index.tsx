@@ -133,7 +133,9 @@ const FeatureTable = () => {
                             className="flex justify-between px-4  text-sm text-gray-700 gap-x-16 dark:border-gray-700"
                         >
                             <p
-                                className={`text-tertiary-400 text-base py-4 font-medium border-b border-[#EEEEEE] w-full`}
+                                className={
+                                    'text-tertiary-400 text-base py-4 font-medium border-b border-[#EEEEEE] w-full'
+                                }
                             >
                                 {product.name}
                             </p>

@@ -1,9 +1,7 @@
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@shtcut-ui/react';
-import { PencilLine, Trash2 } from 'lucide-react';
+import { PencilLine, Trash2, UserRound, Ban } from 'lucide-react';
 import React from 'react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { UserRound } from 'lucide-react';
-import { Ban } from 'lucide-react';
 
 const ActionsTable = ({ onClickViewUser, onClickEdit }: { onClickViewUser: () => void; onClickEdit: () => void }) => {
     return (

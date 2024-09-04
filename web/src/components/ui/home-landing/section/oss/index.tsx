@@ -15,7 +15,7 @@ export const OSS = () => {
             </div>
             <div className="flex items-center justify-center py-10">
                 <Link
-                    href={`https://github.com/Shtcut/shtcut/issues`}
+                    href={'https://github.com/Shtcut/shtcut/issues'}
                     target="_blank"
                     rel="noreferrer"
                     className="mx-2"

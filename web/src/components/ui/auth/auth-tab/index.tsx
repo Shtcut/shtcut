@@ -103,7 +103,7 @@ export const AuthTabs = () => {
                 }
             }
         }
-    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess, data]);
+    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess, data, push]);
 
     useEffect(() => {
         if (isSignUpSuccess || isSocialLoginSuccess) {
@@ -114,7 +114,7 @@ export const AuthTabs = () => {
                 push(routes.workspace);
             }
         }
-    }, [isSignUpSuccess, isVerifiedEmail, isSocialLoginSuccess]);
+    }, [isSignUpSuccess, isVerifiedEmail, isSocialLoginSuccess, push]);
 
     const handleTabChange = (index: number) => {
         const tabId = index === 0 ? 'sign-in' : 'sign-up';
