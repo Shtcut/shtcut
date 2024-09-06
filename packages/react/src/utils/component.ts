@@ -13,7 +13,7 @@ export const primitiveComponent = <C extends ElementType = 'div', Props = {}>(
 };
 
 export const primitiveOmitComponent = <C extends ElementType = 'div', K extends string | number | symbol = never>(
-    render: (props: Omit<ComponentPropsWithRef<C>, K>, ref?: ComponentPropsWithRef<C>['ref']) => ReactElement | null,
+    render: (props: any, ref?: any) => ReactElement | null,
 ) => {
     return forwardRef(render);
 };
