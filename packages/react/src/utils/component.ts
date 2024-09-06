@@ -5,7 +5,7 @@ export type PrimitiveComponentProps<C extends ElementType = 'div', Props = {}> =
 
 export const primitiveComponent = <C extends ElementType = 'div', Props = {}>(
     render: (
-        props: Merge<ComponentPropsWithRef<C>, Props>,
+        props: any,
         ref: any,
     ) => ReactElement | null,
 ) => {
