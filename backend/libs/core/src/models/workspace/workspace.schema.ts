@@ -68,11 +68,10 @@ export class Workspace {
 
   @Prop([
     {
-      type: MGS.Types.ObjectId,
-      ref: 'WorkspaceMember',
+      type: [String],
     },
   ])
-  members: any[];
+  members: string[];
 
   @Prop({
     type: String,

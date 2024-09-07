@@ -59,7 +59,7 @@ const WorkSpaceMain = ({
                             onClick={handleNext}
                             loading={isLoading}
                         >
-                            {step < 4 ? 'Next' : 'Submit'}
+                            {step < 4 ? 'Next' : 'Done'}
                         </AppButton>
                     </div>
                     <div className="flex justify-center mt-20 items-center gap-x-2">
