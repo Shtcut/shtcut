@@ -36,6 +36,7 @@ const VerifyEmailContainer = () => {
         success: 'default',
         danger: 'destructive'
     };
+
     const openNotification = (type: 'success' | 'danger' | 'info', message: string) => {
         toast({
             variant: variant[type] ?? 'default',
