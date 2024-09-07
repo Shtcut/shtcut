@@ -28,6 +28,21 @@ export class WorkspaceController extends AppController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Post('/:workspace/:token')
+  @HttpCode(OK)
+  public async acceptInvitation(
+    @Body() payload: CreateWorkspaceDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {

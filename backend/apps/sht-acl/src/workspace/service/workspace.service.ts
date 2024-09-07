@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import lang from 'apps/sht-shtner/lang';
 import { Model } from 'mongoose';
 import {
   AppException,
@@ -24,6 +23,7 @@ import * as _ from 'lodash';
 import { ClientSession } from 'mongodb';
 import { SubscriptionService } from '../../subscription';
 import { InvitationService } from '../../invitation';
+import lang from 'apps/sht-acl/lang';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -51,10 +51,11 @@ export class WorkspaceService extends MongoBaseService {
     try {
       const { name } = obj;
       const slug = Utils.slugifyText(name);
-      const workspace = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
-      if (workspace) {
-        throw AppException.CONFLICT(lang.get('workspace').duplicate);
-      }
+      // todo find workspace if the current user already created it
+      // const workspace = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
+      // if (workspace) {
+      //   throw AppException.CONFLICT(lang.get('workspace').duplicate);
+      // }
       return null;
     } catch (e) {
       throw e;
@@ -78,12 +79,14 @@ export class WorkspaceService extends MongoBaseService {
 
       session.startTransaction();
 
-      const { plan, module } = obj;
+      const { plan, modules } = obj;
 
       if (!plan) {
         const plan = await this.planModel.findOne({ name: 'Free' });
         obj.plan = plan._id;
       }
+
+      obj.slug = obj.slug ?? Utils.slugifyText(obj.name);
 
       const workspace = await super.createNewObject(obj, session);
 
@@ -98,11 +101,13 @@ export class WorkspaceService extends MongoBaseService {
 
       const [subscription, _] = await Promise.all([
         this.createSubscription(workspace, obj, session),
-        this.updateUser({ workspace, module }, session),
+        this.updateUser({ workspace, modules }, session),
       ]);
 
       workspace.subscriptions = [subscription._id];
-      workspace.modules = [module];
+      workspace.modules = modules;
+      workspace.members = obj.memberEmails ?? [];
+
       await workspace.save({ session });
 
       await session?.commitTransaction();
@@ -186,30 +191,30 @@ export class WorkspaceService extends MongoBaseService {
    */
   public async updateUser(obj, session?) {
     try {
-      const { workspace, module } = obj;
+      const { workspace, modules } = obj;
       const user = await this.userModel.findById(workspace.user);
       if (user) {
-        let modules: any = [
+        let workspaceModules: any = [
           {
             workspaceName: workspace.name,
-            modules: [module],
+            modules,
           },
         ];
         if (user.modules.length > 0) {
           const userModule = user.modules.find(
             (m) => m.workspaceName.includes(workspace.name) && m.workspaceName.includes(module),
           );
-          modules = userModule
+          workspaceModules = userModule
             ? [
                 {
                   workspaceName: workspace.name,
                   modules: [...new Set([...userModule.modules, module])],
                 },
               ]
-            : modules;
-          user.modules = [...user.modules, ...modules];
+            : workspaceModules;
+          user.modules = [...user.modules, ...workspaceModules];
         } else {
-          user.modules = [...user.modules, ...modules];
+          user.modules = [...user.modules, ...workspaceModules];
         }
         user.workspaces.addToSet(workspace._id);
       }

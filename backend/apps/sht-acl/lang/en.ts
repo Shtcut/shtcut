@@ -30,6 +30,7 @@ export default {
 
   workspace: {
     notFound: 'This workspace is not found',
+    duplicate: 'This workspace already exist',
     invalidDomain: 'The workspace does not have ownership of this domain.',
   },
 

@@ -94,7 +94,7 @@ export class AuthService extends MongoBaseService {
         ...filter,
         ...signUpDto,
       };
-      const user = await this.userService.createNewObject({ ...payload }, session);
+      await this.userService.createNewObject({ ...payload }, session);
       await session?.commitTransaction();
 
       return await this.signIn(auth);
