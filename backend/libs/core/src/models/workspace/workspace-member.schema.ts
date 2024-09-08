@@ -1,6 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, Schema as MGS } from 'mongoose';
-import { Workspace, Role } from 'shtcut/core';
+import { Workspace, Role, User } from 'shtcut/core';
 
 export type WorkspaceMemberDocument = WorkspaceMember & Document;
 
@@ -25,20 +25,20 @@ export class WorkspaceMember {
     ref: 'User',
     required: true,
   })
-  user: Types.ObjectId;
+  user: string | User | Types.ObjectId;
 
   @Prop({
     type: Types.ObjectId,
     ref: 'Workspace',
     required: true,
   })
-  workspace: Workspace | Types.ObjectId;
+  workspace: string | Workspace | Types.ObjectId;
 
   @Prop({
     required: true,
     type: Types.ObjectId,
   })
-  role: Role; // 'admin' or 'member'
+  role: string | Role;
 
   @Prop({
     type: Date,
