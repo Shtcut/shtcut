@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   AppException,
+  Auth,
   CreateInvitationDto,
   CreateWorkspaceDto,
   Dict,
@@ -47,15 +48,14 @@ export class WorkspaceService extends MongoBaseService {
    * thrown with a message indicating a conflict. If the `workspace` object is not found, `null` is
    * returned.
    */
-  public async validateCreate(obj: CreateWorkspaceDto) {
+  public async validateCreate(obj: CreateWorkspaceDto & Dict) {
     try {
-      const { name } = obj;
+      const { name, user } = obj;
       const slug = Utils.slugifyText(name);
-      // todo find workspace if the current user already created it
-      // const workspace = await this.model.findOne({ ...Utils.conditionWithDelete({ slug }) });
-      // if (workspace) {
-      //   throw AppException.CONFLICT(lang.get('workspace').duplicate);
-      // }
+      const workspace = await this.model.findOne({ ...Utils.conditionWithDelete({ slug, user }) });
+      if (workspace) {
+        throw AppException.CONFLICT(lang.get('workspace').duplicate);
+      }
       return null;
     } catch (e) {
       throw e;
