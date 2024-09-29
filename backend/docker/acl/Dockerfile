@@ -19,7 +19,7 @@ COPY ./config ./config
 COPY ./libs ./libs
 
 # Buld app
-RUN yarn run build:gw
+RUN yarn run build:acl
 
 ## Stag 2. Run built app
 # Note: node:12-alpine could not be used here due to weak bcrypt support:
@@ -32,7 +32,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json ./
 RUN yarn install --frozen-lockfile --production
-COPY --from=builder /usr/src/app/dist/apps/stac-gw ./dist
+COPY --from=builder /usr/src/app/dist/apps/sht-acl ./dist
 
 # Export port for use
 EXPOSE 7000

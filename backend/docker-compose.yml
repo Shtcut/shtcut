@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  gateway:
+    container_name: sht-gw
+    platform: linux/amd64
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    env_file:
+      - _env/.env
+      - _env/gateway/.env.local
+    build:
+      context: './'
+      dockerfile: ./docker/gateway/Dockerfile
+    ports:
+      - '8005:8005'
+  acl:
+    container_name: sht-acl
+    platform: linux/amd64
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    env_file:
+      - _env/.env
+      - _env/acl/.env.local
+    build:
+      context: './'
+      dockerfile: ./docker/acl/Dockerfile
+    ports:
+      - '8006:8006'
+  shtner:
+    container_name: sht-shtner
+    platform: linux/amd64
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    env_file:
+      - _env/.env
+      - _env/shtner/.env.local
+    build:
+      context: './'
+      dockerfile: ./docker/shtner/Dockerfile
+    ports:
+      - '8007:8007'
+  worker:
+    container_name: sht-worker
+    platform: linux/amd64
+    environment:
+      - DOCKER_DEFAULT_PLATFORM=linux/amd64
+    env_file:
+      - _env/.env
+      - _env/worker/.env.local
+    build:
+      context: './'
+      dockerfile: ./docker/worker/Dockerfile
+    ports:
+      - '8008:800'
