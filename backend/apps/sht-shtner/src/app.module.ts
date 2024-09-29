@@ -6,7 +6,6 @@ import { App, AppSchema, Auth, AuthSchema, CoreModule } from 'shtcut/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UserModule } from '../../sht-acl/src/user';
 import { LinkModule } from './link';
 import { DomainModule } from './domain';
 import { PassportModule } from '@nestjs/passport';
@@ -19,7 +18,6 @@ import { QrCodeModule } from './qr-code';
     CoreModule,
     TerminusModule,
     DomainModule,
-    UserModule,
     LinkModule,
     QrCodeModule,
     PassportModule,

@@ -83,7 +83,7 @@ export class WorkspaceService extends MongoBaseService {
 
       if (!plan) {
         const plan = await this.planModel.findOne({ name: 'Free' });
-        obj.plan = plan._id;
+        obj.plan = plan._id as string;
       }
 
       obj.slug = obj.slug ?? Utils.slugifyText(obj.name);
