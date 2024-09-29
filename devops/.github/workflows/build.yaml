@@ -5,28 +5,31 @@ on:
     secrets:
       CI_SECRET:
         description: 'Secret for CI'
-      inputs:
-        project:
-          required: true
-          type: string
-        dockerfile:
-          required: true
-          type: string
-        buildCommand:
-          type: string
-        unitTestCommand:
-          type: string
-        e2eTestCommand:
-          type: string
+    inputs:
+      project:
+        required: true
+        type: string
+      service:
+        required: true
+        type: string
+      dockerfile:
+        required: true
+        type: string
+      buildCommand:
+        type: string
+      unitTestCommand:
+        type: string
+      e2eTestCommand:
+        type: string
 
 jobs:
   build-ci:
-    name: "Build CI"
+    name: 'Build CI'
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ ubuntu-latest ]
-        node-version: [ 18.x ]
+        os: [ubuntu-latest]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v3
       - name: Use Node.js ${{ matrix.node-version }}
@@ -35,25 +38,22 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
-
       - name: Install dependencies
         if: ${{ inputs.buildCommand }}
         run: |
           if [ -e yarn.lock ]; then
-          yarn install  --frozen-lockfile
-          elif [ -e package-lock.json]; then
+          yarn install --frozen-lockfile
+          elif [ -e package-lock.json ]; then
           npm ci
           else
           npm i
           fi
-
       - name: Build App
         run: ${{ inputs.buildCommand }}
 
       - name: Run Unit Test
         if: ${{ inputs.unitTestCommand }}
         run: ${{ inputs.unitTestCommand }}
-
 
       - name: Run e2e Test
         if: ${{ inputs.e2eTestCommand }}
@@ -62,11 +62,12 @@ jobs:
           source .env
           cat .env
           ${{ inputs.e2eTestCommand }}
+
   docker:
     name: 'Docker build'
     runs-on: ubuntu-latest
-    needs: [ build-ci ]
+    needs: [build-ci]
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: docker build -t ${{ inputs.project }}-api -f ${{ inputs.dockerfile }} ./
+      - run: docker build -t ${{ inputs.project }}-${{ inputs.service }}-api -f ${{ inputs.dockerfile }} ./

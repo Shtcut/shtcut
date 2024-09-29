@@ -1,12 +1,10 @@
 import mongoose from 'mongoose';
 import { v4 as uuidv4 } from 'uuid';
-import * as dateFns from 'date-fns';
+import { startOfDay, endOfDay, parseISO } from 'date-fns';
 import { Between } from 'typeorm';
 import * as _ from 'lodash';
 import slugify from 'slugify';
-import { CreateErrorBodyFn, Dict, RateLimiterParams } from '../types';
-import { LimiterInfo } from 'ratelimiter';
-// import * as ms from 'moment';
+import { Dict, RateLimiterParams } from '../types';
 
 export abstract class Utils {
   /**
@@ -152,8 +150,8 @@ export abstract class Utils {
    * and greater than or equal to comparisons. If `
    */
   public static generateSingleDateRange(date: string, dbType = 'NoSQL') {
-    const startDate = dateFns.startOfDay(dateFns.parseISO(date));
-    const endDate = dateFns.endOfDay(dateFns.parseISO(date));
+    const startDate = startOfDay(parseISO(date));
+    const endDate = endOfDay(parseISO(date));
     return dbType === 'NoSQL' ? { $lte: startDate, $gte: endDate } : Between(startDate, endDate);
   }
 
@@ -192,8 +190,8 @@ export abstract class Utils {
     try {
       const dateRange: any = JSON.parse(obj);
       if (dateRange && dateRange.startDate && dateRange.endDate) {
-        const startDate = dateFns.startOfDay(dateFns.parseISO(dateRange.startDate));
-        const endDate = dateFns.endOfDay(dateFns.parseISO(dateRange.endDate));
+        const startDate = startOfDay(parseISO(dateRange.startDate));
+        const endDate = endOfDay(parseISO(dateRange.endDate));
         return dbType === 'NoSQL' ? { $lte: startDate, $gte: endDate } : Between(startDate, endDate);
       }
       return this.generateSingleDateRange(dateRange.startDate || dateRange.endDate || new Date(), dbType);
@@ -224,12 +222,6 @@ export abstract class Utils {
 
   public static mongoDefaultUpdateProps(obj = {}) {
     return { upsert: true, new: true, ...obj };
-  }
-
-  public static defaultErrorBodyCreator(limit: LimiterInfo): CreateErrorBodyFn {
-    const delta = (limit.reset * 1000 - Date.now()) | 0;
-    // @ts-ignore
-    return `Rate limit exceed, retry again later}`;
   }
 
   /**

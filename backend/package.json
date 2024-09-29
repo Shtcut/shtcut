@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "postinstall": "yarn build:acl && yarn build:worker && yarn build:admin && yarn build:gw && yarn build:shtner",
     "build": "nest build",
     "build:gw": "nest build sht-gw",
     "build:acl": "nest build sht-acl",
@@ -72,6 +71,7 @@
     "aws-sdk": "^2.1515.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
+    "date-fns": "^3.6.0",
     "bcryptjs": "^2.4.3",
     "bullmq": "^4.16.0",
     "cache-manager": "^3.6.0",

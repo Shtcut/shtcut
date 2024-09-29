@@ -14,12 +14,12 @@ COPY tsconfig.json tsconfig.build.json nest-cli.json ./
 RUN yarn install --frozen-lockfile --dev --verbose
 
 # Copy sources
-COPY ./apps/sht-admin ./apps/sht-acl
+COPY ./apps/sht-shtner ./apps/sht-shtner
 COPY ./config ./config
 COPY ./libs ./libs
 
 # Buld app
-RUN yarn run build:admin
+RUN yarn run build:shtner
 
 ## Stag 2. Run built app
 # Note: node:12-alpine could not be used here due to weak bcrypt support:
@@ -32,7 +32,7 @@ WORKDIR /usr/src/app
 # Install app dependencies
 COPY package.json ./
 RUN yarn install --frozen-lockfile --production
-COPY --from=builder /usr/src/app/dist/apps/sht-admin ./dist
+COPY --from=builder /usr/src/app/dist/apps/sht-shtner ./dist
 
 # Export port for use
 EXPOSE 7000
