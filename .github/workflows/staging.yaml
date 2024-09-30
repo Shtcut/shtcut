@@ -44,12 +44,12 @@ jobs:
               uses: tj-actions/changed-files@v35
               with:
                   files: |
-                      src/**
+                      backend/src/**
                       .github/workflows/**
-                      config/**
-                      docker/**
-                      **.json
-                      **.js
+                      backend/config/**
+                      backend/docker/**
+                      backend/**.json
+                      backend/**.js
 
             - name: Run step if any file(S) in the docs folder change
               if: steps.changed-files.outputs.any_changed == 'true'
@@ -104,7 +104,7 @@ jobs:
             service_id: 'srv-crt90656l47c73d8e440'
             service: ${{ needs.envs.outputs.namespace }}-gateway
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
-            dockerfile: './docker/gateway/Dockerfile'
+            dockerfile: './backend/docker/gateway/Dockerfile'
             buildCommand: 'npm run build:gw --if-present'
         secrets:
             RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -133,7 +133,7 @@ jobs:
             service_id: 'srv-crt92p56l47c73d8f710'
             service: ${{ needs.envs.outputs.namespace }}-service
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
-            dockerfile: './docker/service/Dockerfile'
+            dockerfile: './backend/docker/service/Dockerfile'
             buildCommand: 'npm run build:service --if-present'
         secrets:
             RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -162,7 +162,7 @@ jobs:
             service_id: 'srv-crt9eet2ng1s73buev1g'
             service: ${{ needs.envs.outputs.namespace }}-worker
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
-            dockerfile: './docker/shtner/Dockerfile'
+            dockerfile: './backend/docker/shtner/Dockerfile'
             buildCommand: 'npm run build:worker --if-present'
         secrets:
             RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
@@ -190,7 +190,7 @@ jobs:
             service_id: 'srv-crt9f43tq21c73dm61ig'
             service: ${{ needs.envs.outputs.namespace }}-worker
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
-            dockerfile: './docker/worker/Dockerfile'
+            dockerfile: './backend/docker/worker/Dockerfile'
             buildCommand: 'npm run build:worker --if-present'
         secrets:
             RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}

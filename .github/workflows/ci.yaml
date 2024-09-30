@@ -129,7 +129,6 @@ jobs:
     name: 'Build'
     permissions: write-all
     needs: [changes]
-    # uses: stacpay/DevOps/.github/workflows/build.yaml@main
     uses: ./.github/workflows/build.yaml
     with:
       project: ${{ inputs.project }}
@@ -167,7 +166,6 @@ jobs:
     name: 'CI'
     permissions: write-all
     needs: [setups]
-    # uses: stacpay/DevOps/.github/workflows/render-ci.yaml@main
     uses: ./.github/workflows/render-ci.yaml
     with:
       is_workflow: true
