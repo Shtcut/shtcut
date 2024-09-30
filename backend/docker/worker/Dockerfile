@@ -17,6 +17,7 @@ RUN yarn install --frozen-lockfile --dev --verbose
 COPY ./apps/sht-worker ./apps/sht-worker
 COPY ./config ./config
 COPY ./libs ./libs
+COPY ./templates ./templates
 
 # Buld app
 RUN yarn run build:worker
