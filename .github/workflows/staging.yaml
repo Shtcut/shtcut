@@ -115,7 +115,7 @@ jobs:
             GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
 
     deploy-acl:
-        name: 'Service'
+        name: 'ACL'
         permissions: write-all
         needs: [envs]
         uses: ./.github/workflows/ci.yaml
@@ -144,7 +144,7 @@ jobs:
             GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
 
     deploy-shtner:
-        name: 'Worker'
+        name: 'Shtner'
         permissions: write-all
         needs: [envs]
         uses: ./.github/workflows/ci.yaml
