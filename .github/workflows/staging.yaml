@@ -1,0 +1,201 @@
+name: DEPLOY STG
+
+on:
+    push:
+        branches: [develop]
+
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
+
+permissions:
+    id-token: write
+    contents: read
+
+env:
+    owner: 'shtcut'
+    repository: 'Devops'
+    project: 'core-backend'
+    region: 'eu-west-1'
+    domain: 'shtcut.co'
+    app_secret: 'sht-stag-secret'
+    probe_url: '/api/v1/ping'
+    namespace: 'shtcut'
+    environment: 'dev'
+    port: 7000
+
+jobs:
+    changes:
+        runs-on: ubuntu-latest
+        name: Test changes-files
+        outputs:
+            file-changes: ${{ steps.changed-files.outputs.any_changed }}
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - name: List all changed file
+              run: |
+                  for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+                     echo "$file was changed"
+                  done
+            - name: Get changed files API
+              id: changed-files
+              uses: tj-actions/changed-files@v35
+              with:
+                  files: |
+                      src/**
+                      .github/workflows/**
+                      config/**
+                      docker/**
+                      **.json
+                      **.js
+
+            - name: Run step if any file(S) in the docs folder change
+              if: steps.changed-files.outputs.any_changed == 'true'
+              run: |
+                  echo "One or more files in the docs folder has changed."
+                  echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
+
+    envs:
+        name: 'Envs'
+        needs: [changes]
+        runs-on: ubuntu-latest
+        outputs:
+            is_workflow: true
+            owner: ${{ steps.variables.outputs.owner }}
+            project: ${{ steps.variables.outputs.project }}
+            region: ${{ steps.variables.outputs.region }}
+            repository: ${{ steps.variables.outputs.repository }}
+            namespace: ${{ steps.variables.outputs.namespace }}
+            domain: ${{ steps.variables.outputs.domain }}
+            port: ${{ steps.variables.outputs.port }}
+            app_secret: ${{ steps.variables.outputs.app_secret }}
+        steps:
+            - name: Set outputs
+              id: variables
+              run: |
+                  echo "owner=${{ env.owner }}" >> $GITHUB_OUTPUT
+                  echo "repository=${{ env.repository }}" >> $GITHUB_OUTPUT
+                  echo "project=${{ env.project }}" >> $GITHUB_OUTPUT
+                  echo "region=${{ env.region }}" >> $GITHUB_OUTPUT
+                  echo "domain=${{ env.domain }}" >> $GITHUB_OUTPUT
+                  echo "port=${{ env.port }}" >> $GITHUB_OUTPUT
+                  echo "environment=${{ env.environment }}" >> $GITHUB_OUTPUT
+                  echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
+                  echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
+
+    deploy-gateway:
+        name: 'Gateway'
+        permissions: write-all
+        needs: [envs]
+        uses: ./.github/workflows/ci.yaml
+        with:
+            is_workflow: true
+            name: gateway
+            owner: ${{ needs.envs.outputs.owner }}
+            project: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.project }}
+            repository: ${{ needs.envs.outputs.project }}
+            environment: ${{ needs.envs.outputs.project }}
+            port: ${{ needs.envs.outputs.project }}
+            namespace: ${{ needs.envs.outputs.project }}
+            app_secret: ${{ needs.envs.outputs.project }}
+            service_id: 'srv-crt90656l47c73d8e440'
+            service: ${{ needs.envs.outputs.namespace }}-gateway
+            hostname-format: service.stg.${{ needs.envs.outputs.domain }}
+            dockerfile: './docker/gateway/Dockerfile'
+            buildCommand: 'npm run build:gw --if-present'
+        secrets:
+            RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            HEROKU_APP_NAME: 'gateway-api-shtcut'
+            DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+            DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
+
+    deploy-acl:
+        name: 'Service'
+        permissions: write-all
+        needs: [envs]
+        uses: ./.github/workflows/ci.yaml
+        with:
+            is_workflow: true
+            name: service
+            owner: ${{ needs.envs.outputs.owner }}
+            project: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.project }}
+            repository: ${{ needs.envs.outputs.project }}
+            environment: ${{ needs.envs.outputs.project }}
+            port: ${{ needs.envs.outputs.project }}
+            namespace: ${{ needs.envs.outputs.project }}
+            app_secret: ${{ needs.envs.outputs.project }}
+            service_id: 'srv-crt92p56l47c73d8f710'
+            service: ${{ needs.envs.outputs.namespace }}-service
+            hostname-format: service.stg.${{ needs.envs.outputs.domain }}
+            dockerfile: './docker/service/Dockerfile'
+            buildCommand: 'npm run build:service --if-present'
+        secrets:
+            RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            HEROKU_APP_NAME: 'acl-api-shtcut'
+            DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+            DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
+
+    deploy-shtner:
+        name: 'Worker'
+        permissions: write-all
+        needs: [envs]
+        uses: ./.github/workflows/ci.yaml
+        with:
+            is_workflow: true
+            name: worker
+            owner: ${{ needs.envs.outputs.owner }}
+            project: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.project }}
+            repository: ${{ needs.envs.outputs.project }}
+            environment: ${{ needs.envs.outputs.project }}
+            port: ${{ needs.envs.outputs.project }}
+            namespace: ${{ needs.envs.outputs.project }}
+            app_secret: ${{ needs.envs.outputs.project }}
+            service_id: 'srv-crt9eet2ng1s73buev1g'
+            service: ${{ needs.envs.outputs.namespace }}-worker
+            hostname-format: service.stg.${{ needs.envs.outputs.domain }}
+            dockerfile: './docker/shtner/Dockerfile'
+            buildCommand: 'npm run build:worker --if-present'
+        secrets:
+            RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            HEROKU_APP_NAME: 'shtner-api-shtcut'
+            DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+            DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
+    deploy-worker:
+        name: 'Worker'
+        permissions: write-all
+        needs: [envs]
+        uses: ./.github/workflows/ci.yaml
+        with:
+            is_workflow: true
+            name: worker
+            owner: ${{ needs.envs.outputs.owner }}
+            project: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.project }}
+            repository: ${{ needs.envs.outputs.project }}
+            environment: ${{ needs.envs.outputs.project }}
+            port: ${{ needs.envs.outputs.project }}
+            namespace: ${{ needs.envs.outputs.project }}
+            app_secret: ${{ needs.envs.outputs.project }}
+            service_id: 'srv-crt9f43tq21c73dm61ig'
+            service: ${{ needs.envs.outputs.namespace }}-worker
+            hostname-format: service.stg.${{ needs.envs.outputs.domain }}
+            dockerfile: './docker/worker/Dockerfile'
+            buildCommand: 'npm run build:worker --if-present'
+        secrets:
+            RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+            HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+            HEROKU_APP_NAME: 'worker-api-shctut'
+            DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+            DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+            GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}

@@ -3,21 +3,23 @@ name: CI FLOW
 on:
   workflow_call:
     secrets:
-      AWS_ACCESS_KEY_ID:
-        description: 'AWS Access Key ID'
+      RENDER_API_KEY:
+        description: 'RENDER API KEY'
+      HEROKU_API_KEY:
+        description: 'HEROKU API KEY'
         required: true
-      AWS_SECRET_ACCESS_KEY:
-        description: 'AWS Secret Access Key'
+      HEROKU_APP_NAME:
+        description: 'HEROKU APP NAME'
         required: true
-      AWS_DEFAULT_REGION:
-        description: 'AWS Default Region'
+      DOCKER_HUB_USERNAME:
+        description: 'Docker hub username'
+        required: true
+      DOCKER_HUB_ACCESS_TOKEN:
+        description: 'Docker hub access token'
         required: true
       GH_CUSTOM_TOKEN:
-        description: 'GitHub Custom Token'
+        description: 'AWS region'
         required: true
-      CI_SECRET:
-        description: 'CI Secret'
-        required: false
     inputs:
       is_workflow:
         required: true
@@ -25,31 +27,31 @@ on:
         default: false
       owner:
         required: true
-        type: boolean
-      service:
-        required: true
         type: string
       name:
+        required: true
+        type: string
+      environment:
         required: true
         type: string
       project:
         required: true
         type: string
       region:
+        type: string
+      namespace:
+        required: true
+        type: string
+      service:
+        required: true
+        type: string
+      service_id:
         required: true
         type: string
       repository:
         required: true
         type: string
-      instance_type:
-        type: string
       hostname-format:
-        required: true
-        type: string
-      environment:
-        required: true
-        type: string
-      namespace:
         required: true
         type: string
       port:
@@ -58,23 +60,26 @@ on:
       dockerfile:
         required: true
         type: string
+      docker_compose_file:
+        type: string
       probe_url:
         type: string
       buildCommand:
         type: string
       unitTestCommand:
         type: string
-      unitCommand:
-        type: string
       e2eTestCommand:
         type: string
       app_secret:
         type: string
+        default: 'app-secret'
+      replica:
+        type: string
+        default: '1'
 
 permissions:
   id-token: write
   contents: read
-
 
 jobs:
   info:
@@ -84,23 +89,24 @@ jobs:
       - name: Initialize environment
         run: |
           echo "Service name : ${{ inputs.service }}"
+
   changes:
-    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'push' }}
-    runs-on: ubuntu-latest
-    needs: [ info ]
-    name: Test changes-files for ${{ inputs.service }}
+    if: ${{ github.event.workflow_run.conclusion == 'success'  || github.event_name == 'push'  }}
+    runs-on: ubuntu-latest # windows-latest | macos-latest
+    needs: [info]
+    name: Test changed-files for ${{ inputs.service }}
     outputs:
-      file-changes: ${{ steps.changed-files.outputs.any_changed}}
+      file-changed: ${{ steps.changed-files.outputs.any_changed }}
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - name: List changed files
+      - name: List all changed files
         run: |
-          for file in ${{ steps.changed-file.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-      - name: Get changed files
+      - name: Get changed files API
         id: changed-files
         uses: tj-actions/changed-files@v35
         with:
@@ -109,33 +115,36 @@ jobs:
             .github/workflows/**
             libs/**
             config/**
-            docker/${{ inputs.name}}/**
+            docker/${{ inputs.name }}/**
             **.json
             **.js
 
-      - name: Run step if any file(s) in the docs folder changed
+      - name: Run step if any file(s) in the docs folder change
         if: steps.changed-files.outputs.any_changed == 'true'
         run: |
           echo "One or more files in the docs folder has changed."
           echo "List all the files that have changed: ${{ steps.changed-files.outputs.all_changed_files }}"
 
   build:
-    name: "Build"
+    name: 'Build'
     permissions: write-all
-    needs: [ changes ]
-    uses: shtcut/devops/.github/workflows/build.yaml@develop
+    needs: [changes]
+    # uses: stacpay/DevOps/.github/workflows/build.yaml@main
+    uses: ./.github/workflows/build.yaml
     with:
       project: ${{ inputs.project }}
       dockerfile: ${{ inputs.dockerfile }}
+      service: ${{ inputs.service }}
       buildCommand: ${{ inputs.buildCommand }}
       unitTestCommand: ${{ inputs.unitTestCommand }}
       e2eTestCommand: ${{ inputs.e2eTestCommand }}
     secrets:
       CI_SECRET: ${{ secrets.CI_SECRET }}
+
   setups:
-    name: "Devops"
+    name: 'Devops'
     runs-on: ubuntu-latest
-    needs: [ build, info ]
+    needs: [build, info]
     steps:
       - name: Clone Devops repository
         uses: GuillaumeFalourd/clone-github-repo-action@v2
@@ -149,15 +158,17 @@ jobs:
         with:
           files: ${{ inputs.repository }}
       - name: Upload Repo to Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@master
         with:
-          name: cloud-scripts
+          name: cloud-scripts-${{ inputs.repository }}-${{ inputs.service_id }}
           path: ${{ inputs.repository }}
+
   ci:
-    name: "CI"
+    name: 'CI'
     permissions: write-all
-    needs: [ setups ]
-    uses: shtcut/devops/.github/workflows/aws-k8-ci.yaml@develop
+    needs: [setups]
+    # uses: stacpay/DevOps/.github/workflows/render-ci.yaml@main
+    uses: ./.github/workflows/render-ci.yaml
     with:
       is_workflow: true
       project: ${{ inputs.project }}
@@ -165,13 +176,15 @@ jobs:
       service: ${{ inputs.service }}
       repository: ${{ inputs.repository }}
       environment: ${{ inputs.environment }}
+      namespace: ${{ inputs.namespace }}
       app_secret: ${{ inputs.app_secret }}
       probe_url: ${{ inputs.probe_url }}
       hostname-format: ${{ inputs.hostname-format }}
       port: ${{ inputs.port }}
+      service_id: ${{ inputs.service_id }}
       dockerfile: ${{ inputs.dockerfile }}
     secrets:
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_REGION: ${{ secrets.AWS_REGION }}
+      RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+      DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_HUB_USERNAME }}
+      DOCKER_HUB_ACCESS_TOKEN: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
       GH_CUSTOM_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}

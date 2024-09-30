@@ -147,16 +147,16 @@ export const configuration = () => ({
   },
   microServices: {
     acl: {
-      url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4008/api/v1',
+      url: process.env.SHTCUT_ACL_HOST || 'http://localhost:4008/api/v1',
     },
     shtner: {
-      url: process.env.SHTCUT_APP_SERVICE_HOST || 'http://localhost:4002/api/v1',
+      url: process.env.SHTCUT_SHTNER_HOST || 'http://localhost:4002/api/v1',
     },
     admin: {
-      url: process.env.SHTCUT_APP_WORKER_HOST || 'http://localhost:4007/api/v1',
+      url: process.env.SHTCUT_ADMIN_HOST || 'http://localhost:4007/api/v1',
     },
     worker: {
-      url: process.env.SHTCUT_APP_WORKER_HOST || 'http://localhost:4003/api/v1',
+      url: process.env.SHTCUT_WORKER_HOST || 'http://localhost:4003/api/v1',
     },
   },
 });
