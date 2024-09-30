@@ -40,10 +40,11 @@ jobs:
           cache: 'npm'
       - name: Install dependencies
         if: ${{ inputs.buildCommand }}
+        working-directory: ./backend
         run: |
-          if [ -e ./backend/yarn.lock ]; then
+          if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
-          elif [ -e ./backend/package-lock.json ]; then
+          elif [ -e package-lock.json ]; then
           npm ci
           else
           npm i
