@@ -41,9 +41,9 @@ jobs:
       - name: Install dependencies
         if: ${{ inputs.buildCommand }}
         run: |
-          if [ -e yarn.lock ]; then
+          if [ -e ./backend/yarn.lock ]; then
           yarn install --frozen-lockfile
-          elif [ -e package-lock.json ]; then
+          elif [ -e ./backend/package-lock.json ]; then
           npm ci
           else
           npm i
