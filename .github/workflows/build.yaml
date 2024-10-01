@@ -38,9 +38,10 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: backend/yarn.lock
       - name: Install dependencies
         if: ${{ inputs.buildCommand }}
-        working-directory: ./backend
+        working-directory: backend
         run: |
           if [ -e yarn.lock ]; then
           yarn install --frozen-lockfile
