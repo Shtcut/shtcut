@@ -89,7 +89,7 @@ export const QR_CORNER_PATTERNS = [
         type: 'square',
         icon: (
             <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6048_119858)">
+                <g clipPath="url(#clip0_6048_119858)">
                     <path
                         d="M0.5 0.5V60.5H60.5V0.5H0.5ZM9.15671 9.05721H52.0423V51.9428H9.15671V9.05721Z"
                         fill="black"
@@ -108,7 +108,7 @@ export const QR_CORNER_PATTERNS = [
         type: 'extra-rounded',
         icon: (
             <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6048_52443)">
+                <g clipPath="url(#clip0_6048_52443)">
                     <path
                         d="M0.5 21.9288V39.0712C0.5 50.9062 10.0938 60.5 21.9288 60.5H39.0712C50.9062 60.5 60.5 50.9062 60.5 39.0712V21.9288C60.5 10.0938 50.9062 0.5 39.0712 0.5H21.9288C10.0938 0.5 0.5 10.0938 0.5 21.9288ZM21.9288 9.07171H39.0712C46.1724 9.07171 51.9283 14.8276 51.9283 21.9288V39.0712C51.9283 46.1724 46.1724 51.9283 39.0712 51.9283H21.9288C14.8276 51.9283 9.07171 46.1724 9.07171 39.0712V21.9288C9.07171 14.8276 14.8276 9.07171 21.9288 9.07171Z"
                         fill="black"
@@ -130,7 +130,7 @@ export const QR_CORNER_PATTERNS = [
         type: 'dot',
         icon: (
             <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clip-path="url(#clip0_6048_26219)">
+                <g clipPath="url(#clip0_6048_26219)">
                     <path
                         d="M30.4498 0.5C13.8821 0.52784 0.472203 13.9815 0.500043 30.5492C0.527883 47.1179 13.9815 60.5268 30.5493 60.499C47.118 60.4712 60.5269 47.0175 60.499 30.4498C60.4722 13.9208 47.0792 0.52784 30.5493 0.5H30.4498ZM30.4498 9.07171C42.2848 9.09955 51.8557 18.7153 51.8289 30.5502C51.8011 42.3852 42.1854 51.9561 30.3504 51.9293C18.5164 51.9004 8.94449 42.2847 8.97233 30.4498C8.99917 18.6546 18.5552 9.09856 30.3504 9.07171H30.4498Z"
                         fill="black"
@@ -177,43 +177,6 @@ export const SOCIAL_ICONS_LOGOS = [
     }
 ];
 
-{
-    /* <section className="border border-black  rounded-[3rem] w-60 mx-auto h-80 flex justify-center    bg-transparent">
-                            <div className="flex flex-col justify-between  w-full ">
-                                <div className=" bg-black h-10 w-full rounded-t-[3rem]" />
-                                <div className=" w-52  flex justify-center items-center flex-col mx-auto ">
-                                    <div className="border-black border-4 flex justify-center items-center  w-full rounded-2xl">
-                                        <div ref={ref} className="h-35 w-35 rounded-lg " />
-                                    </div>
-                                    <section className="flex flex-col w-full items-center">
-                                        <div className="triangle" />
-                                        <div className="bg-black  flex justify-center mx-auto w-full h-6 items-center  rounded-xl ">
-                                            <p className="text-white text-xs">SCAN ME!</p>
-                                        </div>
-                                    </section>
-                                </div>
-                                <div className="bg-black h-10  rounded-b-[3rem]" />
-                            </div>
-                        </section> */
-}
-
-{
-    /* <div className=" w-56  flex justify-center items-center flex-col mx-auto ">
-                            <div className="border-black rounded-bl-md rounded-tr rounded-br-3xl flex-col border flex justify-between items-center h-60   w-full rounded-tl-[1.7rem]">
-                                <div className="flex-1">
-                                    <div ref={ref} className="h-35 w-35 rounded-lg " />
-                                </div>
-
-                                <div className=" w-full bg-black ">
-                                    <div className=" bg-white   h-6 w-full rounded-b-2xl  " />
-                                </div>
-                                <div className="w-full rounded-br-[1.1rem]  h-12 flex justify-center items-center border  border-black rounded-bl bg-black">
-                                    <p className="text-xs text-center text-white font-medium">SCAN ME!</p>
-                                </div>
-                            </div>
-                        </div> */
-}
-
 export const QR_CODE_FRAMES = ({ children }: { children: JSX.Element }) => {
     return [
         {
@@ -221,8 +184,8 @@ export const QR_CODE_FRAMES = ({ children }: { children: JSX.Element }) => {
             icon: (
                 <Image
                     className="cursor-pointer"
-                    src={`/svg/qrcode-scanner-1.svg`}
-                    alt={`qrcode-scanner-1`}
+                    src={'/svg/qrcode-scanner-1.svg'}
+                    alt={'qrcode-scanner-1'}
                     width={500}
                     height={500}
                 />
@@ -246,8 +209,8 @@ export const QR_CODE_FRAMES = ({ children }: { children: JSX.Element }) => {
             icon: (
                 <Image
                     className="cursor-pointer"
-                    src={`/svg/qrcode-scanner-7.svg`}
-                    alt={`qrcode-scanner-1`}
+                    src={'/svg/qrcode-scanner-7.svg'}
+                    alt={'qrcode-scanner-1'}
                     width={500}
                     height={500}
                 />

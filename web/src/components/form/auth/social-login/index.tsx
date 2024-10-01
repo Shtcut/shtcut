@@ -2,9 +2,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { CommonProps, Dict } from '@shtcut-ui/react';
 import { SOCIAL_MEDIA } from '@shtcut/_shared/constant';
 import { AppButton } from '@shtcut/components';
-import { IconBrandGithub, IconBrandGoogle, IconBrandTwitter } from '@tabler/icons-react';
 import Image from 'next/image';
-import GitHubLogin from 'react-github-login';
 
 interface SocialLoginProps extends CommonProps {
     isLoading: boolean;
@@ -12,7 +10,7 @@ interface SocialLoginProps extends CommonProps {
     onSuccess: (type: string, response: Dict) => void;
 }
 
-export const SocialLogin = ({ isLoading, onFailure, onSuccess, ...props }: SocialLoginProps) => {
+export const SocialLogin = ({ isLoading, onFailure, onSuccess }: SocialLoginProps) => {
     const handleSocialCallback = (social: string, response: Dict, callbackType: 'error' | 'success') => {
         if (callbackType === 'success') {
             let accessToken: string | undefined;

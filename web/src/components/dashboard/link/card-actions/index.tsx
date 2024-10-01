@@ -1,8 +1,7 @@
 import React from 'react';
-import { PiChartBar } from 'react-icons/pi';
-import { PiCopySimple } from 'react-icons/pi';
+import { PiChartBar, PiCopySimple } from 'react-icons/pi';
 import FeatureActions from './feature-actions';
-import { PencilLine, Trash2 } from 'lucide-react';
+import { PencilLine, Trash2} from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 
 const CardsActions = ({ edit, onClickNavigation }: { edit: boolean | undefined; onClickNavigation: () => void }) => {
@@ -16,13 +15,13 @@ const CardsActions = ({ edit, onClickNavigation }: { edit: boolean | undefined; 
             {edit ? (
                 <div
                     onClick={handleNavigateEdit}
-                    className={`text-xs cursor-pointer flex mx-auto items-center w-[95px] justify-center text-primary-0 rounded h-[34px] bg-white   font-medium border gap-x-2 border-primary-0`}
+                    className={'text-xs cursor-pointer flex mx-auto items-center w-[95px] justify-center text-primary-0 rounded h-[34px] bg-white   font-medium border gap-x-2 border-primary-0'}
                 >
                     <PencilLine size={16} /> <span>Edit Link</span>
                 </div>
             ) : (
                 <div
-                    className={`text-xs cursor-pointer flex mx-auto items-center w-[83px] justify-center text-primary-0 rounded h-[34px] bg-[#F4F7FF]  font-semibold border gap-x-1 border-primary-0`}
+                    className={'text-xs cursor-pointer flex mx-auto items-center w-[83px] justify-center text-primary-0 rounded h-[34px] bg-[#F4F7FF]  font-semibold border gap-x-1 border-primary-0'}
                 >
                     <PiChartBar size={16} /> <span>30 Clicks</span>
                 </div>

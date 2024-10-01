@@ -7,8 +7,8 @@ export class CreateWorkspaceDto {
   public readonly name: string;
 
   @IsString()
-  @IsNotEmpty()
-  public readonly slug: string;
+  @IsOptional()
+  public slug: string;
 
   @IsMongoId()
   @IsOptional()
@@ -18,10 +18,9 @@ export class CreateWorkspaceDto {
   @IsOptional()
   public readonly type?: string;
 
-  @IsString()
-  @IsEnum(configuration().app.modules)
+  @IsArray()
   @IsNotEmpty()
-  public module: string;
+  public modules: string;
 
   @IsArray()
   @IsOptional()

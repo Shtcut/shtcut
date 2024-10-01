@@ -1,14 +1,12 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Card, Dict, cn, toast } from '@shtcut-ui/react';
+import { Dict, cn, toast } from '@shtcut-ui/react';
 import { getApexDomain, timeAgo } from '@shtcut/_shared';
-import { GripVertical } from 'lucide-react';
+import { GripVertical, Copy, BarChart } from 'lucide-react';
 import Image from 'next/image';
 import { GOOGLE_FAVICON_URL } from '@shtcut/_shared/constant';
 import Link from 'next/link';
-import { Copy, BarChart } from 'lucide-react';
 import { useState } from 'react';
-import { IconTag } from '@tabler/icons-react';
 import { PopoverMenu } from '../Popover';
 
 interface LinkCardProp {
@@ -33,12 +31,8 @@ export const LinkCard = (props: LinkCardProp) => {
     const {
         id,
         alias,
-        archived = false,
         title,
-        tags = [],
         target,
-        clicks = 0,
-        createdAt,
         domain: { slug }
     } = props;
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id });
@@ -93,7 +87,7 @@ export const LinkCard = (props: LinkCardProp) => {
                                             <a
                                                 href={`https://${slug}/${alias}`}
                                                 target="_blank"
-                                                className="text-blue-600"
+                                                className="text-blue-600" rel="noreferrer"
                                             >
                                                 {`${slug}/${alias}`}
                                             </a>
@@ -129,7 +123,7 @@ export const LinkCard = (props: LinkCardProp) => {
                                         <a
                                             target="_blank"
                                             href={`https://${slug}/${alias}`}
-                                            className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2"
+                                            className="flex items-center max-w-full rounded-[2px] outline-offset-2 outline-2" rel="noreferrer"
                                         >
                                             <p className="text-gray-500 w-[200px] text-sm lg:w-[320px] whitespace-nowrap overflow-hidden font-semibold text-ellipsis">
                                                 {title && <span>{title}: </span>}

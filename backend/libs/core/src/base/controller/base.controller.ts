@@ -1,6 +1,20 @@
 import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { Body, Delete, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Delete,
+  Get,
+  HttpCode,
+  Logger,
+  Next,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
 import {
   AppException,
@@ -106,7 +120,6 @@ export abstract class BaseController {
       );
       return res.status(CREATED).json(response);
     } catch (e) {
-      console.log('err::', e);
       return next(e);
     }
   }
@@ -137,7 +150,7 @@ export abstract class BaseController {
 
       return res.status(OK).json(response);
     } catch (e) {
-      console.log('err::', e);
+      Logger.log('err::', e);
       return next(e);
     }
   }

@@ -1,4 +1,3 @@
-import React from 'react';
 import confetti from 'canvas-confetti';
 const useCanvasConfetti = () => {
     const handleClickCanvas = () => {

@@ -32,7 +32,7 @@ const TagsScreen = () => {
                             <div className="flex items-center gap-2">
                                 <div
                                     style={{ backgroundColor: hexToRgba(tag.color, 0.05), borderColor: tag.color }}
-                                    className={` border rounded  w-6 h-6 flex justify-center items-center`}
+                                    className={' border rounded  w-6 h-6 flex justify-center items-center'}
                                 >
                                     <Tag size={14} color={tag.color} />
                                 </div>

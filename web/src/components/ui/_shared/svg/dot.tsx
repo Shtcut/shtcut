@@ -7,7 +7,7 @@ export const DotQRCode = ({ className }: { className?: string }) => (
         xmlns="http://www.w3.org/2000/svg"
         className={className}
     >
-        <g clip-path="url(#clip0_6048_52651)">
+        <g clipPath="url(#clip0_6048_52651)">
             <path
                 d="M4.1696 22.5052C6.19626 22.5052 7.8392 20.8623 7.8392 18.8356C7.8392 16.809 6.19626 15.166 4.1696 15.166C2.14294 15.166 0.5 16.809 0.5 18.8356C0.5 20.8623 2.14294 22.5052 4.1696 22.5052Z"
                 fill="black"

@@ -1,39 +1,40 @@
-## Stage 1. Compile TS souces to JS
-FROM node:16-alpine AS builder
+## Stage 1. Compiles the service
+FROM node:18-alpine AS builder
 
-# Set build directory
-WORKDIR /user/src/app
+## Set build directory
+WORKDIR /usr/src/app
 
 # Copy application dependency manifests to the container image.
-# A wilcard is used to ensure both package.json AND package-lock.json are copied
+# A wildcard is used to ensure both package.json AND package-lock.json are copied.
 # Copying this separately prevents re-running npm install on every code change.
-COPY ./package*.json  ./*.lock ./tsconfig.cjson  ./tsconfig.build.json ./nest-cli.json ./
+COPY backend/package*.json ./
+COPY backend/tsconfig.json backend/tsconfig.build.json backend/nest-cli.json ./
 
 #Install dev dependencies
-RUN yarn install  --frozen-lockfile --dev
+RUN yarn install --frozen-lockfile --dev --verbose
 
-# Copy Sources
-#COPY ./app/sht-acl ./apps/sht-acl
-#COPY ./config ./config
-#COPY ./libs ./libs
+# Copy sources
+COPY backend/apps/sht-acl ./apps/sht-acl
+COPY backend/config ./config
+COPY backend/libs ./libs
 
-#Build app
+# Buld app
 RUN yarn run build:acl
 
-## Stage 2. Run build app
-# Note: node-12-alphine could not be used here due to weak bcrypt support:
+## Stag 2. Run built app
+# Note: node:12-alpine could not be used here due to weak bcrypt support:
 # https://github.com/kelektiv/node.bcrypt.js/wiki/Installation-Instructions#alpine-linux-based-images
-FROM node:16-alpine
+FROM node:18-alpine
 
 # Set app directory
 WORKDIR /usr/src/app
 
 # Install app dependencies
-#COPY package.json ./
-RUN yarn install --fronzen-lockfile --production
+COPY package.json ./
+RUN yarn install --frozen-lockfile --production
 COPY --from=builder /usr/src/app/dist/apps/sht-acl ./dist
 
-# Expose port for use
+# Export port for use
 EXPOSE 7000
 
 CMD [ "node", "dist/main" ]

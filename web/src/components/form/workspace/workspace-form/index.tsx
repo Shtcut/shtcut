@@ -2,7 +2,6 @@
 
 import {
     Button,
-    Card,
     Dict,
     Form,
     FormControl,
@@ -29,12 +28,10 @@ import { workspaceValidationSchema } from './validation';
 import { AppButton } from '@shtcut/components/_shared';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ChangeEvent, HTMLAttributes, useMemo, useState } from 'react';
+import { HTMLAttributes, useMemo, useState } from 'react';
 import z from 'zod';
-import { IconBrush, IconHeading, IconHelp } from '@tabler/icons-react';
+import { IconBrush, IconHelp } from '@tabler/icons-react';
 import { GRADIENTS, IMAGES } from '@shtcut/_shared/constant';
-import slugify from 'react-slugify';
-import { TooltipWrapper } from '@shtcut/components/_shared/TooltipWrapper';
 
 interface WorkspaceFormProps extends HTMLAttributes<HTMLDivElement> {
     isLoading: boolean;
@@ -43,7 +40,7 @@ interface WorkspaceFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const WorkspaceForm = (props: WorkspaceFormProps) => {
-    const { isLoading, handleWorkspaceSubmit, error, className } = props;
+    const { isLoading, handleWorkspaceSubmit, className } = props;
     const [background, setBackground] = useState('');
 
     const form = useForm<z.infer<typeof workspaceValidationSchema>>({
@@ -68,10 +65,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
         handleWorkspaceSubmit(payload);
     };
 
-    const handleOnChange = (e: ChangeEvent<HTMLInputElement>) => {
-        form.setValue('name', e.target.value);
-        form.setValue('slug', slugify(e.target.value));
-    };
+
 
     return (
         <div className={cn('grid gap-6', className)} {...props}>
@@ -82,7 +76,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                             <FormField
                                 control={form.control}
                                 name="name"
-                                render={({ field: { onChange, ...rest } }) => (
+                                render={({ field: { ...rest } }) => (
                                     <FormItem className="space-y-1">
                                         <div className="flex gap-1">
                                             <div>
@@ -107,7 +101,6 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                                             <Input
                                                 className="h-11"
                                                 placeholder="Facebook Inc"
-                                                onChange={handleOnChange}
                                                 {...rest}
                                             />
                                         </FormControl>
@@ -160,7 +153,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                             <FormField
                                 control={form.control}
                                 name="slug"
-                                render={({ field }) => (
+                                render={() => (
                                     <FormItem className="space-y-1">
                                         <div className="flex items-center gap-2">
                                             <div>

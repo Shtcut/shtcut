@@ -41,10 +41,16 @@ export class Invitation {
   token: string;
 
   @Prop({
-    required: true,
-    default: false,
+    expires: '7d',
   })
-  accepted: boolean;
+  expiresAt: Date;
+
+  @Prop({
+    required: true,
+    enum: ['pending', 'accepted', 'declined'],
+    default: 'pending',
+  })
+  status: string;
 
   @Prop({
     type: Boolean,

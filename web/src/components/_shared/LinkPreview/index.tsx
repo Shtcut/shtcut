@@ -5,8 +5,6 @@ import { imagePlaceholder } from '@shtcut/_shared/constant';
 import { ApiResponse } from '@shtcut/_shared/namespace';
 import { LinkPreviewNamespace } from '@shtcut/_shared/namespace/link-preview';
 import { useLinkPreview } from '@shtcut/hooks/link-preview';
-import { LinkPreviewSkeleton } from './skeleton';
-import { Skeleton } from '@shtcut-ui/react';
 import LinkSkeleton from '../LinkSkeleton';
 import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
@@ -59,7 +57,7 @@ export const LinkPreview: FC<LinkPreviewProps> = (props) => {
         explicitImageSrc = null,
         showPlaceholderIfNoImage = true,
         showLockedImage = false,
-        onSuccess = (res) => {}
+        onSuccess
     } = props;
 
     const { metadata, loading } = useLinkPreview({ onSuccess, url, fetcher });

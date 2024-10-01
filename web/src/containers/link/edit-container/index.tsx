@@ -12,7 +12,7 @@ const EditContainer = () => {
             data_points: null
         }
     });
-    const handleFormSubmit = (values: any) => {};
+
     return (
         <Form {...form}>
             <form>

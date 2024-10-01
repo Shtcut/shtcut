@@ -1,0 +1,288 @@
+name: Render CI
+
+on:
+  workflow_run:
+    workflows: ['Render Cloud BUILD']
+    types:
+      - completed
+  workflow_call:
+    secrets:
+      RENDER_API_KEY:
+        description: 'HEROKU API KEY'
+        required: true
+      DOCKER_HUB_USERNAME:
+        description: 'Docker hub username'
+        required: true
+      DOCKER_HUB_ACCESS_TOKEN:
+        description: 'Docker hub access token'
+        required: true
+      GH_CUSTOM_TOKEN:
+        description: 'AWS region'
+        required: true
+    inputs:
+      is_workflow:
+        required: true
+        type: boolean
+        default: false
+      project:
+        required: true
+        type: string
+      region:
+        type: string
+      namespace:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+      service_id:
+        required: true
+        type: string
+      service:
+        required: true
+        type: string
+      repository:
+        required: true
+        type: string
+      hostname-format:
+        required: true
+        type: string
+      port:
+        required: true
+        type: string
+      dockerfile:
+        required: true
+        type: string
+      docker_compose_file:
+        type: string
+      probe_url:
+        type: string
+      app_secret:
+        type: string
+        default: 'app-secret'
+      replica:
+        type: string
+        default: '1'
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  current_project: shtcuttgtest
+  current_port: 7000
+  current_hostname_format: 'app-{0}.stardev.xyz'
+  current_namespace: stg
+  image-name: stmx
+  current_service_id: shtcut-app_id
+  current_service: shtcut-app
+  current_dockerfile: './ci/Dockerfile'
+  current_probe_url: '/api/v1/ping'
+  current_app_secret: 'app-secret'
+  current_replica: 1
+
+jobs:
+  envs:
+    if: ${{ inputs.TFAction == false && github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    name: 'Validate Env Variables'
+    runs-on: ubuntu-latest
+    outputs:
+      project: ${{ steps.variables.outputs.project }}
+      namespace: ${{ steps.variables.outputs.namespace }}
+      port: ${{ steps.variables.outputs.port }}
+      dockerfile: ${{ steps.variables.outputs.dockerfile }}
+      service: ${{ steps.variables.outputs.service }}
+      service_id: ${{ steps.variables.outputs.service_id }}
+      probe_url: ${{ steps.variables.outputs.probe_url }}
+      app_secret: ${{ steps.variables.outputs.app_secret }}
+      replica: ${{ steps.variables.outputs.replica }}
+      hostname-format: ${{ steps.variables.outputs.hostname-format }}
+    steps:
+      - name: Initialize Environments
+        run: |
+          EP="${{ inputs.project }}"
+          PRT="${{ inputs.port }}"
+          HOST_FMT="${{ inputs.hostname-format }}"
+          DOCFILE="${{ inputs.dockerfile }}"
+          PBURL="${{ inputs.probe_url }}"
+          APSCRT="${{ inputs.app_secret }}"
+          SRV="${{ inputs.service }}"
+          SRVID="${{ inputs.service_id }}"
+          NSP="${{ inputs.namespace }}"
+          REP="${{ inputs.replica }}"
+
+          ENV_HOST_FMT="${{ env.current_hostname_format }}"
+
+          PROJECT="${EP-${{ env.current_project}}}"
+          PORT="${PRT:-${{ env.current_port }}}"
+          HOST_FORMAT="${HOST_FMT:=$ENV_HOST_FMT}"
+          DOCKER_FILE="${DOCFILE:-${{ env.current_dockerfile }}}"
+          SERVICE_ID="${SRVID:-${{ env.current_service_id }}}"
+          SERVICE="${SRV:-${{ env.current_service }}}"
+          PROBE_URL="${PBURL:-${{ env.current_probe_url }}}"
+          APP_SECRET="${APSCRT:-${{ env.current_app_secret }}}"
+          NAMESPACE="${APSCRT:-${{ env.current_namespace }}}"
+          REPLICA="${APSCRT:-${{ env.current_replica }}}"
+
+
+          echo "project=${PROJECT}" >> "$GITHUB_ENV"
+          echo "namespace=${NAMESPACE}" >> "$GITHUB_ENV"
+          echo "port=${PORT}" >> "$GITHUB_ENV"
+          echo "hostname-format=${HOST_FORMAT}" >> "$GITHUB_ENV"
+          echo "service_id=${SERVICE_ID}" >> "$GITHUB_ENV"
+          echo "service=${SERVICE}" >> "$GITHUB_ENV"
+          echo "probe_url=${PROBE_URL}" >> "$GITHUB_ENV"
+          echo "app_secret=${APP_SECRET}" >> "$GITHUB_ENV"
+          echo "dockerfile=${DOCKER_FILE}" >> "$GITHUB_ENV"
+          echo "replica=${REPLICA}" >> "$GITHUB_ENV"
+      - name: Set Env
+        id: variables
+        run: |
+          echo "project=${{ env.project }}" >> $GITHUB_OUTPUT
+          echo "port=${{ env.port }}" >> $GITHUB_OUTPUT
+          echo "hostname-format=${{ env.hostname-format }}" >> $GITHUB_OUTPUT
+          echo "dockerfile=${{ env.dockerfile }}" >> $GITHUB_OUTPUT
+          echo "service=${{ env.service }}" >> $GITHUB_OUTPUT
+          echo "service_id=${{ env.service_id }}" >> $GITHUB_OUTPUT
+          echo "probe_url=${{ env.probe_url }}" >> $GITHUB_OUTPUT
+          echo "namespace=${{ env.namespace }}" >> $GITHUB_OUTPUT
+          echo "app_secret=${{ env.app_secret }}" >> $GITHUB_OUTPUT
+          echo "replica=${{ env.replica }}" >> $GITHUB_OUTPUT
+
+  config:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    name: 'Setup Config Variables'
+    needs: [envs]
+    permissions: write-all
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      port: ${{ needs.envs.outputs.port }}
+      namespace: ${{ needs.envs.outputs.namespace }}
+      hostname-format: ${{ needs.envs.outputs.hostname-format }}
+      dockerfile: ${{ needs.envs.outputs.dockerfile }}
+      service: ${{ needs.envs.outputs.service }}
+      service_id: ${{ needs.envs.outputs.service_id }}
+    outputs:
+      hostname: ${{ steps.resolved.outputs.hostname }}
+      git-sha: ${{ steps.resolved.outputs.git-sha }}
+      docker-tag: ${{ steps.resolved.outputs.docker-tag }}
+    steps:
+      - id: debug-context
+        run: |
+          echo "event_name          ${{ github.event_name}}"
+          echo "project             ${{ env.project }}"
+          echo "hostname-format     ${{ env.hostname-format}}"
+      - name: Get branch name
+        id: branch-name
+        uses: tj-actions/branch-names@v6
+
+      - name: Slugify Value
+        uses: rlespinasse/slugify-value@v1.4.0
+        with:
+          slug-maxlength: 30
+          key: feat-name
+          value: ${{ steps.branch-name.outputs.current_branch }}
+
+      - name: Get short SHA
+        id: commit
+        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+      - name: Set Variables
+        id: variables
+        run: |
+          echo "hostname=${{ format(env.hostname-format, env.FEAT-NAME_SLUG_URL)}}" >> $GITHUB_ENV
+          echo "docker-tag=${{ env.FEAT-NAME_SLUG_URL }}" >> $GITHUB_ENV
+          echo "git-sha=${{ steps.commit.outputs.short }}" >> $GITHUB_ENV
+
+      - name: Resolve outputs
+        id: resolved
+        run: |
+          echo "git-sha=${{ env.git-sha }}" >> $GITHUB_OUTPUT
+          echo "hostname=${{ env.hostname }}" >> $GITHUB_OUTPUT
+          echo "docker-tag=${{ env.docker-tag }}" >> $GITHUB_OUTPUT
+
+          echo "git-sha       ${{ env.git-sha }}"
+          echo "hostname      ${{ env.hostname }}" 
+          echo "docker-tag    ${{ env.docker-tag }}"
+          echo "event_name    ${{ github.event_name }}" 
+          echo "dockerfile    ${{ env.dockerfile }}"
+
+  push-image:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    name: 'Push Image to Docker hub Registry'
+    needs: [envs, config]
+    runs-on: ubuntu-latest
+    env:
+      project: ${{ needs.envs.outputs.project }}
+      region: ${{ inputs.region }}
+      namespace: ${{ needs.envs.outputs.namespace }}
+      port: ${{ needs.envs.outputs.port }}
+      hostname: ${{ needs.config.outputs.hostname }}
+      dockerfile: ${{ needs.envs.outputs.dockerfile }}
+      service: ${{ needs.envs.outputs.service }}
+      service_id: ${{ needs.envs.outputs.service_id }}
+    steps:
+      - name: --- For Debugging --
+        id: debug-context
+        run: |
+          echo "event_name      ${{ github.event_name }}"
+          echo "hostname        ${{ needs.config.outputs.hostname }}"
+          echo "docker-tag      ${{ needs.config.outputs.docker-tag }}"
+          echo "project         ${{ github.event_name }}"
+          echo "service_id      ${{ env.service_id }}"
+          echo "service         ${{ env.service }}"
+          echo "dockerfile      ${{ env.dockerfile }}"
+          echo "region          ${{ env.region }}"
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Login to Docker hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+      - name: Build and Push
+        if: ${{ inputs.dockerfile && inputs.dockerfile}}
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          file: ${{ env.dockerfile }}
+          tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}
+
+      - name: Build & Push
+        if: ${{ inputs.dockerfile && inputs.docker_compose_file }}
+        run: |
+          docker-compose build
+          docker-compose push
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' || inputs.is_workflow == true || github.event_name == 'push'}}
+    needs: [envs, push-image, config]
+    name: Trigger Render Deployment
+    env:
+      service_id: ${{ needs.envs.outputs.service_id}}
+      service: ${{ needs.envs.outputs.service}}
+      docker-tag: ${{ needs.config.outputs.docker-tag}}
+      project: ${{ needs.envs.outputs.project}}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trigger
+        run: |
+          RESPONSE=$(curl -s -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer ${{secrets.RENDER_API_KEY}}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "imageUrl": "docker.io/${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}",
+              "clearCache": "do_not_clear"
+            }' \
+              https://api.render.com/v1/services/${{ env.service_id }}/deploys
+            )
+          echo "Render API Response: $RESPONSE"
+
+      - name: Logout from  Docker Hub
+        run: docker logout

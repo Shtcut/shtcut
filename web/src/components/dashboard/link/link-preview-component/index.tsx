@@ -11,7 +11,6 @@ import ReferralComponent from '../../../referrals';
 import CountriesComponent from '../../../countries';
 import { LineChartComponent } from '@shtcut/components/_shared/Analytics/LineChart';
 import SelectMonths from '../../../select-months';
-import BreadCrumb from '@shtcut/components/bread-crumb';
 
 const SingleLinkPreviewComponent = () => {
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
@@ -55,7 +54,7 @@ const SingleLinkPreviewComponent = () => {
             </div>
 
             <div className="mt-[22px] flex items-center w-full gap-6 ">
-                {analticsScore.map((data, index) => (
+                {analticsScore.map((data) => (
                     <Card
                         className="w-full flex cursor-pointer border border-gray-200 justify-between  items-center   h-28 shadow-sm  rounded-[10px]  px-4  gap-4"
                         key={data.id}

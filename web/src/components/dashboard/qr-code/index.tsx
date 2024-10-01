@@ -1,5 +1,4 @@
 import { Button } from '@shtcut-ui/react';
-import BreadCrumb from '@shtcut/components/bread-crumb';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';

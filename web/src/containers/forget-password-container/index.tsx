@@ -9,7 +9,6 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
 import { useRouter } from 'next/navigation';
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 
 const ForgotPasswordContainerPage = () => {
     const { width } = useWindowSize();

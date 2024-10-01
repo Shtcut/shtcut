@@ -1,9 +1,8 @@
 import { logos } from '@shtcut/_shared/data';
 import Image from 'next/image';
 import React from 'react';
-import { Ban } from 'lucide-react';
+import { Ban, Plus } from 'lucide-react';
 import { IoImageOutline } from 'react-icons/io5';
-import { Plus } from 'lucide-react';
 
 interface ReusableComponentProps {
     logoUrl?: string;

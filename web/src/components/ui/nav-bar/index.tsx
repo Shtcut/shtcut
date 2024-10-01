@@ -2,10 +2,6 @@ import { cn } from '@shtcut-ui/react';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-interface Tab {
-    id: string;
-    label: string;
-}
 
 interface TabsProps {
     selectedTabIndex: number;

@@ -8,6 +8,10 @@ import img from './media';
 export default combineReducers({
     [api.reducerPath]: api.reducer,
     auth,
+
     ui,
     img
+
+
+
 });

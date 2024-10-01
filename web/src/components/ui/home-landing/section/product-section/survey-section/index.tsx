@@ -1,5 +1,4 @@
 import { Button, Card } from '@shtcut-ui/react';
-import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import Image from 'next/image';
 import React from 'react';
@@ -7,9 +6,7 @@ import { Check } from 'lucide-react';
 import { MdLock } from 'react-icons/md';
 
 const SurveySectionTab = () => {
-    const { width } = useWindowSize();
-    const mobileTab = width !== undefined && width <= 1073;
-    const tab = width !== undefined && width <= 768;
+    
     return (
         <AnimatedContainer>
             <div id="survey-creation">
@@ -52,7 +49,7 @@ const SurveySectionTab = () => {
                                 alt="icons"
                                 width={0}
                                 height={0}
-                                className={`bg-white w-full  md:w-[624px] h-80 md:h-[488px]`}
+                                className={'bg-white w-full  md:w-[624px] h-80 md:h-[488px]'}
                                 src="/images/path.png"
                                 sizes="100vw"
                                 loading="eager"

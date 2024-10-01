@@ -7,6 +7,7 @@ type Props = {
 
 const MenuIcon: React.FC<Props> = ({ color = '#303237', size = 24, onClick }) => {
     return (
+
         <svg
             width={size}
             height={size}
@@ -15,9 +16,11 @@ const MenuIcon: React.FC<Props> = ({ color = '#303237', size = 24, onClick }) =>
             xmlns="http://www.w3.org/2000/svg"
             onClick={onClick}
         >
-            <path d="M5 7H19" stroke={color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M5 12H19" stroke={color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-            <path d="M5 17H19" stroke={color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        
+            <path d="M5 7H19" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5 12H19" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5 17H19" stroke={color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+
         </svg>
     );
 };

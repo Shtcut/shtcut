@@ -8,20 +8,15 @@ import {
     DropdownMenuLabel,
     DropdownMenuTrigger,
     Modal,
-    PopoverTrigger,
     cn
 } from '@shtcut-ui/react';
 import { WorkspaceContainer } from '@shtcut/containers';
 import { useWorkspace } from '@shtcut/hooks/workspace';
 import { IconChevronDown } from '@tabler/icons-react';
 import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { usePathname } from 'next/navigation';
 
-type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>;
-
-type WorkspaceSwitcherProps = PopoverTriggerProps;
 
 export const WorkspaceSwitcher = () => {
     const [name, setName] = useState('');

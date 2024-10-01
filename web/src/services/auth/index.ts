@@ -21,9 +21,8 @@ export const authApi = api?.injectEndpoints({
                     body: payload
                 };
             },
-            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+            async onQueryStarted() {
                 try {
-                    const { data } = await queryFulfilled;
                     // todo dispatch to go get current logged user
                 } catch (_) {}
             }
@@ -36,9 +35,8 @@ export const authApi = api?.injectEndpoints({
                     body: payload
                 };
             },
-            async onQueryStarted(args, { dispatch, queryFulfilled }) {
+            async onQueryStarted() {
                 try {
-                    const { data } = await queryFulfilled;
                     // todo dispatch to go get current logged user
                 } catch (e) {
                     console.log('error::', e);

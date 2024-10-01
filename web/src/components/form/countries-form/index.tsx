@@ -26,7 +26,6 @@ const CountriesInput: React.FC<CountriesInputProps> = ({
     showDivider = true,
     showFlag = true,
     required = true,
-    noRadius,
     inputClassName,
     selectClassName
 }) => {

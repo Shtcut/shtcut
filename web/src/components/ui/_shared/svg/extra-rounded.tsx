@@ -7,7 +7,7 @@ export const ExtraRoundedQRCode = ({ className }: { className?: string }) => (
         xmlns="http://www.w3.org/2000/svg"
         className={className}
     >
-        <g clip-path="url(#clip0_6048_52692)">
+        <g clipPath="url(#clip0_6048_52692)">
             <path d="M0.5 22.4986H7.8326V15.166C3.7802 15.166 0.5 18.4528 0.5 22.4986Z" fill="black"></path>
             <path d="M7.8326 22.498H0.5V29.8306C4.5524 29.8306 7.8326 26.5504 7.8326 22.498Z" fill="black"></path>
             <path d="M0.5 44.5025H7.8326V37.1699C3.7802 37.1699 0.5 40.4501 0.5 44.5025Z" fill="black"></path>

@@ -5,7 +5,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 const InviteModal = () => {
-    const [showInvite, setShowInvite] = useState(false);
     const [inputs, setInputs] = useState(['', '', '']);
 
     const addInput = () => {
@@ -17,7 +16,6 @@ const InviteModal = () => {
     const removeInput = () => {
         setInputs(inputs.slice(0, -1));
     };
-    const shouldApplyMaxHeight = inputs.length > 4;
 
     const form = useForm({
         defaultValues: {
@@ -43,7 +41,7 @@ const InviteModal = () => {
                                         <FormField
                                             key={index}
                                             control={form.control}
-                                            name={`email`}
+                                            name="email"
                                             render={({ field }) => (
                                                 <FormItem className="w-full">
                                                     <FormControl>

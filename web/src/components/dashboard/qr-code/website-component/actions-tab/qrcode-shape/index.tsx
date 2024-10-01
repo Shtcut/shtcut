@@ -35,7 +35,7 @@ const QrCodeShapes = ({
             <section>
                 <div className="h-full items-center gap-4 flex ">
                     <div
-                        className={` w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer border border-[#E3E3E3] bg-[#fafafa]  `}
+                        className={'w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer border border-[#E3E3E3] bg-[#fafafa]  '}
                         onClick={() => handleChangeQrCodeShape('squares')}
                     >
                         <QRCode
@@ -52,7 +52,7 @@ const QrCodeShapes = ({
                         />
                     </div>
                     <div
-                        className={` w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer  border border-[#E3E3E3] bg-[#fafafa]  `}
+                        className={' w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer  border border-[#E3E3E3] bg-[#fafafa]  '}
                         onClick={() => handleChangeQrCodeShape('dots')}
                     >
                         <QRCode
@@ -69,7 +69,7 @@ const QrCodeShapes = ({
                         />
                     </div>
                     <div
-                        className={` w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer  border border-[#E3E3E3] bg-[#fafafa]  `}
+                        className={' w-24 h-24 flex justify-center items-center rounded-[10px] cursor-pointer  border border-[#E3E3E3] bg-[#fafafa]  '}
                         onClick={() => handleChangeQrCodeShape('fluid')}
                     >
                         <QRCode

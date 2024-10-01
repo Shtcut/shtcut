@@ -111,7 +111,7 @@ const ToolsUi = ({ handleSelectTools, toolsValues }: SolutionType) => {
                     </div>
                 ))}
             </section>
-            <style jsx>{`
+            <style>{`
                 @keyframes fall {
                     0% {
                         transform: translateY(-200%);

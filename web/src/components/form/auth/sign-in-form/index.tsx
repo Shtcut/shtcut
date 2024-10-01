@@ -1,20 +1,8 @@
 'use client';
 
-import {
-    Dict,
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    Label,
-    FormMessage,
-    Input,
-    cn,
-    Checkbox
-} from '@shtcut-ui/react';
+import { Dict, Form, FormControl, FormField, FormItem, Label, FormMessage, Input, Checkbox } from '@shtcut-ui/react';
 import { NavLink } from '@shtcut/components';
 import { AppButton, PasswordInput } from '@shtcut/components/_shared';
-import { get } from 'lodash';
 import { HTMLAttributes } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -31,7 +19,7 @@ interface SignInFormProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 export const SignInForm = (props: SignInFormProps) => {
-    const { isLoading, handleLoginSubmit, error, className, onFailure, onSuccess } = props;
+    const { isLoading, handleLoginSubmit, onFailure, onSuccess } = props;
 
     const handleFormSubmit = (values: z.infer<typeof signInValidationSchema>) => {
         handleLoginSubmit(values);

@@ -2,8 +2,6 @@
 
 import { Button, cn } from '@shtcut-ui/react';
 import { CommonOptions } from 'child_process';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { Layout, LayoutHeader } from '../index';
 import { IconChevronLeft, IconMenu2, IconX } from '@tabler/icons-react';

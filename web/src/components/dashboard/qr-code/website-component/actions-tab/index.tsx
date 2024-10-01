@@ -1,6 +1,5 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
 import React, { useState } from 'react';
 import ColorsQrCode from './colors-component';
 import { PropsColor } from '@shtcut/types/types';

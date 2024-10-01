@@ -1,4 +1,5 @@
 'use client';
+
 import { useMediaQuery } from 'react-responsive';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';

@@ -10,22 +10,18 @@ import {
     NavigationMenuContent,
     NavigationMenuLink,
     navigationMenuTriggerStyle,
-    useToast
 } from '@shtcut-ui/react';
 import Link from 'next/link';
 import { ListItem } from '@shtcut/components/_shared/ListItem';
 
 import { IoQrCodeOutline } from 'react-icons/io5';
-import { PiUsersThreeLight } from 'react-icons/pi';
-import { PiUserListLight } from 'react-icons/pi';
-import { PiChartLineUp } from 'react-icons/pi';
+import { PiUserListLight,PiChartLineUp, PiUsersThreeLight } from 'react-icons/pi';
 import { GoLink } from 'react-icons/go';
 import { BiTask } from 'react-icons/bi';
 import { MdEmail } from 'react-icons/md';
 import Image from 'next/image';
-import { BsCodeSlash } from 'react-icons/bs';
+import { BsCodeSlash, BsBuildings } from 'react-icons/bs';
 import { IoIosHelpCircleOutline } from 'react-icons/io';
-import { BsBuildings } from 'react-icons/bs';
 import { FaRegNewspaper } from 'react-icons/fa';
 import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 
@@ -35,6 +31,7 @@ type IProps = {
 };
 
 const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
+
     const { width } = useWindowSize();
     const mobile = width !== undefined && width <= 768;
     const { toast } = useToast();
@@ -45,6 +42,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
             variant: 'default'
         });
     };
+
     const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
             title: 'Link Management',

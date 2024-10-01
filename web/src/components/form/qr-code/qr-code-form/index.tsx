@@ -16,7 +16,6 @@ import QRCodeStyling, {
 import Image from 'next/image';
 import {
     LOGO_FAV_ICON,
-    QR_CODE_FRAMES,
     QR_CORNER_PATTERNS,
     QR_PATTERNS,
     SOCIAL_ICONS_LOGOS
@@ -25,8 +24,6 @@ import { isEmpty } from 'lodash';
 import { isValidURL } from '@shtcut/_shared';
 import './style.css';
 import html2canvas from 'html2canvas';
-import { documentToSVG, elementToSVG, inlineResources } from 'dom-to-svg';
-import ColorPicker from 'react-best-gradient-color-picker';
 import { HexColorPicker } from 'react-colorful';
 
 export const QRCodeForm = () => {
@@ -141,20 +138,6 @@ export const QRCodeForm = () => {
             return;
         }
 
-        const svgDocument = elementToSVG(document.querySelector('#shtcut-qrcode') as Element);
-        const svgString = new XMLSerializer().serializeToString(svgDocument);
-
-        // const blob = new Blob([svgString], { type: 'image/svg+xml' });
-        // const qrCodeObjectUrl = URL.createObjectURL(blob);
-        // const qrCodeLink = document.createElement('a');
-        // qrCodeLink.href = qrCodeObjectUrl;
-        // qrCodeLink.download = 'qrCode.svg';
-        // document.body.appendChild(qrCodeLink);
-        // qrCodeLink.click();
-        // document.body.removeChild(qrCodeLink);
-
-        // setTimeout(() => URL.revokeObjectURL(qrCodeObjectUrl), 5000);
-
         html2canvas(document.querySelector('#shtcut-qrcode') as any).then(function (canvas) {
             const link = document.createElement('a');
             link.download = 'shtcut-qrcode.png';
@@ -206,7 +189,7 @@ export const QRCodeForm = () => {
                             }
                         />
                         <div className="grid grid-cols-2 gap-4 mt-5">
-                            {SOCIAL_ICONS_LOGOS.map(({ name, image }, idx) => (
+                            {SOCIAL_ICONS_LOGOS.map(({ name, image }) => (
                                 <div
                                     className="w-full h-20 border rounded-md flex justify-center items-center bg-gray-100  cursor-pointer"
                                     key={`${name}`}

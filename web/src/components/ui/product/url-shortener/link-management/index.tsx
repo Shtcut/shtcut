@@ -1,8 +1,7 @@
 'use client';
 
-import { Button, Card, Modal } from '@shtcut-ui/react';
+import { Button, Modal } from '@shtcut-ui/react';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
-import { Link } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
 import { FiPlayCircle } from 'react-icons/fi';

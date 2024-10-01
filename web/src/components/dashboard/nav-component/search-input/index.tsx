@@ -10,7 +10,9 @@ interface SearchInputProps {
     removeIcon?: boolean;
 }
 
+
 const SearchInput = ({ placeholder, className = '', value, onChange, removeIcon = false }: SearchInputProps) => {
+
     return (
         <div className={`relative ${className || 'w-48'} `}>
             <Input

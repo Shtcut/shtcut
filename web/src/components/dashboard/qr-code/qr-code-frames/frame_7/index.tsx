@@ -12,7 +12,7 @@ const Frame_7 = ({
 }: QrCodeFrameType) => {
     return (
         <div className="w-full flex items-center justify-center h-full flex-1 flex-col">
-            <div className={` border-[3.2px]  w-fit rounded-[6px]`} style={{ borderColor: bgColor }}>
+            <div className={' border-[3.2px]  w-fit rounded-[6px]'} style={{ borderColor: bgColor }}>
                 <QRCode
                     id="shtcut-qrcode"
                     value={''}
@@ -43,7 +43,7 @@ const Frame_7 = ({
                 className=" flex  justify-center items-center  w-full h-10 rounded-[6px]  "
                 style={{ backgroundColor: bgColor }}
             >
-                <p style={{ color: bgColor === '#000000' ? 'white' : btnColor }} className={`text-sm  uppercase`}>
+                <p style={{ color: bgColor === '#000000' ? 'white' : btnColor }} className={'text-sm  uppercase'}>
                     {qrCodeName ? qrCodeName : 'SCAN ME'}
                 </p>
             </div>

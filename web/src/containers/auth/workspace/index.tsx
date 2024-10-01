@@ -1,13 +1,12 @@
 'use client';
 
-import { Card, Dict, Separator } from '@shtcut-ui/react';
+import { Dict, Separator } from '@shtcut-ui/react';
 import { AppAlert, Logo } from '@shtcut/components';
-import { ForgotPasswordForm, WorkspaceForm } from '@shtcut/components/form';
-import { useAuth } from '@shtcut/hooks/auth';
+import { WorkspaceForm } from '@shtcut/components/form';
 import { useWorkspace } from '@shtcut/hooks/workspace';
 import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
-import { redirect, useRouter } from 'next/navigation';
+import { redirect } from 'next/navigation';
 import { useEffect } from 'react';
 
 interface WorkspaceContainerProps {

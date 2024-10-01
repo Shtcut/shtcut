@@ -49,7 +49,7 @@ export class InvitationService extends MongoBaseService {
    * @returns The `createNewObject` function is returning the saved invitations after creating new
    * objects and sending invitation emails.
    */
-  public async createNewObject(obj: CreateInvitationDto, session?: ClientSession): Promise<any> {
+  public async createNewObject(obj: CreateInvitationDto, session?: ClientSession) {
     try {
       const { emails, workspace, token } = obj;
       const found = await this.model.find({ email: { $in: emails }, workspace, deleted: false });
@@ -70,7 +70,7 @@ export class InvitationService extends MongoBaseService {
 
       savedInvites.forEach((invitation) => {
         const { email, token } = invitation;
-        const link = `${obj.redirectLink}/${workspace}/${token}`;
+        const link = `${obj.redirectLink}?email=${email}&workspace=${workspace}&token=${token}`;
         this.sendInvitationEmail({ email, workspace: inviteeWorkspace?.name, link });
       });
 

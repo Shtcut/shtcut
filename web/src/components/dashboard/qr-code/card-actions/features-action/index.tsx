@@ -3,9 +3,8 @@
 import * as React from 'react';
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from '@shtcut-ui/react';
 import { IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { Trash2 } from 'lucide-react';
-import { BarChart2 } from 'lucide-react';
-import { PencilLine } from 'lucide-react';
+import { BarChart2, PencilLine, Trash2 } from 'lucide-react';
+
 
 const FeatureActions = () => {
     return (

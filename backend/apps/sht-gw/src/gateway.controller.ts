@@ -31,7 +31,6 @@ export class GatewayController {
 
   @Get('/endpoint/ip')
   async IpAddress(@GetClientInfo() ipAddress, @Req() req: Request, @Res() res: Response) {
-    console.log(ipAddress);
     return res.status(OK).json({ ipAddress });
   }
 

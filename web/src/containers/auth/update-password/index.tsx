@@ -1,33 +1,19 @@
 'use client';
 
-import { Card, Dict } from '@shtcut-ui/react';
-import { UpdatePasswordForm } from '@shtcut/components/form';
+import { Card } from '@shtcut-ui/react';
 import { useAuth } from '@shtcut/hooks/auth';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { get, omit } from 'lodash';
+import { useRouter } from 'next/navigation';
+import { get } from 'lodash';
 import { AppAlert, Logo } from '@shtcut/components';
 import { IconAlertCircle } from '@tabler/icons-react';
 
 export const UpdatePasswordContainer = () => {
-    const searchParams = useSearchParams();
     const { push } = useRouter();
-    const { updatePassword, updatePasswordResponse } = useAuth();
-    const { isSuccess, isLoading, error } = updatePasswordResponse;
+    const { updatePasswordResponse } = useAuth();
+    const { isSuccess, error } = updatePasswordResponse;
 
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
 
-    const handleUpdatePasswordSubmit = (values: Dict) => {
-        const payload = {
-            email: searchParams.get('email'),
-            ...omit(values, ['confirmPassword'])
-        };
-        updatePassword({
-            payload,
-            options: {
-                successMessage: 'Password change successful'
-            }
-        });
-    };
 
     const ErrorAlert = ({ message }: { message: string }) => (
         <AppAlert

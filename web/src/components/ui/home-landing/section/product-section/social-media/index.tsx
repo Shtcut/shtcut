@@ -1,4 +1,4 @@
-import { Button, Card } from '@shtcut-ui/react';
+import { Card } from '@shtcut-ui/react';
 import AnimatedContainer from '@shtcut/components/framer/animate-div';
 import { Check } from 'lucide-react';
 import Image from 'next/image';
@@ -39,7 +39,7 @@ const SocialMedia = () => {
                                 alt="icons"
                                 width={0}
                                 height={0}
-                                className={`bg-white w-full  md:w-[624px] h-80 md:h-[488px]`}
+                                className={'bg-white w-full  md:w-[624px] h-80 md:h-[488px]'}
                                 src="/images/connected.svg.png"
                                 sizes="100vw"
                                 loading="eager"

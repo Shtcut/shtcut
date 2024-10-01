@@ -45,9 +45,8 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [createLink, createLinkResponse] = useCreateLinkMutation();
     const [updateLink, updateLinkResponse] = useUpdateLinkMutation();
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
-    const [findAllLinks, { data: links, isLoading }] = useLazyFindAllLinksQuery();
+    const [findAllLinks, { isLoading }] = useLazyFindAllLinksQuery();
     const [getLink, getLinkResponse] = useLazyGetLinkQuery();
-    const [triggerLinks] = useLazyFindAllLinksQuery();
 
     const params = {
         ...paginate,
