@@ -69,13 +69,13 @@ permissions:
   contents: read
 
 env:
-  current_project: stacpaytgtest
+  current_project: shtcuttgtest
   current_port: 7000
   current_hostname_format: 'app-{0}.stardev.xyz'
   current_namespace: stg
   image-name: stmx
-  current_service_id: stacpay-app_id
-  current_service: stacpay-app
+  current_service_id: shtcut-app_id
+  current_service: shtcut-app
   current_dockerfile: './ci/Dockerfile'
   current_probe_url: '/api/v1/ping'
   current_app_secret: 'app-secret'
