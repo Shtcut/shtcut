@@ -252,7 +252,7 @@ jobs:
         with:
           push: true
           file: ${{ env.dockerfile }}
-          tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}:${{ needs.config.outputs.docker-tag }}-${{ env.service }}
+          tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}
 
       - name: Build & Push
         if: ${{ inputs.dockerfile && inputs.docker_compose_file }}
@@ -277,7 +277,7 @@ jobs:
             -H "Authorization: Bearer ${{secrets.RENDER_API_KEY}}" \
             -H "Content-Type: application/json" \
             -d '{
-              "imageUrl": "docker.io/${{secrets.DOCKER_HUB_USERNAME}}/${{ env.project }}:${{ needs.config.outputs.docker-tag }}-${{ env.service }}",
+              "imageUrl": "docker.io/${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}",
               "clearCache": "do_not_clear"
             }' \
               https://api.render.com/v1/services/${{ env.service_id }}/deploys
