@@ -69,6 +69,7 @@ jobs:
             repository: ${{ steps.variables.outputs.repository }}
             namespace: ${{ steps.variables.outputs.namespace }}
             domain: ${{ steps.variables.outputs.domain }}
+            environment: ${{ steps.variables.outputs.environment }}
             port: ${{ steps.variables.outputs.port }}
             app_secret: ${{ steps.variables.outputs.app_secret }}
         steps:
@@ -95,14 +96,14 @@ jobs:
             name: gateway
             owner: ${{ needs.envs.outputs.owner }}
             project: ${{ needs.envs.outputs.project }}
-            region: ${{ needs.envs.outputs.project }}
-            repository: ${{ needs.envs.outputs.project }}
-            environment: ${{ needs.envs.outputs.project }}
-            port: ${{ needs.envs.outputs.project }}
-            namespace: ${{ needs.envs.outputs.project }}
-            app_secret: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.region }}
+            repository: ${{ needs.envs.outputs.repository }}
+            environment: ${{ needs.envs.outputs.environment }}
+            port: ${{ needs.envs.outputs.port }}
+            namespace: ${{ needs.envs.outputs.namespace }}
+            app_secret: ${{ needs.envs.outputs.app_secret }}
             service_id: 'srv-crt90656l47c73d8e440'
-            service: ${{ needs.envs.outputs.namespace }}-gateway
+            service: ${{ needs.envs.outputs.project }}-gateway
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
             dockerfile: 'backend/docker/gateway/Dockerfile'
             buildCommand: 'npm run build:gw --if-present'
@@ -121,20 +122,20 @@ jobs:
         uses: ./.github/workflows/ci.yaml
         with:
             is_workflow: true
-            name: service
+            name: acl
             owner: ${{ needs.envs.outputs.owner }}
             project: ${{ needs.envs.outputs.project }}
-            region: ${{ needs.envs.outputs.project }}
-            repository: ${{ needs.envs.outputs.project }}
-            environment: ${{ needs.envs.outputs.project }}
-            port: ${{ needs.envs.outputs.project }}
-            namespace: ${{ needs.envs.outputs.project }}
-            app_secret: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.region }}
+            repository: ${{ needs.envs.outputs.repository }}
+            environment: ${{ needs.envs.outputs.environment }}
+            port: ${{ needs.envs.outputs.port }}
+            namespace: ${{ needs.envs.outputs.namespace }}
+            app_secret: ${{ needs.envs.outputs.app_secret }}
             service_id: 'srv-crt92p56l47c73d8f710'
-            service: ${{ needs.envs.outputs.namespace }}-service
+            service: ${{ needs.envs.outputs.project }}-acl
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
-            dockerfile: 'backend/docker/service/Dockerfile'
-            buildCommand: 'npm run build:service --if-present'
+            dockerfile: 'backend/docker/acl/Dockerfile'
+            buildCommand: 'npm run build:acl --if-present'
         secrets:
             RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
             HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
@@ -150,17 +151,17 @@ jobs:
         uses: ./.github/workflows/ci.yaml
         with:
             is_workflow: true
-            name: worker
+            name: shtner
             owner: ${{ needs.envs.outputs.owner }}
             project: ${{ needs.envs.outputs.project }}
-            region: ${{ needs.envs.outputs.project }}
-            repository: ${{ needs.envs.outputs.project }}
-            environment: ${{ needs.envs.outputs.project }}
-            port: ${{ needs.envs.outputs.project }}
-            namespace: ${{ needs.envs.outputs.project }}
-            app_secret: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.region }}
+            repository: ${{ needs.envs.outputs.repository }}
+            environment: ${{ needs.envs.outputs.environment }}
+            port: ${{ needs.envs.outputs.port }}
+            namespace: ${{ needs.envs.outputs.namespace }}
+            app_secret: ${{ needs.envs.outputs.app_secret }}
             service_id: 'srv-crt9eet2ng1s73buev1g'
-            service: ${{ needs.envs.outputs.namespace }}-worker
+            service: ${{ needs.envs.outputs.project }}-shtner
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
             dockerfile: 'backend/docker/shtner/Dockerfile'
             buildCommand: 'npm run build:worker --if-present'
@@ -181,14 +182,14 @@ jobs:
             name: worker
             owner: ${{ needs.envs.outputs.owner }}
             project: ${{ needs.envs.outputs.project }}
-            region: ${{ needs.envs.outputs.project }}
-            repository: ${{ needs.envs.outputs.project }}
-            environment: ${{ needs.envs.outputs.project }}
-            port: ${{ needs.envs.outputs.project }}
-            namespace: ${{ needs.envs.outputs.project }}
-            app_secret: ${{ needs.envs.outputs.project }}
+            region: ${{ needs.envs.outputs.region }}
+            repository: ${{ needs.envs.outputs.repository }}
+            environment: ${{ needs.envs.outputs.environment }}
+            port: ${{ needs.envs.outputs.port }}
+            namespace: ${{ needs.envs.outputs.namespace }}
+            app_secret: ${{ needs.envs.outputs.app_secret }}
             service_id: 'srv-crt9f43tq21c73dm61ig'
-            service: ${{ needs.envs.outputs.namespace }}-worker
+            service: ${{ needs.envs.outputs.project }}-worker
             hostname-format: service.stg.${{ needs.envs.outputs.domain }}
             dockerfile: 'backend/docker/worker/Dockerfile'
             buildCommand: 'npm run build:worker --if-present'
