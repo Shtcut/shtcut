@@ -252,7 +252,7 @@ jobs:
         with:
           push: true
           file: ${{ env.dockerfile }}
-          tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{ env.project }}:${{ needs.config.outputs.docker-tag }}-${{ env.service }}
+          tags: ${{secrets.DOCKER_HUB_USERNAME}}/${{ env.service }}:${{ needs.config.outputs.docker-tag }}-${{ env.service }}
 
       - name: Build & Push
         if: ${{ inputs.dockerfile && inputs.docker_compose_file }}

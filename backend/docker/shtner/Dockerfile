@@ -7,16 +7,16 @@ WORKDIR /usr/src/app
 # Copy application dependency manifests to the container image.
 # A wildcard is used to ensure both package.json AND package-lock.json are copied.
 # Copying this separately prevents re-running npm install on every code change.
-COPY package*.json ./
-COPY tsconfig.json tsconfig.build.json nest-cli.json ./
+COPY backend/package*.json ./
+COPY backend/tsconfig.json tsconfig.build.json nest-cli.json ./
 
 #Install dev dependencies
 RUN yarn install --frozen-lockfile --dev --verbose
 
 # Copy sources
-COPY ./apps/sht-shtner ./apps/sht-shtner
-COPY ./config ./config
-COPY ./libs ./libs
+COPY backend/apps/sht-shtner ./apps/sht-shtner
+COPY backend/config ./config
+COPY backend/libs ./libs
 
 # Buld app
 RUN yarn run build:shtner
