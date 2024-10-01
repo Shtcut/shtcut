@@ -14,7 +14,7 @@ permissions:
 
 env:
     owner: 'shtcut'
-    repository: 'Devops'
+    repository: 'shtcut'
     project: 'backend'
     region: 'eu-west-1'
     domain: 'shtcut.co'
