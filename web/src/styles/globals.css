@@ -269,5 +269,17 @@ $secondary: rgb(100, 100, 100); */
     bottom: 0;
     height: 2px;
     background-color: #0d6efd; /* Or your primary color */
-    transition: left 0.3s ease, width 0.3s ease;
+    transition:
+        left 0.3s ease,
+        width 0.3s ease;
+}
+
+textarea {
+    scroll-padding-block: 15px;
+}
+/* .fc-toolbar-title {
+    font-size: 12px;
+} */
+#fc-dom-86 {
+    font-size: 14px;
 }

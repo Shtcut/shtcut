@@ -1,4 +1,5 @@
-import { GeneralType, IntegrationSectionType, Plan, PostInterface } from '@shtcut/types/types';
+import { GeneralType, IntegrationSectionType, Plan, PostInterface, SocialPost } from '@shtcut/types/types';
+import dayjs from 'dayjs';
 import { Activity, Command, PieChart } from 'lucide-react';
 
 export const IMPACT: GeneralType[] = [
@@ -655,3 +656,252 @@ export const tabs = [
     { id: 'notification', label: 'Notification' },
     { id: 'api-keys', label: 'API Keys' }
 ];
+
+export const social_media = [
+    {
+        id: '1',
+        default_img: ['/social/default_fb.png', '/social/default_fb.png'],
+        name: 'Facebook',
+        isActive: false
+    },
+    {
+        id: '2',
+        default_img: ['/social/instagram.png', '/social/instagram.png'],
+        name: 'Instagram',
+        isActive: true
+    },
+    {
+        id: '3',
+        default_img: ['/social/tiktok.png', '/social/tiktok.png'],
+        name: 'Tiktok',
+        isActive: true
+    },
+    {
+        id: '4',
+        default_img: ['/social/twitter.png', '/social/twitter.png'],
+        name: 'Twitter',
+        isActive: true
+    },
+    {
+        id: '5',
+        default_img: ['/social/default_linkedin.png', '/social/default_linkedin.png'],
+        name: 'Linkedin',
+        isActive: false
+    },
+    {
+        id: '6',
+        default_img: ['/social/default_youtube.png', '/social/default_youtube.png'],
+        name: 'Youtube',
+        isActive: false
+    },
+    {
+        id: '7',
+        default_img: ['/social/default_pininterest.png', '/social/default_pininterest.png'],
+        name: 'Pinterest',
+        isActive: false
+    }
+];
+
+export const socialPosts: SocialPost[] = [
+    {
+        channels: ['/social/Twitter.png', '/social/instagram.png', '/social/instagram.png'],
+        status: 'Published',
+        post: 'We built Safari to be the best browser for your Mac, iPhone and iPad.......',
+        date: 'Nov 12, 2024 12:45 PM',
+        label: 'Marketing',
+        author: 'John Doe'
+    },
+    {
+        channels: ['/social/Twitter.png', '/social/instagram.png', '/social/instagram.png'],
+        status: 'Scheduled',
+        post: 'We built Safari to be the best browser for your Mac, iPhone and iPad.......',
+        date: 'Nov 12, 2024 12:45 PM',
+        label: 'Brands',
+        author: 'Jane Smith'
+    },
+    {
+        channels: ['/social/Twitter.png', '/social/instagram.png', '/social/instagram.png'],
+        status: 'Scheduled',
+        post: 'We built Safari to be the best browser for your Mac, iPhone and iPad.......',
+        date: 'Nov 12, 2024 12:45 PM',
+        label: ['Marketing', 'Tech'],
+        author: 'Alex Johnson'
+    },
+    {
+        channels: ['/social/Twitter.png', '/social/instagram.png', '/social/instagram.png'],
+        status: 'Failed',
+        post: 'We built Safari to be the best browser for your Mac, iPhone and iPad.......',
+        date: 'Nov 12, 2024 12:45 PM',
+        label: ['Marketing', 'Tech'],
+        author: 'Alex Johnson'
+    },
+    {
+        channels: ['/social/Twitter.png', '/social/instagram.png', '/social/instagram.png'],
+        status: 'Draft',
+        post: 'We built Safari to be the best browser for your Mac, iPhone and iPad.......',
+        date: 'Nov 12, 2024 12:45 PM',
+        label: ['Marketing', 'Tech'],
+        author: 'Alex Johnson'
+    }
+];
+
+export const connectChannel = [
+    { channels: '/social/instagram.png', title: 'Instagram', description: 'Profile' },
+    { channels: '/social/outline-twitter.png', title: 'Twitter', description: 'Profile' },
+    { channels: '/social/outline-fb.png', title: 'Facebook', description: 'Page or group' },
+    { channels: '/social/tiktok.png', title: 'Tiktok', description: 'Business account' },
+    { channels: '/social/youtube.png', title: 'Youtube', description: 'Channel' },
+    { channels: '/social/linkedin.png', title: 'Linkedin', description: 'Page or Profile' },
+    { channels: '/social/pininterest-outline.png', title: 'Pinterest', description: 'Profile' },
+    { channels: '/social/threads.png', title: 'Threads', description: 'Profile' }
+];
+export const eventsData = [
+    {
+        id: '1',
+        title: dayjs().startOf('day').add(1, 'hour').format('hh:mm A'),
+        start: dayjs().startOf('day').add(1, 'hour').format(),
+        end: dayjs().startOf('day').add(2, 'hours').format(),
+        eventColor: 'blue'
+    },
+    {
+        id: '2',
+        title: dayjs().startOf('day').add(4, 'hours').format('hh:mm A'),
+        start: dayjs().startOf('day').add(4, 'hours').format(),
+        end: dayjs().startOf('day').add(5, 'hours').format(),
+        eventColor: 'green'
+    },
+    {
+        id: '3',
+        title: dayjs().add(1, 'day').startOf('day').add(1, 'hour').format('hh:mm A'),
+        start: dayjs().add(1, 'day').startOf('day').add(1, 'hour').format(),
+        end: dayjs().add(1, 'day').startOf('day').add(2, 'hours').format(),
+        eventColor: 'red'
+    },
+    {
+        id: '4',
+        title: dayjs().add(2, 'days').startOf('day').add(3, 'hours').format('hh:mm A'),
+        start: dayjs().add(2, 'days').startOf('day').add(3, 'hours').format(),
+        end: dayjs().add(2, 'days').startOf('day').add(4, 'hours').format(),
+        eventColor: 'orange'
+    },
+    {
+        id: '5',
+        title: dayjs().add(1, 'week').startOf('day').add(5, 'hours').format('hh:mm A'),
+        start: dayjs().add(1, 'week').startOf('day').add(5, 'hours').format(),
+        end: dayjs().add(1, 'week').startOf('day').add(6, 'hours').format(),
+        eventColor: 'purple'
+    },
+    {
+        id: '6',
+        title: dayjs().add(2, 'weeks').startOf('day').add(2, 'hours').format('hh:mm A'),
+        start: dayjs().add(2, 'weeks').startOf('day').add(2, 'hours').format(),
+        end: dayjs().add(2, 'weeks').startOf('day').add(3, 'hours').format(),
+        eventColor: 'yellow'
+    },
+    {
+        id: '7',
+        title: dayjs().add(1, 'month').startOf('day').add(3, 'hours').format('hh:mm A'),
+        start: dayjs().add(1, 'month').startOf('day').add(3, 'hours').format(),
+        end: dayjs().add(1, 'month').startOf('day').add(4, 'hours').format(),
+        eventColor: 'pink'
+    },
+    {
+        id: '8',
+        title: dayjs().add(3, 'months').startOf('day').add(1, 'hour').format('hh:mm A'),
+        start: dayjs().add(3, 'months').startOf('day').add(1, 'hour').format(),
+        end: dayjs().add(3, 'months').startOf('day').add(2, 'hours').format(),
+        eventColor: 'cyan'
+    },
+    {
+        id: '9',
+        title: dayjs().add(1, 'day').startOf('day').add(4, 'hours').format('hh:mm A'),
+        start: dayjs().add(1, 'day').startOf('day').add(4, 'hours').format(),
+        end: dayjs().add(1, 'day').startOf('day').add(5, 'hours').format(),
+        eventColor: 'brown'
+    },
+    {
+        id: '10',
+        title: dayjs().add(2, 'weeks').startOf('day').add(6, 'hours').format('hh:mm A'),
+        start: dayjs().add(2, 'weeks').startOf('day').add(6, 'hours').format(),
+        end: dayjs().add(2, 'weeks').startOf('day').add(7, 'hours').format(),
+        eventColor: 'teal'
+    },
+    {
+        id: '11',
+        title: dayjs().add(1, 'week').startOf('day').add(8, 'hours').format('hh:mm A'),
+        start: dayjs().add(1, 'week').startOf('day').add(8, 'hours').format(),
+        end: dayjs().add(1, 'week').startOf('day').add(9, 'hours').format(),
+        eventColor: 'violet'
+    },
+    {
+        id: '12',
+        title: dayjs().subtract(7, 'days').startOf('day').add(9, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(7, 'days').startOf('day').add(9, 'hours').format(),
+        end: dayjs().subtract(7, 'days').startOf('day').add(10, 'hours').format(),
+        eventColor: 'orange'
+    },
+    {
+        id: '13',
+        title: dayjs().subtract(6, 'days').startOf('day').add(10, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(6, 'days').startOf('day').add(10, 'hours').format(),
+        end: dayjs().subtract(6, 'days').startOf('day').add(11, 'hours').format(),
+        eventColor: 'blue'
+    },
+    {
+        id: '14',
+        title: dayjs().subtract(5, 'days').startOf('day').add(11, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(5, 'days').startOf('day').add(11, 'hours').format(),
+        end: dayjs().subtract(5, 'days').startOf('day').add(12, 'hours').format(),
+        eventColor: 'green'
+    },
+    {
+        id: '15',
+        title: dayjs().subtract(4, 'days').startOf('day').add(14, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(4, 'days').startOf('day').add(14, 'hours').format(),
+        end: dayjs().subtract(4, 'days').startOf('day').add(15, 'hours').format(),
+        eventColor: 'yellow'
+    },
+    {
+        id: '16',
+        title: dayjs().subtract(3, 'days').startOf('day').add(8, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(3, 'days').startOf('day').add(8, 'hours').format(),
+        end: dayjs().subtract(3, 'days').startOf('day').add(9, 'hours').format(),
+        eventColor: 'red'
+    },
+    {
+        id: '17',
+        title: dayjs().subtract(2, 'days').startOf('day').add(12, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(2, 'days').startOf('day').add(12, 'hours').format(),
+        end: dayjs().subtract(2, 'days').startOf('day').add(13, 'hours').format(),
+        eventColor: 'purple'
+    },
+    {
+        id: '18',
+        title: dayjs().subtract(1, 'day').startOf('day').add(3, 'hours').format('hh:mm A'),
+        start: dayjs().subtract(1, 'day').startOf('day').add(3, 'hours').format(),
+        end: dayjs().subtract(1, 'day').startOf('day').add(4, 'hours').format(),
+        eventColor: 'cyan'
+    },
+    {
+        id: '19',
+        title: dayjs().add(1, 'week').startOf('day').add(7, 'hours').format('hh:mm A'),
+        start: dayjs().add(1, 'week').startOf('day').add(7, 'hours').format(),
+        end: dayjs().add(1, 'week').startOf('day').add(8, 'hours').format(),
+        eventColor: 'orange'
+    },
+    {
+        id: '20',
+        title: dayjs().add(2, 'weeks').startOf('day').add(9, 'hours').format('hh:mm A'),
+        start: dayjs().add(2, 'weeks').startOf('day').add(9, 'hours').format(),
+        end: dayjs().add(2, 'weeks').startOf('day').add(10, 'hours').format(),
+        eventColor: 'pink'
+    }
+];
+
+export const initialLabels = [
+    { id: 'brands', name: 'Brands' },
+    { id: 'marketing', name: 'Marketing' },
+    { id: 'tech', name: 'Tech' },
+    { id: 'fashion', name: 'Fashion' }
+];
+export const labelColors = ['bg-[#8789F3]', 'bg-[#F4C029]', 'bg-[#F070AF]', 'bg-[#A5E534]'];

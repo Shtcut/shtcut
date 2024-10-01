@@ -1,7 +1,6 @@
 import { Badge, Button, buttonVariants, cn } from '@shtcut-ui/react';
-import usePricingNavigation from '@shtcut/hooks/usePricing-naviagtion';
+import usePricingNavigation from '@shtcut/hooks/usePricing-navigation';
 import Image from 'next/image';
-
 
 export const Hero = () => {
     const { scrollToPricing } = usePricingNavigation();

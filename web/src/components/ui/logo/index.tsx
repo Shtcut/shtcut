@@ -20,6 +20,7 @@ export const Logo = (props: LogoProps) => {
                 height={props.height ?? 50}
                 alt="Shtcut Logo"
                 className={props.className}
+                unoptimized
             />
         </Link>
     );

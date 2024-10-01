@@ -6,17 +6,21 @@ import { isUndefined } from 'lodash';
 import MenuIcon from '@shtcut/asset/icons/MenuIcon';
 import { FeatureMenu } from './component';
 import RouteLink from '../nav-link/route-link';
-
 import { routes } from '@shtcut/_shared/utils/route';
-import usePricingNavigation from '@shtcut/hooks/usePricing-naviagtion';
+
 import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 import RightNavComponent from './right-nav';
 import BlurOverlay from '@shtcut/components/global-overlay';
 import { useState } from 'react';
+import MenuDrawer from './menu-drawer';
+import usePricingNavigation from '@shtcut/hooks/usePricing-navigation';
 
 export const HomeNavbar = () => {
     const { width } = useWindowSize();
     const [isOverlayVisible, setOverlayVisible] = useState(false);
+    const [isDrawerVisible, setDrawerVisible] = useState(false);
+    const toggleDrawer = () => setDrawerVisible(!isDrawerVisible);
+
     const mobile = width !== undefined && width <= 768;
     const { scrollToPricing } = usePricingNavigation();
     const { authData } = useAuth();
@@ -41,7 +45,7 @@ export const HomeNavbar = () => {
 
                         <section className="flex items-center gap-x-10">
                             <section className={`${mobile ? 'flex' : 'hidden'} `}>
-                                <MenuIcon />
+                                <MenuIcon onClick={toggleDrawer} />
                             </section>
                             <div className={` space-x-4 ${mobile ? 'hidden' : 'flex'}  items-center`}>
                                 <FeatureMenu onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} />
@@ -57,6 +61,14 @@ export const HomeNavbar = () => {
                         </section>
                     </section>
                 </nav>
+                {mobile && (
+                    <MenuDrawer
+                        handleMouseEnter={handleMouseEnter}
+                        isOpen={isDrawerVisible}
+                        handleMouseLeave={handleMouseLeave}
+                        setIsDrawerOpen={setDrawerVisible}
+                    />
+                )}
             </header>
         </>
     );

@@ -1,0 +1,32 @@
+input[type='range']::-webkit-slider-runnable-track {
+    background: transparent;
+    height: 10px; /* You can adjust the thickness here */
+    border-radius: 8px;
+}
+
+input[type='range']::-webkit-slider-thumb {
+    background: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    -webkit-appearance: none;
+    position: relative;
+    bottom: 4px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+input[type='range']::-moz-range-thumb {
+    background: white;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 0px rgba(0, 0, 0, 0.05);
+}
+
+input[type='range']::-moz-range-track {
+    background: white;
+    height: 6px;
+    border: 1px solid red;
+}

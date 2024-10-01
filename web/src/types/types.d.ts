@@ -159,3 +159,37 @@ export interface CountryType {
     phone: string;
     suggested?: boolean;
 }
+
+interface PostContentProps {
+    postText: string;
+    handleTextChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    selectedImages?: File[] | undefined;
+    setSelectedImages?: React.Dispatch<React.SetStateAction<File[]>> | undefined;
+    handleOpen?: (open: boolean, modalType: string) => void;
+    setPostText?: React.Dispatch<React.SetStateAction<string>>;
+}
+
+type SocialPost = {
+    channels: string | string[];
+    status: 'Published' | 'Scheduled' | 'Failed' | 'Draft';
+    post: string;
+    date: string;
+    label: string | string[];
+    author: string;
+};
+export type EventParam = {
+    id: string;
+    title: string;
+    start: string;
+    eventColor: string;
+    end?: string;
+    type?: string;
+};
+export type SelectedEvent = EventParam & { type: 'NEW' | 'EDIT' };
+
+interface SocialMedia {
+    id: string;
+    default_img: string[];
+    name: string;
+    isActive: boolean;
+}

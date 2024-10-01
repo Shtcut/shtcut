@@ -1,6 +1,13 @@
-import { LogOut, MailOpen, Link } from 'lucide-react';
-import { PiProjectorScreenChartBold, PiQrCodeBold } from 'react-icons/pi';
+
+import { LogOut, MailOpen, Link, Image } from 'lucide-react';
+import { PiQrCodeBold } from 'react-icons/pi';
 import { AiFillAppstore } from 'react-icons/ai';
+import { PiProjectorScreenChartBold } from 'react-icons/pi';
+import { PiFolderSimplePlusLight } from 'react-icons/pi';
+import { IoCalendarOutline } from 'react-icons/io5';
+import { PiNoteDuotone } from 'react-icons/pi';
+import { GoGraph } from 'react-icons/go';
+
 
 export interface NavLink {
     id: string;
@@ -20,7 +27,6 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             id: '1',
             title: 'Dashboard',
             href: `/url/${workspace}/overview`,
-
             icon: <AiFillAppstore size={16} />
         },
         {
@@ -60,23 +66,62 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
 
     const socialNavs = [
         {
-            title: 'Overview',
-            href: `/social/${workspace}/overview`
+            id: '1',
+            title: 'Dashboard',
+            href: `/social/${workspace}/dashboard`,
+            icon: <AiFillAppstore size={16} />
         },
         {
+            id: '2',
             title: 'Posts',
-            href: `/social/${workspace}/posts`
+            href: `/social/${workspace}/posts`,
+            icon: <PiFolderSimplePlusLight size={16} />
+        },
+        {
+            id: '3',
+            title: 'Calendars',
+            href: `/social/${workspace}/calendars`,
+            icon: <IoCalendarOutline size={16} />
+        },
+        {
+            id: '4',
+            title: 'Media Library',
+            href: `/social/${workspace}/media-library`,
+            icon: <Image size={16} />
+        },
+        {
+            id: '5',
+            title: 'Analytics',
+            href: `/social/${workspace}/calendars`,
+            icon: <GoGraph size={16} />
+        },
+        {
+            id: '6',
+            title: 'Sign out',
+            href: `/social/${workspace}/calendars`,
+            icon: <LogOut size={16} />
+        }
+    ];
+
+    const surveyNavs = [
+        {
+            title: 'Overview',
+            href: `/survey/${workspace}/overview`
+        },
+        {
+            title: 'Survey',
+            href: `/survey/${workspace}/survey`
         },
         {
             title: 'Calendars',
-            href: `/social/${workspace}/calendars`
+            href: `/survey/${workspace}/calendars`
         }
     ];
 
     const navs = {
         url: urlNavs,
         social: socialNavs,
-        survey: [],
+        survey: surveyNavs,
         marketing: []
     };
     return navs[module] as SideLink[];

@@ -1,3 +1,4 @@
+'use client';
 import { Button, Card } from '@shtcut-ui/react';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
 import React, { createElement, useState } from 'react';

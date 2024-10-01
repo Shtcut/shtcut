@@ -1,3 +1,4 @@
+'use client';
 import { DomainsComponent } from '@shtcut/components/dashboard';
 import React, { useState } from 'react';
 

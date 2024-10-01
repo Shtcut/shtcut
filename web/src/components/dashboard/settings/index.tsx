@@ -1,3 +1,4 @@
+'use client';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import React, { useState, useEffect } from 'react';
 import {
@@ -29,18 +30,17 @@ const SettingComponent = () => {
         setSelectedTabIndex(index);
     };
 
- useEffect(() => {
-     const findTabIndex = () => {
-         const index = tabs.findIndex((tab) => tab.id === queryTag);
-         return index !== -1 ? index : 0;
-     };
+    useEffect(() => {
+        const findTabIndex = () => {
+            const index = tabs.findIndex((tab) => tab.id === queryTag);
+            return index !== -1 ? index : 0;
+        };
 
-     setSelectedTabIndex(findTabIndex());
- }, [queryTag, tabs]);
-
+        setSelectedTabIndex(findTabIndex());
+    }, [queryTag, tabs]);
 
     return (
-        <div className='px-10'>
+        <div className="px-10">
             <div className="">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Settings</h1>
             </div>
