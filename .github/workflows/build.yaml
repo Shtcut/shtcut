@@ -72,4 +72,4 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - run: docker build -t ${{ inputs.project }}-${{ inputs.service }} -f ${{ inputs.dockerfile }} ./
+      - run: docker build -t ${{ inputs.service }} -f ${{ inputs.dockerfile }} ./
