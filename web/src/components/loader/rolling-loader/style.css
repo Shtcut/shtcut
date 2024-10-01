@@ -1,0 +1,23 @@
+.loader {
+    border: 16px solid;
+    border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.35) rgba(0, 0, 0, 0.5); /* Darker colors */
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: animloader 1s linear infinite;
+}
+
+@keyframes animloader {
+    0% {
+        border-color: rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.35) rgba(0, 0, 0, 0.75); /* Start with darker shades */
+    }
+    33% {
+        border-color: rgba(0, 0, 0, 0.75) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.35);
+    }
+    66% {
+        border-color: rgba(0, 0, 0, 0.35) rgba(0, 0, 0, 0.75) rgba(0, 0, 0, 0.15) rgba(0, 0, 0, 0.25);
+    }
+    100% {
+        border-color: rgba(0, 0, 0, 0.25) rgba(0, 0, 0, 0.35) rgba(0, 0, 0, 0.75) rgba(0, 0, 0, 0.15); /* Darker ending colors */
+    }
+}

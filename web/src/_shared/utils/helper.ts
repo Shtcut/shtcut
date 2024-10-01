@@ -25,3 +25,49 @@ export const highlightText = (text: string, query: string) => {
             `<span style="background-color: #2F64E9; color: #ffffff; padding: 0.05em 0.2em 0.05em 0.2em; border-radius:2px; ">${match}</span>`
     );
 };
+
+export function formatDate(dateInput: string | Date): string {
+    const date = new Date(dateInput);
+
+    if (isNaN(date.getTime())) {
+        throw new Error('Invalid date');
+    }
+
+    const formatter = new Intl.DateTimeFormat('en-US', {
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+    });
+
+    return formatter.format(date);
+}
+
+export default async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
+    const image = new Image();
+    image.src = imageSrc;
+
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+
+    return new Promise<string>((resolve) => {
+        image.onload = () => {
+            if (ctx) {
+                ctx.drawImage(
+                    image,
+                    pixelCrop.x,
+                    pixelCrop.y,
+                    pixelCrop.width,
+                    pixelCrop.height,
+                    0,
+                    0,
+                    pixelCrop.width,
+                    pixelCrop.height
+                );
+                resolve(canvas.toDataURL('image/jpeg'));
+            }
+        };
+    });
+}

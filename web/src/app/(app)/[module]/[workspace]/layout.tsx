@@ -42,7 +42,7 @@ const WorkspaceLayout = ({ children }: any) => {
             id: '4',
             img: params?.workspace === 'social-media' ? '/images/social-icon.png' : '/images/social.png',
             workspace: 'social-media',
-            url: '/social/social-media/overview',
+            url: '/social/social-media/dashboard',
             title: 'Social Media'
         },
 
@@ -77,7 +77,7 @@ const WorkspaceLayout = ({ children }: any) => {
         setSelectedTabIndex(index);
     };
     return (
-        <div className="bg-[#fcfcfc] w-full h-screen flex">
+        <div className=" w-full h-screen flex">
             <div className="bg-white w-12  z-50 h-full fixed">
                 <div className="h-[63px] bg-white flex items-center justify-center">
                     <Image src={'/images/shtcut-logo-icon.png'} width={24} height={24} alt="shtcut logo" />
@@ -139,14 +139,14 @@ const WorkspaceLayout = ({ children }: any) => {
                         </Suspense>
                     </div>
                 </div>
-                <section className="flex relative h-screen w-full top-[63px]">
+                <section className="flex  w-full">
                     {isSideBarOpen && (
                         <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
                     )}
                     <div
-                        className={`w-full  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6`}
+                        className={`w-full  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6 `}
                     >
-                        {children}
+                        <section className="max-w-screen-lg pt-[63px] mx-auto">{children}</section>
                     </div>
                 </section>
             </div>

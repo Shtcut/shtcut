@@ -11,7 +11,7 @@ module.exports = {
         return config;
     },
     images: {
-        domains: ['img.youtube.com'] 
+        domains: ['img.youtube.com', 'images.unsplash.com']
     },
     redirects: async () => {
         return [

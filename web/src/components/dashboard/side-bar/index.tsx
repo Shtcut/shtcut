@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import HeaderSideNav from './header-sidenav';
 import { Button, Label, Modal, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
 import { Plus } from 'lucide-react';
@@ -18,6 +18,7 @@ type Props = {
 };
 
 export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Props) {
+    const router = useRouter();
     const params = useParams();
     const pathName = usePathname();
     const { module, workspace } = params;
@@ -25,6 +26,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
     const isMd = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const [showModal, setShowModal] = useState(false);
+    console.log('workSpaceTitle', workSpaceTitle);
     const Sidebar_animation = isTab
         ? {
               open: {
@@ -75,34 +77,53 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
         setActiveTab(tabId);
     };
 
+    const handleCreateRoute = () => {
+        if (workSpaceTitle === 'Social Media') {
+            router.push('/social/social-media/create-post');
+        } else return;
+    };
+
     return (
         <motion.div
             initial={{ x: isTab ? -250 : 0 }}
             variants={Sidebar_animation}
             animate={isOpen ? 'open' : 'closed'}
-            className="bg-white flex flex-col justify-between border-l border-r h-full z-40 w-60 fixed"
+            className="bg-white flex  flex-col justify-between border-l border-r h-full z-40 w-60 top-[63px] fixed"
         >
             <div className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  `}>
-                {workSpaceTitle === 'Url Shortener' && (
-                    <>
-                        {isOpen ? (
-                            <Button className="bg-primary-0 text-xs rounded h-8">Create New</Button>
-                        ) : (
-                            <div className="bg-primary-0 cursor-pointer w-6 h-6 rounded-full flex justify-center items-center text-white">
-                                <TooltipProvider delayDuration={0}>
-                                    <Tooltip>
-                                        <TooltipTrigger>
-                                            <Plus size={16} />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <Label className="font-light text-xs">Create New</Label>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
-                            </div>
-                        )}
-                    </>
-                )}
+                {workSpaceTitle === 'Url Shortener' ||
+                    ('Social Media' && (
+                        <>
+                            {isOpen ? (
+                                <div className="w-full">
+                                    {workSpaceTitle === 'Social Media' ? (
+                                        <Link href={'/social/social-media/create-post'}>
+                                            <p className="bg-primary-0 text-xs rounded h-8 flex items-center justify-center text-white font-medium">
+                                                Create Posts
+                                            </p>
+                                        </Link>
+                                    ) : (
+                                        <Button className="bg-primary-0 text-xs rounded h-8">Create New</Button>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="bg-primary-0 cursor-pointer w-6 h-6 rounded-full flex justify-center items-center text-white">
+                                    <TooltipProvider delayDuration={0}>
+                                        <Tooltip>
+                                            <TooltipTrigger onClick={handleCreateRoute}>
+                                                <Plus size={16} />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <Label className="font-light text-xs">
+                                                    {workSpaceTitle === 'Social Media' ? 'Create Posts' : 'Create New'}
+                                                </Label>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
+                            )}
+                        </>
+                    ))}
 
                 <ul className={`flex flex-col  ${isOpen ? '' : ''} mt-[14px] gap-1 w-full `}>
                     {navigationOptions?.map((data) => (

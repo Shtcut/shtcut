@@ -1,4 +1,4 @@
-import { LogOut, MailOpen, Link } from 'lucide-react';
+import { LogOut, MailOpen, Link, Image } from 'lucide-react';
 import { PiQrCodeBold } from 'react-icons/pi';
 import { AiFillAppstore } from 'react-icons/ai';
 import { PiProjectorScreenChartBold } from 'react-icons/pi';
@@ -66,7 +66,7 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         {
             id: '1',
             title: 'Dashboard',
-            href: `/social/${workspace}/overview`,
+            href: `/social/${workspace}/dashboard`,
             icon: <AiFillAppstore size={16} />
         },
         {
@@ -83,9 +83,9 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         },
         {
             id: '4',
-            title: 'Post Management',
-            href: `/social/${workspace}/calendars`,
-            icon: <PiNoteDuotone size={16} />
+            title: 'Media Library',
+            href: `/social/${workspace}/media-library`,
+            icon: <Image size={16} />
         },
         {
             id: '5',
