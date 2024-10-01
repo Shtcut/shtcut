@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied.
 # Copying this separately prevents re-running npm install on every code change.
 COPY backend/package*.json ./
-COPY backend/tsconfig.json backend/sconfig.build.json backend/nest-cli.json ./
+COPY backend/tsconfig.json backend/tsconfig.build.json backend/nest-cli.json ./
 
 #Install dev dependencies
 RUN yarn install --frozen-lockfile --dev --verbose
