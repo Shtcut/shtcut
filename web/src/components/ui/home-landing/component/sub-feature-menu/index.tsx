@@ -23,6 +23,7 @@ import Image from 'next/image';
 import { BsCodeSlash, BsBuildings } from 'react-icons/bs';
 import { IoIosHelpCircleOutline } from 'react-icons/io';
 import { FaRegNewspaper } from 'react-icons/fa';
+import useWindowSize from '@shtcut/components/_shared/Responsiveness';
 
 type IProps = {
     onMouseEnter: () => void;
@@ -30,6 +31,18 @@ type IProps = {
 };
 
 const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
+
+    const { width } = useWindowSize();
+    const mobile = width !== undefined && width <= 768;
+    const { toast } = useToast();
+    const showToast = () => {
+        toast({
+            title: 'Coming Soon',
+            description: 'This feature is coming soon!',
+            variant: 'default'
+        });
+    };
+
     const features: { title: string; href: string; description: string; icon?: any }[] = [
         {
             title: 'Link Management',
@@ -124,10 +137,10 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
     return (
         <>
             <NavigationMenu>
-                <NavigationMenuList>
+                <NavigationMenuList className={`${mobile ? 'block' : ' w-full'} p-0 m-0`}>
                     <NavigationMenuItem className="">
                         <NavigationMenuTrigger
-                            className="text-sm font-normal bg-transparent"
+                            className={`text-sm font-normal bg-transparent ${mobile ? 'm-0 p-0' : ''} `}
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
                         >
@@ -136,10 +149,12 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                         <NavigationMenuContent
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
-                            className="rounded-[20px]"
+                            className="rounded-[20px] "
                         >
-                            <div className=" flex w-[400px] gap-3 p-6 md:w-[500px]  lg:w-[600px]">
-                                <div className="w-1/2">
+                            <div
+                                className={` ${mobile ? 'block w-80 ' : 'flex w-[400px] md:w-[500px]  lg:w-[600px]'}   gap-3 p-4 sm:p-6  `}
+                            >
+                                <div className={`${mobile ? 'w-full' : 'w-1/2'}`}>
                                     <h1 className="font-semibold text-xs uppercase px-3">Features</h1>
                                     <ul className="mt-2  ">
                                         {features.map((component, index) => (
@@ -162,7 +177,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                                         ))}
                                     </ul>
                                 </div>
-                                <div className="w-1/2">
+                                <div className={`${mobile ? 'w-full' : 'w-1/2'}`}>
                                     <h1 className="font-semibold text-xs uppercase px-3">Our Products</h1>
                                     <ul className="mt-2 ">
                                         {product.map((component, index) => (
@@ -198,7 +213,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <NavigationMenuTrigger
-                            className="text-sm font-normal bg-transparent"
+                            className={`text-sm font-normal bg-transparent ${mobile ? 'm-0 p-0 px-0 gap-0 ml-0 mr-0 pl-0 pr-0' : ''} `}
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
                         >
@@ -229,7 +244,7 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                     </NavigationMenuItem>
                     <NavigationMenuItem>
                         <NavigationMenuTrigger
-                            className="text-sm font-normal bg-transparent"
+                            className={`text-sm font-normal bg-transparent ${mobile ? 'm-0 p-0' : ''} `}
                             onMouseLeave={onMouseLeave}
                             onMouseEnter={onMouseEnter}
                         >
@@ -258,10 +273,10 @@ const FeatureMenu = ({ onMouseEnter, onMouseLeave }: IProps) => {
                             </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
-                    <NavigationMenuItem>
-                        <Link href="/pricing" legacyBehavior passHref>
+                    <NavigationMenuItem className={`${mobile ? 'm-0 p-0' : ''}`}>
+                        <Link href="/pricing" legacyBehavior passHref className="p-0 m-0">
                             <NavigationMenuLink
-                                className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm`}
+                                className={`${navigationMenuTriggerStyle()} bg-transparent font-normal text-sm  p-0 m-0`}
                             >
                                 Pricing
                             </NavigationMenuLink>

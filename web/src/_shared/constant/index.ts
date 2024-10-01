@@ -1,3 +1,5 @@
+import { createApi } from 'unsplash-js';
+
 export const GET = 'GET';
 export const POST = 'POST';
 export const PUT = 'PUT';
@@ -330,7 +332,7 @@ export const ACL = {
 
 export const SHTNER = {
     links: 'shtner/links',
-    domains: 'shtner/domains',
+    domains: 'shtner/domains'
 };
 
 export const AUTH_TOKEN_KEY = process.env.NEXT_PUBLIC_STORAGE_KEY as string;
@@ -585,15 +587,17 @@ export const dummyLinkHistory = [
     }
 ];
 
-
-
 // utils/formatName.ts
 export const FormatName = (fullName: string): string => {
-  const names = fullName.split(' ');
-  if (names.length < 2) return '';
+    const names = fullName.split(' ');
+    if (names.length < 2) return '';
 
-  const firstNameInitial = names[0].charAt(0).toUpperCase();
-  const lastNameInitial = names[1].charAt(0).toUpperCase();
+    const firstNameInitial = names[0].charAt(0).toUpperCase();
+    const lastNameInitial = names[1].charAt(0).toUpperCase();
 
-  return `${firstNameInitial}${lastNameInitial}`;
+    return `${firstNameInitial}${lastNameInitial}`;
 };
+
+export const unsplash = createApi({
+    accessKey: process.env.NEXT_PUBLIC_KEY_UNSPLASH as string
+});

@@ -1,24 +1,31 @@
 import { Input } from '@shtcut-ui/react';
 import React from 'react';
 import { Search } from 'lucide-react';
+
 interface SearchInputProps {
     placeholder?: string;
     className?: string;
     value?: string;
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    removeIcon?: boolean;
 }
-const SearchInput = ({ value, onChange }: SearchInputProps) => {
+
+
+const SearchInput = ({ placeholder, className = '', value, onChange, removeIcon = false }: SearchInputProps) => {
+
     return (
-        <div className="relative">
+        <div className={`relative ${className || 'w-48'} `}>
             <Input
-                className="border-[#CCCBCB] pl-10 w-48 text-xs text-[#433E3F] font-medium border bg-white "
-                placeholder="Search "
+                className={`${removeIcon ? 'pl-4' : 'pl-10 '} text-xs text-[#433E3F] font-medium border border-[#CCCBCB] bg-white w-full`}
+                placeholder={placeholder || 'Search'}
                 value={value}
                 onChange={onChange}
             />
-            <div className="absolute top-2 left-[15px]">
-                <Search size={18} />
-            </div>
+            {!removeIcon && (
+                <div className="absolute top-2 left-[15px]">
+                    <Search size={18} />
+                </div>
+            )}
         </div>
     );
 };
