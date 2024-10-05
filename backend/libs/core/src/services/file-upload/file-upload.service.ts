@@ -5,6 +5,9 @@ import { S3 } from 'aws-sdk';
 import { Storage } from '@google-cloud/storage';
 import { AppException, BAD_REQUEST } from 'shtcut/core';
 import lang from 'shtcut/core/lang';
+import { Readable } from 'stream';
+import { UploadApiErrorResponse, UploadApiOptions, UploadApiResponse, v2 as cloudinary } from 'cloudinary';
+import * as sharp from 'sharp';
 
 /**
  * Builds File upload service
@@ -132,6 +135,59 @@ export class FileUploadService {
         });
       }
       throw new AppException(BAD_REQUEST, lang.get('error').azure);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  /**
+   * The function `uploadToCloudinary` uploads a file to Cloudinary with optional image processing using
+   * Sharp.
+   * @param payload - The `payload` parameter in the `uploadToCloudinary` function is the data that you
+   * want to upload to Cloudinary. It could be an image, video, or any other type of file that you want
+   * to store in the Cloudinary service.
+   * @param {UploadApiOptions} [options] - The `options` parameter in the `uploadToCloudinary` function
+   * is used to provide additional configuration options for the upload process to Cloudinary. These
+   * options can include parameters such as `folder`, `tags`, `public_id`, `use_filename`,
+   * `unique_filename`, `overwrite`, `notification_url
+   * @param [sharpOptions] - The `sharpOptions` parameter in the `uploadToCloudinary` function is an
+   * optional parameter that allows you to specify additional options for image processing using the
+   * Sharp library before uploading the image to Cloudinary. These options can include settings such as
+   * width, height, format, quality, etc., which will
+   * @returns The `uploadToCloudinary` function returns a Promise that resolves with either an
+   * `UploadApiResponse` or an `UploadApiErrorResponse`.
+   */
+  async uploadToCloudinary(
+    payload,
+    options?: UploadApiOptions,
+    sharpOptions?,
+  ): Promise<UploadApiResponse | UploadApiErrorResponse> {
+    try {
+      cloudinary.config({
+        cloud_name: `${this.config.get('worker.fileUpload.cloudinary.name')}`,
+        api_key: `${this.config.get('worker.fileUpload.cloudinary.apiKey')}`,
+        api_secret: `${this.config.get('worker.fileUpload.cloudinary.apiSecret')}`,
+      });
+      return new Promise(async (resolve, reject) => {
+        cloudinary.api.ping;
+        const upload = cloudinary.uploader.upload_stream(options, (err, result) => {
+          if (err) {
+            Logger.error(err);
+            reject(err);
+          }
+          resolve(result);
+        });
+        const stream: Readable = new Readable();
+        if (sharpOptions && payload.mimetype.match(/^image/)) {
+          const options = { width: 800, ...sharpOptions };
+          const shrinkedImage = await sharp(payload.buffer).resize(options).toBuffer();
+          stream.push(shrinkedImage);
+        } else {
+          stream.push(payload.body);
+        }
+        stream.push(null);
+        stream.pipe(upload);
+      });
     } catch (e) {
       throw e;
     }
