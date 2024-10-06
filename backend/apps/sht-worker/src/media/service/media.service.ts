@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
-import { FileUploadEnum, FileUploadService, Media, MongoBaseService, Utils } from 'shtcut/core';
+import { Dict, FileUploadEnum, FileUploadService, Media, MongoBaseService, Utils } from 'shtcut/core';
 
 @Injectable()
 export class MediaService extends MongoBaseService {
@@ -33,7 +33,7 @@ export class MediaService extends MongoBaseService {
     }).save();
   }
 
-  public async upload(uploaded: Record<string, any>) {
+  public async upload(uploaded: Dict, sharpOptions?) {
     try {
       const ext = uploaded.mimetype.split('/');
       const data = {
@@ -55,6 +55,9 @@ export class MediaService extends MongoBaseService {
           break;
         case FileUploadEnum.AZURE:
           url = await this.fileService.useAzure(data);
+          break;
+        case FileUploadEnum.CLOUDINARY:
+          url = await this.fileService.useCloudinary(data, sharpOptions);
           break;
         default:
           break;
