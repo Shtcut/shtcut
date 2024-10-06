@@ -157,7 +157,7 @@ export class FileUploadService {
    * @returns The `uploadToCloudinary` function returns a Promise that resolves with either an
    * `UploadApiResponse` or an `UploadApiErrorResponse`.
    */
-  async uploadToCloudinary(
+  async useCloudinary(
     payload,
     options?: UploadApiOptions,
     sharpOptions?,
