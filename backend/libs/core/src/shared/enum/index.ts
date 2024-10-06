@@ -23,6 +23,7 @@ export enum FileUploadEnum {
   AWS_S3 = 's3',
   GCS = 'gcs',
   AZURE = 'azure',
+  CLOUDINARY = 'cloudinary',
 }
 
 export enum WorkerQueue {
