@@ -53,6 +53,13 @@ export class AuthService extends MongoBaseService {
     }
   }
 
+  public async magicLoginCallback(payload) {
+    try {
+    } catch (e) {
+      throw e;
+    }
+  }
+
   public async signUp(signUpDto: SignUpDto) {
     let session: ClientSession;
     try {
