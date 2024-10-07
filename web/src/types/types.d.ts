@@ -193,3 +193,51 @@ interface SocialMedia {
     name: string;
     isActive: boolean;
 }
+
+interface Task {
+    id: string;
+    content: string;
+    description: string;
+    time: string;
+    comments: number;
+}
+
+interface Column {
+    title: string;
+    items: Task[];
+}
+
+interface Columns {
+    [key: string]: Column;
+}
+export interface Message {
+    text?: string;
+    sender?: string;
+    timestamp?: Date; // Ensure it's the same property type
+}
+
+export interface User {
+    id: number;
+    name: string;
+    messages: Message[];
+}
+export interface ChatMessage extends Message {
+    id?: string;
+    content: string;
+    sender: string;
+    type?: 'text' | 'image' | 'audio';
+}
+type ChatItem = {
+    id: string;
+    image: string | any;
+    sender: string;
+    receiver: string;
+    messages: ChatMessage[];
+    status: 'Active' | 'End';
+    day: string;
+};
+
+type TextSliceIProps = {
+    text: string;
+    wordLimit: number;
+};

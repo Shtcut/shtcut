@@ -88,7 +88,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
             initial={{ x: isTab ? -250 : 0 }}
             variants={Sidebar_animation}
             animate={isOpen ? 'open' : 'closed'}
-            className="bg-white flex  flex-col justify-between border-l border-r h-full z-40 w-60 top-[63px] fixed"
+            className="bg-white flex  flex-col justify-between border-l border-r h-full z-50 w-60 top-[63px] fixed"
         >
             <div className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  `}>
                 {workSpaceTitle === 'Url Shortener' ||
@@ -127,7 +127,10 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
 
                 <ul className={`flex flex-col  ${isOpen ? '' : ''} mt-[14px] gap-1 w-full `}>
                     {navigationOptions?.map((data) => (
-                        <li key={data.id} className="w-full">
+                        <li
+                            key={data.id}
+                            className={`w-full ${data.id === '5' ? 'border-b pb-[14px]' : data.id === '6' ? 'mt-2' : ''} `}
+                        >
                             <Link href={data.href}>
                                 <div
                                     className={`flex hover:bg-[#E8EFFF] hover:text-primary-0 items-center  h-[34px] rounded hover:text-primary ${

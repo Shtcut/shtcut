@@ -1,5 +1,5 @@
 'use client';
-import { Button, Card, Modal } from '@shtcut-ui/react';
+import { Button, Modal } from '@shtcut-ui/react';
 import { unsplash } from '@shtcut/_shared/constant';
 import { X } from 'lucide-react';
 import Image from 'next/image';

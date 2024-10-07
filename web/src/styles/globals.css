@@ -283,3 +283,12 @@ textarea {
 #fc-dom-86 {
     font-size: 14px;
 }
+
+/* Global CSS or component-specific */
+[data-rbd-drag-handle-context-id] {
+    cursor: grab;
+}
+
+[data-rbd-drag-handle-context-id]:active {
+    cursor: grabbing;
+}

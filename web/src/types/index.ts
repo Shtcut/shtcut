@@ -34,3 +34,5 @@ export type NextMiddlewareWithParams<T> = (
 ) => ReturnType<NextMiddleware>;
 
 // export type PathMatcher = Path;
+// types.ts
+

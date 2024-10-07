@@ -1,4 +1,12 @@
-import { GeneralType, IntegrationSectionType, Plan, PostInterface, SocialPost } from '@shtcut/types/types';
+import {
+    Columns,
+    GeneralType,
+    IntegrationSectionType,
+    Plan,
+    PostInterface,
+    SocialPost,
+    Task
+} from '@shtcut/types/types';
 import dayjs from 'dayjs';
 import { Activity, Command, PieChart } from 'lucide-react';
 
@@ -905,3 +913,168 @@ export const initialLabels = [
     { id: 'fashion', name: 'Fashion' }
 ];
 export const labelColors = ['bg-[#8789F3]', 'bg-[#F4C029]', 'bg-[#F070AF]', 'bg-[#A5E534]'];
+
+export const socialDropdown = [
+    {
+        img: '/social/fb-page.png',
+        name: 'Facebook'
+    },
+    {
+        img: '/social/instagram.png',
+        name: 'Instagram'
+    },
+    {
+        img: '/social/tiktok.png',
+        name: 'Tiktok'
+    },
+    {
+        img: '/social/Twitter.png',
+        name: 'Twitter'
+    },
+    {
+        img: '/social/linkedin.png',
+        name: 'Linkedin'
+    },
+    {
+        img: '/social/youtube.png',
+        name: 'Youtube'
+    },
+    {
+        img: '/social/pininterest-outline.png',
+        name: 'Pinterest'
+    }
+];
+
+export const initialColumns: Columns = {
+    todo: {
+        title: 'To do',
+        items: [
+            {
+                id: '1',
+                content: 'Improve cards readability',
+                description:
+                    'Enhance the visual clarity and spacing of the cards on the dashboard for better readability.',
+                time: '21/03/22',
+                comments: 3
+            },
+            {
+                id: '2',
+                content: 'Implement user authentication',
+                description:
+                    'Complete the user authentication feature, allowing users to sign in and register securely.',
+                time: '21/03/22',
+                comments: 1
+            },
+            {
+                id: '7',
+                content: 'Prepare API documentation',
+                description:
+                    'Write detailed documentation for the public API endpoints, ensuring all developers can use it effectively.',
+                time: '1 day ago',
+                comments: 2
+            },
+            {
+                id: '8',
+                content: 'Set up CI/CD pipeline',
+                description: 'Automate the build and deployment process using a CI/CD pipeline for smoother updates.',
+                time: '21/03/22',
+                comments: 4
+            },
+            {
+                id: '9',
+                content: 'Design mobile view for homepage',
+                description: 'Create a responsive design for the homepage to ensure it looks great on mobile devices.',
+                time: '21/03/22',
+                comments: 5
+            }
+        ]
+    },
+    pending: {
+        title: 'In Progress',
+        items: [
+            {
+                id: '3',
+                content: 'Create social media post',
+                description:
+                    'Draft and design social media content for the upcoming product launch on Twitter, Facebook, and LinkedIn.',
+                time: '30 minutes ago',
+                comments: 7
+            },
+            {
+                id: '4',
+                content: 'Optimize database queries',
+                description: 'Refactor and optimize slow-performing database queries to improve backend performance.',
+                time: '2 hours ago',
+                comments: 2
+            },
+            {
+                id: '10',
+                content: 'Refactor authentication logic',
+                description:
+                    'Streamline and clean up the authentication logic to ensure more secure and efficient user login flow.',
+                time: '5 hours ago',
+                comments: 0
+            },
+            {
+                id: '11',
+                content: 'Update design system components',
+                description:
+                    'Add new components and styles to the design system to maintain a consistent UI/UX across the platform.',
+                time: '6 hours ago',
+                comments: 4
+            },
+            {
+                id: '12',
+                content: 'Write unit tests for API',
+                description:
+                    'Add comprehensive unit tests for backend API functions to ensure their reliability and catch potential bugs early.',
+                time: '8 hours ago',
+                comments: 6
+            }
+        ]
+    },
+    completed: {
+        title: 'Completed',
+        items: [
+            {
+                id: '5',
+                content: 'Polish Twitter post messaging',
+                description:
+                    'Refine the messaging and hashtags for the product launch post on Twitter to maximize engagement.',
+                time: '1 day ago',
+                comments: 12
+            },
+            {
+                id: '6',
+                content: 'Fix notification system bugs',
+                description:
+                    'Resolve bugs in the notification system to ensure users are properly notified of important updates.',
+                time: '2 days ago',
+                comments: 3
+            },
+            {
+                id: '13',
+                content: 'Deploy latest update to production',
+                description:
+                    'Successfully deploy the latest version of the application, including all recent bug fixes and features.',
+                time: '3 days ago',
+                comments: 0
+            },
+            {
+                id: '14',
+                content: 'Add analytics to marketing page',
+                description: 'Integrate Google Analytics to track visitor behavior on the marketing page.',
+                time: '4 days ago',
+                comments: 2
+            },
+            {
+                id: '15',
+                content: 'Implement lazy loading for images',
+                description: 'Improve page load times by implementing lazy loading for images on content-heavy pages.',
+                time: '5 days ago',
+                comments: 5
+            }
+        ]
+    }
+};
+

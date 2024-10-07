@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
+    reactStrictMode: false,
     webpack: (config, { buildId, dev, isServer, defaultLoaders, nextRuntime, webpack }) => {
         config.resolve.alias.canvas = false;
         config.resolve.alias.encoding = false;
