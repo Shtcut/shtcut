@@ -21,7 +21,7 @@
       "@config": ["config"],
       "@config/*": ["config/*"],
       "shtcut/core": ["libs/core/src"],
-      "shtcut/core/*": ["libs/core/src/*"],
+      "shtcut/core/*": ["libs/core/src/*"]
     }
   }
 }
