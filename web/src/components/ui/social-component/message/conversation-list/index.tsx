@@ -28,7 +28,7 @@ const ConversationList = ({ users, setActiveUser, activeUser }: ConversationList
                     const lastMessage = user.messages[user.messages.length - 1];
 
                     return (
-                        <section className="">
+                        <section className="" key={user.id}>
                             <li
                                 key={user.id}
                                 className={`px-2 py-3 cursor-pointer ${user.id === activeUser.id ? 'bg-[#FAFAFA] rounded-md' : ''} `}
