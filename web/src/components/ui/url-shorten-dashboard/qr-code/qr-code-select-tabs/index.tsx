@@ -7,18 +7,16 @@ import WebsiteComponent from '../website-component';
 import { PropsColor } from '@shtcut/types/types';
 
 const QrCodeSelectTabs = ({
-    setBgColor,
-    bgColor,
     btnColor,
     setBtnColor,
-    handleColorClick,
+
     step,
     handleInputChange,
     qrCodeName,
     setSelectedFrame,
-    handleSelectQrCodeLogo,
+
     selectedFrame,
-    handleChangeQrCodeShape,
+
     handleEyeRadiusChange,
     handleTabChange
 }: PropsColor) => {
@@ -66,17 +64,12 @@ const QrCodeSelectTabs = ({
                     <TabsContent value="website">
                         <WebsiteComponent
                             step={step}
-                            handleColorClick={handleColorClick}
-                            setBgColor={setBgColor}
-                            bgColor={bgColor}
                             setBtnColor={setBtnColor}
                             btnColor={btnColor}
                             handleInputChange={handleInputChange}
                             qrCodeName={qrCodeName}
                             setSelectedFrame={setSelectedFrame}
-                            handleSelectQrCodeLogo={handleSelectQrCodeLogo}
                             selectedFrame={selectedFrame}
-                            handleChangeQrCodeShape={handleChangeQrCodeShape}
                             handleEyeRadiusChange={handleEyeRadiusChange}
                         />
                     </TabsContent>

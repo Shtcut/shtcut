@@ -1,15 +1,17 @@
 import { Button, Modal } from '@shtcut-ui/react';
 import React, { useState } from 'react';
-import { MembersTable } from '../..';
+
 import ManageWorkSpaceModal from '../manage-modal';
 import SwitchRoleModal from '../switch-role-modal';
 import DeleteModal from '../delete-modal';
 import AddedModal from '../added-modal';
-import { SearchInput } from '../../nav-component';
+
 import { ChevronDown, Filter } from 'lucide-react';
 import { PiSortDescendingBold } from 'react-icons/pi';
 import InviteModal from '../invite-modal';
 import { users } from '@shtcut/_shared/data';
+import { SearchInput } from '@shtcut/components/dashboard/nav-component';
+import MembersTable from '../members-table';
 
 const MembersComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
