@@ -1,7 +1,8 @@
 import SideBar from './side-bar';
 import { SidebarProvider } from './side-bar-context';
-import MembersTable from './members/members-table';
-import DomainsComponent from './domains';
-import AnalyticsComponent from './analytics';
+
+import DomainsComponent from '../ui/url-shorten-dashboard/domains';
+import AnalyticsComponent from '../ui/url-shorten-dashboard/analytics';
+import MembersTable from '../ui/url-shorten-dashboard/members/members-table';
 
 export { SideBar, SidebarProvider, MembersTable, DomainsComponent, AnalyticsComponent };

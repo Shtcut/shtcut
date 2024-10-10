@@ -7,6 +7,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { PiNoteDuotone } from 'react-icons/pi';
 import { GoGraph } from 'react-icons/go';
 import { IoMdCheckboxOutline } from 'react-icons/io';
+import { MdOutlineContactMail } from 'react-icons/md';
 
 export interface NavLink {
     id: string;
@@ -37,25 +38,31 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         },
         {
             id: '3',
+            title: 'Link-bios',
+            href: `/url/${workspace}/link-bios`,
+            icon: <MdOutlineContactMail size={16} />
+        },
+        {
+            id: '4',
             title: 'QR Codes',
             href: `/url/${workspace}/qr-codes`,
             icon: <PiQrCodeBold size={16} />
         },
         {
-            id: '4',
+            id: '5',
             title: 'Domains',
             href: `/url/${workspace}/domains`,
             icon: <PiProjectorScreenChartBold size={16} />
         },
         {
-            id: '5',
+            id: '6',
             title: 'Analytics',
             href: `/url/${workspace}/analytics`,
 
             icon: <MailOpen size={16} />
         },
         {
-            id: '6',
+            id: '7',
             title: 'Sign out',
             // href: `/url/${workspace}/settings`,
             href: '#',

@@ -78,17 +78,17 @@ const WorkspaceLayout = ({ children }: any) => {
     };
     return (
         <div className=" w-full h-screen flex">
-            <div className="bg-white w-12  z-50 h-full fixed">
+            <div className="bg-white w-12   h-full fixed">
                 <div className="h-[63px] bg-white flex items-center justify-center">
                     <Image src={'/images/shtcut-logo-icon.png'} width={24} height={24} alt="shtcut logo" />
                 </div>
-                <div className="flex flex-col items-center gap-y-2 mt-2">
+                <div className="flex flex-col z-50 items-center gap-y-2 mt-2">
                     {sideNav.map((navs) => (
                         <TooltipProvider key={navs.id} delayDuration={0}>
                             <Tooltip>
                                 <TooltipTrigger>
                                     <div
-                                        className={`p-2 rounded-md cursor-pointer ${
+                                        className={`p-2 rounded-md z-50 cursor-pointer ${
                                             params?.workspace === navs.workspace
                                                 ? 'bg-[#E5EDFD] text-primary-0'
                                                 : 'bg-transparent'
@@ -102,7 +102,7 @@ const WorkspaceLayout = ({ children }: any) => {
                                         )}
                                     </div>
                                 </TooltipTrigger>
-                                <TooltipContent>
+                                <TooltipContent className="z-50">
                                     <Label className="font-light text-xs">{navs.title}</Label>
                                 </TooltipContent>
                             </Tooltip>
@@ -111,7 +111,7 @@ const WorkspaceLayout = ({ children }: any) => {
                 </div>
             </div>
             <div className="relative ml-12 w-full">
-                <div className="bg-white px-6 flex items-center flex-1 w-full justify-between border-b h-[63px] z-50 fixed">
+                <div className="bg-white z-50 px-6 flex items-center flex-1 w-full justify-between border-b h-[63px]  fixed">
                     <div className="w-1/3  flex items-center justify-between bg-red">
                         <div>
                             <h1 className="font-semibold text-sm">{title}</h1>
@@ -144,7 +144,7 @@ const WorkspaceLayout = ({ children }: any) => {
                         <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
                     )}
                     <div
-                        className={`w-full  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6 `}
+                        className={`w-full z-0  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6 `}
                     >
                         <section className="max-w-screen-lg pt-[63px] mx-auto">{children}</section>
                     </div>

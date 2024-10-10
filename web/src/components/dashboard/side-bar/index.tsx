@@ -88,7 +88,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
             initial={{ x: isTab ? -250 : 0 }}
             variants={Sidebar_animation}
             animate={isOpen ? 'open' : 'closed'}
-            className="bg-white flex  flex-col justify-between border-l border-r h-full z-50 w-60 top-[63px] fixed"
+            className="bg-white flex  flex-col justify-between border-l border-r h-full z-0  w-60 top-[63px] fixed"
         >
             <div className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  `}>
                 {workSpaceTitle === 'Url Shortener' ||
@@ -107,7 +107,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
                                     )}
                                 </div>
                             ) : (
-                                <div className="bg-primary-0 cursor-pointer w-6 h-6 rounded-full flex justify-center items-center text-white">
+                                <div className="bg-primary-0 cursor-pointer  w-6 h-6 rounded-full flex justify-center items-center text-white">
                                     <TooltipProvider delayDuration={0}>
                                         <Tooltip>
                                             <TooltipTrigger onClick={handleCreateRoute}>
@@ -133,7 +133,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
                         >
                             <Link href={data.href}>
                                 <div
-                                    className={`flex hover:bg-[#E8EFFF] hover:text-primary-0 items-center  h-[34px] rounded hover:text-primary ${
+                                    className={`flex hover:bg-[#E8EFFF] hover:text-primary-0 items-center  h-[34px] rounded ${
                                         isOpen ? 'justify-start gap-x-3 px-3' : 'justify-center'
                                     } ${activeTab === data.id ? 'bg-[#E8EFFF] text-primary-0' : 'text-[#433E3F]'} `}
                                     onClick={() => handleTabClick(data.id)}

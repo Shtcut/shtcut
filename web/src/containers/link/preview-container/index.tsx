@@ -1,4 +1,4 @@
-import SingleLinkPreviewComponent from '@shtcut/components/dashboard/link/link-preview-component';
+import SingleLinkPreviewComponent from '@shtcut/components/ui/url-shorten-dashboard/link/link-preview-component';
 import React from 'react';
 
 const SingleLinkPreviewContainer = () => {

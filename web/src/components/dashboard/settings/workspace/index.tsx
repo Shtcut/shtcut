@@ -2,7 +2,7 @@ import { Button, Modal } from '@shtcut-ui/react';
 
 import Image from 'next/image';
 import React, { useState } from 'react';
-import MembersTable from '../../members/members-table';
+
 import { SearchInput } from '../../nav-component';
 import { Filter } from 'lucide-react';
 import { PiSortDescendingBold } from 'react-icons/pi';
@@ -14,6 +14,7 @@ import InviteModal from './invite-modal';
 import UserModal from './user-modal';
 import CreateRole from './create-role';
 import EditRole from './edit-role';
+import MembersTable from '@shtcut/components/ui/url-shorten-dashboard/members/members-table';
 
 const WorkspaceScreen = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
