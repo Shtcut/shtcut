@@ -1,14 +1,11 @@
-import { IsEmail, IsNotEmpty, IsString } from '@nestjs/class-validator';
-import { Transform } from 'class-transformer';
+import { IsNotEmpty, IsString } from '@nestjs/class-validator';
 
 export class ChangePasswordDto {
-  @Transform((s) => String(s.value).trim().toLowerCase())
-  @IsEmail()
+  @IsString()
   @IsNotEmpty()
   public currentPassword: string;
 
   @IsString()
   @IsNotEmpty()
-  @Transform((s) => String(s).trim())
   public password: string;
 }
