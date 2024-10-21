@@ -103,17 +103,12 @@ export class AuthService extends MongoBaseService {
       };
       await this.userService.createNewObject({ ...payload }, session);
       await session?.commitTransaction();
-
       return await this.signIn(auth);
     } catch (err) {
-      if (session) {
-        await session?.abortTransaction();
-      }
+      await session?.abortTransaction();
       throw err;
     } finally {
-      if (session) {
-        await session?.endSession();
-      }
+      await session?.endSession();
     }
   }
 
