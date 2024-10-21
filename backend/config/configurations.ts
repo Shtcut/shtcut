@@ -127,7 +127,7 @@ export const configuration = () => ({
       },
       mailOption: process.env.MAIL_OPTION || 'sendgrid',
       sendgrid: {
-        fromEmail: process.env.NO_REPLY || 'Sam from Shtcut" <no-reply@shtcut.co>',
+        fromEmail: process.env.NO_REPLY || 'no-reply@shtcut.co',
         apiKey: process.env.SENDGRID_API_KEY,
         contactForRecipient: process.env.CONTACT_FORM_EMAIL_RECIPIENT,
       },
