@@ -2,7 +2,7 @@ import { Injectable, NestMiddleware } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import lang from 'apps/sht-gw/lang';
 import * as bodyParser from 'body-parser';
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction } from 'express';
 import * as httpProxy from 'express-http-proxy';
 import { AppException } from 'shtcut/core';
 
@@ -23,11 +23,8 @@ export class WorkerProxyMiddleware implements NestMiddleware {
       },
     });
 
-  use(req: Request, res: Response, next: NextFunction) {
-    bodyParser.raw({
-      type: 'multipart/form-data',
-      limit: '50mb',
-    })(req, res, (err) => {
+  use(req, res, next) {
+    bodyParser.raw({ type: 'multipart/form-data', limit: '50mb' })(req, res, (err) => {
       if (err) {
         throw AppException.BAD_REQUEST(lang.get('error').tooLargeFile, err.getMessage());
       }
