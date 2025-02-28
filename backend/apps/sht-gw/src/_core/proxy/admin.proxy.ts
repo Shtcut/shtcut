@@ -12,7 +12,7 @@ export class AdminProxyMiddleware implements NestMiddleware {
         return `${req.baseUrl}${req.url}`;
       },
     });
-  use(req: Request, res: Response, next: NextFunction) {
+  use(req, res, next) {
     this.AdminServiceProxy(this.config.get('microServices.admin.url'))(req, res, next);
   }
 }
