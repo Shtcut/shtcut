@@ -82,6 +82,8 @@ const SocialNetworksCard: React.FC<SocialNetworksCardProps> = ({ logos, showSect
         dispatch(setSocialLinks(joinedLink));
     }, [joinedLink]);
 
+    console.log('border-b', socialMedia);
+
     return (
         <Card className="shadow-sm mt-4 py-4 px-6 border border-gray-100">
             <section className="flex justify-between items-center">
@@ -94,7 +96,7 @@ const SocialNetworksCard: React.FC<SocialNetworksCardProps> = ({ logos, showSect
             </section>
             {showSection && (
                 <section>
-                    <section className="flex flex-wrap gap-2 mt-4 border-b pb-4">
+                    <section className={`flex flex-wrap gap-2 mt-4  pb-4 ${socialMedia ? 'border-b' : ''} `}>
                         {logos.map((data) => (
                             <div key={data.id}>
                                 <SocialMediaCard

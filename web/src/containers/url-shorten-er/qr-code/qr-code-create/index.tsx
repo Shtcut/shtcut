@@ -1,5 +1,5 @@
 import QRCodeCreateComponent from '@shtcut/components/ui/qr-code-components/qr-code-create';
-import { useQrCode } from '@shtcut/hooks/auth/qr-code';
+import { useQrCode } from '@shtcut/hooks/qr-code';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 

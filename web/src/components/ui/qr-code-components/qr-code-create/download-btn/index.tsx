@@ -12,13 +12,19 @@ import { toJpeg, toPng } from 'html-to-image';
 import { saveAs } from 'file-saver';
 import { PiQrCode, PiFolders, PiPencilSimpleLine } from 'react-icons/pi';
 
-const DownloadBtn = ({ qrCodeRef }: any) => {
+const DownloadBtn = ({ qrCodeRef, className }: any) => {
     const handleDownloadPNG = async () => {
         if (qrCodeRef.current) {
+            const logo = qrCodeRef.current.querySelector('img');
+            if (logo) logo.style.display = 'none';
+
             const png = await toPng(qrCodeRef.current);
             saveAs(png, 'qrcode.png');
+
+            if (logo) logo.style.display = 'block';
         }
     };
+
     const handleDownloadJPEG = async () => {
         if (qrCodeRef.current) {
             const jpeg = await toJpeg(qrCodeRef.current, { quality: 0.95 });
@@ -53,7 +59,7 @@ const DownloadBtn = ({ qrCodeRef }: any) => {
         <div className="w-full">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild className="w-full">
-                    <Button className="w-full flex items-center h-8 text-xs gap-x-2 bg-primary-0">
+                    <Button className={`w-full flex items-center h-8 text-xs gap-x-2 bg-primary-0 ${className}`}>
                         <Download size={14} />
                         Download
                     </Button>

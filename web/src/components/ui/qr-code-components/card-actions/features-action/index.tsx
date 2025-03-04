@@ -7,7 +7,13 @@ import { Trash2 } from 'lucide-react';
 import { BarChart2 } from 'lucide-react';
 import { PencilLine } from 'lucide-react';
 
-const FeatureActions = ({ handleDeleteQrCodeLink }: { handleDeleteQrCodeLink: () => void }) => {
+const FeatureActions = ({
+    handleDeleteQrCodeLink,
+    handleNavigate
+}: {
+    handleDeleteQrCodeLink: () => void;
+    handleNavigate: () => void;
+}) => {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -16,7 +22,10 @@ const FeatureActions = ({ handleDeleteQrCodeLink }: { handleDeleteQrCodeLink: ()
                 </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-36 relative right-8">
-                <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2">
+                <DropdownMenuCheckboxItem
+                    className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2"
+                    onClick={handleNavigate}
+                >
                     <PencilLine size={16} /> Edit QR Code
                 </DropdownMenuCheckboxItem>
                 <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2">

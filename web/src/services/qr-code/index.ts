@@ -50,6 +50,14 @@ export const qrCodeApi = api.injectEndpoints({
                 };
             },
             invalidatesTags: [qrCode]
+        }),
+        deleteBulkQrCodes: builder.mutation<Dict, { ids: string[] }>({
+            query: ({ ids }) => ({
+                url: `${SHTNER.qrCode}/bulk`,
+                method: DELETE,
+                body: { ids }
+            }),
+            invalidatesTags: (_) => [qrCode]
         })
         // updateQrCode: builder.mutation<any, { id: string; payload: QrCodePayload }>({
         //     query: ({ id, payload }) => ({
@@ -68,5 +76,6 @@ export const {
     useDeleteLinkQrCodeMutation,
     useLazyGetSingleQrCodeQuery,
     useUpdateQrCodeMutation,
-    endpoints: { createQrCode, findAllQrCode, deleteLinkQrCode, getSingleQrCode, updateQrCode }
+    useDeleteBulkQrCodesMutation,
+    endpoints: { createQrCode, findAllQrCode, deleteLinkQrCode, getSingleQrCode, updateQrCode, deleteBulkQrCodes }
 } = qrCodeApi;
