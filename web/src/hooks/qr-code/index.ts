@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { usePagination } from '../../usePagination';
 import { UseProps } from '@shtcut/types/types';
 import {
     useCreateQrCodeMutation,
+    useDeleteBulkQrCodesMutation,
     useDeleteLinkQrCodeMutation,
     useLazyFindAllQrCodeQuery,
     useLazyGetSingleQrCodeQuery,
     useUpdateQrCodeMutation
 } from '@shtcut/services/qr-code';
-import { QrCodeLinkActions, QrCodeLinkState, QrCodePayload } from '@shtcut/types/qr-code';
+import { QrCodeLinkActions, QrCodeLinkState } from '@shtcut/types/qr-code';
+import { handleError, handleSuccess } from '@shtcut/_shared';
+import { usePagination } from '../usePagination';
 
 interface UseReturnsType {
     qrActions: QrCodeLinkActions;
@@ -22,6 +24,8 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
     const [updateQrCode, updateQrCodeResponse] = useUpdateQrCodeMutation();
     const [findAllQrCode, { isLoading, data: findAllQrCodeResponse }] = useLazyFindAllQrCodeQuery();
     const [deleteQrCodeLink, deleteLinkResponse] = useDeleteLinkQrCodeMutation();
+    const [deleteBulkQrCodesLink, { isLoading: isLoadingBulk }] = useDeleteBulkQrCodesMutation();
+
     const [getQrCode, { data: getQrCodeResponse, isLoading: getQrCodeIsLoading }] = useLazyGetSingleQrCodeQuery();
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [loaded, setLoaded] = useState(false);
@@ -45,6 +49,19 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
     const createqrCode = async (payload: any): Promise<any> => {
         const result = await createQrCodeTrigger(payload).unwrap();
         return result;
+    };
+
+    const deleteBulkQrCodes = async (ids: string[]) => {
+        setLoadingState('deleting', true);
+        try {
+            const res = await deleteBulkQrCodesLink({ ids }).unwrap();
+            findAllQrCode(params);
+            handleSuccess(res);
+        } catch (error) {
+            handleError({ error });
+        } finally {
+            setLoadingState('deleting', false);
+        }
     };
 
     // const updateqrCode = async (id: string, payload: QrCodePayload): Promise<any> => {
@@ -77,7 +94,8 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
             paginationActions,
             deleteQrCodeLink,
             findAllQrCode,
-            updateQrCode
+            updateQrCode,
+            deleteBulkQrCodes
         },
         qrState: {
             isLoadingState,
@@ -89,7 +107,8 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
             getSingleQrCode,
             pagination,
             params,
-            getQrCodeIsLoading
+            getQrCodeIsLoading,
+            isLoadingBulk
         }
     };
 };

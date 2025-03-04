@@ -55,6 +55,7 @@ const TagsScreen = ({
     };
 
     const { isSuccess } = deleteTagResponse;
+    console.log('isSuccess', isSuccess);
     useEffect(() => {
         if (isSuccess) {
             findAllTags();
@@ -81,8 +82,8 @@ const TagsScreen = ({
                 ) : (
                     <Card className="shadow-none mt-4 rounded-[4px]">
                         {findAllTagsResponse &&
-                            findAllTagsResponse?.map((tag) => (
-                                <section className="flex border-b p-4 items-center justify-between" key={tag.type}>
+                            findAllTagsResponse?.map((tag, index) => (
+                                <section className="flex border-b p-4 items-center justify-between" key={index}>
                                     <div className="flex items-center gap-2">
                                         <div
                                             style={{

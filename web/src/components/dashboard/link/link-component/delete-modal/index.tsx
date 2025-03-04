@@ -18,13 +18,13 @@ const DeleteComponent = ({
 }) => {
     return (
         <div>
-            <section className="flex flex-col p-4 items-center gap-4">
+            <section className="flex flex-col px-4 items-center gap-4">
                 <Image src={'/images/delete-icon.png'} width={48} height={48} alt="delete" />
                 <div>
                     <h1 className="font-semibold text-center">Delete {title}</h1>
                     <p className="text-[13px] w-5/6 mx-auto text-center text-[#475467]">{description}</p>
                 </div>
-                <div className="flex w-full gap-2">
+                <div className="flex pb-4 w-full gap-2">
                     <Button onClick={handleClose} className="w-full" variant={'outline'}>
                         Cancel
                     </Button>

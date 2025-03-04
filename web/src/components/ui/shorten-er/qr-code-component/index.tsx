@@ -1,4 +1,4 @@
-import { Button, Modal } from '@shtcut-ui/react';
+import { Button } from '@shtcut-ui/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
@@ -11,6 +11,7 @@ import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 import { handleError } from '@shtcut/_shared';
 import { useLink } from '@shtcut/hooks/link';
 import DeleteComponent from '@shtcut/components/dashboard/link/link-component/delete-modal';
+import Modal from '@shtcut/components/modal';
 
 const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions; qrState: QrCodeLinkState }) => {
     const { deleteManyLinks } = useLink({});
@@ -134,7 +135,7 @@ const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions;
                     setPageSize={qrActions.paginationActions.setPerPage}
                 />
             </section>
-            <Modal showModel={showModal} setShowModal={setShowModal} onClose={() => setShowModal(false)}>
+            <Modal closeIcon={false} isOpen={showModal} onClose={() => setShowModal(false)} className=" w-96">
                 <DeleteComponent
                     isLoadingState={qrState.isLoadingState}
                     handleDelete={handleDeleteQrCodeLink}
