@@ -33,7 +33,8 @@ export class MediaService extends MongoBaseService {
     }).save();
   }
 
-  public async upload(uploaded: Dict, sharpOptions?) {
+  public async upload(uploaded, sharpOptions?) {
+    console.log('upload:::', uploaded);
     try {
       const ext = uploaded.mimetype.split('/');
       const data = {

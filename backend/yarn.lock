@@ -1843,6 +1843,13 @@
     "@types/connect" "*"
     "@types/node" "*"
 
+"@types/busboy@^1.5.4":
+  version "1.5.4"
+  resolved "https://registry.npmjs.org/@types/busboy/-/busboy-1.5.4.tgz#0038c31102ca90f2a7f0d8bc27ee5ebf1088e230"
+  integrity sha512-kG7WrUuAKK0NoyxfQHsVE6j1m01s6kMma64E+OZenQABMQyTJop1DumUWcLwAQ2JzpefU7PDYoRDKl8uZosFjw==
+  dependencies:
+    "@types/node" "*"
+
 "@types/cache-manager-redis-store@^2.0.4":
   version "2.0.4"
   resolved "https://registry.npmjs.org/@types/cache-manager-redis-store/-/cache-manager-redis-store-2.0.4.tgz"
