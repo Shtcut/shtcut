@@ -6,6 +6,7 @@ import ScrollToTopButton from '@shtcut/components/scroll-to-top';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
+    metadataBase: new URL('https://beta.shtcut.co'),
     title: 'Shtcut - Empowering Marketing Innovation, Together... ',
     description:
         'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.',
@@ -24,7 +25,47 @@ export const metadata: Metadata = {
     ],
     applicationName: 'Shtcut',
     robots: 'index, follow',
-    category: 'Technology, Marketing'
+    category: 'Technology, Marketing',
+    authors: [{ name: 'Shtcut', url: 'https://beta.shtcut.co' }],
+    openGraph: {
+        title: 'Shtcut - Empowering Marketing Innovation, Together...',
+        description:
+            'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.',
+        url: 'https://beta.shtcut.co',
+        siteName: 'Shtcut',
+
+        images: [
+            {
+                url: 'https://beta.shtcut.co/images/shtcut-logo.png',
+                width: 1200,
+                height: 630,
+                alt: 'Shtcut'
+            }
+        ],
+        type: 'website'
+    },
+    twitter: {
+        card: 'summary_large_image',
+        title: 'Shtcut - Empowering Marketing Innovation, Together...',
+        description:
+            'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.',
+        images: ['https://beta.shtcut.co/images/shtcut-logo.png']
+    },
+    other: {
+        'google-site-verification': '',
+        'schema:Organization': JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Organization',
+            name: 'Shtcut',
+            url: 'https://beta.shtcut.co',
+            logo: 'https://beta.shtcut.co/images/shtcut-logo.png',
+            description:
+                'Shtcut is the open-source software to Transform Your Marketing Efforts: One Platform for Efficiency, Strategy, and Smart Decision-making.'
+        })
+    },
+    alternates: {
+        canonical: 'https://beta.shtcut.co'
+    }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

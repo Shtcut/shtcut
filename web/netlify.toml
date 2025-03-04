@@ -1,0 +1,4 @@
+[build]
+  command = "turbo run build --filter shtcut-frontend"
+  publish = "web/.next"
+  environment = { NODE_VERSION = "18" }
