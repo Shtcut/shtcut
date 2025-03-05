@@ -159,7 +159,7 @@ const WorkspaceLayout = ({ children }: any) => {
                         </Suspense>
                     </div>
                 </div>
-                <section className="flex  w-full">
+                <section className="flex   w-full">
                     {isSideBarOpen && (
                         <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
                     )}

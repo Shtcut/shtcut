@@ -68,4 +68,8 @@ export abstract class AppController extends BaseController {
   public async deleteMany(@Req() req, @Res() res, @Next() next: NextFunction) {
     return super.deleteMany(req, res, next);
   }
+
+  protected async getResponse(data: { code: number; value: any; message?: string }) {
+    return this.service.getResponse(data);
+  }
 }

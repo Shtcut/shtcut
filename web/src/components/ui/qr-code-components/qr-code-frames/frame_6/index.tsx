@@ -15,12 +15,12 @@ const Frame_6 = () => {
                     id="shtcut-qrcode"
                     value={urlScan as string}
                     removeQrCodeBehindLogo={true}
-                    ecLevel="L"
+                    ecLevel="H"
                     bgColor="white"
                     fgColor={tabParams !== 'website' ? state?.presetColor : presetColorString}
                     size={90}
-                    logoWidth={30}
-                    logoHeight={30}
+                    logoWidth={20}
+                    logoHeight={20}
                     logoImage={String(state?.logo)}
                     qrStyle={state?.qrStyle as 'squares' | 'dots' | 'fluid'}
                     eyeRadius={state?.eyeRadius as EyeRadiusType}

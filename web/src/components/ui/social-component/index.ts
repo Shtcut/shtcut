@@ -5,6 +5,8 @@ import CalendarsComponent from './calanders';
 import MediaComponent from './media';
 import MessagesComponent from './messages';
 import TaskComponent from './task';
+import IntergrationComponent from './integration';
+import ReportComponent from './reports';
 export {
     CreatePostComponent,
     SocialPostComponent,
@@ -12,5 +14,7 @@ export {
     CalendarsComponent,
     MediaComponent,
     MessagesComponent,
-    TaskComponent
+    TaskComponent,
+    IntergrationComponent,
+    ReportComponent
 };

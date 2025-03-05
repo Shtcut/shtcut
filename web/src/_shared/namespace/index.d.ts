@@ -48,6 +48,7 @@ export interface Meta {
 }
 
 export interface ApiResponse<T> {
+    [x: string]: any;
     meta: Meta;
     data: T;
 }

@@ -7,6 +7,8 @@ import { QRCode } from 'react-qrcode-logo';
 const Frame_9 = () => {
     const { presetColorString, tabParams, borderColor, urlScan } = useGeneralState();
     const { state } = useQrCodeState();
+
+    console.log('state?.presetColor', state?.presetColor, presetColorString);
     return (
         <div className="h-full flex flex-col justify-center">
             <div
@@ -20,11 +22,11 @@ const Frame_9 = () => {
                     id="shtcut-qrcode"
                     value={urlScan as string}
                     removeQrCodeBehindLogo={true}
-                    ecLevel="L"
+                    ecLevel="H"
                     fgColor={tabParams !== 'website' ? state?.presetColor : presetColorString}
                     size={90}
-                    logoWidth={30}
-                    logoHeight={30}
+                    logoWidth={20}
+                    logoHeight={20}
                     eyeColor={''}
                     logoImage={String(state?.logo)}
                     qrStyle={state?.logo as 'squares' | 'dots' | 'fluid'}

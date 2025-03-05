@@ -98,22 +98,23 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         },
         {
             id: '5',
-            title: 'Messages',
-            href: `/social/${workspace}/messages`,
-            icon: <PiChatCenteredTextLight size={16} />
+            title: 'Live Streams',
+            href: `/social/${workspace}/live-stream`,
+            icon: <Image size={16} />
         },
         {
             id: '6',
-            title: 'Social Listening',
-            href: `/social/${workspace}/social-listening`,
-            icon: <AudioLines size={16} />
+            title: 'Report',
+            href: `/social/${workspace}/reports`,
+            icon: <Image size={16} />
         },
         {
             id: '7',
-            title: 'CRM',
-            href: `/social/${workspace}/crm`,
-            icon: <Headset size={16} />
+            title: 'Ad Management',
+            href: `/social/${workspace}/ad-management`,
+            icon: <Image size={16} />
         },
+
         {
             id: '8',
             title: 'Analytics',
@@ -128,8 +129,27 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         },
         {
             id: '10',
-            title: 'All Account',
-            href: `/social/${workspace}/all-accounts`,
+            title: 'Chats',
+            href: `/social/${workspace}/messages`,
+            icon: <PiChatCenteredTextLight size={16} />
+        },
+        {
+            id: '11',
+            title: 'Social media accounts',
+            href: `/social/${workspace}/social-media-accounts`,
+            icon: <AudioLines size={16} />
+        },
+        {
+            id: '12',
+            title: 'Integration',
+            href: `/social/${workspace}/integration`,
+            icon: <Headset size={16} />
+        },
+
+        {
+            id: '13',
+            title: 'Support',
+            href: `/social/${workspace}/support`,
             icon: <PiUserCircleGear size={16} />
         }
     ];

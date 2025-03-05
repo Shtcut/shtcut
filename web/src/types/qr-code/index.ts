@@ -4,6 +4,7 @@ import { EyeRadiusType } from '../types';
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
 import { LinkParams } from '@shtcut/hooks/link';
+import { MetaData } from '../tags';
 
 // Common QR Code Data Interface
 interface CommonQrCodeData {
@@ -92,6 +93,7 @@ export interface QrCodeLinkActions {
     paginationActions: UsePaginationActions;
     deleteQrCodeLink: MutationTrigger<any>;
     findAllQrCode: any;
+    deleteBulkQrCodes: any;
 }
 
 export interface QrCodeLinkState {
@@ -105,9 +107,13 @@ export interface QrCodeLinkState {
     getSingleQrCode: QRCodeDataResponse | undefined;
     params: LinkParams;
     getQrCodeIsLoading: boolean;
+    isLoadingBulk: boolean;
 }
 
 type QRCodeType = 'multi-link' | 'website' | 'vcard' | 'pdf';
+export interface QRCodeDataResponseApi extends MetaData {
+    data: QRCodeDataResponse[];
+}
 export interface QRCodeDataResponse {
     id: string;
     publicId: string;

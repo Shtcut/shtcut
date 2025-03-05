@@ -485,8 +485,8 @@ export class MongoBaseService extends BaseAbstract {
       if (_.isUndefined(object)) {
         object = !_.isEmpty(query)
           ? await this.model.findOne({
-              ...Utils.conditionWithDelete(query),
-            })
+            ...Utils.conditionWithDelete(query),
+          })
           : false;
 
         this.cacheObjectIfFound(object, cacheKey);
@@ -528,7 +528,7 @@ export class MongoBaseService extends BaseAbstract {
       try {
         const latestQuery = JSON.parse(query.latest);
         queryToExec.sort({ ...latestQuery });
-      } catch (e) {}
+      } catch (e) { }
     }
     return queryToExec.exec();
   }

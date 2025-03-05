@@ -93,7 +93,9 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
             animate={isOpen ? 'open' : 'closed'}
             className="bg-white flex  flex-col justify-between border-l border-r h-full z-40 w-60 top-[63px] fixed"
         >
-            <div className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  `}>
+            <div
+                className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  h-full overflow-y-auto flex-1`}
+            >
                 {(workSpaceTitle === 'Url Shortener' || workSpaceTitle === 'Social Media') && (
                     <>
                         {isOpen ? (
@@ -131,7 +133,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle }: Pr
                     {navigationOptions?.map((data) => (
                         <li
                             key={data.id}
-                            className={`w-full ${data.id === '5' && module === 'url' ? 'border-b pb-[14px]' : data.id === '6' && module === 'url' ? 'mt-2' : ''}  ${data.id === '8' && module === 'social' ? 'border-b pb-[14px]' : data.id === '8' && module === 'social' ? 'mt-2' : ''} `}
+                            className={`w-full ${data.id === '5' && module === 'url' ? 'border-b pb-[14px]' : data.id === '6' && module === 'url' ? 'mt-2' : ''}  ${(data.id === '8' && module === 'social') || (data.id === '11' && module === 'social') ? 'border-b pb-[14px]' : data.id === '8' && module === 'social' ? 'mt-2' : ''} `}
                             onClick={() => {
                                 if (data.key === 'sign-out') {
                                     handleLogout();

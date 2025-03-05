@@ -35,4 +35,26 @@ export default {
     notVerified: 'The domain verification is yet to be completed.',
     verificationInprogress: 'Domain verification is currently in progress',
   },
+
+  qrcodes: {
+    created: 'QR code successfully created',
+    updated: 'QR code successfully updated',
+    deleted: 'QR code successfully deleted',
+    retrieved: 'QR codes successfully retrieved',
+    notFound: 'QR code not found',
+    duplicate: 'QR code with this title already exists',
+    invalidType: 'Invalid QR code type',
+    validation: {
+      titleRequired: 'Title is required',
+      pdfRequired: 'PDF file is required',
+      urlRequired: 'URL is required',
+      companyRequired: 'Company name is required',
+      contactsRequired: 'Email and phone are required',
+      addressRequired: 'Address details are required',
+      linksRequired: 'At least one link is required',
+      idsRequired: 'Please provide valid QR code IDs',
+      typeRequired: 'QR code type is required and must be one of: pdf, vCard, website, or multi-link',
+      linkDetailsRequired: 'Each link must have both a URL and a label',
+    }
+  }
 };

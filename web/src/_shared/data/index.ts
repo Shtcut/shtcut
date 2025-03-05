@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { SocialMessage, SocialPlatform } from '@shtcut/types/report';
 import {
     ChatConversation,
     ChatMessage,
@@ -1410,3 +1411,139 @@ export const initialColumns: Columns = {
         ]
     }
 };
+
+export const socialMessages: SocialMessage[] = [
+    {
+        id: '1',
+        type: 'comment',
+        targetName: 'Wellness Crest',
+        targetType: 'post',
+        user: {
+            name: 'Justin Salana',
+            avatar: '/images/user2.png',
+            platform: 'facebook'
+        },
+        content: 'Bring back the sweet smoked turkey for thanks giving dinner',
+        timestamp: '8 minutes ago',
+        isCompleted: true,
+        actions: [
+            { type: 'like', label: 'Like' },
+            { type: 'comment', label: 'Comment' },
+            { type: 'send', label: 'Send' },
+            { type: 'share', label: 'Share' }
+        ],
+        viewAction: {
+            label: 'View Post',
+            target: '/post/1'
+        }
+    },
+    {
+        id: '2',
+        type: 'message',
+        targetName: 'Wellness Crest',
+        user: {
+            name: 'Justin Salana',
+            avatar: '/images/user2.png',
+            platform: 'facebook'
+        },
+        content: 'Bring back the sweet smoked turkey for thanks giving dinner',
+        timestamp: '8 minutes ago',
+        isCompleted: true,
+        actions: [
+            { type: 'reply', label: 'Reply' },
+            { type: 'react', label: 'React' }
+        ],
+        viewAction: {
+            label: 'View Chat',
+            target: '/chat/1'
+        }
+    },
+    {
+        id: '3',
+        type: 'comment',
+        targetName: 'Wellness Crest',
+        targetType: 'post',
+        user: {
+            name: 'Justin Salana',
+            avatar: '/images/user2.png',
+            platform: 'instagram'
+        },
+        content: 'Bring back the sweet smoked turkey for thanks giving dinner',
+        timestamp: '8 minutes ago',
+        actions: [
+            { type: 'like', label: 'Like' },
+            { type: 'comment', label: 'Comment' },
+            { type: 'share', label: 'Share' }
+        ],
+        viewAction: {
+            label: 'View Post',
+            target: '/post/2'
+        }
+    },
+    {
+        id: '4',
+        type: 'comment',
+        targetName: 'Wellness Crest',
+        targetType: 'post',
+        user: {
+            name: 'Justin Salana',
+            avatar: '/images/user2.png',
+            platform: 'linkedin'
+        },
+        content: 'Bring back the sweet smoked turkey for thanks giving dinner',
+        timestamp: '8 minutes ago',
+        actions: [
+            { type: 'like', label: 'Like' },
+            { type: 'comment', label: 'Comment' },
+            { type: 'repost', label: 'Repost' },
+            { type: 'share', label: 'Share' }
+        ],
+        viewAction: {
+            label: 'View Post',
+            target: '/post/3'
+        }
+    },
+    {
+        id: '5',
+        type: 'mention',
+        targetName: 'Justin Salana',
+        targetType: 'post',
+        user: {
+            name: 'Jason John',
+            avatar: '/images/user2.png',
+            platform: 'twitter'
+        },
+        content: 'Bring back the sweet smoked turkey for thanks giving dinner',
+        timestamp: '8 minutes ago',
+        stats: {
+            likes: 22400
+        },
+        actions: [
+            { type: 'comment', label: 'Comment' },
+            { type: 'retweet', label: 'Retweet' },
+            { type: 'like', label: 'Like' },
+            { type: 'share', label: 'Share' }
+        ],
+        viewAction: {
+            label: 'View Post',
+            target: '/post/4'
+        }
+    }
+];
+
+export const filterOptions = {
+    status: ['All', 'Completed', 'Not completed'],
+    assignment: ['All', 'Assigned to me', 'Unassigned'],
+    messageType: ['All', 'Comments', 'Message', 'Mentions'],
+    tags: ['All Tags']
+};
+
+export const platforms: SocialPlatform[] = [
+    'facebook',
+    'instagram',
+    'tiktok',
+    'twitter',
+    'linkedin',
+    'youtube',
+    'pinterest'
+];

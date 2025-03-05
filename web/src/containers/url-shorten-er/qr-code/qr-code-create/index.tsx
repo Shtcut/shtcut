@@ -1,5 +1,5 @@
 import QRCodeCreateComponent from '@shtcut/components/ui/qr-code-components/qr-code-create';
-import { useQrCode } from '@shtcut/hooks/auth/qr-code';
+import { useQrCode } from '@shtcut/hooks/qr-code';
 import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 
@@ -8,8 +8,6 @@ const QRCodeCreateContainer = () => {
     const params = useParams();
     const id = Array.isArray(params.id) ? params.id[0] : params.id;
     const { qrState } = useQrCode({ call: true, id });
-
-    console.log('qrState', qrState?.getSingleQrCode);
 
     return (
         <QRCodeCreateComponent

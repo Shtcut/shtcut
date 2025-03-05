@@ -59,7 +59,7 @@ const SingleLinkPreviewComponent = ({ getLinkResponse }: { getLinkResponse: Link
             <div className="mt-[22px] flex items-center w-full gap-6 ">
                 {analticsScore.map((data) => (
                     <Card
-                        className="w-full flex cursor-pointer border border-gray-200 justify-between  items-center   h-28 shadow-sm  rounded-[10px]  px-4  gap-4"
+                        className="w-full flex cursor-pointer border border-gray-100 justify-between  items-center   h-28 shadow-sm  rounded-[10px]  px-4  gap-4"
                         key={data.id}
                     >
                         <div>

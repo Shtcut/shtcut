@@ -338,7 +338,7 @@ export class LinkService extends MongoBaseService {
   public async analytic(linkId) {
     try {
       const link = await this.model.findOne({ _id: linkId }).populate(['domain']);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /**
@@ -381,24 +381,90 @@ export class LinkService extends MongoBaseService {
     }
   }
 
-  async archivedMany(payload) {
+  async deleteMany(payload: { ids: string[] }): Promise<string[]> {
+    let session: ClientSession;
     try {
+      session = await this.model.startSession();
+      session.startTransaction();
+
       const { ids } = payload;
       const deleted = [];
+
       if (ids?.length) {
-        const objects = await this.model.find({
-          _id: { $in: [...ids] },
-          archived: false,
+        const links = await this.model.find({
+          ...Utils.conditionWithDelete({ _id: { $in: ids } }),
+          deleted: false
         });
-        for (let object of objects) {
-          _.extend(object, { archived: true });
-          object = await object.save();
-          deleted.push(object._id);
+
+        for (let link of links) {
+          _.extend(link, {
+            deleted: true,
+            deletedAt: new Date()
+          });
+          await link.save({ session });
+          // Delete associated QR code
+          await this.qrCodeModel.updateOne(
+            { ...Utils.conditionWithDelete({ link: link._id }) },
+            { deleted: true, deletedAt: new Date() },
+            { session }
+          );
+          deleted.push(link._id);
         }
       }
+
+      await session.commitTransaction();
       return deleted;
     } catch (error) {
+      await session?.abortTransaction();
       throw error;
+    } finally {
+      await session?.endSession();
     }
   }
+
+  async toggleArchiveMany(payload: { ids: string[] }): Promise<string[]> {
+    let session: ClientSession;
+    try {
+      session = await this.model.startSession();
+      session.startTransaction();
+
+      const { ids } = payload;
+      const toggledIds = [];
+
+      if (ids?.length) {
+        const links = await this.model.find({
+          ...Utils.conditionWithDelete({ _id: { $in: ids } })
+        });
+
+        for (let link of links) {
+          _.extend(link, { archived: !link.archived });
+          await link.save({ session });
+
+          await this.qrCodeModel.updateOne(
+            { ...Utils.conditionWithDelete({ link: link._id }) },
+            { archived: !link.archived },
+            { session }
+          );
+          toggledIds.push(link._id);
+
+          if (this.cacheService) {
+            await this.cacheService.remove(this.modelName + ':' + link._id.toString());
+          }
+        }
+
+        if (this.cacheService) {
+          await this.cacheService.remove(this.modelName + ':list');
+        }
+      }
+
+      await session.commitTransaction();
+      return toggledIds;
+    } catch (error) {
+      await session?.abortTransaction();
+      throw error;
+    } finally {
+      await session?.endSession();
+    }
+  }
+
 }

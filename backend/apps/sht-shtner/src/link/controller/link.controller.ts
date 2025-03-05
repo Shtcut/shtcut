@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateLinkDto, JwtAuthGuard, NOT_FOUND, OK, QueryParser, UpdateLinkDto } from 'shtcut/core';
+import { AppController, CreateLinkDto, JwtAuthGuard, NOT_FOUND, OK, QueryParser, UpdateLinkDto, LinkBulkDto } from 'shtcut/core';
 import { LinkService } from '../service/link.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
@@ -39,6 +39,7 @@ export class LinkController extends AppController {
       });
       return res.status(OK).json(response);
     } catch (e) {
+      console.log(e)
       return next(e);
     }
   }
@@ -155,20 +156,47 @@ export class LinkController extends AppController {
     }
   }
 
-  @Post('/archived/many')
+  @UseGuards(JwtAuthGuard)
+  @Post('/delete/many')
   @HttpCode(OK)
-  public async archivedMany(@Body() payload: { ids: string[] }, @Req() req, @Res() res, @Next() next: NextFunction) {
+  public async deleteLink(
+    @Body() payload: LinkBulkDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
     try {
-      const objects: any = await this.service.archivedMany(payload);
+      const deletedIds = await this.service.deleteMany(payload);
+      const response = await this.service.getResponse({
+        code: OK,
+        value: { ids: deletedIds },
+      });
+      return res.status(OK).json(response);
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/toggle-archive/many')
+  @HttpCode(OK)
+  public async toggleArchive(
+    @Body() payload: LinkBulkDto,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const toggledIds = await this.service.toggleArchiveMany(payload);
       const response = await this.service.getResponse({
         code: OK,
         value: {
-          ids: objects,
+          ids: toggledIds
         },
       });
       return res.status(OK).json(response);
     } catch (err) {
-      next(err);
+      return next(err);
     }
   }
 }

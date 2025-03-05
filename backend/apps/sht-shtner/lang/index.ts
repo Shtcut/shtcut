@@ -14,9 +14,7 @@ function get(prop) {
   else throw new HttpException(`There's no property defined as ${prop} in your translations`, INTERNAL_SERVER_ERROR);
 }
 
-const lang = {
-  get,
-};
+const lang = { get };
 
 const obj = require(`./${language}`).default;
 _.each(Object.getOwnPropertyNames(obj), function (property) {

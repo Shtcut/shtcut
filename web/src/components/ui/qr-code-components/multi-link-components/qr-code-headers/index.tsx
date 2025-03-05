@@ -38,7 +38,6 @@ const QrCodeHeadersComponent = ({
     console.log('linkss::', linkState?.links);
     return (
         <div>
-            {/* Header Section */}
             <LinkHeader
                 label="Header"
                 description="Enter Title and description"

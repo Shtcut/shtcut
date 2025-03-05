@@ -4,11 +4,15 @@ import CalandarsContainer from './calanders';
 import MediaContainer from './media-container';
 import MessagesContainer from './messages';
 import TaskContainer from './task';
+import IntergrationContainer from './integration';
+import ReportContainer from './reports';
 export {
     CreatePostContainer,
     SocialDashboardContainer,
     CalandarsContainer,
     MediaContainer,
     MessagesContainer,
-    TaskContainer
+    TaskContainer,
+    IntergrationContainer,
+    ReportContainer
 };

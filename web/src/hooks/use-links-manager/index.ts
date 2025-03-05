@@ -1,11 +1,12 @@
 import { setImage } from '@shtcut/redux/slices/selects';
 import { useAppDispatch } from '@shtcut/redux/store';
+import { useCreateMediaMutation } from '@shtcut/services/media';
 import { LinkBioDataType } from '@shtcut/types/link';
 import { useEffect, useState } from 'react';
 
 export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
+    const [uploadFile, { isLoading, error, data }] = useCreateMediaMutation();
     const dispatch = useAppDispatch();
-    console.log('default::', defaultLinks);
     const [links, setLinks] = useState<LinkBioDataType[]>([{ id: 1, label: '', url: '', image: null }]);
     const initialShowSections = defaultLinks.reduce(
         (acc, link) => {
@@ -20,7 +21,6 @@ export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
         }
     }, [defaultLinks]);
 
-    console.log('linksdefault', links);
     const [imgError, setImgError] = useState('');
 
     const [showSections, setShowSections] = useState<Record<number, boolean>>(initialShowSections);
@@ -67,13 +67,25 @@ export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
         }));
     };
 
-    const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
+
+        console.log('file', file);
         if (file) {
             const fileSizeInMB = file.size / (1024 * 1024);
             if (fileSizeInMB > 2) {
                 setImgError('Image size exceeds the allowed limit of 2 MB');
                 return;
+            }
+            const formData = new FormData();
+            formData.append('file', file);
+            try {
+                const response = await uploadFile(formData).unwrap();
+                console.log('File upload response:', response);
+                // dispatch(setImage(response?.url));
+            } catch (error) {
+                console.error('Upload failed:', error);
+                setImgError('Failed to upload image. Please try again.');
             }
             const reader = new FileReader();
             reader.onloadend = () => {
