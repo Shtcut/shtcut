@@ -47,7 +47,7 @@ export abstract class BaseController {
     protected config: ConfigService,
     protected service: MongoBaseService,
     protected key?: string,
-  ) { }
+  ) {}
 
   @Get('/unique/:key')
   @HttpCode(OK)
@@ -95,8 +95,8 @@ export abstract class BaseController {
           const messageObj =
             this.service.entity.config.uniques.length > 0
               ? this.service.entity.config.uniques.map((m: string) => ({
-                [m]: `${m} must be unique`,
-              }))
+                  [m]: `${m} must be unique`,
+                }))
               : null;
 
           const appError = new AppException(CONFLICT, lang.get('app').duplicate, messageObj);

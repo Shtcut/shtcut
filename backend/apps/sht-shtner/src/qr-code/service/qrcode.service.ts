@@ -20,7 +20,7 @@ import {
   PDFQRCodeDto,
   VCardQRCodeDto,
   WebsiteQRCodeDto,
-  MultiLinkQRCodeDto
+  MultiLinkQRCodeDto,
 } from 'shtcut/core';
 
 import { HitService } from '../../hit';
@@ -100,12 +100,9 @@ export class QrCodeService extends MongoBaseService {
       const slug = Utils.slugifyText(obj.title);
       const existingQrCode = await this.model.findOne({
         ...Utils.conditionWithDelete({
-          $or: [
-            { title: obj.title },
-            { slug: slug }
-          ],
-          user: obj.user
-        })
+          $or: [{ title: obj.title }, { slug: slug }],
+          user: obj.user,
+        }),
       });
 
       if (existingQrCode) {
@@ -274,7 +271,7 @@ export class QrCodeService extends MongoBaseService {
     }
   }
 
-  public async bulkDelete(ids: string[]) {
+  async deleteMany(ids: string[]): Promise<any[]> {
     let session: ClientSession;
     try {
       session = await this.model.startSession();
@@ -286,7 +283,7 @@ export class QrCodeService extends MongoBaseService {
 
       const qrCodes = await this.model.find({
         ...Utils.conditionWithDelete({ _id: { $in: ids } }),
-        deleted: false
+        deleted: false,
       });
 
       if (!qrCodes.length) {
@@ -294,10 +291,10 @@ export class QrCodeService extends MongoBaseService {
       }
 
       const deleted = [];
-      for (let qrCode of qrCodes) {
+      for (const qrCode of qrCodes) {
         _.extend(qrCode, {
           deleted: true,
-          deletedAt: new Date()
+          deletedAt: new Date(),
         });
         await qrCode.save({ session });
 
@@ -305,7 +302,7 @@ export class QrCodeService extends MongoBaseService {
         await this.linkModel.updateOne(
           { ...Utils.conditionWithDelete({ qrCode: qrCode._id }) },
           { deleted: true, deletedAt: new Date() },
-          { session }
+          { session },
         );
 
         deleted.push(qrCode._id);
@@ -348,7 +345,7 @@ export class QrCodeService extends MongoBaseService {
       `TEL:${data.contacts.phone}`,
       `ADR:;;${data.address.street};${data.address.city};${data.address.state};${data.address.zipCode};${data.address.country}`,
       `URL:${data.contacts.website || ''}`,
-      'END:VCARD'
+      'END:VCARD',
     ].join('\n');
     return vcard;
   }
@@ -361,7 +358,7 @@ export class QrCodeService extends MongoBaseService {
     // Create a JSON structure or formatted string for multiple links
     const content = {
       links: data.links,
-      social: data.socialMedia
+      social: data.socialMedia,
     };
     return JSON.stringify(content);
   }
@@ -370,7 +367,7 @@ export class QrCodeService extends MongoBaseService {
     return {
       code: data.code,
       value: data.value,
-      message: data.message ?? lang.get('qrcodes').created
+      message: data.message ?? lang.get('qrcodes').created,
     };
   }
 }
