@@ -1,7 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger, toast } from '@shtcut-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { QrCodeInterface } from '@shtcut/types/types';
-import { selectQrCodeStyle, setEyeRadius, setQrTitle, setSelectedFrame } from '@shtcut/redux/slices/qr-code';
+import {
+    selectQrCodeStyle,
+    setEyeRadius,
+    setQrCodeLogo,
+    setQrCodePresetColor,
+    setQrTitle,
+    setSelectedFrame
+} from '@shtcut/redux/slices/qr-code';
 import MultiLinksComponent from '../multi-link-components';
 import PdfQrCodeComponent from '../pdf-qr-code';
 import VCardComponent from '../vcard-component';
@@ -15,6 +22,8 @@ import {
     setBgColor,
     setBorderColor,
     setBtnColor,
+    setCompany,
+    setContactInfo,
     setDescription,
     setPresetColor,
     setSelectedTemplate,
@@ -90,7 +99,6 @@ const QRCodeCreateComponent = ({
         action.generalReset();
         router.push(`/url/${workspace}/qr-codes`);
     };
-    console.log('state?.logo', state?.logo);
 
     const handleSave = async () => {
         const commonQrCodeData = {
@@ -159,7 +167,7 @@ const QRCodeCreateComponent = ({
             title,
             description,
             profileImage,
-            file: fileInfo,
+            file: 'id',
             bgColor,
             qrCode: commonQrCodeData
         };
@@ -212,7 +220,6 @@ const QRCodeCreateComponent = ({
             }
 
             if (switchTab === 'pdf' && !fileInfo) {
-                console.log('stephe1::,f', fileInfo);
                 return toast({
                     variant: 'destructive',
                     title: 'No File',
@@ -238,16 +245,17 @@ const QRCodeCreateComponent = ({
                 let res;
                 if (editId) {
                     res = await qrActions.updateQrCode({ payload, id: editId });
-                    console.log('res', res);
                 } else {
                     res = await qrActions.createqrCode(payload);
-                    console.log('res', res);
                 }
                 handleSuccess({
                     response: res
                 });
 
-                const newUrl = switchTab === 'website' ? urlValue : `${NEXT_PUBLIC_URL}/qr-code/${res?.data?.slug}`;
+                const newUrl =
+                    switchTab === 'website'
+                        ? urlValue
+                        : `${NEXT_PUBLIC_URL}/qr-code/${res?.data?.data?.slug || res?.data?.slug}`;
                 dispatch(setUrl(newUrl));
                 setSaveModal(true);
             } catch (error) {
@@ -258,9 +266,6 @@ const QRCodeCreateComponent = ({
         }
     };
 
-    console.log('NEXT_PUBLIC_URL', NEXT_PUBLIC_URL);
-
-    const urlWebsite = getQrCodeData?.url;
     useEffect(() => {
         if (editId && getQrCodeData) {
             const newTab = getQrCodeData?.type;
@@ -277,8 +282,32 @@ const QRCodeCreateComponent = ({
         }
     }, [switchTab]);
 
+    console.log('getQrCodeData', getQrCodeData);
+
     useEffect(() => {
         if (editId && getQrCodeData) {
+            const addressData = getQrCodeData.address || {};
+            const companyData = getQrCodeData.company || {};
+            const contactData = getQrCodeData.contacts || {};
+            console.log('addressData', addressData);
+            dispatch(
+                setContactInfo({
+                    phoneNumber: contactData.phone || '',
+                    email: contactData.email || '',
+                    websiteUrl: contactData.website || '',
+                    streetAddress: addressData.street || '',
+                    country: addressData.country || '',
+                    state: addressData.state || '',
+                    zipCode: addressData.zipCode || '',
+                    city: addressData.city || ''
+                })
+            );
+            dispatch(
+                setCompany({
+                    name: companyData.name || '',
+                    department: companyData.department || ''
+                })
+            );
             dispatch(setQrTitle(getQrCodeData?.qrCode?.name || getQrCodeData?.title));
             dispatch(setTitle(getQrCodeData?.title));
             dispatch(setBgColor(getQrCodeData?.bgColor));
@@ -288,13 +317,19 @@ const QRCodeCreateComponent = ({
             dispatch(
                 setPresetColor(getQrCodeData?.qrCode?.colors?.presetColor || getQrCodeData?.template?.presetColor)
             );
+            dispatch(
+                setQrCodePresetColor(
+                    (getQrCodeData?.qrCode?.colors?.presetColor || getQrCodeData?.template?.presetColor) ?? ''
+                )
+            );
+            dispatch(setQrCodeLogo(getQrCodeData?.qrCode?.logo ?? ''));
             dispatch(setSelectedTemplate(getQrCodeData?.template?.template));
             dispatch(setEyeRadius(getQrCodeData?.qrCode?.eyeRadius));
             dispatch(setSelectedFrame(getQrCodeData?.qrCode?.frame));
             dispatch(selectQrCodeStyle(getQrCodeData?.qrCode?.qrStyle));
-            setValue('url', urlWebsite);
+            setValue('url', getQrCodeData?.url);
         }
-    }, [editId, getQrCodeData, dispatch, setValue, urlWebsite]);
+    }, [editId, getQrCodeData, dispatch, setValue, getQrCodeData?.url]);
 
     const onSubmit = (data: { url: string }) => {
         console.log('Title:', data.url);
@@ -370,8 +405,8 @@ const QRCodeCreateComponent = ({
                         </form>
                     </Tabs>
                 </div>
-                <div className="bg-white w-1/2 sticky top-40 shadow-sm border border-gray-100 rounded-[10px] h-[640px] p-[23px]">
-                    <h2 className=" font-semibold ">Preview</h2>
+                <div className="bg-white w-1/2 sticky top-40 shadow-sm border border-gray-100 rounded-[10px] h-[640px] flex flex-col  justify-center">
+                    <h2 className=" px-6 font-semibold ">Preview</h2>
                     <PreviewPhone switchTab={switchTab} links={linkState?.links} selectedTab={Number(selectedTab)} />
                 </div>
             </div>

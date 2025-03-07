@@ -10,8 +10,23 @@ import { NEXT_PUBLIC_URL } from '@shtcut/_shared/constant';
 import Modal from '@shtcut/components/modal';
 import FrameComponents from '../frames-component';
 import { useDispatch } from 'react-redux';
-import { setQrCodeLogo, setQrCodePresetColor, setQrTitle, setSelectedFrame } from '@shtcut/redux/slices/qr-code';
-import { setBorderColor, setPresetColor, setTitle, setUrl } from '@shtcut/redux/slices/selects';
+import {
+    selectQrCodeStyle,
+    setEyeRadius,
+    setQrCodeLogo,
+    setQrCodePresetColor,
+    setQrTitle,
+    setSelectedFrame
+} from '@shtcut/redux/slices/qr-code';
+import {
+    setBgColor,
+    setBorderColor,
+    setBtnColor,
+    setPresetColor,
+    setSelectedTemplate,
+    setTitle,
+    setUrl
+} from '@shtcut/redux/slices/selects';
 import useQrCodeState from '@shtcut/hooks/qrcode/index.';
 import useCopyToClipboard from '@shtcut/hooks/useCopyToClipboard';
 import useGeneralState from '@shtcut/hooks/general-state';
@@ -40,26 +55,25 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
         if (qrCodeData) {
             const urlScanQrCode =
                 qrCodeData?.type === 'website' ? data?.url : `${NEXT_PUBLIC_URL}/qr-code/${qrCodeData?.slug}`;
-            console.log('qrCodeData', qrCodeData);
-            console.log('urlScanQrCode', urlScanQrCode);
-            console.log('number', qrCodeData?.qrCode?.frame);
-            console.log('logo', qrCodeData?.logo);
-
             dispatch(setSelectedFrame(qrCodeData?.qrCode?.frame ?? 0));
             dispatch(
                 setPresetColor((qrCodeData?.qrCode?.colors?.presetColor || qrCodeData?.template?.presetColor) ?? '')
             );
+            dispatch(setSelectedTemplate(qrCodeData?.template?.template ?? ''));
             dispatch(
                 setQrCodePresetColor(
                     (qrCodeData?.qrCode?.colors?.presetColor || qrCodeData?.template?.presetColor) ?? ''
                 )
             );
+            dispatch(setBgColor(qrCodeData?.bgColor));
+            dispatch(setEyeRadius(qrCodeData?.qrCode?.eyeRadius));
             dispatch(setQrCodeLogo(qrCodeData?.qrCode?.logo ?? ''));
-            console.log('qrCodeData?.title', qrCodeData?.title);
             dispatch(setTitle(qrCodeData?.title));
             dispatch(setQrTitle(qrCodeData?.qrCode?.name || qrCodeData?.title));
             dispatch(setBorderColor(qrCodeData?.borderColor || qrCodeData?.qrCode?.colors?.borderColor));
             dispatch(setUrl(urlScanQrCode ?? ''));
+            dispatch(selectQrCodeStyle(qrCodeData?.qrCode?.qrStyle));
+            dispatch(setBtnColor(qrCodeData?.template?.btnColor ?? ''));
             setShowModal(true);
         }
     };
@@ -68,6 +82,9 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
         action.generalReset();
         setShowModal(false);
     };
+
+    console.log('state?.selectedFrame', state?.selectedFrame);
+    console.log('state?.logo', state?.logo);
 
     return (
         <section>
@@ -128,21 +145,24 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
                 closeIcon={false}
                 isOpen={showModal}
                 onClose={handleCloseModal}
-                className={`  p-6  w-96 h-fit${state?.selectedFrame === 3 ? 'pb-16' : ''} `}
+                className={`  p-6  w-96 h-fit ${state?.selectedFrame === 3 && state?.logo ? 'pb-16' : state?.selectedFrame === 3 && !state.logo ? 'pb-0' : ''} `}
             >
-                <div className="flex justify-center flex-col items-center h-full">
+                <div className="flex justify-center flex-col items-center h-full ">
                     {state.logo && (
                         <div className={`${state?.selectedFrame === 3 ? 'mb-20' : 'pb-6'}`}>
                             <Image src={state?.logo as string} width={50} height={50} alt="qr-code" />
                         </div>
                     )}
-                    <FrameComponents />
+                    <section className={` ${state?.selectedFrame === 3 && !state?.logo ? 'mt-20' : ''} `}>
+                        <FrameComponents />
+                    </section>
                     <section className={`my-5 relative w-full ${state?.selectedFrame === 3 ? 'mt-24' : ''}`}>
                         <Input
-                            value={urlScan as string}
-                            defaultValue={urlScan as string}
+                            value={urlScan.length > 35 ? `${urlScan.slice(0, 35)}...` : urlScan}
+                            defaultValue={urlScan.length > 35 ? `${urlScan.slice(0, 35)}...` : urlScan}
                             className="border border-gray-300 w-full"
                             disabled
+                            maxLength={6}
                         />
                         <div className="absolute  cursor-pointer top-2.5 right-4">
                             <PiCopySimple color="#726C6C" size={16} onClick={() => handleCopy(urlScan as string)} />

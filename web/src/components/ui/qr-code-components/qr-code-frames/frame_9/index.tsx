@@ -27,9 +27,8 @@ const Frame_9 = () => {
                     size={90}
                     logoWidth={20}
                     logoHeight={20}
-                    eyeColor={''}
                     logoImage={String(state?.logo)}
-                    qrStyle={state?.logo as 'squares' | 'dots' | 'fluid'}
+                    qrStyle={state?.qrStyle as 'squares' | 'dots' | 'fluid'}
                     eyeRadius={state?.eyeRadius as EyeRadiusType}
                 />
             </div>

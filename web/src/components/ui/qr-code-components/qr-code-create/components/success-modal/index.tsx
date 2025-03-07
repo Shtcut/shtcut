@@ -30,7 +30,7 @@ const QrCodeSuccessModal = ({ handleClose, saveModal, state, qrCodeRef, urlScan 
                 </div>
                 <section className="mt-5 relative w-full">
                     <Input
-                        value={urlScan as string}
+                        value={urlScan.length > 40 ? `${urlScan.slice(0, 40)}...` : urlScan}
                         defaultValue={urlScan as string}
                         className="border border-gray-300 w-full"
                         disabled

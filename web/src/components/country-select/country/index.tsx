@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { City, Country, State } from 'country-state-city';
 
-type CountryOption = {
-    label: string;
-    value: string;
-};
+type CountryOption = { label: string; value: string };
+type StateOption = { label: string; value: string };
+type CityOption = { label: string; value: string };
 
-type StateOption = {
-    label: string;
-    value: string;
-};
+interface UseCountryStateSelectorsProps {
+    defaultCountry?: string;
+    defaultState?: string;
+    defaultCity?: string;
+}
 
-type CityOption = {
-    label: string;
-    value: string;
-};
-
-const CountryStateSelectors = () => {
+export const useCountryStateSelectors = ({
+    defaultCountry,
+    defaultState,
+    defaultCity
+}: UseCountryStateSelectorsProps) => {
     const countryData = Country.getAllCountries();
+
     const [countryOptions, setCountryOptions] = useState<CountryOption[]>([]);
     const [stateOptions, setStateOptions] = useState<StateOption[]>([]);
     const [cityOptions, setCityOptions] = useState<CityOption[]>([]);
@@ -32,7 +32,12 @@ const CountryStateSelectors = () => {
             value: country.isoCode
         }));
         setCountryOptions(formattedCountries);
-    }, [countryData]);
+
+        if (defaultCountry) {
+            const defaultCountryObj = formattedCountries.find((c) => c.value === defaultCountry) || null;
+            setSelectedCountry(defaultCountryObj);
+        }
+    }, []);
 
     useEffect(() => {
         if (selectedCountry) {
@@ -42,8 +47,16 @@ const CountryStateSelectors = () => {
                 value: state.isoCode
             }));
             setStateOptions(formattedStates);
+
+            if (defaultState) {
+                const defaultStateObj = formattedStates.find((s) => s.value === defaultState) || null;
+                setSelectedState(defaultStateObj);
+            } else {
+                setSelectedState(null);
+            }
+        } else {
+            setStateOptions([]);
             setSelectedState(null);
-            setCityOptions([]);
         }
     }, [selectedCountry]);
 
@@ -55,6 +68,15 @@ const CountryStateSelectors = () => {
                 value: city.name
             }));
             setCityOptions(formattedCities);
+
+            if (defaultCity) {
+                const defaultCityObj = formattedCities.find((c) => c.value === defaultCity) || null;
+                setSelectedCity(defaultCityObj);
+            } else {
+                setSelectedCity(null);
+            }
+        } else {
+            setCityOptions([]);
             setSelectedCity(null);
         }
     }, [selectedState, selectedCountry]);
@@ -62,21 +84,27 @@ const CountryStateSelectors = () => {
     const handleCountryChange = (value: string) => {
         const selectedOption = countryOptions.find((option) => option.value === value) || null;
         setSelectedCountry(selectedOption);
-        return selectedOption ? selectedOption.label : '';
+        setSelectedState(null);
+        setSelectedCity(null);
     };
+
     const handleStateChange = (value: string) => {
         const selectedOption = stateOptions.find((option) => option.value === value) || null;
         setSelectedState(selectedOption);
-        return selectedOption ? selectedOption.label : '';
+        setSelectedCity(null);
     };
+
     return {
-        stateOptions,
         countryOptions,
-        handleCountryChange,
-        handleStateChange,
+        stateOptions,
+        cityOptions,
+        selectedCountry,
         selectedState,
-        selectedCountry
+        selectedCity,
+        setSelectedCountry,
+        setSelectedState,
+        setSelectedCity,
+        handleCountryChange,
+        handleStateChange
     };
 };
-
-export default CountryStateSelectors;
