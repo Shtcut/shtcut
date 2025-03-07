@@ -12,10 +12,9 @@ interface ComponentType {
 
 const PreviewPhone = ({ switchTab, links, selectedTab }: ComponentType) => {
     const { step, bgColor } = useGeneralState();
-    console.log('step', step);
-    console.log('selectedTab', selectedTab);
+
     return (
-        <div className="border w-[250px] h-[550px] border-[#A6A6A4] p-[1px] mt-6  mx-auto rounded-[37px]">
+        <div className="border w-[250px] h-[550px] border-[#A6A6A4] p-[1px]   mx-auto rounded-[37px]">
             <div
                 style={{ backgroundColor: bgColor }}
                 className={`flex  border-4 relative border-black flex-col   w-full h-full justify-center  items-center rounded-[37px] `}

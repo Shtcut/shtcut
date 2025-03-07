@@ -48,3 +48,5 @@ _env/.env
 env
 env.*
 .codegpt
+packages/tw-init/node_modules/.bin/tsserver
+packages/tw-init/node_modules/.bin/tsc

@@ -1,10 +1,10 @@
 import { Card, Input, Label, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@shtcut-ui/react';
 import React from 'react';
 import { Minus, Plus } from 'lucide-react';
-import CountryStateSelectors from '@shtcut/components/country-select/country';
 import { useAppDispatch } from '@shtcut/redux/store';
 import useGeneralState from '@shtcut/hooks/general-state';
 import { updateContactField } from '@shtcut/redux/slices/selects';
+import { useCountryStateSelectors } from '@shtcut/components/country-select/country';
 
 const ContactInfo = ({
     isVisible,
@@ -16,42 +16,53 @@ const ContactInfo = ({
     toggleVisibility: () => void;
 }) => {
     const dispatch = useAppDispatch();
+    const [isEditingCountry, setIsEditingCountry] = React.useState(false);
     const { contactInfo } = useGeneralState();
-    const { countryOptions, handleCountryChange, handleStateChange, selectedCountry, selectedState, stateOptions } =
-        CountryStateSelectors();
+    const { countryOptions, stateOptions, selectedCountry, selectedState, setSelectedCountry, setSelectedState } =
+        useCountryStateSelectors({
+            defaultCountry: contactInfo?.country,
+            defaultState: contactInfo?.state
+        });
 
-    const handleInputChange = (key: keyof typeof contactInfo) => (e: React.ChangeEvent<HTMLInputElement>) => {
-        dispatch(updateContactField({ key, value: e.target.value }));
-    };
     const onCountryChange = (value: string) => {
-        const countryName = handleCountryChange(value);
-        dispatch(updateContactField({ key: 'country', value: countryName }));
+        const selected = countryOptions.find((option) => option.value === value) || null;
+        setSelectedCountry(selected);
+        dispatch(updateContactField({ key: 'country', value: selected?.label ?? '' }));
     };
 
     const onStateChange = (value: string) => {
-        const stateName = handleStateChange(value);
-        dispatch(updateContactField({ key: 'state', value: stateName }));
+        const selected = stateOptions.find((option) => option.value === value) || null;
+        setSelectedState(selected);
+        dispatch(updateContactField({ key: 'state', value: selected?.label ?? '' }));
+    };
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleEditCountry = () => {
+        setIsEditingCountry(true);
+        setOpen(true);
+    };
+
+    const handleCountryChange = (value: string) => {
+        onCountryChange(value);
+        setIsEditingCountry(false);
     };
 
     return (
         <Card
-            className={` mt-4 py-4   ${showOthers ? 'shadow-none border-none' : 'px-6 shadow-sm border border-gray-100'}`}
+            className={`mt-4 py-4 ${showOthers ? 'shadow-none border-none' : 'px-6 shadow-sm border border-gray-100'}`}
         >
-            <section className="flex justify-between ">
+            <section className="flex justify-between">
                 <section className="flex flex-col gap-2">
                     <Label>Contact Information&apos;s</Label>
                     <p className="text-sm text-[#5A5555]">Enter details</p>
                 </section>
-                {!showOthers && (
-                    <>
-                        {' '}
-                        {isVisible ? (
-                            <Minus onClick={toggleVisibility} className="cursor-pointer" />
-                        ) : (
-                            <Plus onClick={toggleVisibility} className="cursor-pointer" />
-                        )}
-                    </>
-                )}
+                {!showOthers &&
+                    (isVisible ? (
+                        <Minus onClick={toggleVisibility} className="cursor-pointer" />
+                    ) : (
+                        <Plus onClick={toggleVisibility} className="cursor-pointer" />
+                    ))}
             </section>
             {isVisible && (
                 <section className="mt-4">
@@ -59,19 +70,21 @@ const ContactInfo = ({
                         <Input
                             placeholder="Phone Number"
                             value={contactInfo?.phoneNumber ?? ''}
-                            onChange={handleInputChange('phoneNumber')}
+                            onChange={(e) =>
+                                dispatch(updateContactField({ key: 'phoneNumber', value: e.target.value }))
+                            }
                             type="text"
                         />
                         <Input
                             placeholder="Email Address"
                             type="email"
                             value={contactInfo?.email ?? ''}
-                            onChange={handleInputChange('email')}
+                            onChange={(e) => dispatch(updateContactField({ key: 'email', value: e.target.value }))}
                         />
                         <Input
                             placeholder="Website URL"
                             value={contactInfo.websiteUrl}
-                            onChange={handleInputChange('websiteUrl')}
+                            onChange={(e) => dispatch(updateContactField({ key: 'websiteUrl', value: e.target.value }))}
                             type="url"
                         />
                     </section>
@@ -81,27 +94,41 @@ const ContactInfo = ({
                             <Input
                                 placeholder="Street Address"
                                 value={contactInfo.streetAddress}
-                                onChange={handleInputChange('streetAddress')}
+                                onChange={(e) =>
+                                    dispatch(updateContactField({ key: 'streetAddress', value: e.target.value }))
+                                }
                             />
-
-                            <section className="flex  items-center gap-2">
-                                <Select value={selectedCountry?.value ?? undefined} onValueChange={onCountryChange}>
-                                    <SelectTrigger className="w-full">
-                                        <SelectValue
+                            <section className="flex items-center gap-2">
+                                <section className="flex items-center gap-2 w-full">
+                                    {isEditingCountry || !contactInfo.country ? (
+                                        <Select
+                                            value={selectedCountry?.value ?? ''}
+                                            onValueChange={handleCountryChange}
+                                            open={open}
+                                            onOpenChange={setOpen}
+                                        >
+                                            <SelectTrigger className="w-full">
+                                                <SelectValue placeholder="Country" className="text-sm" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {countryOptions.map((country) => (
+                                                    <SelectItem key={country.value} value={country.value}>
+                                                        {country.label}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    ) : (
+                                        <Input
                                             placeholder="Country"
-                                            className="text-sm placeholder:text-muted-foreground "
+                                            value={contactInfo.country}
+                                            readOnly
+                                            onClick={handleEditCountry}
                                         />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        {countryOptions.map((country) => (
-                                            <SelectItem key={country.value} value={country.value}>
-                                                {country.label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                    )}
+                                </section>
                                 {stateOptions.length > 0 ? (
-                                    <Select value={selectedState?.value ?? undefined} onValueChange={onStateChange}>
+                                    <Select value={selectedState?.value ?? ''} onValueChange={onStateChange}>
                                         <SelectTrigger className="w-full">
                                             <SelectValue
                                                 placeholder="State"
@@ -119,18 +146,26 @@ const ContactInfo = ({
                                 ) : (
                                     <Input
                                         placeholder="State"
-                                        value={contactInfo.city}
-                                        onChange={handleInputChange('state')}
+                                        value={contactInfo.state}
+                                        onChange={(e) =>
+                                            dispatch(updateContactField({ key: 'state', value: e.target.value }))
+                                        }
                                     />
                                 )}
                                 <Input
                                     placeholder="Zip Code"
                                     value={contactInfo.zipCode}
-                                    onChange={handleInputChange('zipCode')}
-                                    type='number'
+                                    onChange={(e) =>
+                                        dispatch(updateContactField({ key: 'zipCode', value: e.target.value }))
+                                    }
+                                    type="number"
                                 />
                             </section>
-                            <Input placeholder="City" value={contactInfo.city} onChange={handleInputChange('city')} />
+                            <Input
+                                placeholder="City"
+                                value={contactInfo.city}
+                                onChange={(e) => dispatch(updateContactField({ key: 'city', value: e.target.value }))}
+                            />
                         </section>
                     </section>
                 </section>

@@ -22,6 +22,7 @@ const Frame_1 = () => {
                     logoImage={''}
                     qrStyle={state?.qrStyle as 'squares' | 'dots' | 'fluid'}
                     eyeRadius={state?.eyeRadius as EyeRadiusType}
+
                     // enableCORS={true}
                 />
             </div>

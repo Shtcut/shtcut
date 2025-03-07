@@ -9,6 +9,9 @@
 node_modules/
 packages/**/node_modules/
 
+packages/tw-init/node_modules/
+
+
 # testing
 /coverage
 
