@@ -1,4 +1,4 @@
-import { LogOut, MailOpen, Link, Image, Headset, AudioLines } from 'lucide-react';
+import { LogOut, MailOpen, Link, Image, AudioLines } from 'lucide-react';
 import { PiChatCenteredTextLight, PiCheckSquareOffset, PiQrCodeBold, PiUserCircleGear } from 'react-icons/pi';
 import { AiFillAppstore } from 'react-icons/ai';
 import { PiProjectorScreenChartBold } from 'react-icons/pi';
@@ -7,6 +7,7 @@ import { IoCalendarOutline } from 'react-icons/io5';
 import { PiNoteDuotone } from 'react-icons/pi';
 import { GoGraph } from 'react-icons/go';
 import { MdOutlineContactMail } from 'react-icons/md';
+import { BsHeadset } from 'react-icons/bs';
 
 export interface NavLink {
     id: string;
@@ -143,7 +144,7 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             id: '12',
             title: 'Integration',
             href: `/social/${workspace}/integration`,
-            icon: <Headset size={16} />
+            icon: <BsHeadset size={16} />
         },
 
         {

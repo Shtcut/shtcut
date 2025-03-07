@@ -11,7 +11,7 @@ import {
     SocialPost
 } from '@shtcut/types/types';
 import dayjs from 'dayjs';
-import { Images, MonitorPlay, File, Activity, Command, PieChart } from 'lucide-react';
+import { Image as Images, MonitorPlay, File, Activity, Command, PieChart } from 'lucide-react';
 
 export const IMPACT: GeneralType[] = [
     {
