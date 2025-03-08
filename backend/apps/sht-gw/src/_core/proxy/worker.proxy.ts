@@ -24,11 +24,6 @@ export class WorkerProxyMiddleware implements NestMiddleware {
     });
 
   use(req, res, next) {
-    bodyParser.raw({ type: 'multipart/form-data', limit: '50mb' })(req, res, (err) => {
-      if (err) {
-        throw AppException.BAD_REQUEST(lang.get('error').tooLargeFile, err.getMessage());
-      }
-    });
     this.ServiceProxy(this.config.get('microServices.worker.url'))(req, res, next);
   }
 }

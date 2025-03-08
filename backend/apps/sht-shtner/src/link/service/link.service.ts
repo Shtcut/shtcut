@@ -338,7 +338,7 @@ export class LinkService extends MongoBaseService {
   public async analytic(linkId) {
     try {
       const link = await this.model.findOne({ _id: linkId }).populate(['domain']);
-    } catch (e) { }
+    } catch (e) {}
   }
 
   /**
@@ -393,20 +393,20 @@ export class LinkService extends MongoBaseService {
       if (ids?.length) {
         const links = await this.model.find({
           ...Utils.conditionWithDelete({ _id: { $in: ids } }),
-          deleted: false
+          deleted: false,
         });
 
-        for (let link of links) {
+        for (const link of links) {
           _.extend(link, {
             deleted: true,
-            deletedAt: new Date()
+            deletedAt: new Date(),
           });
           await link.save({ session });
           // Delete associated QR code
           await this.qrCodeModel.updateOne(
             { ...Utils.conditionWithDelete({ link: link._id }) },
             { deleted: true, deletedAt: new Date() },
-            { session }
+            { session },
           );
           deleted.push(link._id);
         }
@@ -433,17 +433,17 @@ export class LinkService extends MongoBaseService {
 
       if (ids?.length) {
         const links = await this.model.find({
-          ...Utils.conditionWithDelete({ _id: { $in: ids } })
+          ...Utils.conditionWithDelete({ _id: { $in: ids } }),
         });
 
-        for (let link of links) {
+        for (const link of links) {
           _.extend(link, { archived: !link.archived });
           await link.save({ session });
 
           await this.qrCodeModel.updateOne(
             { ...Utils.conditionWithDelete({ link: link._id }) },
             { archived: !link.archived },
-            { session }
+            { session },
           );
           toggledIds.push(link._id);
 
@@ -466,5 +466,4 @@ export class LinkService extends MongoBaseService {
       await session?.endSession();
     }
   }
-
 }

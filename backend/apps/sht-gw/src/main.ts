@@ -18,7 +18,7 @@ async function bootstrap() {
 
   app.use(morgan('tiny'));
   app.use(requestIp.mw());
-  app.setGlobalPrefix(`api/${currentVersion}`);
+  app.setGlobalPrefix(`api/${currentVersion}/worker`);
   app.useGlobalFilters(new ResponseFilter());
   app.useGlobalPipes(new ValidationPipe());
 
