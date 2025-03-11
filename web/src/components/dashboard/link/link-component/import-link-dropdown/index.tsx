@@ -22,33 +22,9 @@ const ImportLinkDropDown = ({ handleNavigateToArchive }: { handleNavigateToArchi
                         </div>
                     </div>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-48  right-6 relative cursor-pointer">
-                    <p className="text-xs p-2 font-semibold text-[#5A5555]">Import Links</p>
-                    <section className="flex pb-2 flex-col   ">
-                        <DropdownMenuCheckboxItem className=" hover:text-primary-0 flex text-xs items-center gap-x-2 p-2 cursor-pointer ">
-                            <Image src={'/social/biltly.png'} width={16} height={16} alt="biltly" /> Import from Bitly
-                        </DropdownMenuCheckboxItem>
-
-                        <DropdownMenuCheckboxItem className="p-2 hover:text-primary-0 flex text-xs items-center gap-x-2 cursor-pointer">
-                            <Image src={'/social/shortei.png'} width={16} height={16} alt="     Short.io" /> Import from
-                            Short.io
-                        </DropdownMenuCheckboxItem>
-
-                        <DropdownMenuCheckboxItem className="p-2 flex text-xs items-center gap-x-2 cursor-pointer">
-                            <Download size={16} /> Import from CSV
-                        </DropdownMenuCheckboxItem>
-                    </section>
-                    <Separator />
-                    <p className="text-xs px-2 pt-3 font-semibold text-[#5A5555]">Export Links</p>
-                    <section className="flex pb-2 flex-col   ">
-                        <DropdownMenuCheckboxItem className=" hover:text-primary-0 flex text-xs items-center gap-x-2 mt-3 p-2 cursor-pointer ">
-                            <Download size={16} style={{ transform: 'rotate(-180deg)' }} />
-                            <span>Export as CSV</span>
-                        </DropdownMenuCheckboxItem>
-                    </section>
-                    <Separator />
+                <DropdownMenuContent className="w-fit h-fit  right-6 relative cursor-pointer">
                     <DropdownMenuCheckboxItem
-                        className=" hover:text-primary-0 flex my-2 text-xs items-center gap-x-2 p-2 cursor-pointer "
+                        className=" hover:text-primary-0 flex  text-xs items-center gap-x-2 p-2 cursor-pointer h-fit "
                         onClick={handleNavigateToArchive}
                     >
                         <Archive size={16} /> View all Archive
