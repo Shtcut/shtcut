@@ -12,10 +12,12 @@ export interface LinkBioStateType {
     getLinkBioData: LinkBioDataResponse | undefined;
     getLinkBioLoading: boolean;
     getBioLoading: boolean;
-    getBioResponse: Dict;
+    getSingleLinkBio: LinkBioDataResponse | undefined;
+    updateLinkBioResponse: any;
 }
 export interface LinkBioActions {
     createLinkBio: (payload: LinkBioDataPayload | any) => Promise<any>;
+    updateLinkBio: MutationTrigger<any>;
     setLoadingState: (key: 'creating' | 'deleting' | 'updating', value: boolean) => void;
     findAllLinkBio?: any;
     paginationActions: UsePaginationActions;

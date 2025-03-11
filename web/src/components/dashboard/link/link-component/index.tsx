@@ -332,6 +332,8 @@ const LinkComponent = ({
         handleCloseLoading();
     };
 
+    console.log('findAllLinksResponse', findAllLinksResponse);
+
     return (
         <section className=" ">
             <div className="flex justify-between  items-center">

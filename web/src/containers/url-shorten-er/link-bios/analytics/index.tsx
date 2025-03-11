@@ -9,13 +9,12 @@ import React from 'react';
 const LinkBioAnalyticsContainer = () => {
     const { slug } = useParams();
     const { linkBiosState } = useLinkBios({ callLinkbio: true });
-    const findLinkBioId =
-        linkBiosState?.findAllLinkBioResponse &&
-        linkBiosState?.findAllLinkBioResponse?.data?.find((bio) => bio.slug === slug)?._id;
+
+    const findLinkBioId = linkBiosState?.findAllLinkBioResponse?.data?.find((bio) => bio.slug === slug)?._id;
 
     const { linkBiosState: bioData } = useLinkBios({ id: findLinkBioId });
 
-    if (bioData?.getBioLoading || linkBiosState?.findLinkBioLoading) {
+    if (!bioData?.getSingleLinkBio || bioData?.getBioLoading || linkBiosState?.findLinkBioLoading) {
         return (
             <div className="flex flex-1 h-[70vh] justify-center items-center">
                 <StarLoader />
@@ -23,8 +22,7 @@ const LinkBioAnalyticsContainer = () => {
         );
     }
 
-    console.log('bioData', bioData?.getBioResponse?.data);
-    return <LinkBioAnalyticsComponent bioData={bioData?.getBioResponse?.data} />;
+    return <LinkBioAnalyticsComponent bioData={bioData.getSingleLinkBio} />;
 };
 
 export default LinkBioAnalyticsContainer;

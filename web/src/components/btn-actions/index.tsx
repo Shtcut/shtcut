@@ -10,16 +10,17 @@ interface QRCodeCreateHeaderProps {
     handlePrevStep: () => void;
     handleSave: () => void;
     handleClose: () => void;
+    title: string;
 }
 
-const BtnActions = ({ step, handlePrevStep, handleSave, isLoading, handleClose }: QRCodeCreateHeaderProps) => {
+const BtnActions = ({ step, handlePrevStep, handleSave, isLoading, handleClose, title }: QRCodeCreateHeaderProps) => {
     const params = useParams();
     const { workspace } = params;
     return (
         <>
             <BackButton navigation={handleClose} className="p-0 m-0" />
             <div className="flex pt-6 justify-between  items-center">
-                <h1 className="font-semibold text-[#2B2829] text-xl">Create QR </h1>
+                <h1 className="font-semibold text-[#2B2829] text-xl">{title} </h1>
                 <div className="flex items-center gap-x-3">
                     {Number(step) > 1 && (
                         <Button

@@ -8,6 +8,7 @@ import { LinkBioDataResponse } from '@shtcut/types/link-bio';
 import { formatDate } from '@shtcut/_shared';
 import { capitalizeFirstLetter } from '@shtcut/_shared/constant';
 import useCopyToClipboard from '@shtcut/hooks/useCopyToClipboard';
+import { usePathname, useRouter } from 'next/navigation';
 
 const LinkBioCard = ({
     data,
@@ -18,6 +19,8 @@ const LinkBioCard = ({
     handleShowDelete: () => void;
     handleNavigateAnalytics: () => void;
 }) => {
+    const router = useRouter();
+    const pathName = usePathname();
     const { handleCopy } = useCopyToClipboard();
     return (
         <Card
@@ -69,6 +72,7 @@ const LinkBioCard = ({
                     <LinkBioCardActions
                         onDeleteShowModal={handleShowDelete}
                         handleCopy={() => handleCopy(`beta.shtcut.co/link-bio/${data?.slug}`)}
+                        handleEdit={() => router.push(`${pathName}/edit-link-bio/${data?._id}`)}
                     />
                 </div>
             </div>

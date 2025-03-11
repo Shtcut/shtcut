@@ -39,7 +39,7 @@ const SingleLinkBioCard = ({ data }: { data: LinkBioDataResponse }) => {
                             <a href={`/link-bio/${data?.slug}`} target="_blank" className="text-primary-0 text-xs">
                                 beta.shtcut.co/{data?.slug}
                             </a>
-                            <p className="text-xs">{data.links.length} Links</p>
+                            <p className="text-xs">{data?.links?.length} Links</p>
                         </div>
                         <div className="flex items-center gap-x-2 mt-2">
                             <Clock3 size={16} />

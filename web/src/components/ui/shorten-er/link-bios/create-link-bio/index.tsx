@@ -1,39 +1,55 @@
 'use client';
 
-import { Button, Card, Input, Modal, toast } from '@shtcut-ui/react';
+import { Card, Input, Modal, toast } from '@shtcut-ui/react';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import Stepper from '@shtcut/components/stepper/horizontal-stepper';
 import LinksSection from '@shtcut/components/ui/qr-code-components/multi-link-components/link-sections';
 import ColorsQrCode from '@shtcut/components/ui/qr-code-components/website-component/actions-tab/colors-component';
 import useGeneralState from '@shtcut/hooks/general-state';
-import { resetGeneralState, setDescription, setTitle } from '@shtcut/redux/slices/selects';
-import React, { useState } from 'react';
+import {
+    setBgColor,
+    setBtnColor,
+    setContactInfo,
+    setDescription,
+    setPresetColor,
+    setSelectedTemplate,
+    setTitle
+} from '@shtcut/redux/slices/selects';
+import React, { useEffect, useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { useDispatch } from 'react-redux';
 import UrlLink from '../components/url-link';
 import QRCode from '../components/qr-code';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import PreviewPhone from '@shtcut/components/dashboard/preview-phone';
 import LinkHeader from '@shtcut/components/dashboard/link-header';
 import { useLinksManager } from '@shtcut/hooks/use-links-manager';
 import QrCodeName from '@shtcut/components/ui/qr-code-components/website-component/qr-code-name';
 import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
-import { getImagePreview, handleError } from '@shtcut/_shared';
+import { getImagePreview, handleError, handleSuccess } from '@shtcut/_shared';
 import { LinkBioActions, LinkBioStateType } from '@shtcut/types/link-bio';
-import BackButton from '@shtcut/components/back-btn';
+import { setQrTitle } from '@shtcut/redux/slices/qr-code';
+import BtnActions from '@shtcut/components/btn-actions';
+import useQrCodeState from '@shtcut/hooks/qrcode/index.';
 
 const CreateLinkBioComponent = ({
     linkBioActions,
-    linkBiosState
+    linkBiosState,
+    editId
 }: {
     linkBioActions: LinkBioActions;
     linkBiosState: LinkBioStateType;
+    editId?: string;
 }) => {
     const router = useRouter();
     const currentWorkspace = useCurrentWorkSpace();
-    const { state, actions } = useLinksManager();
+    const { state, actions } = useLinksManager(linkBiosState?.getSingleLinkBio?.links);
+    const params = useParams();
+    const { state: qrCodeState, action: qrcodeAction } = useQrCodeState();
+    const { workspace } = params;
+
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
     const [showInputModal, setShowInputModal] = useState(false);
@@ -122,7 +138,6 @@ const CreateLinkBioComponent = ({
                 });
                 return;
             }
-
             handleNextStep();
             return;
         }
@@ -133,20 +148,23 @@ const CreateLinkBioComponent = ({
         if (step === 3) {
             linkBioActions.setLoadingState('creating', true);
             try {
-                const res = await linkBioActions?.createLinkBio({ payload });
-                toast({
-                    title: 'Success',
-                    description: res?.meta?.message || 'Link-bio created'
+                let res;
+                if (editId) {
+                    res = await linkBioActions?.updateLinkBio({ payload, id: editId });
+                } else {
+                    res = await linkBioActions?.createLinkBio({ payload });
+                }
+                handleSuccess({
+                    response: res,
+                    defaultMessage: editId ? 'Link-bio updated' : 'Link-bio created'
                 });
                 setShowModal(true);
-                dispatch(resetGeneralState());
+                qrcodeAction.generalReset();
             } catch (err) {
                 handleError({ error: err });
             } finally {
                 linkBioActions.setLoadingState('creating', false);
             }
-
-            console.log('Payload:', payload);
         }
     };
 
@@ -165,32 +183,52 @@ const CreateLinkBioComponent = ({
         { id: 'qr-code', label: 'QR Code' }
     ];
 
+    useEffect(() => {
+        if (editId && linkBiosState?.getSingleLinkBio) {
+            const getLinkBio = linkBiosState?.getSingleLinkBio;
+            const addressData = getLinkBio.address || {};
+            const contactData = getLinkBio.contacts || {};
+            dispatch(
+                setContactInfo({
+                    phoneNumber: contactData.phone || '',
+                    email: contactData.email || '',
+                    websiteUrl: contactData.website || '',
+                    streetAddress: addressData.street || '',
+                    country: addressData.country || '',
+                    state: addressData.state || '',
+                    zipCode: addressData.zipCode || '',
+                    city: addressData.city || ''
+                })
+            );
+            dispatch(setTitle(getLinkBio?.title));
+            dispatch(setDescription(getLinkBio?.description));
+            dispatch(setSelectedTemplate(getLinkBio?.template));
+            dispatch(setBgColor(getLinkBio?.colors?.background ?? ''));
+            dispatch(setPresetColor(getLinkBio?.colors?.presetColor ?? ''));
+            dispatch(setBtnColor(getLinkBio?.colors?.btnColor ?? ''));
+            dispatch(setQrTitle(getLinkBio?.name));
+        }
+    }, [editId, linkBiosState?.getSingleLinkBio, dispatch]);
+
+    const handleClose = () => {
+        setShowModal(false);
+        qrcodeAction.generalReset();
+        router.push(`/url/${workspace}/link-bios`);
+    };
+
+    const urlLink = editId ? linkBiosState?.updateLinkBioResponse?.slug : linkBiosState?.createLinkBioResponse?.slug;
+    const idLink = editId ? linkBiosState?.updateLinkBioResponse?.id : linkBiosState?.createLinkBioResponse?.id;
+
     return (
         <section>
-            <BackButton/>
-            <div className="flex pt-8 justify-between items-center">
-                <h1 className="font-semibold text-[#2B2829] text-xl">Create Link</h1>
-                <div className="flex items-center gap-x-3">
-                    {Number(step) > 1 && (
-                        <Button
-                            onClick={handlePrevStep}
-                            className="flex justify-center w-28 items-center h-8 text-xs rounded gap-x-2"
-                            variant={'outline'}
-                        >
-                            Back
-                        </Button>
-                    )}
-
-                    <LoadingButton
-                        onClick={handleSubmit}
-                        className="bg-primary-0 flex justify-center w-28 h-8 text-xs rounded items-center gap-x-2"
-                        loading={linkBiosState?.isLoadingState}
-                        disabled={linkBiosState?.isLoadingState}
-                    >
-                        {step && Number(step) > 2 ? 'Save Update' : ' Next'}
-                    </LoadingButton>
-                </div>
-            </div>
+            <BtnActions
+                handlePrevStep={handlePrevStep}
+                isLoading={linkBiosState?.isLoadingState}
+                step={step}
+                handleSave={handleSubmit}
+                handleClose={handleClose}
+                title="Create Link Bio"
+            />
             <section className="flex mt-[22px] gap-7">
                 <section className="w-[90%]">
                     <section className="w-full h-[90px] bg-white rounded-[10px] shadow-sm border border-gray-100">
@@ -222,17 +260,18 @@ const CreateLinkBioComponent = ({
                                     onUpdateLink={(field, value) => actions?.updateLink(link.id, field, value)}
                                     onRemove={() => actions?.removeLink(link.id)}
                                     addLinkSection={actions?.addLink}
+                                    link={link}
                                 />
                             ))}
                         </section>
                     )}
                     {step === 2 && (
-                        <Card className="shadow-sm mt-8 py-4 px-6 border border-gray-100">
+                        <Card className="shadow-sm mt-4 py-4 px-6 border border-gray-100">
                             <ColorsQrCode />
                         </Card>
                     )}
                     {step === 3 && (
-                        <section className="  shadow-sm border border-gray-100  rounded-[10px] gap-2">
+                        <section className="mt-4  shadow-sm border border-gray-100  rounded-[10px] gap-2">
                             <QrCodeName />
                         </section>
                     )}
@@ -248,7 +287,7 @@ const CreateLinkBioComponent = ({
                         <h1 className="font-medium">Share your Link</h1>
                         <MdClose className="cursor-pointer " onClick={handleCloseCreateLinkBio} />
                     </section>
-                    <section className="p-6">
+                    <section className="px-6 pb-4">
                         <Tabs
                             selectedTabIndex={selectedTabIndex}
                             onTabClick={(index) => handleTabClick(index)}
@@ -258,14 +297,14 @@ const CreateLinkBioComponent = ({
                         {selectedTabIndex === 0 && (
                             <UrlLink
                                 uniqueName={uniqueNameValue}
-                                url={`https://beta.shtcut.co/link-bio/${linkBiosState?.createLinkBioResponse?.slug}`}
+                                url={`${process.env.NEXT_PUBLIC_URL}/link-bio/${urlLink}`}
                             />
                         )}
                         {selectedTabIndex === 1 && (
                             <QRCode
                                 uniqueName={uniqueNameValue}
-                                url={`https://beta.shtcut.co/link-bio/${linkBiosState?.createLinkBioResponse?.slug}`}
-                                id={linkBiosState?.createLinkBioResponse?.id ?? ''}
+                                url={`${process.env.NEXT_PUBLIC_URL}/${urlLink}`}
+                                id={idLink ?? ''}
                             />
                         )}
                     </section>
