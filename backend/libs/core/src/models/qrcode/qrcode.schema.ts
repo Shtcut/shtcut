@@ -240,7 +240,6 @@ QrCodeSchema.statics.config = () => {
       'archived',
       'file',
       'address',
-
     ],
     hiddenFields: ['deleted'],
   };
