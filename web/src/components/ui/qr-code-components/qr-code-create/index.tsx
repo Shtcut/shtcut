@@ -36,9 +36,9 @@ import { useQrCode } from '@shtcut/hooks/qr-code';
 import { handleError, handleSuccess } from '@shtcut/_shared';
 import { tabData } from '@shtcut/_shared/data/mockdata';
 import QrCodeSuccessModal from './components/success-modal';
-import BtnActions from './components/btn-actions';
 import StarLoader from '@shtcut/components/loader/star-loader';
 import { NEXT_PUBLIC_URL } from '@shtcut/_shared/constant';
+import BtnActions from '@shtcut/components/btn-actions';
 
 const QRCodeCreateComponent = ({
     saveModal,
@@ -282,14 +282,11 @@ const QRCodeCreateComponent = ({
         }
     }, [switchTab]);
 
-    console.log('getQrCodeData', getQrCodeData);
-
     useEffect(() => {
         if (editId && getQrCodeData) {
             const addressData = getQrCodeData.address || {};
             const companyData = getQrCodeData.company || {};
             const contactData = getQrCodeData.contacts || {};
-            console.log('addressData', addressData);
             dispatch(
                 setContactInfo({
                     phoneNumber: contactData.phone || '',
@@ -357,6 +354,7 @@ const QRCodeCreateComponent = ({
                 step={step}
                 handleSave={handleSave}
                 handleClose={handleClose}
+                title="Create QR"
             />
             <div className="flex mt-[22px] gap-7">
                 <div className="w-full">

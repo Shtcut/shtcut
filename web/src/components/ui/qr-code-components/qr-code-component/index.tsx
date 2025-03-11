@@ -83,9 +83,6 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
         setShowModal(false);
     };
 
-    console.log('state?.selectedFrame', state?.selectedFrame);
-    console.log('state?.logo', state?.logo);
-
     return (
         <section>
             <Card

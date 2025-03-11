@@ -83,11 +83,12 @@ const LinkListedComponent = ({
                             <a
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                href={`${data.domain?.name?.startsWith('http') ? '' : 'http://'}${process.env.NEXT_STAGING_URL}/${data.alias}`}
+                                href={`${process.env.NEXT_PUBLIC_URL}/${data.alias}`}
                                 className="text-xs text-primary-0 font-normal"
                             >
                                 {data.domain?.name || data.domain?.slug}/{data.alias}
                             </a>
+
                             <a href={data.target} target="_blank" className="text-[#2B2829] text-xs">
                                 {truncate(data.target ?? '', 100)}
                             </a>

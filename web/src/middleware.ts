@@ -12,20 +12,21 @@ export async function middleware(request: NextRequest) {
     }
 
     if (alias) {
+        console.log('alias', alias);
         const response = await fetchTargetUrl(alias);
-        console.log('response middle::', response);
+        console.log('response:::', response);
         if (response) {
             const { target, isPrivate, expiryDate } = response;
 
             // Check if the link has password
             if (isPrivate) {
                 return NextResponse.redirect(
-                    `${process.env.NEXT_PUBLIC_LOCALHOST_URL}/link-password?alias=${encodeURIComponent(alias)}`
+                    `${process.env.NEXT_PUBLIC_URL}/link-password?alias=${encodeURIComponent(alias)}`
                 );
             }
             // Check if the link has expired
             if (expiryDate && new Date(expiryDate) < new Date()) {
-                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_LOCALHOST_URL}/expired-link`);
+                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
             }
 
             if (target) {

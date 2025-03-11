@@ -19,6 +19,19 @@ export const linkBioApi = api.injectEndpoints({
             },
             invalidatesTags: [linkBio]
         }),
+        updateLinkBio: builder.mutation<
+            ApiResponse<LinkBioDataResponse | undefined>,
+            { payload?: LinkBioDataPayload; id: string }
+        >({
+            query: ({ payload, id }) => {
+                return {
+                    url: `${SHTNER.linksBio}/${id}`,
+                    method: PUT,
+                    body: payload
+                };
+            },
+            invalidatesTags: [linkBio]
+        }),
         findAllLinkBio: builder.query<LinkBioApiResponse, QueryArgs>({
             query: (params: QueryArgs) =>
                 ({
@@ -30,7 +43,7 @@ export const linkBioApi = api.injectEndpoints({
         getBio: builder.query<ApiResponse<LinkBioDataResponse>, { id: string; population?: string }>({
             query: (params) =>
                 ({
-                    url: `${SHTNER.linksBio}/${params.id}`, 
+                    url: `${SHTNER.linksBio}/${params.id}`,
                     params
                 }) as unknown as FetchArgs,
             providesTags: [linkBio]
@@ -59,5 +72,6 @@ export const {
     useDeleteLinkBioMutation,
     useLazyGetLinkBioQuery,
     useLazyGetBioQuery,
-    endpoints: { createLinkBio, findAllLinkBio, deleteLinkBio, getLinkBio,getBio }
+    useUpdateLinkBioMutation,
+    endpoints: { createLinkBio, findAllLinkBio, deleteLinkBio, getLinkBio, getBio, updateLinkBio }
 } = linkBioApi;

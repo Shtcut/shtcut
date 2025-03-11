@@ -11,7 +11,7 @@ import { setQrCodePresetColor } from '@shtcut/redux/slices/qr-code';
 
 const ColorsQrCode = ({ selectedTabIndex }: { selectedTabIndex?: number }) => {
     const dispatch = useDispatch();
-    const { bgColor, btnColorString, tabParams, selectedTab, borderColor } = useGeneralState();
+    const { bgColor, btnColorString, tabParams, selectedTab, borderColor, presetColorString } = useGeneralState();
     const { action, state, refs } = useQrCodeColorHooks();
     const [isTransparent, setIsTransparent] = useState(bgColor === 'transparent');
     const [previousColor, setPreviousColor] = useState(bgColor !== 'transparent' ? bgColor : '#FFFFFF');
@@ -61,14 +61,19 @@ const ColorsQrCode = ({ selectedTabIndex }: { selectedTabIndex?: number }) => {
             <p className="my-4 font-medium">Presets</p>
             <div className="grid grid-cols-6 gap-x-10 w-1/2 gap-y-3">
                 {colors.map((color) => (
-                    <Button
-                        onClick={() => handleColorSelect(color.value)}
-                        key={color.id}
-                        className="w-[50px] h-[50px]"
-                        style={{
-                            backgroundColor: color.value
-                        }}
-                    />
+                    <div key={color.id} className="relative w-[50px] h-[50px]">
+                        <Button
+                            onClick={() => handleColorSelect(color.value)}
+                            key={color.id}
+                            className="w-full h-full"
+                            style={{
+                                backgroundColor: color.value
+                            }}
+                        />
+                        {presetColorString === color.value && (
+                            <div className="absolute z-30 top-[-5px] right-0 text-green-500 text-xs">✅</div>
+                        )}
+                    </div>
                 ))}
             </div>
             <section className="mt-6 rounded-[10px] p-[23px] bg-[#F7F7F7]">
