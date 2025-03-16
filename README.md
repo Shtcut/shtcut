@@ -15,7 +15,7 @@ Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to r
 Ensure you have the following installed:
 - Node.js (v12 or higher)
 - npm (v6 or higher)
-
+- or use yarn
 ### Installation
 1. Clone the repository:
    ```bash
