@@ -8,13 +8,11 @@ export class AclProxyMiddleware implements NestMiddleware {
   AclServiceProxy = (hostUrl) =>
     httpProxy(hostUrl, {
       proxyReqPathResolver: function (req) {
-        console.log('req:::', req);
         return `${req.baseUrl}${req.url}`;
       },
     });
 
   use(req, res, next) {
-    console.log('acl-url:::', this.config.get('microServices.acl.url'));
     this.AclServiceProxy(this.config.get('microServices.acl.url'))(req, res, next);
   }
 }
