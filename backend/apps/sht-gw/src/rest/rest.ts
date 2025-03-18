@@ -9,6 +9,7 @@ export const AdminEndpoints = [
 
 export const AclEndpoints = [
   { path: '/acl/auth/*', method: RequestMethod.ALL },
+  { path: '/acl/auth', method: RequestMethod.ALL },
   { path: '/acl/user', method: RequestMethod.ALL },
   { path: '/acl/user', method: RequestMethod.ALL },
   { path: '/acl/users/*', method: RequestMethod.ALL },
