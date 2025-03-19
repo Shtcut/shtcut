@@ -3,6 +3,12 @@ import { Request } from 'express';
 import * as _ from 'lodash';
 import mongoose, { ClientSession } from 'mongoose';
 import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
+import { User } from 'shtcut/core';
+import { Types } from 'mongoose';
+
+function getUserId(user: any): Types.ObjectId | undefined {
+  return user?._id;
+}
 
 export class MongoBaseService extends BaseAbstract {
   /**
@@ -114,10 +120,13 @@ export class MongoBaseService extends BaseAbstract {
    * allowing for transactional behavior. If no session is provided
    * @returns the result of the `findOneAndUpdate` method.
    */
-  public async updateObject(id: string, obj: Dict, session?: ClientSession) {
+  public async updateObject(id: string, obj: Dict, session?: ClientSession, req?: Request) {
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
-    const condition = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
+
+    const condition = Utils.isObjectId(id) ?
+      { _id: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) } :
+      { publicId: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) };
 
     return await this.model.findOneAndUpdate(
       { ...condition },
@@ -149,7 +158,12 @@ export class MongoBaseService extends BaseAbstract {
    * the data to the database. If no session is provided, the
    * @returns the result of calling the `saveDataToDatabase` function with the `session` parameter.
    */
-  public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession) {
+  public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession, req?: Request) {
+    // Check if user owns the resource
+    if (current.user.toString() !== getUserId(req?.user)?.toString()) {
+      throw AppException.FORBIDDEN('Not authorized to update this resource');
+    }
+
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     _.merge(current, obj);
@@ -167,18 +181,34 @@ export class MongoBaseService extends BaseAbstract {
    * be passed to the `fetchObjectFromDB` function.
    * @returns an object of type `Dict`.
    */
-  public async findObject(id: unknown, query?: QueryParser | Record<string, any>) {
+  public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
+    console.log(`Finding object in ${this.modelName} with id:`, id);
+
     const condition = this.buildFindObjectCondition(id);
+    if (getUserId(req?.user)) {
+      condition.user = getUserId(req?.user);
+      console.log(`Adding user filter:`, condition.user);
+    }
+
     const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 
     if (_.isUndefined(object)) {
+      console.log(`Object not in cache, fetching from DB with condition:`, condition);
       object = await this.model.findOne(condition).populate(query?.population ?? []);
+      console.log(`DB result:`, object ? 'Found' : 'Not found');
       await this.cacheObjectIfFound(object, cacheKey);
+    } else {
+      console.log(`Object found in cache`);
     }
 
-    this.ensureObjectExists(object);
-    return object as Dict;
+    try {
+      this.ensureObjectExists(object);
+      return object as Dict;
+    } catch (error) {
+      console.error(`Error ensuring object exists:`, error);
+      throw error;
+    }
   }
 
   /**
@@ -246,13 +276,16 @@ export class MongoBaseService extends BaseAbstract {
   /**
    * The function deletes an object from a database, either by setting a "deleted" flag or by removing
    * it completely, and returns the deleted object.
-   * @param object - The "object" parameter is a record or object that represents the data to be
-   * deleted. It can be of any type and contains key-value pairs of properties and their corresponding
-   * values.
+   * @param id - The `id` parameter is the identifier of the object to be deleted.
+   * @param req - The `req` parameter is an optional request object. It is used to get the user
+   * information for authorization purposes.
    * @returns the deleted object.
    */
-  public async deleteObject(id) {
-    const condition = { _id: id };
+  public async deleteObject(id: string, req?: Request) {
+    const condition = {
+      _id: id,
+      user: getUserId(req?.user)
+    };
     const object = await this.model.findOne(condition);
     const cacheKey = this.getCacheKey(object);
 
@@ -279,36 +312,49 @@ export class MongoBaseService extends BaseAbstract {
    * `count`. The `value` property contains the result of the query execution, while the `count`
    * property contains the count of documents that match the query.
    */
-  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
-    this.applyDateFilters(queryParser);
-    this.applyConditionalFilters(queryParser);
-    this.convertObjectIds(queryParser);
+  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req: Request) {
+    try {
+      const baseQuery = Utils.conditionWithDelete({});
+      const query = {
+        ...baseQuery,
+        ...queryParser.query,
+        ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {})
+      };
 
-    let query = this.model.find(queryParser.query);
+      this.applyDateFilters(queryParser);
+      this.applyConditionalFilters(queryParser);
+      this.convertObjectIds(queryParser);
 
-    if (queryParser.search && this.entity?.searchQuery(queryParser.search).length > 0) {
-      const searchQuery = this.applySearchQuery(queryParser);
-      query = this.model.find({ ...searchQuery });
+      let queryToExec = this.model.find(query);
+
+      if (queryParser.search && this.entity?.searchQuery(queryParser.search).length > 0) {
+        const searchQuery = this.applySearchQuery(queryParser);
+        queryToExec = this.model.find({ ...searchQuery });
+      }
+
+      if (!queryParser.getAll) {
+        queryToExec = this.applyPagination(queryToExec, pagination);
+      }
+
+      const sortQuery = this.applySortQuery(queryParser);
+      queryToExec = queryToExec.sort(sortQuery);
+
+      const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
+      let value = await this.getCacheObject(cacheKey, true);
+
+      if (_.isUndefined(value)) {
+        value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
+      }
+
+      const count = await this.getCountDocuments(queryParser);
+
+      return {
+        value,
+        count,
+      };
+    } catch (e) {
+      throw e;
     }
-
-    if (!queryParser.getAll) {
-      query = this.applyPagination(query, pagination);
-    }
-
-    const sortQuery = this.applySortQuery(queryParser);
-    query = query.sort(sortQuery);
-
-    const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
-    let value = await this.getCacheObject(cacheKey, true);
-
-    if (_.isUndefined(value)) {
-      value = await this.executeQueryAndCacheResult(query, queryParser, cacheKey);
-    }
-
-    return {
-      value,
-      count: await this.getCountDocuments(queryParser),
-    };
   }
 
   private async executeQueryAndCacheResult(query, queryParser: QueryParser, cacheKey: string) {
@@ -485,8 +531,8 @@ export class MongoBaseService extends BaseAbstract {
       if (_.isUndefined(object)) {
         object = !_.isEmpty(query)
           ? await this.model.findOne({
-              ...Utils.conditionWithDelete(query),
-            })
+            ...Utils.conditionWithDelete(query),
+          })
           : false;
 
         this.cacheObjectIfFound(object, cacheKey);
@@ -528,7 +574,7 @@ export class MongoBaseService extends BaseAbstract {
       try {
         const latestQuery = JSON.parse(query.latest);
         queryToExec.sort({ ...latestQuery });
-      } catch (e) {}
+      } catch (e) { }
     }
     return queryToExec.exec();
   }

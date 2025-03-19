@@ -129,7 +129,6 @@ export class QrCodeService extends MongoBaseService {
         const { type } = obj;
         let qrContent: string;
 
-        // Common fields for all types
         const createObj: any = {
           target: '',
           title: obj.title,
@@ -143,7 +142,6 @@ export class QrCodeService extends MongoBaseService {
           isSlugAvailable: true,
         };
 
-        // Add type-specific fields
         switch (type) {
           case QRCodeType.WEBSITE:
             qrContent = this.generateWebsiteQRContent(obj as WebsiteQRCodeDto);

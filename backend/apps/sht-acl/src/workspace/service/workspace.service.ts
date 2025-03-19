@@ -100,6 +100,8 @@ export class WorkspaceService extends MongoBaseService {
       const workspace = await super.createNewObject(obj, session);
       let members = [];
 
+      console.log('memberEmails', memberEmails);
+
       if (memberEmails && memberEmails.length && redirectUrl) {
         const invitationPayload: CreateInvitationDto = {
           emails: memberEmails,
@@ -125,6 +127,7 @@ export class WorkspaceService extends MongoBaseService {
       return workspace;
     } catch (e) {
       await session?.abortTransaction();
+      console.log('error', e);
       throw e;
     } finally {
       await session?.endSession();
@@ -214,11 +217,11 @@ export class WorkspaceService extends MongoBaseService {
           );
           workspaceModules = userModule
             ? [
-                {
-                  workspaceName: workspace.name,
-                  modules: [...new Set([...userModule.modules, module])],
-                },
-              ]
+              {
+                workspaceName: workspace.name,
+                modules: [...new Set([...userModule.modules, module])],
+              },
+            ]
             : workspaceModules;
           user.modules = [...user.modules, ...workspaceModules];
         } else {
