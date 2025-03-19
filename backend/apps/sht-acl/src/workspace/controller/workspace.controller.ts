@@ -43,6 +43,16 @@ export class WorkspaceController extends AppController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/:id/switch')
+  @HttpCode(OK)
+  public async switchWorkspace(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    try {
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {

@@ -232,6 +232,8 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
+  async switchWorkspace(id: string, authId: string) {}
+
   async acceptInvitation(payload: { token: string; email: string; password: string }) {
     const { token, email, password } = payload;
     const session = await this.model.startSession();
