@@ -89,9 +89,9 @@ const LinkListedComponent = ({
                                 {data.domain?.name || data.domain?.slug}/{data.alias}
                             </a>
 
-                            <a href={data.target} target="_blank" className="text-[#2B2829] text-xs">
+                            {/* <a href={data.target} target="_blank" className="text-[#2B2829] text-xs">
                                 {truncate(data.target ?? '', 100)}
-                            </a>
+                            </a> */}
                         </div>
                         <div className="flex items-center gap-x-2 mt-2">
                             <Clock3 size={16} />

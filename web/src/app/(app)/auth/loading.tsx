@@ -7,7 +7,6 @@ const loading = () => {
     return (
         <div className="flex  justify-center items-center h-screen">
             <Logo />
-            <h1>loading...</h1>
         </div>
     );
 };

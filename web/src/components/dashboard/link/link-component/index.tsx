@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Separator, toast } from '@shtcut-ui/react';
+import { Button, Form, Separator, Modal as ShadModal, toast } from '@shtcut-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchFilterActions from '../search-filter-actions';
 import { usePathname, useRouter } from 'next/navigation';
@@ -30,6 +30,7 @@ import { useTags } from '@shtcut/hooks/tags';
 import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
 import { useUpdateArchivedLinkMutation } from '@shtcut/services/link';
 import { handleError } from '@shtcut/_shared';
+import Modal from '@shtcut/components/modal';
 
 const LinkComponent = ({
     findAllLinksResponse,
@@ -332,8 +333,6 @@ const LinkComponent = ({
         handleCloseLoading();
     };
 
-    console.log('findAllLinksResponse', findAllLinksResponse);
-
     return (
         <section className=" ">
             <div className="flex justify-between  items-center">
@@ -366,7 +365,7 @@ const LinkComponent = ({
                 selectedIds={ids}
                 handleDeleteMany={handleDeleteMany}
             />
-            <Modal
+            <ShadModal
                 showModel={showDropdown}
                 setShowModal={onCloseModal}
                 className="h-[80%] max-w-screen-lg"
@@ -446,8 +445,8 @@ const LinkComponent = ({
                         </div>
                     </form>
                 </Form>
-            </Modal>
-            <Modal onClose={handleCloseModal} showModel={showSections} setShowModal={setShowSections}>
+            </ShadModal>
+            <Modal onClose={handleCloseModal} isOpen={showSections} closeIcon={false} className="w-96 p-0 py-0">
                 {modalType === 'deleteModal' && singleLink && (
                     <DeleteComponent
                         isLoadingState={isLoadingState}

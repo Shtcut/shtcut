@@ -14,7 +14,6 @@ export async function middleware(request: NextRequest) {
     if (alias) {
         console.log('alias', alias);
         const response = await fetchTargetUrl(alias);
-        console.log('response:::', response);
         if (response) {
             const { target, isPrivate, expiryDate } = response;
 

@@ -1,4 +1,3 @@
-import { Button } from '@shtcut-ui/react';
 import { getApexDomain } from '@shtcut/_shared';
 import { GOOGLE_FAVICON_URL } from '@shtcut/_shared/constant';
 import { LinkNameSpace } from '@shtcut/_shared/namespace/link';
