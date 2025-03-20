@@ -8,6 +8,11 @@ export async function fetchTargetUrl(alias: string): Promise<RedirectUrlType | n
             `${API_BASE_URL}/shtner/links/visit/shtcut.link/${alias}?apiKey=${SHTNER.metaKey}`
         );
 
+        console.log('responseapi', response);
+        console.log('responseapi', response?.status);
+        console.log(`api:
+            
+            ${API_BASE_URL}/shtner/links/visit/shtcut.link/${alias}?apiKey=${SHTNER.metaKey}`);
         if (!response.ok) {
             return null;
         }

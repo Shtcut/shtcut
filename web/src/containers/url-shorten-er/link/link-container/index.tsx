@@ -3,14 +3,11 @@
 import LinkComponent from '@shtcut/components/dashboard/link/link-component';
 import { useDomain } from '@shtcut/hooks/domain';
 import { useLink } from '@shtcut/hooks/link';
-import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 const LinkContainer = () => {
     const [url, setUrl] = useState('');
     const [search, setSearch] = useState('');
-    const router = useRouter();
-    const pathName = usePathname();
     const {
         findAllLinksResponse,
         isLoading,
