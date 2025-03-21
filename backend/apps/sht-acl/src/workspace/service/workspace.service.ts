@@ -313,38 +313,7 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
-  /**
-   * Creates a default workspace for a new user
-   * @param userId The ID of the user to create a workspace for
-   * @returns The created workspace
-   */
-  async createDefaultWorkspace(userId: string) {
-    try {
-      // Create a default workspace
-      const defaultWorkspace = new this.model({
-        name: 'My Workspace',
-        description: 'Default workspace',
-        user: userId,
-        publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
-        modules: ['links', 'qrcodes'],  // Add default modules
-        isCurrent: true,  // Set as current workspace
-      });
 
-      const workspace = await defaultWorkspace.save();
-
-      // Update user's workspaces array but not currentWorkspace field
-      const user = await this.userModel.findById(userId);
-      if (user) {
-        user.workspaces = user.workspaces || [];
-        user.workspaces.addToSet(workspace._id);
-        await user.save();
-      }
-
-      return workspace;
-    } catch (e) {
-      throw e;
-    }
-  }
 
   async createWorkspace(payload, userId) {
     // Check if this is the user's first workspace

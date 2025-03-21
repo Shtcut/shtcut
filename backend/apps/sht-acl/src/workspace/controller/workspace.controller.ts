@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto } from 'shtcut/core';
+import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto, AppException, NOT_FOUND } from 'shtcut/core';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
 import { WorkspaceService } from '../service/workspace.service';
@@ -59,60 +59,11 @@ export class WorkspaceController extends AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Post('/select-workspace/:id')
-  @HttpCode(OK)
-  public async switchWorkspace(
-    @Param('id') id: string,
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ) {
-    try {
-      const workspace = await this.service.switchWorkspace(id, req.user);
-
-      const response = await this.service.getResponse({
-        code: OK,
-        value: workspace,
-        message: 'Workspace switched successfully',
-      });
-
-      return res.status(OK).json(response);
-    } catch (err) {
-      return next(err);
-    }
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Post('/switch-no-body/:workspaceId')
-  @HttpCode(OK)
-  public async switchWorkspaceNoBody(
-    @Param('workspaceId') id: string,
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ) {
-    try {
-      const workspace = await this.service.switchWorkspace(id, req.user);
-
-      const response = await this.service.getResponse({
-        code: OK,
-        value: workspace,
-        message: 'Workspace switched successfully',
-      });
-
-      return res.status(OK).json(response);
-    } catch (err) {
-      return next(err);
-    }
-  }
 
   @UseGuards(JwtAuthGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    // Just add user filter and use the standard find
-    // Workspaces already have isCurrent property set
     _.extend(req.query, { user: req.user['_id'] });
     return super.find(req, res, next);
   }
@@ -161,8 +112,10 @@ export class WorkspaceController extends AppController {
     @Next() next: NextFunction,
   ) {
     try {
-
       const workspace = await this.service.switchWorkspace(id, req.user);
+      if (!workspace) {
+        throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);
+      }
 
       return res.status(OK).json({
         meta: { statusCode: OK },
@@ -173,7 +126,6 @@ export class WorkspaceController extends AppController {
         }
       });
     } catch (err) {
-      console.error('Error activating workspace:', err);
       return next(err);
     }
   }
@@ -183,13 +135,10 @@ export class WorkspaceController extends AppController {
   @HttpCode(OK)
   public async getCurrentWorkspace(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
-      // Convert ObjectId to string
       const workspace = await this.service.findCurrentWorkspace(req.user._id.toString());
 
       if (!workspace) {
-        return res.status(404).json({
-          meta: { statusCode: 404, error: { message: 'No active workspace' } }
-        });
+        throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);
       }
 
       return res.status(OK).json({
