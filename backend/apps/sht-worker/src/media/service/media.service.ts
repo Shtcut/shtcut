@@ -34,7 +34,6 @@ export class MediaService extends MongoBaseService {
   }
 
   public async upload(uploaded, sharpOptions?) {
-    console.log('upload:::', uploaded);
     try {
       const ext = uploaded.mimetype.split('/');
       const data = {
@@ -75,7 +74,6 @@ export class MediaService extends MongoBaseService {
         ...payload,
       });
     } catch (e) {
-      console.log('err::', e);
       throw e;
     }
   }

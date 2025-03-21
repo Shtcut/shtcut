@@ -107,6 +107,12 @@ export class Workspace {
     default: false,
   })
   deleted: boolean;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isCurrent: boolean;
 }
 
 const WorkspaceSchema = SchemaFactory.createForClass(Workspace);

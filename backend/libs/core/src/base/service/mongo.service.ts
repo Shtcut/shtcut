@@ -10,6 +10,16 @@ function getUserId(user: any): Types.ObjectId | undefined {
   return user?._id;
 }
 
+/**
+ * Gets the current workspace ID from the user object in the request or the request itself
+ */
+function getCurrentWorkspaceId(req?: Request): string | null | undefined {
+  if (!req?.user) return undefined;
+
+  // Use type assertion to access the property
+  return (req as any).currentWorkspace?.toString() || null;
+}
+
 export class MongoBaseService extends BaseAbstract {
   /**
    * The constructor initializes the model, cacheService, modelName, and entity properties, and sets
@@ -66,7 +76,14 @@ export class MongoBaseService extends BaseAbstract {
    */
   private fillObjectProperties(obj: Dict): Dict {
     const toFill = this.entity.config.fillables;
-    return toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
+    const filled = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
+
+    // Ensure workspace is preserved
+    if (obj.workspace && !filled.workspace) {
+      filled.workspace = obj.workspace;
+    }
+
+    return filled;
   }
 
   /**
@@ -81,14 +98,52 @@ export class MongoBaseService extends BaseAbstract {
    * @returns the result of calling the `saveDataToDatabase` function with the `data` object and the
    * optional `session` parameter.
    */
-  public async createNewObject(obj: Dict, session?: ClientSession) {
-    const payload = this.fillObjectProperties(obj);
-    const data = new this.model({
-      ...payload,
-      publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
-    });
+  public async createNewObject(obj: Dict, session?: ClientSession, req?: Request) {
+    let localSession: ClientSession | undefined;
+    try {
+      if (!session) {
+        localSession = await this.model.startSession();
+        localSession.startTransaction();
+      }
 
-    return this.saveDataToDatabase(data, session);
+      // Check if workspace is present in the object
+      const workspaceId = obj.workspace;
+
+      // If workspace is not present, reject the operation
+      if (!workspaceId) {
+        throw AppException.BAD_REQUEST('Workspace is required');
+      }
+
+      // Fill object properties and set workspace
+      const payload = this.fillObjectProperties(obj);
+      payload.workspace = workspaceId;
+
+      const data = new this.model({
+        ...payload,
+        publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
+      });
+
+      const savedData = await this.saveDataToDatabase(data, localSession || session);
+
+      // After saving, populate the workspace if it exists
+      if (savedData.workspace) {
+        await savedData.populate('workspace');
+      }
+
+      if (localSession) {
+        await localSession.commitTransaction();
+      }
+      return savedData;
+    } catch (error) {
+      if (localSession) {
+        await localSession.abortTransaction();
+      }
+      throw error;
+    } finally {
+      if (localSession) {
+        await localSession.endSession();
+      }
+    }
   }
 
   /**
@@ -182,47 +237,47 @@ export class MongoBaseService extends BaseAbstract {
    * @returns an object of type `Dict`.
    */
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
-    console.log(`Finding object in ${this.modelName} with id:`, id);
-
-    const condition = this.buildFindObjectCondition(id);
-    if (getUserId(req?.user)) {
-      condition.user = getUserId(req?.user);
-      console.log(`Adding user filter:`, condition.user);
-    }
+    const condition = this.buildFindObjectCondition(id, req);
 
     const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 
     if (_.isUndefined(object)) {
-      console.log(`Object not in cache, fetching from DB with condition:`, condition);
       object = await this.model.findOne(condition).populate(query?.population ?? []);
-      console.log(`DB result:`, object ? 'Found' : 'Not found');
       await this.cacheObjectIfFound(object, cacheKey);
-    } else {
-      console.log(`Object found in cache`);
     }
 
     try {
       this.ensureObjectExists(object);
       return object as Dict;
     } catch (error) {
-      console.error(`Error ensuring object exists:`, error);
       throw error;
     }
   }
 
   /**
-   * The function builds a condition object to find an item based on its ID.
-   * @param id - The `id` parameter is the identifier used to find an object. It can be either an
-   * ObjectId or a publicId.
-   * @returns a dictionary that combines the condition `{ deleted: false }` with the `id` parameter.
-   * The `id` parameter is checked to see if it is a valid ObjectId using the `Utils.isObjectId()`
-   * function. If it is a valid ObjectId, the condition is set to `{ _id: id }`, otherwise it is set to
-   * `{ publicId: id }`. The returned
+   * Builds conditions for finding objects, now including workspace filtering
    */
-  private buildFindObjectCondition(id): Dict {
-    id = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
-    return { ...Utils.conditionWithDelete(id) };
+  private buildFindObjectCondition(id: unknown, req?: Request): Dict {
+    const condition: Dict = Utils.conditionWithDelete(
+      Utils.isObjectId(id) ? { _id: id } : { publicId: id }
+    );
+
+    // Add user filter if user exists in request
+    if (req?.user) {
+      const userId = getUserId(req.user);
+      if (userId) {
+        condition.user = userId;
+      }
+
+      // Add workspace filter if user has current workspace
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId) {
+        condition.workspace = workspaceId;
+      }
+    }
+
+    return condition;
   }
 
   /**
@@ -312,49 +367,58 @@ export class MongoBaseService extends BaseAbstract {
    * `count`. The `value` property contains the result of the query execution, while the `count`
    * property contains the count of documents that match the query.
    */
-  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req: Request) {
-    try {
-      const baseQuery = Utils.conditionWithDelete({});
-      const query = {
-        ...baseQuery,
-        ...queryParser.query,
-        ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {})
-      };
+  public async buildModelQueryObject(
+    pagination: Pagination,
+    queryParser: QueryParser,
+    req?: Request,
+  ): Promise<{ value: any; count: number }> {
+    // Apply workspace population to ensure workspace data is included
+    this.applyWorkspacePopulation(queryParser);
 
-      this.applyDateFilters(queryParser);
-      this.applyConditionalFilters(queryParser);
-      this.convertObjectIds(queryParser);
-
-      let queryToExec = this.model.find(query);
-
-      if (queryParser.search && this.entity?.searchQuery(queryParser.search).length > 0) {
-        const searchQuery = this.applySearchQuery(queryParser);
-        queryToExec = this.model.find({ ...searchQuery });
+    // Add workspace filter to query if user has current workspace
+    if (req?.user) {
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId && !queryParser.query.workspace) {
+        queryParser.query.workspace = workspaceId;
       }
 
-      if (!queryParser.getAll) {
-        queryToExec = this.applyPagination(queryToExec, pagination);
+      // Also add user filter for personal resources
+      const userId = getUserId(req.user);
+      if (userId && !queryParser.query.user) {
+        queryParser.query.user = userId;
       }
-
-      const sortQuery = this.applySortQuery(queryParser);
-      queryToExec = queryToExec.sort(sortQuery);
-
-      const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
-      let value = await this.getCacheObject(cacheKey, true);
-
-      if (_.isUndefined(value)) {
-        value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
-      }
-
-      const count = await this.getCountDocuments(queryParser);
-
-      return {
-        value,
-        count,
-      };
-    } catch (e) {
-      throw e;
     }
+
+    // Continue with existing implementation
+    this.applyDateFilters(queryParser);
+    this.applyRelationFilters(queryParser);
+
+    if (queryParser.search !== '' && this.entity.searchQuery) {
+      queryParser.query = this.applySearchQuery(queryParser);
+    }
+
+    let queryToExec = this.model.find(queryParser.query);
+
+    if (!queryParser.getAll) {
+      queryToExec = this.applyPagination(queryToExec, pagination);
+    }
+
+    const sortQuery = this.applySortQuery(queryParser);
+    queryToExec = queryToExec.sort(sortQuery);
+
+    const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
+    let value = await this.getCacheObject(cacheKey, true);
+
+    if (_.isUndefined(value)) {
+      value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
+    }
+
+    const count = await this.getCountDocuments(queryParser);
+
+    return {
+      value,
+      count,
+    };
   }
 
   private async executeQueryAndCacheResult(query, queryParser: QueryParser, cacheKey: string) {
@@ -627,6 +691,29 @@ export class MongoBaseService extends BaseAbstract {
       return deleted;
     } catch (error) {
       throw error;
+    }
+  }
+
+  private applyRelationFilters(queryParser: QueryParser) {
+    const relationFilters: string[] = this?.entity?.config?.relationFilters || [];
+
+    if (relationFilters && relationFilters.length > 0) {
+      relationFilters.forEach((key: string) => {
+        if (queryParser.query[key]) {
+          // Convert string IDs to ObjectIds if needed
+          if (typeof queryParser.query[key] === 'string' && Utils.isObjectId(queryParser.query[key])) {
+            queryParser.query[key] = Utils.toObjectId(queryParser.query[key]);
+          }
+        }
+      });
+    }
+  }
+
+  private applyWorkspacePopulation(queryParser: QueryParser) {
+    if (!queryParser.population) {
+      queryParser.population = ['workspace'];
+    } else if (!queryParser.population.includes('workspace')) {
+      queryParser.population.push('workspace');
     }
   }
 }

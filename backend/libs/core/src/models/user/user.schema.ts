@@ -1,6 +1,6 @@
 import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
-import { Document, Types } from 'mongoose';
+import { Document, Types, Schema as MongooseSchema } from 'mongoose';
 import { MobileOption, Media } from 'shtcut/core';
 
 export type UserDocument = User & Document;
@@ -99,6 +99,9 @@ export class User {
     default: false,
   })
   public deleted: boolean;
+
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'Auth' })
+  authId: MongooseSchema.Types.ObjectId;
 }
 
 const UserSchema = SchemaFactory.createForClass(User);

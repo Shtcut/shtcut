@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { CoreModule } from 'shtcut/core';
 import { WorkspaceController } from './controller/workspace.controller';
 import { WorkspaceService } from './service/workspace.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -38,9 +39,10 @@ import { UserModule } from '../user';
       { name: Invitation.name, schema: InvitationSchema },
       { name: WorkspaceMember.name, schema: WorkspaceMemberSchema },
     ]),
+    CoreModule,
   ],
   controllers: [WorkspaceController],
   providers: [WorkspaceService, SubscriptionService, RedisService],
   exports: [WorkspaceService],
 })
-export class WorkspaceModule {}
+export class WorkspaceModule { }

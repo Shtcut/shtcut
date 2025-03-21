@@ -100,7 +100,6 @@ export class WorkspaceService extends MongoBaseService {
       const workspace = await super.createNewObject(obj, session);
       let members = [];
 
-      console.log('memberEmails', memberEmails);
 
       if (memberEmails && memberEmails.length && redirectUrl) {
         const invitationPayload: CreateInvitationDto = {
@@ -127,7 +126,6 @@ export class WorkspaceService extends MongoBaseService {
       return workspace;
     } catch (e) {
       await session?.abortTransaction();
-      console.log('error', e);
       throw e;
     } finally {
       await session?.endSession();
@@ -235,7 +233,55 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
-  async switchWorkspace(id: string, authId: string) {}
+  /**
+   * Switches a user's current active workspace
+   * @param id The ID of the workspace to switch to
+   * @param user The user object from the JWT token
+   * @returns The workspace details with modules and subscriptions
+   */
+  async switchWorkspace(id: string, userFromToken: any) {
+    try {
+      // Find workspace and verify access
+      const workspace = await this.model.findOne({
+        ...Utils.conditionWithDelete({ _id: id }),
+      });
+
+      if (!workspace) {
+        throw AppException.NOT_FOUND(lang.get('workspace').notFound);
+      }
+
+      // Verify ownership or membership
+      const isOwner = workspace.user.toString() === userFromToken._id.toString();
+      const isMember = await this.memberModel.findOne({
+        workspace: id,
+        user: userFromToken._id,
+        deleted: false
+      });
+
+      if (!isOwner && !isMember) {
+        throw AppException.FORBIDDEN(lang.get('workspace').notAuthorized);
+      }
+
+      // Reset all workspaces for this user and set the current one
+      await this.model.updateMany(
+        { user: userFromToken._id },
+        { $set: { isCurrent: false } }
+      );
+
+      workspace.isCurrent = true;
+      await workspace.save();
+
+      // IMPORTANT: Save to Redis for the WorkspaceGuard to use
+      await this.redisService.set(`user:${userFromToken._id}:currentWorkspace`, workspace._id.toString());
+
+      return {
+        ...workspace.toJSON(),
+        isOwner
+      };
+    } catch (e) {
+      throw e;
+    }
+  }
 
   async acceptInvitation(payload: { token: string; email: string; password: string }) {
     const { token, email, password } = payload;
@@ -265,5 +311,64 @@ export class WorkspaceService extends MongoBaseService {
     } finally {
       await session?.endSession();
     }
+  }
+
+  /**
+   * Creates a default workspace for a new user
+   * @param userId The ID of the user to create a workspace for
+   * @returns The created workspace
+   */
+  async createDefaultWorkspace(userId: string) {
+    try {
+      // Create a default workspace
+      const defaultWorkspace = new this.model({
+        name: 'My Workspace',
+        description: 'Default workspace',
+        user: userId,
+        publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
+        modules: ['links', 'qrcodes'],  // Add default modules
+        isCurrent: true,  // Set as current workspace
+      });
+
+      const workspace = await defaultWorkspace.save();
+
+      // Update user's workspaces array but not currentWorkspace field
+      const user = await this.userModel.findById(userId);
+      if (user) {
+        user.workspaces = user.workspaces || [];
+        user.workspaces.addToSet(workspace._id);
+        await user.save();
+      }
+
+      return workspace;
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async createWorkspace(payload, userId) {
+    // Check if this is the user's first workspace
+    const existingWorkspaces = await this.model.find({ user: userId });
+    const isFirstWorkspace = existingWorkspaces.length === 0;
+
+    // Create workspace with isCurrent set to true if it's the first workspace
+    const workspace = new this.model({
+      ...payload,
+      user: userId,
+      isCurrent: isFirstWorkspace, // First workspace is automatically current
+      publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
+    });
+
+    // Save workspace
+    const created = await workspace.save();
+
+    return created;
+  }
+
+  async findCurrentWorkspace(userId: string) {
+    return this.model.findOne({
+      user: userId,
+      isCurrent: true
+    });
   }
 }

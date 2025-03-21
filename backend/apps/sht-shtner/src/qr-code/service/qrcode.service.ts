@@ -21,11 +21,14 @@ import {
   VCardQRCodeDto,
   WebsiteQRCodeDto,
   MultiLinkQRCodeDto,
+  Pagination,
 } from 'shtcut/core';
 
 import { HitService } from '../../hit';
 import * as _ from 'lodash';
 import { Request } from 'express';
+
+
 
 @Injectable()
 export class QrCodeService extends MongoBaseService {
@@ -123,7 +126,7 @@ export class QrCodeService extends MongoBaseService {
     return payload;
   }
 
-  public async createNewObject(obj: Dict, session?: ClientSession): Promise<any> {
+  public async createNewObject(obj: Dict, session?: ClientSession, req?: Request): Promise<any> {
     try {
       if (obj.type) {
         const { type } = obj;
@@ -139,7 +142,9 @@ export class QrCodeService extends MongoBaseService {
           profileImage: obj.profileImage,
           template: obj.template,
           slug: Utils.slugifyText(obj.title),
+          workspace: obj.workspace, // Pass workspace ID from request object
           isSlugAvailable: true,
+          user: req.user._id
         };
 
         switch (type) {
@@ -362,10 +367,17 @@ export class QrCodeService extends MongoBaseService {
   }
 
   public async postCreate(data: { queryParser: any; value: any; code: number; message?: string }) {
+    // Populate workspace if it's not already populated
+    if (data.value.workspace && typeof data.value.workspace === 'string') {
+      await data.value.populate('workspace');
+    }
+
     return {
       code: data.code,
       value: data.value,
       message: data.message ?? lang.get('qrcodes').created,
     };
   }
+
+
 }
