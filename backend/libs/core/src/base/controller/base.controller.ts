@@ -167,6 +167,7 @@ export abstract class BaseController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/:id')
   @HttpCode(OK)
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
@@ -178,7 +179,7 @@ export abstract class BaseController {
         return next(appError);
       }
 
-      const value = await this.service.findObject(id, queryParser);
+      const value = await this.service.findObject(id, queryParser, req);
 
       const response = await this.service.getResponse(
         await this.service.postFindOne({

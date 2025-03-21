@@ -239,6 +239,17 @@ export class MongoBaseService extends BaseAbstract {
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
     const condition = this.buildFindObjectCondition(id, req);
 
+    if (req?.user) {
+      const userId = getUserId(req.user);
+      if (userId) {
+        condition.user = userId;
+      }
+
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId) {
+        condition.workspace = workspaceId;
+      }
+    }
     const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 

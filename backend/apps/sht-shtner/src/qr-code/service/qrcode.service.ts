@@ -21,7 +21,6 @@ import {
   VCardQRCodeDto,
   WebsiteQRCodeDto,
   MultiLinkQRCodeDto,
-  Pagination,
 } from 'shtcut/core';
 
 import { HitService } from '../../hit';
