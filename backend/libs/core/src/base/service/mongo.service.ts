@@ -109,15 +109,11 @@ export class MongoBaseService extends BaseAbstract {
       // Check if workspace is present in the object
       const workspaceId = obj.workspace;
 
-      // If workspace is not present, reject the operation
-      if (!workspaceId) {
-        throw AppException.BAD_REQUEST('Workspace is required');
-      }
-
       // Fill object properties and set workspace
       const payload = this.fillObjectProperties(obj);
       payload.workspace = workspaceId;
 
+      // Log the collection name before saving
       const data = new this.model({
         ...payload,
         publicId: Utils.generateUniqueId(this.defaultConfig.idToken),

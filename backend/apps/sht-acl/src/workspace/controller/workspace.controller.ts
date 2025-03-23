@@ -4,9 +4,6 @@ import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
 import { WorkspaceService } from '../service/workspace.service';
 import * as _ from 'lodash';
-import { User } from 'shtcut/core';
-import { Inject } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { UserService } from '../../user/service/user.service';
 
 @UseGuards(JwtAuthGuard)
@@ -29,19 +26,7 @@ export class WorkspaceController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    try {
-      const workspace = await this.service.createWorkspace(payload, req.user['_id']);
-
-      const response = await this.service.getResponse({
-        code: OK,
-        value: workspace,
-        message: this.lang.get(this.key || this.service.modelName).created,
-      });
-
-      return res.status(OK).json(response);
-    } catch (e) {
-      return next(e);
-    }
+    return super.create(payload, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -149,4 +134,6 @@ export class WorkspaceController extends AppController {
       return next(err);
     }
   }
+
 }
+

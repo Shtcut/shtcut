@@ -1,6 +1,7 @@
 import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, Schema as MGS } from 'mongoose';
+import mongoose from 'mongoose';
 
 export type WorkspaceDocument = Workspace & Document;
 
@@ -136,11 +137,18 @@ WorkspaceSchema.statics.config = () => {
       'modules',
       'subscriptions',
       'logo',
+      'isCurrent',
       'capacity',
     ],
-    updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules', 'logo'],
+    updateFillables: ['user', 'name', 'plan', 'isDefault', 'subscriptions', 'modules', 'logo', 'isCurrent'],
     hiddenFields: ['deleted'],
   };
 };
 
 export { WorkspaceSchema };
+
+export const WorkspaceModel = mongoose.model<WorkspaceDocument>('Workspace', WorkspaceSchema);
+
+if (!mongoose.models['workspace']) {
+  mongoose.model('workspace', WorkspaceSchema);
+}
