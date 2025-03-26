@@ -14,11 +14,12 @@ import {
   Pagination,
   QueryParser,
 } from 'shtcut/core';
-import { ClientSession, Model } from 'mongoose';
+import { ClientSession, Model, Types } from 'mongoose';
 import { InvitationEmail } from '../invitation.email';
 import { ConfigService } from '@nestjs/config';
 import lang from '../../../lang';
 import { Request } from 'express';
+import { WorkspaceModel, WorkspaceDocument as WorkspaceModelDocument } from 'shtcut/core/models/workspace/workspace.schema';
 
 @Injectable()
 export class InvitationService extends MongoBaseService {
@@ -65,10 +66,12 @@ export class InvitationService extends MongoBaseService {
   public async createNewObject(obj: CreateInvitationDto, session?: ClientSession) {
     try {
       const { emails, workspace, token } = obj;
+
       const found = await this.model.find({ email: { $in: emails }, workspace, deleted: false });
       if (found && found.length) {
         throw AppException.CONFLICT(lang.get('invitation').existingEmail);
       }
+
       const invitations = emails.map((email) => ({
         email,
         workspace,
@@ -76,21 +79,112 @@ export class InvitationService extends MongoBaseService {
         token: token ?? Utils.generateCode(20, true),
       }));
 
-      const [savedInvites, inviteeWorkspace] = await Promise.all([
-        await this.model.insertMany(invitations, { session }),
-        await this.workspaceModel.findOne({ ...Utils.conditionWithDelete({ _id: workspace, active: true }) }),
-      ]);
 
-      savedInvites.forEach((invitation: any) => {
-        const { email, token, _id } = invitation;
-        const link = `${obj.redirectLink}?email=${email}&workspace=${workspace}&token=${token}`;
-        inviteeWorkspace.members.push(_id);
-        this.sendInvitationEmail({ email, workspace: inviteeWorkspace?.name, link });
-      });
+      // Save invitations first
+      const savedInvites = await this.model.insertMany(invitations, { session });
 
-      return savedInvites;
+
+
+      // Check if we're in a transaction from workspace creation
+      const isPartOfTransaction = !!session;
+
+      if (isPartOfTransaction) {
+        // If in a transaction, schedule processing for later WITHOUT passing the session
+
+        // Store the workspace ID for later use
+        const workspaceId = workspace;
+
+        setTimeout(() => {
+          // Create a copy of the object without the session
+          const objCopy = { ...obj };
+
+          this.processInvitationsBackgroundSafe(savedInvites, objCopy, workspaceId)
+            .catch(err => console.error("Background invitation processing error:", err));
+        }, 1000); // Wait 1 second to ensure transaction is fully committed
+
+        return savedInvites;
+      } else {
+        // For direct API calls, process immediately with workspace lookup first
+        const inviteeWorkspace = await this.workspaceModel.findOne({
+          ...Utils.conditionWithDelete({ _id: workspace, active: true })
+        });
+
+        await this.processInvitations(savedInvites, obj);
+        return savedInvites;
+      }
     } catch (e) {
       throw e;
+    }
+  }
+
+  private async processInvitations(savedInvites: any[], obj: any) {
+    const { workspace } = obj;
+
+    const workspaceId = new Types.ObjectId(workspace);
+
+    const inviteeWorkspace = await this.workspaceModel.findOne({ _id: workspaceId });
+
+    if (!inviteeWorkspace) {
+      throw new Error('Workspace not found');
+    }
+
+    savedInvites.forEach((invitation: any) => {
+      const { email, token, _id } = invitation;
+      const link = `${obj.redirectLink}?email=${email}&workspace=${inviteeWorkspace._id}&token=${token}`;
+
+
+      if (inviteeWorkspace) {
+        inviteeWorkspace.members.push(_id);
+      } else {
+        console.error('Invitee workspace is null');
+      }
+
+      this.sendInvitationEmail({ email, workspace: inviteeWorkspace?.name, link });
+    });
+
+    // Save the updated workspace with new members
+    await inviteeWorkspace.save();
+  }
+
+  // New method for background processing without sessions
+  private async processInvitationsBackgroundSafe(savedInvites: any[], obj: any, workspaceId: string) {
+    try {
+
+      // Find the workspace without using the original session
+      const inviteeWorkspace = await this.workspaceModel.findOne({ _id: new Types.ObjectId(workspaceId) });
+
+      if (!inviteeWorkspace) {
+        console.error('Workspace not found in background processing');
+        return;
+      }
+
+      // Initialize members array if needed
+      if (!inviteeWorkspace.members) {
+        inviteeWorkspace.members = [];
+      }
+
+      // Process invitations
+      for (const invitation of savedInvites) {
+        const { email, token, _id } = invitation;
+        const link = `${obj.redirectLink}?email=${email}&workspace=${inviteeWorkspace._id}&token=${token}`;
+
+        // Add member if not already there
+        if (!inviteeWorkspace.members.some(m => m.toString() === _id.toString())) {
+          inviteeWorkspace.members.push(_id);
+        }
+
+        // Send email
+        this.sendInvitationEmail({
+          email,
+          workspace: inviteeWorkspace.name,
+          link
+        });
+      }
+
+      // Save workspace
+      await inviteeWorkspace.save();
+    } catch (error) {
+      console.error("Error in background invitation processing:", error);
     }
   }
 

@@ -3,6 +3,22 @@ import { Request } from 'express';
 import * as _ from 'lodash';
 import mongoose, { ClientSession } from 'mongoose';
 import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
+import { User } from 'shtcut/core';
+import { Types } from 'mongoose';
+
+function getUserId(user: any): Types.ObjectId | undefined {
+  return user?._id;
+}
+
+/**
+ * Gets the current workspace ID from the user object in the request or the request itself
+ */
+function getCurrentWorkspaceId(req?: Request): string | null | undefined {
+  if (!req?.user) return undefined;
+
+  // Use type assertion to access the property
+  return (req as any).currentWorkspace?.toString() || null;
+}
 
 export class MongoBaseService extends BaseAbstract {
   /**
@@ -60,7 +76,14 @@ export class MongoBaseService extends BaseAbstract {
    */
   private fillObjectProperties(obj: Dict): Dict {
     const toFill = this.entity.config.fillables;
-    return toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
+    const filled = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
+
+    // Ensure workspace is preserved
+    if (obj.workspace && !filled.workspace) {
+      filled.workspace = obj.workspace;
+    }
+
+    return filled;
   }
 
   /**
@@ -75,14 +98,48 @@ export class MongoBaseService extends BaseAbstract {
    * @returns the result of calling the `saveDataToDatabase` function with the `data` object and the
    * optional `session` parameter.
    */
-  public async createNewObject(obj: Dict, session?: ClientSession) {
-    const payload = this.fillObjectProperties(obj);
-    const data = new this.model({
-      ...payload,
-      publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
-    });
+  public async createNewObject(obj: Dict, session?: ClientSession, req?: Request) {
+    let localSession: ClientSession | undefined;
+    try {
+      if (!session) {
+        localSession = await this.model.startSession();
+        localSession.startTransaction();
+      }
 
-    return this.saveDataToDatabase(data, session);
+      // Check if workspace is present in the object
+      const workspaceId = obj.workspace;
+
+      // Fill object properties and set workspace
+      const payload = this.fillObjectProperties(obj);
+      payload.workspace = workspaceId;
+
+      // Log the collection name before saving
+      const data = new this.model({
+        ...payload,
+        publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
+      });
+
+      const savedData = await this.saveDataToDatabase(data, localSession || session);
+
+      // After saving, populate the workspace if it exists
+      if (savedData.workspace) {
+        await savedData.populate('workspace');
+      }
+
+      if (localSession) {
+        await localSession.commitTransaction();
+      }
+      return savedData;
+    } catch (error) {
+      if (localSession) {
+        await localSession.abortTransaction();
+      }
+      throw error;
+    } finally {
+      if (localSession) {
+        await localSession.endSession();
+      }
+    }
   }
 
   /**
@@ -114,10 +171,13 @@ export class MongoBaseService extends BaseAbstract {
    * allowing for transactional behavior. If no session is provided
    * @returns the result of the `findOneAndUpdate` method.
    */
-  public async updateObject(id: string, obj: Dict, session?: ClientSession) {
+  public async updateObject(id: string, obj: Dict, session?: ClientSession, req?: Request) {
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
-    const condition = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
+
+    const condition = Utils.isObjectId(id) ?
+      { _id: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) } :
+      { publicId: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) };
 
     return await this.model.findOneAndUpdate(
       { ...condition },
@@ -149,7 +209,12 @@ export class MongoBaseService extends BaseAbstract {
    * the data to the database. If no session is provided, the
    * @returns the result of calling the `saveDataToDatabase` function with the `session` parameter.
    */
-  public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession) {
+  public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession, req?: Request) {
+    // Check if user owns the resource
+    if (current.user.toString() !== getUserId(req?.user)?.toString()) {
+      throw AppException.FORBIDDEN('Not authorized to update this resource');
+    }
+
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     _.merge(current, obj);
@@ -167,8 +232,20 @@ export class MongoBaseService extends BaseAbstract {
    * be passed to the `fetchObjectFromDB` function.
    * @returns an object of type `Dict`.
    */
-  public async findObject(id: unknown, query?: QueryParser | Record<string, any>) {
-    const condition = this.buildFindObjectCondition(id);
+  public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
+    const condition = this.buildFindObjectCondition(id, req);
+
+    if (req?.user) {
+      const userId = getUserId(req.user);
+      if (userId) {
+        condition.user = userId;
+      }
+
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId) {
+        condition.workspace = workspaceId;
+      }
+    }
     const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 
@@ -177,22 +254,37 @@ export class MongoBaseService extends BaseAbstract {
       await this.cacheObjectIfFound(object, cacheKey);
     }
 
-    this.ensureObjectExists(object);
-    return object as Dict;
+    try {
+      this.ensureObjectExists(object);
+      return object as Dict;
+    } catch (error) {
+      throw error;
+    }
   }
 
   /**
-   * The function builds a condition object to find an item based on its ID.
-   * @param id - The `id` parameter is the identifier used to find an object. It can be either an
-   * ObjectId or a publicId.
-   * @returns a dictionary that combines the condition `{ deleted: false }` with the `id` parameter.
-   * The `id` parameter is checked to see if it is a valid ObjectId using the `Utils.isObjectId()`
-   * function. If it is a valid ObjectId, the condition is set to `{ _id: id }`, otherwise it is set to
-   * `{ publicId: id }`. The returned
+   * Builds conditions for finding objects, now including workspace filtering
    */
-  private buildFindObjectCondition(id): Dict {
-    id = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
-    return { ...Utils.conditionWithDelete(id) };
+  private buildFindObjectCondition(id: unknown, req?: Request): Dict {
+    const condition: Dict = Utils.conditionWithDelete(
+      Utils.isObjectId(id) ? { _id: id } : { publicId: id }
+    );
+
+    // Add user filter if user exists in request
+    if (req?.user) {
+      const userId = getUserId(req.user);
+      if (userId) {
+        condition.user = userId;
+      }
+
+      // Add workspace filter if user has current workspace
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId) {
+        condition.workspace = workspaceId;
+      }
+    }
+
+    return condition;
   }
 
   /**
@@ -246,13 +338,16 @@ export class MongoBaseService extends BaseAbstract {
   /**
    * The function deletes an object from a database, either by setting a "deleted" flag or by removing
    * it completely, and returns the deleted object.
-   * @param object - The "object" parameter is a record or object that represents the data to be
-   * deleted. It can be of any type and contains key-value pairs of properties and their corresponding
-   * values.
+   * @param id - The `id` parameter is the identifier of the object to be deleted.
+   * @param req - The `req` parameter is an optional request object. It is used to get the user
+   * information for authorization purposes.
    * @returns the deleted object.
    */
-  public async deleteObject(id) {
-    const condition = { _id: id };
+  public async deleteObject(id: string, req?: Request) {
+    const condition = {
+      _id: id,
+      user: getUserId(req?.user)
+    };
     const object = await this.model.findOne(condition);
     const cacheKey = this.getCacheKey(object);
 
@@ -279,35 +374,57 @@ export class MongoBaseService extends BaseAbstract {
    * `count`. The `value` property contains the result of the query execution, while the `count`
    * property contains the count of documents that match the query.
    */
-  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
-    this.applyDateFilters(queryParser);
-    this.applyConditionalFilters(queryParser);
-    this.convertObjectIds(queryParser);
+  public async buildModelQueryObject(
+    pagination: Pagination,
+    queryParser: QueryParser,
+    req?: Request,
+  ): Promise<{ value: any; count: number }> {
+    // Apply workspace population to ensure workspace data is included
+    this.applyWorkspacePopulation(queryParser);
 
-    let query = this.model.find(queryParser.query);
+    // Add workspace filter to query if user has current workspace
+    if (req?.user) {
+      const workspaceId = getCurrentWorkspaceId(req);
+      if (workspaceId && !queryParser.query.workspace) {
+        queryParser.query.workspace = workspaceId;
+      }
 
-    if (queryParser.search && this.entity?.searchQuery(queryParser.search).length > 0) {
-      const searchQuery = this.applySearchQuery(queryParser);
-      query = this.model.find({ ...searchQuery });
+      // Also add user filter for personal resources
+      const userId = getUserId(req.user);
+      if (userId && !queryParser.query.user) {
+        queryParser.query.user = userId;
+      }
     }
 
+    // Continue with existing implementation
+    this.applyDateFilters(queryParser);
+    this.applyRelationFilters(queryParser);
+
+    if (queryParser.search !== '' && this.entity.searchQuery) {
+      queryParser.query = this.applySearchQuery(queryParser);
+    }
+
+    let queryToExec = this.model.find(queryParser.query);
+
     if (!queryParser.getAll) {
-      query = this.applyPagination(query, pagination);
+      queryToExec = this.applyPagination(queryToExec, pagination);
     }
 
     const sortQuery = this.applySortQuery(queryParser);
-    query = query.sort(sortQuery);
+    queryToExec = queryToExec.sort(sortQuery);
 
     const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
     let value = await this.getCacheObject(cacheKey, true);
 
     if (_.isUndefined(value)) {
-      value = await this.executeQueryAndCacheResult(query, queryParser, cacheKey);
+      value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
     }
+
+    const count = await this.getCountDocuments(queryParser);
 
     return {
       value,
-      count: await this.getCountDocuments(queryParser),
+      count,
     };
   }
 
@@ -485,8 +602,8 @@ export class MongoBaseService extends BaseAbstract {
       if (_.isUndefined(object)) {
         object = !_.isEmpty(query)
           ? await this.model.findOne({
-              ...Utils.conditionWithDelete(query),
-            })
+            ...Utils.conditionWithDelete(query),
+          })
           : false;
 
         this.cacheObjectIfFound(object, cacheKey);
@@ -528,7 +645,7 @@ export class MongoBaseService extends BaseAbstract {
       try {
         const latestQuery = JSON.parse(query.latest);
         queryToExec.sort({ ...latestQuery });
-      } catch (e) {}
+      } catch (e) { }
     }
     return queryToExec.exec();
   }
@@ -581,6 +698,29 @@ export class MongoBaseService extends BaseAbstract {
       return deleted;
     } catch (error) {
       throw error;
+    }
+  }
+
+  private applyRelationFilters(queryParser: QueryParser) {
+    const relationFilters: string[] = this?.entity?.config?.relationFilters || [];
+
+    if (relationFilters && relationFilters.length > 0) {
+      relationFilters.forEach((key: string) => {
+        if (queryParser.query[key]) {
+          // Convert string IDs to ObjectIds if needed
+          if (typeof queryParser.query[key] === 'string' && Utils.isObjectId(queryParser.query[key])) {
+            queryParser.query[key] = Utils.toObjectId(queryParser.query[key]);
+          }
+        }
+      });
+    }
+  }
+
+  private applyWorkspacePopulation(queryParser: QueryParser) {
+    if (!queryParser.population) {
+      queryParser.population = ['workspace'];
+    } else if (!queryParser.population.includes('workspace')) {
+      queryParser.population.push('workspace');
     }
   }
 }

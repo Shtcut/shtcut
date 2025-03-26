@@ -5,7 +5,7 @@ import lang from 'shtcut/core/lang';
 
 @Injectable()
 export class RedisService {
-  constructor(@InjectRedis() private readonly redis: Redis) {}
+  constructor(@InjectRedis() private readonly redis: Redis) { }
 
   /**
    * The function sets a value in Redis with an optional expiration time.
@@ -109,5 +109,9 @@ export class RedisService {
       return defaults;
     }
     return JSON.parse(value) as T;
+  }
+
+  async get(key: string): Promise<string | null> {
+    return this.redis.get(key);
   }
 }

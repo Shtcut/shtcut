@@ -17,7 +17,6 @@ export class MediaController extends AppController {
   @HttpCode(OK)
   @UseInterceptors(new FileInterceptor('file'))
   public async upload(@UploadedFile() uploaded, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    console.log('req:', req);
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const value = await this.service.upload(uploaded);
@@ -29,7 +28,6 @@ export class MediaController extends AppController {
       });
       return res.status(OK).json(response);
     } catch (e) {
-      console.log('err::', e);
       return next(e);
     }
   }

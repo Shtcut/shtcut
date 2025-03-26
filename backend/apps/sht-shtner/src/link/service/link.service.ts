@@ -338,7 +338,7 @@ export class LinkService extends MongoBaseService {
   public async analytic(linkId) {
     try {
       const link = await this.model.findOne({ _id: linkId }).populate(['domain']);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   /**
@@ -422,39 +422,65 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  /**
+   * Validates that all provided IDs exist in the database
+   * @param ids Array of link IDs to check
+   * @returns Boolean indicating if all IDs exist
+   */
+  async validateIdsExist(ids: string[]): Promise<boolean> {
+    if (!ids?.length) {
+      return false;
+    }
+
+    const links = await this.model.find({
+      ...Utils.conditionWithDelete({ _id: { $in: ids } }),
+    });
+
+    // Check if all IDs were found
+    return links.length === ids.length;
+  }
+
   async toggleArchiveMany(payload: { ids: string[] }): Promise<string[]> {
     let session: ClientSession;
     try {
+      // Validate that all IDs exist first
+      const { ids } = payload;
+      if (!ids?.length) {
+        return [];
+      }
+
+      const allIdsExist = await this.validateIdsExist(ids);
+      if (!allIdsExist) {
+        throw AppException.NOT_FOUND(lang.get('link').someLinksNotFound);
+      }
+
       session = await this.model.startSession();
       session.startTransaction();
 
-      const { ids } = payload;
       const toggledIds = [];
 
-      if (ids?.length) {
-        const links = await this.model.find({
-          ...Utils.conditionWithDelete({ _id: { $in: ids } }),
-        });
+      const links = await this.model.find({
+        ...Utils.conditionWithDelete({ _id: { $in: ids } }),
+      });
 
-        for (const link of links) {
-          _.extend(link, { archived: !link.archived });
-          await link.save({ session });
+      for (const link of links) {
+        _.extend(link, { archived: !link.archived });
+        await link.save({ session });
 
-          await this.qrCodeModel.updateOne(
-            { ...Utils.conditionWithDelete({ link: link._id }) },
-            { archived: !link.archived },
-            { session },
-          );
-          toggledIds.push(link._id);
-
-          if (this.cacheService) {
-            await this.cacheService.remove(this.modelName + ':' + link._id.toString());
-          }
-        }
+        await this.qrCodeModel.updateOne(
+          { ...Utils.conditionWithDelete({ link: link._id }) },
+          { archived: !link.archived },
+          { session },
+        );
+        toggledIds.push(link._id);
 
         if (this.cacheService) {
-          await this.cacheService.remove(this.modelName + ':list');
+          await this.cacheService.remove(this.modelName + ':' + link._id.toString());
         }
+      }
+
+      if (this.cacheService) {
+        await this.cacheService.remove(this.modelName + ':list');
       }
 
       await session.commitTransaction();

@@ -29,6 +29,7 @@ import {
 } from 'shtcut/core';
 import * as _ from 'lodash';
 import lang from 'shtcut/core/lang';
+import { WorkspaceGuard } from '../../guards/workspace.guard';
 
 @ApiTags('Common API')
 export abstract class BaseController {
@@ -47,7 +48,7 @@ export abstract class BaseController {
     protected config: ConfigService,
     protected service: MongoBaseService,
     protected key?: string,
-  ) {}
+  ) { }
 
   @Get('/unique/:key')
   @HttpCode(OK)
@@ -69,7 +70,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Post('/')
   @HttpCode(CREATED)
   public async create(
@@ -89,14 +90,19 @@ export abstract class BaseController {
       const reqObj = await this.service.prepareBodyObject(req);
       let value = await this.service.retrieveExistingResource(reqObj);
 
+      const currentWorkspace = (req as any).currentWorkspace;
+      if (currentWorkspace) {
+        reqObj.workspace = currentWorkspace;
+      }
+
       if (value) {
         const returnIfFound = this.service.entity.config.returnDuplicate;
         if (!returnIfFound) {
           const messageObj =
             this.service.entity.config.uniques.length > 0
               ? this.service.entity.config.uniques.map((m: string) => ({
-                  [m]: `${m} must be unique`,
-                }))
+                [m]: `${m} must be unique`,
+              }))
               : null;
 
           const appError = new AppException(CONFLICT, lang.get('app').duplicate, messageObj);
@@ -107,7 +113,10 @@ export abstract class BaseController {
         if (checkError) {
           return next(checkError);
         }
-        value = await this.service.createNewObject(reqObj);
+
+
+
+        value = await this.service.createNewObject(reqObj, undefined, req);
       }
 
       const response = await this.service.getResponse(
@@ -124,10 +133,13 @@ export abstract class BaseController {
     }
   }
 
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
+      // Log workspace and user ID from guards =
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const pagination = new Pagination(req.originalUrl, this.service.baseUrl, this.service.itemsPerPage);
 
@@ -155,6 +167,7 @@ export abstract class BaseController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/:id')
   @HttpCode(OK)
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
@@ -166,7 +179,7 @@ export abstract class BaseController {
         return next(appError);
       }
 
-      const value = await this.service.findObject(id, queryParser);
+      const value = await this.service.findObject(id, queryParser, req);
 
       const response = await this.service.getResponse(
         await this.service.postFindOne({
@@ -182,7 +195,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Patch('/:id')
   @HttpCode(OK)
   public async patch(
@@ -223,7 +236,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Put('/:id')
   @HttpCode(OK)
   public async update(
@@ -268,7 +281,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Delete('/:id')
   @HttpCode(OK)
   public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {

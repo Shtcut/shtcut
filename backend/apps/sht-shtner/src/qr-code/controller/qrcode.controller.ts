@@ -22,12 +22,16 @@ import {
   UpdateLinkDto,
   QrCodeDeleteDto,
   CreateQrCodeDto,
+  WorkspaceGuard,
 } from 'shtcut/core';
 import { QrCodeService } from '../service/qrcode.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
+import * as _ from 'lodash';
+import { Pagination } from 'shtcut/core';
 
 @Controller('qrcodes')
+@UseGuards(JwtAuthGuard, WorkspaceGuard)
 export class QrCodeController extends AppController {
   constructor(
     protected service: QrCodeService,
@@ -66,6 +70,7 @@ export class QrCodeController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
+
     return super.create(payload, req, res, next);
   }
 
@@ -94,4 +99,12 @@ export class QrCodeController extends AppController {
   ) {
     return super.patch(id, payload, req, res, next);
   }
+
+
+  @Get('/')
+  async find(@Req() req: Request, @Res() res: Response, @Next() next) {
+    // The workspace ID is automatically attached by WorkspaceGuard and used by MongoBaseService
+    return super.find(req, res, next);
+  }
+
 }

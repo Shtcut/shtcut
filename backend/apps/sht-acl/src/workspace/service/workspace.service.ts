@@ -84,9 +84,16 @@ export class WorkspaceService extends MongoBaseService {
    * @returns the `workspace` object.
    */
   public async createNewObject(obj: CreateWorkspaceDto & Dict, session?: ClientSession) {
+    let localSession: ClientSession | undefined;
     try {
-      session = session ?? (await this.model.startSession());
-      session.startTransaction();
+      // Only create a new session if one wasn't provided
+      if (!session) {
+        localSession = await this.model.startSession();
+        localSession.startTransaction();
+      }
+
+      // Use the provided session or the local one
+      const activeSession = session || localSession;
 
       const { plan, modules, memberEmails, redirectUrl } = obj;
 
@@ -97,7 +104,8 @@ export class WorkspaceService extends MongoBaseService {
 
       obj.slug = obj.slug ?? Utils.slugifyText(obj.name);
 
-      const workspace = await super.createNewObject(obj, session);
+      const workspace = await super.createNewObject(obj, activeSession);
+
       let members = [];
 
       if (memberEmails && memberEmails.length && redirectUrl) {
@@ -106,28 +114,37 @@ export class WorkspaceService extends MongoBaseService {
           redirectLink: redirectUrl,
           workspace: String(workspace._id),
         };
-        members = await this.invitationService.createNewObject(invitationPayload, session);
+        members = await this.invitationService.createNewObject(invitationPayload, activeSession);
       }
 
       const [subscription, _] = await Promise.all([
-        this.createSubscription(workspace, obj, session),
-        this.updateUser({ workspace, modules }, session),
+        this.createSubscription(workspace, obj, activeSession),
+        this.updateUser({ workspace, modules }, activeSession),
       ]);
 
       workspace.subscriptions = [subscription._id];
       workspace.modules = modules;
       workspace.members = members.map((m) => m._id);
 
-      await workspace.save({ session });
+      await workspace.save({ session: activeSession });
 
-      await session?.commitTransaction();
+      // Only commit if we created the transaction
+      if (localSession) {
+        await localSession.commitTransaction();
+      }
 
       return workspace;
     } catch (e) {
-      await session?.abortTransaction();
+      // Only abort if we created the transaction
+      if (localSession) {
+        await localSession.abortTransaction();
+      }
       throw e;
     } finally {
-      await session?.endSession();
+      // Only end the session if we created it
+      if (localSession) {
+        await localSession.endSession();
+      }
     }
   }
 
@@ -214,11 +231,11 @@ export class WorkspaceService extends MongoBaseService {
           );
           workspaceModules = userModule
             ? [
-                {
-                  workspaceName: workspace.name,
-                  modules: [...new Set([...userModule.modules, module])],
-                },
-              ]
+              {
+                workspaceName: workspace.name,
+                modules: [...new Set([...userModule.modules, module])],
+              },
+            ]
             : workspaceModules;
           user.modules = [...user.modules, ...workspaceModules];
         } else {
@@ -232,7 +249,55 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
-  async switchWorkspace(id: string, authId: string) {}
+  /**
+   * Switches a user's current active workspace
+   * @param id The ID of the workspace to switch to
+   * @param user The user object from the JWT token
+   * @returns The workspace details with modules and subscriptions
+   */
+  async switchWorkspace(id: string, userFromToken: any) {
+    try {
+      // Find workspace and verify access
+      const workspace = await this.model.findOne({
+        ...Utils.conditionWithDelete({ _id: id }),
+      });
+
+      if (!workspace) {
+        throw AppException.NOT_FOUND(lang.get('workspace').notFound);
+      }
+
+      // Verify ownership or membership
+      const isOwner = workspace.user.toString() === userFromToken._id.toString();
+      const isMember = await this.memberModel.findOne({
+        workspace: id,
+        user: userFromToken._id,
+        deleted: false
+      });
+
+      if (!isOwner && !isMember) {
+        throw AppException.FORBIDDEN(lang.get('workspace').notAuthorized);
+      }
+
+      // Reset all workspaces for this user and set the current one
+      await this.model.updateMany(
+        { user: userFromToken._id },
+        { $set: { isCurrent: false } }
+      );
+
+      workspace.isCurrent = true;
+      await workspace.save();
+
+      // IMPORTANT: Save to Redis for the WorkspaceGuard to use
+      await this.redisService.set(`user:${userFromToken._id}:currentWorkspace`, workspace._id.toString());
+
+      return {
+        ...workspace.toJSON(),
+        isOwner
+      };
+    } catch (e) {
+      throw e;
+    }
+  }
 
   async acceptInvitation(payload: { token: string; email: string; password: string }) {
     const { token, email, password } = payload;
@@ -262,5 +327,33 @@ export class WorkspaceService extends MongoBaseService {
     } finally {
       await session?.endSession();
     }
+  }
+
+
+
+  // async createWorkspace(payload, userId) {
+  //   // Check if this is the user's first workspace
+  //   const existingWorkspaces = await this.model.find({ user: userId });
+  //   const isFirstWorkspace = existingWorkspaces.length === 0;
+
+  //   // Create workspace with isCurrent set to true if it's the first workspace
+  //   const workspace = new this.model({
+  //     ...payload,
+  //     user: userId,
+  //     isCurrent: isFirstWorkspace, // First workspace is automatically current
+  //     publicId: Utils.generateUniqueId(this.defaultConfig.idToken),
+  //   });
+
+  //   // Save workspace
+  //   const created = await workspace.save();
+
+  //   return created;
+  // }
+
+  async findCurrentWorkspace(userId: string) {
+    return this.model.findOne({
+      user: userId,
+      isCurrent: true
+    });
   }
 }

@@ -8,6 +8,7 @@ import {
   QueryParser,
   UpdateLinkDto,
   LinkBulkDto,
+  WorkspaceGuard,
 } from 'shtcut/core';
 import { LinkService } from '../service/link.service';
 import { ConfigService } from '@nestjs/config';
@@ -15,6 +16,7 @@ import { NextFunction, Request, Response } from 'express';
 import * as _ from 'lodash';
 
 @Controller('links')
+@UseGuards(JwtAuthGuard, WorkspaceGuard)
 export class LinkController extends AppController {
   constructor(
     protected service: LinkService,
@@ -48,7 +50,6 @@ export class LinkController extends AppController {
       });
       return res.status(OK).json(response);
     } catch (e) {
-      console.log(e);
       return next(e);
     }
   }
@@ -202,6 +203,9 @@ export class LinkController extends AppController {
         value: {
           ids: toggledIds,
         },
+        message: toggledIds.length > 0
+          ? `Successfully toggled archive status for ${toggledIds.length} links`
+          : 'No links were modified'
       });
       return res.status(OK).json(response);
     } catch (err) {

@@ -1,9 +1,10 @@
-import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto } from 'shtcut/core';
+import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
+import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto, AppException, NOT_FOUND } from 'shtcut/core';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
 import { WorkspaceService } from '../service/workspace.service';
 import * as _ from 'lodash';
+import { UserService } from '../../user/service/user.service';
 
 @UseGuards(JwtAuthGuard)
 @Controller('workspaces')
@@ -11,6 +12,7 @@ export class WorkspaceController extends AppController {
   constructor(
     protected service: WorkspaceService,
     protected config: ConfigService,
+    private readonly userService: UserService,
   ) {
     super(config, service);
   }
@@ -42,15 +44,6 @@ export class WorkspaceController extends AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
-  @Get('/:id/switch')
-  @HttpCode(OK)
-  public async switchWorkspace(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    try {
-    } catch (e) {
-      next(e);
-    }
-  }
 
   @UseGuards(JwtAuthGuard)
   @Get('/')
@@ -93,4 +86,54 @@ export class WorkspaceController extends AppController {
   ) {
     return super.patch(id, payload, req, res, next);
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/activate/:workspaceId')
+  @HttpCode(OK)
+  public async activateWorkspace(
+    @Param('workspaceId') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    try {
+      const workspace = await this.service.switchWorkspace(id, req.user);
+      if (!workspace) {
+        throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);
+      }
+
+      return res.status(OK).json({
+        meta: { statusCode: OK },
+        data: {
+          _id: workspace._id,
+          name: workspace.name,
+          message: 'Workspace activated successfully'
+        }
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/current')
+  @HttpCode(OK)
+  public async getCurrentWorkspace(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    try {
+      const workspace = await this.service.findCurrentWorkspace(req.user._id.toString());
+
+      if (!workspace) {
+        throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);
+      }
+
+      return res.status(OK).json({
+        meta: { statusCode: OK },
+        data: workspace
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
 }
+
