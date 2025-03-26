@@ -202,10 +202,10 @@ export class LinkController extends AppController {
         code: OK,
         value: {
           ids: toggledIds,
-          message: toggledIds.length > 0
-            ? `Successfully toggled archive status for ${toggledIds.length} links`
-            : 'No links were modified'
         },
+        message: toggledIds.length > 0
+          ? `Successfully toggled archive status for ${toggledIds.length} links`
+          : 'No links were modified'
       });
       return res.status(OK).json(response);
     } catch (err) {
