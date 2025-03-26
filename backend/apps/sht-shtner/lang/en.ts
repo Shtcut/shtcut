@@ -20,6 +20,8 @@ export default {
     invalidateExpiryFutureDate: 'The expiry date must be set in the future.',
     emptyUrl: 'URL key is required',
     invalidPassword: 'The password is invalid',
+    someLinksNotFound: 'One or more of the specified links could not be found',
+    noIdsProvided: 'No link IDs were provided'
   },
 
   plan: {
