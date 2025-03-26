@@ -6,6 +6,7 @@ import { Dict } from '@shtcut-ui/react';
 import { usePagination } from '../usePagination';
 import { useEffect, useState } from 'react';
 import {
+    useArchivedManyLinksMutation,
     useCreateLinkMutation,
     useDeleteLinkMutation,
     useDeleteManyLinksMutation,
@@ -45,6 +46,7 @@ interface UseLinkReturnsType {
     updateLink: MutationTrigger<any>;
     submitPassword: MutationTrigger<any>;
     deleteManyLinks: MutationTrigger<any>;
+    archivedManyLinks: MutationTrigger<any>;
     fetchMetadata: Dict;
     findAllLinks: any;
     isLoading: boolean;
@@ -59,6 +61,7 @@ interface UseLinkReturnsType {
     duplicate: any;
     deleteLinkResponse: Dict;
     deleteManyLinksResponse: Dict;
+    archivedManyLinksResponse: Dict;
     pagination: UsePaginationState;
     isLoadingState: boolean;
     handleCloseLoading: () => void;
@@ -76,6 +79,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [updateLink, updateLinkResponse] = useUpdateLinkMutation();
     const [deleteLink, deleteLinkResponse] = useDeleteLinkMutation();
     const [deleteManyLinks, deleteManyLinksResponse] = useDeleteManyLinksMutation();
+    const [archivedManyLinks, archivedManyLinksResponse] = useArchivedManyLinksMutation();
     const [findAllLinks, { isLoading, data: findAllLinksResponse }] = useLazyFindAllLinksQuery();
     const [duplicate, duplicateLinkResponse] = useLazyDuplicateLinkQuery();
     const [getLink, getLinkResponse] = useLazyGetLinkQuery();
@@ -154,6 +158,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         findAllLinks,
         duplicate,
         submitPassword,
+        archivedManyLinks,
         findAllLinksResponse,
         createLinkResponse,
         getLinkResponse,
@@ -169,8 +174,10 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         fetchMetadata,
         fetchMetaDataResponse,
         deleteManyLinksResponse,
+        archivedManyLinksResponse,
         fetchMetaLoading,
         paginationActions,
+
         params
     };
 };

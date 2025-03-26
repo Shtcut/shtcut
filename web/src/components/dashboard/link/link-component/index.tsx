@@ -129,14 +129,20 @@ const LinkComponent = ({
     const watchTitle = watch('title');
     const watchDescription = watch('description');
 
-    const handleDeleteLink = (id: string) => {
-        setLoadingState('deleting', true);
-        deleteLink({
-            payload: { id },
-            options: {
-                successMessage: 'Link deleted successfully'
-            }
-        });
+    const handleDeleteLink = async (id: string) => {
+        try {
+            setLoadingState('deleting', true);
+            await deleteLink({
+                payload: { id },
+                options: {
+                    successMessage: 'Link deleted successfully'
+                }
+            }).unwrap();
+        } catch (error) {
+            console.error('Failed to delete link:', error);
+        } finally {
+            setLoadingState('deleting', false);
+        }
     };
 
     const handleDuplicateLink = async (linkId: string) => {
@@ -217,14 +223,24 @@ const LinkComponent = ({
 
         try {
             if (isUpdating) {
-                await updateLink({ payload, id: singleLink?._id });
+                await updateLink({
+                    payload,
+                    id: singleLink?._id,
+                    options: {
+                        successMessage: 'Link updated successfully'
+                    }
+                });
             } else {
-                await createLink({ payload });
+                await createLink({
+                    payload,
+                    options: {
+                        successMessage: 'Link created successfully'
+                    }
+                });
             }
             form.reset();
             setLoadingState(isUpdating ? 'updating' : 'creating', false);
             dispatch(toggleDropdown());
-
             doFind();
             setPreview(null);
         } catch (err) {
@@ -277,11 +293,6 @@ const LinkComponent = ({
         if (createLinkSuccess) {
             doFind();
             handleCloseModal();
-            toast({
-                variant: 'default',
-                title: 'Link Created',
-                description: 'links successfully created'
-            });
         }
         if (updateLinkSuccess) {
             doFind();

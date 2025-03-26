@@ -165,4 +165,7 @@ export interface LinkTypeResponse {
     updateLink: MutationTrigger<any>;
     setLoadingState: (key: 'duplicating' | 'updating' | 'deleting' | 'finding' | 'creating', value: boolean) => void;
     findAllLinks: any;
+    archived: string[];
+    handleCheckboxChange: (id: string, isChecked: boolean) => void;
+    handleArchivedMany: () => void;
 }

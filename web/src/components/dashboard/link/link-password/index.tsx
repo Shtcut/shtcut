@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 import { useLink } from '@shtcut/hooks/link';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 import { useRouter } from 'next/navigation';
-import { handleError } from '@shtcut/_shared';
 
 const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
     const router = useRouter();
@@ -25,9 +24,8 @@ const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
         const password = value.password;
         try {
             await submitPassword({ alias: aliasQuery, password }).unwrap();
+            setIsLoading(false);
         } catch (error) {
-            handleError({ error });
-        } finally {
             setIsLoading(false);
         }
     };
