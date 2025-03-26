@@ -19,32 +19,12 @@ const LinkArchiveComponent = ({
     updateLink,
     updateLinkResponse,
     setLoadingState,
-    findAllLinks
+    findAllLinks,
+    archived,
+    handleCheckboxChange,
+    handleArchivedMany
 }: LinkTypeResponse) => {
-    const [selectData, setSelectData] = useState<string[]>([]);
-    const [selectAll, setSelectAll] = useState(false);
     const [loadingId, setLoadingId] = useState<string | null>(null);
-
-    const handleCheckboxChange = (id: string, isChecked: boolean) => {
-        if (isChecked) {
-            setSelectData((prevSelected) => [...prevSelected, id]);
-        } else {
-            setSelectData((prevSelected) => prevSelected.filter((qrId) => qrId !== id));
-        }
-    };
-
-    const onCheckboxChange = (id: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
-        handleCheckboxChange(id, event.target.checked);
-    };
-    const handleSelectAll = () => {
-        if (selectAll) {
-            setSelectData([]);
-        } else {
-            const allIds = findAllLinksResponse?.data?.map((data) => data._id) || [];
-            setSelectData(allIds);
-        }
-        setSelectAll(!selectAll);
-    };
 
     const handleRecover = async (data: LinkNameSpace.Link) => {
         setLoadingId(data._id);
@@ -84,22 +64,20 @@ const LinkArchiveComponent = ({
 
     return (
         <div>
-            <BackButton/>
+            <BackButton />
             <div className="flex pt-6 justify-between items-center">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Link Archive </h1>
 
                 <section className="flex items-center gap-x-4">
-                    {selectAll && (
-                        <Button className="bg-[#E7EBEF] hover:bg-[#E7EBEF] border border-[#E7EBEF] text-[#5A5555] shadow-none text-xs h-8 rounded">
+                    {archived.length > 0 && (
+                        <LoadingButton
+                            className="bg-[#E7EBEF] hover:bg-[#E7EBEF] border border-[#E7EBEF] text-[#5A5555] shadow-none text-xs h-8 rounded"
+                            onClick={handleArchivedMany}
+                            loading={isLoadingState}
+                        >
                             Recover all
-                        </Button>
+                        </LoadingButton>
                     )}
-                    <Button
-                        className="bg-[#E7EBEF] hover:bg-[#E7EBEF] border border-[#E7EBEF] text-[#5A5555] shadow-none text-xs h-8 rounded"
-                        onClick={handleSelectAll}
-                    >
-                        {selectAll ? 'Deselect all' : 'Select all'}
-                    </Button>
                 </section>
             </div>
             {isLoading ? (
@@ -123,9 +101,11 @@ const LinkArchiveComponent = ({
                                                     <input
                                                         type="checkbox"
                                                         id={`qr-checkbox-${data?._id}`}
-                                                        checked={selectData.includes(data?._id)}
-                                                        onChange={onCheckboxChange(data?._id)}
+                                                        checked={archived.includes(data?._id)}
                                                         className="cbox cursor-pointer"
+                                                        onChange={() =>
+                                                            handleCheckboxChange(data._id, !archived.includes(data._id))
+                                                        }
                                                     />
                                                 </div>
                                                 <div className="border w-[50px] h-[50px] rounded-full flex justify-center items-center">

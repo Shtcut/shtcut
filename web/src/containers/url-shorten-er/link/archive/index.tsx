@@ -1,10 +1,12 @@
 'use client';
 
+import { handleError } from '@shtcut/_shared';
 import { LinkArchiveComponent } from '@shtcut/components/dashboard';
 import { useLink } from '@shtcut/hooks/link';
-import React from 'react';
+import React, { useState } from 'react';
 
 const LinkArchiveContainer = () => {
+    const [archived, setArchived] = useState<string[]>([]);
     const {
         findAllLinksResponse,
         isLoading,
@@ -12,7 +14,9 @@ const LinkArchiveContainer = () => {
         isLoadingState,
         updateLink,
         setLoadingState,
-        findAllLinks
+        findAllLinks,
+        archivedManyLinks,
+        params
     } = useLink({
         callLinks: true,
         filter: {
@@ -20,6 +24,39 @@ const LinkArchiveContainer = () => {
             all: true
         }
     });
+    const doFind = () => {
+        findAllLinks({
+            ...params
+        });
+    };
+
+    const handleArchivedMany = async () => {
+        if (archived) {
+            setLoadingState('updating', true);
+            try {
+                await archivedManyLinks({
+                    payload: archived,
+                    options: {
+                        successMessage: `Successfully archived all`
+                    }
+                });
+                doFind();
+                setArchived([]);
+            } catch (error) {
+                handleError({ error });
+            } finally {
+                setLoadingState('updating', false);
+            }
+        }
+    };
+
+    const handleCheckboxChange = (id: string, isChecked: boolean) => {
+        if (isChecked) {
+            setArchived((prevSelected) => [...prevSelected, id]);
+        } else {
+            setArchived((prevSelected) => prevSelected.filter((qrId) => qrId !== id));
+        }
+    };
 
     return (
         <LinkArchiveComponent
@@ -30,6 +67,9 @@ const LinkArchiveContainer = () => {
             updateLink={updateLink}
             setLoadingState={setLoadingState}
             findAllLinks={findAllLinks}
+            archived={archived}
+            handleCheckboxChange={handleCheckboxChange}
+            handleArchivedMany={handleArchivedMany}
         />
     );
 };

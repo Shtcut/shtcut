@@ -9,12 +9,21 @@ import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
 export const linkApi = api.injectEndpoints({
     endpoints: (builder) => ({
         findAllLinks: builder.query<ApiResponse<LinkNameSpace.Link[]>, QueryArgs>({
-            query: (params: QueryArgs) =>
-                ({
-                    url: SHTNER.links,
-                    params
-                }) as unknown as FetchArgs,
-            providesTags: [linkTag]
+            query: (params) => ({
+                url: SHTNER.links,
+                params
+            }),
+
+            providesTags: (result) =>
+                result?.data
+                    ? [
+                          // Tag for each individual link
+                          ...result.data.map(({ id }) => ({ type: 'Link', id })),
+                          // Tag for the entire list
+                          { type: 'Link', id: 'LIST' }
+                      ]
+                    : // Fallback if no data
+                      [{ type: 'Link', id: 'LIST' }]
         }),
 
         getLink: builder.query<ApiResponse<LinkNameSpace.Link>, Record<string, any>>({
@@ -58,18 +67,29 @@ export const linkApi = api.injectEndpoints({
             },
             invalidatesTags: [linkTag]
         }),
-
         deleteLink: builder.mutation<Dict, { payload: { id: string } }>({
             query: ({ payload }) => ({
                 url: `${SHTNER.links}/${payload.id}`,
                 method: DELETE
             }),
-            invalidatesTags: [linkTag]
+            // Invalidates both the deleted item and the full list
+            invalidatesTags: (result, error, { payload }) => [
+                { type: 'Link', id: payload.id }, // Specific deleted item
+                { type: 'Link', id: 'LIST' } // Entire list
+            ]
         }),
         deleteManyLinks: builder.mutation<Dict, { payload: { ids: string[] } }>({
             query: ({ payload }) => ({
                 url: `${SHTNER.links}/delete/many`,
                 method: DELETE,
+                body: payload
+            }),
+            invalidatesTags: [linkTag]
+        }),
+        archivedManyLinks: builder.mutation<Dict, { payload: { ids: string[] } }>({
+            query: ({ payload }) => ({
+                url: `${SHTNER.links}/toggle-archive/many`,
+                method: POST,
                 body: payload
             }),
             invalidatesTags: [linkTag]
@@ -122,6 +142,7 @@ export const {
     useGetLinkQuery,
     useUpdateArchivedLinkMutation,
     useSubmitLinkPasswordMutation,
+    useArchivedManyLinksMutation,
     endpoints: {
         createLink,
         findAllLinks,
@@ -133,6 +154,7 @@ export const {
         fetchMetadata,
         visitLink,
         updateArchivedLink,
-        submitLinkPassword
+        submitLinkPassword,
+        archivedManyLinks
     }
 } = linkApi;
