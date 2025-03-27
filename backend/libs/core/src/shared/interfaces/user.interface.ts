@@ -1,21 +1,22 @@
-import { Types } from 'mongoose';
+import { Document } from 'mongoose';
 
-export interface User {
-    _id: Types.ObjectId;
-    publicId: string;
-    email: string;
-    firstName: string;
-    lastName: string;
+export interface AuthUser {
+    _id: string | any;
+    publicId?: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    [key: string]: any;
 }
 
 declare global {
     namespace Express {
         interface User {
-            _id: Types.ObjectId;
-            publicId: string;
-            email: string;
-            firstName: string;
-            lastName: string;
+            _id: string | any;
+            publicId?: string;
+            email?: string;
+            firstName?: string;
+            lastName?: string;
         }
     }
 }

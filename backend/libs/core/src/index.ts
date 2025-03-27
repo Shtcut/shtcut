@@ -6,4 +6,4 @@ export * from './models';
 export * from './worker';
 export * from './shared.module';
 export * from './core.module';
-export * from './guards/workspace.guard';
+export * from './shared/guards/workspace.guard';

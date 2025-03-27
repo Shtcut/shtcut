@@ -29,7 +29,7 @@ import {
 } from 'shtcut/core';
 import * as _ from 'lodash';
 import lang from 'shtcut/core/lang';
-import { WorkspaceGuard } from '../../guards/workspace.guard';
+import { WorkspaceGuard } from '../../shared/guards/workspace.guard';
 
 @ApiTags('Common API')
 export abstract class BaseController {

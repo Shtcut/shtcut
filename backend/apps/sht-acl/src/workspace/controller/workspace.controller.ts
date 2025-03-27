@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
-import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto, AppException, NOT_FOUND } from 'shtcut/core';
+import { AppController, CreateWorkspaceDto, JwtAuthGuard, OK, UpdateWorkspaceDto, AppException, NOT_FOUND, WorkspaceGuard } from 'shtcut/core';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
 import { WorkspaceService } from '../service/workspace.service';
