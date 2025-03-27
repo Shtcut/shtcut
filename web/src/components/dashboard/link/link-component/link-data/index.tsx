@@ -1,12 +1,10 @@
-import StarLoader from '@shtcut/components/loader/star-loader';
-import React, { Dispatch, SetStateAction, useState } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import LinkListedComponent from '../../link-listed-component';
 import { FindAllLinkResresponseType, LinkNameSpace } from '@shtcut/_shared/namespace/link';
 import { ModalType } from '@shtcut/types/types';
 import PaginationTable from '@shtcut/components/pagination';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { skeletonRows } from '@shtcut/components/card-skeleton';
-import { Button } from '@shtcut-ui/react';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 
 interface LinkDataComponentProps {

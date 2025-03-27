@@ -23,7 +23,8 @@ const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
         setIsLoading(true);
         const password = value.password;
         try {
-            await submitPassword({ alias: aliasQuery, password }).unwrap();
+            const res = await submitPassword({ alias: aliasQuery, password }).unwrap();
+            console.log('res', res);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -33,14 +34,17 @@ const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
     const { isSuccess } = submitPasswordResponse;
 
     useEffect(() => {
-        if (isSuccess) {
-            const target = submitPasswordResponse?.data?.data?.target;
-            if (target) {
-                router.push(target);
-            }
-            return;
+        if (!isSuccess) return;
+        const expiryDate = submitPasswordResponse?.data?.data?.expiryDate;
+        const target = submitPasswordResponse?.data?.data?.target;
+        const isExpired = expiryDate ? new Date(expiryDate) < new Date() : false;
+
+        if (isExpired) {
+            router.push(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
+        } else if (target) {
+            router.push(target);
         }
-    }, [isSuccess, submitPasswordResponse]);
+    }, [isSuccess, submitPasswordResponse, router]);
 
     return (
         <div className="flex items-center justify-center h-screen">
