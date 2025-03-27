@@ -22,6 +22,7 @@ const LinkBioCard = ({
     const router = useRouter();
     const pathName = usePathname();
     const { handleCopy } = useCopyToClipboard();
+    console.log('data', data);
     return (
         <Card
             className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  "

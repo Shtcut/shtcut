@@ -29,8 +29,8 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                             )}
 
                             <section>
-                                <h1 className="font-semibold text-center text-white ">Sammy Jackson</h1>
-                                <p className=" text-center text-white ">Co-Founder</p>
+                                <h1 className="font-semibold text-center text-white ">{linkData?.title}</h1>
+                                <p className=" text-center text-white ">{linkData?.description}</p>
                             </section>
                         </div>
                     </section>
