@@ -41,7 +41,7 @@ const Modal = ({
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className={`bg-white max-w-md  py-4  cursor-default rounded-lg shadow ${className ? className : ''}`}
+                        className={`bg-white w-[500px]  py-4  cursor-default rounded-lg shadow ${className ? className : ''}`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {others}

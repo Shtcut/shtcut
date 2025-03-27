@@ -139,7 +139,7 @@ const MediaComponent = () => {
                     setModal(false);
                     setEdit(false);
                 }}
-                className="bg-white relative max-w-[436px] h-fit"
+                className="bg-white relative max-w-[800px] h-fit"
             >
                 {edit ? (
                     <section className="p-4">
