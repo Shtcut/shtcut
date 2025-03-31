@@ -4,28 +4,28 @@ import requestIp from 'request-ip';
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
-    const alias = url.pathname.slice(1);
+    const pathAlias = url.pathname.slice(1);
+    const queryAlias = url.searchParams.get('alias');
+    const alias = queryAlias || pathAlias;
     const detectedIp = requestIp.getClientIp(request as any);
 
-    if (isIgnoredPath(alias)) {
+    if (!alias || isIgnoredPath(alias)) {
         return NextResponse.next();
     }
 
     if (alias) {
-        console.log('alias', alias);
         const response = await fetchTargetUrl(alias);
         if (response) {
             const { target, isPrivate, expiryDate } = response;
 
+            if (expiryDate && new Date(expiryDate) < new Date()) {
+                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
+            }
             // Check if the link has password
             if (isPrivate) {
                 return NextResponse.redirect(
                     `${process.env.NEXT_PUBLIC_URL}/link-password?alias=${encodeURIComponent(alias)}`
                 );
-            }
-            // Check if the link has expired
-            if (expiryDate && new Date(expiryDate) < new Date()) {
-                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
             }
 
             if (target) {

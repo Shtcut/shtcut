@@ -96,6 +96,11 @@ const WorkspaceLayout = ({ children }: any) => {
         setSelectedTabIndex(index);
     };
 
+    const currentTab = navigationOptions?.find((link) => link.href === pathName);
+    const pathSegment = pathName.split('/').pop() || '';
+    const dynamicTitle = pathSegment.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+    const breadcrumbText = currentTab?.title || dynamicTitle || 'Links';
+
     return (
         <div className=" w-full h-screen flex">
             <div className="bg-white w-12  z-50 h-full fixed">
@@ -137,9 +142,9 @@ const WorkspaceLayout = ({ children }: any) => {
                             <h1 className="font-semibold text-sm">{title}</h1>
                         </div>
                         <div className="flex items-center gap-x-2">
-                            <p className="text-[#898384] text-xs font-semibold">Link Shortener</p>
+                            <p className="text-[#898384] text-xs font-semibold">Url Shortener</p>
                             <ChevronRight size={14} />
-                            <p className="text-primary-0 text-xs font-semibold">Links</p>
+                            <p className="text-primary-0 text-xs font-semibold">{breadcrumbText}</p>
                         </div>
                     </div>
                     {!isSideBarOpen && (
