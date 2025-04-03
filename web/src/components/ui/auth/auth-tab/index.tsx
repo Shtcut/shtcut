@@ -111,7 +111,6 @@ export const AuthTabs = () => {
             if (!isVerifiedEmail) {
                 push(routes.verify);
             } else {
-                // todo trigger current logged in user
                 push(routes.workspace);
             }
         }
