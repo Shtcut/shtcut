@@ -9,7 +9,6 @@ import { useForm } from 'react-hook-form';
 import AddDomainsForm from './add-domain-form';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import { ConfigurationInfo } from './component';
-import { dummyData } from '@shtcut/_shared/data';
 
 const DomainsComponent = ({
     handleModalShow,

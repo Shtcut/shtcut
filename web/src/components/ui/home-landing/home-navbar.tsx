@@ -20,7 +20,6 @@ export const HomeNavbar = () => {
     const [isOverlayVisible, setOverlayVisible] = useState(false);
     const [isDrawerVisible, setDrawerVisible] = useState(false);
     const toggleDrawer = () => setDrawerVisible(!isDrawerVisible);
-
     const mobile = width !== undefined && width <= 768;
     const { scrollToPricing } = usePricingNavigation();
     const { authData } = useAuth();

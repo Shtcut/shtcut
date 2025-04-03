@@ -12,7 +12,6 @@ export async function middleware(request: NextRequest) {
     if (!alias || isIgnoredPath(alias)) {
         return NextResponse.next();
     }
-
     if (alias) {
         const response = await fetchTargetUrl(alias);
         if (response) {
