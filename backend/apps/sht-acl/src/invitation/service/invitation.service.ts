@@ -19,7 +19,6 @@ import { InvitationEmail } from '../invitation.email';
 import { ConfigService } from '@nestjs/config';
 import lang from '../../../lang';
 import { Request } from 'express';
-import { WorkspaceModel, WorkspaceDocument as WorkspaceModelDocument } from 'shtcut/core/models/workspace/workspace.schema';
 
 @Injectable()
 export class InvitationService extends MongoBaseService {
@@ -79,11 +78,8 @@ export class InvitationService extends MongoBaseService {
         token: token ?? Utils.generateCode(20, true),
       }));
 
-
       // Save invitations first
       const savedInvites = await this.model.insertMany(invitations, { session });
-
-
 
       // Check if we're in a transaction from workspace creation
       const isPartOfTransaction = !!session;
@@ -98,15 +94,16 @@ export class InvitationService extends MongoBaseService {
           // Create a copy of the object without the session
           const objCopy = { ...obj };
 
-          this.processInvitationsBackgroundSafe(savedInvites, objCopy, workspaceId)
-            .catch(err => console.error("Background invitation processing error:", err));
+          this.processInvitationsBackgroundSafe(savedInvites, objCopy, workspaceId).catch((err) =>
+            console.error('Background invitation processing error:', err),
+          );
         }, 1000); // Wait 1 second to ensure transaction is fully committed
 
         return savedInvites;
       } else {
         // For direct API calls, process immediately with workspace lookup first
         const inviteeWorkspace = await this.workspaceModel.findOne({
-          ...Utils.conditionWithDelete({ _id: workspace, active: true })
+          ...Utils.conditionWithDelete({ _id: workspace, active: true }),
         });
 
         await this.processInvitations(savedInvites, obj);
@@ -132,7 +129,6 @@ export class InvitationService extends MongoBaseService {
       const { email, token, _id } = invitation;
       const link = `${obj.redirectLink}?email=${email}&workspace=${inviteeWorkspace._id}&token=${token}`;
 
-
       if (inviteeWorkspace) {
         inviteeWorkspace.members.push(_id);
       } else {
@@ -149,7 +145,6 @@ export class InvitationService extends MongoBaseService {
   // New method for background processing without sessions
   private async processInvitationsBackgroundSafe(savedInvites: any[], obj: any, workspaceId: string) {
     try {
-
       // Find the workspace without using the original session
       const inviteeWorkspace = await this.workspaceModel.findOne({ _id: new Types.ObjectId(workspaceId) });
 
@@ -169,7 +164,7 @@ export class InvitationService extends MongoBaseService {
         const link = `${obj.redirectLink}?email=${email}&workspace=${inviteeWorkspace._id}&token=${token}`;
 
         // Add member if not already there
-        if (!inviteeWorkspace.members.some(m => m.toString() === _id.toString())) {
+        if (!inviteeWorkspace.members.some((m) => m.toString() === _id.toString())) {
           inviteeWorkspace.members.push(_id);
         }
 
@@ -177,14 +172,14 @@ export class InvitationService extends MongoBaseService {
         this.sendInvitationEmail({
           email,
           workspace: inviteeWorkspace.name,
-          link
+          link,
         });
       }
 
       // Save workspace
       await inviteeWorkspace.save();
     } catch (error) {
-      console.error("Error in background invitation processing:", error);
+      console.error('Error in background invitation processing:', error);
     }
   }
 
