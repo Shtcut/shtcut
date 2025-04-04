@@ -27,8 +27,6 @@ import { HitService } from '../../hit';
 import * as _ from 'lodash';
 import { Request } from 'express';
 
-
-
 @Injectable()
 export class QrCodeService extends MongoBaseService {
   protected lang = lang;
@@ -143,7 +141,7 @@ export class QrCodeService extends MongoBaseService {
           slug: Utils.slugifyText(obj.title),
           workspace: obj.workspace, // Pass workspace ID from request object
           isSlugAvailable: true,
-          user: req.user._id
+          user: req.user['_id'],
         };
 
         switch (type) {
@@ -377,6 +375,4 @@ export class QrCodeService extends MongoBaseService {
       message: data.message ?? lang.get('qrcodes').created,
     };
   }
-
-
 }

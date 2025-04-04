@@ -231,11 +231,11 @@ export class WorkspaceService extends MongoBaseService {
           );
           workspaceModules = userModule
             ? [
-              {
-                workspaceName: workspace.name,
-                modules: [...new Set([...userModule.modules, module])],
-              },
-            ]
+                {
+                  workspaceName: workspace.name,
+                  modules: [...new Set([...userModule.modules, module])],
+                },
+              ]
             : workspaceModules;
           user.modules = [...user.modules, ...workspaceModules];
         } else {
@@ -271,7 +271,7 @@ export class WorkspaceService extends MongoBaseService {
       const isMember = await this.memberModel.findOne({
         workspace: id,
         user: userFromToken._id,
-        deleted: false
+        deleted: false,
       });
 
       if (!isOwner && !isMember) {
@@ -279,10 +279,7 @@ export class WorkspaceService extends MongoBaseService {
       }
 
       // Reset all workspaces for this user and set the current one
-      await this.model.updateMany(
-        { user: userFromToken._id },
-        { $set: { isCurrent: false } }
-      );
+      await this.model.updateMany({ user: userFromToken._id }, { $set: { isCurrent: false } });
 
       workspace.isCurrent = true;
       await workspace.save();
@@ -292,7 +289,7 @@ export class WorkspaceService extends MongoBaseService {
 
       return {
         ...workspace.toJSON(),
-        isOwner
+        isOwner,
       };
     } catch (e) {
       throw e;
@@ -329,8 +326,6 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
-
-
   // async createWorkspace(payload, userId) {
   //   // Check if this is the user's first workspace
   //   const existingWorkspaces = await this.model.find({ user: userId });
@@ -353,7 +348,7 @@ export class WorkspaceService extends MongoBaseService {
   async findCurrentWorkspace(userId: string) {
     return this.model.findOne({
       user: userId,
-      isCurrent: true
+      isCurrent: true,
     });
   }
 }
