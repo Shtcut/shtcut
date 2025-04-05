@@ -198,7 +198,7 @@ export class EmailService {
       if (options.attachments && options.attachments.length) {
         message['attachments'] = options.attachments;
       }
-      return resend.emails.send(message).then((res) => console.log('res:::', res));
+      return resend.emails.send(message);
     } catch (e) {
       Logger.error(`resend-err::${e}`);
       throw e;

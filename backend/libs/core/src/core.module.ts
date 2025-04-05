@@ -21,7 +21,6 @@ import { RedisModule } from './worker';
     RedisModule.forRootAsync({
       imports: [ConfigModule],
       useFactory: (config: ConfigService) => {
-        console.log('host:::', config.get('app.redis.host'));
         return {
           host: config.get('app.redis.host'),
           port: config.get('app.redis.port'),

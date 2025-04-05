@@ -41,7 +41,6 @@ export class WorkspaceGuard implements CanActivate {
     try {
       const cacheKey = `workspace_${userId}`;
       let currentWorkspace = await this.redisService.get(cacheKey);
-      console.log('currentWorkspace:::', currentWorkspace);
       request.workspace = currentWorkspace;
       if (currentWorkspace) {
         return true;

@@ -329,7 +329,6 @@ export class MongoBaseService extends BaseAbstract {
   ): Promise<{ value: any; count: number }> {
     // Add workspace filter to query if user has current workspace
     const workspaceId = this.getCurrentWorkspaceId(req);
-    console.log('workspaceId:::', workspaceId);
     if (workspaceId && !queryParser.query.workspace) {
       queryParser.query.workspace = JSON.parse(workspaceId);
     }

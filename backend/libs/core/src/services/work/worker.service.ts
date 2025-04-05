@@ -19,7 +19,6 @@ export class WorkService {
    * properties:
    */
   public queueToSendEmail(option: MailOption) {
-    console.log('option:::', option);
     const emailJob = new EmailJob()
       .setFrom(option.fromEmail)
       .setTo(option.emailName)
