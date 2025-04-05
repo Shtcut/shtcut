@@ -52,7 +52,7 @@ export class WorkspaceGuard implements CanActivate {
         throw AppException.FORBIDDEN('You must select a current workspace to access this feature');
       }
       const workspace = workspaces.find((w) => w.isDefault) || workspaces[0];
-      currentWorkspace = workspace._id;
+      currentWorkspace = workspace._id as string;
       await this.redisService.set(cacheKey, currentWorkspace);
       request.workspace = currentWorkspace;
       return true;
