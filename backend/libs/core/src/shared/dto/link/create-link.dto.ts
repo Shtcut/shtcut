@@ -11,6 +11,10 @@ export class CreateLinkDto {
 
   @IsString()
   @IsOptional()
+  public readonly workspace: string;
+
+  @IsString()
+  @IsOptional()
   public readonly target: string;
 
   @IsString()
@@ -28,10 +32,6 @@ export class CreateLinkDto {
   @IsMongoId()
   @IsOptional()
   public readonly user: string;
-
-  @IsMongoId()
-  @IsOptional()
-  public readonly workspace: string;
 
   @IsMongoId()
   @IsOptional()
