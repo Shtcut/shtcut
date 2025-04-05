@@ -1,11 +1,11 @@
 import { Body, Controller, Get, HttpCode, Next, Param, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { AppController, CreateDomainDto, JwtAuthGuard, OK } from 'shtcut/core';
+import { AppController, CreateDomainDto, JwtAuthGuard, OK, WorkspaceGuard } from 'shtcut/core';
 import { DomainService } from '../service/domain.service';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
 import * as _ from 'lodash';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, WorkspaceGuard)
 @Controller('domains')
 export class DomainController extends AppController {
   constructor(

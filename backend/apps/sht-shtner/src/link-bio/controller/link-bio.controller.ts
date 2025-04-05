@@ -1,9 +1,9 @@
 import { Controller, UseGuards } from '@nestjs/common';
-import { AppController, JwtAuthGuard } from 'shtcut/core';
+import { AppController, JwtAuthGuard, WorkspaceGuard } from 'shtcut/core';
 import { LinkBioService } from '../service/link-bio.service';
 import { ConfigService } from '@nestjs/config';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, WorkspaceGuard)
 @Controller('link-bios')
 export class LinkBioController extends AppController {
   constructor(
