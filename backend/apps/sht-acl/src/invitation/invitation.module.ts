@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Invitation, InvitationSchema, WorkerModule, Workspace, WorkspaceSchema } from 'shtcut/core';
 import { InvitationController, InvitationService } from './index';
-import { WorkspaceModel } from 'shtcut/core/models/workspace/workspace.schema';
 import { ConfigService } from '@nestjs/config';
 
 @Module({
@@ -17,5 +16,4 @@ import { ConfigService } from '@nestjs/config';
   providers: [InvitationService, ConfigService],
   exports: [InvitationService],
 })
-export class InvitationModule {
-}
+export class InvitationModule {}
