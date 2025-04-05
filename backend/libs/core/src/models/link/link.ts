@@ -160,6 +160,12 @@ export class Link {
   isPrivate: boolean;
 
   @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isCustomAlias: boolean;
+
+  @Prop({
     type: Number,
     default: 0,
   })
@@ -228,6 +234,7 @@ LinkSchema.statics.config = () => {
       'enableTracking',
       'password',
       'isPrivate',
+      'isCustomAlias',
       'utmParams',
       'devices',
       'geo',
@@ -238,6 +245,7 @@ LinkSchema.statics.config = () => {
       'title',
       'tags',
       'metadata',
+      'isCustomAlias',
       'description',
       'expiryDate',
       'password',

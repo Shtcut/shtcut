@@ -48,7 +48,7 @@ export abstract class BaseController {
     protected config: ConfigService,
     protected service: MongoBaseService,
     protected key?: string,
-  ) { }
+  ) {}
 
   @Get('/unique/:key')
   @HttpCode(OK)
@@ -70,7 +70,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('/')
   @HttpCode(CREATED)
   public async create(
@@ -101,8 +101,8 @@ export abstract class BaseController {
           const messageObj =
             this.service.entity.config.uniques.length > 0
               ? this.service.entity.config.uniques.map((m: string) => ({
-                [m]: `${m} must be unique`,
-              }))
+                  [m]: `${m} must be unique`,
+                }))
               : null;
 
           const appError = new AppException(CONFLICT, lang.get('app').duplicate, messageObj);
@@ -113,8 +113,6 @@ export abstract class BaseController {
         if (checkError) {
           return next(checkError);
         }
-
-
 
         value = await this.service.createNewObject(reqObj, undefined, req);
       }
@@ -133,13 +131,11 @@ export abstract class BaseController {
     }
   }
 
-
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
-      // Log workspace and user ID from guards =
       const queryParser = new QueryParser(Object.assign({}, req.query));
       const pagination = new Pagination(req.originalUrl, this.service.baseUrl, this.service.itemsPerPage);
 
@@ -167,7 +163,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Get('/:id')
   @HttpCode(OK)
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
@@ -195,7 +191,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Patch('/:id')
   @HttpCode(OK)
   public async patch(
@@ -236,7 +232,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Put('/:id')
   @HttpCode(OK)
   public async update(
@@ -281,7 +277,7 @@ export abstract class BaseController {
     }
   }
 
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @UseGuards(JwtAuthGuard)
   @Delete('/:id')
   @HttpCode(OK)
   public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {

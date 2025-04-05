@@ -1,24 +1,7 @@
-import { Logger } from '@nestjs/common';
 import { Request } from 'express';
 import * as _ from 'lodash';
-import mongoose, { ClientSession } from 'mongoose';
+import { ClientSession } from 'mongoose';
 import { AppException, BaseAbstract, Dict, Pagination, QueryParser, RedisService, Utils } from 'shtcut/core';
-import { User } from 'shtcut/core';
-import { Types } from 'mongoose';
-
-function getUserId(user: any): Types.ObjectId | undefined {
-  return user?._id;
-}
-
-/**
- * Gets the current workspace ID from the user object in the request or the request itself
- */
-function getCurrentWorkspaceId(req?: Request): string | null | undefined {
-  if (!req?.user) return undefined;
-
-  // Use type assertion to access the property
-  return (req as any).currentWorkspace?.toString() || null;
-}
 
 export class MongoBaseService extends BaseAbstract {
   /**
@@ -106,12 +89,8 @@ export class MongoBaseService extends BaseAbstract {
         localSession.startTransaction();
       }
 
-      // Check if workspace is present in the object
-      const workspaceId = obj.workspace;
-
       // Fill object properties and set workspace
       const payload = this.fillObjectProperties(obj);
-      payload.workspace = workspaceId;
 
       // Log the collection name before saving
       const data = new this.model({
@@ -120,11 +99,6 @@ export class MongoBaseService extends BaseAbstract {
       });
 
       const savedData = await this.saveDataToDatabase(data, localSession || session);
-
-      // After saving, populate the workspace if it exists
-      if (savedData.workspace) {
-        await savedData.populate('workspace');
-      }
 
       if (localSession) {
         await localSession.commitTransaction();
@@ -175,9 +149,7 @@ export class MongoBaseService extends BaseAbstract {
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
 
-    const condition = Utils.isObjectId(id) ?
-      { _id: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) } :
-      { publicId: id, ...(getUserId(req?.user) ? { user: getUserId(req?.user) } : {}) };
+    const condition = Utils.isObjectId(id) ? { _id: id } : { publicId: id };
 
     return await this.model.findOneAndUpdate(
       { ...condition },
@@ -210,16 +182,16 @@ export class MongoBaseService extends BaseAbstract {
    * @returns the result of calling the `saveDataToDatabase` function with the `session` parameter.
    */
   public async patchUpdate(current: any, obj: Record<string, any>, session?: ClientSession, req?: Request) {
-    // Check if user owns the resource
-    if (current.user.toString() !== getUserId(req?.user)?.toString()) {
-      throw AppException.FORBIDDEN('Not authorized to update this resource');
-    }
-
     const toFill: string[] = this.entity.config.updateFillables;
     obj = toFill && toFill.length > 0 ? _.pick(obj, ...toFill) : { ...obj };
     _.merge(current, obj);
 
     return this.saveDataToDatabase(session);
+  }
+
+  private getCurrentWorkspaceId(req?: Request): string | null | undefined {
+    if (!req?.user) return undefined;
+    return (req as any).workspace || null;
   }
 
   /**
@@ -235,17 +207,6 @@ export class MongoBaseService extends BaseAbstract {
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
     const condition = this.buildFindObjectCondition(id, req);
 
-    if (req?.user) {
-      const userId = getUserId(req.user);
-      if (userId) {
-        condition.user = userId;
-      }
-
-      const workspaceId = getCurrentWorkspaceId(req);
-      if (workspaceId) {
-        condition.workspace = workspaceId;
-      }
-    }
     const cacheKey = this.getCacheKey(id);
     let object = await this.getCacheObject(cacheKey);
 
@@ -266,22 +227,10 @@ export class MongoBaseService extends BaseAbstract {
    * Builds conditions for finding objects, now including workspace filtering
    */
   private buildFindObjectCondition(id: unknown, req?: Request): Dict {
-    const condition: Dict = Utils.conditionWithDelete(
-      Utils.isObjectId(id) ? { _id: id } : { publicId: id }
-    );
-
-    // Add user filter if user exists in request
-    if (req?.user) {
-      const userId = getUserId(req.user);
-      if (userId) {
-        condition.user = userId;
-      }
-
-      // Add workspace filter if user has current workspace
-      const workspaceId = getCurrentWorkspaceId(req);
-      if (workspaceId) {
-        condition.workspace = workspaceId;
-      }
+    const condition: Dict = Utils.conditionWithDelete(Utils.isObjectId(id) ? { _id: id } : { publicId: id });
+    const workspaceId = this.getCurrentWorkspaceId(req);
+    if (workspaceId) {
+      condition.workspace = workspaceId;
     }
 
     return condition;
@@ -346,7 +295,6 @@ export class MongoBaseService extends BaseAbstract {
   public async deleteObject(id: string, req?: Request) {
     const condition = {
       _id: id,
-      user: getUserId(req?.user)
     };
     const object = await this.model.findOne(condition);
     const cacheKey = this.getCacheKey(object);
@@ -379,21 +327,10 @@ export class MongoBaseService extends BaseAbstract {
     queryParser: QueryParser,
     req?: Request,
   ): Promise<{ value: any; count: number }> {
-    // Apply workspace population to ensure workspace data is included
-    this.applyWorkspacePopulation(queryParser);
-
     // Add workspace filter to query if user has current workspace
-    if (req?.user) {
-      const workspaceId = getCurrentWorkspaceId(req);
-      if (workspaceId && !queryParser.query.workspace) {
-        queryParser.query.workspace = workspaceId;
-      }
-
-      // Also add user filter for personal resources
-      const userId = getUserId(req.user);
-      if (userId && !queryParser.query.user) {
-        queryParser.query.user = userId;
-      }
+    const workspaceId = this.getCurrentWorkspaceId(req);
+    if (workspaceId && !queryParser.query.workspace) {
+      queryParser.query.workspace = JSON.parse(workspaceId);
     }
 
     // Continue with existing implementation
@@ -602,8 +539,8 @@ export class MongoBaseService extends BaseAbstract {
       if (_.isUndefined(object)) {
         object = !_.isEmpty(query)
           ? await this.model.findOne({
-            ...Utils.conditionWithDelete(query),
-          })
+              ...Utils.conditionWithDelete(query),
+            })
           : false;
 
         this.cacheObjectIfFound(object, cacheKey);
@@ -645,7 +582,7 @@ export class MongoBaseService extends BaseAbstract {
       try {
         const latestQuery = JSON.parse(query.latest);
         queryToExec.sort({ ...latestQuery });
-      } catch (e) { }
+      } catch (e) {}
     }
     return queryToExec.exec();
   }

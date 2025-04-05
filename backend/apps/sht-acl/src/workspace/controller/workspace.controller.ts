@@ -22,6 +22,8 @@ import {
   UpdateWorkspaceDto,
   AppException,
   NOT_FOUND,
+  CurrentUser,
+  Auth,
 } from 'shtcut/core';
 import { ConfigService } from '@nestjs/config';
 import { NextFunction, Request, Response } from 'express';
@@ -71,7 +73,6 @@ export class WorkspaceController extends AppController {
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    _.extend(req.query, { user: req.user['_id'] });
     return super.find(req, res, next);
   }
 
@@ -79,7 +80,6 @@ export class WorkspaceController extends AppController {
   @Get('/:id')
   @HttpCode(OK)
   public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    _.extend(req.query, { user: req.user['_id'] });
     return super.findOne(id, req, res, next);
   }
 
@@ -110,28 +110,29 @@ export class WorkspaceController extends AppController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/activate/:workspaceId')
+  @Get('/switch/:workspaceId')
   @HttpCode(OK)
   public async activateWorkspace(
+    @CurrentUser() authUser,
     @Param('workspaceId') id: string,
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
     try {
-      const workspace = await this.service.switchWorkspace(id, req.user);
+      const workspace = await this.service.switchWorkspace(id, authUser['_id']);
       if (!workspace) {
         throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);
       }
-
-      return res.status(OK).json({
-        meta: { statusCode: OK },
-        data: {
+      const response = await this.service.getResponse({
+        code: OK,
+        message: 'Workspace switched successfully',
+        value: {
           _id: workspace._id,
           name: workspace.name,
-          message: 'Workspace activated successfully',
         },
       });
+      return res.status(OK).json(response);
     } catch (err) {
       return next(err);
     }
@@ -142,7 +143,7 @@ export class WorkspaceController extends AppController {
   @HttpCode(OK)
   public async getCurrentWorkspace(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
-      const workspace = await this.service.findCurrentWorkspace(req.user._id.toString());
+      const workspace = await this.service.findCurrentWorkspace(req.user['_id'].toString());
 
       if (!workspace) {
         throw new AppException(NOT_FOUND, this.lang.get('workspace').noActiveWorkspace);

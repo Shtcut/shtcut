@@ -3,15 +3,16 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {
   AppException,
-  Auth,
   CreateInvitationDto,
   CreateWorkspaceDto,
   Dict,
   Invitation,
   InvitationDocument,
   MongoBaseService,
+  Pagination,
   Plan,
   PlanDocument,
+  QueryParser,
   RedisService,
   Subscription,
   SubscriptionDocument,
@@ -31,6 +32,7 @@ import { InvitationService } from '../../invitation';
 import lang from 'apps/sht-acl/lang';
 import { UserService } from '../../user';
 import { AuthService } from '../../auth';
+import { Request } from 'express';
 
 @Injectable()
 export class WorkspaceService extends MongoBaseService {
@@ -148,6 +150,12 @@ export class WorkspaceService extends MongoBaseService {
     }
   }
 
+  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
+    const user = req.user['_id'];
+    _.extend(queryParser.query, { user });
+    return super.buildModelQueryObject(pagination, queryParser, req);
+  }
+
   /**
    * The function updates a workspace object and creates a subscription if the module specified in the
    * update is not already included in the workspace's modules.
@@ -255,7 +263,7 @@ export class WorkspaceService extends MongoBaseService {
    * @param user The user object from the JWT token
    * @returns The workspace details with modules and subscriptions
    */
-  async switchWorkspace(id: string, userFromToken: any) {
+  async switchWorkspace(id: string, authId: string) {
     try {
       // Find workspace and verify access
       const workspace = await this.model.findOne({
@@ -267,25 +275,22 @@ export class WorkspaceService extends MongoBaseService {
       }
 
       // Verify ownership or membership
-      const isOwner = workspace.user.toString() === userFromToken._id.toString();
-      const isMember = await this.memberModel.findOne({
-        workspace: id,
-        user: userFromToken._id,
-        deleted: false,
-      });
+      const isOwner = workspace.user.toString() === authId.toString();
 
-      if (!isOwner && !isMember) {
-        throw AppException.FORBIDDEN(lang.get('workspace').notAuthorized);
+      if (!isOwner) {
+        throw AppException.FORBIDDEN(lang.get('workspace').unAuthorized);
       }
 
-      // Reset all workspaces for this user and set the current one
-      await this.model.updateMany({ user: userFromToken._id }, { $set: { isCurrent: false } });
+      await this.model.findOneAndUpdate(
+        { user: authId, isDefault: true, _id: { $ne: id } },
+        { $set: { isDefault: false } },
+        { ...Utils.mongoDefaultUpdateProps() },
+      );
 
-      workspace.isCurrent = true;
+      workspace.isDefault = true;
       await workspace.save();
 
-      // IMPORTANT: Save to Redis for the WorkspaceGuard to use
-      await this.redisService.set(`user:${userFromToken._id}:currentWorkspace`, workspace._id.toString());
+      await this.redisService.set(`workspace_${authId}`, workspace._id);
 
       return {
         ...workspace.toJSON(),

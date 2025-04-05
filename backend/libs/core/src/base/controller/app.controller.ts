@@ -1,6 +1,6 @@
 import { Body, Delete, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { BaseController } from './base.controller';
-import { Dict, JwtAuthGuard, OK } from 'shtcut/core';
+import { Dict, JwtAuthGuard, OK, WorkspaceGuard } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 
 export abstract class AppController extends BaseController {
@@ -63,13 +63,10 @@ export abstract class AppController extends BaseController {
     return super.remove(id, req, res, next);
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete('/delete/many')
   @HttpCode(OK)
   public async deleteMany(@Req() req, @Res() res, @Next() next: NextFunction) {
     return super.deleteMany(req, res, next);
-  }
-
-  protected async getResponse(data: { code: number; value: any; message?: string }) {
-    return this.service.getResponse(data);
   }
 }

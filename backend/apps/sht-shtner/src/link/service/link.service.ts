@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import lang from 'apps/sht-shtner/lang';
-import { ClientSession, Model } from 'mongoose';
+import mongoose, { ClientSession, Model } from 'mongoose';
 import {
   AppException,
   CreateLinkDto,
@@ -15,8 +15,10 @@ import {
   Link,
   LinkDocument,
   MongoBaseService,
+  Pagination,
   QrCode,
   QrCodeDocument,
+  QueryParser,
   RedisService,
   Tag,
   TagDocument,
@@ -115,6 +117,16 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  public async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
+    if (queryParser.query['withTags'] === 'true') {
+      _.extend(queryParser.query, { tags: { $exists: true, $not: { $size: 0 } } });
+    } else if (queryParser.query['withTags'] === 'false') {
+      _.extend(queryParser.query, { tags: { $size: 0 } });
+    }
+    queryParser.query = _.omit(queryParser.query, ['withTags']);
+    return super.buildModelQueryObject(pagination, queryParser, req);
+  }
+
   /**
    * The function creates a new object with additional properties, including generating an alias and
    * finding an associated domain, and saves it along with an associated QR code.
@@ -151,6 +163,10 @@ export class LinkService extends MongoBaseService {
       // Generate alias and find associated domain
       if (!obj.alias) {
         obj.alias = Utils.generateCode(7, true);
+      }
+
+      if (obj.alias) {
+        obj.isCustomAlias = true;
       }
 
       const domain = await this.domainModel.findOne({ ...Utils.conditionWithDelete({ _id: obj.domain }) });
@@ -338,7 +354,7 @@ export class LinkService extends MongoBaseService {
   public async analytic(linkId) {
     try {
       const link = await this.model.findOne({ _id: linkId }).populate(['domain']);
-    } catch (e) { }
+    } catch (e) {}
   }
 
   /**

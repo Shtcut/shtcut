@@ -115,7 +115,7 @@ export class LinkController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    return super.create(payload, req, res, next);
+    super.create(payload, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -128,7 +128,7 @@ export class LinkController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    return super.update(id, payload, req, res, next);
+    super.update(id, payload, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -141,7 +141,7 @@ export class LinkController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    return super.patch(id, payload, req, res, next);
+    super.patch(id, payload, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -203,9 +203,10 @@ export class LinkController extends AppController {
         value: {
           ids: toggledIds,
         },
-        message: toggledIds.length > 0
-          ? `Successfully toggled archive status for ${toggledIds.length} links`
-          : 'No links were modified'
+        message:
+          toggledIds.length > 0
+            ? `Successfully toggled archive status for ${toggledIds.length} links`
+            : 'No links were modified',
       });
       return res.status(OK).json(response);
     } catch (err) {
