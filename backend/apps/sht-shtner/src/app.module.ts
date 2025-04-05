@@ -2,7 +2,7 @@ import { configuration } from '@config';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
-import { App, AppSchema, Auth, AuthSchema, CoreModule } from 'shtcut/core';
+import { App, AppSchema, Auth, AuthSchema, CoreModule, Workspace, WorkspaceSchema } from 'shtcut/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -24,7 +24,10 @@ import { LinkBioModule } from './link-bio';
     QrCodeModule,
     PassportModule,
     PassportModule,
-    MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
+    MongooseModule.forFeature([
+      { name: Auth.name, schema: AuthSchema },
+      { name: Workspace.name, schema: WorkspaceSchema },
+    ]),
     JwtModule.registerAsync({
       useFactory: (config: ConfigService) => {
         return {

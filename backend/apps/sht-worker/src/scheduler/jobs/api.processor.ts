@@ -21,9 +21,6 @@ export class ApiProcessor extends WorkerHost {
         case QueueTasks.SEND_EMAIL:
           await this.sendEmail(payload);
           break;
-        case QueueTasks.TELEGRAM:
-          console.log('Telegram message sent:::', payload);
-          break;
         case QueueTasks.SEND_SMS:
           // todo send sms payload to queue
           break;

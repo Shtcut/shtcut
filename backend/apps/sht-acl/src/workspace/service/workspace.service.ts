@@ -137,7 +137,6 @@ export class WorkspaceService extends MongoBaseService {
 
       return workspace;
     } catch (e) {
-      console.log('err:', e);
       // Only abort if we created the transaction
       if (localSession) {
         await localSession.abortTransaction();
