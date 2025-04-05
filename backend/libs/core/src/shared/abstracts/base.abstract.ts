@@ -186,7 +186,7 @@ export abstract class BaseAbstract {
       obj = Object.assign(obj, {
         user: req.user._id,
         userId: req.user._id,
-        workspace: JSON.parse(req?.workspace ?? undefined),
+        workspace: req.workspace ? JSON.parse(req.workspace) : undefined,
       });
     }
     if (slugName && (!_.isEmpty(slugName) || !_.isNull(slugName) || !_.isUndefined(slugName))) {
