@@ -281,11 +281,7 @@ export class WorkspaceService extends MongoBaseService {
         throw AppException.FORBIDDEN(lang.get('workspace').unAuthorized);
       }
 
-      await this.model.findOneAndUpdate(
-        { user: authId, isDefault: true, _id: { $ne: id } },
-        { $set: { isDefault: false } },
-        { ...Utils.mongoDefaultUpdateProps({ new: false }) },
-      );
+      await this.model.updateMany({ user: authId, isDefault: true, _id: { $ne: id } }, { $set: { isDefault: false } });
 
       workspace.isDefault = true;
       await workspace.save();
