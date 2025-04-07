@@ -127,10 +127,7 @@ export class WorkspaceController extends AppController {
       const response = await this.service.getResponse({
         code: OK,
         message: 'Workspace switched successfully',
-        value: {
-          _id: workspace._id,
-          name: workspace.name,
-        },
+        value: workspace,
       });
       return res.status(OK).json(response);
     } catch (err) {
