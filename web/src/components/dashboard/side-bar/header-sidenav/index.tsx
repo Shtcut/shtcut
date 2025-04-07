@@ -28,8 +28,10 @@ const HeaderSideNav = ({
     const { findAllWorkspacesResponse } = useWorkspace({ callWorkspaces: true });
     const [open, setOpen] = React.useState(false);
     const { module, workspace } = useParams();
+    console.log('workspace', workspace);
     const router = useRouter();
     const activeWorkspace = findAllWorkspacesResponse?.find((data) => data.slug === workspace);
+    console.log('activeWorkspace', activeWorkspace);
     const activeWorkspaceName = activeWorkspace?.name || 'Default Workspace';
 
     const handleToggle = () => {

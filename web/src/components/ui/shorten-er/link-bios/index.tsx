@@ -33,6 +33,7 @@ const LinkBiosComponent = ({
     const pathName = usePathname();
     const [showDelete, setShowDeleteModal] = useState(false);
     const [linkbioId, setLinkBioId] = useState<string>('');
+    const emptyData = findAllLinkBioResponse && findAllLinkBioResponse?.data && findAllLinkBioResponse?.data.length > 0;
     const handleCloseModal = () => {
         setShowDeleteModal(false);
     };
@@ -109,16 +110,18 @@ const LinkBiosComponent = ({
                         No data available for {''}
                     </div>
                 )}
-                <section className="mt-6">
-                    <PaginationTable
-                        pageSize={pagination.perPage ?? 10}
-                        pageIndex={pagination.page - 1}
-                        handleOnChange={paginationActions.handlePageChange}
-                        totalItemsCount={findAllLinkBioResponse?.meta.pagination.totalCount ?? 0}
-                        setPageIndex={paginationActions.setPage}
-                        setPageSize={paginationActions.setPerPage}
-                    />
-                </section>
+                {emptyData && (
+                    <section className="mt-6">
+                        <PaginationTable
+                            pageSize={pagination.perPage ?? 10}
+                            pageIndex={pagination.page - 1}
+                            handleOnChange={paginationActions.handlePageChange}
+                            totalItemsCount={findAllLinkBioResponse?.meta.pagination.totalCount ?? 0}
+                            setPageIndex={paginationActions.setPage}
+                            setPageSize={paginationActions.setPerPage}
+                        />
+                    </section>
+                )}
             </section>
             <Modal setShowModal={setShowDeleteModal} onClose={handleCloseModal} showModel={showDelete}>
                 <DeleteComponent
