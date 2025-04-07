@@ -284,7 +284,7 @@ export class WorkspaceService extends MongoBaseService {
       await this.model.findOneAndUpdate(
         { user: authId, isDefault: true, _id: { $ne: id } },
         { $set: { isDefault: false } },
-        { ...Utils.mongoDefaultUpdateProps() },
+        { ...Utils.mongoDefaultUpdateProps({ new: false }) },
       );
 
       workspace.isDefault = true;
