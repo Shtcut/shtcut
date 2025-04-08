@@ -363,8 +363,7 @@ export class MongoBaseService extends BaseAbstract {
 
   private async executeQueryAndCacheResult(query, queryParser: QueryParser, cacheKey: string) {
     const object = await query.select(queryParser.selection).exec();
-    this.cacheObjectIfFound(object, cacheKey);
-
+    // this.cacheObjectIfFound(object, cacheKey);
     return object;
   }
 
