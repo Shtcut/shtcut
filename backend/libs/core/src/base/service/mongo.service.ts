@@ -330,7 +330,7 @@ export class MongoBaseService extends BaseAbstract {
     // Add workspace filter to query if user has current workspace
     const workspaceId = this.getCurrentWorkspaceId(req);
     if (workspaceId && !queryParser.query.workspace) {
-      queryParser.query.workspace = JSON.parse(workspaceId);
+      queryParser.query.workspace = workspaceId;
     }
 
     // Continue with existing implementation
@@ -351,11 +351,7 @@ export class MongoBaseService extends BaseAbstract {
     queryToExec = queryToExec.sort(sortQuery);
 
     const cacheKey = this.getCacheKey(req?.originalUrl ?? '');
-    let value = await this.getCacheObject(cacheKey, true);
-
-    if (_.isUndefined(value)) {
-      value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
-    }
+    const value = await this.executeQueryAndCacheResult(queryToExec, queryParser, cacheKey);
 
     const count = await this.getCountDocuments(queryParser);
 
