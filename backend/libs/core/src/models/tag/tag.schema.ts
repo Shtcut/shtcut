@@ -44,6 +44,13 @@ export class Tag {
   user: any;
 
   @Prop({
+    type: Types.ObjectId,
+    ref: 'Workspace',
+    select: false,
+  })
+  workspace: any;
+
+  @Prop({
     type: String,
     lowercase: true,
   })
@@ -64,8 +71,8 @@ TagSchema.statics.config = () => {
     idToken: 'tag',
     uniques: ['name', 'color', 'user', 'type'],
     returnDuplicate: true,
-    fillables: ['name', 'description', 'color', 'user', 'type'],
-    updateFillables: ['name', 'description', 'color', 'user'],
+    fillables: ['name', 'description', 'color', 'user', 'type', 'workspace'],
+    updateFillables: ['name', 'description', 'color', 'user', 'workspace'],
     hiddenFields: ['deleted'],
   };
 };
