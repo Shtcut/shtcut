@@ -4,7 +4,7 @@ import { useState } from 'react';
 export const useLinkFilters = (initialFilters?: Partial<LinkFilters>) => {
     const [filters, setFilters] = useState<LinkFilters>({
         isCustomAlias: null, // default to 'All'
-        tags: null,
+        withTags: null,
         creator: null,
         ...initialFilters
     });
@@ -15,9 +15,9 @@ export const useLinkFilters = (initialFilters?: Partial<LinkFilters>) => {
         { label: 'All', value: 'all' }
     ];
 
-    const standardOptions: FilterOption[] = [
-        { label: 'Option 1', value: 'option1' },
-        { label: 'Option 2', value: 'option2' },
+    const tagsOptions: FilterOption[] = [
+        { label: 'With Tags', value: 'true' },
+        { label: 'Without Tags', value: 'false' },
         { label: 'All', value: 'all' }
     ];
 
@@ -31,7 +31,7 @@ export const useLinkFilters = (initialFilters?: Partial<LinkFilters>) => {
     const resetFilters = () => {
         setFilters({
             isCustomAlias: null,
-            tags: null,
+            withTags: null,
             creator: null
         });
     };
@@ -42,7 +42,7 @@ export const useLinkFilters = (initialFilters?: Partial<LinkFilters>) => {
         resetFilters,
         filterOptions: {
             aliasOptions,
-            standardOptions
+            tagsOptions
         }
     };
 };

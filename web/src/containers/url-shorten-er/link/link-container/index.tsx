@@ -14,7 +14,7 @@ const LinkContainer = () => {
         () => ({
             archived: false,
             ...(filters.isCustomAlias !== null && { isCustomAlias: filters.isCustomAlias }),
-            ...(filters.tags && { tags: filters.tags }),
+            ...(filters.withTags !== null && { withTags: filters.withTags }),
             ...(filters.creator && { creator: filters.creator })
         }),
         [filters]
