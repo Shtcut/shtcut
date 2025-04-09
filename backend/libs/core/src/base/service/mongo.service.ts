@@ -206,15 +206,7 @@ export class MongoBaseService extends BaseAbstract {
    */
   public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
     const condition = this.buildFindObjectCondition(id, req);
-
-    const cacheKey = this.getCacheKey(id);
-    let object = await this.getCacheObject(cacheKey);
-
-    if (_.isUndefined(object)) {
-      object = await this.model.findOne(condition).populate(query?.population ?? []);
-      await this.cacheObjectIfFound(object, cacheKey);
-    }
-
+    const object = await this.model.findOne(condition).populate(query?.population ?? []);
     try {
       this.ensureObjectExists(object);
       return object as Dict;

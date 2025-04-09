@@ -19,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Record<string, any>) {
-    const auth = await this.authService.findObject(payload.sub);
+    const { auth } = await this.authService.findObject(payload.sub);
     if (!auth) {
       throw AppException.INVALID_TOKEN();
     }

@@ -122,7 +122,7 @@ export class AuthController {
   ) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
-      const { accessToken, auth } = await this.service.signUp(payload);
+      const { accessToken, auth, currentWorkspace } = await this.service.signUp(payload);
       const email = await AuthEmail.sendEmail({
         to: auth.email,
         from: this.config.get<string>('worker.email.sendgrid.fromEmail'),
@@ -134,7 +134,10 @@ export class AuthController {
         email,
         queryParser,
         code: OK,
-        value: auth,
+        value: {
+          ...auth,
+          currentWorkspace,
+        },
       });
       return res.status(OK).json(response);
     } catch (e) {
@@ -148,13 +151,16 @@ export class AuthController {
   public async signIn(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
-      const { accessToken, auth } = await this.service.signIn(req.user);
+      const { accessToken, auth, currentWorkspace } = await this.service.signIn(req.user);
       const response = await this.service.getResponse({
         token: accessToken,
         queryParser,
         code: OK,
         hiddenFields: ['verificationCodes', 'password'],
-        value: auth,
+        value: {
+          ...auth,
+          currentWorkspace,
+        },
       });
       return res.status(OK).json(response);
     } catch (e) {
