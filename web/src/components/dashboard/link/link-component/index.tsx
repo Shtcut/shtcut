@@ -31,6 +31,7 @@ import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
 import { useUpdateArchivedLinkMutation } from '@shtcut/services/link';
 import { handleError } from '@shtcut/_shared';
 import Modal from '@shtcut/components/modal';
+import { useWorkspace } from '@shtcut/hooks';
 
 const LinkComponent = ({
     findAllLinksResponse,
@@ -62,6 +63,7 @@ const LinkComponent = ({
 }: LinkComponentType) => {
     const { findAllTagsResponse } = useTags({ call: true });
     const [updateLinksArchived] = useUpdateArchivedLinkMutation();
+
     const dispatch = useAppDispatch();
     const qrCodeRef = useRef(null);
     const [modalType, setModalType] = useState<ModalType>(null);
@@ -76,6 +78,7 @@ const LinkComponent = ({
     const [tags, setTags] = useState<string[]>([]);
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(undefined);
     const currentWorkspace = useCurrentWorkSpace();
+    console.log('currentWorkspace,:::', currentWorkspace);
     const showDropdown = useSelector((state: RootState) => state.ui.showDropdown);
     const [ids, setIds] = useState<string[]>([]);
     const handleDateChange = (date: Date | undefined) => {
@@ -344,8 +347,13 @@ const LinkComponent = ({
         handleCloseLoading();
     };
 
+    const handleClick = (val: string, name: number) => {
+        console.log(`i have been clicked ${val} ${name}`);
+    };
+
     return (
         <section className=" ">
+            <button onClick={() => handleClick('michael', 10)}>hello clikc</button>
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Link </h1>
 

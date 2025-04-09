@@ -20,6 +20,11 @@ const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions;
     const [ids, setIds] = useState<string[]>([]);
     const [id, setId] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const emptyData =
+        qrState.findAllQrCodeResponse &&
+        qrState.findAllQrCodeResponse?.data &&
+        qrState.findAllQrCodeResponse?.data.length > 0;
+
     const handleCheckboxChange = (id: string, isChecked: boolean) => {
         if (isChecked) {
             setIds((prevSelected) => [...prevSelected, id]);
@@ -125,16 +130,18 @@ const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions;
                     </Link>
                 </div>
             )}
-            <section className="mt-6">
-                <PaginationTable
-                    pageSize={qrState.pagination.perPage ?? 10}
-                    pageIndex={qrState.pagination.page - 1}
-                    handleOnChange={qrActions.paginationActions.handlePageChange}
-                    totalItemsCount={qrState.findAllQrCodeResponse?.meta.pagination.totalCount ?? 0}
-                    setPageIndex={qrActions.paginationActions.setPage}
-                    setPageSize={qrActions.paginationActions.setPerPage}
-                />
-            </section>
+            {emptyData && (
+                <section className="mt-6">
+                    <PaginationTable
+                        pageSize={qrState.pagination.perPage ?? 10}
+                        pageIndex={qrState.pagination.page - 1}
+                        handleOnChange={qrActions.paginationActions.handlePageChange}
+                        totalItemsCount={qrState.findAllQrCodeResponse?.meta.pagination.totalCount ?? 0}
+                        setPageIndex={qrActions.paginationActions.setPage}
+                        setPageSize={qrActions.paginationActions.setPerPage}
+                    />
+                </section>
+            )}
             <Modal closeIcon={false} isOpen={showModal} onClose={() => setShowModal(false)} className=" w-96">
                 <DeleteComponent
                     isLoadingState={qrState.isLoadingState}

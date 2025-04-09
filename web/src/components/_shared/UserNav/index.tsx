@@ -16,6 +16,7 @@ import { LogOut, Settings, PanelRightOpen, ChevronDown, ChevronUp } from 'lucide
 import Link from 'next/link';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
+import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 
 export const UserNav = () => {
     const { loggedInUserData } = useUser({ callLoggedInUser: true });
@@ -44,7 +45,14 @@ export const UserNav = () => {
                             </span>
                         </div>
                     </div>
-                    <p className="text-xs font-medium text-[#433E3F]">{user?.firstName + ' ' + user?.lastName}</p>
+                    <p className="text-xs font-medium text-[#433E3F]">
+                        {user?.firstName && user?.lastName ? (
+                            `${user.firstName} ${user.lastName}`
+                        ) : (
+                            <SkeletonPlaceholder count={1} width="100px" height="31px" />
+                        )}
+                    </p>
+
                     {isOpen ? <ChevronUp size={15} /> : <ChevronDown size={15} />}
                 </div>
             </DropdownMenuTrigger>

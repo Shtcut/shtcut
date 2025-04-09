@@ -8,7 +8,6 @@ import { IconAlertCircle } from '@tabler/icons-react';
 import { get } from 'lodash';
 import { redirect, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-
 import { routes } from '@shtcut/_shared/utils/route';
 import BlurIn from '@shtcut/components/_shared/animations/blur-animation';
 import Tabs from '@shtcut/components/_shared/Tabs';
@@ -95,9 +94,9 @@ export const AuthTabs = () => {
             } else {
                 if (data) {
                     const { data: authData } = data || {};
-                    if (authData.workspaces && authData.workspaces.length > 0) {
-                        const { workspaces } = authData;
-                        redirect(`/url/${workspaces[0].slug}/links`);
+                    if (authData.currentWorkspace && authData.currentWorkspace.isDefault) {
+                        const { currentWorkspace } = authData;
+                        redirect(`/url/${currentWorkspace?.slug}/links`);
                     } else {
                         redirect(routes.workspace);
                     }

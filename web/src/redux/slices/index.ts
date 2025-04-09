@@ -6,6 +6,7 @@ import { api } from '@shtcut/_shared/api/app.api';
 import img from './media';
 import qrCodeReducer from './qr-code';
 import generalStateReduce from './selects';
+import workspaceReducer from './workspace';
 
 export default combineReducers({
     [api.reducerPath]: api.reducer,
@@ -13,5 +14,6 @@ export default combineReducers({
     ui,
     img,
     qrCode: qrCodeReducer,
-    generalStateReduce
+    generalStateReduce,
+    workspace: workspaceReducer
 });

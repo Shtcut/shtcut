@@ -41,6 +41,7 @@ const LinkDataComponent = ({
             setSelectedIds((prevSelected) => prevSelected.filter((qrId) => qrId !== id));
         }
     };
+    const emptyData = findAllLinksResponse && findAllLinksResponse?.data && findAllLinksResponse?.data.length > 0;
 
     return (
         <>
@@ -82,17 +83,18 @@ const LinkDataComponent = ({
                     No data available for {search}
                 </div>
             )}
-
-            <section className="mt-6">
-                <PaginationTable
-                    pageSize={pagination.perPage ?? 10}
-                    pageIndex={pagination.page - 1}
-                    handleOnChange={paginationActions.handlePageChange}
-                    totalItemsCount={findAllLinksResponse?.meta.pagination.totalCount ?? 0}
-                    setPageIndex={paginationActions.setPage}
-                    setPageSize={paginationActions.setPerPage}
-                />
-            </section>
+            {emptyData && (
+                <section className="mt-6">
+                    <PaginationTable
+                        pageSize={pagination.perPage ?? 10}
+                        pageIndex={pagination.page - 1}
+                        handleOnChange={paginationActions.handlePageChange}
+                        totalItemsCount={findAllLinksResponse?.meta.pagination.totalCount ?? 0}
+                        setPageIndex={paginationActions.setPage}
+                        setPageSize={paginationActions.setPerPage}
+                    />
+                </section>
+            )}
         </>
     );
 };

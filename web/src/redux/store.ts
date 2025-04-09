@@ -33,7 +33,6 @@ const createStore = (options?: ConfigureStoreOptions['preloadedState'] | undefin
                     ignoredActions: [FLUSH, PURGE, PAUSE, PERSIST, REGISTER]
                 }
             }).concat([api.middleware, appMiddleware] as any),
-        // }).concat([api.middleware, appMiddleware]),
         ...options
     });
 
