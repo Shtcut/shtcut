@@ -3,11 +3,23 @@
 import LinkComponent from '@shtcut/components/dashboard/link/link-component';
 import { useDomain } from '@shtcut/hooks/domain';
 import { useLink } from '@shtcut/hooks/link';
-import { useState } from 'react';
+import { useLinkFilters } from '@shtcut/hooks/link/use-filter-hook';
+import { useMemo, useState } from 'react';
 
 const LinkContainer = () => {
     const [url, setUrl] = useState('');
     const [search, setSearch] = useState('');
+    const { filters, updateFilter, filterOptions } = useLinkFilters();
+    const filter = useMemo(
+        () => ({
+            archived: false,
+            ...(filters.isCustomAlias !== null && { isCustomAlias: filters.isCustomAlias }),
+            ...(filters.tags && { tags: filters.tags }),
+            ...(filters.creator && { creator: filters.creator })
+        }),
+        [filters]
+    );
+
     const {
         findAllLinksResponse,
         isLoading,
@@ -34,27 +46,16 @@ const LinkContainer = () => {
     } = useLink({
         callLinks: true,
         search,
-        filter: {
-            archived: false
-        },
+        filter,
         url
     });
 
     const { findAllDomainsResponse } = useDomain({ callDomain: true });
+
     const onSearchChange = (value: string) => {
         setSearch(value);
         handleSearchChange(value);
-        // const newUrl = value ? `${pathName}?search=${encodeURIComponent(value)}` : `${pathName}`;
-        // router.replace(newUrl);
     };
-
-    // useEffect(() => {
-    //     const state = getParams.get('search');
-    //     if (state) {
-    //         setSearch(state as string);
-    //         handleSearchChange(state as string);
-    //     }
-    // }, [getParams]);
 
     return (
         <LinkComponent
@@ -84,7 +85,11 @@ const LinkContainer = () => {
             paginationActions={paginationActions}
             params={params}
             deleteManyLinks={deleteManyLinks}
+            filters={filters}
+            updateFilter={updateFilter}
+            filterOptions={filterOptions}
         />
     );
 };
+
 export default LinkContainer;
