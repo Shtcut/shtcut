@@ -130,7 +130,7 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
                 ...params
             });
         }
-    }, [callLinks, debouncedSearch, findAllLinks, pagination]);
+    }, [callLinks, debouncedSearch, findAllLinks, pagination, filter]);
 
     useEffect(() => {
         if (id) {

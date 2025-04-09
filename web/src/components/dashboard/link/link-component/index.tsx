@@ -59,7 +59,10 @@ const LinkComponent = ({
     paginationActions,
     handleCloseLoading,
     deleteManyLinks,
-    params
+    params,
+    filters,
+    updateFilter,
+    filterOptions
 }: LinkComponentType) => {
     const { findAllTagsResponse } = useTags({ call: true });
     const [updateLinksArchived] = useUpdateArchivedLinkMutation();
@@ -78,7 +81,6 @@ const LinkComponent = ({
     const [tags, setTags] = useState<string[]>([]);
     const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(undefined);
     const currentWorkspace = useCurrentWorkSpace();
-    console.log('currentWorkspace,:::', currentWorkspace);
     const showDropdown = useSelector((state: RootState) => state.ui.showDropdown);
     const [ids, setIds] = useState<string[]>([]);
     const handleDateChange = (date: Date | undefined) => {
@@ -353,7 +355,6 @@ const LinkComponent = ({
 
     return (
         <section className=" ">
-            <button onClick={() => handleClick('michael', 10)}>hello clikc</button>
             <div className="flex justify-between  items-center">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Link </h1>
 
@@ -368,7 +369,13 @@ const LinkComponent = ({
                 </Button>
             </div>
             <section>
-                <SearchFilterActions search={search} onSearchChange={onSearchChange} />
+                <SearchFilterActions
+                    search={search}
+                    onSearchChange={onSearchChange}
+                    filters={filters}
+                    updateFilter={updateFilter}
+                    filterOptions={filterOptions}
+                />
             </section>
 
             <LinkDataComponent

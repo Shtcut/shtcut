@@ -118,11 +118,17 @@ export interface LinkComponentType {
     pagination: UsePaginationState;
     paginationActions: UsePaginationActions;
     params: LinkParams;
+    filters: LinkFilters;
+    updateFilter: UpdateFilter;
+    filterOptions: FilterOptions;
 }
 
 export interface SearchType {
     search: string;
     onSearchChange: (value: string) => void;
+    filters: LinkFilters;
+    updateFilter: UpdateFilter;
+    filterOptions: FilterOptions;
 }
 
 // export type PathMatcher = Path;

@@ -51,3 +51,20 @@ export type LinksTab = {
     id: string;
     label: string;
 };
+type UpdateFilter = <K extends keyof LinkFilters>(key: K, value: LinkFilters[K]) => void;
+
+export interface LinkFilters {
+    isCustomAlias: boolean | null;
+    tags: string | null;
+    creator: string | null;
+}
+
+interface FilterOption {
+    label: string;
+    value: string;
+}
+
+export interface FilterOptions {
+    aliasOptions: FilterOption[];
+    standardOptions: FilterOption[];
+}
