@@ -55,7 +55,7 @@ type UpdateFilter = <K extends keyof LinkFilters>(key: K, value: LinkFilters[K])
 
 export interface LinkFilters {
     isCustomAlias: boolean | null;
-    tags: string | null;
+    withTags: boolean | null;
     creator: string | null;
 }
 
@@ -66,5 +66,5 @@ interface FilterOption {
 
 export interface FilterOptions {
     aliasOptions: FilterOption[];
-    standardOptions: FilterOption[];
+    tagsOptions: FilterOption[];
 }

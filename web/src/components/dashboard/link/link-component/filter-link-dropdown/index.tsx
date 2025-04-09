@@ -16,9 +16,13 @@ const FilterLinkDropDown = ({
         updateFilter('isCustomAlias', value === 'all' ? null : value === 'true');
     };
 
-    const handleStandardSelect = (type: 'tags' | 'creator', value: string) => {
-        updateFilter(type, value === 'all' ? null : value);
+    const handleWithTagsSelect = (value: string) => {
+        updateFilter('withTags', value === 'all' ? null : value === 'true');
     };
+
+    // const handleStandardSelect = (type: 'creator', value: string) => {
+    //     updateFilter(type, value === 'all' ? null : value);
+    // };
 
     return (
         <div>
@@ -58,14 +62,14 @@ const FilterLinkDropDown = ({
                             <section>
                                 <Label className="text-sm">Tags</Label>
                                 <Select
-                                    value={filters.tags || 'all'}
-                                    onValueChange={(value) => handleStandardSelect('tags', value)}
+                                    value={filters.withTags === null ? 'all' : filters.withTags.toString()}
+                                    onValueChange={handleWithTagsSelect}
                                 >
                                     <SelectTrigger className="text-sm text-[#2B3034] shadow-none mt-2">
                                         <SelectValue placeholder="Tags" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {filterOptions?.standardOptions.map((option) => (
+                                        {filterOptions?.tagsOptions.map((option) => (
                                             <SelectItem
                                                 key={option.value}
                                                 value={option.value}
@@ -78,7 +82,7 @@ const FilterLinkDropDown = ({
                                 </Select>
                             </section>
 
-                            <section>
+                            {/* <section>
                                 <Label className="text-sm">Creator</Label>
                                 <Select
                                     value={filters.creator || 'all'}
@@ -88,7 +92,7 @@ const FilterLinkDropDown = ({
                                         <SelectValue placeholder="Creator" />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        {filterOptions?.standardOptions.map((option) => (
+                                        {filterOptions?.tagsOptions.map((option) => (
                                             <SelectItem
                                                 key={option.value}
                                                 value={option.value}
@@ -99,7 +103,7 @@ const FilterLinkDropDown = ({
                                         ))}
                                     </SelectContent>
                                 </Select>
-                            </section>
+                            </section> */}
                         </section>
                     </section>
                 </DropdownMenuContent>
