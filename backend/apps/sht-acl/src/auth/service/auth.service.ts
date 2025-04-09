@@ -7,8 +7,10 @@ import {
   Auth,
   AuthDocument,
   ChangePasswordDto,
+  Dict,
   MongoBaseService,
   PasswordResetDto,
+  QueryParser,
   ResetCodeDto,
   ResponseOption,
   SendVerificationDto,
@@ -28,6 +30,7 @@ import * as bcrypt from 'bcrypt';
 import * as _ from 'lodash';
 import lang from 'apps/sht-acl/lang';
 import { UserService } from '../../user';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService extends MongoBaseService {
@@ -121,8 +124,14 @@ export class AuthService extends MongoBaseService {
     const workspaces = await this.workspaceModel
       .find({ ...Utils.conditionWithDelete({ user: auth._id }) })
       .select(['_id', 'name', 'slug']);
+    const currentWorkspace = await this.currentUserWorkspace(auth);
     const accessToken = this.jwtService.sign(payload);
-    return { accessToken, auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON(), workspaces } };
+    return {
+      accessToken,
+      auth: { ...(_.omit(auth, ['password']) as Auth), ...user?.toJSON() },
+      workspaces,
+      currentWorkspace,
+    };
   }
 
   public async sendVerification(resendVerification: SendVerificationDto) {
@@ -249,6 +258,21 @@ export class AuthService extends MongoBaseService {
     auth.password = await bcrypt.hash(payload.password, 10);
     auth.verificationCodes = _.omit({ ...auth.verificationCodes }, ['resetPassword']);
     return await auth.save();
+  }
+
+  public async findObject(id: unknown, query?: QueryParser | Record<string, any>, req?: Request) {
+    const auth = await super.findObject(id, query);
+    const workspace = await this.currentUserWorkspace(auth);
+    return {
+      auth,
+      workspace,
+    };
+  }
+
+  public async currentUserWorkspace(auth) {
+    const workspace = await this.workspaceModel.find({ user: auth._id });
+    const currentWorkspace = workspace.find((w) => w.isDefault) || workspace[0];
+    return currentWorkspace;
   }
 
   public async cannotResetPassword(authData: { code: string; expiration: Date }, { code }: { code: string }) {
