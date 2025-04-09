@@ -1,11 +1,8 @@
 import { Button } from '@shtcut-ui/react';
 import { SearchType } from '@shtcut/_shared/namespace/link';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
-import { Archive, Download, Filter, PencilLine, Trash2 } from 'lucide-react';
-import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import React from 'react';
-import { IoEllipsisVerticalSharp } from 'react-icons/io5';
 import { PiSortDescendingBold } from 'react-icons/pi';
 import ImportLinkDropDown from '../link-component/import-link-dropdown';
 import FilterLinkDropDown from '../link-component/filter-link-dropdown';

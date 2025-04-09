@@ -126,9 +126,9 @@ export interface LinkComponentType {
 export interface SearchType {
     search: string;
     onSearchChange: (value: string) => void;
-    filters: LinkFilters;
-    updateFilter: UpdateFilter;
-    filterOptions: FilterOptions;
+    filters?: LinkFilters;
+    updateFilter?: UpdateFilter;
+    filterOptions?: FilterOptions;
 }
 
 // export type PathMatcher = Path;
