@@ -294,3 +294,19 @@ textarea {
     display: block;
     font-size: 0;
 }
+
+@keyframes blurMove {
+    0% {
+        transform: translateX(-100%);
+        filter: blur(5px);
+    }
+    100% {
+        transform: translateX(100%);
+        filter: blur(5px);
+    }
+}
+
+.animate-blur {
+    animation: blurMove 2s infinite;
+    background: rgba(255, 255, 255, 0.3);
+}

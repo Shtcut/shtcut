@@ -15,6 +15,7 @@ import { RiSurveyFill } from 'react-icons/ri';
 import { ChevronRight } from 'lucide-react';
 import NavTabs from '@shtcut/components/ui/nav-bar';
 import { useWorkspace } from '@shtcut/hooks';
+import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 
 type SideNavItem = {
     id: string;
@@ -37,7 +38,7 @@ const WorkspaceLayout = ({ children }: any) => {
     const router = useRouter();
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-    const { findAllWorkspacesResponse } = useWorkspace({ callWorkspaces: true });
+    const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
     const workSpaceNav = findAllWorkspacesResponse?.find((ws) => ws.slug === workspace);
     const workspaceString = Array.isArray(workspace) ? workspace.join('') : workspace;
 
@@ -103,40 +104,49 @@ const WorkspaceLayout = ({ children }: any) => {
 
     return (
         <div className=" w-full h-screen flex">
-            <div className="bg-white w-12  z-50 h-full fixed">
+            <div className="bg-white w-12  z-40 h-full fixed">
                 <div className="h-[63px] bg-white flex items-center justify-center">
                     <Image src={'/images/shtcut-logo-icon.png'} width={24} height={24} alt="shtcut logo" />
                 </div>
                 <div className="flex flex-col items-center gap-y-2 mt-2">
-                    {sideNav.map((navs) => (
-                        <TooltipProvider key={navs.id} delayDuration={0}>
-                            <Tooltip>
-                                <TooltipTrigger>
-                                    <div
-                                        className={`p-2 rounded-md cursor-pointer ${
-                                            workspace === workspaceString
-                                                ? 'bg-[#E5EDFD] text-primary-0'
-                                                : 'bg-transparent'
-                                        }`}
-                                        onClick={() => handleNavigation(navs.url, navs.id)}
-                                    >
-                                        {navs.id === '4' ? (
-                                            <Image src={navs.img as string} width={20} height={20} alt="workspace" />
-                                        ) : (
-                                            navs.icon
-                                        )}
-                                    </div>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <Label className="font-light text-xs">{navs.title}</Label>
-                                </TooltipContent>
-                            </Tooltip>
-                        </TooltipProvider>
-                    ))}
+                    {findAllWorkspacesLoading ? (
+                        <SkeletonPlaceholder width="40px" height="40px" count={4} />
+                    ) : (
+                        sideNav.map((navs) => (
+                            <TooltipProvider key={navs.id} delayDuration={0}>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <div
+                                            className={`p-2 rounded-md cursor-pointer ${
+                                                workspace === workspaceString
+                                                    ? 'bg-[#E5EDFD] text-primary-0'
+                                                    : 'bg-transparent'
+                                            }`}
+                                            onClick={() => handleNavigation(navs.url, navs.id)}
+                                        >
+                                            {navs.id === '4' ? (
+                                                <Image
+                                                    src={navs.img as string}
+                                                    width={20}
+                                                    height={20}
+                                                    alt="workspace"
+                                                />
+                                            ) : (
+                                                navs.icon
+                                            )}
+                                        </div>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <Label className="font-light text-xs">{navs.title}</Label>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                        ))
+                    )}
                 </div>
             </div>
             <div className="relative ml-12 w-full">
-                <div className="bg-white px-6 flex items-center flex-1 w-full justify-between border-b h-[63px] z-50 fixed">
+                <div className="bg-white px-6 flex items-center flex-1 w-full justify-between border-b h-[63px] z-40 fixed">
                     <div className="w-1/3  flex items-center justify-between bg-red">
                         <div>
                             <h1 className="font-semibold text-sm">{title}</h1>
@@ -166,7 +176,13 @@ const WorkspaceLayout = ({ children }: any) => {
                 </div>
                 <section className="flex   w-full">
                     {isSideBarOpen && (
-                        <SideBar workSpaceTitle={title} setIsOpen={setIsOpen} isOpen={isOpen} isTab={isTab} />
+                        <SideBar
+                            workSpaceTitle={title}
+                            setIsOpen={setIsOpen}
+                            isOpen={isOpen}
+                            isTab={isTab}
+                            findAllWorkspacesLoading={findAllWorkspacesLoading}
+                        />
                     )}
                     <div
                         className={`w-full  relative ${isSideBarOpen ? `${isOpen ? 'ml-[15rem]' : 'ml-[4rem]'}` : ''} p-6 `}

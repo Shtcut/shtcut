@@ -1,6 +1,6 @@
 import { FetchArgs } from '@reduxjs/toolkit/query';
 import { api } from '@shtcut/_shared/api/app.api';
-import { ACL, DELETE, POST, PUT } from '@shtcut/_shared/constant';
+import { ACL, DELETE, GET, POST, PUT } from '@shtcut/_shared/constant';
 import { workspaceTag } from '../tags';
 import { Dict } from '@shtcut-ui/react';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
@@ -62,6 +62,14 @@ export const workspaceApi = api.injectEndpoints({
                 };
             },
             invalidatesTags: [workspaceTag]
+        }),
+        switchWorkspace: builder.query<any, string>({
+            query: (id: string) =>
+                ({
+                    url: `${ACL.workspace}/switch/${id}`,
+                    method: GET
+                }) as unknown as FetchArgs,
+            providesTags: [workspaceTag]
         })
     })
 });
@@ -73,5 +81,14 @@ export const {
     useGetWorkspaceQuery,
     useUpdateWorkspaceMutation,
     useDeleteWorkspaceMutation,
-    endpoints: { createWorkspace, findAllWorkspaces, searchOneWorkspace, getWorkspace, updateWorkspace, deleteWorkspace }
+    useLazySwitchWorkspaceQuery,
+    endpoints: {
+        createWorkspace,
+        findAllWorkspaces,
+        searchOneWorkspace,
+        getWorkspace,
+        updateWorkspace,
+        deleteWorkspace,
+        switchWorkspace
+    }
 } = workspaceApi;
