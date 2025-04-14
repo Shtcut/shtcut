@@ -1,8 +1,35 @@
-import { Button, Input, Label } from '@shtcut-ui/react';
-import React from 'react';
-import { Image as ImageIcon } from 'lucide-react';
+import { Button } from '@shtcut-ui/react';
+import React, { useState } from 'react';
+import Tabs from '@shtcut/components/_shared/Tabs';
+import TeamForm from '@shtcut/components/ui/work-space/workspace-main/team-form';
+import { ModuleUi } from '@shtcut/components/ui/work-space/workspace-main/steps-ui';
+import InviteForm from '@shtcut/components/ui/work-space/workspace-main/invite-form';
+import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 
-const CreateWorkSpace = () => {
+const CreateWorkSpace = ({
+    form,
+    workspaceType,
+    setWorkspaceType,
+    moduleValues,
+    onSubmit,
+    isLoading,
+    handleOnSelectModule
+}: any) => {
+    const [selectedTabIndex, setSelectedTabIndex] = useState(0);
+    const tabs = [
+        { id: 'team', label: 'Team' },
+        { id: 'personal', label: 'Personal' }
+    ];
+
+    const handleTabClick = (index: number) => {
+        setSelectedTabIndex(index);
+        if (selectedTabIndex === 0) {
+            setWorkspaceType('personal');
+        } else if (selectedTabIndex === 1) {
+            setWorkspaceType('team');
+        }
+    };
+
     return (
         <div className="px-6 py-2">
             <div>
@@ -10,29 +37,38 @@ const CreateWorkSpace = () => {
                 <p className="text-sm mt-2 text-[#475467]">
                     Add users and roles, give them more access select an option.
                 </p>
+                <section className="mt-4">
+                    <Tabs tabs={tabs} selectedTabIndex={selectedTabIndex} onTabClick={handleTabClick} />
+                </section>
 
-                <section className="mt-6 flex flex-col gap-4 w-full">
-                    <section className="flex flex-col gap-2 w-full border-b pb-4">
-                        <p className="text-sm">Workspace Name</p>
-                        <Input />
+                <section className="mt-4 flex flex-col gap-4 w-full">
+                    <section className="flex flex-col gap-2 w-full ">
+                        <TeamForm form={form} userValue={workspaceType} />
                     </section>
-                    <section className="flex flex-col gap-2 w-full border-b pb-4">
-                        <p className="text-sm">Workspace Color/Image</p>
-                        <section className="flex justify-between items-center">
-                            <section className="w-10 h-10 flex items-center justify-center border border-[#B5B3B3] bg-[#fafafa] rounded-sm">
-                                <ImageIcon size={14} color="#B5B3B3" />
-                            </section>
-                            <Button className="h-9 text-xs rounded bg-primary-0">Add Image</Button>
+                    {selectedTabIndex === 0 && (
+                        <section className="mt-6">
+                            <InviteForm form={form} />
                         </section>
+                    )}
+                    <section className={`${workspaceType === 'personal' ? 'mt-6' : 'mt-2'}`}>
+                        <ModuleUi
+                            handleSelect={handleOnSelectModule}
+                            modules={moduleValues}
+                            userValue={workspaceType}
+                            uiUpdate={true}
+                        />
                     </section>
-                    <div className=" pb-20">
-                        <p className="text-sm ">Integrations</p>
-                    </div>
-                    <section className="flex w-full border-t py-10 items-center gap-4">
+                    <section className="flex w-full mt-6  items-center gap-4">
                         <Button variant={'outline'} className="h-9 text-xs rounded w-full">
                             Cancel
                         </Button>
-                        <Button className="h-9 text-xs bg-primary-0 rounded w-full">Save</Button>
+                        <LoadingButton
+                            loading={isLoading}
+                            className="h-9 text-xs bg-primary-0 rounded w-full"
+                            onClick={onSubmit}
+                        >
+                            Save
+                        </LoadingButton>
                     </section>
                 </section>
             </div>

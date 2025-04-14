@@ -13,6 +13,7 @@ interface ModalProps {
     others?: ReactNode;
     border?: boolean;
     closeIcon?: boolean;
+    noStyle?: boolean;
 }
 
 const Modal = ({
@@ -23,7 +24,8 @@ const Modal = ({
     className,
     title,
     border = false,
-    closeIcon = true
+    closeIcon = true,
+    noStyle = true
 }: ModalProps) => {
     return (
         <AnimatePresence>
@@ -41,14 +43,16 @@ const Modal = ({
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className={`bg-white w-[500px]  py-4  cursor-default rounded-lg shadow ${className ? className : ''}`}
+                        className={`bg-white  ${noStyle ? 'py-4' : 'py-0'}   cursor-default rounded-lg shadow ${className ? className : 'w-[500px]'}`}
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {others}
-                        <div className={`flex ${border ? 'border-b' : ''} justify-between items-center px-4 pb-4`}>
-                            <h1 className="font-semibold text-[15px]">{title}</h1>
-                            {closeIcon && <X onClick={onClose} size={16} className="cursor-pointer" />}
-                        </div>
+                        {/* {others} */}
+                        {noStyle && (
+                            <div className={`flex ${border ? 'border-b' : ''} justify-between items-center px-4 pb-4`}>
+                                <h1 className="font-semibold text-[15px]">{title}</h1>
+                                {closeIcon && <X onClick={onClose} size={16} className="cursor-pointer" />}
+                            </div>
+                        )}{' '}
                         {children}
                     </motion.div>
                 </motion.div>

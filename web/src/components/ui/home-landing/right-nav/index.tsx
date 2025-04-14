@@ -18,7 +18,7 @@ const RightNavComponent = ({ authData, mobile, isUndefined, workspace, routes, s
             {!isEmpty(authData) && !isUndefined(authData) ? (
                 <>
                     <RouteLink
-                        href={`/url/${workspace}/overview`}
+                        href={`/url/${workspace}/links`}
                         className={cn(
                             buttonVariants(),
                             'bg-blue-600 h-8 text-sm rounded-full px-3  transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'

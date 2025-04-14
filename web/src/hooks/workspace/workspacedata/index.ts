@@ -7,8 +7,6 @@ import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
 
 export const useWorkspaceData = () => {
     const dispatch = useAppDispatch();
-
-    // Fetch non-default workspaces
     const {
         findAllWorkspacesResponse,
         triggerSwitchWorkspace,
@@ -19,8 +17,6 @@ export const useWorkspaceData = () => {
         callSwitchWorkspace: true,
         filter: { isDefault: false }
     });
-
-    // Fetch default workspace
     const { findAllWorkspacesResponse: findWorkSpaceData, triggerWorkspaces: triggerDefaultWorkspace } = useWorkspace({
         callWorkspaces: true,
         callSwitchWorkspace: true,
@@ -35,19 +31,15 @@ export const useWorkspaceData = () => {
     }, [findWorkSpaceData, dispatch]);
 
     const activeWorkspace = useSelector((state: RootState) => state.workspace.activeWorkspace);
-    const activeWorkspaceName = activeWorkspace?.name ?? findWorkSpaceData?.[0]?.name;
 
+    const activeWorkspaceName = activeWorkspace?.name ?? findWorkSpaceData?.[0]?.name;
     return {
         // Data
         findAllWorkspacesResponse,
         findWorkSpaceData,
         activeWorkspace,
         activeWorkspaceName,
-
-        // Loading states
         switchWorkspaceLoading,
-
-        // Methods
         triggerSwitchWorkspace,
         triggerWorkspaces: () => {
             triggerNonDefaultWorkspaces();

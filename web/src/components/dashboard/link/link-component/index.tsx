@@ -1,4 +1,4 @@
-import { Button, Form, Separator, Modal as ShadModal, toast } from '@shtcut-ui/react';
+import { Button, Form, Separator, toast } from '@shtcut-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import SearchFilterActions from '../search-filter-actions';
 import { usePathname, useRouter } from 'next/navigation';
@@ -391,12 +391,12 @@ const LinkComponent = ({
                 selectedIds={ids}
                 handleDeleteMany={handleDeleteMany}
             />
-            <ShadModal
-                showModel={showDropdown}
-                setShowModal={onCloseModal}
-                className="h-[80%] max-w-screen-lg"
+            <Modal
+                isOpen={showDropdown}
+                className="h-[80%] max-w-screen-lg p-0 py-0"
                 onClose={onCloseModal}
-                showCloseIcon
+                closeIcon={false}
+                noStyle={false}
             >
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className=" h-screen relative">
@@ -441,10 +441,10 @@ const LinkComponent = ({
                                     </div>
                                 </div>
                             </div>
-                            <Separator orientation="vertical" className="h-full" />
+                            <Separator orientation="vertical" className="h-[80%] p-0 py-0" />
                             <div className=" h-full overflow-y-auto w-4/5">
                                 <h1 className="font-semibold px-14 py-6   border-b  ">Advanced Options</h1>
-                                <div className="px-14 py-6 pb-16 h-[75%] cursor-not-allowed overflow-y-auto flex flex-col gap-5">
+                                <div className="px-14 py-6  h-[70%] cursor-not-allowed overflow-y-auto flex flex-col gap-5">
                                     <CustomSocialMedia
                                         preview={preview}
                                         setPreview={setPreview}
@@ -471,7 +471,7 @@ const LinkComponent = ({
                         </div>
                     </form>
                 </Form>
-            </ShadModal>
+            </Modal>
             <Modal onClose={handleCloseModal} isOpen={showSections} closeIcon={false} className="w-96 p-0 py-0">
                 {modalType === 'deleteModal' && singleLink && (
                     <DeleteComponent

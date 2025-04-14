@@ -39,7 +39,7 @@ const FilterLinkDropDown = ({
                             <section>
                                 <Label className="text-sm">Alias</Label>
                                 <Select
-                                    value={filters.isCustomAlias === null ? 'all' : filters.isCustomAlias.toString()}
+                                    value={filters?.isCustomAlias === null ? 'all' : filters?.isCustomAlias?.toString()}
                                     onValueChange={handleAliasSelect}
                                 >
                                     <SelectTrigger className="text-sm text-[#2B3034] shadow-none mt-2">
@@ -62,7 +62,7 @@ const FilterLinkDropDown = ({
                             <section>
                                 <Label className="text-sm">Tags</Label>
                                 <Select
-                                    value={filters.withTags === null ? 'all' : filters.withTags.toString()}
+                                    value={filters?.withTags === null ? 'all' : filters?.withTags?.toString()}
                                     onValueChange={handleWithTagsSelect}
                                 >
                                     <SelectTrigger className="text-sm text-[#2B3034] shadow-none mt-2">

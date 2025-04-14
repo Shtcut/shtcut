@@ -7,7 +7,12 @@ export async function middleware(request: NextRequest) {
     const pathAlias = url.pathname.slice(1);
     const queryAlias = url.searchParams.get('alias');
     const alias = queryAlias || pathAlias;
-    const detectedIp = requestIp.getClientIp(request as any);
+
+    const forwarded = request.headers.get('x-forwarded-for');
+    const fullIp = forwarded?.split(',')[0]?.trim() || 'Unknown';
+
+    console.log('Visitor IP:', fullIp);
+    console.log('forwarded IP:', forwarded);
 
     if (!alias || isIgnoredPath(alias)) {
         return NextResponse.next();
@@ -44,5 +49,6 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
     // runtime: 'edge',
-    unstable_allowDynamic: ['**/node_modules/lodash/_root.js']
+    unstable_allowDynamic: ['**/node_modules/lodash/_root.js'],
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
 };

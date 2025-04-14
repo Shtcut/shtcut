@@ -39,7 +39,12 @@ const WorkSpaceMain = ({
                         <>
                             {' '}
                             {step === 2 && (
-                                <ModuleUi handleSelect={handleSelect} modules={modules} userValue={userValue} />
+                                <ModuleUi
+                                    handleSelect={handleSelect}
+                                    modules={modules}
+                                    userValue={userValue}
+                                    uiUpdate={false}
+                                />
                             )}
                             {step === 3 && <InviteForm form={form} />}
                         </>
@@ -48,7 +53,12 @@ const WorkSpaceMain = ({
                         <>
                             {' '}
                             {step === 2 && (
-                                <ModuleUi handleSelect={handleSelect} modules={modules} userValue={userValue} />
+                                <ModuleUi
+                                    handleSelect={handleSelect}
+                                    modules={modules}
+                                    userValue={userValue}
+                                    uiUpdate={false}
+                                />
                             )}
                         </>
                     )}

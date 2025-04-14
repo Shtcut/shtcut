@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, FormControl, FormField, FormItem, Input } from '@shtcut-ui/react';
+import { FormControl, FormField, FormItem, Input } from '@shtcut-ui/react';
 import { Plus, Minus } from 'lucide-react';
 
 const InviteForm = ({ form }: { form: any }) => {
@@ -49,11 +49,11 @@ const InviteForm = ({ form }: { form: any }) => {
                     </div>
                 </div>
             ))}
-            <div className="flex justify-end ">
+            {/* <div className="flex justify-end ">
                 <Button className="text-primary-0" variant={'ghost'}>
                     + Get a shareable link
                 </Button>
-            </div>
+            </div> */}
         </div>
     );
 };
