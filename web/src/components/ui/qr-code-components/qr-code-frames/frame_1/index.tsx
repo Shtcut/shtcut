@@ -6,7 +6,6 @@ import { QRCode } from 'react-qrcode-logo';
 const Frame_1 = () => {
     const { presetColorString, tabParams, borderColor, urlScan } = useGeneralState();
     const { state } = useQrCodeState();
-    console.log('urlScan', urlScan);
     return (
         <div className="h-full flex flex-col justify-center">
             <div className={` border-[3.2px]  w-fit rounded-[6px]`} style={{ borderColor: borderColor }}>

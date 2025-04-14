@@ -150,7 +150,9 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
                             <Image src={state?.logo as string} width={50} height={50} alt="qr-code" />
                         </div>
                     )}
-                    <section className={` ${state?.selectedFrame === 3 && !state?.logo ? 'mt-20' : ''} `}>
+                    <section
+                        className={`flex flex-col items-center ${state?.selectedFrame === 3 && !state?.logo ? 'mt-20' : ''} `}
+                    >
                         <FrameComponents />
                     </section>
                     <section className={`my-5 relative w-full ${state?.selectedFrame === 3 ? 'mt-24' : ''}`}>

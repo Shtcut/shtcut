@@ -14,6 +14,7 @@ import BlurOverlay from '@shtcut/components/global-overlay';
 import { useState } from 'react';
 import MenuDrawer from './menu-drawer';
 import usePricingNavigation from '@shtcut/hooks/usePricing-navigation';
+import { useWorkspaceData } from '@shtcut/hooks/workspace/workspacedata';
 
 export const HomeNavbar = () => {
     const { width } = useWindowSize();
@@ -23,7 +24,7 @@ export const HomeNavbar = () => {
     const mobile = width !== undefined && width <= 768;
     const { scrollToPricing } = usePricingNavigation();
     const { authData } = useAuth();
-    const workspace = authData?.workspaces?.[0]?.slug;
+    const { activeWorkspace } = useWorkspaceData();
     const handleMouseEnter = () => setOverlayVisible(true);
     const handleMouseLeave = () => setOverlayVisible(false);
 
@@ -52,7 +53,7 @@ export const HomeNavbar = () => {
                             <RightNavComponent
                                 mobile={mobile}
                                 routes={routes}
-                                workspace={workspace}
+                                workspace={activeWorkspace?.slug}
                                 authData={authData}
                                 isUndefined={isUndefined}
                                 scrollToPricing={scrollToPricing}

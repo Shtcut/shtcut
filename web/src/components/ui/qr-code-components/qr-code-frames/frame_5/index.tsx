@@ -8,7 +8,7 @@ const Frame_5 = () => {
     const { presetColorString, tabParams, borderColor, urlScan } = useGeneralState();
     const { state } = useQrCodeState();
     return (
-        <div className="h-full flex flex-col justify-center">
+        <div className="h-full flex flex-col justify-center items-center">
             <div className={` border-[3.2px]   w-fit rounded-t-[6px]`} style={{ borderColor: borderColor }}>
                 <QRCode
                     id="shtcut-qrcode"

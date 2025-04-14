@@ -90,7 +90,7 @@ export const PopoverMenu = ({ id, archived, qrCode, domain: { slug }, alias }: P
         action: handleToggleArchiving,
         title: !isArchived ? 'Archive Link?' : 'Unarchive Link?',
         description: !isArchived
-            ? 'Archived links will still work - they just won\'t show up on your main page.'
+            ? "Archived links will still work - they just won't show up on your main page."
             : 'By unarchiving this link, it will show up on your main page again.',
         confirmMessage: !isArchived ? 'Yes, archive' : 'Yes, unarchive',
         close: (!openPopover && closeDrawer) || (!openDrawer && closePopOver)

@@ -9,6 +9,7 @@ import { UsePaginationActions, UsePaginationState } from '@shtcut/types/paginati
 import PaginationTable from '@shtcut/components/pagination';
 import DeleteComponent from '@shtcut/components/dashboard/link/link-component/delete-modal';
 import SearchFilterActions from '@shtcut/components/dashboard/link/search-filter-actions';
+import { SearchInput } from '@shtcut/components/dashboard/nav-component';
 
 const LinkBiosComponent = ({
     findAllLinkBioResponse,
@@ -81,11 +82,11 @@ const LinkBiosComponent = ({
                     className="bg-primary-0 text-xs h-8 rounded "
                     onClick={() => router.push(`${pathName}/create-link-bio`)}
                 >
-                    Create New Link
+                    Create New Link-Bio
                 </Button>
             </div>
-            <section>
-                <SearchFilterActions search={search} onSearchChange={onSearchChange} />
+            <section className="mt-4">
+                <SearchInput onChange={(e) => onSearchChange(e.target.value)} value={search} />
             </section>
             <section>
                 {linkBioLoading ? (
