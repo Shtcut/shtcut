@@ -8,7 +8,6 @@ import { skeletonRows } from '@shtcut/components/card-skeleton';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import PaginationTable from '@shtcut/components/pagination';
 import DeleteComponent from '@shtcut/components/dashboard/link/link-component/delete-modal';
-import SearchFilterActions from '@shtcut/components/dashboard/link/search-filter-actions';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
 
 const LinkBiosComponent = ({
