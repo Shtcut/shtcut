@@ -1,4 +1,4 @@
-import { Button, Modal, toast } from '@shtcut-ui/react';
+import { Button, Modal as ShadModal, toast } from '@shtcut-ui/react';
 
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -6,7 +6,7 @@ import MembersTable from '../../members/members-table';
 import { SearchInput } from '../../nav-component';
 import { Filter } from 'lucide-react';
 import { PiSortDescendingBold } from 'react-icons/pi';
-import { useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { users } from '@shtcut/_shared/data';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import RolesTable from '@shtcut/components/workspace-table';
@@ -21,6 +21,9 @@ import { useCreateInviteMutation } from '@shtcut/services/members';
 import StarLoader from '@shtcut/components/loader/star-loader';
 import { useRole } from '@shtcut/hooks/roles';
 import { RolesDataResponse } from '@shtcut/types/workspace';
+import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
+import { useCreateWorkspace } from '@shtcut/hooks/current-workspace/create-workspace';
+import Modal from '@shtcut/components/modal';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
@@ -35,6 +38,18 @@ const WorkspaceScreen = () => {
     const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
     const [createInvite, { isLoading }] = useCreateInviteMutation();
     const { findRolesResponse } = useRole({ callRoles: true });
+    const {
+        handleOnSelectModule,
+        workspaceType,
+        form: workspaceForm,
+        isLoading: workspaceLoading,
+        moduleValues,
+        onSubmit,
+        setWorkspaceType,
+        setShowModal,
+        showModal: workspaceShowModal,
+        handleModalClose
+    } = useCreateWorkspace();
     const addInput = () => {
         if (emailsInput.length < 10) {
             setEmailsInput([...emailsInput, '']);
@@ -160,7 +175,9 @@ const WorkspaceScreen = () => {
                             <section className="h-12 flex items-center w-full px-4 border border-[#e3e3e3] bg-[#f7f7f7] rounded-[4px]">
                                 <h3 className="font-semibold text-sm">Workspace</h3>
                             </section>
-                            <Button className="text-xs h-8 rounded bg-primary-0">Create Workspace</Button>
+                            <Button onClick={() => setShowModal(true)} className="text-xs h-8 rounded bg-primary-0">
+                                Create Workspace
+                            </Button>
                         </section>
                         <section>
                             {findAllWorkspacesLoading ? (
@@ -206,7 +223,7 @@ const WorkspaceScreen = () => {
                     </section>
                 </>
             )}
-            <Modal
+            <ShadModal
                 onClose={handleClose}
                 showModel={showInvite}
                 setShowModal={setShowInvite}
@@ -226,6 +243,19 @@ const WorkspaceScreen = () => {
                 {(modalType === 'create-role' || modalType === 'edit-role') && (
                     <CreateRole onClose={handleClose} singleRole={singleRole} />
                 )}
+            </ShadModal>
+            <Modal isOpen={workspaceShowModal} onClose={handleModalClose} className={`relative max-w-lg`}>
+                <FormProvider {...workspaceForm}>
+                    <CreateWorkSpace
+                        form={workspaceForm}
+                        setWorkspaceType={setWorkspaceType}
+                        workspaceType={workspaceType}
+                        moduleValues={moduleValues}
+                        onSubmit={onSubmit}
+                        isLoading={workspaceLoading}
+                        handleOnSelectModule={handleOnSelectModule}
+                    />
+                </FormProvider>
             </Modal>
         </div>
     );

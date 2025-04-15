@@ -7,15 +7,15 @@ import Link from 'next/link';
 import { sideLinks } from '@shtcut/_shared/data/side-links';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import HeaderSideNav from './header-sidenav';
-import { Dict, Label, toast, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
+import { Label, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@shtcut-ui/react';
 import { Plus } from 'lucide-react';
 import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
 import UrlShortenerActionsFeatures from './url-shortner-btn';
-import { useAuth, useWorkspace } from '@shtcut/hooks';
+import { useAuth } from '@shtcut/hooks';
 import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 import Modal from '@shtcut/components/modal';
-import { FormProvider, useForm } from 'react-hook-form';
-import { get } from 'lodash';
+import { FormProvider } from 'react-hook-form';
+import { useCreateWorkspace } from '@shtcut/hooks/current-workspace/create-workspace';
 
 type Props = {
     setIsOpen: (val: boolean) => void;
@@ -32,16 +32,21 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
     const { module, workspace } = params;
     const navigationOptions = sideLinks(module as string, workspace as string);
     const { handleLogout } = useAuth();
-    const { createWorkspace, createWorkspaceResponse } = useWorkspace({});
-    const { isSuccess, isLoading, isError, error, data } = createWorkspaceResponse;
+    const {
+        handleOnSelectModule,
+        workspaceType,
+        form,
+        isLoading,
+        moduleValues,
+        onSubmit,
+        setWorkspaceType,
+        setShowModal,
+        showModal,
+        handleModalClose
+    } = useCreateWorkspace();
     const isMd = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
     const [activeTab, setActiveTab] = useState<string | null>(null);
-    const [showModal, setShowModal] = useState(false);
-    const [moduleValues, setModuleValues] = useState<string[]>([]);
-    const [workspaceType, setWorkspaceType] = useState<'team' | 'personal'>('team');
-    const handleOnSelectModule = (value: string) => {
-        setModuleValues((prev) => (prev.includes(value) ? prev.filter((item) => item !== value) : [...prev, value]));
-    };
+
     const Sidebar_animation = isTab
         ? {
               open: {
@@ -97,108 +102,6 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
             router.push('/social/social-media/create-post');
         } else return;
     };
-
-    const form = useForm<{
-        name: string;
-        type: string;
-        capacity: string;
-        [key: string]: any;
-    }>({
-        defaultValues: {
-            name: '',
-            type: '',
-            capacity: ''
-        }
-    });
-    const { watch } = form;
-    const onSubmit = async () => {
-        const name = watch('name');
-        const capacity = watch('capacity');
-        const isValid = await form.trigger();
-        if (!isValid) {
-            return;
-        }
-        if (workspaceType === 'personal') {
-            if (!name) {
-                toast({
-                    title: 'Validation Error',
-                    variant: 'destructive',
-                    description: 'Personal Workspace name is required'
-                });
-                return;
-            }
-        } else if (workspaceType === 'team') {
-            if (!name) {
-                toast({
-                    title: 'Validation Error',
-                    variant: 'destructive',
-                    description: 'Team Workspace name is required'
-                });
-                return;
-            } else if (!capacity) {
-                toast({
-                    title: 'Validation Error',
-                    variant: 'destructive',
-                    description: 'Number of users is required'
-                });
-                return;
-            }
-        }
-
-        if (moduleValues.length === 0) {
-            toast({
-                title: 'Validation Error',
-                variant: 'destructive',
-                description: 'At least one module must be selected'
-            });
-            return;
-        }
-        if (workspaceType === 'personal' && name && moduleValues.length > 0) {
-            handleFormSubmit({ name, capacity, workspaceType, moduleValues });
-        } else if (workspaceType === 'team' && name && capacity && moduleValues.length > 0) {
-            handleFormSubmit({ name, capacity, workspaceType, moduleValues });
-        }
-    };
-
-    const handleFormSubmit = (values: Dict) => {
-        const emailFields = Object.keys(values).filter((key) => key.startsWith('email'));
-        const emailArray = emailFields.map((key) => values[key]).filter(Boolean);
-
-        const personalPayload = {
-            name: get(values, ['name']),
-            type: workspaceType,
-            modules: moduleValues,
-            redirectUrl: process.env.NEXT_PUBLIC_REDIRECT_URL || ''
-        };
-        const teamPayload = {
-            name: get(values, ['name']),
-            capacity: get(values, ['capacity']),
-            type: workspaceType,
-            ...(emailArray.length > 0 && { memberEmails: emailArray }),
-            modules: moduleValues,
-            redirectUrl: process.env.NEXT_PUBLIC_REDIRECT_URL
-        };
-        const allPayload = workspaceType === 'team' ? teamPayload : personalPayload;
-        createWorkspace({
-            payload: allPayload,
-            options: {
-                successMessage: 'Workspace is successfully created'
-            }
-        });
-    };
-
-    const handleModalClose = () => {
-        form.reset();
-        setModuleValues([]);
-        setWorkspaceType('team');
-        setShowModal(false);
-    };
-
-    useEffect(() => {
-        if (isSuccess) {
-            handleModalClose();
-        }
-    }, [isSuccess]);
 
     return (
         <motion.div
