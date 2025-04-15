@@ -1,4 +1,18 @@
-import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Next,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import {
   AppController,
   CreateLinkDto,
@@ -16,13 +30,52 @@ import { NextFunction, Request, Response } from 'express';
 import * as _ from 'lodash';
 
 @Controller('links')
-@UseGuards(JwtAuthGuard, WorkspaceGuard)
 export class LinkController extends AppController {
   constructor(
     protected service: LinkService,
     protected config: ConfigService,
   ) {
     super(config, service);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('/')
+  @HttpCode(OK)
+  public async create(
+    @Body() payload: Record<string, any>,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+  ) {
+    return super.create(payload, req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/')
+  @HttpCode(OK)
+  public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.find(req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Get('/:id')
+  @HttpCode(OK)
+  public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.findOne(id, req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Delete('/:id')
+  @HttpCode(OK)
+  public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.remove(id, req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Delete('/delete/many')
+  @HttpCode(OK)
+  public async deleteMany(@Req() req, @Res() res, @Next() next: NextFunction) {
+    return super.deleteMany(req, res, next);
   }
 
   @Get('/visit/:domain/:alias')
@@ -54,6 +107,7 @@ export class LinkController extends AppController {
     }
   }
 
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/:id/analytics')
   @HttpCode(OK)
   public async analytics(
@@ -107,18 +161,7 @@ export class LinkController extends AppController {
     }
   }
 
-  @Post('/')
-  @HttpCode(OK)
-  public async create(
-    @Body() payload: CreateLinkDto,
-    @Req() req: Request,
-    @Res() res: Response,
-    @Next() next: NextFunction,
-  ) {
-    super.create(payload, req, res, next);
-  }
-
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Put('/:id')
   @HttpCode(OK)
   public async update(
@@ -131,7 +174,7 @@ export class LinkController extends AppController {
     super.update(id, payload, req, res, next);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Patch('/:id')
   @HttpCode(OK)
   public async patch(
@@ -144,7 +187,7 @@ export class LinkController extends AppController {
     super.patch(id, payload, req, res, next);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/:id/duplicate')
   @HttpCode(OK)
   async duplicateService(
@@ -166,7 +209,7 @@ export class LinkController extends AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Post('/delete/many')
   @HttpCode(OK)
   public async deleteLink(
@@ -187,7 +230,7 @@ export class LinkController extends AppController {
     }
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Post('/toggle-archive/many')
   @HttpCode(OK)
   public async toggleArchive(
