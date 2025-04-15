@@ -50,7 +50,7 @@ export class LinkController extends AppController {
     return super.create(payload, req, res, next);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Get('/')
   @HttpCode(OK)
   public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
