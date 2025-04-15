@@ -17,7 +17,6 @@ import Link from 'next/link';
 import { useParams, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-
 export const WorkspaceSwitcher = () => {
     const [name, setName] = useState('');
     const [openCreateWorkspace, setOpenCreateWorkspace] = useState(false);

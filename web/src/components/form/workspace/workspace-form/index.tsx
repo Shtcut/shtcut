@@ -65,8 +65,6 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
         handleWorkspaceSubmit(payload);
     };
 
-
-
     return (
         <div className={cn('grid gap-6', className)} {...props}>
             <Form {...form}>
@@ -98,11 +96,7 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                                             </div>
                                         </div>
                                         <FormControl>
-                                            <Input
-                                                className="h-11"
-                                                placeholder="Facebook Inc"
-                                                {...rest}
-                                            />
+                                            <Input className="h-11" placeholder="Facebook Inc" {...rest} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -121,7 +115,6 @@ export const WorkspaceForm = (props: WorkspaceFormProps) => {
                                             </div>
                                             <div>
                                                 <TooltipProvider>
-                                                    
                                                     <Tooltip>
                                                         <TooltipTrigger>
                                                             <IconHelp size={15} />
