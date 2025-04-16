@@ -10,7 +10,9 @@ const SettingContainer = () => {
         setLoadingState,
         isLoadingState,
         findAllTags,
-        deleteTagResponse
+        deleteTagResponse,
+        pagination,
+        paginationActions
     } = useTags({
         call: true
     });
@@ -24,6 +26,9 @@ const SettingContainer = () => {
             setLoadingState={setLoadingState}
             findAllTags={findAllTags}
             deleteTagResponse={deleteTagResponse}
+            pagination={pagination}
+            paginationActions={paginationActions}
+            totalCount={findAllTagsResponse?.meta?.pagination?.totalCount ?? 0}
         />
     );
 };

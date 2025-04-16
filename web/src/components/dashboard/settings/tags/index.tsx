@@ -7,6 +7,7 @@ import StarLoader from '@shtcut/components/loader/star-loader';
 import { ModalType, SettingsComponentType } from '@shtcut/types/types';
 import CreateTags from './add-tag';
 import DeleteTag from './delete-tag';
+import PaginationTable from '@shtcut/components/pagination';
 
 const TagsScreen = ({
     findAllTagsResponse,
@@ -15,7 +16,10 @@ const TagsScreen = ({
     setLoadingState,
     findAllTags,
     isLoadingState,
-    deleteTagResponse
+    deleteTagResponse,
+    pagination,
+    paginationActions,
+    totalCount
 }: SettingsComponentType) => {
     const [showModal, setShowModal] = useState(false);
     const [modalType, setModalType] = useState<ModalType>(null);
@@ -120,6 +124,16 @@ const TagsScreen = ({
                             ))}
                     </Card>
                 )}
+                <section className="mt-6">
+                    <PaginationTable
+                        pageSize={pagination.perPage ?? 10}
+                        pageIndex={pagination.page - 1}
+                        handleOnChange={paginationActions.handlePageChange}
+                        totalItemsCount={totalCount}
+                        setPageIndex={paginationActions.setPage}
+                        setPageSize={paginationActions.setPerPage}
+                    />
+                </section>
             </section>
             <Modal onClose={handleClose} showModel={showModal} setShowModal={setShowModal}>
                 {(modalType === 'updateModal' || modalType === 'add-tags') && (

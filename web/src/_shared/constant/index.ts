@@ -639,6 +639,27 @@ export function getInitials(fullName: string) {
     return `${firstLetter}${lastLetter}`;
 }
 
+const colors = [
+    { bg: 'bg-red-500', text: 'text-white' },
+    { bg: 'bg-blue-500', text: 'text-white' },
+    { bg: 'bg-green-500', text: 'text-white' },
+    { bg: 'bg-yellow-400', text: 'text-black' },
+    { bg: 'bg-purple-500', text: 'text-white' },
+    { bg: 'bg-pink-500', text: 'text-white' },
+    { bg: 'bg-orange-500', text: 'text-white' }
+];
+
+export function getColorByName(name: string) {
+    if (!name) return colors[0];
+    let sum = 0;
+    for (let i = 0; i < name.length; i++) {
+        sum += name.charCodeAt(i);
+    }
+
+    const colorIndex = sum % colors.length;
+    return colors[colorIndex];
+}
+
 type DateFormatOptions = {
     includeTime?: boolean;
 };
