@@ -21,7 +21,10 @@ const SettingComponent = ({
     setLoadingState,
     findAllTags,
     isLoadingState,
-    deleteTagResponse
+    deleteTagResponse,
+    pagination,
+    paginationActions,
+    totalCount
 }: SettingsComponentType) => {
     const params = useParams();
     const { module, workspace } = params;
@@ -70,6 +73,9 @@ const SettingComponent = ({
                         findAllTags={findAllTags}
                         isLoadingState={isLoadingState}
                         deleteTagResponse={deleteTagResponse}
+                        pagination={pagination}
+                        paginationActions={paginationActions}
+                        totalCount={totalCount}
                     />
                 )}
                 {selectedTabIndex === 2 && <BillingsScreen />}

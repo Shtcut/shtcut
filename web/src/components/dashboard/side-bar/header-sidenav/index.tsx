@@ -7,7 +7,11 @@ import {
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
     DropdownMenuTrigger,
-    Separator
+    Separator,
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
 } from '@shtcut-ui/react';
 import { Plus, ArrowLeft } from 'lucide-react';
 import Image from 'next/image';
@@ -15,6 +19,8 @@ import { Progress } from '@shtcut/components/_shared/Progress-bar';
 import { getInitials } from '@shtcut/_shared/constant';
 import { FullPageLoader } from '@shtcut/components/windows-loading';
 import { useWorkspaceData } from '@shtcut/hooks/workspace/workspacedata';
+import InitialsAvatar from '@shtcut/components/initial-avatar';
+import { truncate, truncateText } from '@shtcut/_shared';
 
 const HeaderSideNav = ({
     isOpen,
@@ -64,11 +70,22 @@ const HeaderSideNav = ({
                                         className={`flex items-center justify-center ${isOpen ? 'space-x-[16px]' : ''}`}
                                     >
                                         <div className="py-4 ">
-                                            <Image src={'/images/icon.png'} width={36} height={36} alt="logo" />
+                                            <InitialsAvatar name={activeWorkspaceName ?? 'NN'} />
                                         </div>
                                         {isOpen && (
                                             <div>
-                                                <p className="font-bold  text-sm ">{activeWorkspaceName}</p>
+                                                <TooltipProvider>
+                                                    <Tooltip delayDuration={0}>
+                                                        <TooltipTrigger asChild>
+                                                            <p className="font-bold">
+                                                                {truncateText(activeWorkspaceName ?? '', 10)}
+                                                            </p>
+                                                        </TooltipTrigger>
+                                                        <TooltipContent side="top">
+                                                            <span className="text-xs"> {activeWorkspaceName}</span>
+                                                        </TooltipContent>
+                                                    </Tooltip>
+                                                </TooltipProvider>
                                                 <p className="text-[#83899F] text-xs ">Workspace</p>
                                             </div>
                                         )}
@@ -78,9 +95,20 @@ const HeaderSideNav = ({
                             <DropdownMenuContent className="w-60  rounded-[10px] relative left-12 p-0">
                                 <section className="bg-primary-0 p-4 rounded-[10px]">
                                     <div className="flex items-center justify-between">
-                                        <div className="flex text-white items-center space-x-[4px]">
-                                            <Image src={'/images/icon.png'} width={21} height={21} alt="logo" />
-                                            <p className="font-bold">{activeWorkspaceName}</p>
+                                        <div className="flex text-white items-center space-x-2">
+                                            <InitialsAvatar name={activeWorkspaceName ?? 'NN'} />
+                                            <TooltipProvider>
+                                                <Tooltip delayDuration={0}>
+                                                    <TooltipTrigger asChild>
+                                                        <p className="font-bold">
+                                                            {truncateText(activeWorkspaceName ?? '', 10)}
+                                                        </p>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent side="bottom">
+                                                        <span className="text-xs"> {activeWorkspaceName}</span>
+                                                    </TooltipContent>
+                                                </Tooltip>
+                                            </TooltipProvider>
                                         </div>
                                         <p className="text-xs font-medium text-white">Manage</p>
                                     </div>
@@ -97,19 +125,14 @@ const HeaderSideNav = ({
                                         findAllWorkspacesResponse?.map((data) => (
                                             <section
                                                 key={data?._id}
-                                                className=" cursor-pointer"
+                                                className="flex items-center gap-x-2 cursor-pointer"
                                                 onClick={() => {
                                                     if (data?.name) {
                                                         handleSwitchWorkspace(data.slug, data?._id);
                                                     }
                                                 }}
                                             >
-                                                <div className="bg-black text-white w-[27px] h-[27px] flex justify-center rounded-full items-center float-left mr-2">
-                                                    <p className="text-[10px] font-medium">
-                                                        {' '}
-                                                        {getInitials(data?.name)}
-                                                    </p>
-                                                </div>
+                                                <InitialsAvatar name={data?.name} />
                                                 <div>
                                                     <p className="text-xs">{data?.name}</p>
                                                     <p className="text-[#726C6C] text-xs">

@@ -234,6 +234,9 @@ interface SettingsComponentType {
     setLoadingState: (key: 'creating' | 'deleting', value: boolean) => void;
     findAllTags: any;
     deleteTagResponse: Dict;
+    pagination: UsePaginationState;
+    paginationActions: UsePaginationActions;
+    totalCount: number;
 }
 
 interface DeleteComponentType {

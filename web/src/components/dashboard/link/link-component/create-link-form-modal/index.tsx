@@ -1,6 +1,5 @@
 import {
     Card,
-    DropdownMenuTrigger,
     FormControl,
     FormField,
     FormItem,
@@ -17,7 +16,7 @@ import {
     TooltipContent,
     TooltipTrigger
 } from '@shtcut-ui/react';
-import React, { useState } from 'react';
+import React from 'react';
 import { Image as ImageIcon, Repeat } from 'lucide-react';
 import Image from 'next/image';
 import MultiTagsInput from '@shtcut/components/form/multi-tag-input';

@@ -125,6 +125,11 @@ export const isValidURL = (url: string) => {
 export const truncate = (input: string, length = 0) =>
     input.length > length ? `${input.substring(0, length)}` : input;
 
+export function truncateText(text: string, maxLength: number = 20): string {
+    if (!text) return '';
+    return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+}
+
 interface HandleProps {
     error?: any;
     defaultMessage?: string;

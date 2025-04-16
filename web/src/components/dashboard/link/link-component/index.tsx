@@ -349,10 +349,6 @@ const LinkComponent = ({
         handleCloseLoading();
     };
 
-    const handleClick = (val: string, name: number) => {
-        console.log(`i have been clicked ${val} ${name}`);
-    };
-
     return (
         <section className=" ">
             <div className="flex justify-between  items-center">

@@ -19,7 +19,7 @@ type QrCodeSuccessModalType = {
 const QrCodeSuccessModal = ({ handleClose, saveModal, state, qrCodeRef, urlScan }: QrCodeSuccessModalType) => {
     const { handleCopy } = useCopyToClipboard();
     return (
-        <Modal closeIcon={false} isOpen={saveModal} onClose={handleClose} className="p-4 w-full">
+        <Modal closeIcon={false} isOpen={saveModal} onClose={handleClose} className="p-4 w-96">
             <div className="flex flex-col gap-4 items-center">
                 <div className="flex flex-col items-center gap-2">
                     {state?.logo ? <Image src={state?.logo as string} width={50} height={50} alt="qr-code" /> : null}

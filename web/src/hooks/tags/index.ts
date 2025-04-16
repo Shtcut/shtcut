@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { usePagination } from '../usePagination';
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { UseProps } from '@shtcut/types/types';
+import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 
 interface UseTagsReturnsType {
     createTags: (payload: CreateTagPayload) => Promise<TagsApiResponseObject>;
@@ -25,17 +26,18 @@ interface UseTagsReturnsType {
     setLoadingState: (key: 'creating' | 'deleting' | 'updating', value: boolean) => void;
     deleteTagResponse: Dict;
     updateTagsResponse: TagsApiResponse | undefined;
+    paginationActions: UsePaginationActions;
+    pagination: UsePaginationState;
 }
 
 export const useTags = (props: UseProps): UseTagsReturnsType => {
     const { call = false, search = '', filter, all } = props;
-    const { pagination } = usePagination();
+    const { paginationActions, pagination } = usePagination();
     const [createTagsTrigger, { data: createTagsResponse }] = useCreateTagsMutation();
     const [findAllTags, { isLoading, data: findAllTagsResponse }] = useLazyFindAllTagsQuery();
     const [deleteTag, deleteTagResponse] = useDeleteTagsMutation();
     const [updateTagsTrigger, { data: updateTagsResponse }] = useUpdateTagsMutation();
 
-    const [loaded, setLoaded] = useState(false);
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [loading, setLoading] = useState({
         creating: false,
@@ -63,13 +65,12 @@ export const useTags = (props: UseProps): UseTagsReturnsType => {
     };
 
     useEffect(() => {
-        if (call && !loaded) {
+        if (call) {
             findAllTags({
                 ...params
             });
-            setLoaded(true);
         }
-    }, [call, debouncedSearch, filter, findAllTags, loaded]);
+    }, [call, debouncedSearch, filter, findAllTags, pagination]);
 
     return {
         isLoading,
@@ -82,6 +83,8 @@ export const useTags = (props: UseProps): UseTagsReturnsType => {
         setLoadingState,
         findAllTags,
         deleteTag,
-        deleteTagResponse
+        deleteTagResponse,
+        paginationActions,
+        pagination
     };
 };
