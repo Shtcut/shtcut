@@ -294,6 +294,11 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  public async analytics(linkId) {
+    try {
+    } catch (e) {}
+  }
+
   public async visit(req: Request, domainName: string, alias: string) {
     try {
       const slug = Utils.slugifyText(domainName);
