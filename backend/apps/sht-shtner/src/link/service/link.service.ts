@@ -294,6 +294,14 @@ export class LinkService extends MongoBaseService {
     }
   }
 
+  /**
+   * The function "analytics" in TypeScript is an asynchronous function that accepts a parameter
+   * "linkId" and includes a try-catch block for error handling.
+   * @param linkId - The `linkId` parameter in the `analytics` function likely represents the unique
+   * identifier or reference to a specific link that is being tracked for analytics purposes. This
+   * parameter would be used within the function to gather data and perform analytics related to that
+   * particular link.
+   */
   public async analytics(linkId) {
     try {
     } catch (e) {}
