@@ -39,22 +39,14 @@ export class WorkspaceGuard implements CanActivate {
     }
 
     try {
-      // const cacheKey = `workspace_${userId}`;
-      // let currentWorkspace = await this.redisService.get(cacheKey);
-      // console.log('currentWorkspace:::', currentWorkspace);
-      // request.workspace = currentWorkspace;
-      // if (currentWorkspace) {
-      //   return true;
-      // }
-
       const workspaces = await this.workspaceModel.find({ user: userId, deleted: false });
+      console.log('workspaces:::', workspaces);
       if (!workspaces || workspaces.length === 0) {
         throw AppException.FORBIDDEN('You must select a current workspace to access this feature');
       }
       const workspace = workspaces.find((w) => w.isDefault) || workspaces[0];
       const currentWorkspace = workspace._id as string;
       console.log('currentWorkspace:::', currentWorkspace);
-      // await this.redisService.set(cacheKey, currentWorkspace);
       request.workspace = currentWorkspace.toString();
       console.log('request:::', request.workspace);
       return true;

@@ -1,6 +1,6 @@
 import { Body, Delete, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
 import { BaseController } from './base.controller';
-import { Dict, JwtAuthGuard, OK, WorkspaceGuard } from 'shtcut/core';
+import { Dict, JwtAuthGuard, OK } from 'shtcut/core';
 import { NextFunction, Request, Response } from 'express';
 
 export abstract class AppController extends BaseController {

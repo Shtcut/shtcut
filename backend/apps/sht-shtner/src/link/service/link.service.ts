@@ -243,11 +243,12 @@ export class LinkService extends MongoBaseService {
   public async urlMetadata(url: string) {
     try {
       if (!url) {
-        throw AppException.BAD_REQUEST(lang.get('links').emptyUrl);
+        throw AppException.BAD_REQUEST(lang.get('link').emptyUrl);
       }
       const data = await this.htmlMetaService.getMetadata(url, this.cacheService);
       return data;
     } catch (e) {
+      console.log('err::', e);
       throw e;
     }
   }

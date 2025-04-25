@@ -15,7 +15,6 @@ import {
 } from '@nestjs/common';
 import {
   AppController,
-  CreateLinkDto,
   JwtAuthGuard,
   NOT_FOUND,
   OK,
@@ -38,7 +37,7 @@ export class LinkController extends AppController {
     super(config, service);
   }
 
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
   @Post('/')
   @HttpCode(OK)
   public async create(
@@ -48,34 +47,6 @@ export class LinkController extends AppController {
     @Next() next: NextFunction,
   ) {
     return super.create(payload, req, res, next);
-  }
-
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
-  @Get('/')
-  @HttpCode(OK)
-  public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    return super.find(req, res, next);
-  }
-
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
-  @Get('/:id')
-  @HttpCode(OK)
-  public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    return super.findOne(id, req, res, next);
-  }
-
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
-  @Delete('/:id')
-  @HttpCode(OK)
-  public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
-    return super.remove(id, req, res, next);
-  }
-
-  @UseGuards(JwtAuthGuard, WorkspaceGuard)
-  @Delete('/delete/many')
-  @HttpCode(OK)
-  public async deleteMany(@Req() req, @Res() res, @Next() next: NextFunction) {
-    return super.deleteMany(req, res, next);
   }
 
   @Get('/visit/:domain/:alias')
@@ -159,6 +130,27 @@ export class LinkController extends AppController {
     } catch (e) {
       return next(e);
     }
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Get('/')
+  @HttpCode(OK)
+  public async find(@Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.find(req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Get('/:id')
+  @HttpCode(OK)
+  public async findOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.findOne(id, req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Delete('/:id')
+  @HttpCode(OK)
+  public async remove(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    return super.remove(id, req, res, next);
   }
 
   @UseGuards(JwtAuthGuard, WorkspaceGuard)
