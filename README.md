@@ -79,7 +79,7 @@ We welcome contributions to enhance the platform. To contribute:
    ```bash
    git push origin feature-name
    ```
-5. Open a pull request with a detailed description of your changes.
+5. Open a pull request with a detailed description of your changes and it will be reviewed.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
