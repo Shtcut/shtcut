@@ -71,7 +71,7 @@ const ColorsQrCode = ({ selectedTabIndex }: { selectedTabIndex?: number }) => {
                             }}
                         />
                         {presetColorString === color.value && (
-                            <div className="absolute z-30 top-[-5px] right-0 text-green-500 text-xs">✅</div>
+                            <div className="absolute  top-[-5px] right-0 text-green-500 text-xs">✅</div>
                         )}
                     </div>
                 ))}
@@ -96,7 +96,7 @@ const ColorsQrCode = ({ selectedTabIndex }: { selectedTabIndex?: number }) => {
                             />
                         </div>
                         {state.showColorPicker && (
-                            <div className="absolute z-10 bottom-16" ref={refs.colorPickerRef}>
+                            <div className="absolute  bottom-16" ref={refs.colorPickerRef}>
                                 <ColorPicker
                                     color={btnColorString}
                                     onChange={(color) => handleBtnColorChange(color.hex)}

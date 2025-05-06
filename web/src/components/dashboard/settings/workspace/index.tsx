@@ -24,6 +24,7 @@ import { RolesDataResponse } from '@shtcut/types/workspace';
 import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
 import { useCreateWorkspace } from '@shtcut/hooks/current-workspace/create-workspace';
 import Modal from '@shtcut/components/modal';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
@@ -35,7 +36,9 @@ const WorkspaceScreen = () => {
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const [selectedStatus] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string | null>(null);
-    const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
+    const { findAllWorkspacesResponse, findAllWorkspacesLoading, pagination, paginationActions } = useWorkspace({
+        callWorkspaces: true
+    });
     const [createInvite, { isLoading }] = useCreateInviteMutation();
     const { findRolesResponse } = useRole({ callRoles: true });
     const {
@@ -184,10 +187,10 @@ const WorkspaceScreen = () => {
                                 <div className="pt-10">
                                     <StarLoader />
                                 </div>
-                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.length > 0 ? (
+                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.data.length > 0 ? (
                                 <section className="flex flex-col gap-4 mt-6">
                                     {findAllWorkspacesResponse &&
-                                        findAllWorkspacesResponse.map((workspace) => (
+                                        findAllWorkspacesResponse?.data.map((workspace) => (
                                             <div
                                                 key={workspace?._id}
                                                 className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
@@ -219,6 +222,14 @@ const WorkspaceScreen = () => {
                             ) : (
                                 <div className="text-center text-sm">No avaliable workspace</div>
                             )}
+                            <section>
+                                <PaginationActions
+                                    totalItems={findAllWorkspacesResponse?.meta.pagination.totalCount ?? 0}
+                                    initialPage={pagination.page}
+                                    initialPageSize={pagination.perPage}
+                                    onPageChange={paginationActions.handlePageChange}
+                                />
+                            </section>
                         </section>
                     </section>
                 </>

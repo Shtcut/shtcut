@@ -8,7 +8,7 @@ import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
 
 export const workspaceApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        findAllWorkspaces: builder.query<ApiResponse<WorkspaceNameSpace.Workspace[]>, QueryArgs>({
+        findAllWorkspaces: builder.query<ApiResponse<any>, QueryArgs>({
             query: (params: QueryArgs) =>
                 ({
                     url: ACL.workspace,

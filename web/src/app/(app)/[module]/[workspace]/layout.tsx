@@ -39,7 +39,7 @@ const WorkspaceLayout = ({ children }: any) => {
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
-    const workSpaceNav = findAllWorkspacesResponse?.find((ws) => ws.slug === workspace);
+    const workSpaceNav = findAllWorkspacesResponse?.data?.find((ws) => ws.slug === workspace);
     const workspaceString = Array.isArray(workspace) ? workspace.join('') : workspace;
 
     const sideNav: SideNavItem[] = [];

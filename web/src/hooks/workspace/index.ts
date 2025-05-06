@@ -14,10 +14,11 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { RootState, useAppDispatch, useAppSelector } from '@shtcut/redux/store';
 import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
-import { UsePaginationState } from '@shtcut/types/pagination';
+import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
+import { ApiResponse } from '@shtcut/_shared/namespace';
 
 interface UseWorkspaceProps {
     key?: string;
@@ -36,7 +37,8 @@ interface UseWorkspaceReturnsType {
     updateWorkspace: MutationTrigger<any>;
     triggerSwitchWorkspace: (id: string) => void;
     triggerWorkspaces: any;
-    findAllWorkspacesResponse: WorkspaceNameSpace.Workspace[] | undefined;
+    // findAllWorkspacesResponse: WorkspaceNameSpace.Workspace[] | undefined;
+    findAllWorkspacesResponse: ApiResponse<any> | undefined;
     createWorkspaceResponse: Dict;
     searchOneWorkspaceResponse: WorkspaceNameSpace.Workspace | undefined;
     switchWorkspaceResponse: Dict | undefined;
@@ -44,6 +46,7 @@ interface UseWorkspaceReturnsType {
     updateWorkspaceResponse: Dict;
     deleteWorkspaceResponse: Dict;
     pagination: UsePaginationState;
+    paginationActions: UsePaginationActions;
     findAllWorkspacesLoading: boolean;
 }
 
@@ -60,7 +63,7 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     } = props;
     const dispatch = useAppDispatch();
     const [showLoading, setShowLoading] = useState(false);
-    const { pagination } = usePagination();
+    const { pagination, paginationActions } = usePagination();
     const [createWorkspace, createWorkspaceResponse] = useCreateWorkspaceMutation();
     const [updateWorkspace, updateWorkspaceResponse] = useUpdateWorkspaceMutation();
     const [deleteWorkspace, deleteWorkspaceResponse] = useDeleteWorkspaceMutation();
@@ -68,7 +71,6 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     const [triggerSearchOneWorkspace] = useLazySearchOneWorkspaceQuery();
     const [triggerSwitchWorkspace, { data: switchWorkspaceResponse, isLoading: switchWorkspaceLoading }] =
         useLazySwitchWorkspaceQuery();
-    const activeWorkspace = useSelector((state: RootState) => state.workspace.activeWorkspace);
 
     const params = useMemo(
         () => ({
@@ -86,7 +88,7 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
 
     useEffect(() => {
         if (callWorkspaces) triggerWorkspaces(params);
-    }, [callWorkspaces, triggerWorkspaces]);
+    }, [callWorkspaces, triggerWorkspaces, JSON.stringify(params)]);
 
     useEffect(() => {
         if (callSearchOneWorkspace) triggerSearchOneWorkspace(params);
@@ -143,6 +145,7 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         findAllWorkspacesResponse,
         switchWorkspaceLoading: showLoading || switchWorkspaceLoading,
         pagination,
+        paginationActions,
         findAllWorkspacesLoading
     };
 };

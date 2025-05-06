@@ -20,7 +20,7 @@ import { getInitials } from '@shtcut/_shared/constant';
 import { FullPageLoader } from '@shtcut/components/windows-loading';
 import { useWorkspaceData } from '@shtcut/hooks/workspace/workspacedata';
 import InitialsAvatar from '@shtcut/components/initial-avatar';
-import { truncate, truncateText } from '@shtcut/_shared';
+import {  truncateText } from '@shtcut/_shared';
 
 const HeaderSideNav = ({
     isOpen,
@@ -122,7 +122,7 @@ const HeaderSideNav = ({
                                 </section>
                                 <div className="flex flex-col gap-4 p-4">
                                     {findAllWorkspacesResponse &&
-                                        findAllWorkspacesResponse?.map((data) => (
+                                        findAllWorkspacesResponse?.data?.map((data) => (
                                             <section
                                                 key={data?._id}
                                                 className="flex items-center gap-x-2 cursor-pointer"

@@ -3,17 +3,17 @@ import { Eye, Globe as GlobalIcon, Link as LinkIcon, Mail } from 'lucide-react';
 import React, { ReactNode } from 'react';
 import { PiShieldCheckLight } from 'react-icons/pi';
 
-const SecurityScreen = () => {
+const SecurityScreen = ({ onOpenModal }: { onOpenModal: () => void }) => {
     const ReusableSection = ({
         headerTitle,
         description,
         icon,
-        switchShow = true
+        rightAction
     }: {
         headerTitle: string;
         description: string;
         icon: ReactNode;
-        switchShow?: boolean;
+        rightAction?: ReactNode;
     }) => {
         return (
             <section className={`flex  py-4  items-center w-full justify-between`}>
@@ -26,7 +26,7 @@ const SecurityScreen = () => {
                         <p className="text-[#726C6C] text-xs">{description}</p>
                     </div>
                 </div>
-                {switchShow && <Switch />}
+                {rightAction ? rightAction : <Switch />}
             </section>
         );
     };
@@ -82,7 +82,11 @@ const SecurityScreen = () => {
                         description="Update your existing password"
                         headerTitle="Change password"
                         icon={<GlobalIcon size={20} />}
-                        switchShow={false}
+                        rightAction={
+                            <div className="text-primary-0 cursor-pointer font-medium" onClick={onOpenModal}>
+                                Change
+                            </div>
+                        }
                     />
                     <Separator />
                     <ReusableSection
