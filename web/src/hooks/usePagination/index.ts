@@ -1,3 +1,5 @@
+
+'use client';
 import { UsePaginationReturnType } from '@shtcut/types/pagination';
 import { useMemo, useState } from 'react';
 
@@ -5,8 +7,11 @@ export const usePagination = (): UsePaginationReturnType => {
     const [page, setPage] = useState(0);
     const [perPage, setPerPage] = useState(10);
 
-    const handlePageChange = (index: number) => {
-        setPage(index);
+    const handlePageChange = (page: number, newPageSize: number) => {
+        setPage(page - 1);
+        if (pagination.perPage !== newPageSize) {
+            paginationActions.setPerPage(newPageSize);
+        }
     };
 
     const pagination = useMemo(
@@ -18,9 +23,9 @@ export const usePagination = (): UsePaginationReturnType => {
     );
 
     const paginationActions = {
-        handlePageChange,
         setPage,
-        setPerPage
+        setPerPage,
+        handlePageChange
     };
 
     return {

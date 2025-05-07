@@ -1,4 +1,7 @@
+'use client';
+
 import SettingComponent from '@shtcut/components/dashboard/settings';
+import { useAuth } from '@shtcut/hooks';
 import { useTags } from '@shtcut/hooks/tags';
 import React from 'react';
 
@@ -16,6 +19,7 @@ const SettingContainer = () => {
     } = useTags({
         call: true
     });
+    const { changePassword, changePasswordResponse } = useAuth();
 
     return (
         <SettingComponent
@@ -29,6 +33,8 @@ const SettingContainer = () => {
             pagination={pagination}
             paginationActions={paginationActions}
             totalCount={findAllTagsResponse?.meta?.pagination?.totalCount ?? 0}
+            changePassword={changePassword}
+            changePasswordResponse={changePasswordResponse}
         />
     );
 };

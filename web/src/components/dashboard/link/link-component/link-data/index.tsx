@@ -6,6 +6,7 @@ import PaginationTable from '@shtcut/components/pagination';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { skeletonRows } from '@shtcut/components/card-skeleton';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 interface LinkDataComponentProps {
     isLoading: boolean;
@@ -42,6 +43,8 @@ const LinkDataComponent = ({
         }
     };
     const emptyData = findAllLinksResponse && findAllLinksResponse?.data && findAllLinksResponse?.data.length > 0;
+
+ 
 
     return (
         <>
@@ -85,13 +88,11 @@ const LinkDataComponent = ({
             )}
             {emptyData && (
                 <section className="mt-6">
-                    <PaginationTable
-                        pageSize={pagination.perPage ?? 10}
-                        pageIndex={pagination.page - 1}
-                        handleOnChange={paginationActions.handlePageChange}
-                        totalItemsCount={findAllLinksResponse?.meta.pagination.totalCount ?? 0}
-                        setPageIndex={paginationActions.setPage}
-                        setPageSize={paginationActions.setPerPage}
+                    <PaginationActions
+                        totalItems={findAllLinksResponse?.meta.pagination.totalCount}
+                        initialPage={pagination.page}
+                        initialPageSize={pagination.perPage}
+                        onPageChange={paginationActions.handlePageChange}
                     />
                 </section>
             )}

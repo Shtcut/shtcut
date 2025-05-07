@@ -5,13 +5,13 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import QrCodeCard from '../../qr-code-components/qr-code-component';
 import { skeletonRows } from '@shtcut/components/card-skeleton';
-import PaginationTable from '@shtcut/components/pagination';
 import { QrCodeLinkActions, QrCodeLinkState } from '@shtcut/types/qr-code';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 import { handleError } from '@shtcut/_shared';
 import { useLink } from '@shtcut/hooks/link';
 import DeleteComponent from '@shtcut/components/dashboard/link/link-component/delete-modal';
 import Modal from '@shtcut/components/modal';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions; qrState: QrCodeLinkState }) => {
     const { deleteManyLinks } = useLink({});
@@ -132,13 +132,11 @@ const QrCodeComponent = ({ qrState, qrActions }: { qrActions: QrCodeLinkActions;
             )}
             {emptyData && (
                 <section className="mt-6">
-                    <PaginationTable
-                        pageSize={qrState.pagination.perPage ?? 10}
-                        pageIndex={qrState.pagination.page - 1}
-                        handleOnChange={qrActions.paginationActions.handlePageChange}
-                        totalItemsCount={qrState.findAllQrCodeResponse?.meta.pagination.totalCount ?? 0}
-                        setPageIndex={qrActions.paginationActions.setPage}
-                        setPageSize={qrActions.paginationActions.setPerPage}
+                    <PaginationActions
+                        totalItems={qrState.findAllQrCodeResponse?.meta.pagination.totalCount ?? 0}
+                        initialPage={qrState.pagination.page}
+                        initialPageSize={qrState.pagination.perPage}
+                        onPageChange={qrActions.paginationActions.handlePageChange}
                     />
                 </section>
             )}

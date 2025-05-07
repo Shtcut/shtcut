@@ -7,7 +7,7 @@ import StarLoader from '@shtcut/components/loader/star-loader';
 import { ModalType, SettingsComponentType } from '@shtcut/types/types';
 import CreateTags from './add-tag';
 import DeleteTag from './delete-tag';
-import PaginationTable from '@shtcut/components/pagination';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const TagsScreen = ({
     findAllTagsResponse,
@@ -125,13 +125,11 @@ const TagsScreen = ({
                     </Card>
                 )}
                 <section className="mt-6">
-                    <PaginationTable
-                        pageSize={pagination.perPage ?? 10}
-                        pageIndex={pagination.page - 1}
-                        handleOnChange={paginationActions.handlePageChange}
-                        totalItemsCount={totalCount}
-                        setPageIndex={paginationActions.setPage}
-                        setPageSize={paginationActions.setPerPage}
+                    <PaginationActions
+                        totalItems={totalCount}
+                        initialPage={pagination.page}
+                        initialPageSize={pagination.perPage}
+                        onPageChange={paginationActions.handlePageChange}
                     />
                 </section>
             </section>

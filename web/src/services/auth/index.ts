@@ -1,4 +1,4 @@
-import { SocialAuthRequestType } from './auth.d';
+import { ChangePasswordRequestType, SocialAuthRequestType } from './auth.d';
 import { api } from '@shtcut/_shared/api/app.api';
 import {
     AuthResponseType,
@@ -88,7 +88,7 @@ export const authApi = api?.injectEndpoints({
                 };
             }
         }),
-        changePassword: builder.mutation<AuthResponseType, UpdatePasswordRequestType>({
+        changePassword: builder.mutation<AuthResponseType, ChangePasswordRequestType>({
             query: ({ payload }) => {
                 return {
                     url: ACL.changePasswordUrl,

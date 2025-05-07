@@ -9,7 +9,8 @@ const InviteModal = ({
     addInput,
     handleFormSubmit,
     removeInput,
-    isLoading
+    isLoading,
+    handleClose
 }: {
     form: any;
     emailsInput: string[];
@@ -17,6 +18,7 @@ const InviteModal = ({
     handleFormSubmit: (val: any) => void;
     removeInput: () => void;
     isLoading: boolean;
+    handleClose: () => void;
 }) => {
     return (
         <section className="">
@@ -28,7 +30,7 @@ const InviteModal = ({
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(handleFormSubmit)}>
                         <section className="flex flex-col gap-1">
-                            {emailsInput.map((_, index) => (
+                            {form.watch('emails')?.map((_, index) => (
                                 <div key={index} className="relative">
                                     <div className="flex items-center gap-2">
                                         <FormItem className="w-full">
@@ -67,10 +69,10 @@ const InviteModal = ({
                             ))}
                         </section>
                         <div className="flex items-center gap-3 mt-6 w-full">
-                            <Button className="w-full text-xs" variant={'outline'}>
+                            <Button onClick={handleClose} className="w-full text-xs" variant={'outline'}>
                                 Cancel
                             </Button>
-                            <LoadingButton loading={isLoading} className="w-full bg-primary-0 text-xs">
+                            <LoadingButton type="submit" loading={isLoading} className="w-full bg-primary-0 text-xs">
                                 Send Invitation
                             </LoadingButton>
                         </div>

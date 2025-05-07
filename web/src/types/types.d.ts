@@ -237,6 +237,8 @@ interface SettingsComponentType {
     pagination: UsePaginationState;
     paginationActions: UsePaginationActions;
     totalCount: number;
+    changePassword?: MutationTrigger<any>;
+    changePasswordResponse?: any;
 }
 
 interface DeleteComponentType {

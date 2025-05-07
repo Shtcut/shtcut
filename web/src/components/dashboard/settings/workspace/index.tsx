@@ -24,6 +24,7 @@ import { RolesDataResponse } from '@shtcut/types/workspace';
 import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
 import { useCreateWorkspace } from '@shtcut/hooks/current-workspace/create-workspace';
 import Modal from '@shtcut/components/modal';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
@@ -35,7 +36,9 @@ const WorkspaceScreen = () => {
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const [selectedStatus] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string | null>(null);
-    const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
+    const { findAllWorkspacesResponse, findAllWorkspacesLoading, pagination, paginationActions } = useWorkspace({
+        callWorkspaces: true
+    });
     const [createInvite, { isLoading }] = useCreateInviteMutation();
     const { findRolesResponse } = useRole({ callRoles: true });
     const {
@@ -50,26 +53,49 @@ const WorkspaceScreen = () => {
         showModal: workspaceShowModal,
         handleModalClose
     } = useCreateWorkspace();
+
     const addInput = () => {
-        if (emailsInput.length < 10) {
-            setEmailsInput([...emailsInput, '']);
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length < 10) {
+            form.setValue('emails', [...currentEmails, '']);
         }
     };
+
     const removeInput = () => {
-        setEmailsInput(emailsInput.slice(0, -1));
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length > 3) {
+            form.setValue('emails', currentEmails.slice(0, -1));
+        }
     };
 
     const form = useForm({
         resolver: zodResolver(inviteFormSchema),
         defaultValues: {
-            emails: ['', '', '']
+            emails: ['']
         }
     });
 
     const handleFormSubmit = async (values: { emails: string[] }) => {
+        if (values.emails.length === 0) {
+            toast({
+                description: 'Please enter at least one valid email address.',
+                title: 'Members Invitation',
+                variant: 'destructive'
+            });
+            return;
+        }
+        if (!currentWorkspace?._id) {
+            toast({
+                description: 'Workspace is undefined switch your workspace  ',
+                title: 'Switch Workspace',
+                variant: 'destructive'
+            });
+            return;
+        }
         if (currentWorkspace?._id) {
+            const filteredEmails = values.emails.filter((email) => email.trim() !== '');
             const payload = {
-                emails: values.emails,
+                emails: filteredEmails,
                 workspace: currentWorkspace?._id,
                 redirectLink: process.env.NEXT_PUBLIC_REDIRECT_URL || ''
             };
@@ -84,6 +110,7 @@ const WorkspaceScreen = () => {
             } catch (error) {
                 toast({
                     description: 'Something went wrong!',
+                    variant: 'destructive',
                     title: 'Members Invitation'
                 });
             }
@@ -184,10 +211,10 @@ const WorkspaceScreen = () => {
                                 <div className="pt-10">
                                     <StarLoader />
                                 </div>
-                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.length > 0 ? (
+                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.data.length > 0 ? (
                                 <section className="flex flex-col gap-4 mt-6">
                                     {findAllWorkspacesResponse &&
-                                        findAllWorkspacesResponse.map((workspace) => (
+                                        findAllWorkspacesResponse?.data.map((workspace) => (
                                             <div
                                                 key={workspace?._id}
                                                 className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
@@ -219,6 +246,14 @@ const WorkspaceScreen = () => {
                             ) : (
                                 <div className="text-center text-sm">No avaliable workspace</div>
                             )}
+                            <section>
+                                <PaginationActions
+                                    totalItems={findAllWorkspacesResponse?.meta.pagination.totalCount ?? 0}
+                                    initialPage={pagination.page}
+                                    initialPageSize={pagination.perPage}
+                                    onPageChange={paginationActions.handlePageChange}
+                                />
+                            </section>
                         </section>
                     </section>
                 </>
@@ -234,9 +269,10 @@ const WorkspaceScreen = () => {
                         removeInput={removeInput}
                         handleFormSubmit={handleFormSubmit}
                         form={form}
-                        emailsInput={emailsInput}
+                        emailsInput={form.watch('emails')}
                         addInput={addInput}
                         isLoading={isLoading}
+                        handleClose={handleClose}
                     />
                 )}
                 {modalType === 'user' && <UserModal onClose={() => setShowInvite(false)} />}

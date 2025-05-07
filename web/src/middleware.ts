@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { fetchTargetUrl, isIgnoredPath } from '@shtcut/hooks';
+// import ip from 'ip';
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
@@ -7,11 +8,13 @@ export async function middleware(request: NextRequest) {
     const queryAlias = url.searchParams.get('alias');
     const alias = queryAlias || pathAlias;
 
-    const ipResponse = await fetch('https://api.ipify.org?format=json');
-    const ipData = await ipResponse.json();
-    const publicIP = ipData.ip || 'Unknown IP';
+    // const ipResponse = await fetch('https://api.ipify.org?format=json');
+    // const ipData = await ipResponse.json();
+    // const publicIP = ipData.ip || 'Unknown IP';
 
-    console.log('Public IP (server-side):', publicIP);
+    // console.log('Public IP (server-side):', publicIP);
+
+    // console.log('Ip address', ip.address());
 
     if (!alias || isIgnoredPath(alias)) {
         return NextResponse.next();

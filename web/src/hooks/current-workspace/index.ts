@@ -7,7 +7,7 @@ export const useCurrentWorkSpace = () => {
     const params = useParams();
     const { workspace: workspaceSlug } = params;
 
-    const currentWorkspace = findAllWorkspacesResponse?.find((workspace) => workspace.slug === workspaceSlug);
+    const currentWorkspace = findAllWorkspacesResponse?.data?.find((workspace) => workspace.slug === workspaceSlug);
 
     return currentWorkspace || null;
 };

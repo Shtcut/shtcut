@@ -59,6 +59,7 @@
         "html-to-image": "^1.11.11",
         "html2canvas": "^1.4.1",
         "i18n-iso-countries": "^7.7.0",
+        "ip": "^2.0.1",
         "jest-fetch-mock": "^3.0.3",
         "js-cookie": "^3.0.5",
         "jwt-decode": "^4.0.0",
