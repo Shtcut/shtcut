@@ -11,6 +11,7 @@ import {
     Label,
     toast
 } from '@shtcut-ui/react';
+import { handleError } from '@shtcut/_shared';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
 import { createRoleSchema, updateRoleSchema } from '@shtcut/components/form/auth/sign-up-form/validation';
 import StarLoader from '@shtcut/components/loader/star-loader';
@@ -63,6 +64,7 @@ const CreateRole = ({ onClose, singleRole }: { onClose: () => void; singleRole: 
 
     const onSubmit = async (values: CreateRoleFormValues) => {
         setLoadingState(singleRole ? 'updating' : 'creating', true);
+
         const createPayload = {
             ...values,
             workspace: currentWorkspace?._id,
@@ -75,36 +77,32 @@ const CreateRole = ({ onClose, singleRole }: { onClose: () => void; singleRole: 
 
         try {
             if (singleRole) {
-                await updateRole({ id: singleRole?._id, payload: updatePayload }).unwrap();
+                await updateRole({ id: singleRole._id, payload: updatePayload }).unwrap();
                 const successMessage = updateRoleResponse?.meta?.message || 'Role updated successfully.';
                 toast({
                     variant: 'default',
                     title: 'Role Updated',
                     description: successMessage
                 });
-                findRoles();
             } else {
-                await createRole(createPayload);
+                await createRole(createPayload).unwrap();
                 const successMessage = createRoleResponse?.meta?.message || 'Role created successfully.';
                 toast({
                     variant: 'default',
                     title: 'Role Created',
                     description: successMessage
                 });
-                findRoles();
             }
+
+            findRoles();
             onClose();
         } catch (error) {
-            const errorMessage = (error as any)?.data?.message || 'An error occurred. Please try again.';
-            toast({
-                variant: 'destructive',
-                title: 'Error!',
-                description: errorMessage
-            });
+            handleError({ error });
         } finally {
             setLoadingState(singleRole ? 'updating' : 'creating', false);
         }
     };
+
     return (
         <div className="px-4">
             <div className="flex items-center justify-between border-b pt-2 pb-4">

@@ -8,5 +8,6 @@ export const members = 'member-invite';
 export const qrCodeTag = 'qr-code-tag';
 export const qrCode = 'qr-tag';
 export const media = 'media';
+export const roleTag = 'role-tag';
 
-export default [loggedInUserTag, workspaceTag, linkTag, qrCodeTag];
+export default [loggedInUserTag, workspaceTag, linkTag, qrCodeTag, roleTag];
