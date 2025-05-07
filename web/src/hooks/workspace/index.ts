@@ -12,7 +12,7 @@ import {
     useUpdateWorkspaceMutation
 } from '@shtcut/services/workspace';
 import { useEffect, useMemo, useState } from 'react';
-import {  useAppDispatch, useAppSelector } from '@shtcut/redux/store';
+import { useAppDispatch, useAppSelector } from '@shtcut/redux/store';
 import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
@@ -50,8 +50,6 @@ interface UseWorkspaceReturnsType {
 }
 
 export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType => {
-    const router = useRouter();
-
     const {
         callWorkspaces = false,
         callSearchOneWorkspace = false,
