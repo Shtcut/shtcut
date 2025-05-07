@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+'use client';
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
@@ -12,12 +12,11 @@ import {
     useUpdateWorkspaceMutation
 } from '@shtcut/services/workspace';
 import { useEffect, useMemo, useState } from 'react';
-import { RootState, useAppDispatch, useAppSelector } from '@shtcut/redux/store';
+import {  useAppDispatch, useAppSelector } from '@shtcut/redux/store';
 import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
 import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
 import { ApiResponse } from '@shtcut/_shared/namespace';
 
 interface UseWorkspaceProps {

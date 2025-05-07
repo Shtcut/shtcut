@@ -1,3 +1,5 @@
+
+'use client';
 import { UsePaginationReturnType } from '@shtcut/types/pagination';
 import { useMemo, useState } from 'react';
 

@@ -53,26 +53,49 @@ const WorkspaceScreen = () => {
         showModal: workspaceShowModal,
         handleModalClose
     } = useCreateWorkspace();
+
     const addInput = () => {
-        if (emailsInput.length < 10) {
-            setEmailsInput([...emailsInput, '']);
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length < 10) {
+            form.setValue('emails', [...currentEmails, '']);
         }
     };
+
     const removeInput = () => {
-        setEmailsInput(emailsInput.slice(0, -1));
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length > 3) {
+            form.setValue('emails', currentEmails.slice(0, -1));
+        }
     };
 
     const form = useForm({
         resolver: zodResolver(inviteFormSchema),
         defaultValues: {
-            emails: ['', '', '']
+            emails: ['']
         }
     });
 
     const handleFormSubmit = async (values: { emails: string[] }) => {
+        if (values.emails.length === 0) {
+            toast({
+                description: 'Please enter at least one valid email address.',
+                title: 'Members Invitation',
+                variant: 'destructive'
+            });
+            return;
+        }
+        if (!currentWorkspace?._id) {
+            toast({
+                description: 'Workspace is undefined switch your workspace  ',
+                title: 'Switch Workspace',
+                variant: 'destructive'
+            });
+            return;
+        }
         if (currentWorkspace?._id) {
+            const filteredEmails = values.emails.filter((email) => email.trim() !== '');
             const payload = {
-                emails: values.emails,
+                emails: filteredEmails,
                 workspace: currentWorkspace?._id,
                 redirectLink: process.env.NEXT_PUBLIC_REDIRECT_URL || ''
             };
@@ -87,6 +110,7 @@ const WorkspaceScreen = () => {
             } catch (error) {
                 toast({
                     description: 'Something went wrong!',
+                    variant: 'destructive',
                     title: 'Members Invitation'
                 });
             }
@@ -245,9 +269,10 @@ const WorkspaceScreen = () => {
                         removeInput={removeInput}
                         handleFormSubmit={handleFormSubmit}
                         form={form}
-                        emailsInput={emailsInput}
+                        emailsInput={form.watch('emails')}
                         addInput={addInput}
                         isLoading={isLoading}
+                        handleClose={handleClose}
                     />
                 )}
                 {modalType === 'user' && <UserModal onClose={() => setShowInvite(false)} />}

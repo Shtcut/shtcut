@@ -1,3 +1,5 @@
+'use client';
+
 import SettingComponent from '@shtcut/components/dashboard/settings';
 import { useAuth } from '@shtcut/hooks';
 import { useTags } from '@shtcut/hooks/tags';
