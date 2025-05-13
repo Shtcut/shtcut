@@ -15,7 +15,7 @@ const MembersComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [modalContent, setModalContent] = useState<'manage' | 'role' | 'delete' | 'add' | 'invite' | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
-    const [selectedStatus,] = useState<string | null>(null);
+    const [selectedStatus] = useState<string | null>(null);
     const handleModalVisibility = (content: 'manage' | 'role' | 'delete' | 'add' | 'invite' | null) => {
         setModalContent(content);
         setIsModalOpen(!!content);
@@ -62,7 +62,7 @@ const MembersComponent = () => {
                     onOpenRole={() => handleModalVisibility('role')}
                     onOpenDelete={() => handleModalVisibility('delete')}
                     onOpenAdded={() => handleModalVisibility('add')}
-                    filteredData={filteredData}
+                    isLoading={false}
                 />
             </div>
             <Modal

@@ -3,7 +3,6 @@ import { FormatName } from '@shtcut/_shared/constant';
 import { ActionsTable } from '../actions';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@shtcut-ui/react';
 import { highlightText } from '@shtcut/_shared';
-import StarLoader from '@shtcut/components/loader/star-loader';
 import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 
 const MembersTable = ({
@@ -28,7 +27,7 @@ const MembersTable = ({
     if (isLoading) {
         return (
             <div className="flex flex-col py-12">
-                <SkeletonPlaceholder width="100%" count={6} height='60px' />
+                <SkeletonPlaceholder width="100%" count={6} height="60px" />
             </div>
         );
     }
