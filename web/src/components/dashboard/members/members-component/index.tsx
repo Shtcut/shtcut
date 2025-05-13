@@ -13,7 +13,6 @@ import { users } from '@shtcut/_shared/data';
 
 const MembersComponent = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const [modalContent, setModalContent] = useState<'manage' | 'role' | 'delete' | 'add' | 'invite' | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [selectedStatus] = useState<string | null>(null);
