@@ -1,5 +1,4 @@
 import { Button, Modal as ShadModal, toast } from '@shtcut-ui/react';
-
 import Image from 'next/image';
 import React, { useState } from 'react';
 import MembersTable from '../../members/members-table';
@@ -17,7 +16,6 @@ import { useWorkspace } from '@shtcut/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { inviteFormSchema } from '@shtcut/components/form/auth/sign-up-form/validation';
 import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
-import StarLoader from '@shtcut/components/loader/star-loader';
 import { useRole } from '@shtcut/hooks/roles';
 import { RolesDataResponse } from '@shtcut/types/workspace';
 import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
