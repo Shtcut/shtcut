@@ -17,9 +17,9 @@ export interface ButtonPaginationProps {
 }
 
 export type UsePaginationActions = {
-    handlePageChange: (index: number) => void;
     setPage: Dispatch<SetStateAction<number>>;
     setPerPage: Dispatch<SetStateAction<number>>;
+    handlePageChange: (page: number, newPageSize: number) => void;
 };
 
 export type UsePaginationState = {

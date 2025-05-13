@@ -137,8 +137,13 @@ interface HandleProps {
     response?: any;
 }
 
-export const handleError = ({ error, defaultMessage = 'Failed. Please try again.', title = 'Error!' }: HandleProps) => {
-    const errorMessage = error?.error?.message || error?.data?.message || defaultMessage;
+export const handleError = ({
+    error,
+    defaultMessage = 'An error occurred. Please try again.',
+    title = 'Error!'
+}: HandleProps) => {
+    const errorMessage =
+        error?.error?.message || error?.data?.message || error?.data?.meta?.error?.message || defaultMessage;
     toast({
         variant: 'destructive',
         title: title,

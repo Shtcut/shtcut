@@ -5,7 +5,7 @@ Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to r
 
 ![Shtcut product](https://shtcut-stg.s3.amazonaws.com/shtcut-product.png)
 
-⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
+⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features. Thank you always😊
 
 ![GitHub Logo](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
 
@@ -79,13 +79,14 @@ We welcome contributions to enhance the platform. To contribute:
    ```bash
    git push origin feature-name
    ```
-5. Open a pull request with a detailed description of your changes and it will be reviewed.
+5. Open a pull request with a detailed description of your changes, which will be reviewed.
 
 ## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
+This project is licensed under the MIT License. See the `LICENSE` 
+file for details.
 
 ## Support
-For support and questions, please open an issue on GitHub or contact us at hello@shtcut.co.
+For support and questions, please open an issue on GitHub or contact us at hello@shtcut.co or technical@shtcut.co
 
 ## Conclusion
-Shtcut's Comprehensive All-in-One Marketing Platform is your key to unlocking marketing excellence. Its streamlined workflow, data-driven insights, cost-effective solutions, and future-ready features make it ideal for marketers looking to integrate and enhance marketing capabilities within their applications.
+Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results.

@@ -9,6 +9,7 @@ import { UsePaginationActions, UsePaginationState } from '@shtcut/types/paginati
 import PaginationTable from '@shtcut/components/pagination';
 import DeleteComponent from '@shtcut/components/dashboard/link/link-component/delete-modal';
 import { SearchInput } from '@shtcut/components/dashboard/nav-component';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const LinkBiosComponent = ({
     findAllLinkBioResponse,
@@ -112,13 +113,11 @@ const LinkBiosComponent = ({
                 )}
                 {emptyData && (
                     <section className="mt-6">
-                        <PaginationTable
-                            pageSize={pagination.perPage ?? 10}
-                            pageIndex={pagination.page - 1}
-                            handleOnChange={paginationActions.handlePageChange}
-                            totalItemsCount={findAllLinkBioResponse?.meta.pagination.totalCount ?? 0}
-                            setPageIndex={paginationActions.setPage}
-                            setPageSize={paginationActions.setPerPage}
+                        <PaginationActions
+                            totalItems={findAllLinkBioResponse?.meta.pagination.totalCount}
+                            initialPage={pagination.page}
+                            initialPageSize={pagination.perPage}
+                            onPageChange={paginationActions.handlePageChange}
                         />
                     </section>
                 )}

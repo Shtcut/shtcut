@@ -1,5 +1,4 @@
 import { Button, Modal as ShadModal, toast } from '@shtcut-ui/react';
-
 import Image from 'next/image';
 import React, { useState } from 'react';
 import MembersTable from '../../members/members-table';
@@ -17,13 +16,15 @@ import { useWorkspace } from '@shtcut/hooks';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { inviteFormSchema } from '@shtcut/components/form/auth/sign-up-form/validation';
 import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
-import { useCreateInviteMutation } from '@shtcut/services/members';
-import StarLoader from '@shtcut/components/loader/star-loader';
 import { useRole } from '@shtcut/hooks/roles';
 import { RolesDataResponse } from '@shtcut/types/workspace';
 import CreateWorkSpace from '@shtcut/containers/work-space/work-space-modal';
 import { useCreateWorkspace } from '@shtcut/hooks/current-workspace/create-workspace';
 import Modal from '@shtcut/components/modal';
+import PaginationActions from '@shtcut/components/pagination-component';
+import { useMembers } from '@shtcut/hooks/members';
+import { handleError } from '@shtcut/_shared';
+import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
@@ -31,12 +32,15 @@ const WorkspaceScreen = () => {
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [showMember, setShowMember] = useState(false);
     const [showInvite, setShowInvite] = useState(false);
-    const [emailsInput, setEmailsInput] = useState(['', '', '']);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
     const [selectedStatus] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string | null>(null);
-    const { findAllWorkspacesResponse, findAllWorkspacesLoading } = useWorkspace({ callWorkspaces: true });
-    const [createInvite, { isLoading }] = useCreateInviteMutation();
+    const { findAllWorkspacesResponse, findAllWorkspacesLoading, pagination, paginationActions } = useWorkspace({
+        callWorkspaces: true
+    });
+    const { createInvite, isLoadingState, setLoadingState, findMembersResponse, isLoading } = useMembers({
+        callMembers: true
+    });
     const { findRolesResponse } = useRole({ callRoles: true });
     const {
         handleOnSelectModule,
@@ -50,26 +54,50 @@ const WorkspaceScreen = () => {
         showModal: workspaceShowModal,
         handleModalClose
     } = useCreateWorkspace();
+
     const addInput = () => {
-        if (emailsInput.length < 10) {
-            setEmailsInput([...emailsInput, '']);
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length < 10) {
+            form.setValue('emails', [...currentEmails, '']);
         }
     };
+
     const removeInput = () => {
-        setEmailsInput(emailsInput.slice(0, -1));
+        const currentEmails = form.getValues('emails');
+        if (currentEmails.length > 3) {
+            form.setValue('emails', currentEmails.slice(0, -1));
+        }
     };
 
     const form = useForm({
         resolver: zodResolver(inviteFormSchema),
         defaultValues: {
-            emails: ['', '', '']
+            emails: ['']
         }
     });
 
     const handleFormSubmit = async (values: { emails: string[] }) => {
+        if (values.emails.length === 0) {
+            toast({
+                description: 'Please enter at least one valid email address.',
+                title: 'Members Invitation',
+                variant: 'destructive'
+            });
+            return;
+        }
+        if (!currentWorkspace?._id) {
+            toast({
+                description: 'Workspace is undefined switch your workspace  ',
+                title: 'Switch Workspace',
+                variant: 'destructive'
+            });
+            return;
+        }
         if (currentWorkspace?._id) {
+            setLoadingState('creating', true);
+            const filteredEmails = values.emails.filter((email) => email.trim() !== '');
             const payload = {
-                emails: values.emails,
+                emails: filteredEmails,
                 workspace: currentWorkspace?._id,
                 redirectLink: process.env.NEXT_PUBLIC_REDIRECT_URL || ''
             };
@@ -82,10 +110,9 @@ const WorkspaceScreen = () => {
                     title: 'Members Invitation'
                 });
             } catch (error) {
-                toast({
-                    description: 'Something went wrong!',
-                    title: 'Members Invitation'
-                });
+                handleError({ error });
+            } finally {
+                setLoadingState('creating', false);
             }
         }
     };
@@ -118,6 +145,7 @@ const WorkspaceScreen = () => {
         setSingleRole(null);
         setModalType(null);
         setShowInvite(false);
+        form.reset();
     };
 
     return (
@@ -127,7 +155,7 @@ const WorkspaceScreen = () => {
                     <section>
                         <section className="flex justify-between gap-8 items-center w-full">
                             <section className="h-12 flex items-center w-full px-4 border border-[#e3e3e3] bg-[#f7f7f7] rounded-[4px]">
-                                <h3 className="font-semibold text-sm">Time Web</h3>
+                                <h3 className="font-semibold text-sm">{currentWorkspace?.name}</h3>
                             </section>
                             <Button
                                 onClick={() => {
@@ -156,7 +184,11 @@ const WorkspaceScreen = () => {
                             </div>
                         </div>
                         {selectedTabIndex === 0 && (
-                            <MembersTable filteredData={filteredData} searchQuery={searchQuery} />
+                            <MembersTable
+                                findMembersResponse={findMembersResponse}
+                                searchQuery={searchQuery}
+                                isLoading={isLoading}
+                            />
                         )}
                         {selectedTabIndex === 1 && (
                             <RolesTable
@@ -182,12 +214,12 @@ const WorkspaceScreen = () => {
                         <section>
                             {findAllWorkspacesLoading ? (
                                 <div className="pt-10">
-                                    <StarLoader />
+                                    <SkeletonPlaceholder width="100%" count={6} height="60px" />
                                 </div>
-                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.length > 0 ? (
+                            ) : findAllWorkspacesResponse && findAllWorkspacesResponse?.data.length > 0 ? (
                                 <section className="flex flex-col gap-4 mt-6">
                                     {findAllWorkspacesResponse &&
-                                        findAllWorkspacesResponse.map((workspace) => (
+                                        findAllWorkspacesResponse?.data.map((workspace) => (
                                             <div
                                                 key={workspace?._id}
                                                 className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
@@ -219,6 +251,14 @@ const WorkspaceScreen = () => {
                             ) : (
                                 <div className="text-center text-sm">No avaliable workspace</div>
                             )}
+                            <section>
+                                <PaginationActions
+                                    totalItems={findAllWorkspacesResponse?.meta.pagination.totalCount ?? 0}
+                                    initialPage={pagination.page}
+                                    initialPageSize={pagination.perPage}
+                                    onPageChange={paginationActions.handlePageChange}
+                                />
+                            </section>
                         </section>
                     </section>
                 </>
@@ -234,9 +274,10 @@ const WorkspaceScreen = () => {
                         removeInput={removeInput}
                         handleFormSubmit={handleFormSubmit}
                         form={form}
-                        emailsInput={emailsInput}
+                        emailsInput={form.watch('emails')}
                         addInput={addInput}
-                        isLoading={isLoading}
+                        isLoading={isLoadingState}
+                        handleClose={handleClose}
                     />
                 )}
                 {modalType === 'user' && <UserModal onClose={() => setShowInvite(false)} />}

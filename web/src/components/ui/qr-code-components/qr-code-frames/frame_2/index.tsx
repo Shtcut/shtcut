@@ -24,8 +24,8 @@ const Frame_2 = () => {
                     eyeRadius={state?.eyeRadius as EyeRadiusType}
                 />
             </div>
-            <div className=" h-10 flex rounded-b-[6px] justify-center items-center w-full">
-                <p className={`text-sm  uppercase`}>{state?.title ? String(state?.title) : 'SCAN ME'}</p>
+            <div className=" h-10 flex rounded-b-[6px] justify-center items-center w-full ">
+                <p className={`text-sm  uppercase mt-2`}>{state?.title ? String(state?.title) : 'SCAN ME'}</p>
             </div>
         </div>
     );

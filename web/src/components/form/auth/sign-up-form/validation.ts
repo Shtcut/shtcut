@@ -18,9 +18,12 @@ export const signUpValues = {
 };
 export const signUpValidationSchema = z.object({ firstName, lastName, email, password });
 
-const emailSchema = z.string().email('Invalid email address');
+const emailSchema = z.union([z.string().email({ message: 'Invalid email address' }), z.literal('')]);
+
 export const inviteFormSchema = z.object({
-    emails: z.array(emailSchema).min(1, 'At least one email is required')
+    emails: z.array(emailSchema).refine((emails) => emails.filter((email) => email !== '').length > 0, {
+        message: 'At least one email is required'
+    })
 });
 
 export const createRoleSchema = z.object({

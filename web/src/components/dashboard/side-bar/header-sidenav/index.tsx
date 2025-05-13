@@ -14,13 +14,11 @@ import {
     TooltipTrigger
 } from '@shtcut-ui/react';
 import { Plus, ArrowLeft } from 'lucide-react';
-import Image from 'next/image';
 import { Progress } from '@shtcut/components/_shared/Progress-bar';
-import { getInitials } from '@shtcut/_shared/constant';
 import { FullPageLoader } from '@shtcut/components/windows-loading';
 import { useWorkspaceData } from '@shtcut/hooks/workspace/workspacedata';
 import InitialsAvatar from '@shtcut/components/initial-avatar';
-import { truncate, truncateText } from '@shtcut/_shared';
+import { truncateText } from '@shtcut/_shared';
 
 const HeaderSideNav = ({
     isOpen,
@@ -112,17 +110,10 @@ const HeaderSideNav = ({
                                         </div>
                                         <p className="text-xs font-medium text-white">Manage</p>
                                     </div>
-                                    <div className="bg-white rounded-[10px] pb-3 mt-4 px-2">
-                                        <div className="flex justify-between cursor-pointer items-center py-3">
-                                            <Button className="w-[52px] h-[24px] rounded-[10px] text-xs">Team</Button>
-                                            <p className="text-[#2B2829] text-xs font-semibold">2 of 10 seats used</p>
-                                        </div>
-                                        <Progress className="bg-[#D6F9D8] h-[6px]" value={33} />
-                                    </div>
                                 </section>
-                                <div className="flex flex-col gap-4 p-4">
+                                <div className="flex flex-col gap-4 p-4 max-h-[300px] overflow-y-auto">
                                     {findAllWorkspacesResponse &&
-                                        findAllWorkspacesResponse?.map((data) => (
+                                        findAllWorkspacesResponse?.data?.map((data) => (
                                             <section
                                                 key={data?._id}
                                                 className="flex items-center gap-x-2 cursor-pointer"
@@ -141,13 +132,15 @@ const HeaderSideNav = ({
                                                 </div>
                                             </section>
                                         ))}
+                                </div>
+                                <section className="p-4 ">
                                     <DropdownMenuCheckboxItem
                                         onClick={openCreateWorkSpace}
                                         className=" flex  items-center gap-x-2 text-xs mt-2 font-semibold text-[#433E3F] p-2 cursor-pointer"
                                     >
                                         <Plus size={16} /> Add New Workspace
                                     </DropdownMenuCheckboxItem>
-                                </div>
+                                </section>
                             </DropdownMenuContent>
                         </DropdownMenu>
                     </div>

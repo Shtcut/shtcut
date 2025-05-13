@@ -31,7 +31,6 @@ import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
 import { useUpdateArchivedLinkMutation } from '@shtcut/services/link';
 import { handleError } from '@shtcut/_shared';
 import Modal from '@shtcut/components/modal';
-import { useWorkspace } from '@shtcut/hooks';
 
 const LinkComponent = ({
     findAllLinksResponse,

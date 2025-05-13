@@ -7,7 +7,7 @@ import StarLoader from '@shtcut/components/loader/star-loader';
 import { ModalType, SettingsComponentType } from '@shtcut/types/types';
 import CreateTags from './add-tag';
 import DeleteTag from './delete-tag';
-import PaginationTable from '@shtcut/components/pagination';
+import PaginationActions from '@shtcut/components/pagination-component';
 
 const TagsScreen = ({
     findAllTagsResponse,
@@ -72,7 +72,7 @@ const TagsScreen = ({
         <div>
             <section className="flex justify-between gap-8 items-center w-full">
                 <section className="h-12 flex w-full items-center px-4 border border-[#e3e3e3] bg-[#f7f7f7] rounded-[4px]">
-                    <h3 className="font-semibold text-sm">Profile</h3>
+                    <h3 className="font-semibold text-sm">Tags</h3>
                 </section>
                 <Button className="text-xs h-8 rounded bg-primary-0" onClick={() => toggleSection('add-tags')}>
                     Add Tags
@@ -125,13 +125,11 @@ const TagsScreen = ({
                     </Card>
                 )}
                 <section className="mt-6">
-                    <PaginationTable
-                        pageSize={pagination.perPage ?? 10}
-                        pageIndex={pagination.page - 1}
-                        handleOnChange={paginationActions.handlePageChange}
-                        totalItemsCount={totalCount}
-                        setPageIndex={paginationActions.setPage}
-                        setPageSize={paginationActions.setPerPage}
+                    <PaginationActions
+                        totalItems={totalCount}
+                        initialPage={pagination.page}
+                        initialPageSize={pagination.perPage}
+                        onPageChange={paginationActions.handlePageChange}
                     />
                 </section>
             </section>

@@ -47,6 +47,9 @@ const MultiTagsInput = ({
     );
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
     const [inputValue, setInputValue] = useState<string>('');
+    const MAX_TAGS = 5;
+    const isMaxReached = tags.length >= MAX_TAGS;
+
     const addTag = async (tagText: string) => {
         const normalizedTagText = tagText.toLowerCase();
 
@@ -149,19 +152,22 @@ const MultiTagsInput = ({
                         value={inputValue}
                         onChange={handleChange}
                         onKeyDown={handleKeyDown}
-                        placeholder={placeholder}
-                        disabled={!watchLink || isLoadingState}
+                        placeholder={isMaxReached ? 'Max 5 tags allowed' : placeholder}
+                        disabled={!watchLink || isLoadingState || isMaxReached}
                     />
                     {initialTags && initialTags.length > 0 && (
                         <Select onValueChange={handleSelectChange}>
-                            <SelectTrigger disabled={!watchLink} className="border-none  rounded-none h-10 w-1/3">
+                            <SelectTrigger
+                                disabled={!watchLink || isMaxReached}
+                                className="border-none  rounded-none h-10 w-1/3"
+                            >
                                 {/* <SelectValue placeholder="Select a tag" /> */}
                             </SelectTrigger>
                             <SelectContent className="border-none">
                                 {initialTags &&
                                     initialTags?.map((option, index) => (
                                         <SelectItem
-                                            disabled={!watchLink || selectedIds.includes(option._id)}
+                                            disabled={!watchLink || selectedIds.includes(option._id) || isMaxReached}
                                             key={index}
                                             value={option?.name}
                                         >
@@ -173,8 +179,14 @@ const MultiTagsInput = ({
                     )}{' '}
                 </div>
             </div>
-            <div className="flex justify-end">
-                <Button variant={'unstyled'} className="text-xs m-0 p-0 text-primary-0 underline" onClick={clearTags}>
+            <div className="flex justify-between">
+                {isMaxReached && <p className="text-red-500 text-xs mt-1">You can only add up to 5 tags.</p>}
+
+                <Button
+                    variant={'unstyled'}
+                    className="text-xs m-0 p-0 text-primary-0 underline flex-1 flex justify-end"
+                    onClick={clearTags}
+                >
                     Clear All
                 </Button>
             </div>

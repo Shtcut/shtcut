@@ -23,7 +23,6 @@ export const useWorkspaceData = () => {
         filter: { isDefault: true }
     });
 
-    // Automatically set active workspace when default workspace data loads
     useEffect(() => {
         if (findWorkSpaceData && findWorkSpaceData[0]) {
             dispatch(setActiveWorkspace(findWorkSpaceData[0]));
@@ -32,7 +31,7 @@ export const useWorkspaceData = () => {
 
     const activeWorkspace = useSelector((state: RootState) => state.workspace.activeWorkspace);
 
-    const activeWorkspaceName = activeWorkspace?.name ?? findWorkSpaceData?.[0]?.name;
+    const activeWorkspaceName = activeWorkspace?.name ?? findWorkSpaceData?.data?.[0]?.name;
     return {
         // Data
         findAllWorkspacesResponse,

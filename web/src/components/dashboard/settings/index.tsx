@@ -13,6 +13,15 @@ import {
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { tabs } from '@shtcut/_shared/data';
 import { SettingsComponentType } from '@shtcut/types/types';
+import Modal from '@shtcut/components/modal';
+import ChangePasswordForm from './security/components/change-password-form';
+import { Form } from '@shtcut-ui/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { LoadingButton } from '@shtcut/components/_shared/loading-button';
+import { changePasswordValidationSchema } from '@shtcut/components/form/auth/update-password-form/validation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { get } from 'lodash';
 
 const SettingComponent = ({
     findAllTagsResponse,
@@ -24,9 +33,13 @@ const SettingComponent = ({
     deleteTagResponse,
     pagination,
     paginationActions,
-    totalCount
+    totalCount,
+    changePassword,
+    changePasswordResponse
 }: SettingsComponentType) => {
+    const { isSuccess, isLoading: changePasswordloading, error } = changePasswordResponse;
     const params = useParams();
+    const [showModal, setShowModal] = useState(false);
     const { module, workspace } = params;
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -49,6 +62,33 @@ const SettingComponent = ({
 
         setSelectedTabIndex(findTabIndex());
     }, [queryTag, tabs]);
+
+    const form = useForm<z.infer<typeof changePasswordValidationSchema>>({
+        resolver: zodResolver(changePasswordValidationSchema),
+        defaultValues: {
+            currentPassword: '',
+            password: ''
+        }
+    });
+    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
+    console.log('error', error);
+    console.log('errorMessage', errorMessage);
+
+    const onSubmit = (payload: z.infer<typeof changePasswordValidationSchema>) => {
+        changePassword({
+            payload,
+            options: {
+                successMessage: 'Password changed successfully',
+                errorMessage: errorMessage
+            }
+        });
+    };
+    useEffect(() => {
+        if (isSuccess) {
+            setShowModal(false);
+            form.reset();
+        }
+    }, [isSuccess]);
 
     return (
         <div className="px-10">
@@ -80,9 +120,26 @@ const SettingComponent = ({
                 )}
                 {selectedTabIndex === 2 && <BillingsScreen />}
                 {selectedTabIndex === 3 && <WorkspaceScreen />}
-                {selectedTabIndex === 4 && <SecurityScreen />}
+                {selectedTabIndex === 4 && <SecurityScreen onOpenModal={() => setShowModal(true)} />}
                 {selectedTabIndex === 5 && <NotificationScreen />}
                 {selectedTabIndex === 6 && <ApiKeysScreen />}
+
+                <Modal
+                    isOpen={showModal}
+                    onClose={() => setShowModal(false)}
+                    title="Change Password"
+                    border
+                    className="w-96"
+                >
+                    <Form {...form}>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+                            <ChangePasswordForm form={form} />
+                            <LoadingButton loading={changePasswordloading} type="submit" className="mt-6">
+                                Submit
+                            </LoadingButton>
+                        </form>
+                    </Form>
+                </Modal>
             </section>
         </div>
     );

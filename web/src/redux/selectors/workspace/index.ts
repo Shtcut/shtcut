@@ -12,5 +12,5 @@ export const selectFindAllWorkspace = (state: RootState, params: QueryArgs) => {
     return findAllWorkspaces.select(params)(state);
 };
 
-export const selectFindAllWorkspaceData = createSelector(selectFindAllWorkspace, ({ data }) => data?.data);
+export const selectFindAllWorkspaceData = createSelector(selectFindAllWorkspace, ({ data }) => data);
 export const selectWorkspaceData = createSelector(selectWorkspace, ({ data }) => data?.data);
