@@ -25,6 +25,7 @@ import PaginationActions from '@shtcut/components/pagination-component';
 import { useMembers } from '@shtcut/hooks/members';
 import { handleError } from '@shtcut/_shared';
 import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
+import InitialsAvatar from '@shtcut/components/initial-avatar';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
@@ -225,12 +226,13 @@ const WorkspaceScreen = () => {
                                                 className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
                                             >
                                                 <div className="flex items-center gap-4">
-                                                    <Image
+                                                    {/* <Image
                                                         src={'/images/send-icon.png'}
                                                         width={44}
                                                         height={44}
                                                         alt="send"
-                                                    />
+                                                    /> */}
+                                                    <InitialsAvatar name={workspace?.name} size={44} />
                                                     <div>
                                                         <p className="text-sm font-semibold">{workspace?.name}</p>
                                                         <p className="text-xs text-[#83899F]">

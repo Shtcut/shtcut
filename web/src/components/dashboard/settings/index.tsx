@@ -1,15 +1,7 @@
 'use client';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import React, { useState, useEffect } from 'react';
-import {
-    ApiKeysScreen,
-    BillingsScreen,
-    GeneralScreen,
-    NotificationScreen,
-    SecurityScreen,
-    TagsScreen,
-    WorkspaceScreen
-} from './component';
+import { GeneralScreen, SecurityScreen, TagsScreen, WorkspaceScreen } from './component';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { tabs } from '@shtcut/_shared/data';
 import { SettingsComponentType } from '@shtcut/types/types';
@@ -118,11 +110,11 @@ const SettingComponent = ({
                         totalCount={totalCount}
                     />
                 )}
-                {selectedTabIndex === 2 && <BillingsScreen />}
-                {selectedTabIndex === 3 && <WorkspaceScreen />}
-                {selectedTabIndex === 4 && <SecurityScreen onOpenModal={() => setShowModal(true)} />}
-                {selectedTabIndex === 5 && <NotificationScreen />}
-                {selectedTabIndex === 6 && <ApiKeysScreen />}
+                {/* {selectedTabIndex === 2 && <BillingsScreen />} */}
+                {selectedTabIndex === 2 && <WorkspaceScreen />}
+                {selectedTabIndex === 3 && <SecurityScreen onOpenModal={() => setShowModal(true)} />}
+                {/* {selectedTabIndex === 5 && <NotificationScreen />} */}
+                {/* {selectedTabIndex === 6 && <ApiKeysScreen />} */}
 
                 <Modal
                     isOpen={showModal}
