@@ -662,11 +662,8 @@ export const modules = [
 export const tabs = [
     { id: 'general', label: 'General' },
     { id: 'tags', label: 'Tags' },
-    { id: 'billings', label: 'Billing' },
     { id: 'workspace', label: 'Workspace' },
-    { id: 'security', label: 'Security' },
-    { id: 'notification', label: 'Notification' },
-    { id: 'api-keys', label: 'API Keys' }
+    { id: 'security', label: 'Security' }
 ];
 
 export const social_media = [

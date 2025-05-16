@@ -49,12 +49,12 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
             href: `/url/${workspace}/qr-codes`,
             icon: <PiQrCodeBold size={16} />
         },
-        {
-            id: '5',
-            title: 'Domains',
-            href: `/url/${workspace}/domains`,
-            icon: <PiProjectorScreenChartBold size={16} />
-        },
+        // {
+        //     id: '5',
+        //     title: 'Domains',
+        //     href: `/url/${workspace}/domains`,
+        //     icon: <PiProjectorScreenChartBold size={16} />
+        // },
         {
             id: '6',
             title: 'Analytics',
