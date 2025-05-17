@@ -89,7 +89,8 @@ export abstract class BaseController {
       const reqObj = await this.service.prepareBodyObject(req);
       let value = await this.service.retrieveExistingResource(reqObj);
 
-      const currentWorkspace = (req as any).currentWorkspace;
+      const currentWorkspace = (req as any).workspace;
+
       if (currentWorkspace) {
         reqObj.workspace = currentWorkspace;
       }
