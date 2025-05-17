@@ -521,7 +521,7 @@ export class MongoBaseService extends BaseAbstract {
       for (const key of uniqueKeys) {
         query[key] = obj[key];
       }
-      const cacheKey = this.getCacheKey(uniqueKeys[0]);
+      const cacheKey = this.getCacheKey(JSON.stringify(query));
       let object = await this.getCacheObject(cacheKey);
       if (_.isUndefined(object)) {
         object = !_.isEmpty(query)
