@@ -21,11 +21,12 @@ import {
   VCardQRCodeDto,
   WebsiteQRCodeDto,
   MultiLinkQRCodeDto,
+  ResponseOption,
 } from 'shtcut/core';
 
-import { HitService } from '../../hit';
-import * as _ from 'lodash';
 import { Request } from 'express';
+import * as _ from 'lodash';
+import { HitService } from '../../hit';
 
 @Injectable()
 export class QrCodeService extends MongoBaseService {
@@ -374,5 +375,11 @@ export class QrCodeService extends MongoBaseService {
       value: data.value,
       message: data.message ?? lang.get('qrcodes').created,
     };
+  }
+
+  async getResponse(option: ResponseOption) {
+    option.queryParser.population = ['link'];
+    option.queryParser.populationOptions = { select: { alias: 1, clicks: 1 } };
+    return await super.getResponse(option);
   }
 }
