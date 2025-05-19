@@ -45,7 +45,11 @@ const MultiTagsInput = ({
     const [tags, setTags] = useState<{ _id: string; text: string; color: string }[]>(
         isEdit ? singleLink?.tags?.map((tag) => ({ _id: tag?._id, text: tag.name, color: getRandomColor() })) : []
     );
-    const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+    const [selectedIds, setSelectedIds] = useState<string[]>(
+        isEdit ? singleLink?.tags?.map((tag) => tag?._id) || [] : []
+    );
+    console.log('selectedIds', selectedIds);
     const [inputValue, setInputValue] = useState<string>('');
     const MAX_TAGS = 5;
     const isMaxReached = tags.length >= MAX_TAGS;
@@ -62,6 +66,7 @@ const MultiTagsInput = ({
                 const newTag = { _id: response?.data?.id, text: tagText, color };
                 const newTags = [...tags, newTag];
                 const newIds = [...selectedIds, response?.data?.id];
+                console.log('newTags', newTags);
                 setTags(newTags);
                 setSelectedIds(newIds);
 
@@ -98,7 +103,6 @@ const MultiTagsInput = ({
                 const newIds = [...selectedIds, selectedTag.id];
                 setTags(newTags);
                 setSelectedIds(newIds);
-
                 if (onTagsChange) {
                     onTagsChange(newIds);
                 }
@@ -123,6 +127,22 @@ const MultiTagsInput = ({
             onTagsChange([]);
         }
     };
+
+    React.useEffect(() => {
+        if (isEdit && singleLink?.tags?.length) {
+            const mappedTags = singleLink.tags.map((tag) => ({
+                _id: tag._id,
+                text: tag.name,
+                color: getRandomColor()
+            }));
+            const ids = singleLink.tags.map((tag) => tag._id);
+            setTags(mappedTags);
+            setSelectedIds(ids);
+            if (onTagsChange) {
+                onTagsChange(ids);
+            }
+        }
+    }, [isEdit, singleLink]);
 
     return (
         <div className={`w-full relative rounded ${className}`}>
