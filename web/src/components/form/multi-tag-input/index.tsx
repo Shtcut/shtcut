@@ -49,7 +49,6 @@ const MultiTagsInput = ({
     const [selectedIds, setSelectedIds] = useState<string[]>(
         isEdit ? singleLink?.tags?.map((tag) => tag?._id) || [] : []
     );
-    console.log('selectedIds', selectedIds);
     const [inputValue, setInputValue] = useState<string>('');
     const MAX_TAGS = 5;
     const isMaxReached = tags.length >= MAX_TAGS;
