@@ -22,6 +22,8 @@ import {
   WebsiteQRCodeDto,
   MultiLinkQRCodeDto,
   ResponseOption,
+  Pagination,
+  QueryParser,
 } from 'shtcut/core';
 
 import { Request } from 'express';
@@ -377,9 +379,9 @@ export class QrCodeService extends MongoBaseService {
     };
   }
 
-  async getResponse(option: ResponseOption) {
-    option.queryParser.population = ['link'];
-    option.queryParser.populationOptions = { select: { alias: 1, clicks: 1 } };
-    return await super.getResponse(option);
+  async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
+    queryParser.population = ['link'];
+    queryParser.populationOptions = { select: { alias: 1, clicks: 1 } };
+    return await super.buildModelQueryObject(pagination, queryParser, req);
   }
 }
