@@ -198,6 +198,7 @@ const LinkComponent = ({
             return acc;
         }, {});
         const aliasString = randomAlias ? randomAlias : data?.alias;
+
         const payload: Record<string, any> = {
             title: data?.title,
             target: data?.target,
