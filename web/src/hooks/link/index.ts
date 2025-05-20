@@ -4,7 +4,7 @@
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
 import { usePagination } from '../usePagination';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
     useArchivedManyLinksMutation,
     useCreateLinkMutation,
@@ -108,29 +108,31 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         });
     };
 
-    const params = {
-        ...pagination,
-        population: JSON.stringify([
-            { path: 'user' },
-            { path: 'domain', select: ['slug', 'name'] },
-            { path: 'qrCode' },
-            { path: 'tags' }
-        ]),
-        search: debouncedSearch,
-        all,
-        ...filter
-    };
+    const params = useMemo(
+        () => ({
+            ...pagination,
+            population: JSON.stringify([
+                { path: 'user' },
+                { path: 'domain', select: ['slug', 'name'] },
+                { path: 'qrCode' },
+                { path: 'tags' }
+            ]),
+            search: debouncedSearch,
+            all,
+            ...filter
+        }),
+        [pagination.page, pagination.perPage, debouncedSearch, all, JSON.stringify(filter)]
+    );
+
     const handleSearchChange = debounce((newSearch: string) => {
         setDebouncedSearch(newSearch);
     }, 500);
 
     useEffect(() => {
         if (callLinks) {
-            findAllLinks({
-                ...params
-            });
+            findAllLinks(params);
         }
-    }, [callLinks, debouncedSearch, findAllLinks, pagination, filter]);
+    }, [callLinks, params, findAllLinks]);
 
     useEffect(() => {
         if (id) {

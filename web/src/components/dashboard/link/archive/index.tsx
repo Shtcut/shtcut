@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, toast } from '@shtcut-ui/react';
+import { Card, toast } from '@shtcut-ui/react';
 import { formatDate, getApexDomain, truncate } from '@shtcut/_shared';
 import { GOOGLE_FAVICON_URL } from '@shtcut/_shared/constant';
 import { LinkNameSpace, LinkTypeResponse } from '@shtcut/_shared/namespace/link';
@@ -22,7 +22,8 @@ const LinkArchiveComponent = ({
     findAllLinks,
     archived,
     handleCheckboxChange,
-    handleArchivedMany
+    handleArchivedMany,
+    doFind = () => {}
 }: LinkTypeResponse) => {
     const [loadingId, setLoadingId] = useState<string | null>(null);
 
@@ -46,7 +47,7 @@ const LinkArchiveComponent = ({
                 title: 'Link Updated',
                 description: successMessage || 'links successfully Archived'
             });
-            findAllLinks();
+            doFind();
             setLoadingState('updating', false);
         } catch (err) {
             const errorMessage = (err as any)?.data?.message || 'Failed . Please try again.';
@@ -57,7 +58,7 @@ const LinkArchiveComponent = ({
                 description: errorMessage
             });
         } finally {
-            setLoadingId(null); // Reset loading state
+            setLoadingId(null);
             setLoadingState('updating', false);
         }
     };
@@ -164,7 +165,7 @@ const LinkArchiveComponent = ({
                             })}
                         </section>
                     ) : (
-                        <section>none</section>
+                        <div className="flex h-[60vh] justify-center items-center text-gray-500">No data available</div>
                     )}
                 </section>
             )}

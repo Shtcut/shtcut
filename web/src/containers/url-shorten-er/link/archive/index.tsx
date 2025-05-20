@@ -70,6 +70,7 @@ const LinkArchiveContainer = () => {
             archived={archived}
             handleCheckboxChange={handleCheckboxChange}
             handleArchivedMany={handleArchivedMany}
+            doFind={doFind}
         />
     );
 };

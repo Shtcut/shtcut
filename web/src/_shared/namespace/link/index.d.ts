@@ -174,4 +174,5 @@ export interface LinkTypeResponse {
     archived: string[];
     handleCheckboxChange: (id: string, isChecked: boolean) => void;
     handleArchivedMany: () => void;
+    doFind?: () => void;
 }

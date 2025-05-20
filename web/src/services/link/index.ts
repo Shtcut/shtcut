@@ -75,14 +75,16 @@ export const linkApi = api.injectEndpoints({
             // Invalidates both the deleted item and the full list
             invalidatesTags: (result, error, { payload }) => [
                 { type: 'Link', id: payload.id }, // Specific deleted item
-                { type: 'Link', id: 'LIST' } // Entire list
+                { type: 'Link', id: 'LIST' }
             ]
         }),
         deleteManyLinks: builder.mutation<Dict, { payload: { ids: string[] } }>({
             query: ({ payload }) => ({
                 url: `${SHTNER.links}/delete/many`,
                 method: DELETE,
-                body: payload
+                body: {
+                    ids: payload
+                }
             }),
             invalidatesTags: [linkTag]
         }),
@@ -90,7 +92,9 @@ export const linkApi = api.injectEndpoints({
             query: ({ payload }) => ({
                 url: `${SHTNER.links}/toggle-archive/many`,
                 method: POST,
-                body: payload
+                body: {
+                    ids: payload
+                }
             }),
             invalidatesTags: [linkTag]
         }),
