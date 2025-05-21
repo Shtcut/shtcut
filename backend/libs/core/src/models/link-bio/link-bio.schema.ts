@@ -98,6 +98,12 @@ export class LinkBio {
   active: boolean;
 
   @Prop({
+    type: Number,
+    default: 0,
+  })
+  clicks: number;
+
+  @Prop({
     type: Boolean,
     select: false,
     default: false,
@@ -152,6 +158,7 @@ LinkBioSchema.statics.config = () => {
       'colors',
       'links',
       'address',
+      'clicks',
     ],
     hiddenFields: ['deleted'],
   };
