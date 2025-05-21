@@ -18,7 +18,6 @@ export class QueryParser {
   private _selection;
   private _page;
   private _search;
-  private _populationOptions;
 
   /**
    * @constructor
@@ -36,7 +35,6 @@ export class QueryParser {
       'filters',
       'selection',
       'population',
-      'populationOptions',
       'search',
       'regex',
       'nested',
@@ -186,28 +184,6 @@ export class QueryParser {
     if (!_.isObject(value)) {
       try {
         this._population = JSON.parse(String(value));
-      } catch (e) {}
-    }
-  }
-
-  /**
-   * @return {Object} get the population options object for query
-   */
-  get populationOptions() {
-    if (this._populationOptions) {
-      return this._populationOptions;
-    }
-    return null;
-  }
-
-  /**
-   * @param {Object} value is the population options object
-   */
-  set populationOptions(value) {
-    this._populationOptions = value;
-    if (!_.isObject(value)) {
-      try {
-        this._populationOptions = JSON.parse(String(value));
       } catch (e) {}
     }
   }
@@ -373,9 +349,6 @@ export class QueryParser {
     this._sort = query.sort;
     if (query.population) {
       this.population = query.population;
-    }
-    if (query.populationOptions) {
-      this.populationOptions = query.populationOptions;
     }
     if (query.search) {
       this._search = query.search;

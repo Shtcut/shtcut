@@ -143,10 +143,7 @@ export abstract class BaseAbstract {
         meta.message = message;
       }
       if (option.value && queryParser && option.queryParser.population && this.model && this.model.populate) {
-        option.value = await this.model.populate(option.value, {
-          path: queryParser.population.join(','),
-          select: option.queryParser.populationOptions?.select || {},
-        });
+        option.value = await this.model.populate(option.value, queryParser.population);
       }
       if (option.pagination && !option.queryParser.getAll) {
         option.pagination.totalCount = count;

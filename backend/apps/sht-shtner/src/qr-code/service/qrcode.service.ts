@@ -378,10 +378,4 @@ export class QrCodeService extends MongoBaseService {
       message: data.message ?? lang.get('qrcodes').created,
     };
   }
-
-  async buildModelQueryObject(pagination: Pagination, queryParser: QueryParser, req?: Request) {
-    queryParser.population = ['link'];
-    queryParser.populationOptions = { select: { alias: 1, clicks: 1 } };
-    return await super.buildModelQueryObject(pagination, queryParser, req);
-  }
 }
