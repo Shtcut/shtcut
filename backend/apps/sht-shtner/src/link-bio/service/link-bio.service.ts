@@ -10,9 +10,9 @@ export class LinkBioService extends MongoBaseService {
   }
 
   async searchOneObject(query: Record<string, any>) {
-    const object = await super.searchOneObject(query);
+    let object = await super.searchOneObject(query);
     const clicks: number = (object?.clicks || 0) + 1;
-    if (object) super.updateObject(object.id, { clicks });
+    if (object) object = super.updateObject(object.id, { clicks });
     return object;
   }
 }
