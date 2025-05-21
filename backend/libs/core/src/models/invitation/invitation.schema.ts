@@ -21,7 +21,6 @@ export class Invitation {
 
   @Prop({
     type: String,
-    unique: true,
     required: true,
     lowercase: true,
   })
@@ -65,7 +64,7 @@ const InvitationSchema = SchemaFactory.createForClass(Invitation);
 InvitationSchema.virtual('id').get(function () {
   return this._id.toHexString();
 });
-
+InvitationSchema.index({ email: 1, workspace: 1 }, { unique: true });
 InvitationSchema.statics.config = () => {
   return {
     idToken: 'inv',

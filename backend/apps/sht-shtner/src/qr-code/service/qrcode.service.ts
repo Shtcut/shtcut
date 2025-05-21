@@ -21,11 +21,14 @@ import {
   VCardQRCodeDto,
   WebsiteQRCodeDto,
   MultiLinkQRCodeDto,
+  ResponseOption,
+  Pagination,
+  QueryParser,
 } from 'shtcut/core';
 
-import { HitService } from '../../hit';
-import * as _ from 'lodash';
 import { Request } from 'express';
+import * as _ from 'lodash';
+import { HitService } from '../../hit';
 
 @Injectable()
 export class QrCodeService extends MongoBaseService {
