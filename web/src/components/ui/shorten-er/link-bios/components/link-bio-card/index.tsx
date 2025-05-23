@@ -68,7 +68,7 @@ const LinkBioCard = ({
                     <div
                         className={`text-xs cursor-pointer flex mx-auto items-center w-[83px] justify-center text-primary-0 rounded h-8 bg-[#F4F7FF]  font-semibold border gap-x-1 border-primary-0`}
                     >
-                        <PiChartBar size={16} /> <span>0 Clicks</span>
+                        <PiChartBar size={16} /> <span>{data?.clicks} Clicks</span>
                     </div>
                     <LinkBioCardActions
                         onDeleteShowModal={handleShowDelete}
