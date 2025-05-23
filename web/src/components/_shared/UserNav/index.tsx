@@ -9,10 +9,10 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from '@shtcut-ui/react';
-import { useSidebar } from '@shtcut/components/dashboard/side-bar-context';
+// import { useSidebar } from '@shtcut/components/dashboard/side-bar-context';
 import { useAuth } from '@shtcut/hooks';
 import { useUser } from '@shtcut/hooks/user';
-import { LogOut, Settings, PanelRightOpen, ChevronDown, ChevronUp } from 'lucide-react';
+import { LogOut, Settings, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -23,7 +23,7 @@ export const UserNav = () => {
     const { handleLogout } = useAuth();
     const { data } = loggedInUserData;
     const { data: user } = data || {};
-    const { toggleSidebar } = useSidebar();
+    // const { toggleSidebar } = useSidebar();
     const [isOpen, setIsOpen] = useState(false);
     const params = useParams();
 
@@ -74,15 +74,10 @@ export const UserNav = () => {
                             <Settings size={18} /> Account Settings
                         </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="cursor-pointer">
-                        <Link href="/settings/billing">Billing</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem asChild className="cursor-pointer">
-                        <Link href="/settings/keys">API Keys</Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className="cursor-pointer" onClick={toggleSidebar}>
+
+                    {/* <DropdownMenuItem className="cursor-pointer" onClick={toggleSidebar}>
                         <PanelRightOpen size={20} />
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="cursor-pointer" asChild onClick={handleLogout}>
