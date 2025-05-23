@@ -77,6 +77,8 @@ const WorkspaceScreen = () => {
         }
     });
 
+    console.log('currentWorkspace', currentWorkspace);
+
     const handleFormSubmit = async (values: { emails: string[] }) => {
         if (values.emails.length === 0) {
             toast({
