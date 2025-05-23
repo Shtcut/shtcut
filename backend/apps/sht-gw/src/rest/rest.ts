@@ -28,4 +28,4 @@ export const ShtnerEndpoints = [
   { path: '/shtner/qrcodes*', method: RequestMethod.ALL },
 ];
 
-export const WorkerEndpoints = [{ path: '/media*', method: RequestMethod.ALL }];
+export const WorkerEndpoints = [{ path: '/worker/media*', method: RequestMethod.ALL }];
