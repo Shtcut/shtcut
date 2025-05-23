@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { ClientSession } from 'mongodb';
 import { Model } from 'mongoose';
 import { Dict, FileUploadEnum, FileUploadService, Media, MongoBaseService, Utils } from 'shtcut/core';
+import { default as PQueue } from 'p-queue';
 
 @Injectable()
 export class MediaService extends MongoBaseService {
@@ -33,48 +34,57 @@ export class MediaService extends MongoBaseService {
     }).save();
   }
 
-  public async upload(uploaded, sharpOptions?) {
-    try {
-      const ext = uploaded.mimetype.split('/');
-      const data = {
-        body: uploaded.buffer,
-        name: `${uploaded.fieldname}`,
-      };
-      if (ext && ext.length > 1) {
-        data['name'] = `${data.name}.${ext.pop()}`;
-      }
-      let url;
-      const uploadDefault = this.config.get<string>('worker.fileUpload.default');
-      switch (uploadDefault) {
-        case FileUploadEnum.AWS_S3:
-          const uploadedFile = await this.fileService.uploadToS3(data);
-          url = uploadedFile['Location'];
-          break;
-        case FileUploadEnum.GCS:
-          url = await this.fileService.uploadToGCS(data);
-          break;
-        case FileUploadEnum.AZURE:
-          url = await this.fileService.useAzure(data);
-          break;
-        case FileUploadEnum.CLOUDINARY:
-          url = await this.fileService.useCloudinary(data, sharpOptions);
-          break;
-        default:
-          break;
-      }
-      const payload = {
-        file: {
-          name: uploaded.originalname,
-          url: url.url,
-          fileType: uploaded.mimetype,
-        },
-        ...uploaded,
-      };
-      return await this.createNewObject({
-        ...payload,
+  public async upload(files, sharpOptions?) {
+    const q = new PQueue({ concurrency: 10 });
+    const result = [];
+    for (const file of files) {
+      q.add(async () => {
+        try {
+          const ext = file.mimetype.split('/');
+          const data = {
+            body: file.buffer,
+            name: `${file.fieldname}`,
+          };
+          if (ext && ext.length > 1) {
+            data['name'] = `${data.name}.${ext.pop()}`;
+          }
+          let url;
+          const uploadDefault = this.config.get<string>('worker.fileUpload.default');
+          switch (uploadDefault) {
+            case FileUploadEnum.AWS_S3:
+              const uploadedFile = await this.fileService.uploadToS3(data);
+              url = uploadedFile['Location'];
+              break;
+            case FileUploadEnum.GCS:
+              url = await this.fileService.uploadToGCS(data);
+              break;
+            case FileUploadEnum.AZURE:
+              url = await this.fileService.useAzure(data);
+              break;
+            case FileUploadEnum.CLOUDINARY:
+              url = await this.fileService.useCloudinary(data, sharpOptions);
+              break;
+            default:
+              break;
+          }
+          const payload = {
+            file: {
+              name: file.originalname,
+              url: url.url,
+              fileType: file.mimetype,
+            },
+            ...file,
+          };
+          const media = await this.createNewObject({
+            ...payload,
+          });
+          result.push(media);
+        } catch (e) {
+          throw e;
+        }
       });
-    } catch (e) {
-      throw e;
     }
+    await q.onIdle();
+    return result;
   }
 }

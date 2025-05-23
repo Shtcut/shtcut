@@ -35,7 +35,7 @@ export class FileInterceptor implements NestInterceptor {
 
       busboy.on(
         'file',
-        (name: string, file: Readable, information: { fileName: string; encoding: string; mimeType: string }): void => {
+        (name: string, file: Readable, information: { filename: string; encoding: string; mimeType: string }): void => {
           const id = randomUUID();
           if (name !== this.fieldName) {
             file.resume();
@@ -54,7 +54,7 @@ export class FileInterceptor implements NestInterceptor {
               files.push({
                 id,
                 fieldname: name,
-                originalname: information.fileName,
+                originalname: information.filename,
                 encoding: information.encoding,
                 mimetype: information.mimeType,
                 size: data.length,
@@ -74,8 +74,7 @@ export class FileInterceptor implements NestInterceptor {
           delete file.id;
           return file;
         });
-        if (this.maxCount === 1) request.file = data[0];
-        else request.files = data;
+        request.files = data;
 
         resolve(next.handle());
       });
