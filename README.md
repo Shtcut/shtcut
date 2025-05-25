@@ -5,7 +5,7 @@ Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to r
 
 ![Shtcut product](https://shtcut-stg.s3.amazonaws.com/shtcut-product.png)
 
-⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features. Thank you always😊
+⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
 
 ![GitHub Logo](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
 
