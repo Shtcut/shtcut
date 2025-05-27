@@ -37,7 +37,7 @@ import { handleError, handleSuccess } from '@shtcut/_shared';
 import { tabData } from '@shtcut/_shared/data/mockdata';
 import QrCodeSuccessModal from './components/success-modal';
 import StarLoader from '@shtcut/components/loader/star-loader';
-import { NEXT_PUBLIC_URL } from '@shtcut/_shared/constant';
+import { emailRegex, NEXT_PUBLIC_URL, phoneRegex } from '@shtcut/_shared/constant';
 import BtnActions from '@shtcut/components/btn-actions';
 
 const QRCodeCreateComponent = ({
@@ -219,6 +219,25 @@ const QRCodeCreateComponent = ({
                 }
             }
 
+            if (switchTab === 'vcard') {
+                if (!emailRegex.test(contactInfo?.email)) {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Invalid Email',
+                        description: 'Please enter a valid email address.'
+                    });
+                    return;
+                }
+
+                if (!phoneRegex.test(contactInfo?.phoneNumber ?? '')) {
+                    toast({
+                        variant: 'destructive',
+                        title: 'Invalid Phone Number',
+                        description: 'Please enter a valid phone number (e.g., +2347012345678).'
+                    });
+                    return;
+                }
+            }
             if (switchTab === 'pdf' && !fileInfo) {
                 return toast({
                     variant: 'destructive',
