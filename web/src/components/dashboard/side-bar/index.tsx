@@ -46,7 +46,8 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
     } = useCreateWorkspace();
     const isMd = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
     const [activeTab, setActiveTab] = useState<string | null>(null);
-
+    const urlmodule = module === 'url';
+    console.log('module', module);
     const Sidebar_animation = isTab
         ? {
               open: {
@@ -103,6 +104,8 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
         } else return;
     };
 
+    console.log('workSpaceTitle', workSpaceTitle);
+
     return (
         <motion.div
             initial={{ x: isTab ? -250 : 0 }}
@@ -118,11 +121,11 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
                 <div
                     className={`${isOpen ? 'p-4' : 'py-4 px-2 items-center'} flex flex-col  h-full overflow-y-auto flex-1`}
                 >
-                    {(workSpaceTitle === 'Url Shortener' || workSpaceTitle === 'Social Media') && (
+                    {urlmodule && (
                         <>
                             {isOpen ? (
                                 <div className="w-full">
-                                    {workSpaceTitle === 'Social Media' ? (
+                                    {!urlmodule ? (
                                         <Link href={'/social/social-media/create-post'}>
                                             <p className="bg-primary-0 text-xs rounded h-8 flex items-center justify-center text-white font-medium">
                                                 Create Posts
@@ -141,7 +144,7 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
                                             </TooltipTrigger>
                                             <TooltipContent>
                                                 <Label className="font-light text-xs">
-                                                    {workSpaceTitle === 'Social Media' ? 'Create Posts' : 'Create New'}
+                                                    {!urlmodule ? 'Create Posts' : 'Create New'}
                                                 </Label>
                                             </TooltipContent>
                                         </Tooltip>

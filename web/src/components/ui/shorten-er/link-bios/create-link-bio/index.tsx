@@ -33,6 +33,7 @@ import { LinkBioActions, LinkBioStateType } from '@shtcut/types/link-bio';
 import { setQrTitle } from '@shtcut/redux/slices/qr-code';
 import BtnActions from '@shtcut/components/btn-actions';
 import useQrCodeState from '@shtcut/hooks/qrcode/index.';
+import { emailRegex, phoneRegex } from '@shtcut/_shared/constant';
 
 const CreateLinkBioComponent = ({
     linkBioActions,
@@ -126,6 +127,23 @@ const CreateLinkBioComponent = ({
                     variant: 'destructive',
                     title: 'Large Image',
                     description: state?.imgError
+                });
+                return;
+            }
+            if (!emailRegex.test(contactInfo?.email)) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Invalid Email',
+                    description: 'Please enter a valid email address.'
+                });
+                return;
+            }
+
+            if (!phoneRegex.test(contactInfo?.phoneNumber ?? '')) {
+                toast({
+                    variant: 'destructive',
+                    title: 'Invalid Phone Number',
+                    description: 'Please enter a valid phone number (e.g., +2347012345678).'
                 });
                 return;
             }

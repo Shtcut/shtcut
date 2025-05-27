@@ -728,3 +728,7 @@ export const capitalizeFirstLetter = (text: string): string => {
     if (!text) return '';
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 };
+
+export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+export const phoneRegex = /^\+?\d{7,15}$/;
