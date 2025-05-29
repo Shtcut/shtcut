@@ -89,4 +89,4 @@ file for details.
 For support and questions, please open an issue on GitHub or contact us at hello@shtcut.co or technical@shtcut.co
 
 ## Conclusion
-Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results. Just give it a try
+Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results.
