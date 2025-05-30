@@ -12,6 +12,7 @@ const config: Config = {
         './src/components/**/*.{js,ts,jsx,tsx,mdx}',
         './src/app/**/*.{js,ts,jsx,tsx,mdx}',
         './safelist.txt',
+        './src/**/*.{js,jsx,ts,tsx}',
         twshtcut.getContentPath()
     ],
     theme: {
