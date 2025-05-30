@@ -32,9 +32,16 @@ export class AnalyticsService {
             },
           },
         },
-        { $group: { _id: null, count: { $sum: 1 } } },
+        { $group: { _id: null, count: { $sum: _field } } },
       ]),
-      model.countDocuments(filter),
+      model.aggregate([
+        {
+          $match: {
+            ...filter,
+          },
+        },
+        { $group: { _id: null, count: { $sum: _field } } },
+      ]),
     ]);
 
     const currentCount: number = currentWeekData.length ? currentWeekData[0].count : 0;
@@ -44,7 +51,7 @@ export class AnalyticsService {
       : currentCount > 0
         ? currentCount
         : 0;
-    return { weeklyChange: percentageChange, last7Days: currentCount, totalCount };
+    return { weeklyChange: percentageChange, last7Days: currentCount, totalCount: totalCount[0]?.count || 0 };
   }
 
   static async getMonthlyPlotData(
