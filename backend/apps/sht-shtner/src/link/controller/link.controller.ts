@@ -92,7 +92,7 @@ export class LinkController extends AppController {
     @Query() options: AnalyticsOptionsDto,
   ) {
     try {
-      const analytics = await this.service.analytics(id, options);
+      const analytics = await this.service.analytics(req, id, options);
       const response = await this.service.getResponse({
         code: OK,
         value: analytics,

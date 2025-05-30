@@ -305,9 +305,10 @@ export class LinkService extends MongoBaseService {
    * parameter would be used within the function to gather data and perform analytics related to that
    * particular link.
    */
-  public async analytics(linkId: string, options: AnalyticsOptionsDto) {
+  public async analytics(req: Request, linkId: string, options: AnalyticsOptionsDto) {
     try {
-      const filter: FilterQuery<Hit> = { link: Utils.toObjectId(linkId) };
+      const user = req.user['_id'];
+      const filter: FilterQuery<Hit> = { link: Utils.toObjectId(linkId), user: Utils.toObjectId(user) };
       const field = 'clicks';
       const [plotData, weeklyChange, sourceDistribution] = await Promise.all([
         AnalyticsService.getMonthlyPlotData(this.hitModel, options, filter, field),
