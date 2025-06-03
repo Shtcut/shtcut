@@ -1,4 +1,4 @@
-import { Controller, HttpCode, Next, Post, Req, Res, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Controller, HttpCode, Next, Post, Req, Res, UploadedFiles, UseInterceptors } from '@nestjs/common';
 import { AppController, FileInterceptor, FileUploadService, OK, QueryParser } from 'shtcut/core';
 import { MediaService } from '../service/media.service';
 import { ConfigService } from '@nestjs/config';
@@ -15,11 +15,11 @@ export class MediaController extends AppController {
 
   @Post('/')
   @HttpCode(OK)
-  @UseInterceptors(new FileInterceptor('file'))
-  public async upload(@UploadedFile() uploaded, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+  @UseInterceptors(new FileInterceptor('files', 3))
+  public async upload(@UploadedFiles() files, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
     try {
       const queryParser = new QueryParser(Object.assign({}, req.query));
-      const value = await this.service.upload(uploaded);
+      const value = await this.service.upload(files);
       const response = await this.service.getResponse({
         code: OK,
         value,

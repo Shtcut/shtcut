@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import lang from 'apps/sht-shtner/lang';
-import { ClientSession, Model } from 'mongoose';
+import { ClientSession, FilterQuery, Model } from 'mongoose';
 import {
   AppException,
   Dict,
@@ -24,11 +24,13 @@ import {
   ResponseOption,
   Pagination,
   QueryParser,
+  AnalyticsOptionsDto,
 } from 'shtcut/core';
 
 import { Request } from 'express';
 import * as _ from 'lodash';
 import { HitService } from '../../hit';
+import { AnalyticsService } from '../../_shard';
 
 @Injectable()
 export class QrCodeService extends MongoBaseService {
@@ -377,5 +379,27 @@ export class QrCodeService extends MongoBaseService {
       value: data.value,
       message: data.message ?? lang.get('qrcodes').created,
     };
+  }
+
+  /**
+   * The function "analytics" in TypeScript is an asynchronous function that accepts a parameter
+   * "qrCodeId" and includes a try-catch block for error handling.
+   * @param qrCodeId - The `qrCodeId` parameter in the `analytics` function likely represents the unique
+   * identifier or reference to a specific QR code that is being tracked for analytics purposes. This
+   * parameter would be used within the function to gather data and perform analytics related to that
+   * particular QR code.
+   */
+  public async analytics(req: Request, qrCodeId: string, options: AnalyticsOptionsDto) {
+    try {
+      const user = req.user['_id'];
+      const filter: FilterQuery<Hit> = { qrcode: Utils.toObjectId(qrCodeId), user: Utils.toObjectId(user) };
+      const field = 'clicks';
+      const [plotData, weeklyChange, sourceDistribution] = await Promise.all([
+        AnalyticsService.getMonthlyPlotData(this.hitModel, options, filter, field),
+        AnalyticsService.getWeeklyChange(this.hitModel, filter, field),
+        AnalyticsService.getSourceDistribution(this.hitModel, options, filter, field),
+      ]);
+      return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
+    } catch (e) {}
   }
 }

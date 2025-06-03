@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import lang from 'apps/sht-shtner/lang';
-import mongoose, { ClientSession, Model } from 'mongoose';
+import { ClientSession, FilterQuery, Model } from 'mongoose';
 import {
+  AnalyticsOptionsDto,
   AppException,
   CreateLinkDto,
   Dict,
@@ -30,9 +31,10 @@ import {
 } from 'shtcut/core';
 
 import * as bcrypt from 'bcrypt';
-import { HitService } from '../../hit';
-import * as _ from 'lodash';
 import { Request } from 'express';
+import * as _ from 'lodash';
+import { AnalyticsService } from '../../_shard';
+import { HitService } from '../../hit';
 
 @Injectable()
 export class LinkService extends MongoBaseService {
@@ -303,8 +305,17 @@ export class LinkService extends MongoBaseService {
    * parameter would be used within the function to gather data and perform analytics related to that
    * particular link.
    */
-  public async analytics(linkId) {
+  public async analytics(req: Request, linkId: string, options: AnalyticsOptionsDto) {
     try {
+      const user = req.user['_id'];
+      const filter: FilterQuery<Hit> = { link: Utils.toObjectId(linkId), user: Utils.toObjectId(user) };
+      const field = 'clicks';
+      const [plotData, weeklyChange, sourceDistribution] = await Promise.all([
+        AnalyticsService.getMonthlyPlotData(this.hitModel, options, filter, field),
+        AnalyticsService.getWeeklyChange(this.hitModel, filter, field),
+        AnalyticsService.getSourceDistribution(this.hitModel, options, filter, field),
+      ]);
+      return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
     } catch (e) {}
   }
 

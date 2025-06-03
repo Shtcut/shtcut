@@ -1,4 +1,18 @@
-import { Body, Controller, Get, HttpCode, Next, Param, Patch, Post, Put, Req, Res, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Next,
+  Param,
+  Patch,
+  Post,
+  Put,
+  Query,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
 import {
   AppController,
   JwtAuthGuard,
@@ -7,6 +21,7 @@ import {
   UpdateLinkDto,
   CreateQrCodeDto,
   WorkspaceGuard,
+  AnalyticsOptionsDto,
 } from 'shtcut/core';
 import { QrCodeService } from '../service/qrcode.service';
 import { ConfigService } from '@nestjs/config';
@@ -85,5 +100,27 @@ export class QrCodeController extends AppController {
   @Get('/')
   async find(@Req() req: Request, @Res() res: Response, @Next() next) {
     super.find(req, res, next);
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Get('/:id/analytics')
+  @HttpCode(OK)
+  public async analytics(
+    @Param('id') id: string,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+    @Query() options: AnalyticsOptionsDto,
+  ) {
+    try {
+      const analytics = await this.service.analytics(req, id, options);
+      const response = await this.service.getResponse({
+        code: OK,
+        value: analytics,
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
   }
 }

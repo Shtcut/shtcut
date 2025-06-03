@@ -9,24 +9,26 @@ import {
   Patch,
   Post,
   Put,
+  Query,
   Req,
   Res,
   UseGuards,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NextFunction, Request, Response } from 'express';
+import * as _ from 'lodash';
 import {
+  AnalyticsOptionsDto,
   AppController,
   JwtAuthGuard,
+  LinkBulkDto,
   NOT_FOUND,
   OK,
   QueryParser,
   UpdateLinkDto,
-  LinkBulkDto,
   WorkspaceGuard,
 } from 'shtcut/core';
 import { LinkService } from '../service/link.service';
-import { ConfigService } from '@nestjs/config';
-import { NextFunction, Request, Response } from 'express';
-import * as _ from 'lodash';
 
 @Controller('links')
 export class LinkController extends AppController {
@@ -87,9 +89,15 @@ export class LinkController extends AppController {
     @Req() req: Request,
     @Res() res: Response,
     @Next() next: NextFunction,
+    @Query() options: AnalyticsOptionsDto,
   ) {
     try {
-      return res.status(OK).json({});
+      const analytics = await this.service.analytics(req, id, options);
+      const response = await this.service.getResponse({
+        code: OK,
+        value: analytics,
+      });
+      return res.status(OK).json(response);
     } catch (e) {
       return next(e);
     }

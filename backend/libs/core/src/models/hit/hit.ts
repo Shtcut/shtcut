@@ -145,7 +145,7 @@ export class Hit {
 
   @Prop({
     type: Number,
-    default: 0,
+    default: 1,
   })
   public clicks: number;
 
