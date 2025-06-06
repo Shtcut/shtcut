@@ -332,33 +332,7 @@ export class LinkService extends MongoBaseService {
 
       const ipAddressInfo = await this.ipService.getClientIpInfo(req);
 
-      // If tracking is enabled, update hit information
-      if (link.user && link.enableTracking) {
-        const payload = {
-          user: link.user,
-          link: link._id,
-          domain: domain._id,
-          ...ipAddressInfo,
-        };
-
-        // Update or create hit record
-        await this.hitModel.findOneAndUpdate(
-          { link: link._id, domain: payload.domain },
-          {
-            ...payload,
-            lastClicked: payload.timezone.currentTime ?? Date.now(),
-            domain: domain._id,
-            $set: {
-              publicId: Utils.generateUniqueId('hit'),
-            },
-            $inc: { clicks: 1 },
-          },
-          {
-            ...Utils.mongoDefaultUpdateProps(),
-          },
-        );
-      }
-
+      await this.hitService.upsert(req, 'link', link);
       // Increment click count and save link
       link.clicks += 1;
       return await link.save();

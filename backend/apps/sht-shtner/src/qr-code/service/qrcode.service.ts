@@ -197,26 +197,7 @@ export class QrCodeService extends MongoBaseService {
         return null;
       }
 
-      const ipAddressInfo = await this.ipService.getClientIpInfo(req);
-
-      if (qrCode.enableTracking) {
-        const payload = {
-          user: qrCode.user,
-          ...ipAddressInfo,
-        };
-
-        await this.hitModel.findOneAndUpdate(
-          { qrcode: qrCode._id },
-          {
-            ...payload,
-            lastClicked: payload.timezone.currentTime ?? Date.now(),
-            $inc: { clicks: 1 },
-          },
-          {
-            ...Utils.mongoDefaultUpdateProps(),
-          },
-        );
-      }
+      await this.hitService.upsert(req, 'qrCode', qrCode);
 
       // Increment click count and save qrcode
       qrCode.totalScanned += 1;
