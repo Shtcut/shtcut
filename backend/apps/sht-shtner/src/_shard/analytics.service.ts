@@ -101,8 +101,9 @@ export class AnalyticsService {
 
     // initialize values to either null or 0 based on if the time in consideration is in the future or past
     for (let i = 1; i <= daysInMonth; i++) {
-      if (month > getMonth(date) + 1) data[i] = null; // if month is greater than current month, set values to null
-      else if (i < currentDay || month <= getMonth(date) + 1) data[i] = 0;
+      if (month > getMonth(date) + 1 || i > currentDay)
+        data[i] = null; // if month is greater than current month, set values to null
+      else if (month < getMonth(date) + 1 || i < currentDay) data[i] = 0;
       else data[i] = null;
     }
 
