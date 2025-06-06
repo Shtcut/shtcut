@@ -3,6 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import lang from 'apps/sht-shtner/lang';
 import { ClientSession, FilterQuery, Model } from 'mongoose';
 import {
+  AnalyticsOptionsDto,
   AppException,
   Dict,
   Hit,
@@ -11,26 +12,21 @@ import {
   Link,
   LinkDocument,
   MongoBaseService,
+  MultiLinkQRCodeDto,
+  PDFQRCodeDto,
   QrCode,
   QrCodeDocument,
+  QRCodeType,
   RedisService,
   Utils,
-  QRCodeType,
-  CreateQrCodeDto,
-  PDFQRCodeDto,
   VCardQRCodeDto,
   WebsiteQRCodeDto,
-  MultiLinkQRCodeDto,
-  ResponseOption,
-  Pagination,
-  QueryParser,
-  AnalyticsOptionsDto,
 } from 'shtcut/core';
 
 import { Request } from 'express';
 import * as _ from 'lodash';
-import { HitService } from '../../hit';
 import { AnalyticsService } from '../../_shard';
+import { HitService } from '../../hit';
 
 @Injectable()
 export class QrCodeService extends MongoBaseService {
@@ -375,11 +371,12 @@ export class QrCodeService extends MongoBaseService {
       const user = req.user['_id'];
       const filter: FilterQuery<Hit> = { qrcode: Utils.toObjectId(qrCodeId), user: Utils.toObjectId(user) };
       const field = 'clicks';
-      const [plotData, weeklyChange, sourceDistribution] = await Promise.all([
-        AnalyticsService.getMonthlyPlotData(this.hitModel, options, filter, field),
-        AnalyticsService.getWeeklyChange(this.hitModel, filter, field),
-        AnalyticsService.getSourceDistribution(this.hitModel, options, filter, field),
-      ]);
+      const [plotData, weeklyChange, sourceDistribution] = await AnalyticsService.analytics(
+        this.hitModel,
+        options,
+        filter,
+        field,
+      );
       return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
     } catch (e) {}
   }

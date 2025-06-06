@@ -12,7 +12,7 @@ import { FilterQuery, Model } from 'mongoose';
 import { AnalyticsOptionsDto, Dict } from 'shtcut/core';
 
 export class AnalyticsService {
-  static async getWeeklyChange(model: Model<any>, filter?: FilterQuery<any>, field?: string) {
+  private static async getWeeklyChange(model: Model<any>, filter?: FilterQuery<any>, field?: string) {
     const _field = field ? `$${field}` : 1;
     const now = new Date();
     const startOfCurrentWeek = startOfISOWeek(now);
@@ -63,7 +63,7 @@ export class AnalyticsService {
     return { weeklyChange: percentageChange, last7Days: currentCount, totalCount: totalCount[0]?.count || 0 };
   }
 
-  static async getMonthlyPlotData(
+  private static async getMonthlyPlotData(
     model: Model<any>,
     { month }: AnalyticsOptionsDto,
     filter?: FilterQuery<any>,
@@ -112,7 +112,7 @@ export class AnalyticsService {
     return data;
   }
 
-  static async getSourceDistribution(
+  private static async getSourceDistribution(
     model: Model<any>,
     { month }: AnalyticsOptionsDto,
     filter?: FilterQuery<any>,
@@ -140,5 +140,14 @@ export class AnalyticsService {
       { $sort: { _id: 1 } },
     ]);
     return { countries: countryDistribution };
+  }
+
+  static async analytics(model: Model<any>, options: AnalyticsOptionsDto, filter?: FilterQuery<any>, field?: string) {
+    const analytics = await Promise.all([
+      AnalyticsService.getMonthlyPlotData(model, options, filter, field),
+      AnalyticsService.getWeeklyChange(model, filter, field),
+      AnalyticsService.getSourceDistribution(model, options, filter, field),
+    ]);
+    return analytics;
   }
 }
