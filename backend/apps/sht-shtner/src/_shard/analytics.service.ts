@@ -1,4 +1,13 @@
-import { endOfISOWeek, getDate, getDaysInMonth, startOfISOWeek, startOfMonth, subWeeks } from 'date-fns';
+import {
+  endOfISOWeek,
+  endOfMonth,
+  getDate,
+  getDaysInMonth,
+  getMonth,
+  startOfISOWeek,
+  startOfMonth,
+  subWeeks,
+} from 'date-fns';
 import { FilterQuery, Model } from 'mongoose';
 import { AnalyticsOptionsDto, Dict } from 'shtcut/core';
 
@@ -64,14 +73,14 @@ export class AnalyticsService {
     const data: Dict = {};
     const date = new Date();
     const currentDay = getDate(date);
-    const daysInMonth = getDaysInMonth(date);
+    const daysInMonth = getDaysInMonth(month);
     const dayData = await model.aggregate([
       {
         $match: {
           ...filter,
           createdAt: {
-            $gte: startOfMonth(date.setMonth(month - 1)), // 0-based index
-            $lt: date,
+            $gte: startOfMonth(new Date().setMonth(month - 1)), // 0-based index
+            $lt: endOfMonth(new Date().setMonth(month - 1)),
           },
         },
       },
@@ -90,9 +99,13 @@ export class AnalyticsService {
       { $sort: { _id: 1 } },
     ]);
 
+    // initialize values to either null or 0 based on if the time in consideration is in the future or past
     for (let i = 1; i <= daysInMonth; i++) {
-      data[i] = i <= currentDay ? 0 : null;
+      if (month > getMonth(date) + 1) data[i] = null; // if month is greater than current month, set values to null
+      else if (i < currentDay || month <= getMonth(date) + 1) data[i] = 0;
+      else data[i] = null;
     }
+
     dayData.map((day) => {
       data[day['day']] = day['count'];
     });
