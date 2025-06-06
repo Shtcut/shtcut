@@ -333,7 +333,7 @@ export class LinkService extends MongoBaseService {
       const ipAddressInfo = await this.ipService.getClientIpInfo(req);
 
       // If tracking is enabled, update hit information
-      if (link.user) {
+      if (link.user && link.enableTracking) {
         const payload = {
           user: link.user,
           link: link._id,
@@ -351,6 +351,7 @@ export class LinkService extends MongoBaseService {
             $set: {
               publicId: Utils.generateUniqueId('hit'),
             },
+            $inc: { clicks: 1 },
           },
           {
             ...Utils.mongoDefaultUpdateProps(),
