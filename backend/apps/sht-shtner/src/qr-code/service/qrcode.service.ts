@@ -377,7 +377,7 @@ export class QrCodeService extends MongoBaseService {
         filter,
         field,
       );
-      return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
+      return { scans: { summary: weeklyChange, sourceDistribution, plotData } };
     } catch (e) {}
   }
 }
