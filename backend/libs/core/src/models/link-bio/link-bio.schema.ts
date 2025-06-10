@@ -55,6 +55,12 @@ export class LinkBio {
 
   @Prop({
     type: MG.Types.ObjectId,
+    ref: 'User',
+  })
+  user: any;
+
+  @Prop({
+    type: MG.Types.ObjectId,
     ref: 'Domain',
   })
   domain: any;
@@ -109,6 +115,12 @@ export class LinkBio {
     default: false,
   })
   deleted: boolean;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  enableTracking: boolean;
 }
 
 const LinkBioSchema = SchemaFactory.createForClass(LinkBio);
@@ -147,6 +159,7 @@ LinkBioSchema.statics.config = () => {
       'links',
       'address',
       'workspace',
+      'user',
     ],
     updateFillables: [
       'name',

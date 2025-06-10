@@ -117,9 +117,13 @@ export class InvitationService extends MongoBaseService {
   private async processInvitations(savedInvites: any[], obj: any) {
     const { workspace } = obj;
 
-    const workspaceId = new Types.ObjectId(workspace);
+    const workspaceId = Utils.toObjectId(workspace);
 
-    const inviteeWorkspace = await this.workspaceModel.findOne({ _id: workspaceId });
+    const inviteeWorkspace = await this.workspaceModel.findOne(
+      { _id: workspaceId },
+      {},
+      { populate: { path: 'user', select: 'firstName lastName email' } },
+    );
 
     if (!inviteeWorkspace) {
       throw new Error('Workspace not found');
@@ -135,7 +139,17 @@ export class InvitationService extends MongoBaseService {
         console.error('Invitee workspace is null');
       }
 
-      this.sendInvitationEmail({ email, workspace: inviteeWorkspace?.name, link });
+      this.sendInvitationEmail({
+        email,
+        workspace: inviteeWorkspace?.name,
+        link,
+        inviter: {
+          firstName: `${inviteeWorkspace.user?.firstName}`,
+          lastName: `${inviteeWorkspace.user?.lastName}`,
+          email: inviteeWorkspace.user?.email,
+        },
+        members: inviteeWorkspace.members.length,
+      });
     });
 
     // Save the updated workspace with new members
@@ -146,7 +160,11 @@ export class InvitationService extends MongoBaseService {
   private async processInvitationsBackgroundSafe(savedInvites: any[], obj: any, workspaceId: string) {
     try {
       // Find the workspace without using the original session
-      const inviteeWorkspace = await this.workspaceModel.findOne({ _id: new Types.ObjectId(workspaceId) });
+      const inviteeWorkspace = await this.workspaceModel.findOne(
+        { _id: new Types.ObjectId(workspaceId) },
+        {},
+        { populate: { path: 'user', select: 'firstName lastName email' } },
+      );
 
       if (!inviteeWorkspace) {
         console.error('Workspace not found in background processing');
@@ -173,6 +191,12 @@ export class InvitationService extends MongoBaseService {
           email,
           workspace: inviteeWorkspace.name,
           link,
+          inviter: {
+            firstName: `${inviteeWorkspace.user?.firstName}`,
+            lastName: `${inviteeWorkspace.user?.lastName}`,
+            email: inviteeWorkspace.user?.email,
+          },
+          members: inviteeWorkspace.members.length,
         });
       }
 
@@ -188,14 +212,22 @@ export class InvitationService extends MongoBaseService {
    * workspace with a provided link.
    * @param payload - The `payload` object contains the following properties:
    */
-  private async sendInvitationEmail(payload: { email: string; workspace: string; link: string }) {
-    const { email, workspace, link } = payload;
+  private async sendInvitationEmail(payload: {
+    email: string;
+    workspace: string;
+    link: string;
+    inviter: { firstName: string; lastName: string; email: string };
+    members: number;
+  }) {
+    const { email, workspace, link, inviter, members } = payload;
     const invitationEmail = InvitationEmail.sendEmail({
       to: email,
-      from: this.config.get('worker.email.sendgrid.email'),
+      from: this.config.get('worker.email.sendgrid.fromEmail'),
       workspace,
       link,
-      template: this.config.get('app.templates.workspaceInvite'),
+      template: this.config.get('app.templates.email.workspaceInvite'),
+      inviter,
+      members,
     });
     this.workerService.queueToSendEmail(invitationEmail);
   }

@@ -51,6 +51,12 @@ export class Hit {
   public qrcode: any;
 
   @Prop({
+    type: Types.ObjectId,
+    ref: 'LinkBio',
+  })
+  public linkBio: any;
+
+  @Prop({
     type: String,
   })
   public type: string;

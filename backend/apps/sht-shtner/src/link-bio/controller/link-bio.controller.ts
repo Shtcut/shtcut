@@ -1,7 +1,10 @@
-import { Controller, UseGuards } from '@nestjs/common';
-import { AppController, JwtAuthGuard, WorkspaceGuard } from 'shtcut/core';
-import { LinkBioService } from '../service/link-bio.service';
+import { Controller, Get, HttpCode, Next, Param, Query, Req, Res, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { NextFunction, Request, Response } from 'express';
+import * as _ from 'lodash';
+import { AnalyticsOptionsDto, AppController, JwtAuthGuard, OK, QueryParser, WorkspaceGuard } from 'shtcut/core';
+import { HitService } from '../../hit';
+import { LinkBioService } from '../service/link-bio.service';
 
 @UseGuards(JwtAuthGuard, WorkspaceGuard)
 @Controller('link-bios')
@@ -9,7 +12,56 @@ export class LinkBioController extends AppController {
   constructor(
     protected service: LinkBioService,
     protected config: ConfigService,
+    protected hitService: HitService,
   ) {
     super(config, service);
+  }
+
+  @Get('/search/one')
+  @HttpCode(OK)
+  async searchOne(@Param('id') id: string, @Req() req: Request, @Res() res: Response, @Next() next: NextFunction) {
+    try {
+      const queryParser = new QueryParser(Object.assign({}, req.query));
+
+      let object = null;
+      if (!_.isEmpty(queryParser.query)) {
+        object = await this.service.searchOneObject(queryParser.query);
+      }
+
+      if (object) await this.hitService.upsert(req, 'linkBio', object);
+
+      const response = await this.service.getResponse({
+        code: OK,
+        queryParser,
+        value: object ?? { _id: null },
+      });
+
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
+  }
+
+  @UseGuards(JwtAuthGuard, WorkspaceGuard)
+  @Get('/:id/analytics')
+  @HttpCode(OK)
+  public async analytics(
+    @Param('id') id: string,
+    @Param('alias') alias: string,
+    @Req() req: Request,
+    @Res() res: Response,
+    @Next() next: NextFunction,
+    @Query() options: AnalyticsOptionsDto,
+  ) {
+    try {
+      const analytics = await this.service.analytics(req, id, options);
+      const response = await this.service.getResponse({
+        code: OK,
+        value: analytics,
+      });
+      return res.status(OK).json(response);
+    } catch (e) {
+      return next(e);
+    }
   }
 }

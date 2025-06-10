@@ -310,11 +310,12 @@ export class LinkService extends MongoBaseService {
       const user = req.user['_id'];
       const filter: FilterQuery<Hit> = { link: Utils.toObjectId(linkId), user: Utils.toObjectId(user) };
       const field = 'clicks';
-      const [plotData, weeklyChange, sourceDistribution] = await Promise.all([
-        AnalyticsService.getMonthlyPlotData(this.hitModel, options, filter, field),
-        AnalyticsService.getWeeklyChange(this.hitModel, filter, field),
-        AnalyticsService.getSourceDistribution(this.hitModel, options, filter, field),
-      ]);
+      const [plotData, weeklyChange, sourceDistribution] = await AnalyticsService.analytics(
+        this.hitModel,
+        options,
+        filter,
+        field,
+      );
       return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
     } catch (e) {}
   }
@@ -332,32 +333,7 @@ export class LinkService extends MongoBaseService {
 
       const ipAddressInfo = await this.ipService.getClientIpInfo(req);
 
-      // If tracking is enabled, update hit information
-      if (link.user) {
-        const payload = {
-          user: link.user,
-          link: link._id,
-          domain: domain._id,
-          ...ipAddressInfo,
-        };
-
-        // Update or create hit record
-        await this.hitModel.findOneAndUpdate(
-          { link: link._id, domain: payload.domain },
-          {
-            ...payload,
-            lastClicked: payload.timezone.currentTime ?? Date.now(),
-            domain: domain._id,
-            $set: {
-              publicId: Utils.generateUniqueId('hit'),
-            },
-          },
-          {
-            ...Utils.mongoDefaultUpdateProps(),
-          },
-        );
-      }
-
+      await this.hitService.upsert(req, 'link', link);
       // Increment click count and save link
       link.clicks += 1;
       return await link.save();
