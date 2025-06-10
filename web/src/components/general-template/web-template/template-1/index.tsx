@@ -2,7 +2,7 @@ import { Link, MapPin, User, UserRound } from 'lucide-react';
 import React from 'react';
 import Image from 'next/image';
 import SkeletonLoaderWeb from '../components/skeleton-loader';
-import { Card, Tabs, TabsContent, TabsList, TabsTrigger } from '@shtcut-ui/react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@shtcut-ui/react';
 import InfoField from '../components/info-field';
 import { Phone, Mail, Globe } from 'lucide-react';
 
@@ -14,7 +14,7 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
             ) : (
                 <>
                     {' '}
-                    <section className=" h-[372px] " style={{ backgroundColor: linkData?.colors.presetColor }}>
+                    <section className=" h-[372px] " style={{ backgroundColor: linkData?.colors?.presetColor }}>
                         <div className="flex justify-center gap-y-2 flex-col items-center pt-8">
                             {linkData?.profileImage ? (
                                 <Image
@@ -57,7 +57,7 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                                         <Link size={16} /> LINKS
                                     </TabsTrigger>
                                 </TabsList>
-                                <Card className=" mt-4 shadow-sm">
+                                <div className=" mt-4 p-0 m-0 py-0 rounded-md border shadow-sm">
                                     <TabsContent value="contact" className="w-full p-4">
                                         <section className="space-y-4">
                                             <InfoField
@@ -78,19 +78,19 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                                             />
                                         </section>
                                     </TabsContent>
-                                    <TabsContent value="links" className="w-full shadow-none border-none">
-                                        <section>
+                                    <TabsContent value="links" className="w-full m-0 py-0 shadow-none border-none p-0 ">
+                                        <section className="">
                                             {linkData && linkData?.links?.length > 0 ? (
-                                                <section className="w-full p-4 flex flex-col gap-4">
+                                                <section className="w-full justify-center  flex h-14 flex-col gap-4 px-4">
                                                     {linkData &&
                                                         linkData?.links.map((link, index) => (
                                                             <a
                                                                 href={link.url}
-                                                                className={`flex w-full gap-4  ${
+                                                                className={`flex gap-2 p-0 items-center w-full    ${
                                                                     index !== linkData.links.length - 1
                                                                         ? 'border-b '
                                                                         : ''
-                                                                } py-3`}
+                                                                } `}
                                                                 target="_blank "
                                                                 key={link.id}
                                                             >
@@ -107,7 +107,7 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                                                                         <Link size={15} />
                                                                     )}
                                                                 </section>
-                                                                <p className="text-sm ">{linkData?.title}</p>
+                                                                <p className="text-sm ">{link?.label}</p>
                                                             </a>
                                                         ))}
                                                 </section>
@@ -131,7 +131,7 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                                             />
                                         </section>
                                     </TabsContent>
-                                </Card>
+                                </div>
                             </Tabs>
                         </div>
                     </section>

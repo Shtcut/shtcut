@@ -22,6 +22,7 @@ const UrlShortenerActionsFeatures = () => {
     const { workspace } = params;
     const showLinkModal = () => {
         dispatch(toggleDropdown());
+        router.push(`/url/${workspace}/links`);
     };
     return (
         <DropdownMenu>

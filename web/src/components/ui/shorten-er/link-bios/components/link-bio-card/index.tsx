@@ -13,16 +13,17 @@ import { usePathname, useRouter } from 'next/navigation';
 const LinkBioCard = ({
     data,
     handleShowDelete,
-    handleNavigateAnalytics
+    handleNavigateAnalytics,
+    handleShowQr
 }: {
     data: LinkBioDataResponse;
+    handleShowQr: () => void;
     handleShowDelete: () => void;
     handleNavigateAnalytics: () => void;
 }) => {
     const router = useRouter();
     const pathName = usePathname();
     const { handleCopy } = useCopyToClipboard();
-    console.log('data', data);
     return (
         <Card
             className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  "
@@ -74,6 +75,7 @@ const LinkBioCard = ({
                         onDeleteShowModal={handleShowDelete}
                         handleCopy={() => handleCopy(`beta.shtcut.co/link-bio/${data?.slug}`)}
                         handleEdit={() => router.push(`${pathName}/edit-link-bio/${data?._id}`)}
+                        handleShowQr={handleShowQr}
                     />
                 </div>
             </div>

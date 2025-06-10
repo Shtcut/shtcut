@@ -86,7 +86,7 @@ const LinkListedComponent = ({
                                 href={`${process.env.NEXT_PUBLIC_URL}/${data.alias}`}
                                 className="text-xs text-primary-0 font-normal"
                             >
-                                {data.domain?.name || data.domain?.slug}/{data.alias}
+                                beta.shtcut.co/{data.alias}
                             </a>
                         </div>
                         <div className="flex items-center gap-x-2 mt-2">

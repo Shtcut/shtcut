@@ -50,9 +50,12 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
     const { action, state } = useQrCodeState();
     const { handleCopy } = useCopyToClipboard();
     const { urlScan } = useGeneralState();
+    console.log('urlScan', urlScan);
 
     const handleShowScan = (qrCodeData: QRCodeDataResponse) => {
         if (qrCodeData) {
+            console.log('qrCodeData', qrCodeData?.slug);
+
             const urlScanQrCode =
                 qrCodeData?.type === 'website' ? data?.url : `${NEXT_PUBLIC_URL}/qr-code/${qrCodeData?.slug}`;
             dispatch(setSelectedFrame(qrCodeData?.qrCode?.frame ?? 0));

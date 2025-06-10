@@ -2,19 +2,28 @@ import { api } from '@shtcut/_shared/api/app.api';
 import { SHTNER } from '@shtcut/_shared/constant';
 
 import { ApiResponse, QueryArgs } from '@shtcut/_shared/namespace';
+import { linkBio, qrCodes } from '../tags';
 
-export const getLinkDataApi = api.injectEndpoints({
+export const getLinkQrCodeDataApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getLink: builder.query<ApiResponse<any | undefined>, QueryArgs & { slug: string }>({
-            query: ({ slug }: QueryArgs & { slug: string }) => ({
+        getLinkBio: builder.query<ApiResponse<any | undefined>, QueryArgs & { slug: string }>({
+            query: ({ slug }) => ({
                 url: `${SHTNER.linksBio}/search/one?slug=${slug}`
             }),
-            providesTags: ['links']
+            providesTags: [linkBio]
+        }),
+
+        getQRCodeLink: builder.query<ApiResponse<any | undefined>, QueryArgs & { slug: string }>({
+            query: ({ slug }) => ({
+                url: `${SHTNER.qrCode}/search/one?slug=${slug}`
+            }),
+            providesTags: [qrCodes]
         })
     })
 });
 
 export const {
-    useLazyGetLinkQuery,
-    endpoints: { getLink }
-} = getLinkDataApi;
+    useLazyGetLinkBioQuery,
+    useLazyGetQRCodeLinkQuery,
+    endpoints: { getLinkBio, getQRCodeLink }
+} = getLinkQrCodeDataApi;
