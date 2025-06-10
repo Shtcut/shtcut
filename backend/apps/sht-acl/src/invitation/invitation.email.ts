@@ -7,6 +7,8 @@ type EmailType = {
   workspace: string;
   link: string;
   subject?: string;
+  inviter: { firstName: string; lastName: string; email: string };
+  members: number;
 };
 
 export class InvitationEmail {
@@ -24,6 +26,8 @@ export class InvitationEmail {
         workspace: config.workspace,
         link: config.link,
         email: config.to,
+        inviter: config.inviter,
+        members: config.members,
       },
     };
   }

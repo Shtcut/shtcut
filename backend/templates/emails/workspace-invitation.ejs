@@ -231,19 +231,19 @@
 
             <h1 class="title">Join Your Team on Shtcut</h1>
             <section class="content-container">
-                <p>Hello <%= name %>,</p>
+                <p>Hello,</p>
                 <p>
-                    Amanda Daniels <%= email %> has invited you to collaborate in
-                        Amanda’s workspace on shtcut. Use Shtcut to have your digital
+                    <%= inviter.firstName %> <%=inviter.lastName %> (<%= inviter.email %>) has invited you to collaborate in
+                    <%= inviter.firstName %>’s workspace on shtcut. Use Shtcut to have your digital
                         marketing simplified and organized.
                 </p>
 
                 <section class="workspace">
-                    <h1 class="">Amanda Davis Workspace</h1>
+                    <h1 class=""><%= workspace %> Workspace</h1>
                     <section class="workspace-child">
                         <section class="workspace-content">
                             <img src="./img/mingcute_invite-fill.png" alt="" />
-                            <p class="">Amanda Team</p>
+                            <p class=""> <%= inviter.firstName %> Team</p>
                         </section>
                         <p class="workspace-text">
                             Join your teammates to start collaborating in no time
