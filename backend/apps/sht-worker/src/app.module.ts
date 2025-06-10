@@ -2,11 +2,12 @@ import { configuration } from '@config';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
-import { CoreModule } from 'shtcut/core';
+import { Auth, AuthSchema, CoreModule, JwtStrategy } from 'shtcut/core';
 import { MessageModule } from './message';
 import { SchedulerModule } from './scheduler';
 import { AppController } from './app.controller';
 import { MediaModule } from './media';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -20,8 +21,9 @@ import { MediaModule } from './media';
     CoreModule,
     MessageModule,
     SchedulerModule,
+    MongooseModule.forFeature([{ name: Auth.name, schema: AuthSchema }]),
   ],
   controllers: [AppController],
-  providers: [],
+  providers: [JwtStrategy],
 })
 export class AppModule {}
