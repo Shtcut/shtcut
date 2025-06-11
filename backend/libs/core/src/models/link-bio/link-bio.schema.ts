@@ -1,6 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MG } from 'mongoose';
+import { Document, Schema as MG, Types } from 'mongoose';
 import { Dict } from 'shtcut/core/shared';
+
+@Schema()
+class Link {
+  @Prop({ required: true })
+  label: string;
+
+  @Prop({ required: true })
+  url: string;
+
+  @Prop({ default: null, type: Types.ObjectId, ref: 'Media' })
+  image: string;
+}
+const LinkSchema = SchemaFactory.createForClass(Link);
 
 export type LinkBioDocument = LinkBio & Document;
 
@@ -66,14 +79,15 @@ export class LinkBio {
   domain: any;
 
   @Prop({
-    type: String,
+    type: Types.ObjectId,
+    ref: 'Media',
   })
-  profileImage: string;
+  profileImage: any;
 
   @Prop({
-    type: [MG.Types.Mixed],
+    type: [LinkSchema],
   })
-  links: Dict[];
+  links: Link[];
 
   @Prop({
     type: MG.Types.Mixed,
