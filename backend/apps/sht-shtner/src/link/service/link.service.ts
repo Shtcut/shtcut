@@ -310,14 +310,17 @@ export class LinkService extends MongoBaseService {
       const user = req.user['_id'];
       const filter: FilterQuery<Hit> = { link: Utils.toObjectId(linkId), user: Utils.toObjectId(user) };
       const field = 'clicks';
+      const link = await super.searchOneObject({ _id: linkId });
       const [plotData, weeklyChange, sourceDistribution] = await AnalyticsService.analytics(
         this.hitModel,
         options,
         filter,
         field,
       );
-      return { clicks: { summary: weeklyChange, sourceDistribution, plotData } };
-    } catch (e) {}
+      return { clicks: { summary: weeklyChange, sourceDistribution, plotData }, link };
+    } catch (e) {
+      throw e;
+    }
   }
 
   public async visit(req: Request, domainName: string, alias: string) {
