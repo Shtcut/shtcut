@@ -41,7 +41,9 @@ export class LinkBioService extends MongoBaseService {
         filter,
         field,
       );
-      return { clicks: { summary: weeklyChange, sourceDistribution, plotData, linkBio } };
-    } catch (e) {}
+      return { clicks: { summary: weeklyChange, sourceDistribution, plotData }, linkBio };
+    } catch (e) {
+      throw e;
+    }
   }
 }
