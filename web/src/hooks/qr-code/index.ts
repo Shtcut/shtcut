@@ -44,6 +44,7 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
         ...pagination,
         search: debouncedSearch,
         all,
+        population: JSON.stringify([{ path: 'links.image' }]),
         ...filter
     };
     const createqrCode = async (payload: any): Promise<any> => {
@@ -81,7 +82,8 @@ export const useQrCode = (props: UseProps): UseReturnsType => {
     useEffect(() => {
         if (id) {
             getQrCode({
-                id
+                id,
+                population: params?.population
             });
         }
     }, [id]);

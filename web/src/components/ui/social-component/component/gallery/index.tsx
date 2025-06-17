@@ -29,7 +29,6 @@ const GalleryPreview = ({ handleClose }: { handleClose: () => void }) => {
             setIsFetching(false);
         });
     };
-    console.log('Selecde', photos);
 
     const handleSelectImage = (id: string) => {
         setSelectedPhotos((prevSelected) =>

@@ -1,12 +1,8 @@
-import { Button, Modal as ShadModal, toast } from '@shtcut-ui/react';
-import Image from 'next/image';
+import { Button, toast } from '@shtcut-ui/react';
 import React, { useState } from 'react';
 import MembersTable from '../../members/members-table';
 import { SearchInput } from '../../nav-component';
-import { Filter } from 'lucide-react';
-import { PiSortDescendingBold } from 'react-icons/pi';
 import { FormProvider, useForm } from 'react-hook-form';
-import { users } from '@shtcut/_shared/data';
 import Tabs from '@shtcut/components/_shared/Tabs';
 import RolesTable from '@shtcut/components/workspace-table';
 import InviteModal from './invite-modal';
@@ -26,23 +22,45 @@ import { useMembers } from '@shtcut/hooks/members';
 import { handleError } from '@shtcut/_shared';
 import SkeletonPlaceholder from '@shtcut/components/skeleton-placeholder';
 import InitialsAvatar from '@shtcut/components/initial-avatar';
+import { CgArrowLongLeft } from 'react-icons/cg';
+import DeleteRole from './delete-role';
 
 const WorkspaceScreen = () => {
     const currentWorkspace = useCurrentWorkSpace();
+    const [ids, setIds] = useState('');
     const [singleRole, setSingleRole] = useState<RolesDataResponse | null>(null);
     const [searchQuery, setSearchQuery] = useState<string>('');
     const [showMember, setShowMember] = useState(false);
     const [showInvite, setShowInvite] = useState(false);
     const [selectedTabIndex, setSelectedTabIndex] = useState(0);
-    const [selectedStatus] = useState<string | null>(null);
     const [modalType, setModalType] = useState<string | null>(null);
-    const { findAllWorkspacesResponse, findAllWorkspacesLoading, pagination, paginationActions } = useWorkspace({
-        callWorkspaces: true
+    const {
+        findAllWorkspacesResponse,
+        findAllWorkspacesLoading,
+        pagination,
+        paginationActions,
+        getWorkSpaceData,
+        getWorkspaceLoading
+    } = useWorkspace({
+        callWorkspaces: true,
+        id: ids
     });
-    const { createInvite, isLoadingState, setLoadingState, findMembersResponse, isLoading } = useMembers({
+    const { createInvite, isLoadingState, setLoadingState } = useMembers({
         callMembers: true
     });
-    const { findRolesResponse } = useRole({ callRoles: true });
+    const {
+        findRolesResponse,
+        isLoading: findRoleLoading,
+        handleDeleteRole,
+        deleteRoleResponse,
+        findRoles,
+        params,
+        isLoadingState: findIsLoadingState
+    } = useRole({
+        callRoles: Boolean(ids),
+        workspace: ids || undefined
+    });
+
     const {
         handleOnSelectModule,
         workspaceType,
@@ -76,8 +94,6 @@ const WorkspaceScreen = () => {
             emails: ['']
         }
     });
-
-    console.log('currentWorkspace', currentWorkspace);
 
     const handleFormSubmit = async (values: { emails: string[] }) => {
         if (values.emails.length === 0) {
@@ -120,13 +136,6 @@ const WorkspaceScreen = () => {
         }
     };
 
-    const filteredData = users.filter((user) => {
-        const matchesQuery =
-            user.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            user.name.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesStatus = selectedStatus ? user.status === selectedStatus : true;
-        return matchesQuery && matchesStatus;
-    });
     const handleTabChange = (index: number) => {
         setSelectedTabIndex(index);
     };
@@ -140,6 +149,9 @@ const WorkspaceScreen = () => {
         if (type === 'edit-role' && role) {
             setSingleRole(role);
         }
+        if (type === 'delete-role' && role) {
+            setSingleRole(role);
+        }
         setModalType(type);
         setShowInvite(true);
     };
@@ -149,6 +161,33 @@ const WorkspaceScreen = () => {
         setModalType(null);
         setShowInvite(false);
         form.reset();
+    };
+
+    const handleMemberId = (val: string) => {
+        setIds(val);
+        setShowMember(true);
+    };
+
+    const handleDeleteARole = async () => {
+        setLoadingState('deleting', true);
+        if (singleRole?._id) {
+            try {
+                await handleDeleteRole(singleRole?._id);
+                const successMessage = deleteRoleResponse?.meta?.message || 'Role deleted successfully.';
+                toast({
+                    title: 'Role Deleted',
+                    description: successMessage,
+                    variant: 'default'
+                });
+
+                findRoles(params);
+                handleClose();
+            } catch (error) {
+                handleError({ error });
+            } finally {
+                setLoadingState('deleting', false);
+            }
+        }
     };
 
     return (
@@ -169,33 +208,35 @@ const WorkspaceScreen = () => {
                                 {selectedTabIndex === 0 ? ' Invite Member' : 'Create Role'}
                             </Button>
                         </section>
-
-                        <div className="flex mt-6 items-center justify-between flex-wrap md:flex-nowrap   pb-4 dark:bg-gray-900">
+                        <section
+                            className="my-6 cursor-pointer"
+                            onClick={() => {
+                                setShowMember(false);
+                                setIds('');
+                            }}
+                        >
+                            <CgArrowLongLeft />
+                        </section>
+                        <div className="flex  items-center justify-between flex-wrap md:flex-nowrap   pb-4 dark:bg-gray-900">
                             <div className="w-40">
                                 <Tabs tabs={tabs} selectedTabIndex={selectedTabIndex} onTabClick={handleTabChange} />
                             </div>
 
                             <div className="flex items-center space-x-[12px]">
                                 <SearchInput value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
-
-                                <Button className="flex border hover:bg-primary-0 border-[#CCCBCB]  hover:text-white shadow-none text-[#5A5555] items-center bg-white gap-x-2 text-xs">
-                                    <Filter size={18} /> Filter
-                                </Button>
-                                <Button className="flex border border-[#CCCBCB]  hover:bg-primary-0 hover:text-white shadow-none text-[#5A5555] items-center bg-white gap-x-2 text-xs">
-                                    <PiSortDescendingBold size={18} /> Sort by
-                                </Button>
                             </div>
                         </div>
                         {selectedTabIndex === 0 && (
                             <MembersTable
-                                findMembersResponse={findMembersResponse}
+                                findMembersResponse={getWorkSpaceData}
                                 searchQuery={searchQuery}
-                                isLoading={isLoading}
+                                isLoading={getWorkspaceLoading}
                             />
                         )}
                         {selectedTabIndex === 1 && (
                             <RolesTable
-                                onClickViewUser={() => handleOpenModal('user')}
+                                // onClickViewUser={() => handleOpenModal('user')}
+                                isLoading={findRoleLoading}
                                 onClickEdit={handleOpenModal}
                                 findRolesResponse={findRolesResponse?.data}
                             />
@@ -228,12 +269,6 @@ const WorkspaceScreen = () => {
                                                 className="flex bg-white border border-[#e3e3e3] px-3 py-2 rounded justify-between items-center "
                                             >
                                                 <div className="flex items-center gap-4">
-                                                    {/* <Image
-                                                        src={'/images/send-icon.png'}
-                                                        width={44}
-                                                        height={44}
-                                                        alt="send"
-                                                    /> */}
                                                     <InitialsAvatar name={workspace?.name} size={44} />
                                                     <div>
                                                         <p className="text-sm font-semibold">{workspace?.name}</p>
@@ -245,7 +280,7 @@ const WorkspaceScreen = () => {
                                                 <Button
                                                     variant={'unstyled'}
                                                     className="text-primary-0 text-xs font-semibold"
-                                                    onClick={() => setShowMember(true)}
+                                                    onClick={() => handleMemberId(workspace?._id)}
                                                 >
                                                     Manage workspace
                                                 </Button>
@@ -267,12 +302,7 @@ const WorkspaceScreen = () => {
                     </section>
                 </>
             )}
-            <ShadModal
-                onClose={handleClose}
-                showModel={showInvite}
-                setShowModal={setShowInvite}
-                className={`relative ${modalType === 'user' ? 'max-w-2xl' : 'max-w-md'} p-4`}
-            >
+            <Modal onClose={handleClose} isOpen={showInvite} className={`relative max-w-md p-4`}>
                 {modalType === 'invite' && (
                     <InviteModal
                         removeInput={removeInput}
@@ -288,7 +318,14 @@ const WorkspaceScreen = () => {
                 {(modalType === 'create-role' || modalType === 'edit-role') && (
                     <CreateRole onClose={handleClose} singleRole={singleRole} />
                 )}
-            </ShadModal>
+                {modalType === 'delete-role' && (
+                    <DeleteRole
+                        onClose={handleClose}
+                        deleteRole={handleDeleteARole}
+                        findIsLoadingState={findIsLoadingState}
+                    />
+                )}
+            </Modal>
             <Modal isOpen={workspaceShowModal} onClose={handleModalClose} className={`relative max-w-lg`}>
                 <FormProvider {...workspaceForm}>
                     <CreateWorkSpace

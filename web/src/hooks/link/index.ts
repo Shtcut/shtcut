@@ -13,11 +13,16 @@ import {
     useLazyDuplicateLinkQuery,
     useLazyFetchMetadataQuery,
     useLazyFindAllLinksQuery,
+    useLazyGetLinkAnalyticsQuery,
     useLazyGetLinkQuery,
     useSubmitLinkPasswordMutation,
     useUpdateLinkMutation
 } from '@shtcut/services/link';
-import { FindAllLinkResresponseType, MetadataResponse } from '@shtcut/_shared/namespace/link';
+import {
+    FindAllLinkAnalyticsResresponseType,
+    FindAllLinkResresponseType,
+    MetadataResponse
+} from '@shtcut/_shared/namespace/link';
 import { debounce } from 'lodash';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 
@@ -69,6 +74,8 @@ interface UseLinkReturnsType {
     handleSearchChange: any;
     paginationActions: UsePaginationActions;
     params: LinkParams;
+    linkAnalyticsLoading: boolean;
+    linkAnalyticsData: FindAllLinkAnalyticsResresponseType;
 }
 
 export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
@@ -83,6 +90,8 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
     const [findAllLinks, { isLoading, data: findAllLinksResponse }] = useLazyFindAllLinksQuery();
     const [duplicate, duplicateLinkResponse] = useLazyDuplicateLinkQuery();
     const [getLink, getLinkResponse] = useLazyGetLinkQuery();
+    const [getLinkAnalytics, { data: linkAnalyticsData, isLoading: linkAnalyticsLoading }] =
+        useLazyGetLinkAnalyticsQuery();
     const [fetchMetadata, { data: fetchMetaDataResponse, isLoading: fetchMetaLoading }] = useLazyFetchMetadataQuery();
     const [debouncedSearch, setDebouncedSearch] = useState(search);
 
@@ -151,6 +160,14 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         }
     }, [url]);
 
+    useEffect(() => {
+        if (id) {
+            getLinkAnalytics({
+                id
+            });
+        }
+    }, [id]);
+
     return {
         isLoading,
         createLink,
@@ -179,7 +196,8 @@ export const useLink = (props: UseLinkProps): UseLinkReturnsType => {
         archivedManyLinksResponse,
         fetchMetaLoading,
         paginationActions,
-
+        linkAnalyticsLoading,
+        linkAnalyticsData,
         params
     };
 };

@@ -76,7 +76,7 @@ const QRCodeCreateComponent = ({
     const initialTab = tabParams ? (tabParams as string) : 'website';
     const [switchTab, setSwitchTab] = useState<string>(initialTab);
     const qrCodeRef = useRef(null);
-    const { qrActions, qrState } = useQrCode({ call: true });
+    const { qrState, qrActions } = useQrCode({ call: true });
     const { workspace } = params;
     const { register, handleSubmit, watch, setValue } = useForm({
         mode: 'onChange',
@@ -101,6 +101,11 @@ const QRCodeCreateComponent = ({
     };
 
     const handleSave = async () => {
+        const mappedLinks = linkState?.links.map((link) => ({
+            image: link.image?.id ?? null,
+            label: link.label,
+            url: link.url
+        }));
         const commonQrCodeData = {
             colors: {
                 presetColor,
@@ -124,8 +129,8 @@ const QRCodeCreateComponent = ({
             type: 'multi-link',
             title,
             description,
-            profileImage,
-            links: linkState?.links,
+            profileImage: profileImage?.id,
+            links: mappedLinks,
             bgColor,
             socialMedia: socialMediaLinks,
             template: {
@@ -139,7 +144,7 @@ const QRCodeCreateComponent = ({
             type: 'vcard',
             title,
             description,
-            profileImage,
+            profileImage: profileImage?.id,
             contacts: {
                 phone: contactInfo.phoneNumber,
                 email: contactInfo.email,
@@ -166,8 +171,8 @@ const QRCodeCreateComponent = ({
             type: 'pdf',
             title,
             description,
-            profileImage,
-            file: 'id',
+            profileImage: profileImage?.id,
+            file: fileInfo?.id,
             bgColor,
             qrCode: commonQrCodeData
         };
@@ -189,6 +194,7 @@ const QRCodeCreateComponent = ({
             default:
                 return;
         }
+
         if (step === 1) {
             if (switchTab === 'website' && !urlValue) {
                 return toast({
@@ -347,9 +353,7 @@ const QRCodeCreateComponent = ({
         }
     }, [editId, getQrCodeData, dispatch, setValue, getQrCodeData?.url]);
 
-    const onSubmit = (data: { url: string }) => {
-        console.log('Title:', data.url);
-    };
+    const onSubmit = (data: { url: string }) => {};
     if (isLoadingGetQrCode)
         return (
             <div className="flex justify-center items-center h-screen">
@@ -370,10 +374,10 @@ const QRCodeCreateComponent = ({
             <BtnActions
                 handlePrevStep={handlePrevStep}
                 isLoading={qrState.isLoadingState}
-                step={step}
+                step={step as number}
                 handleSave={handleSave}
                 handleClose={handleClose}
-                title="Create QR"
+                title="Create QR Code"
             />
             <div className="flex mt-[22px] gap-7">
                 <div className="w-full">
@@ -411,10 +415,15 @@ const QRCodeCreateComponent = ({
                                     actions={actions}
                                     linkState={linkState}
                                     defaultLinks={getQrCodeData?.socialMedia}
+                                    isUploadingMainImage={linkState?.isUploadingMainImage}
                                 />
                             </TabsContent>
                             <TabsContent value="pdf">
-                                <PdfQrCodeComponent step={Number(step)} actions={actions} />
+                                <PdfQrCodeComponent
+                                    step={Number(step)}
+                                    actions={actions}
+                                    isUploadingMainImage={linkState?.isUploadingMainImage}
+                                />
                             </TabsContent>
                             <TabsContent value="vcard">
                                 <VCardComponent step={Number(step)} defaultLinks={getQrCodeData?.socialMedia} />
@@ -424,7 +433,12 @@ const QRCodeCreateComponent = ({
                 </div>
                 <div className="bg-white w-1/2 sticky top-40 shadow-sm border border-gray-100 rounded-[10px] h-[640px] flex flex-col  justify-center">
                     <h2 className=" px-6 font-semibold ">Preview</h2>
-                    <PreviewPhone switchTab={switchTab} links={linkState?.links} selectedTab={Number(selectedTab)} />
+                    <PreviewPhone
+                        switchTab={switchTab}
+                        links={linkState?.links}
+                        selectedTab={Number(selectedTab)}
+                        isUploadingMainImage={linkState?.isUploadingMainImage}
+                    />
                 </div>
             </div>
             <QrCodeSuccessModal
@@ -432,7 +446,7 @@ const QRCodeCreateComponent = ({
                 saveModal={saveModal ?? false}
                 state={state}
                 qrCodeRef={qrCodeRef}
-                urlScan={urlScan}
+                urlScan={urlScan as string}
             />
         </div>
     );

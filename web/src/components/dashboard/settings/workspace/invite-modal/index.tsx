@@ -22,7 +22,7 @@ const InviteModal = ({
 }) => {
     return (
         <section className="">
-            <section className="border-b px-3 pb-4 flex items-center flex-col">
+            <section className="border-b  pb-4 flex items-center flex-col">
                 <h1 className="text-sm font-semibold">Invite people to collaborate</h1>
                 <p className="text-xs text-[#898384]">Invite members to work on your workspace</p>
             </section>

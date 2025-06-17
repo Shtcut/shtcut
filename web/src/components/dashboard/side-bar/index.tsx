@@ -47,7 +47,6 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
     const isMd = useMediaQuery({ minWidth: 768, maxWidth: 1023 });
     const [activeTab, setActiveTab] = useState<string | null>(null);
     const urlmodule = module === 'url';
-    console.log('module', module);
     const Sidebar_animation = isTab
         ? {
               open: {
@@ -103,8 +102,6 @@ export default function SideBar({ isOpen, isTab, setIsOpen, workSpaceTitle, find
             router.push('/social/social-media/create-post');
         } else return;
     };
-
-    console.log('workSpaceTitle', workSpaceTitle);
 
     return (
         <motion.div

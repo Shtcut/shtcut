@@ -130,6 +130,14 @@ export const linkApi = api.injectEndpoints({
                 body: { password }
             }),
             invalidatesTags: [linkTag]
+        }),
+        getLinkAnalytics: builder.query<any, { id: string; population?: string }>({
+            query: (params) =>
+                ({
+                    url: `${SHTNER.links}/${params.id}/analytics`,
+                    params
+                }) as unknown as FetchArgs,
+            providesTags: [linkTag]
         })
     })
 });
@@ -147,6 +155,7 @@ export const {
     useUpdateArchivedLinkMutation,
     useSubmitLinkPasswordMutation,
     useArchivedManyLinksMutation,
+    useLazyGetLinkAnalyticsQuery,
     endpoints: {
         createLink,
         findAllLinks,
@@ -159,6 +168,7 @@ export const {
         visitLink,
         updateArchivedLink,
         submitLinkPassword,
-        archivedManyLinks
+        archivedManyLinks,
+        getLinkAnalytics
     }
 } = linkApi;

@@ -8,7 +8,6 @@ const Frame_9 = () => {
     const { presetColorString, tabParams, borderColor, urlScan } = useGeneralState();
     const { state } = useQrCodeState();
 
-    console.log('state?.presetColor', state?.presetColor, presetColorString);
     return (
         <div className="h-full flex flex-col justify-center">
             <div

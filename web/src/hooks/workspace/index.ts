@@ -7,6 +7,7 @@ import {
     useCreateWorkspaceMutation,
     useDeleteWorkspaceMutation,
     useLazyFindAllWorkspacesQuery,
+    useLazyGetWorkspaceQuery,
     useLazySearchOneWorkspaceQuery,
     useLazySwitchWorkspaceQuery,
     useUpdateWorkspaceMutation
@@ -16,8 +17,8 @@ import { useAppDispatch, useAppSelector } from '@shtcut/redux/store';
 import { selectFindAllWorkspaceData, selectWorkspaceData } from '@shtcut/redux/selectors/workspace';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
-import { useRouter } from 'next/navigation';
 import { ApiResponse } from '@shtcut/_shared/namespace';
+import { getString } from '@shtcut/_shared/constant';
 
 interface UseWorkspaceProps {
     key?: string;
@@ -28,6 +29,7 @@ interface UseWorkspaceProps {
     filter?: Dict;
     switchWorkspaceId?: string;
     switchWorkspaceLoading?: boolean;
+    id?: string;
 }
 
 interface UseWorkspaceReturnsType {
@@ -47,6 +49,8 @@ interface UseWorkspaceReturnsType {
     pagination: UsePaginationState;
     paginationActions: UsePaginationActions;
     findAllWorkspacesLoading: boolean;
+    getWorkspaceLoading: boolean;
+    getWorkSpaceData: any;
 }
 
 export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType => {
@@ -56,7 +60,8 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         search,
         filter,
         switchWorkspaceId,
-        callSwitchWorkspace = false
+        callSwitchWorkspace = false,
+        id
     } = props;
     const dispatch = useAppDispatch();
     const [showLoading, setShowLoading] = useState(false);
@@ -68,11 +73,12 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     const [triggerSearchOneWorkspace] = useLazySearchOneWorkspaceQuery();
     const [triggerSwitchWorkspace, { data: switchWorkspaceResponse, isLoading: switchWorkspaceLoading }] =
         useLazySwitchWorkspaceQuery();
-
+    const [getWorkspaceByIdTrigger, { data: getWorkSpaceData, isLoading: getWorkspaceLoading }] =
+        useLazyGetWorkspaceQuery();
     const params = useMemo(
         () => ({
             ...pagination,
-            population: JSON.stringify(['user']),
+            population: JSON.stringify([{ path: 'user' }, { path: 'members' }]),
             search,
             ...filter
         }),
@@ -96,6 +102,16 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
             triggerSwitchWorkspace(switchWorkspaceId);
         }
     }, [callSwitchWorkspace, switchWorkspaceId, triggerSwitchWorkspace]);
+
+    useEffect(() => {
+        if (id) {
+            const idString = getString(id);
+            getWorkspaceByIdTrigger({
+                id: idString,
+                population: JSON.stringify([{ path: 'members' }])
+            });
+        }
+    }, [id]);
 
     useEffect(() => {
         if (switchWorkspaceResponse?.meta?.success) {
@@ -143,6 +159,8 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         switchWorkspaceLoading: showLoading || switchWorkspaceLoading,
         pagination,
         paginationActions,
-        findAllWorkspacesLoading
+        findAllWorkspacesLoading,
+        getWorkspaceLoading,
+        getWorkSpaceData
     };
 };

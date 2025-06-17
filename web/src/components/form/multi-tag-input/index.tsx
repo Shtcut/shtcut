@@ -65,7 +65,6 @@ const MultiTagsInput = ({
                 const newTag = { _id: response?.data?.id, text: tagText, color };
                 const newTags = [...tags, newTag];
                 const newIds = [...selectedIds, response?.data?.id];
-                console.log('newTags', newTags);
                 setTags(newTags);
                 setSelectedIds(newIds);
 

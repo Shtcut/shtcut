@@ -3,7 +3,6 @@
 import CreateLinkBioComponent from '@shtcut/components/ui/shorten-er/link-bios/create-link-bio';
 import { useLinkBios } from '@shtcut/hooks/link-bio';
 import useExtractId from '@shtcut/hooks/useExtractId';
-import { useParams } from 'next/navigation';
 import React from 'react';
 
 const CreateLinkBioContainer = () => {

@@ -7,6 +7,7 @@ import {
     useDeleteLinkBioMutation,
     useLazyFindAllLinkBioQuery,
     useLazyGetBioQuery,
+    useLazyGetLinkBioAnalyticsQuery,
     useLazyGetLinkBioQuery,
     useUpdateLinkBioMutation
 } from '@shtcut/services/link-bios';
@@ -22,13 +23,17 @@ export const useLinkBios = (props: UseLinkBioProps): UseTagsReturnsType => {
     const { callLinkbio = false, search = '', filter, all, id } = props;
     const { paginationActions, pagination } = usePagination();
     const [loaded, setLoaded] = useState(false);
+
     const [getLinkBio, { data: getLinkBioResponse, isLoading: getLinkBioLoading }] = useLazyGetLinkBioQuery();
     const [getBio, { data: getBioResponse, isLoading: getBioLoading }] = useLazyGetBioQuery();
+    const [getLinkBioAnalytics, { data: linkBioAnalyticsData, isLoading: linkBioAnalyticsLoading }] =
+        useLazyGetLinkBioAnalyticsQuery();
     const [createLinkBioTrigger, { data }] = useCreateLinkBioMutation();
     const [findAllLinkBio, { isLoading: findLinkBioLoading, data: findAllLinkBioResponse }] =
         useLazyFindAllLinkBioQuery();
     const [updateLinkBio, updateLinkBioRes] = useUpdateLinkBioMutation();
     const [deleteLinkBio, deleteLinkBioResponse] = useDeleteLinkBioMutation();
+
     const [debouncedSearch, setDebouncedSearch] = useState(search);
     const [loading, setLoading] = useState({
         creating: false,
@@ -39,12 +44,15 @@ export const useLinkBios = (props: UseLinkBioProps): UseTagsReturnsType => {
     const setLoadingState = (key: keyof typeof loading, value: boolean) => {
         setLoading((prev) => ({ ...prev, [key]: value }));
     };
+
     const params = {
         ...pagination,
         search: debouncedSearch,
         all,
+        population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }]),
         ...filter
     };
+
     const handleSearchChange = debounce((newSearch: string) => {
         setDebouncedSearch(newSearch);
     }, 500);
@@ -70,7 +78,16 @@ export const useLinkBios = (props: UseLinkBioProps): UseTagsReturnsType => {
         if (id) {
             getBio({
                 id,
-                population: params.population
+                population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }])
+            });
+        }
+    }, [id]);
+
+    useEffect(() => {
+        if (id) {
+            getLinkBioAnalytics({
+                id,
+                population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }])
             });
         }
     }, [id]);
@@ -90,7 +107,9 @@ export const useLinkBios = (props: UseLinkBioProps): UseTagsReturnsType => {
             getLinkBioLoading,
             getSingleLinkBio,
             getBioLoading,
-            updateLinkBioResponse
+            updateLinkBioResponse,
+            linkBioAnalyticsData,
+            linkBioAnalyticsLoading
         },
         linkBioActions: {
             createLinkBio,

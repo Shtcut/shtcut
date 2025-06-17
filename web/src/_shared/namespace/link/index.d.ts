@@ -64,30 +64,19 @@ export namespace LinkNameSpace {
 
     export interface LinkRequest extends ApiRequest {
         params?: QueryArgs;
-        payload?: {
-            _id?: string;
-            id?: string;
-            title?: string;
-            target?: string;
-            alias?: string;
-            workspace?: string;
-            domain?: string;
-            password?: string;
-            enableTracking?: boolean;
-            expiryDate?: string | Date;
-            archived?: boolean;
-            devices?: {
-                android?: string;
-                ios?: string;
-            };
-            geo?: Dict;
-            utmParams?: UTMParams;
-            tags?: { _id: string; name: string }[];
-        };
+        payload?: LinksDataResponse;
     }
 }
 export type FindAllLinkResresponseType = {
     data: LinkNameSpace.Link[] | undefined;
+    meta: Meta;
+};
+
+export type FindAllLinkAnalyticsResresponseType = {
+    data: {
+        clicks: ClicksType;
+        link: LinkNameSpace.Link;
+    };
     meta: Meta;
 };
 
@@ -175,4 +164,37 @@ export interface LinkTypeResponse {
     handleCheckboxChange: (id: string, isChecked: boolean) => void;
     handleArchivedMany: () => void;
     doFind?: () => void;
+}
+
+interface LinksDataResponse {
+    _id?: string;
+    id?: string;
+    title?: string;
+    target?: string;
+    alias?: string;
+    workspace?: string;
+    domain?: string;
+    password?: string;
+    enableTracking?: boolean;
+    expiryDate?: string | Date;
+    archived?: boolean;
+    devices?: {
+        android?: string;
+        ios?: string;
+    };
+    geo?: Dict;
+    utmParams?: UTMParams;
+    tags?: { _id: string; name: string }[];
+}
+
+interface ClicksType {
+    summary: {
+        weeklyChange: number;
+        last7Days: number;
+        totalCount: number;
+    };
+    sourceDistribution: {
+        countries: [];
+    };
+    plotData: {};
 }

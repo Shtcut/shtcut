@@ -19,8 +19,6 @@ import { useCurrentWorkSpace } from '@shtcut/hooks/current-workspace';
 import { usePermission } from '@shtcut/hooks/permissions';
 import { useRole } from '@shtcut/hooks/roles';
 import { RolesDataResponse } from '@shtcut/types/workspace';
-
-import { X } from 'lucide-react';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -104,10 +102,9 @@ const CreateRole = ({ onClose, singleRole }: { onClose: () => void; singleRole: 
     };
 
     return (
-        <div className="px-4">
+        <div className="">
             <div className="flex items-center justify-between border-b pt-2 pb-4">
                 <h1 className="font-medium"> {singleRole ? '  Update Role' : '  Create Role'}</h1>
-                <X onClick={onClose} size={18} />
             </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>

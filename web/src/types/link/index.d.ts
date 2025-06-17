@@ -2,7 +2,8 @@ type LinkBioDataType = {
     id: number;
     label: string;
     url: string;
-    image?: string | null;
+    image?: any | { id: string; preview: string };
+    linkUploadingState?: any;
 };
 
 interface LinkDataAddress {
@@ -32,6 +33,7 @@ interface PhoneTemplateProps {
     description?: string;
     presetColor?: string;
     btnColor?: string;
+    isUploadingMainImage?: boolean;
 }
 
 export type UseLinksManagerState = {

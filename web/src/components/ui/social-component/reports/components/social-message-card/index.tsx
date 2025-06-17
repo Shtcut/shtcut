@@ -14,7 +14,6 @@ const SocialMessageCard = ({ message }: { message: SocialMessage }) => {
     const { handleCopy } = useCopyToClipboard();
 
     const platformIcon = getPlatformIcon(message.user.platform);
-    console.log('platformIcon', platformIcon);
     const getMessageHeader = () => {
         switch (message.type) {
             case 'comment':

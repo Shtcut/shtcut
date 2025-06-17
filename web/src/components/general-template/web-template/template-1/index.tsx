@@ -112,7 +112,7 @@ const WebTemplate1 = ({ linkData, isLoading }: { linkData: any | undefined; isLo
                                                         ))}
                                                 </section>
                                             ) : (
-                                                <section>
+                                                <section className="h-14 flex flex-col justify-center px-2">
                                                     <p>no data </p>
                                                 </section>
                                             )}

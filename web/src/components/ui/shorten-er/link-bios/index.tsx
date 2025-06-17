@@ -59,9 +59,6 @@ const LinkBiosComponent = ({
         });
     };
 
-    console.log('selectedLinkBio', selectedLinkBio);
-    console.log('type', modalType);
-
     const handleDeleteLinkBio = (id: string) => {
         linkBioActions.setLoadingState('deleting', true);
         linkBioActions.deleteLinkBio({
@@ -115,7 +112,7 @@ const LinkBiosComponent = ({
                                     <LinkBioCard
                                         data={data}
                                         handleShowDelete={() => handleShowModal('delete', data)}
-                                        handleNavigateAnalytics={() => handleNavigate(data?.slug)}
+                                        handleNavigateAnalytics={() => handleNavigate(data?._id)}
                                         handleShowQr={() => handleShowModal('qr', data)}
                                     />
                                 </div>

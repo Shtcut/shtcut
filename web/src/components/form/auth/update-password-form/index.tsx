@@ -49,7 +49,6 @@ export const UpdatePasswordForm = (props: UpdatePasswordFormProps) => {
 
     const handleFormSubmit = (values: z.infer<typeof updatePasswordValidationSchema>) => {
         handleUpdatePasswordSubmit(values);
-        console.log('values::', values);
     };
 
     const handleResendClick = () => {

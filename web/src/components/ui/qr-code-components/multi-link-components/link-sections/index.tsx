@@ -1,4 +1,5 @@
 import { Button, Card, Input, Label } from '@shtcut-ui/react';
+import StarLoader from '@shtcut/components/loader/star-loader';
 import { LinkBioDataType } from '@shtcut/types/link';
 import { Image as LucideImage, Minus, Plus } from 'lucide-react';
 import React from 'react';
@@ -13,6 +14,7 @@ type LinksSectionProps = {
     addLinkSection?: () => void;
     index?: number;
     link?: LinkBioDataType;
+    linkUploadingState?: boolean;
 };
 
 const LinksSection = ({
@@ -24,9 +26,11 @@ const LinksSection = ({
     onUpdateLink,
     addLinkSection,
     index,
-    link
+    link,
+    linkUploadingState
 }: LinksSectionProps) => {
     const imageInputId = `image-upload-link-${index}`;
+
     return (
         <Card className="shadow-sm mt-4 py-4 px-6 border border-gray-100">
             <section className={`flex ${isVisible ? 'pb-3' : ''} justify-between items-center`}>
@@ -65,7 +69,9 @@ const LinksSection = ({
                         <p className="text-sm text-[#5A5555]">Add image using the + button.</p>
                         <section className="relative bg-[#FAFAFA] mt-2 w-20">
                             <section className="h-20 w-20 rounded-md border flex justify-center items-center">
-                                {linkImage ? (
+                                {linkUploadingState ? (
+                                    <StarLoader />
+                                ) : linkImage ? (
                                     <img
                                         src={linkImage}
                                         alt="Preview"

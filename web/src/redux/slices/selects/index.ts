@@ -1,6 +1,24 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '@shtcut/redux/store';
-import { CompanyInfo, ContactInfo, GeneralState } from '@shtcut/types/types';
+import { CompanyInfo, ContactInfo } from '@shtcut/types/types';
+
+type GeneralState = {
+    title: string;
+    description: string;
+    image: { id: string; preview: string };
+    url: string;
+    step: number;
+    template: string;
+    bgColor: string;
+    presetColor: string;
+    btnColor: string;
+    selectedTab: number;
+    borderColor: string;
+    socialLinks: { [key: string]: string };
+    file: { id: string; file: File } | null;
+    contactInfo: ContactInfo;
+    company: CompanyInfo;
+};
 
 type UpdateFieldPayload = {
     key: keyof ContactInfo | keyof CompanyInfo;
@@ -10,7 +28,7 @@ type UpdateFieldPayload = {
 const initialState: GeneralState = {
     title: '',
     description: '',
-    image: '',
+    image: { id: '', preview: '' },
     url: '',
     step: 1,
     template: 'template_1',
@@ -50,7 +68,7 @@ const generalSelectSlice = createSlice({
         setDescription: (state, action: PayloadAction<string>) => {
             state.description = action.payload;
         },
-        setImage: (state, action: PayloadAction<string>) => {
+        setImage: (state, action: PayloadAction<{ id: string; preview: string }>) => {
             state.image = action.payload;
         },
         setUrl: (state, action: PayloadAction<string>) => {
@@ -102,10 +120,10 @@ const generalSelectSlice = createSlice({
         setCompany: (state, action: PayloadAction<CompanyInfo>) => {
             state.company = action.payload;
         },
-        setFile: (state, action: PayloadAction<File | null>) => {
+        setFile: (state, action: PayloadAction<{ id: string; file: File } | null>) => {
             state.file = action.payload;
-            console.log('File in Redux store:', state.file);
         },
+
         updateCompanyField(state, action: PayloadAction<UpdateFieldPayload>) {
             const { key, value } = action.payload;
             if (state.company) {
@@ -142,14 +160,15 @@ export const {
 export default generalSelectSlice.reducer;
 const createSelector =
     <T>(key: keyof GeneralState) =>
-    (state: RootState) =>
-        state.generalStateReduce[key];
+    (state: RootState): T => {
+        return state.generalStateReduce[key] as T;
+    };
 
 export const generalStateSelectors = {
     selectTitle: createSelector('title'),
     setDescription: createSelector('description'),
     selectStep: createSelector('step'),
-    selectImage: createSelector('image'),
+    selectImage: createSelector<{ id: string; preview: string }>('image'),
     selectUrl: createSelector('url'),
     selectSelectedTemplate: createSelector('template'),
     selectBgColor: createSelector('bgColor'),
@@ -160,5 +179,5 @@ export const generalStateSelectors = {
     selectSocialLinks: createSelector('socialLinks'),
     selectContactInfo: createSelector('contactInfo'),
     selectCompany: createSelector('company'),
-    selectFile: createSelector('file')
+    selectFile: createSelector<(File & { id?: string }) | null>('file')
 };

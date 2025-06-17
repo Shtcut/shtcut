@@ -70,6 +70,16 @@ export default async function getCroppedImg(imageSrc: string, pixelCrop: Area) {
     });
 }
 
-export const getImagePreview = (base64: string | null | undefined): string => {
-    return base64 ?? ''; // If base64 is null or undefined, return an empty string
+export const getImagePreview = (image?: string | { id: string; preview: string } | null): string => {
+    if (!image) return '';
+
+    if (typeof image === 'string') {
+        return image;
+    }
+
+    if (typeof image === 'object' && 'preview' in image) {
+        return image.preview;
+    }
+
+    return '';
 };

@@ -1,6 +1,5 @@
 'use client';
-import { Button, Card, Dict } from '@shtcut-ui/react';
-import { SearchInput } from '@shtcut/components/dashboard/nav-component';
+import { Button, Card } from '@shtcut-ui/react';
 import React, { createElement, useState } from 'react';
 import { PiSortDescendingBold } from 'react-icons/pi';
 import LinkListedComponent from '../link-listed-component';
@@ -11,10 +10,14 @@ import ReferralComponent from '../../../referrals';
 import CountriesComponent from '../../../countries';
 import { LineChartComponent } from '@shtcut/components/_shared/Analytics/LineChart';
 import SelectMonths from '../../../select-months';
-import { LinkNameSpace } from '@shtcut/_shared/namespace/link';
 import BackButton from '@shtcut/components/back-btn';
+import { FindAllLinkAnalyticsResresponseType } from '@shtcut/_shared/namespace/link';
 
-const SingleLinkPreviewComponent = ({ getLinkResponse }: { getLinkResponse: LinkNameSpace.Link }) => {
+const SingleLinkPreviewComponent = ({
+    linkAnalyticsData
+}: {
+    linkAnalyticsData?: FindAllLinkAnalyticsResresponseType;
+}) => {
     const [selectedMonth, setSelectedMonth] = useState<string | null>(null);
 
     const handleSelect = (value: string) => {
@@ -24,19 +27,19 @@ const SingleLinkPreviewComponent = ({ getLinkResponse }: { getLinkResponse: Link
         {
             id: '1',
             text: 'Click Counts',
-            totalNumber: getLinkResponse?.clicks,
+            totalNumber: linkAnalyticsData?.data?.clicks?.summary?.totalCount,
             icon: HiUsers
         },
         {
             id: '2',
             text: 'Last 7 days',
-            totalNumber: '200',
+            totalNumber: linkAnalyticsData?.data?.clicks?.summary?.last7Days,
             icon: Chart
         },
         {
             id: '3',
             text: 'Weekly Change',
-            totalNumber: '10%',
+            totalNumber: `${linkAnalyticsData?.data?.clicks?.summary?.weeklyChange}%`,
             icon: BiPieChartAlt
         }
     ];
@@ -46,14 +49,13 @@ const SingleLinkPreviewComponent = ({ getLinkResponse }: { getLinkResponse: Link
             <div className="flex pt-6 justify-between items-center">
                 <h1 className="font-semibold text-[#2B2829] text-xl">Analytics</h1>
                 <div className="flex items-center gap-x-2">
-                    <SearchInput />
                     <Button className="flex border  hover:bg-primary-0 hover:text-white shadow-none text-sm text-[#5A5555] items-center font-normal bg-white gap-x-2 border-[#CCCBCB]">
                         <PiSortDescendingBold size={20} /> Sort by
                     </Button>
                 </div>
             </div>
             <div className="mt-8">
-                <LinkListedComponent data={getLinkResponse} edit={true} />
+                <LinkListedComponent data={linkAnalyticsData?.data?.link} edit={false} />
             </div>
 
             <div className="mt-[22px] flex items-center w-full gap-6 ">

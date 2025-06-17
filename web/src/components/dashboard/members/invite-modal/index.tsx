@@ -34,9 +34,7 @@ const InviteModal = () => {
             email: ''
         }
     });
-    const handleFormSubmit = (values: any) => {
-        console.log(values);
-    };
+    const handleFormSubmit = (values: any) => {};
     return (
         <div className="pt-6">
             <section className="border-b  flex items-center flex-col pb-4">

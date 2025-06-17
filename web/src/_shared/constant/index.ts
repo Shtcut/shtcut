@@ -712,7 +712,6 @@ const getDaySuffix = (day: number): string => {
 
 export const hexToRgba = (hex: string, alpha: number) => {
     if (!hex || !/^#?[0-9A-Fa-f]{6}$/.test(hex)) {
-        console.warn(`Invalid hex color: "${hex}". Using default color.`);
         return `rgba(0, 0, 0, ${alpha})`;
     }
 
@@ -732,3 +731,8 @@ export const capitalizeFirstLetter = (text: string): string => {
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const phoneRegex = /^\+?\d{7,15}$/;
+
+export const getString = (value: string | string[] | undefined): string => {
+    if (Array.isArray(value)) return value[0] ?? '';
+    return value ?? '';
+};

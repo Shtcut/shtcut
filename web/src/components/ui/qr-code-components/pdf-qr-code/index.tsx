@@ -10,7 +10,15 @@ import { linksTab } from '@shtcut/_shared/data';
 import LinkHeader from '../../../dashboard/link-header';
 import { UseLinksManagerActions } from '@shtcut/types/link';
 
-const PdfQrCodeComponent = ({ step, actions }: { step: number; actions: UseLinksManagerActions }) => {
+const PdfQrCodeComponent = ({
+    step,
+    actions,
+    isUploadingMainImage
+}: {
+    step: number;
+    actions: UseLinksManagerActions;
+    isUploadingMainImage: boolean;
+}) => {
     const { title, description, profileImage } = useGeneralState();
     const dispatch = useDispatch();
     const [showSections, setShowSections] = useState({
@@ -44,8 +52,9 @@ const PdfQrCodeComponent = ({ step, actions }: { step: number; actions: UseLinks
                         descriptionValue={description as string}
                         handleTitleChange={handleInputChange}
                         handleDescriptionChange={(e) => dispatch(setDescription(e.target.value))}
-                        selectedImage={profileImage ?? ''}
+                        selectedImage={profileImage?.preview ?? ''}
                         handleImageChange={actions?.handleImageChange}
+                        isUploadingMainImage={isUploadingMainImage}
                     />
                     <PdfCardComponent toggleVisibility={() => toggleSection('pdf')} isVisible={showSections.pdf} />
                 </section>

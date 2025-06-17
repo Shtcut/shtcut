@@ -90,7 +90,7 @@ const LinkComponent = ({
         setDomain(value);
     };
 
-    const handleNavigate = (alias: string) => {
+    const handleAnalyticsNavigate = (alias: string) => {
         route.push(`${pathName}/analytics/${alias}`);
     };
 
@@ -377,7 +377,7 @@ const LinkComponent = ({
             <LinkDataComponent
                 isLoading={isLoading || isLoadingState}
                 findAllLinksResponse={findAllLinksResponse}
-                handleNavigate={handleNavigate}
+                handleAnalyticsNavigate={handleAnalyticsNavigate}
                 toggleSection={toggleSection}
                 handleUpdateLink={handleUpdateLink}
                 search={search}

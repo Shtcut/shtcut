@@ -47,6 +47,7 @@ export const useMembers = (props: UseMembersProps): UseMembersReturnType => {
         setLoading((prev) => ({ ...prev, [key]: value }));
     };
     const params = {
+        population: JSON.stringify([{ path: 'id' }]),
         ...pagination,
         search: debouncedSearch,
         ...filter

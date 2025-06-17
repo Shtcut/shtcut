@@ -17,7 +17,6 @@ const CreateNewLabel = ({ handleClose }: { handleClose: () => void }) => {
 
     const handleCreateLabel = () => {
         if (labelName && selectedColor) {
-            console.log(`Label: ${labelName}, Color: ${selectedColor}`);
             handleClose();
         } else {
             alert('Please enter a label name and select a color.');

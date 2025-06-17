@@ -37,8 +37,9 @@ const PersonalInfoVCard = ({ defaultLinks }: { defaultLinks?: Record<string, str
                 descriptionValue={description as string}
                 handleTitleChange={(e) => dispatch(setTitle(e.target.value))}
                 handleDescriptionChange={(e) => dispatch(setDescription(e.target.value))}
-                selectedImage={profileImage as string}
+                selectedImage={profileImage.preview as string}
                 handleImageChange={actions?.handleImageChange}
+                isUploadingMainImage={state?.isUploadingMainImage}
             />
             <ContactInfo isVisible={showSections.contact} toggleVisibility={() => toggleSection('contact')} />
             <QrCodeCompanyInfo isVisible={showSections.company} toggleVisibility={() => toggleSection('company')} />
