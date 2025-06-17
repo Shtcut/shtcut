@@ -40,15 +40,12 @@ export class WorkspaceGuard implements CanActivate {
 
     try {
       const workspaces = await this.workspaceModel.find({ user: userId, deleted: false });
-      console.log('workspaces:::', workspaces);
       if (!workspaces || workspaces.length === 0) {
         throw AppException.FORBIDDEN('You must select a current workspace to access this feature');
       }
       const workspace = workspaces.find((w) => w.isDefault) || workspaces[0];
       const currentWorkspace = workspace._id as string;
-      console.log('currentWorkspace:::', currentWorkspace);
       request.workspace = currentWorkspace.toString();
-      console.log('request:::', request.workspace);
       return true;
     } catch (error) {
       console.error('Error in workspace guard:', error);
