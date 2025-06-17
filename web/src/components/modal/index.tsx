@@ -35,7 +35,7 @@ const Modal = ({
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="fixed inset-0 cursor-pointer z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm "
+                    className="fixed inset-0 cursor-pointer z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm w-full"
                     onClick={onClose}
                 >
                     <motion.div
@@ -43,7 +43,7 @@ const Modal = ({
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 0.8, opacity: 0 }}
                         transition={{ duration: 0.3, ease: 'easeInOut' }}
-                        className={`bg-white  ${noStyle ? 'py-4' : 'py-0'}   cursor-default rounded-lg shadow ${className ? className : 'w-[500px]'}`}
+                        className={`bg-white ${noStyle ? 'py-4' : 'py-0'} cursor-default rounded-lg shadow w-[500px] ${className ?? ''}`}
                         onClick={(e) => e.stopPropagation()}
                     >
                         {/* {others} */}

@@ -1,6 +1,6 @@
 import { useAppSelector } from '@shtcut/redux/store';
 import { generalStateSelectors, nextStep, prevStep } from '@shtcut/redux/slices/selects';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useSearchParams } from 'next/navigation';
 import { CompanyInfo, ContactInfo } from '@shtcut/types/types';
 
@@ -11,8 +11,7 @@ const useGeneralState = () => {
     const activeTemplate = useAppSelector(generalStateSelectors.selectSelectedTemplate);
     const activeTemplateString = activeTemplate ? String(activeTemplate) : undefined;
     const title = useAppSelector(generalStateSelectors.selectTitle);
-    const profileImageString = useAppSelector(generalStateSelectors.selectImage);
-    const profileImage = profileImageString ? String(profileImageString) : undefined;
+    const profileImage = useAppSelector(generalStateSelectors.selectImage) ?? { id: '', preview: '' };
     const bgColorString = useAppSelector(generalStateSelectors.selectBgColor);
     const selectedTab = useAppSelector(generalStateSelectors.setSelectedTab);
     const bgColor = bgColorString ? String(bgColorString) : undefined;
@@ -39,7 +38,7 @@ const useGeneralState = () => {
         department: '',
         name: ''
     };
-    const fileInfo = useAppSelector(generalStateSelectors.selectFile);
+    const fileInfo = useSelector(generalStateSelectors.selectFile) as { id: string; file: File } | null;
     const urlScan = useAppSelector(generalStateSelectors.selectUrl);
 
     const handleNextStep = () => {

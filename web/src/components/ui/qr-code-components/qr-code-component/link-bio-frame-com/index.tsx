@@ -19,7 +19,7 @@ const LinkBioFrameComponent = ({ linksBio }: { linksBio: LinkBioDataType[] }) =>
             <div className="bg-[#FFE8F0] rounded-md h-40 w-full">
                 <div className="flex flex-col h-full justify-center items-center">
                     {profileImage ? (
-                        <Image alt="" src={profileImage} width={80} height={60} className="rounded-md" />
+                        <Image alt="" src={profileImage.preview} width={80} height={60} className="rounded-md" />
                     ) : (
                         <section className="h-20 w-20 rounded-md border bg-white shadow-sm flex justify-center items-center">
                             <LucideImage color="#B5B3B3" size={40} />
@@ -38,7 +38,7 @@ const LinkBioFrameComponent = ({ linksBio }: { linksBio: LinkBioDataType[] }) =>
                                 key={index}
                                 icons={
                                     bio.image ? (
-                                        <Image src={bio.image as string} width={14} height={16} alt="" />
+                                        <Image src={bio.image.preview as string} width={14} height={16} alt="" />
                                     ) : (
                                         <LucideImage size={14} color="#B5B3B3" />
                                     )

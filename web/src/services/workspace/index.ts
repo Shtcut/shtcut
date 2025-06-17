@@ -24,10 +24,14 @@ export const workspaceApi = api.injectEndpoints({
                 }) as unknown as FetchArgs,
             providesTags: [workspaceTag]
         }),
-        getWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, string>({
-            query: (id: string) => `${ACL.workspace}/${id}` as unknown as FetchArgs,
+        getWorkspace: builder.query<ApiResponse<WorkspaceNameSpace.Workspace>, { id: string; population?: string }>({
+            query: ({ id, population }) => ({
+                url: `${ACL.workspace}/${id}`,
+                params: population ? { population } : {}
+            }),
             providesTags: [workspaceTag]
         }),
+
         createWorkspace: builder.mutation<
             ApiResponse<WorkspaceNameSpace.Workspace>,
             WorkspaceNameSpace.WorkspaceRequest
@@ -78,7 +82,7 @@ export const {
     useCreateWorkspaceMutation,
     useLazyFindAllWorkspacesQuery,
     useLazySearchOneWorkspaceQuery,
-    useGetWorkspaceQuery,
+    useLazyGetWorkspaceQuery,
     useUpdateWorkspaceMutation,
     useDeleteWorkspaceMutation,
     useLazySwitchWorkspaceQuery,

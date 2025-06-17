@@ -32,9 +32,7 @@ const DomainsComponent = ({
             domainName: ''
         }
     });
-    const handleFormSubmit = (values: any) => {
-        console.log('values::', values);
-    };
+    const handleFormSubmit = (values: any) => {};
     return (
         <div>
             <div className="flex items-center justify-between">

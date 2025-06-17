@@ -1,5 +1,5 @@
 import React from 'react';
-import { Tabs, TabsList, TabsTrigger, Card, TabsContent } from '@shtcut-ui/react';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@shtcut-ui/react';
 import TemplateCard from '../template-card';
 import { Globe, Mail, MapPin, Phone } from 'lucide-react';
 import InfoField from '../info-field';

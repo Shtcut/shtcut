@@ -11,10 +11,24 @@ module.exports = {
         return config;
     },
     images: {
-        domains: ['img.youtube.com', 'images.unsplash.com', 'example.com', 'i.imgur.com']
-    },
-    images: {
+        domains: ['img.youtube.com', 'images.unsplash.com', 'example.com', 'i.imgur.com', 'res.cloudinary.com'],
         remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'res.cloudinary.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'img.youtube.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'images.unsplash.com'
+            },
+            {
+                protocol: 'https',
+                hostname: 'i.imgur.com'
+            },
             {
                 protocol: 'https',
                 hostname: '**'

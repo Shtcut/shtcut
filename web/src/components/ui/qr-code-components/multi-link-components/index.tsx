@@ -9,12 +9,14 @@ const MultiLinksComponent = ({
     step,
     actions,
     linkState,
-    defaultLinks
+    defaultLinks,
+    isUploadingMainImage
 }: {
     actions: UseLinksManagerActions;
     linkState: UseLinksManagerState;
     step?: number;
     defaultLinks?: Record<string, string>;
+    isUploadingMainImage?: boolean;
 }) => {
     return (
         <div>
@@ -23,7 +25,12 @@ const MultiLinksComponent = ({
             </section>
             <div>
                 {step === 1 && (
-                    <QrCodeHeadersComponent actions={actions} linkState={linkState} defaultLinks={defaultLinks} />
+                    <QrCodeHeadersComponent
+                        actions={actions}
+                        linkState={linkState}
+                        defaultLinks={defaultLinks}
+                        isUploadingMainImage={isUploadingMainImage}
+                    />
                 )}
             </div>
             {step === 2 && <ActionQrCodeTab initialTabs={multiLinksTab} />}

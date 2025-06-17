@@ -4,6 +4,7 @@ import React from 'react';
 import ReusableComponent from '../reusable-component';
 import { Image as LucideImage } from 'lucide-react';
 import { PhoneTemplateProps } from '@shtcut/types/link';
+import StarLoader from '@shtcut/components/loader/star-loader';
 
 const PhoneTemplate_3 = ({
     contactActions,
@@ -12,20 +13,25 @@ const PhoneTemplate_3 = ({
     description,
     imageSelected,
     presetColor,
-    btnColor
+    btnColor,
+    isUploadingMainImage
 }: PhoneTemplateProps) => {
     return (
         <>
-            <div className=" h-52 w-full">
-                <Image
-                    src={imageSelected ? imageSelected : '/images/steve.jpeg'}
-                    alt="steve"
-                    className="h-full rounded-t-[32px] w-full object-cover"
-                    height={0}
-                    width={0}
-                    unoptimized
-                    priority
-                />
+            <div className=" h-52 w-full flex items-center justify-center">
+                {isUploadingMainImage ? (
+                    <StarLoader />
+                ) : (
+                    <Image
+                        src={imageSelected ? imageSelected : '/images/steve.jpeg'}
+                        alt="steve"
+                        className="h-full rounded-t-[32px] w-full object-cover"
+                        height={0}
+                        width={0}
+                        unoptimized
+                        priority
+                    />
+                )}
             </div>
             <section
                 className="relative h-fit  rounded-b-[32px]  rounded-t-3xl bottom-8"
@@ -59,8 +65,13 @@ const PhoneTemplate_3 = ({
                                             key={index}
                                             btnColor={btnColor}
                                             icons={
-                                                bio.image ? (
-                                                    <Image src={bio.image as string} width={14} height={16} alt="" />
+                                                bio.image?.preview ? (
+                                                    <Image
+                                                        src={(bio.image?.preview as string) || bio?.image?.file?.url}
+                                                        width={14}
+                                                        height={16}
+                                                        alt=""
+                                                    />
                                                 ) : (
                                                     <LucideImage size={14} color="#B5B3B3" />
                                                 )

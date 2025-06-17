@@ -11,6 +11,7 @@ import {
     setBtnColor,
     setContactInfo,
     setDescription,
+    setImage,
     setPresetColor,
     setSelectedTemplate,
     setTitle
@@ -50,7 +51,6 @@ const CreateLinkBioComponent = ({
     const params = useParams();
     const { state: qrCodeState, action: qrcodeAction } = useQrCodeState();
     const { workspace } = params;
-
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
     const [showInputModal, setShowInputModal] = useState(false);
@@ -86,6 +86,12 @@ const CreateLinkBioComponent = ({
     };
 
     const handleSubmit = async () => {
+        const mappedLinks = state?.links.map((link) => ({
+            image: link.image?.id ?? null,
+            label: link.label,
+            url: link.url
+        }));
+
         const payload = {
             workspace: currentWorkspace?._id,
             name: title,
@@ -97,8 +103,8 @@ const CreateLinkBioComponent = ({
                 btnColor,
                 background: bgColor
             },
-            links: state?.links,
-            profileImage: profileImage,
+            links: mappedLinks,
+            profileImage: profileImage?.id,
             contacts: {
                 phone: contactInfo.phoneNumber,
                 email: contactInfo.email,
@@ -187,7 +193,6 @@ const CreateLinkBioComponent = ({
     };
 
     const onSubmitTitle = (data: { uniqueName: string }) => {
-        console.log('Title:', data.uniqueName);
         // setShowInputModal(false);
     };
 
@@ -218,6 +223,7 @@ const CreateLinkBioComponent = ({
                     city: addressData.city || ''
                 })
             );
+            dispatch(setImage({ preview: getLinkBio?.profileImage?.file?.url, id: getLinkBio?.profileImage?.id }));
             dispatch(setTitle(getLinkBio?.title));
             dispatch(setDescription(getLinkBio?.description));
             dispatch(setSelectedTemplate(getLinkBio?.template));
@@ -242,7 +248,7 @@ const CreateLinkBioComponent = ({
             <BtnActions
                 handlePrevStep={handlePrevStep}
                 isLoading={linkBiosState?.isLoadingState}
-                step={step}
+                step={step as number}
                 handleSave={handleSubmit}
                 handleClose={handleClose}
                 title="Create Link Bio"
@@ -263,24 +269,28 @@ const CreateLinkBioComponent = ({
                                 descriptionValue={description as string}
                                 handleTitleChange={(e) => dispatch(setTitle(e.target.value))}
                                 handleDescriptionChange={(e) => dispatch(setDescription(e.target.value))}
-                                selectedImage={profileImage as string}
+                                selectedImage={profileImage.preview}
                                 handleImageChange={actions?.handleImageChange}
                                 showAddress={true}
+                                isUploadingMainImage={state?.isUploadingMainImage}
                             />
-                            {state?.links.map((link, index) => (
-                                <LinksSection
-                                    key={link.id}
-                                    index={index + 1}
-                                    isVisible={state?.showSections[link.id]}
-                                    toggleVisibility={() => actions?.toggleSection(link.id)}
-                                    linkImage={getImagePreview(link?.image)}
-                                    handleImageChange={(e) => actions?.handleLinkImageChange(link.id, e)}
-                                    onUpdateLink={(field, value) => actions?.updateLink(link.id, field, value)}
-                                    onRemove={() => actions?.removeLink(link.id)}
-                                    addLinkSection={actions?.addLink}
-                                    link={link}
-                                />
-                            ))}
+                            {state?.links.map((link, index) => {
+                                return (
+                                    <LinksSection
+                                        key={link.id}
+                                        index={index + 1}
+                                        isVisible={state?.showSections[link.id]}
+                                        toggleVisibility={() => actions?.toggleSection(link.id)}
+                                        linkImage={getImagePreview(link?.image) || link?.image?.file?.url || ''}
+                                        handleImageChange={(e) => actions?.handleLinkImageChange(link.id, e)}
+                                        onUpdateLink={(field, value) => actions?.updateLink(link.id, field, value)}
+                                        onRemove={() => actions?.removeLink(link.id)}
+                                        addLinkSection={actions?.addLink}
+                                        link={link}
+                                        linkUploadingState={state?.linkUploadingState[link.id] || false}
+                                    />
+                                );
+                            })}
                         </section>
                     )}
                     {step === 2 && (
@@ -296,7 +306,11 @@ const CreateLinkBioComponent = ({
                 </section>
                 <div className="bg-white sticky top-0 shadow-sm border border-gray-100 rounded-[10px] h-[640px] p-[23px]">
                     <h2 className="font-semibold">Preview</h2>
-                    <PreviewPhone switchTab="edit-link" links={state?.links} />
+                    <PreviewPhone
+                        switchTab="edit-link"
+                        links={state?.links}
+                        isUploadingMainImage={state?.isUploadingMainImage}
+                    />
                 </div>
             </section>
             <Modal showModel={showModal} setShowModal={setShowModal} onClose={handleCloseCreateLinkBio}>

@@ -35,13 +35,7 @@ export const authApi = api?.injectEndpoints({
                     body: payload
                 };
             },
-            async onQueryStarted() {
-                try {
-                    // todo dispatch to go get current logged user
-                } catch (e) {
-                    console.log('error::', e);
-                }
-            }
+            async onQueryStarted() {}
         }),
         social: builder.mutation<AuthResponseType, SocialAuthRequestType>({
             query: ({ payload }) => {

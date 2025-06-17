@@ -14,6 +14,8 @@ export interface LinkBioStateType {
     getBioLoading: boolean;
     getSingleLinkBio: LinkBioDataResponse | undefined;
     updateLinkBioResponse: any;
+    linkBioAnalyticsData: any;
+    linkBioAnalyticsLoading: boolean;
 }
 export interface LinkBioActions {
     createLinkBio: (payload: LinkBioDataPayload | any) => Promise<any>;
@@ -35,7 +37,20 @@ export interface LinkBioDataResponse {
     publicId: string;
     links: LinkBioDataType[];
     name: string;
-    profileImage: string;
+    profileImage: {
+        file: {
+            name: string;
+            url: string;
+            fileType: string;
+        };
+        _id: string;
+        publicId: string;
+        active: boolean;
+        createdAt: string;
+        updatedAt: string;
+        __v: number;
+        id: string;
+    };
     template: string;
     title: string;
     workspace: string;
@@ -84,4 +99,5 @@ export interface UseLinkBioProps {
     filter?: Dict;
     url?: string;
     all?: boolean;
+    population?: string | string[];
 }

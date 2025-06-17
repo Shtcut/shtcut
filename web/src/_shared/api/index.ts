@@ -2,6 +2,7 @@ import { FetchArgs, fetchBaseQuery, BaseQueryApi } from '@reduxjs/toolkit/query'
 import { Dict } from '@shtcut-ui/react';
 import { AppCookie } from '../helpers';
 import { RootState } from '@shtcut/redux/store';
+import qs from 'qs';
 
 const baseQuery = (baseUrl: string) =>
     fetchBaseQuery({
@@ -13,13 +14,18 @@ const baseQuery = (baseUrl: string) =>
             }
             headers.set('X-API-KEY', process.env.NEXT_PUBLIC_API_KEY as string);
             return headers;
-        }
+        },
+        paramsSerializer: (params) =>
+            qs.stringify(params, {
+                encode: false,
+                arrayFormat: 'brackets'
+            })
     });
 
 export const baseQueryWithResponse =
     (baseUrl: string) => async (args: FetchArgs, api: BaseQueryApi, extraOptions: Dict) => {
         const { data, error } = await baseQuery(baseUrl)(args, api, extraOptions);
-        const { meta, data: authData } = data as any || {};
+        const { meta, data: authData } = (data as any) || {};
         const token = meta?.token;
         if (error) {
             return { error: { status: error?.status, data: error?.data } };

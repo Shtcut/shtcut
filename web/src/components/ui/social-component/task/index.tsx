@@ -25,9 +25,6 @@ const TaskComponent = () => {
             return;
         }
 
-        console.log('source', source);
-        console.log('destination', destination);
-
         const sourceColumn = columns[source.droppableId];
         const destinationColumn = columns[destination.droppableId];
 

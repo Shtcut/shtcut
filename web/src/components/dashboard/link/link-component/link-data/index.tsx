@@ -11,7 +11,7 @@ import PaginationActions from '@shtcut/components/pagination-component';
 interface LinkDataComponentProps {
     isLoading: boolean;
     findAllLinksResponse: FindAllLinkResresponseType | undefined;
-    handleNavigate: (alias: string) => void;
+    handleAnalyticsNavigate: (id: string) => void;
     toggleSection: (modalType: ModalType, data: LinkNameSpace.Link) => void;
     handleUpdateLink: (data: LinkNameSpace.Link) => void;
     search: string;
@@ -25,7 +25,7 @@ interface LinkDataComponentProps {
 const LinkDataComponent = ({
     findAllLinksResponse,
     isLoading,
-    handleNavigate,
+    handleAnalyticsNavigate,
     handleUpdateLink,
     toggleSection,
     search,
@@ -43,8 +43,6 @@ const LinkDataComponent = ({
         }
     };
     const emptyData = findAllLinksResponse && findAllLinksResponse?.data && findAllLinksResponse?.data.length > 0;
-
- 
 
     return (
         <>
@@ -68,7 +66,7 @@ const LinkDataComponent = ({
                             <LinkListedComponent
                                 key={data?._id}
                                 data={data}
-                                onClickNavigate={() => handleNavigate(data.alias)}
+                                onClickNavigate={() => handleAnalyticsNavigate(data._id)}
                                 onDeleteClick={() => toggleSection('deleteModal', data)}
                                 onDuplicateClick={() => toggleSection('duplicateModal', data)}
                                 onQrCodeClick={() => toggleSection('qrCodeModal', data)}

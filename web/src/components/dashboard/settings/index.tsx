@@ -63,8 +63,6 @@ const SettingComponent = ({
         }
     });
     const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
-    console.log('error', error);
-    console.log('errorMessage', errorMessage);
 
     const onSubmit = (payload: z.infer<typeof changePasswordValidationSchema>) => {
         changePassword({

@@ -7,6 +7,7 @@ import { Image as LucideImage, Minus, Plus } from 'lucide-react';
 import { useSearchParams } from 'next/navigation';
 import React from 'react';
 import ContactInfo from '../contact-info';
+import StarLoader from '@shtcut/components/loader/star-loader';
 const LinkHeader = ({
     label,
     description,
@@ -18,7 +19,8 @@ const LinkHeader = ({
     handleDescriptionChange,
     selectedImage,
     handleImageChange,
-    showAddress = false
+    showAddress = false,
+    isUploadingMainImage
 }: QrCodeHeaderTypes) => {
     const getParams = useSearchParams();
     const tabParams = getParams.get('tabs');
@@ -64,11 +66,13 @@ const LinkHeader = ({
                                     <p className="text-sm text-[#5A5555]">Add image using the + button.</p>
                                     <section className="relative bg-[#FAFAFA] mt-2 w-20">
                                         <section className="h-20 w-20 rounded-md border flex justify-center items-center">
-                                            {selectedImage ? (
+                                            {isUploadingMainImage ? (
+                                                <StarLoader />
+                                            ) : selectedImage ? (
                                                 <img
                                                     src={selectedImage}
                                                     alt="Preview"
-                                                    className="h-full w-full object-cover rounded-md"
+                                                    className="h-full w-full object-contain rounded-md"
                                                 />
                                             ) : (
                                                 <LucideImage color="#B5B3B3" size={40} />

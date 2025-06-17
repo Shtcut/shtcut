@@ -6,7 +6,13 @@ import PhoneTemplate_2 from './phone-templates/template-2';
 import PhoneTemplate_3 from './phone-templates/template-3';
 import useGeneralState from '@shtcut/hooks/general-state';
 import { LinkBioDataType } from '@shtcut/types/link';
-const GeneralTemplate = ({ links }: { links?: LinkBioDataType[] }) => {
+const GeneralTemplate = ({
+    links,
+    isUploadingMainImage
+}: {
+    links?: LinkBioDataType[];
+    isUploadingMainImage?: boolean;
+}) => {
     const { activeTemplateString, title, profileImage, bgColor, description, presetColorString, btnColorString } =
         useGeneralState();
 
@@ -33,12 +39,13 @@ const GeneralTemplate = ({ links }: { links?: LinkBioDataType[] }) => {
             {activeTemplateString === 'template_1' && (
                 <PhoneTemplate_1
                     contactActions={contactActions}
-                    imageSelected={profileImage as string}
+                    imageSelected={profileImage?.preview as string}
                     title={title as string}
                     linksBio={links}
                     description={String(description)}
                     presetColor={presetColorString}
                     btnColor={btnColorString}
+                    isUploadingMainImage={isUploadingMainImage}
                 />
             )}
 
@@ -48,9 +55,10 @@ const GeneralTemplate = ({ links }: { links?: LinkBioDataType[] }) => {
                     title={title as string}
                     linksBio={links}
                     description={String(description)}
-                    imageSelected={profileImage as string}
+                    imageSelected={profileImage?.preview as string}
                     presetColor={presetColorString}
                     btnColor={btnColorString}
+                    isUploadingMainImage={isUploadingMainImage}
                 />
             )}
 
@@ -60,9 +68,10 @@ const GeneralTemplate = ({ links }: { links?: LinkBioDataType[] }) => {
                     title={title as string}
                     linksBio={links}
                     description={String(description)}
-                    imageSelected={profileImage as string}
+                    imageSelected={profileImage?.preview as string}
                     presetColor={presetColorString}
                     btnColor={btnColorString}
+                    isUploadingMainImage={isUploadingMainImage}
                 />
             )}
         </div>

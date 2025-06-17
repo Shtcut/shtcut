@@ -24,7 +24,6 @@ const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
         const password = value.password;
         try {
             const res = await submitPassword({ alias: aliasQuery, password }).unwrap();
-            console.log('res', res);
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);

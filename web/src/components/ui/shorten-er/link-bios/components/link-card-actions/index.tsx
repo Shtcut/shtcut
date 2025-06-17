@@ -2,18 +2,20 @@ import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMe
 import { PencilLine, Trash2 } from 'lucide-react';
 import React from 'react';
 import { IoCopyOutline, IoEllipsisVerticalSharp } from 'react-icons/io5';
-import { PiQrCodeBold } from 'react-icons/pi';
+import { PiChartBar, PiQrCodeBold } from 'react-icons/pi';
 
 const LinkBioCardActions = ({
     onDeleteShowModal,
     handleCopy,
     handleEdit,
-    handleShowQr
+    handleShowQr,
+    handleNavigateAnalytics
 }: {
     onDeleteShowModal: () => void;
     handleCopy: () => void;
     handleEdit: () => void;
     handleShowQr: () => void;
+    handleNavigateAnalytics: () => void;
 }) => {
     return (
         <div>
@@ -51,6 +53,12 @@ const LinkBioCardActions = ({
                         className="p-2 flex text-xs items-center gap-x-2 cursor-pointer"
                     >
                         <PiQrCodeBold size={16} /> Qr Code
+                    </DropdownMenuCheckboxItem>
+                    <DropdownMenuCheckboxItem
+                        onClick={handleNavigateAnalytics}
+                        className="p-2 flex text-xs items-center gap-x-2 cursor-pointer"
+                    >
+                        <PiChartBar size={16} /> Analytics
                     </DropdownMenuCheckboxItem>
 
                     <DropdownMenuCheckboxItem

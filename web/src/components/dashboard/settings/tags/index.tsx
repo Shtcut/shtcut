@@ -59,7 +59,6 @@ const TagsScreen = ({
     };
 
     const { isSuccess } = deleteTagResponse;
-    console.log('isSuccess', isSuccess);
     useEffect(() => {
         if (isSuccess) {
             findAllTags();

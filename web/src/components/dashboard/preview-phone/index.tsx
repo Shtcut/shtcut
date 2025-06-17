@@ -8,9 +8,10 @@ interface ComponentType {
     switchTab?: string;
     links?: any;
     selectedTab?: number;
+    isUploadingMainImage?: boolean;
 }
 
-const PreviewPhone = ({ switchTab, links, selectedTab }: ComponentType) => {
+const PreviewPhone = ({ switchTab, links, selectedTab, isUploadingMainImage }: ComponentType) => {
     const { step, bgColor } = useGeneralState();
 
     return (
@@ -73,7 +74,7 @@ const PreviewPhone = ({ switchTab, links, selectedTab }: ComponentType) => {
                     {switchTab === 'edit-link' && (
                         <div className="w-full h-full">
                             {/* {step === 1 && <LinkBioFrameComponent linksBio={linksBio ?? []} />} */}
-                            <GeneralTemplate links={links ?? []} />
+                            <GeneralTemplate links={links ?? []} isUploadingMainImage={isUploadingMainImage} />
                         </div>
                     )}
                 </div>

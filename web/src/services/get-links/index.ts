@@ -15,7 +15,10 @@ export const getLinkQrCodeDataApi = api.injectEndpoints({
 
         getQRCodeLink: builder.query<ApiResponse<any | undefined>, QueryArgs & { slug: string }>({
             query: ({ slug }) => ({
-                url: `${SHTNER.qrCode}/search/one?slug=${slug}`
+                url: `${SHTNER.qrCode}/search/one?slug=${slug}`,
+                params: {
+                    population: JSON.stringify([{ path: 'profileImage' }])
+                }
             }),
             providesTags: [qrCodes]
         })

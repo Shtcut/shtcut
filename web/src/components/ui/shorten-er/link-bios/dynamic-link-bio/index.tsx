@@ -11,21 +11,14 @@ const TEMPLATES: Record<string, React.FC<{ linkData: any; isLoading: boolean }>>
     template_2: WebTemplate2,
     template_3: WebTemplate3
 };
+const DEFAULT_TEMPLATE = WebTemplate1;
 
 const LinkBioDynamicComponent = ({ linkData, isLoading }: { linkData: any | undefined; isLoading: boolean }) => {
     const templateKey = linkData?.template?.template || linkData?.template;
 
-    const SelectedTemplate = TEMPLATES[templateKey];
+    const SelectedTemplate = TEMPLATES[templateKey] || DEFAULT_TEMPLATE;
 
     if (isLoading) return <SkeletonLoaderWeb />;
-
-    if (!linkData || !templateKey || !SelectedTemplate) {
-        return (
-            <section className="text-center flex justify-center items-center h-screen py-10">
-                <p>No valid template found.</p>
-            </section>
-        );
-    }
 
     return (
         <section>

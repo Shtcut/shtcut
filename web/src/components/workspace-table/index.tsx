@@ -3,17 +3,29 @@ import React from 'react';
 import ActionsTable from './action-table';
 import { RolesDataResponse } from '@shtcut/types/workspace';
 import { fullFormatDate } from '@shtcut/_shared/constant';
+import SkeletonPlaceholder from '../skeleton-placeholder';
 
 const RolesTable = ({
-    onClickViewUser,
     onClickEdit,
-    findRolesResponse
+    findRolesResponse,
+    isLoading
 }: {
-    onClickViewUser: () => void;
     onClickEdit: (type: string, role: RolesDataResponse) => void;
     findRolesResponse: RolesDataResponse[] | undefined;
+    isLoading: boolean;
 }) => {
-    const headers = ['Roles', 'Last Updated', 'Status', ''];
+    const headers = ['Roles', 'Last Updated', ''];
+    if (isLoading) {
+        return (
+            <div className="flex flex-col py-12">
+                <SkeletonPlaceholder width="100%" count={5} height="60px" />
+            </div>
+        );
+    }
+
+    if (!findRolesResponse || findRolesResponse.length === 0) {
+        return <div className="flex justify-center py-12 text-sm text-gray-400">No roles found.</div>;
+    }
     return (
         <div>
             <Table className="border mt-6">
@@ -31,15 +43,14 @@ const RolesTable = ({
                         findRolesResponse?.map((role) => (
                             <TableRow className=" " key={role?._id}>
                                 <TableCell className="font-medium py-4  text-xs">{role?.title}</TableCell>
-
                                 <TableCell className="font-medium text-[#5A5555] text-xs ">
-                                    {fullFormatDate(role?.createdAt)}
+                                    {fullFormatDate(role?.updatedAt)}
                                 </TableCell>
-                                <TableCell className="font-medium text-[#5A5555] text-xs ">Active</TableCell>
+
                                 <TableCell className="font-medium text-[#5A5555] ">
                                     <ActionsTable
-                                        onClickViewUser={onClickViewUser}
                                         onClickEdit={() => onClickEdit('edit-role', role)}
+                                        onClickDelete={() => onClickEdit('delete-role', role)}
                                     />
                                 </TableCell>
                             </TableRow>

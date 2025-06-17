@@ -4,6 +4,7 @@ import { Image as LucideImage } from 'lucide-react';
 import ReusableComponent from '../reusable-component';
 import { Card } from '@shtcut-ui/react';
 import { PhoneTemplateProps } from '@shtcut/types/link';
+import StarLoader from '@shtcut/components/loader/star-loader';
 
 const PhoneTemplate_1 = ({
     contactActions,
@@ -12,7 +13,8 @@ const PhoneTemplate_1 = ({
     linksBio,
     description,
     presetColor,
-    btnColor
+    btnColor,
+    isUploadingMainImage
 }: PhoneTemplateProps) => {
     return (
         <>
@@ -21,7 +23,9 @@ const PhoneTemplate_1 = ({
                 className=" rounded-t-[32px] h-[50%] w-full px-4 flex justify-center items-center"
             >
                 <div className="flex gap-4 flex-col  items-center w-full">
-                    {imageSelected ? (
+                    {isUploadingMainImage ? (
+                        <StarLoader color="white" />
+                    ) : imageSelected ? (
                         <Image alt="" src={imageSelected as string} width={60} height={60} className="rounded-full" />
                     ) : (
                         <section className="h-20 w-20 rounded-full border bg-white shadow-sm flex justify-center items-center">
@@ -59,7 +63,12 @@ const PhoneTemplate_1 = ({
                                     key={index}
                                     icons={
                                         bio.image ? (
-                                            <Image src={bio.image as string} width={14} height={16} alt="" />
+                                            <Image
+                                                src={(bio.image.preview as string) || bio?.image?.file?.url}
+                                                width={14}
+                                                height={16}
+                                                alt=""
+                                            />
                                         ) : (
                                             <LucideImage size={14} color="#B5B3B3" />
                                         )

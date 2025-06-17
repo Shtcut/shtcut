@@ -11,11 +11,13 @@ import { UseLinksManagerActions, UseLinksManagerState } from '@shtcut/types/link
 const QrCodeHeadersComponent = ({
     actions,
     linkState,
-    defaultLinks
+    defaultLinks,
+    isUploadingMainImage
 }: {
     actions: UseLinksManagerActions;
     linkState: UseLinksManagerState;
     defaultLinks?: Record<string, string>;
+    isUploadingMainImage?: boolean;
 }) => {
     const { title, description, profileImage } = useGeneralState();
     const dispatch = useDispatch();
@@ -35,7 +37,6 @@ const QrCodeHeadersComponent = ({
             [section]: !prev[section]
         }));
     };
-    console.log('linkss::', linkState?.links);
     return (
         <div>
             <LinkHeader
@@ -47,8 +48,9 @@ const QrCodeHeadersComponent = ({
                 descriptionValue={description as string}
                 handleTitleChange={handleInputChange}
                 handleDescriptionChange={(e) => dispatch(setDescription(e.target.value))}
-                selectedImage={profileImage ?? ''}
+                selectedImage={profileImage?.preview ?? ''}
                 handleImageChange={actions?.handleImageChange}
+                isUploadingMainImage={isUploadingMainImage}
             />
 
             {/* Links Section */}
@@ -58,7 +60,7 @@ const QrCodeHeadersComponent = ({
                     index={index + 1}
                     isVisible={linkState?.showSections[link.id]}
                     toggleVisibility={() => actions?.toggleSection(link.id)}
-                    linkImage={link.image}
+                    linkImage={link.image?.preview}
                     handleImageChange={(e) => actions?.handleLinkImageChange(link.id, e)}
                     onUpdateLink={(field, value) => actions?.updateLink(link.id, field, value)}
                     onRemove={() => actions?.removeLink(link.id)}

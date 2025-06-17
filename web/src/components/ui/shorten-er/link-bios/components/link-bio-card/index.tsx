@@ -25,10 +25,7 @@ const LinkBioCard = ({
     const pathName = usePathname();
     const { handleCopy } = useCopyToClipboard();
     return (
-        <Card
-            className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  "
-            onClick={handleNavigateAnalytics}
-        >
+        <Card className=" cursor-pointer border border-gray-200 shadow-sm  rounded-[10px] p-4  ">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     <div className="relative top-1">
@@ -37,7 +34,13 @@ const LinkBioCard = ({
 
                     <div className="shadow border border-gray-50 w-[50px] h-[50px] rounded-[10px] flex justify-center items-center">
                         {data?.profileImage ? (
-                            <Image src={data?.profileImage} width={30} height={30} alt={data?.title} />
+                            <Image
+                                src={data?.profileImage?.file?.url}
+                                width={30}
+                                height={30}
+                                alt={data?.title}
+                                className="rounded-sm"
+                            />
                         ) : (
                             <Link />
                         )}
@@ -76,6 +79,7 @@ const LinkBioCard = ({
                         handleCopy={() => handleCopy(`beta.shtcut.co/link-bio/${data?.slug}`)}
                         handleEdit={() => router.push(`${pathName}/edit-link-bio/${data?._id}`)}
                         handleShowQr={handleShowQr}
+                        handleNavigateAnalytics={handleNavigateAnalytics}
                     />
                 </div>
             </div>

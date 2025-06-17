@@ -50,12 +50,9 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
     const { action, state } = useQrCodeState();
     const { handleCopy } = useCopyToClipboard();
     const { urlScan } = useGeneralState();
-    console.log('urlScan', urlScan);
 
     const handleShowScan = (qrCodeData: QRCodeDataResponse) => {
         if (qrCodeData) {
-            console.log('qrCodeData', qrCodeData?.slug);
-
             const urlScanQrCode =
                 qrCodeData?.type === 'website' ? data?.url : `${NEXT_PUBLIC_URL}/qr-code/${qrCodeData?.slug}`;
             dispatch(setSelectedFrame(qrCodeData?.qrCode?.frame ?? 0));
@@ -160,8 +157,20 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
                     </section>
                     <section className={`my-5 relative w-full ${state?.selectedFrame === 3 ? 'mt-24' : ''}`}>
                         <Input
-                            value={urlScan.length > 35 ? `${urlScan.slice(0, 35)}...` : urlScan}
-                            defaultValue={urlScan.length > 35 ? `${urlScan.slice(0, 35)}...` : urlScan}
+                            value={
+                                typeof urlScan === 'string'
+                                    ? urlScan.length > 35
+                                        ? `${urlScan.slice(0, 35)}...`
+                                        : urlScan
+                                    : ''
+                            }
+                            defaultValue={
+                                typeof urlScan === 'string'
+                                    ? urlScan.length > 35
+                                        ? `${urlScan.slice(0, 35)}...`
+                                        : urlScan
+                                    : ''
+                            }
                             className="border border-gray-300 w-full"
                             disabled
                             maxLength={6}

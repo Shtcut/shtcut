@@ -1,7 +1,5 @@
 import { Dict } from '@shtcut-ui/react';
 import { NextFetchEvent, NextMiddleware, NextRequest, NextResponse } from 'next/server';
-import { EyeRadiusType } from './types';
-import { Meta } from '@shtcut/_shared/namespace';
 
 type MaybePromise<T> = T | Promise<T>;
 

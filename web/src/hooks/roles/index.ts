@@ -2,7 +2,6 @@
 
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
-import { Pagination } from '@shtcut/_shared/namespace';
 import { usePagination } from '../usePagination';
 import { useEffect, useState } from 'react';
 import { debounce } from 'lodash';
@@ -16,12 +15,11 @@ import {
 } from '@shtcut/services/roles';
 import { WorkspaceNameSpace } from '@shtcut/_shared/namespace/workspace';
 import { UsePaginationState } from '@shtcut/types/pagination';
+import { UseProps } from '@shtcut/types/types';
 
-interface UseRoleProps {
-    id?: string;
+interface UseRoleProps extends UseProps {
     callRoles?: boolean;
-    search?: string;
-    filter?: Dict;
+    workspace?: string;
 }
 
 interface UseRoleReturnsType {
@@ -39,13 +37,13 @@ interface UseRoleReturnsType {
     getRoleResponse: Dict;
     pagination: UsePaginationState;
     isLoadingState: boolean;
-
+    params: any;
     setLoadingState: (key: 'creating' | 'updating' | 'deleting' | 'finding', value: boolean) => void;
     handleSearchChange: any;
 }
 
 export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
-    const { callRoles = false, search, filter, id } = props;
+    const { callRoles = false, search, filter, id, workspace } = props;
     const { pagination } = usePagination();
     const [createRole, createRoleResponse] = useCreateRolesMutation();
     const [updateRole, updateRoleResponse] = useUpdateRolesMutation();
@@ -60,7 +58,6 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
         deleting: false,
         finding: false
     });
-    const [loaded, setLoaded] = useState(false);
 
     const isLoadingState = Object.values(loading).some((state) => state);
     const setLoadingState = (key: keyof typeof loading, value: boolean) => {
@@ -70,21 +67,29 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
     const params = {
         ...pagination,
         search: debouncedSearch,
-        ...filter
+        ...filter,
+        population: JSON.stringify([{ path: 'permissions' }]),
+        ...(workspace ? { workspace } : {})
     };
 
     const handleSearchChange = debounce((newSearch) => {
         setDebouncedSearch(newSearch);
     }, 500);
 
+    // useEffect(() => {
+    //     if (callRoles && !loaded) {
+    //         findRoles({
+    //             ...params
+    //         });
+    //         setLoaded(true);
+    //     }
+    // }, [callRoles, debouncedSearch, filter, findRoles, loaded, workspace]);
+
     useEffect(() => {
-        if (callRoles && !loaded) {
-            findRoles({
-                ...params
-            });
-            setLoaded(true);
+        if (callRoles) {
+            findRoles(params);
         }
-    }, [callRoles, debouncedSearch, filter, findRoles, loaded]);
+    }, [callRoles, debouncedSearch, filter, pagination.page, pagination.perPage, workspace]);
 
     useEffect(() => {
         if (id) {
@@ -95,7 +100,7 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
     }, [id]);
 
     const handleDeleteRole = (id: string) => {
-        deleteRole({ id });
+        deleteRole({ id }).unwrap();
     };
 
     return {
@@ -114,6 +119,7 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
         handleDeleteRole,
         isLoadingState,
         setLoadingState,
-        handleSearchChange
+        handleSearchChange,
+        params
     };
 };
