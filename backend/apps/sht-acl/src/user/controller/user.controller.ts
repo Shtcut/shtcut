@@ -23,7 +23,7 @@ export class UserController extends AppController {
     @Res() res: Response,
     @Next() next: NextFunction,
   ) {
-    super.update(authUser['_id'], payload, req, res, next);
+    super.update(String(authUser['_id']), payload, req, res, next);
   }
 
   @Get('/me')
