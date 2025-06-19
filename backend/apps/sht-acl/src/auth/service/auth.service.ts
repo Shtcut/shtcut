@@ -315,8 +315,6 @@ export class AuthService extends MongoBaseService {
   }
 
   public getCode() {
-    return this.config.get('environment') === 'production'
-      ? Utils.generateCode(6)
-      : this.config.get('app.defaultVerifyCode');
+    return Utils.generateCode(6);
   }
 }
