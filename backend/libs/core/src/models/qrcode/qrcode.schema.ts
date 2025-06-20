@@ -149,9 +149,10 @@ export class QrCode {
   url: string;
 
   @Prop({
-    type: String,
+    type: Types.ObjectId,
+    ref: 'Media',
   })
-  profileImage: string;
+  profileImage: any;
 
   @Prop({
     type: Object,
@@ -184,7 +185,8 @@ export class QrCode {
   deleted: boolean;
 
   @Prop({
-    type: String,
+    type: Types.ObjectId,
+    ref: 'Media',
   })
   file: string;
 }

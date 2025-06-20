@@ -4,7 +4,17 @@ import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
-import { Auth, AuthSchema, User, UserSchema, WorkerModule, Workspace, WorkspaceSchema } from 'shtcut/core';
+import {
+  Auth,
+  AuthSchema,
+  Media,
+  MediaSchema,
+  User,
+  UserSchema,
+  WorkerModule,
+  Workspace,
+  WorkspaceSchema,
+} from 'shtcut/core';
 import { AuthController } from './controller/auth.controller';
 import { AuthService, SocialAuthService } from './service';
 import { JwtStrategy, LocalStrategy } from './strategies';
@@ -18,6 +28,7 @@ import { UserModule, UserService } from '../user';
     MongooseModule.forFeature([
       { name: Auth.name, schema: AuthSchema },
       { name: Workspace.name, schema: WorkspaceSchema },
+      { name: Media.name, schema: MediaSchema },
       { name: User.name, schema: UserSchema },
     ]),
     PassportModule,
