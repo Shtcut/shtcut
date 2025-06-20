@@ -1,7 +1,6 @@
-import { configuration } from '@config';
 import { Prop, Schema, SchemaFactory, raw } from '@nestjs/mongoose';
 import { Document, Types, Schema as MongooseSchema } from 'mongoose';
-import { MobileOption, Media } from 'shtcut/core';
+import { MobileOption } from 'shtcut/core';
 
 export type UserDocument = User & Document;
 
