@@ -17,3 +17,13 @@ export const updatePasswordValidationSchema = z
     });
 
 export const changePasswordValidationSchema = z.object({ currentPassword, password });
+
+export const updateUserValidationSchema = z.object({
+    firstName: z.string().min(1, 'First name is required'),
+    lastName: z.string().min(1, 'Last name is required'),
+    gender: z.enum(['male', 'female', 'other'], {
+        required_error: 'Gender is required',
+        invalid_type_error: 'Gender must be male, female, or other'
+    }),
+    email: z.string().email('Invalid email').optional()
+});

@@ -1,14 +1,6 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger, toast } from '@shtcut-ui/react';
 import React, { useEffect, useRef, useState } from 'react';
 import { QrCodeInterface } from '@shtcut/types/types';
-import {
-    selectQrCodeStyle,
-    setEyeRadius,
-    setQrCodeLogo,
-    setQrCodePresetColor,
-    setQrTitle,
-    setSelectedFrame
-} from '@shtcut/redux/slices/qr-code';
 import MultiLinksComponent from '../multi-link-components';
 import PdfQrCodeComponent from '../pdf-qr-code';
 import VCardComponent from '../vcard-component';
@@ -18,18 +10,7 @@ import PreviewPhone from '../../../dashboard/preview-phone';
 import { useForm } from 'react-hook-form';
 import useGeneralState from '@shtcut/hooks/general-state';
 import useQrCodeState from '@shtcut/hooks/qrcode/index.';
-import {
-    setBgColor,
-    setBorderColor,
-    setBtnColor,
-    setCompany,
-    setContactInfo,
-    setDescription,
-    setPresetColor,
-    setSelectedTemplate,
-    setTitle,
-    setUrl
-} from '@shtcut/redux/slices/selects';
+import { setUrl } from '@shtcut/redux/slices/selects';
 import { useLinksManager } from '@shtcut/hooks/use-links-manager';
 import { useAppDispatch } from '@shtcut/redux/store';
 import { useQrCode } from '@shtcut/hooks/qr-code';
@@ -39,6 +20,7 @@ import QrCodeSuccessModal from './components/success-modal';
 import StarLoader from '@shtcut/components/loader/star-loader';
 import { emailRegex, NEXT_PUBLIC_URL, phoneRegex } from '@shtcut/_shared/constant';
 import BtnActions from '@shtcut/components/btn-actions';
+import { useInitializeQrCodeForm } from '@shtcut/hooks/qr-code/useInitializeQrCodeForm/useInitializeQrCodeForm';
 
 const QRCodeCreateComponent = ({
     saveModal,
@@ -291,6 +273,12 @@ const QRCodeCreateComponent = ({
         }
     };
 
+    useInitializeQrCodeForm({
+        editId,
+        getQrCodeData,
+        setValue
+    });
+
     useEffect(() => {
         if (editId && getQrCodeData) {
             const newTab = getQrCodeData?.type;
@@ -307,53 +295,7 @@ const QRCodeCreateComponent = ({
         }
     }, [switchTab]);
 
-    useEffect(() => {
-        if (editId && getQrCodeData) {
-            const addressData = getQrCodeData.address || {};
-            const companyData = getQrCodeData.company || {};
-            const contactData = getQrCodeData.contacts || {};
-            dispatch(
-                setContactInfo({
-                    phoneNumber: contactData.phone || '',
-                    email: contactData.email || '',
-                    websiteUrl: contactData.website || '',
-                    streetAddress: addressData.street || '',
-                    country: addressData.country || '',
-                    state: addressData.state || '',
-                    zipCode: addressData.zipCode || '',
-                    city: addressData.city || ''
-                })
-            );
-            dispatch(
-                setCompany({
-                    name: companyData.name || '',
-                    department: companyData.department || ''
-                })
-            );
-            dispatch(setQrTitle(getQrCodeData?.qrCode?.name || getQrCodeData?.title));
-            dispatch(setTitle(getQrCodeData?.title));
-            dispatch(setBgColor(getQrCodeData?.bgColor));
-            dispatch(setBorderColor(getQrCodeData?.borderColor || getQrCodeData?.qrCode?.colors?.borderColor));
-            dispatch(setDescription(getQrCodeData?.description));
-            dispatch(setBtnColor(getQrCodeData?.template?.btnColor));
-            dispatch(
-                setPresetColor(getQrCodeData?.qrCode?.colors?.presetColor || getQrCodeData?.template?.presetColor)
-            );
-            dispatch(
-                setQrCodePresetColor(
-                    (getQrCodeData?.qrCode?.colors?.presetColor || getQrCodeData?.template?.presetColor) ?? ''
-                )
-            );
-            dispatch(setQrCodeLogo(getQrCodeData?.qrCode?.logo ?? ''));
-            dispatch(setSelectedTemplate(getQrCodeData?.template?.template));
-            dispatch(setEyeRadius(getQrCodeData?.qrCode?.eyeRadius));
-            dispatch(setSelectedFrame(getQrCodeData?.qrCode?.frame));
-            dispatch(selectQrCodeStyle(getQrCodeData?.qrCode?.qrStyle));
-            setValue('url', getQrCodeData?.url);
-        }
-    }, [editId, getQrCodeData, dispatch, setValue, getQrCodeData?.url]);
-
-    const onSubmit = (data: { url: string }) => {};
+    const onSubmit = () => {};
     if (isLoadingGetQrCode)
         return (
             <div className="flex justify-center items-center h-screen">
@@ -377,7 +319,7 @@ const QRCodeCreateComponent = ({
                 step={step as number}
                 handleSave={handleSave}
                 handleClose={handleClose}
-                title="Create QR Code"
+                title={editId ? 'Edit QR Code' : 'Create QR Code'}
             />
             <div className="flex mt-[22px] gap-7">
                 <div className="w-full">

@@ -23,7 +23,6 @@ export const UserNav = () => {
     const { handleLogout } = useAuth();
     const { data } = loggedInUserData;
     const { data: user } = data || {};
-    // const { toggleSidebar } = useSidebar();
     const [isOpen, setIsOpen] = useState(false);
     const params = useParams();
 

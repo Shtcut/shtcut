@@ -6,10 +6,15 @@ import { Dict } from '@shtcut-ui/react';
 
 export const userApi = api.injectEndpoints({
     endpoints: (builder) => ({
-        getLoggedInUser: builder.query({
-            query: () => ACL.loggedInUserUrl as unknown as FetchArgs,
+        getLoggedInUser: builder.query<any, { population?: string }>({
+            query: (params) =>
+                ({
+                    url: ACL.loggedInUserUrl,
+                    params
+                }) as unknown as FetchArgs,
             providesTags: [loggedInUserTag]
         }),
+
         updateLoggedInUser: builder.mutation<Record<'data', any>, Dict>({
             query: ({ payload }) => {
                 return {

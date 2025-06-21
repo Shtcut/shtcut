@@ -9,6 +9,7 @@ import {
     useSignUpMutation,
     useSocialMutation,
     useUpdatePasswordMutation,
+    useUpdateUserMutation,
     useVerifyEmailMutation
 } from '@shtcut/services/auth';
 import { logout } from '@shtcut/redux/slices/auth';
@@ -26,6 +27,7 @@ interface UseAuthReturnType {
     sendVerification: MutationTrigger<any>;
     updatePassword: MutationTrigger<any>;
     changePassword: MutationTrigger<any>;
+    updateUser: MutationTrigger<any>;
 
     // response
     signInResponse: Dict;
@@ -36,6 +38,7 @@ interface UseAuthReturnType {
     sendVerificationResponse: Dict;
     updatePasswordResponse: Dict;
     changePasswordResponse: Dict;
+    updateUserResponse: Dict;
     authData: Dict | null;
     sessionToken: string | undefined;
     isOwner: boolean;
@@ -54,6 +57,7 @@ export const useAuth = (): UseAuthReturnType => {
     const [forgotPassword, forgotPasswordResponse] = useForgotPasswordMutation();
     const [updatePassword, updatePasswordResponse] = useUpdatePasswordMutation();
     const [changePassword, changePasswordResponse] = useChangePasswordMutation();
+    const [updateUser, updateUserResponse] = useUpdateUserMutation();
 
     const { authData = {}, isOwner } = useAppSelector((state) => state.auth);
 
@@ -73,7 +77,7 @@ export const useAuth = (): UseAuthReturnType => {
         forgotPassword,
         updatePassword,
         changePassword,
-
+        updateUser,
         // response
         signUpResponse,
         socialLoginResponse,
@@ -83,6 +87,7 @@ export const useAuth = (): UseAuthReturnType => {
         forgotPasswordResponse,
         updatePasswordResponse,
         changePasswordResponse,
+        updateUserResponse,
 
         authData,
         sessionToken,

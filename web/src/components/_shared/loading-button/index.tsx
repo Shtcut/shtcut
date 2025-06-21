@@ -40,7 +40,7 @@ export const LoadingButton: React.FC<ButtonProps> = ({
                         <StarLoader isDefault={false} />
                     </section>
 
-                    {loadingText ? loadingText : 'Please wait...'}
+                    {loadingText ? loadingText : ''}
                 </div>
             ) : (
                 children

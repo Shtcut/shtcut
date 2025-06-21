@@ -19,7 +19,7 @@ const SettingContainer = () => {
     } = useTags({
         call: true
     });
-    const { changePassword, changePasswordResponse } = useAuth();
+    const { changePassword, changePasswordResponse, updateUser, updateUserResponse } = useAuth();
 
     return (
         <SettingComponent
@@ -35,6 +35,8 @@ const SettingContainer = () => {
             totalCount={findAllTagsResponse?.meta?.pagination?.totalCount ?? 0}
             changePassword={changePassword}
             changePasswordResponse={changePasswordResponse}
+            updateUser={updateUser}
+            updateUserResponse={updateUserResponse}
         />
     );
 };

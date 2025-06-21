@@ -239,7 +239,9 @@ interface SettingsComponentType {
     paginationActions: UsePaginationActions;
     totalCount: number;
     changePassword?: MutationTrigger<any>;
+    updateUser?: MutationTrigger<any>;
     changePasswordResponse?: any;
+    updateUserResponse?: any;
 }
 
 interface DeleteComponentType {
@@ -384,3 +386,24 @@ export interface Column {
 interface Columns {
     [key: string]: Column;
 }
+
+type LinkItem = {
+    id: string;
+    label: string;
+    url: string;
+    image: {
+        id: string;
+        file: {
+            fileType: string;
+            name: string;
+            url: string;
+        };
+        active: boolean;
+        createdAt: string;
+        publicId: string;
+        updatedAt: string;
+        __v: number;
+        _id: string;
+    };
+    _id: string;
+};

@@ -335,7 +335,7 @@ const CreateLinkBioComponent = ({
                         {selectedTabIndex === 1 && (
                             <QRCode
                                 uniqueName={uniqueNameValue}
-                                url={`${process.env.NEXT_PUBLIC_URL}/${urlLink}`}
+                                url={`${process.env.NEXT_PUBLIC_URL}/link-bio/${urlLink}`}
                                 id={idLink ?? ''}
                             />
                         )}
