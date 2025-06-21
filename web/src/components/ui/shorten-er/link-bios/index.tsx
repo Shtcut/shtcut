@@ -119,9 +119,7 @@ const LinkBiosComponent = ({
                             ))}
                     </div>
                 ) : (
-                    <div className="flex h-[60vh] justify-center items-center text-gray-500">
-                        No data available for {''}
-                    </div>
+                    <div className="flex h-[60vh] justify-center items-center text-gray-500">No data available</div>
                 )}
                 {emptyData && (
                     <section className="mt-6">

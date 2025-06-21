@@ -3,8 +3,10 @@ import { useAppDispatch } from '@shtcut/redux/store';
 import { useCreateMediaMutation } from '@shtcut/services/media';
 import { LinkBioDataType } from '@shtcut/types/link';
 import { useEffect, useState } from 'react';
+import { useAuth } from '../auth';
 
 export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
+    const { updateUser } = useAuth();
     const [uploadFile] = useCreateMediaMutation();
     const [isUploadingMainImage, setIsUploadingMainImage] = useState(false);
     const [linkUploadingState, setLinkUploadingState] = useState<Record<number, boolean>>({});
@@ -97,15 +99,41 @@ export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
                 setImgError('Image size exceeds the allowed limit of 2 MB');
                 return;
             }
-
             const formData = new FormData();
             formData.append('files', file);
-
             setIsUploadingMainImage(true);
-
             try {
                 const response = await uploadFile(formData).unwrap();
                 dispatch(setImage({ id: response?.data?.[0]?.id, preview: response?.data?.[0]?.file?.url }));
+            } catch (error) {
+                setImgError('Failed to upload image. Please try again.');
+            } finally {
+                setIsUploadingMainImage(false);
+            }
+        }
+    };
+
+    const handleAvatarImageChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const fileSizeInMB = file.size / (1024 * 1024);
+            if (fileSizeInMB > 2) {
+                setImgError('Image size exceeds the allowed limit of 2 MB');
+                return;
+            }
+            const formData = new FormData();
+            formData.append('files', file);
+            setIsUploadingMainImage(true);
+            try {
+                const response = await uploadFile(formData).unwrap();
+                dispatch(setImage({ id: response?.data?.[0]?.id, preview: response?.data?.[0]?.file?.url }));
+                await updateUser({
+                    payload: { avatar: response?.data?.[0]?.id },
+                    options: {
+                        successMessage: 'Avatar updated successfully',
+                        errorMessage: 'Failed to update avatar'
+                    }
+                });
             } catch (error) {
                 setImgError('Failed to upload image. Please try again.');
             } finally {
@@ -128,7 +156,8 @@ export const useLinksManager = (defaultLinks: LinkBioDataType[] = []) => {
             updateLink,
             handleLinkImageChange,
             toggleSection,
-            handleImageChange
+            handleImageChange,
+            handleAvatarImageChange
         }
     };
 };

@@ -4,7 +4,6 @@ import useGeneralState from '@shtcut/hooks/general-state';
 import { setFile } from '@shtcut/redux/slices/selects';
 import { useAppDispatch } from '@shtcut/redux/store';
 import { useCreateMediaMutation } from '@shtcut/services/media';
-
 import { Download, Minus, Plus, X } from 'lucide-react';
 import Image from 'next/image';
 import React, { useState } from 'react';
@@ -62,19 +61,24 @@ const PdfCardComponent = ({ toggleVisibility, isVisible }: { toggleVisibility: (
                             </section>
                             <section>
                                 <p className="font-medium">{fileInfo?.file.name}</p>
-                                <p className="text-xs font-medium">
-                                    {(fileInfo.file.size / (1024 * 1024)).toFixed(2)} MB
-                                </p>
+                                {fileInfo?.file?.size && (
+                                    <p className="text-xs font-medium">
+                                        {(fileInfo.file.size / (1024 * 1024)).toFixed(2)} MB
+                                    </p>
+                                )}
                             </section>
                             <X onClick={handleCancelFile} className="cursor-pointer ml-auto" size={16} />
                         </section>
-                        <section className="flex items-center mt-4 gap-2">
-                            <Checkbox
-                                checked={showPdfPreview}
-                                onCheckedChange={(checked) => setShowPdfPreview(Boolean(checked))}
-                            />
-                            <p className="text-xs font-medium">Directly show PDF File</p>
-                        </section>
+                        {fileInfo.file.size && (
+                            <section className="flex items-center mt-4 gap-2">
+                                <Checkbox
+                                    checked={showPdfPreview}
+                                    onCheckedChange={(checked) => setShowPdfPreview(Boolean(checked))}
+                                />
+                                <p className="text-xs font-medium">Directly show PDF File</p>
+                            </section>
+                        )}
+
                         {fileUrl && showPdfPreview && (
                             <section className="mt-4">
                                 <iframe src={fileUrl} title="PDF Preview" className="w-full h-64 border rounded-md" />

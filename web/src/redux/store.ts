@@ -4,7 +4,6 @@ import appReducer from './slices';
 import { AnyAction, ConfigureStoreOptions, configureStore } from '@reduxjs/toolkit';
 import { logout } from './slices/auth';
 import { api } from '@shtcut/_shared/api/app.api';
-import logger from 'redux-logger';
 import { appMiddleware } from '@shtcut/services/ui';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 

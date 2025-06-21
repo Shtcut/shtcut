@@ -121,6 +121,11 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
                                     {data?.title || data?.name} QR Code
                                 </h1>
                                 <p className="text-xs text-primary-0 font-normal">{data?.type}</p>
+                                {data?.type === 'multi-link' && (
+                                    <p>
+                                        {data?.links?.length} {data?.links?.length === 1 ? 'link' : 'links'}
+                                    </p>
+                                )}
                             </div>
                             <div className="flex items-center gap-x-2 mt-[6px]">
                                 <Calendar color="#2B2829" size={16} />

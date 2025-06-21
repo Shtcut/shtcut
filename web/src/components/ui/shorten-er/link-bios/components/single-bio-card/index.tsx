@@ -22,7 +22,7 @@ const SingleLinkBioCard = ({ data }: { data: LinkBioDataResponse }) => {
                     <div className=" border  w-[50px] h-[50px] rounded-full flex justify-center items-center">
                         {data?.profileImage ? (
                             <Image
-                                src={data?.profileImage}
+                                src={data?.profileImage?.file?.url}
                                 width={18}
                                 height={18}
                                 alt={data?.name}

@@ -331,7 +331,8 @@ export const ACL = {
     tags: 'acl/tags',
     permissions: '/acl/permissions',
     invitation: 'acl/invitations',
-    roles: 'acl/roles'
+    roles: 'acl/roles',
+    user: 'acl/users/me'
 };
 
 export const SHTNER = {
@@ -736,3 +737,15 @@ export const getString = (value: string | string[] | undefined): string => {
     if (Array.isArray(value)) return value[0] ?? '';
     return value ?? '';
 };
+
+export const combineRefs =
+    (...refs: any[]) =>
+    (value: any) => {
+        refs.forEach((ref) => {
+            if (typeof ref === 'function') {
+                ref(value);
+            } else if (ref != null) {
+                ref.current = value;
+            }
+        });
+    };

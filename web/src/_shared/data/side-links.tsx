@@ -55,13 +55,13 @@ export const sideLinks = (module: string, workspace: string): SideLink[] => {
         //     href: `/url/${workspace}/domains`,
         //     icon: <PiProjectorScreenChartBold size={16} />
         // },
-        {
-            id: '6',
-            title: 'Analytics',
-            href: `/url/${workspace}/analytics`,
+        // {
+        //     id: '6',
+        //     title: 'Analytics',
+        //     href: `/url/${workspace}/analytics`,
 
-            icon: <MailOpen size={16} />
-        },
+        //     icon: <MailOpen size={16} />
+        // },
         {
             id: '7',
             title: 'Sign out',

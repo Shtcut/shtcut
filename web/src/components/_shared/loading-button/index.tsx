@@ -36,11 +36,8 @@ export const LoadingButton: React.FC<ButtonProps> = ({
         >
             {loading ? (
                 <div className={`${loadingClass} flex items-center text-sm`}>
-                    <section className="mr-2">
-                        <StarLoader isDefault={false} />
-                    </section>
-
-                    {loadingText ? loadingText : 'Please wait...'}
+                    <StarLoader color="white" />
+                    {loadingText ?? ''}
                 </div>
             ) : (
                 children

@@ -60,7 +60,7 @@ const QrCodeHeadersComponent = ({
                     index={index + 1}
                     isVisible={linkState?.showSections[link.id]}
                     toggleVisibility={() => actions?.toggleSection(link.id)}
-                    linkImage={link.image?.preview}
+                    linkImage={link.image?.preview || link?.image?.file?.url}
                     handleImageChange={(e) => actions?.handleLinkImageChange(link.id, e)}
                     onUpdateLink={(field, value) => actions?.updateLink(link.id, field, value)}
                     onRemove={() => actions?.removeLink(link.id)}

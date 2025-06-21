@@ -7,13 +7,17 @@ import { tabs } from '@shtcut/_shared/data';
 import { SettingsComponentType } from '@shtcut/types/types';
 import Modal from '@shtcut/components/modal';
 import ChangePasswordForm from './security/components/change-password-form';
-import { Form } from '@shtcut-ui/react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { LoadingButton } from '@shtcut/components/_shared/loading-button';
-import { changePasswordValidationSchema } from '@shtcut/components/form/auth/update-password-form/validation';
+import {
+    changePasswordValidationSchema,
+    updateUserValidationSchema
+} from '@shtcut/components/form/auth/update-password-form/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { get } from 'lodash';
+import SettingsModalForm from './components/settings-update-wrapper';
+import UpdateUserForm from './general/update-user';
+import { useUser } from '@shtcut/hooks';
 
 const SettingComponent = ({
     findAllTagsResponse,
@@ -27,11 +31,18 @@ const SettingComponent = ({
     paginationActions,
     totalCount,
     changePassword,
-    changePasswordResponse
+    changePasswordResponse,
+    updateUserResponse,
+    updateUser
 }: SettingsComponentType) => {
     const { isSuccess, isLoading: changePasswordloading, error } = changePasswordResponse;
+    const { isSuccess: isSucessUpdateUser, isLoading: isLoadingUpdateUser, error: updateError } = updateUserResponse;
+    const { loggedInUserData, refetchUser } = useUser({ callLoggedInUser: true });
+    const { data } = loggedInUserData;
+    const { data: user } = data || {};
     const params = useParams();
     const [showModal, setShowModal] = useState(false);
+    const [modalType, setModalType] = useState<'change-passsword' | 'update'>('change-passsword');
     const { module, workspace } = params;
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -62,7 +73,21 @@ const SettingComponent = ({
             password: ''
         }
     });
-    const errorMessage = get(error, ['data', 'meta', 'error', 'message'], 'An error occurred, please try again.');
+
+    const updateForm = useForm<z.infer<typeof updateUserValidationSchema>>({
+        resolver: zodResolver(updateUserValidationSchema),
+        defaultValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            gender: undefined
+        }
+    });
+    const errorMessage = get(
+        error || updateError,
+        ['data', 'meta', 'error', 'message'],
+        'An error occurred, please try again.'
+    );
 
     const onSubmit = (payload: z.infer<typeof changePasswordValidationSchema>) => {
         changePassword({
@@ -73,12 +98,43 @@ const SettingComponent = ({
             }
         });
     };
+    const onSubmitUserUpdate = async (payload: z.infer<typeof updateUserValidationSchema>) => {
+        try {
+            await updateUser({
+                payload,
+                options: {
+                    successMessage: 'Users successfully updated',
+                    errorMessage: errorMessage
+                }
+            });
+            refetchUser();
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess || isSucessUpdateUser) {
             setShowModal(false);
             form.reset();
+            updateForm.reset();
         }
-    }, [isSuccess]);
+    }, [isSuccess, isSucessUpdateUser]);
+    useEffect(() => {
+        if (user) {
+            updateForm.reset({
+                firstName: user.firstName || '',
+                lastName: user.lastName || '',
+                email: user.email || '',
+                gender: user.gender || undefined
+            });
+        }
+    }, [user]);
+
+    const handlesShowModal = (val: 'change-passsword' | 'update') => {
+        setModalType(val);
+        setShowModal(true);
+    };
 
     return (
         <div className="px-10">
@@ -93,7 +149,14 @@ const SettingComponent = ({
                 />
             </div>
             <section className="mt-8 w-full">
-                {selectedTabIndex === 0 && <GeneralScreen />}
+                {selectedTabIndex === 0 && (
+                    <GeneralScreen
+                        onOpenModal={() => {
+                            handlesShowModal('update');
+                        }}
+                        user={user}
+                    />
+                )}
                 {selectedTabIndex === 1 && (
                     <TagsScreen
                         findAllTagsResponse={findAllTagsResponse}
@@ -110,25 +173,37 @@ const SettingComponent = ({
                 )}
                 {/* {selectedTabIndex === 2 && <BillingsScreen />} */}
                 {selectedTabIndex === 2 && <WorkspaceScreen />}
-                {selectedTabIndex === 3 && <SecurityScreen onOpenModal={() => setShowModal(true)} />}
+                {selectedTabIndex === 3 && (
+                    <SecurityScreen
+                        onOpenModal={() => {
+                            handlesShowModal('change-passsword');
+                        }}
+                    />
+                )}
                 {/* {selectedTabIndex === 5 && <NotificationScreen />} */}
                 {/* {selectedTabIndex === 6 && <ApiKeysScreen />} */}
 
                 <Modal
                     isOpen={showModal}
                     onClose={() => setShowModal(false)}
-                    title="Change Password"
+                    title={modalType === 'change-passsword' ? 'Change Password' : 'Update User'}
                     border
                     className="w-96"
                 >
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="p-4">
+                    {modalType === 'change-passsword' && (
+                        <SettingsModalForm form={form} onSubmit={onSubmit} loading={changePasswordloading}>
                             <ChangePasswordForm form={form} />
-                            <LoadingButton loading={changePasswordloading} type="submit" className="mt-6">
-                                Submit
-                            </LoadingButton>
-                        </form>
-                    </Form>
+                        </SettingsModalForm>
+                    )}
+                    {modalType === 'update' && (
+                        <SettingsModalForm
+                            onSubmit={onSubmitUserUpdate}
+                            loading={isLoadingUpdateUser}
+                            form={updateForm}
+                        >
+                            <UpdateUserForm form={updateForm} />
+                        </SettingsModalForm>
+                    )}
                 </Modal>
             </section>
         </div>

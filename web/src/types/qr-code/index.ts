@@ -1,6 +1,6 @@
 import { ApiResponse } from '@shtcut/_shared/namespace';
 import { UsePaginationActions, UsePaginationState } from '../pagination';
-import { EyeRadiusType } from '../types';
+import { EyeRadiusType, LinkItem } from '../types';
 import { MutationTrigger } from '@reduxjs/toolkit/dist/query/react/buildHooks';
 import { Dict } from '@shtcut-ui/react';
 import { LinkParams } from '@shtcut/hooks/link';
@@ -114,6 +114,7 @@ type QRCodeType = 'multi-link' | 'website' | 'vcard' | 'pdf';
 export interface QRCodeDataResponseApi extends MetaData {
     data: QRCodeDataResponse[];
 }
+
 export interface QRCodeDataResponse {
     id: string;
     publicId: string;
@@ -130,6 +131,7 @@ export interface QRCodeDataResponse {
     isSlugAvailable: boolean;
     scanned: boolean;
     totalScanned: number;
+    links: LinkItem[];
     qrCode: {
         colors: {
             presetColor: string;
