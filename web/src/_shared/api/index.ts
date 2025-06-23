@@ -3,7 +3,6 @@ import { Dict } from '@shtcut-ui/react';
 import { AppCookie } from '../helpers';
 import { RootState } from '@shtcut/redux/store';
 import qs from 'qs';
-import { logout } from '@shtcut/redux/slices/auth';
 
 const baseQuery = (baseUrl: string) =>
     fetchBaseQuery({
@@ -28,13 +27,6 @@ export const baseQueryWithResponse =
         const { data, error } = await baseQuery(baseUrl)(args, api, extraOptions);
         const { meta, data: authData } = (data as any) || {};
         const token = meta?.token;
-        if (error?.status === 401) {
-            AppCookie({ allowDelete: true });
-            api.dispatch(logout());
-
-            return { error: { status: error.status, data: error.data } };
-        }
-
         if (error) {
             return { error: { status: error?.status, data: error?.data } };
         }

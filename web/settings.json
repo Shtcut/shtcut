@@ -1,0 +1,11 @@
+{
+    "typescript.suggest.autoImports": true,
+    "javascript.suggest.autoImports": true,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "editor.suggest.snippetsPreventQuickSuggestions": false,
+    "typescript.updateImportsOnFileMove.enabled": "always"
+}
