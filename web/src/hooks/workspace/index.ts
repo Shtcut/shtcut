@@ -19,6 +19,7 @@ import { UsePaginationActions, UsePaginationState } from '@shtcut/types/paginati
 import { setActiveWorkspace } from '@shtcut/redux/slices/workspace';
 import { ApiResponse } from '@shtcut/_shared/namespace';
 import { getString } from '@shtcut/_shared/constant';
+import Cookie from 'js-cookie';
 
 interface UseWorkspaceProps {
     key?: string;
@@ -38,7 +39,6 @@ interface UseWorkspaceReturnsType {
     updateWorkspace: MutationTrigger<any>;
     triggerSwitchWorkspace: (id: string) => void;
     triggerWorkspaces: any;
-    // findAllWorkspacesResponse: WorkspaceNameSpace.Workspace[] | undefined;
     findAllWorkspacesResponse: ApiResponse<any> | undefined;
     createWorkspaceResponse: Dict;
     searchOneWorkspaceResponse: WorkspaceNameSpace.Workspace | undefined;
@@ -63,6 +63,8 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         callSwitchWorkspace = false,
         id
     } = props;
+
+    const token = Cookie.get('shtcut');
     const dispatch = useAppDispatch();
     const [showLoading, setShowLoading] = useState(false);
     const { pagination, paginationActions } = usePagination();
@@ -75,6 +77,7 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         useLazySwitchWorkspaceQuery();
     const [getWorkspaceByIdTrigger, { data: getWorkSpaceData, isLoading: getWorkspaceLoading }] =
         useLazyGetWorkspaceQuery();
+
     const params = useMemo(
         () => ({
             ...pagination,
@@ -86,32 +89,34 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     );
 
     const searchOneWorkspaceResponse = useAppSelector((state) => selectWorkspaceData(state, params));
-
     const findAllWorkspacesResponse = useAppSelector((state) => selectFindAllWorkspaceData(state, params));
 
+    // ✅ Only call if token exists
     useEffect(() => {
-        if (callWorkspaces) triggerWorkspaces(params);
-    }, [callWorkspaces, triggerWorkspaces, JSON.stringify(params)]);
+        if (callWorkspaces && token) {
+            triggerWorkspaces(params);
+        }
+    }, [callWorkspaces, triggerWorkspaces, JSON.stringify(params), token]);
 
     useEffect(() => {
-        if (callSearchOneWorkspace) triggerSearchOneWorkspace(params);
-    }, [callSearchOneWorkspace, triggerSearchOneWorkspace]);
+        if (callSearchOneWorkspace && token) triggerSearchOneWorkspace(params);
+    }, [callSearchOneWorkspace, triggerSearchOneWorkspace, token]);
 
     useEffect(() => {
-        if (callSwitchWorkspace && switchWorkspaceId) {
+        if (callSwitchWorkspace && switchWorkspaceId && token) {
             triggerSwitchWorkspace(switchWorkspaceId);
         }
-    }, [callSwitchWorkspace, switchWorkspaceId, triggerSwitchWorkspace]);
+    }, [callSwitchWorkspace, switchWorkspaceId, triggerSwitchWorkspace, token]);
 
     useEffect(() => {
-        if (id) {
+        if (id && token) {
             const idString = getString(id);
             getWorkspaceByIdTrigger({
                 id: idString,
                 population: JSON.stringify([{ path: 'members' }])
             });
         }
-    }, [id]);
+    }, [id, token]);
 
     useEffect(() => {
         if (switchWorkspaceResponse?.meta?.success) {
