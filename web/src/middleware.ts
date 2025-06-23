@@ -3,7 +3,6 @@ import { fetchTargetUrl, isIgnoredPath } from '@shtcut/hooks';
 // import ip from 'ip';
 
 const AUTH_TOKEN_KEY = 'shtcut';
-
 function redirectToLogin(request: NextRequest) {
     const loginUrl = new URL('/auth', request.url);
     loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
