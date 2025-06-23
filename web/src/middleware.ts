@@ -2,8 +2,34 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { fetchTargetUrl, isIgnoredPath } from '@shtcut/hooks';
 // import ip from 'ip';
 
+const AUTH_TOKEN_KEY = 'shtcut';
+
+function redirectToLogin(request: NextRequest) {
+    const loginUrl = new URL('/auth', request.url);
+    loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete(AUTH_TOKEN_KEY);
+    response.cookies.delete(`${AUTH_TOKEN_KEY}_user`);
+
+    return response;
+}
+
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
+    const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
+    const pathname = url.pathname;
+
+    const isProtectedRoute =
+        pathname.startsWith('/url/') ||
+        pathname.startsWith('/email/') ||
+        pathname.startsWith('/survey/') ||
+        pathname.startsWith('/social/');
+
+    if (isProtectedRoute && !token) {
+        return redirectToLogin(request);
+    }
+
+    // 🔗 Handle dynamic short links
     const pathAlias = url.pathname.slice(1);
     const queryAlias = url.searchParams.get('alias');
     const alias = queryAlias || pathAlias;

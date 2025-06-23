@@ -92,7 +92,10 @@ export const AuthTabs = () => {
             if (!isVerifiedEmail) {
                 push(routes.verify);
             } else {
-                if (data) {
+                const redirectPath = searchParams.get('redirect');
+                if (redirectPath) {
+                    redirect(redirectPath);
+                } else if (data) {
                     const { data: authData } = data || {};
                     if (authData.currentWorkspace && authData.currentWorkspace.isDefault) {
                         const { currentWorkspace } = authData;
@@ -103,7 +106,7 @@ export const AuthTabs = () => {
                 }
             }
         }
-    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess, data, push]);
+    }, [isLoginSuccess, isVerifiedEmail, isSocialLoginSuccess, data, push, searchParams]);
 
     useEffect(() => {
         if (isSignUpSuccess || isSocialLoginSuccess) {
