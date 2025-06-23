@@ -105,7 +105,10 @@ const WorkspaceLayout = ({ children }: any) => {
     return (
         <div className=" w-full h-screen flex">
             <div className="bg-white w-12  z-40 h-full fixed">
-                <div className="h-[63px] bg-white flex items-center justify-center">
+                <div
+                    className="h-[63px] bg-white flex items-center justify-center cursor-pointer"
+                    onClick={() => router.push('/')}
+                >
                     <Image src={'/images/shtcut-logo-icon.png'} width={24} height={24} alt="shtcut logo" />
                 </div>
                 <div className="flex flex-col items-center gap-y-2 mt-2">

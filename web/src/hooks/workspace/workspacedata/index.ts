@@ -17,24 +17,26 @@ export const useWorkspaceData = () => {
         callSwitchWorkspace: true,
         filter: { isDefault: false }
     });
-    const { findAllWorkspacesResponse: findWorkSpaceData, triggerWorkspaces: triggerDefaultWorkspace } = useWorkspace({
+    const {
+        findAllWorkspacesResponse: findWorkSpaceData,
+        triggerWorkspaces: triggerDefaultWorkspace,
+        findAllWorkspacesLoading
+    } = useWorkspace({
         callWorkspaces: true,
         callSwitchWorkspace: true,
         filter: { isDefault: true }
     });
-
     useEffect(() => {
-        if (findWorkSpaceData && findWorkSpaceData[0]) {
-            dispatch(setActiveWorkspace(findWorkSpaceData[0]));
+        if (Array.isArray(findWorkSpaceData?.data) && findWorkSpaceData.data.length > 0) {
+            dispatch(setActiveWorkspace(findWorkSpaceData.data[0]));
         }
     }, [findWorkSpaceData, dispatch]);
 
     const activeWorkspace = useSelector((state: RootState) => state.workspace.activeWorkspace);
-
     const activeWorkspaceName = activeWorkspace?.name ?? findWorkSpaceData?.data?.[0]?.name;
     return {
-        // Data
         findAllWorkspacesResponse,
+        findAllWorkspacesLoading,
         findWorkSpaceData,
         activeWorkspace,
         activeWorkspaceName,

@@ -10,22 +10,43 @@ type RightNavProps = {
     routes: RoutePaths;
     scrollToPricing: () => void;
     isUndefined: any;
+    findAllWorkspacesLoading: boolean;
 };
 
-const RightNavComponent = ({ authData, mobile, isUndefined, workspace, routes, scrollToPricing }: RightNavProps) => {
+const RightNavComponent = ({
+    findAllWorkspacesLoading,
+    authData,
+    mobile,
+    isUndefined,
+    workspace,
+    routes,
+    scrollToPricing
+}: RightNavProps) => {
     return (
         <div className={` ${mobile ? 'hidden' : 'flex'}  flex-1 justify-end gap-2`}>
             {!isEmpty(authData) && !isUndefined(authData) ? (
                 <>
-                    <RouteLink
-                        href={`/url/${workspace}/links`}
-                        className={cn(
-                            buttonVariants(),
-                            'bg-blue-600 h-8 text-sm rounded-full px-3  transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
-                        )}
-                    >
-                        Dashboard
-                    </RouteLink>
+                    {findAllWorkspacesLoading ? (
+                        <Button
+                            disabled
+                            className={cn(
+                                buttonVariants(),
+                                'bg-primary h-8 text-sm rounded-full px-3 opacity-50 cursor-not-allowed'
+                            )}
+                        >
+                            Loading...
+                        </Button>
+                    ) : (
+                        <RouteLink
+                            href={`/url/${workspace}/links`}
+                            className={cn(
+                                buttonVariants(),
+                                'bg-blue-600 h-8 text-sm rounded-full px-3 transition-all duration-200 hover:ring-2 hover:ring-foreground hover:ring-offset-2 hover:ring-offset-background'
+                            )}
+                        >
+                            Dashboard
+                        </RouteLink>
+                    )}
                 </>
             ) : (
                 <>

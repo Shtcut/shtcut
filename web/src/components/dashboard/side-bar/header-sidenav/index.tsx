@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import {
-    Button,
     DropdownMenu,
     DropdownMenuCheckboxItem,
     DropdownMenuContent,
@@ -14,7 +13,6 @@ import {
     TooltipTrigger
 } from '@shtcut-ui/react';
 import { Plus, ArrowLeft } from 'lucide-react';
-import { Progress } from '@shtcut/components/_shared/Progress-bar';
 import { FullPageLoader } from '@shtcut/components/windows-loading';
 import { useWorkspaceData } from '@shtcut/hooks/workspace/workspacedata';
 import InitialsAvatar from '@shtcut/components/initial-avatar';

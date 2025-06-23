@@ -24,7 +24,7 @@ export const HomeNavbar = () => {
     const mobile = width !== undefined && width <= 768;
     const { scrollToPricing } = usePricingNavigation();
     const { authData } = useAuth();
-    const { activeWorkspace } = useWorkspaceData();
+    const { activeWorkspace, findAllWorkspacesLoading } = useWorkspaceData();
     const handleMouseEnter = () => setOverlayVisible(true);
     const handleMouseLeave = () => setOverlayVisible(false);
 
@@ -57,6 +57,7 @@ export const HomeNavbar = () => {
                                 authData={authData}
                                 isUndefined={isUndefined}
                                 scrollToPricing={scrollToPricing}
+                                findAllWorkspacesLoading={findAllWorkspacesLoading}
                             />
                         </section>
                     </section>
