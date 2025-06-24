@@ -1,6 +1,6 @@
 import { Card } from '@shtcut-ui/react';
+import { ImageComponent } from '@shtcut/components/imageComponent';
 import { Link } from 'lucide-react';
-import Image from 'next/image';
 import React from 'react';
 
 const TemplateCard = ({
@@ -15,9 +15,19 @@ const TemplateCard = ({
     presetColor?: string | undefined;
 }) => {
     return (
-        <Card className="w-full flex items-center gap-4 h-12 px-4 shadow-sm" style={{ backgroundColor: color }}>
+        <Card className="w-full flex items-center gap-4 h-16 px-4 shadow-sm " style={{ backgroundColor: color }}>
             {image ? (
-                <Image src={image ?? ''} alt={label} width={24} height={24} className="rounded-md" />
+                <section className="  ">
+                    <ImageComponent
+                        src={image}
+                        alt={label}
+                        width={0}
+                        height={0}
+                        className="rounded-md w-14 object-contain h-14"
+                        unoptimized
+                        priority
+                    />
+                </section>
             ) : (
                 <Link size={15} color={presetColor} />
             )}

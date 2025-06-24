@@ -147,7 +147,7 @@ const QrCodeCard = ({ id, data, selectedIds, onChange, handleDeleteQrCodeLink, h
                 closeIcon={false}
                 isOpen={showModal}
                 onClose={handleCloseModal}
-                className={`  p-6  w-96 h-fit ${state?.selectedFrame === 3 && state?.logo ? 'pb-16' : state?.selectedFrame === 3 && !state.logo ? 'pb-0' : ''} `}
+                className={`  p-6  max-w-sm h-fit ${state?.selectedFrame === 3 && state?.logo ? 'pb-16' : state?.selectedFrame === 3 && !state.logo ? 'pb-0' : ''} `}
             >
                 <div className="flex justify-center flex-col items-center h-full ">
                     {state.logo && (

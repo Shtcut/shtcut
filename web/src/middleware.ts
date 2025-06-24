@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
         pathname.startsWith('/survey/') ||
         pathname.startsWith('/social/');
 
-    if (isProtectedRoute && !token) {
+    if (!token) {
         return redirectToLogin(request);
     }
 
