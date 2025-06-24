@@ -10,7 +10,7 @@ export const getLinkQrCodeDataApi = api.injectEndpoints({
             query: ({ slug }) => ({
                 url: `${SHTNER.linksBio}/search/one?slug=${slug}`,
                 params: {
-                    population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }])
+                    population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }, { path: 'file' }])
                 }
             }),
             providesTags: [linkBio]
@@ -20,7 +20,7 @@ export const getLinkQrCodeDataApi = api.injectEndpoints({
             query: ({ slug }) => ({
                 url: `${SHTNER.qrCode}/search/one?slug=${slug}`,
                 params: {
-                    population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }])
+                    population: JSON.stringify([{ path: 'profileImage' }, { path: 'links.image' }, { path: 'file' }])
                 }
             }),
             providesTags: [qrCodes]

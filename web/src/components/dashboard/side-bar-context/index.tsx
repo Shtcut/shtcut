@@ -1,6 +1,5 @@
 'use client';
 
-import { useAuth } from '@shtcut/hooks';
 import { logout } from '@shtcut/redux/slices/auth';
 import { useAppDispatch } from '@shtcut/redux/store';
 import Cookies from 'js-cookie';
@@ -26,6 +25,7 @@ export const SidebarProvider = ({ children }: { children: ReactNode }) => {
             sessionStorage.removeItem(USER_KEY);
             dispatch(logout());
         }
+        console.log('token', token);
     }, [dispatch]);
     const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 

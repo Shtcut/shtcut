@@ -24,6 +24,8 @@ const LinkBioDynamicContainer = () => {
 
     const isLoading = linkState.isLoading || linkState?.qrCodeLoading;
 
+    console.log('data', data);
+
     return <LinkBioDynamicComponent isLoading={isLoading} linkData={data} />;
 };
 
