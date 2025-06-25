@@ -1,8 +1,5 @@
 'use client';
 
-import { logout } from '@shtcut/redux/slices/auth';
-import { useAppDispatch } from '@shtcut/redux/store';
-import Cookies from 'js-cookie';
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface SidebarContextProps {
@@ -11,22 +8,8 @@ interface SidebarContextProps {
 }
 
 const SidebarContext = createContext<SidebarContextProps | undefined>(undefined);
-const AUTH_TOKEN_KEY = 'shtcut';
-const USER_KEY = `${AUTH_TOKEN_KEY}_user`;
 
 export const SidebarProvider = ({ children }: { children: ReactNode }) => {
-    const dispatch = useAppDispatch();
-    useEffect(() => {
-        const token = Cookies.get(AUTH_TOKEN_KEY);
-        if (!token) {
-            localStorage.removeItem(AUTH_TOKEN_KEY);
-            localStorage.removeItem(USER_KEY);
-            sessionStorage.removeItem(AUTH_TOKEN_KEY);
-            sessionStorage.removeItem(USER_KEY);
-            dispatch(logout());
-        }
-        console.log('token', token);
-    }, [dispatch]);
     const [isSideBarOpen, setIsSideBarOpen] = useState(true);
 
     const toggleSidebar = () => {

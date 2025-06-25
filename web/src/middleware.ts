@@ -16,13 +16,6 @@ function redirectToLogin(request: NextRequest) {
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
-    const pathname = url.pathname;
-
-    const isProtectedRoute =
-        pathname.startsWith('/url/') ||
-        pathname.startsWith('/email/') ||
-        pathname.startsWith('/survey/') ||
-        pathname.startsWith('/social/');
 
     if (!token) {
         return redirectToLogin(request);
