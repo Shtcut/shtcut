@@ -1,8 +1,5 @@
 'use client';
 
-import { logout } from '@shtcut/redux/slices/auth';
-import { useAppDispatch } from '@shtcut/redux/store';
-import Cookies from 'js-cookie';
 import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 
 interface SidebarContextProps {
