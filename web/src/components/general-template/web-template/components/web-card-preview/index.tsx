@@ -4,12 +4,10 @@ import TemplateCard from '../template-card';
 import { File, Globe, Link, Mail, MapPin, Phone } from 'lucide-react';
 import InfoField from '../info-field';
 import SocialTabContent from '../social-media';
-import { usePathname } from 'next/navigation';
 import Modal from '@shtcut/components/modal';
 
 const WebCardPreview = ({ linkData }: { linkData: any | undefined }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const pathname = usePathname();
 
     return (
         <div className="rounded-2xl  h-full w-full">
