@@ -64,9 +64,10 @@ function addViewportParam(request: NextRequest) {
     return NextResponse.rewrite(url);
 }
 
-// 👇 Redirects to login while preserving intended path
 function redirectToLogin(request: NextRequest) {
     const loginUrl = new URL('/auth', request.url);
+    const currentTab = request.nextUrl.searchParams.get('tab') || 'sign-up';
+    loginUrl.searchParams.set('tab', currentTab);
     loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
 }
