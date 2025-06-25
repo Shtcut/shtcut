@@ -2,8 +2,23 @@ import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { fetchTargetUrl, isIgnoredPath } from '@shtcut/hooks';
 // import ip from 'ip';
 
+const AUTH_TOKEN_KEY = 'shtcut';
+
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
+    const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
+
+    if (!token) {
+        return redirectToLogin(request);
+    }
+    try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.exp * 1000 < Date.now()) {
+            return redirectToLogin(request);
+        }
+    } catch (error) {
+        return redirectToLogin(request);
+    }
 
     // 🔗 Handle dynamic short links
     const pathAlias = url.pathname.slice(1);
@@ -45,10 +60,16 @@ export async function middleware(request: NextRequest) {
     const { device } = userAgent(request);
     const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
     url.searchParams.set('viewport', viewport);
-    if (url.pathname.match(/^\/(coming-soon)/)) {
-        return NextResponse.redirect(new URL('/waitlist', request.url));
-    }
+    // if (url.pathname.match(/^\/(coming-soon)/)) {
+    //     return NextResponse.redirect(new URL('/waitlist', request.url));
+    // }
     return NextResponse.next();
+}
+
+function redirectToLogin(request: NextRequest) {
+    const loginUrl = new URL('/auth', request.url);
+    loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
+    return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
