@@ -6,7 +6,6 @@ const AUTH_TOKEN_KEY = 'shtcut';
 
 export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
-    const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
 
     // 🔗 Handle dynamic short links
     const pathAlias = url.pathname.slice(1);
