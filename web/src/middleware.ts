@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse, userAgent } from 'next/server';
 import { fetchTargetUrl, isIgnoredPath } from '@shtcut/hooks';
-// import ip from 'ip';
 
 const AUTH_TOKEN_KEY = 'shtcut';
 
@@ -8,15 +7,18 @@ export async function middleware(request: NextRequest) {
     const url = request.nextUrl;
     const token = request.cookies.get(AUTH_TOKEN_KEY)?.value;
 
-    if (!token) {
+    // ✅ Check if token exists and is a valid JWT
+    if (!token || token.split('.').length !== 3) {
         return redirectToLogin(request);
     }
+
     try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         if (payload.exp * 1000 < Date.now()) {
             return redirectToLogin(request);
         }
     } catch (error) {
+        console.error('JWT decoding error:', error);
         return redirectToLogin(request);
     }
 
@@ -25,55 +27,52 @@ export async function middleware(request: NextRequest) {
     const queryAlias = url.searchParams.get('alias');
     const alias = queryAlias || pathAlias;
 
-    // const ipResponse = await fetch('https://api.ipify.org?format=json');
-    // const ipData = await ipResponse.json();
-    // const publicIP = ipData.ip || 'Unknown IP';
-
-    // console.log('Public IP (server-side):', publicIP);
-
-    // console.log('Ip address', ip.address());
-
     if (!alias || isIgnoredPath(alias)) {
-        return NextResponse.next();
+        return addViewportParam(request);
     }
-    if (alias) {
-        const response = await fetchTargetUrl(alias);
-        if (response) {
-            const { target, isPrivate, expiryDate } = response;
 
-            if (expiryDate && new Date(expiryDate) < new Date()) {
-                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
-            }
-            // Check if the link has password
-            if (isPrivate) {
-                return NextResponse.redirect(
-                    `${process.env.NEXT_PUBLIC_URL}/link-password?alias=${encodeURIComponent(alias)}`
-                );
-            }
+    const response = await fetchTargetUrl(alias);
 
-            if (target) {
-                return NextResponse.redirect(target);
-            }
+    if (response) {
+        const { target, isPrivate, expiryDate } = response;
+
+        if (expiryDate && new Date(expiryDate) < new Date()) {
+            return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
+        }
+
+        if (isPrivate) {
+            return NextResponse.redirect(
+                `${process.env.NEXT_PUBLIC_URL}/link-password?alias=${encodeURIComponent(alias)}`
+            );
+        }
+
+        if (target) {
+            return NextResponse.redirect(target);
         }
     }
 
+    return addViewportParam(request);
+}
+
+// 👇 Adds viewport=mobile/desktop as a query param
+function addViewportParam(request: NextRequest) {
+    const url = request.nextUrl.clone();
     const { device } = userAgent(request);
     const viewport = device.type === 'mobile' ? 'mobile' : 'desktop';
     url.searchParams.set('viewport', viewport);
-    // if (url.pathname.match(/^\/(coming-soon)/)) {
-    //     return NextResponse.redirect(new URL('/waitlist', request.url));
-    // }
-    return NextResponse.next();
+
+    return NextResponse.rewrite(url);
 }
 
 function redirectToLogin(request: NextRequest) {
     const loginUrl = new URL('/auth', request.url);
+    const currentTab = request.nextUrl.searchParams.get('tab') || 'sign-up';
+    loginUrl.searchParams.set('tab', currentTab);
     loginUrl.searchParams.set('redirect', request.nextUrl.pathname);
     return NextResponse.redirect(loginUrl);
 }
 
+// ✅ Make sure /auth and public files are not matched
 export const config = {
-    // runtime: 'edge',
-    unstable_allowDynamic: ['**/node_modules/lodash/_root.js'],
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|auth|link-password|expired-link).*)']
 };
