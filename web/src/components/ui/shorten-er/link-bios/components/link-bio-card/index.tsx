@@ -58,7 +58,7 @@ const LinkBioCard = ({
                                 target="_blank"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                beta.shtcut.co/{data?.slug}
+                                shtcut.co/{data?.slug}
                             </a>
                             <p className="text-[#2B2829] text-xs">{data?.links?.length} Links</p>
                         </div>
@@ -76,7 +76,7 @@ const LinkBioCard = ({
                     </div>
                     <LinkBioCardActions
                         onDeleteShowModal={handleShowDelete}
-                        handleCopy={() => handleCopy(`beta.shtcut.co/link-bio/${data?.slug}`)}
+                        handleCopy={() => handleCopy(`shtcut.co/link-bio/${data?.slug}`)}
                         handleEdit={() => router.push(`${pathName}/edit-link-bio/${data?._id}`)}
                         handleShowQr={handleShowQr}
                         handleNavigateAnalytics={handleNavigateAnalytics}
