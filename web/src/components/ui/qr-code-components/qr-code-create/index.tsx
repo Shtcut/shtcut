@@ -111,7 +111,7 @@ const QRCodeCreateComponent = ({
             type: 'multi-link',
             title,
             description,
-            profileImage: profileImage?.id,
+            ...(profileImage?.id && { profileImage: profileImage.id }),
             links: mappedLinks,
             bgColor,
             socialMedia: socialMediaLinks,
@@ -126,7 +126,7 @@ const QRCodeCreateComponent = ({
             type: 'vcard',
             title,
             description,
-            profileImage: profileImage?.id,
+            ...(profileImage?.id && { profileImage: profileImage.id }),
             contacts: {
                 phone: contactInfo.phoneNumber,
                 email: contactInfo.email,
@@ -153,7 +153,7 @@ const QRCodeCreateComponent = ({
             type: 'pdf',
             title,
             description,
-            profileImage: profileImage?.id,
+            ...(profileImage?.id && { profileImage: profileImage.id }),
             file: fileInfo?.id,
             bgColor,
             qrCode: commonQrCodeData
