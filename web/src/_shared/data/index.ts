@@ -354,47 +354,47 @@ export const logos = [
     {
         id: '1',
         name: 'whatsapp',
-        logoUrl: 'https://imgur.com/I4YvECD.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021367/aig5pjvip3ewgbnlf1om.png'
     },
     {
         id: '2',
         name: 'shtcut',
-        logoUrl: 'https://imgur.com/6RP5ONt.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021438/zeb6sndkypfljkdioqi8.png'
     },
     {
         id: '3',
         name: 'instagram',
-        logoUrl: 'https://imgur.com/J6gm9d7.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021405/xci3x9arni1r7osqvkj3.png'
     },
     {
         id: '4',
         name: 'facebook',
-        logoUrl: 'https://imgur.com/ys542yT.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021326/nco4jk1lyz3yaji9rqft.png'
     },
     {
         id: '5',
         name: 'youtube',
-        logoUrl: 'https://imgur.com/PA2I0PQ.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021462/iyowbfyffxryn3ujfclg.png'
     },
     {
         id: '6',
         name: 'bitly',
-        logoUrl: 'https://i.imgur.com/fSMwB8G.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021503/zmqdpcwdfruzbrh6xftq.png'
     },
     {
         id: '7',
         name: 'twitter',
-        logoUrl: 'https://imgur.com/jG7Sccm.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021527/f1mqaps9q7tvyyxiinp2.png'
     },
     {
         id: '8',
         name: 'cloud',
-        logoUrl: 'https://imgur.com/bmcAPyF.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021553/ualjtrwzs06dazinzmpz.png'
     },
     {
         id: '8',
         name: 'scan',
-        logoUrl: 'https://imgur.com/kI4CXoa.png'
+        logoUrl: 'http://res.cloudinary.com/dtdpgrdhr/image/upload/v1751021581/dzz8unueyqy7woqzfbw1.png'
     }
 ];
 

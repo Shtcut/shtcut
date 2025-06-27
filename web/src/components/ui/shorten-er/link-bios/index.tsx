@@ -153,14 +153,14 @@ const LinkBiosComponent = ({
                         >
                             <QrCodeScan
                                 id={selectedLinkBio?._id}
-                                value={`https://beta.shtcut.co/link-bio/${selectedLinkBio?.slug}`}
+                                value={`https://shtcut.co/link-bio/${selectedLinkBio?.slug}`}
                             />
                         </div>
                         <section className="border border-gray-200 rounded-md h-9 w-full flex items-center justify-between px-3">
-                            <p className="truncate">{`https://beta.shtcut.co/link-bio/${selectedLinkBio?.slug}`}</p>
+                            <p className="truncate">{`https://shtcut.co/link-bio/${selectedLinkBio?.slug}`}</p>
                             <Copy
                                 size={16}
-                                onClick={() => handleCopy(`https://beta.shtcut.co/link-bio/${selectedLinkBio?.slug}`)}
+                                onClick={() => handleCopy(`https://shtcut.co/link-bio/${selectedLinkBio?.slug}`)}
                             />
                         </section>
                         <section className="mt-10 w-full">

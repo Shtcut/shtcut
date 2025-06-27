@@ -11,7 +11,7 @@ import { CiImageOff } from 'react-icons/ci';
 const SingleLinkBioCard = ({ data }: { data: LinkBioDataResponse }) => {
     const { handleCopy } = useCopyToClipboard();
     const handleCopyLink = () => {
-        const textToCopy = `https://beta.shtcut.co/link-bio/${data?.slug}`;
+        const textToCopy = `https://shtcut.co/link-bio/${data?.slug}`;
         handleCopy(textToCopy);
     };
 
@@ -37,7 +37,7 @@ const SingleLinkBioCard = ({ data }: { data: LinkBioDataResponse }) => {
                         <div className="flex gap-1 flex-col">
                             <h1 className="font-semibold text-sm text-[#151314]">{data?.title}</h1>
                             <a href={`/link-bio/${data?.slug}`} target="_blank" className="text-primary-0 text-xs">
-                                beta.shtcut.co/{data?.slug}
+                                shtcut.co/{data?.slug}
                             </a>
                             <p className="text-xs">{data?.links?.length} Links</p>
                         </div>

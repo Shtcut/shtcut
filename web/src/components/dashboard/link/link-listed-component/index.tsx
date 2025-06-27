@@ -86,7 +86,7 @@ const LinkListedComponent = ({
                                 href={`${process.env.NEXT_PUBLIC_URL}/${data.alias}`}
                                 className="text-xs text-primary-0 font-normal"
                             >
-                                beta.shtcut.co/{data.alias}
+                                shtcut.co/{data.alias}
                             </a>
                         </div>
                         <div className="flex items-center gap-x-2 mt-2">
@@ -123,7 +123,7 @@ const LinkListedComponent = ({
                     <CardsActions
                         numberOfClicks={data.clicks ?? 0}
                         edit={edit}
-                        handleCopy={() => handleCopy(`https://beta.shtcut.co/${data.alias}`)}
+                        handleCopy={() => handleCopy(`https://shtcut.co/${data.alias}`)}
                         onDeleteClick={onDeleteClick}
                         onDuplicateClick={onDuplicateClick}
                         onQrCodeClick={onQrCodeClick}

@@ -19,7 +19,7 @@ interface SocialShareProps {
 }
 
 const ShareLinkModal = ({ data }: SocialShareProps) => {
-    const url = `beta.shtcut.co/${data?.alias}`;
+    const url = `shtcut.co/${data?.alias}`;
     const textToCopy = `${process.env.NEXT_PUBLIC_URL}/${data?.alias}`;
     const { handleCopy } = useCopyToClipboard();
 

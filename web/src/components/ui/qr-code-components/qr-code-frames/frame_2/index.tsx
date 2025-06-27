@@ -19,7 +19,7 @@ const Frame_2 = () => {
                     size={90}
                     logoWidth={20}
                     logoHeight={20}
-                    logoImage={String(state?.logo)}
+                    logoImage={state?.logo as string}
                     qrStyle={state?.qrStyle as 'squares' | 'dots' | 'fluid'}
                     eyeRadius={state?.eyeRadius as EyeRadiusType}
                 />

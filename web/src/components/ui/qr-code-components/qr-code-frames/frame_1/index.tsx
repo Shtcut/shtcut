@@ -6,6 +6,7 @@ import { QRCode } from 'react-qrcode-logo';
 const Frame_1 = () => {
     const { presetColorString, tabParams, borderColor, urlScan } = useGeneralState();
     const { state } = useQrCodeState();
+
     return (
         <div className="h-full flex flex-col justify-center">
             <div className={` border-[3.2px]  w-fit rounded-[6px]`} style={{ borderColor: borderColor }}>
@@ -15,14 +16,13 @@ const Frame_1 = () => {
                     removeQrCodeBehindLogo={true}
                     ecLevel="H"
                     fgColor={tabParams !== 'website' ? state?.presetColor : presetColorString}
-                    size={90}
+                    size={95}
                     logoWidth={20}
                     logoHeight={20}
-                    logoImage={''}
+                    logoImage={state?.logo as string}
                     qrStyle={state?.qrStyle as 'squares' | 'dots' | 'fluid'}
                     eyeRadius={state?.eyeRadius as EyeRadiusType}
-
-                    // enableCORS={true}
+                    enableCORS={true}
                 />
             </div>
         </div>
