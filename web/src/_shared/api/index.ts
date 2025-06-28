@@ -24,6 +24,7 @@ const baseQuery = (baseUrl: string) =>
 
 export const baseQueryWithResponse =
     (baseUrl: string) => async (args: FetchArgs, api: BaseQueryApi, extraOptions: Dict) => {
+        console.log('Using baseUrl:', baseUrl);
         const { data, error } = await baseQuery(baseUrl)(args, api, extraOptions);
         const { meta, data: authData } = (data as any) || {};
         const token = meta?.token;

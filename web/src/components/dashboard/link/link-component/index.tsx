@@ -45,7 +45,6 @@ const LinkComponent = ({
     duplicateLinkResponse,
     findAllLinks,
     fetchMetaDataResponse,
-    fetchMetadata,
     fetchMetaLoading,
     setUrl,
     findAllDomainsResponse,
@@ -53,7 +52,6 @@ const LinkComponent = ({
     createLinkResponse,
     updateLink,
     updateLinkResponse,
-    setSearch,
     pagination,
     paginationActions,
     handleCloseLoading,
@@ -90,9 +88,9 @@ const LinkComponent = ({
         setDomain(value);
     };
 
-    const handleAnalyticsNavigate = (alias: string) => {
-        route.push(`${pathName}/analytics/${alias}`);
-    };
+    // const handleAnalyticsNavigate = (alias: string) => {
+    //     route.push(`${pathName}/analytics/${alias}`);
+    // };
 
     const toggleSection = (type?: ModalType, val?: LinkNameSpace.Link) => {
         if (
@@ -377,7 +375,7 @@ const LinkComponent = ({
             <LinkDataComponent
                 isLoading={isLoading || isLoadingState}
                 findAllLinksResponse={findAllLinksResponse}
-                handleAnalyticsNavigate={handleAnalyticsNavigate}
+                // handleAnalyticsNavigate={handleAnalyticsNavigate}
                 toggleSection={toggleSection}
                 handleUpdateLink={handleUpdateLink}
                 search={search}

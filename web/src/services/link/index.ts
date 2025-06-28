@@ -105,14 +105,11 @@ export const linkApi = api.injectEndpoints({
             }),
             providesTags: [linkTag]
         }),
-        fetchMetadata: builder.query<MetadataResponse, { url: string }>({
-            query: ({ url }) => ({
+        fetchLinkMetadata: builder.query<MetadataResponse, any>({
+            query: (params) => ({
                 url: `${SHTNER.links}/metadata`,
                 method: GET,
-                params: {
-                    url,
-                    apiKey: SHTNER.metaKey
-                }
+                params
             }),
             providesTags: [linkTag]
         }),
@@ -150,7 +147,7 @@ export const {
     useDeleteLinkMutation,
     useDeleteManyLinksMutation,
     useLazyDuplicateLinkQuery,
-    useLazyFetchMetadataQuery,
+    useLazyFetchLinkMetadataQuery,
     useGetLinkQuery,
     useUpdateArchivedLinkMutation,
     useSubmitLinkPasswordMutation,
@@ -164,7 +161,7 @@ export const {
         deleteLink,
         deleteManyLinks,
         duplicateLink,
-        fetchMetadata,
+        fetchLinkMetadata,
         visitLink,
         updateArchivedLink,
         submitLinkPassword,

@@ -46,7 +46,7 @@ const LinkListedComponent = ({
     }
 
     return (
-        <Card className="cursor-pointer border border-gray-200 shadow-sm rounded-[10px] p-4">
+        <Card className=" border border-gray-200 shadow-sm rounded-[10px] p-4">
             <div className="flex justify-between items-center">
                 <div className="flex gap-x-3">
                     {!edit && (

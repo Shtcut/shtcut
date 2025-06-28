@@ -179,7 +179,6 @@ const WorkspaceScreen = () => {
                     description: successMessage,
                     variant: 'default'
                 });
-
                 findRoles(params);
                 handleClose();
             } catch (error) {

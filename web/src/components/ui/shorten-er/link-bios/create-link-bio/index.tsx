@@ -104,7 +104,7 @@ const CreateLinkBioComponent = ({
                 background: bgColor
             },
             links: mappedLinks,
-            profileImage: profileImage?.id,
+            ...(profileImage?.id && { profileImage: profileImage.id }),
             contacts: {
                 phone: contactInfo.phoneNumber,
                 email: contactInfo.email,
