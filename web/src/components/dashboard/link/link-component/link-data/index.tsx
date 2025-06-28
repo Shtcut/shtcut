@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import LinkListedComponent from '../../link-listed-component';
 import { FindAllLinkResresponseType, LinkNameSpace } from '@shtcut/_shared/namespace/link';
 import { ModalType } from '@shtcut/types/types';
-import PaginationTable from '@shtcut/components/pagination';
 import { UsePaginationActions, UsePaginationState } from '@shtcut/types/pagination';
 import { skeletonRows } from '@shtcut/components/card-skeleton';
 import { LoadingButton } from '@shtcut/components/_shared/loading-button';
@@ -11,7 +10,7 @@ import PaginationActions from '@shtcut/components/pagination-component';
 interface LinkDataComponentProps {
     isLoading: boolean;
     findAllLinksResponse: FindAllLinkResresponseType | undefined;
-    handleAnalyticsNavigate: (id: string) => void;
+    // handleAnalyticsNavigate: (id: string) => void;
     toggleSection: (modalType: ModalType, data: LinkNameSpace.Link) => void;
     handleUpdateLink: (data: LinkNameSpace.Link) => void;
     search: string;
@@ -25,7 +24,7 @@ interface LinkDataComponentProps {
 const LinkDataComponent = ({
     findAllLinksResponse,
     isLoading,
-    handleAnalyticsNavigate,
+    // handleAnalyticsNavigate,
     handleUpdateLink,
     toggleSection,
     search,
@@ -66,7 +65,7 @@ const LinkDataComponent = ({
                             <LinkListedComponent
                                 key={data?._id}
                                 data={data}
-                                onClickNavigate={() => handleAnalyticsNavigate(data._id)}
+                                // onClickNavigate={() => handleAnalyticsNavigate(data._id)}
                                 onDeleteClick={() => toggleSection('deleteModal', data)}
                                 onDuplicateClick={() => toggleSection('duplicateModal', data)}
                                 onQrCodeClick={() => toggleSection('qrCodeModal', data)}

@@ -33,7 +33,6 @@ const LinkContainer = () => {
         duplicate,
         duplicateLinkResponse,
         findAllLinks,
-        fetchMetadata,
         fetchMetaDataResponse,
         fetchMetaLoading,
         updateLink,
@@ -42,7 +41,8 @@ const LinkContainer = () => {
         pagination,
         paginationActions,
         params,
-        deleteManyLinks
+        deleteManyLinks,
+        fetchLinkMetadata
     } = useLink({
         callLinks: true,
         search,
@@ -75,7 +75,7 @@ const LinkContainer = () => {
             duplicate={duplicate}
             duplicateLinkResponse={duplicateLinkResponse}
             findAllLinks={findAllLinks}
-            fetchMetadata={fetchMetadata}
+            fetchLinkMetadata={fetchLinkMetadata}
             fetchMetaDataResponse={fetchMetaDataResponse}
             fetchMetaLoading={fetchMetaLoading}
             setUrl={setUrl}

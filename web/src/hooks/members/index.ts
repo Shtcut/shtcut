@@ -25,6 +25,7 @@ interface UseMembersReturnType {
     isLoadingState: boolean;
     setLoadingState: (key: 'creating' | 'updating' | 'deleting' | 'finding', value: boolean) => void;
     handleSearchChange: (newSearch: string) => void;
+    handleRefreshMembers: () => void;
 }
 
 export const useMembers = (props: UseMembersProps): UseMembersReturnType => {
@@ -64,16 +65,26 @@ export const useMembers = (props: UseMembersProps): UseMembersReturnType => {
             setLoaded(true);
         }
     }, [callMembers, debouncedSearch, filter, findMembers, loaded]);
+    const { isSuccess } = createInviteResponse;
+
+    useEffect(() => {
+        if (isSuccess) {
+            console.log('issuccess:', isSuccess);
+            findMembers({
+                ...params
+            });
+        }
+    }, [isSuccess]);
+
     const handleDeleteMember = (id: string) => {
         deleteMembers({ id });
     };
-    // useEffect(() => {
-    //     if (id) {
-    //         getRole({
-    //             id
-    //         });
-    //     }
-    // }, [id]);
+
+    const handleRefreshMembers = () => {
+        findMembers({
+            ...params
+        });
+    };
 
     return {
         isLoading,
@@ -87,6 +98,7 @@ export const useMembers = (props: UseMembersProps): UseMembersReturnType => {
         handleDeleteMember,
         isLoadingState,
         setLoadingState,
-        handleSearchChange
+        handleSearchChange,
+        handleRefreshMembers
     };
 };

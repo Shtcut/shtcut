@@ -99,7 +99,7 @@ export interface LinkComponentType {
     findAllLinks: any;
     fetchMetaDataResponse: MetadataResponse | undefined;
     fetchMetaLoading: boolean;
-    fetchMetadata: Dict;
+    fetchLinkMetadata: any;
     setUrl: Dispatch<SetStateAction<string>>;
     findAllDomainsResponse: DomainNameSpace.Domain[];
     setSearch?: any;

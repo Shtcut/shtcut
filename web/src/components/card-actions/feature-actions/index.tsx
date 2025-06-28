@@ -46,12 +46,12 @@ const FeatureActions = ({
                 >
                     <PiQrCodeBold size={16} /> QR Code
                 </DropdownMenuCheckboxItem>
-                <DropdownMenuCheckboxItem
+                {/* <DropdownMenuCheckboxItem
                     className="p-2 flex text-xs items-center gap-x-2 cursor-pointer"
                     onClick={onClickNavigation}
                 >
                     <RiLineChartLine size={16} /> Analytics
-                </DropdownMenuCheckboxItem>
+                </DropdownMenuCheckboxItem> */}
                 <DropdownMenuCheckboxItem
                     onClick={onDuplicateClick ?? undefined}
                     className="p-2 flex text-xs items-center gap-x-2 cursor-pointer"
