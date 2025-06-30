@@ -65,25 +65,19 @@ export const useMembers = (props: UseMembersProps): UseMembersReturnType => {
             setLoaded(true);
         }
     }, [callMembers, debouncedSearch, filter, findMembers, loaded]);
-    const { isSuccess } = createInviteResponse;
-
-    useEffect(() => {
-        if (isSuccess) {
-            console.log('issuccess:', isSuccess);
-            findMembers({
-                ...params
-            });
-        }
-    }, [isSuccess]);
 
     const handleDeleteMember = (id: string) => {
         deleteMembers({ id });
     };
 
     const handleRefreshMembers = () => {
-        findMembers({
-            ...params
-        });
+        const updatedParams = {
+            population: JSON.stringify([{ path: 'id' }]),
+            ...pagination,
+            search: debouncedSearch,
+            ...filter
+        };
+        findMembers(updatedParams);
     };
 
     return {

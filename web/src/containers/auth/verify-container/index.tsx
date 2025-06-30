@@ -26,7 +26,6 @@ const VerifyEmailContainer = () => {
             email: authData?.email,
             ...values
         };
-        console.log('res::', payload);
         verifyEmail({
             payload,
             options: { noSuccessMessage: true, noErrorMessage: true }

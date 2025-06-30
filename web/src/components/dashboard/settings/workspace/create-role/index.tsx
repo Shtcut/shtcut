@@ -25,19 +25,21 @@ import { z } from 'zod';
 
 type CreateRoleFormValues = z.infer<typeof createRoleSchema>;
 
-const CreateRole = ({ onClose, singleRole }: { onClose: () => void; singleRole: RolesDataResponse | null }) => {
+const CreateRole = ({
+    onClose,
+    singleRole,
+    handleRefreshRoles
+}: {
+    onClose: () => void;
+    handleRefreshRoles: () => void;
+    singleRole: RolesDataResponse | null;
+}) => {
     const currentWorkspace = useCurrentWorkSpace();
-    const {
-        createRole,
-        setLoadingState,
-        isLoadingState,
-        createRoleResponse,
-        updateRole,
-        updateRoleResponse,
-        findRoles
-    } = useRole({
-        callRoles: true
-    });
+    const { createRole, setLoadingState, isLoadingState, createRoleResponse, updateRole, updateRoleResponse } = useRole(
+        {
+            callRoles: true
+        }
+    );
     const { permissionsData, isLoading } = usePermission({ callPermissions: true });
     const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
 
@@ -91,8 +93,7 @@ const CreateRole = ({ onClose, singleRole }: { onClose: () => void; singleRole: 
                     description: successMessage
                 });
             }
-
-            findRoles();
+            handleRefreshRoles();
             onClose();
         } catch (error) {
             handleError({ error });
