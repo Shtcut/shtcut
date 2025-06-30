@@ -51,6 +51,7 @@ interface UseWorkspaceReturnsType {
     findAllWorkspacesLoading: boolean;
     getWorkspaceLoading: boolean;
     getWorkSpaceData: any;
+    handleRefreshWorkspace: () => void;
 }
 
 export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType => {
@@ -91,7 +92,6 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
     const searchOneWorkspaceResponse = useAppSelector((state) => selectWorkspaceData(state, params));
     const findAllWorkspacesResponse = useAppSelector((state) => selectFindAllWorkspaceData(state, params));
 
-    // ✅ Only call if token exists
     useEffect(() => {
         if (callWorkspaces && token) {
             triggerWorkspaces(params);
@@ -117,6 +117,15 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
             });
         }
     }, [id, token]);
+
+    const handleRefreshWorkspace = () => {
+        const idString = getString(id);
+        getWorkspaceByIdTrigger({
+            id: idString,
+            population: JSON.stringify([{ path: 'members' }])
+        });
+        triggerWorkspaces(params);
+    };
 
     useEffect(() => {
         if (switchWorkspaceResponse?.meta?.success) {
@@ -155,6 +164,7 @@ export const useWorkspace = (props: UseWorkspaceProps): UseWorkspaceReturnsType 
         deleteWorkspace,
         triggerSwitchWorkspace,
         triggerWorkspaces,
+        handleRefreshWorkspace,
         createWorkspaceResponse,
         updateWorkspaceResponse,
         searchOneWorkspaceResponse,

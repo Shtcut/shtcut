@@ -40,7 +40,8 @@ const WorkspaceScreen = () => {
         pagination,
         paginationActions,
         getWorkSpaceData,
-        getWorkspaceLoading
+        getWorkspaceLoading,
+        handleRefreshWorkspace
     } = useWorkspace({
         callWorkspaces: true,
         id: ids
@@ -53,9 +54,9 @@ const WorkspaceScreen = () => {
         isLoading: findRoleLoading,
         handleDeleteRole,
         deleteRoleResponse,
-        findRoles,
-        params,
-        isLoadingState: findIsLoadingState
+
+        isLoadingState: findIsLoadingState,
+        handleRefreshRoles
     } = useRole({
         callRoles: Boolean(ids),
         workspace: ids || undefined
@@ -124,6 +125,7 @@ const WorkspaceScreen = () => {
                 await createInvite(payload).unwrap();
                 setShowInvite(false);
                 form.reset();
+                handleRefreshWorkspace();
                 toast({
                     description: 'Invitation sent successfully!',
                     title: 'Members Invitation'
@@ -179,7 +181,7 @@ const WorkspaceScreen = () => {
                     description: successMessage,
                     variant: 'default'
                 });
-                findRoles(params);
+                handleRefreshRoles();
                 handleClose();
             } catch (error) {
                 handleError({ error });
@@ -315,7 +317,7 @@ const WorkspaceScreen = () => {
                 )}
                 {modalType === 'user' && <UserModal onClose={() => setShowInvite(false)} />}
                 {(modalType === 'create-role' || modalType === 'edit-role') && (
-                    <CreateRole onClose={handleClose} singleRole={singleRole} />
+                    <CreateRole onClose={handleClose} singleRole={singleRole} handleRefreshRoles={handleRefreshRoles} />
                 )}
                 {modalType === 'delete-role' && (
                     <DeleteRole

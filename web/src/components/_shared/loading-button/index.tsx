@@ -12,6 +12,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     loadingText?: string;
     noStyle?: boolean;
     loadingClass?: string;
+    loadingIcon?: string;
 }
 
 export const LoadingButton: React.FC<ButtonProps> = ({
@@ -22,6 +23,7 @@ export const LoadingButton: React.FC<ButtonProps> = ({
     loadingText,
     noStyle = false,
     loadingClass,
+    loadingIcon = 'white',
     ...props
 }) => {
     return (
@@ -36,7 +38,7 @@ export const LoadingButton: React.FC<ButtonProps> = ({
         >
             {loading ? (
                 <div className={`${loadingClass} flex items-center text-sm`}>
-                    <StarLoader color="white" />
+                    <StarLoader color={loadingIcon} />
                     {loadingText ?? ''}
                 </div>
             ) : (

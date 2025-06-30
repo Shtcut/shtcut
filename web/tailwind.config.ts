@@ -79,8 +79,6 @@ const config: Config = {
                     200: '#66b2b2',
                     300: '#174FDC',
                     400: '#092059',
-                    // 300: '#66b2b2', you can skip some colors like this or not even commnet them
-                    // 400: '',
                     500: '#008080',
                     700: '#66b2b2',
                     900: '#004c4c'

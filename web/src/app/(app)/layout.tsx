@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from '@shtcut/redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { SidebarProvider } from '@shtcut/components/dashboard';
+import AuthGuard from '@shtcut/components/auth-guard';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
     return (
@@ -12,8 +13,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             <PersistGate loading={null} persistor={persistor}>
                 <ShtcutProvider attribute="class" defaultTheme="light" enableSystem={false} disableTransitionOnChange>
                     <SidebarProvider>
-                        {children}
-                        <Toaster />
+                        <AuthGuard>
+                            {children}
+                            <Toaster />
+                        </AuthGuard>
                     </SidebarProvider>
                 </ShtcutProvider>
             </PersistGate>

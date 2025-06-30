@@ -156,6 +156,7 @@ const LinkArchiveComponent = ({
                                                 loading={loadingId === data._id}
                                                 className="flex items-center shadow-none gap-x-2 w-24 bg-transparent border"
                                                 onClick={() => handleRecover(data)}
+                                                loadingIcon={'#2F64E9'}
                                             >
                                                 <ArchiveRestore size={16} /> Recover
                                             </LoadingButton>

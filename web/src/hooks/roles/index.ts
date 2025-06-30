@@ -40,6 +40,7 @@ interface UseRoleReturnsType {
     params: any;
     setLoadingState: (key: 'creating' | 'updating' | 'deleting' | 'finding', value: boolean) => void;
     handleSearchChange: any;
+    handleRefreshRoles: () => void;
 }
 
 export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
@@ -103,6 +104,10 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
         deleteRole({ id }).unwrap();
     };
 
+    const handleRefreshRoles = () => {
+        findRoles(params);
+    };
+
     return {
         isLoading,
         createRole,
@@ -110,6 +115,7 @@ export const useRole = (props: UseRoleProps): UseRoleReturnsType => {
         deleteRole,
         findRoles,
         getRole,
+        handleRefreshRoles,
         findRolesResponse,
         createRoleResponse,
         updateRoleResponse,
