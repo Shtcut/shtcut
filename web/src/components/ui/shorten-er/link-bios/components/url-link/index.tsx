@@ -1,4 +1,3 @@
-import { toast } from '@shtcut-ui/react';
 import useCopyToClipboard from '@shtcut/hooks/useCopyToClipboard';
 import React from 'react';
 

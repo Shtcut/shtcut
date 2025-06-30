@@ -5,6 +5,7 @@ import { File, Globe, Link, Mail, MapPin, Phone } from 'lucide-react';
 import InfoField from '../info-field';
 import SocialTabContent from '../social-media';
 import Modal from '@shtcut/components/modal';
+import { normalizeUrl } from '@shtcut/_shared/constant';
 
 const WebCardPreview = ({ linkData }: { linkData: any | undefined }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,16 +90,25 @@ const WebCardPreview = ({ linkData }: { linkData: any | undefined }) => {
                     <TabsContent value="links" className="w-full">
                         <section className="w-full p-4 flex flex-col gap-4">
                             {linkData &&
-                                linkData?.links.map((link) => (
-                                    <a href={link.url} className="flex w-full" target="_blank" key={link.id}>
-                                        <TemplateCard
-                                            color={linkData?.colors?.btnColor ?? ''}
-                                            label={link?.label}
-                                            image={link.image?.file?.url ?? ''}
-                                            presetColor={linkData?.colors?.presetColor}
-                                        />
-                                    </a>
-                                ))}
+                                linkData?.links.map((link) => {
+                                    const formattedUrl = normalizeUrl(link.url);
+                                    return (
+                                        <a
+                                            href={formattedUrl}
+                                            className="flex w-full"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            key={link._id}
+                                        >
+                                            <TemplateCard
+                                                color={linkData?.colors?.btnColor ?? ''}
+                                                label={link?.label}
+                                                image={link.image?.file?.url ?? ''}
+                                                presetColor={linkData?.colors?.presetColor}
+                                            />
+                                        </a>
+                                    );
+                                })}
                         </section>
                     </TabsContent>
                     <TabsContent value="address" className="p-4">

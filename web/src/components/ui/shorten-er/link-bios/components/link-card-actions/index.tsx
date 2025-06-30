@@ -54,12 +54,12 @@ const LinkBioCardActions = ({
                     >
                         <PiQrCodeBold size={16} /> Qr Code
                     </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem
+                    {/* <DropdownMenuCheckboxItem
                         onClick={handleNavigateAnalytics}
                         className="p-2 flex text-xs items-center gap-x-2 cursor-pointer"
                     >
                         <PiChartBar size={16} /> Analytics
-                    </DropdownMenuCheckboxItem>
+                    </DropdownMenuCheckboxItem> */}
 
                     <DropdownMenuCheckboxItem
                         onClick={(e) => {
