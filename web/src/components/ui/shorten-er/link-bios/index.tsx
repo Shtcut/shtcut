@@ -138,7 +138,7 @@ const LinkBiosComponent = ({
                         isLoadingState={linkBiosState.isLoadingState}
                         handleDelete={() => handleDeleteLinkBio(selectedLinkBio?._id || '')}
                         handleClose={handleCloseModal}
-                        description="Deleting this link-bio will redirect it to the shtcut erro page and can not be undone."
+                        description="Deleting this link-bio will redirect it to the shtcut error page and can not be undone."
                         title="link-bio"
                     />
                 )}
