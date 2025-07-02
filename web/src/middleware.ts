@@ -18,12 +18,12 @@ export async function middleware(request: NextRequest) {
             const { target, isPrivate, expiryDate } = response;
 
             if (expiryDate && new Date(expiryDate) < new Date()) {
-                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_REDIRECT_URL}/expired-link`);
+                return NextResponse.redirect(`${process.env.NEXT_PUBLIC_URL}/expired-link`);
             }
 
             if (isPrivate) {
                 return NextResponse.redirect(
-                    `${process.env.NEXT_PUBLIC_REDIRECT_URL}/link-password?alias=${encodeURIComponent(alias)}`
+                    `${process.env.NEXT_PUBLIC_URL}/link-password?alias=${encodeURIComponent(alias)}`
                 );
             }
             if (target) {
