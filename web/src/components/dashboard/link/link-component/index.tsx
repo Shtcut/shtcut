@@ -167,12 +167,14 @@ const LinkComponent = ({
         }
     }, [fetchMetaDataResponse, setValue]);
 
+    console.log('singleLink', singleLink);
+
     useEffect(() => {
         if (watchLink) {
             setUrl(watchLink);
         }
-        if (singleLink?.createdAt) {
-            setSelectedDate(new Date(singleLink.createdAt));
+        if (singleLink?.expiryDate) {
+            setSelectedDate(new Date(singleLink.expiryDate));
         }
     }, [watchLink, setUrl, singleLink]);
 
@@ -181,6 +183,7 @@ const LinkComponent = ({
         setModalType(null);
         handleCloseLoading();
         setSingleLink(null);
+        setSelectedDate(undefined);
     };
     const doFind = () => {
         findAllLinks({
@@ -345,6 +348,7 @@ const LinkComponent = ({
         setValue('target', '');
         setPreview(null);
         handleCloseLoading();
+        setSelectedDate(undefined);
     };
 
     return (
