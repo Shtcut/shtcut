@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
-    const { submitPassword, submitPasswordResponse } = useLink({ callLinks: true });
+    const { submitPassword, submitPasswordResponse } = useLink({});
     const form = useForm({
         defaultValues: {
             password: ''
@@ -23,7 +23,7 @@ const LinkPasswordComponent = ({ aliasQuery }: { aliasQuery: string }) => {
         setIsLoading(true);
         const password = value.password;
         try {
-            const res = await submitPassword({ alias: aliasQuery, password }).unwrap();
+            await submitPassword({ alias: aliasQuery, password }).unwrap();
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
