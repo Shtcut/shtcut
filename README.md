@@ -1,7 +1,7 @@
 # Shtcut - Comprehensive All-in-One Marketing Platform
 
 ## Overview
-Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to revolutionize your marketing efforts. This platform is engineered to streamline workflows, provide data-driven insights, and offer a cost-effective solution for holistic campaign management. 
+Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to revolutionize your marketing efforts. This platform is engineered to streamline workflows, provide data-driven insights, and offer a cost-effective solution for holistic campaign management.
 
 ![Shtcut product](https://shtcut-stg.s3.amazonaws.com/shtcut-product.png)
 
@@ -87,6 +87,5 @@ file for details.
 
 ## Support
 For support and questions, please open an issue on GitHub or contact us at technical@shtcut.co
-
 ## Conclusion
 Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results.
