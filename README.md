@@ -85,7 +85,6 @@ We welcome contributions to enhance the platform. To contribute:
 This project is licensed under the MIT License. See the `LICENSE` 
 file for details.
 
-
 ## Support
 For support and questions, please open an issue on GitHub or contact us at technical@shtcut.co
 ## Conclusion
