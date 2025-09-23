@@ -5,6 +5,7 @@ export enum QueueTasks {
   SEND_NOTIFICATION = 'task.send.notification',
   PING = 'task.send.ping',
   TELEGRAM = 'task.send.telegram_queue',
+  SOCIAL_MEDIA_INTEGRATION = 'task.send.social.media',
 }
 
 export enum Queues {
