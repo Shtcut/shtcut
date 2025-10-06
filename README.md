@@ -79,7 +79,7 @@ We welcome contributions to enhance the platform. To contribute:
    ```bash
    git push origin feature-name
    ```
-5. Open a pull request with a detailed description of your changes, which will be reviewed. Thank you
+5. Open a pull request with a detailed description of your changes, which will be reviewed.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` 
@@ -87,6 +87,7 @@ file for details.
 
 ## Support
 For support and questions, please open an issue on GitHub or contact us at technical@shtcut.co
+
 
 ## Conclusion
 Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results.
