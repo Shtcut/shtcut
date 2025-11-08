@@ -27,7 +27,7 @@ const MessagesComponent = () => {
     ];
     const { currentTab, selectedTabIndex, handleTabChange, resetTab } = useTabNavigation(tabs);
 
-    const [isModalOpen, setIsModalOpen] = useState<boolean | string>(false || currentTab);
+    const [isModalOpen, setIsModalOpen] = useState<boolean | string>(currentTab);
     const [showModal, setShowModal] = useState(false);
     const handleClose = () => {
         setShowModal(false);

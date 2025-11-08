@@ -1,5 +1,5 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common';
-import { RedisService } from '../services/redis/redis.service';
+import { RedisService } from 'shtcut/core/services';
 import { Reflector } from '@nestjs/core';
 import { AppException } from '../shared';
 import { InjectModel } from '@nestjs/mongoose';
