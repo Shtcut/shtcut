@@ -15,3 +15,4 @@ export * from './subscription';
 export * from './invitation';
 export * from './tag';
 export * from './link-bio';
+export * from './api-key';
