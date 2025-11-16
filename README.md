@@ -27,7 +27,7 @@ Ensure you have the following installed:
    ```bash
    npm install
    ```
-   
+
 ### Configuration
 1. Create a `.env` file in the root directory and add your configuration settings. For example:
    ```
