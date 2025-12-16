@@ -20,7 +20,6 @@ interface SignUpFormProps extends HTMLAttributes<HTMLDivElement> {
 export const SignUpForm = (props: SignUpFormProps) => {
     const { isLoading, handleSignUpSubmit, onFailure, onSuccess } = props;
 
-
     const handleFormSubmit = (values: z.infer<typeof signUpValidationSchema>) => {
         handleSignUpSubmit(values);
     };
