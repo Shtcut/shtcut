@@ -42,7 +42,7 @@ Ensure you have the following installed:
    npm start
    ```
 2. Open your browser and navigate to `http://localhost:3000` to access the platform.
-
+   
 ## Project Structure
 The project structure is organized as follows:
 ```
