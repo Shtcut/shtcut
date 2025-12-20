@@ -1,90 +1,71 @@
-# Shtcut - Comprehensive All-in-One Marketing Platform
+# Shtcut — Social Content Operations, Done Right
 
-## Overview
-Welcome to Shtcut, the Comprehensive All-in-One Marketing Platform designed to revolutionize your marketing efforts. This platform is engineered to streamline workflows, provide data-driven insights, and offer a cost-effective solution for holistic campaign management.
+Shtcut is a **social content operations platform** that helps teams plan, manage, publish, and measure social content from one place.
 
-⭐ If you find Shtcut useful, please consider giving us a star on GitHub! Your support helps us continue to innovate and deliver exciting features.
+Instead of juggling multiple tools for scheduling, assets, approvals, and analytics, Shtcut brings the **entire social workflow** together — from idea to outcome.
 
-![GitHub Logo](https://shtcut-stg.s3.amazonaws.com/star-us.gif)
+---
+
+## Why Shtcut?
+
+Most social tools focus on *posting*.  
+Shtcut focuses on **operations and results**.
+
+With Shtcut, teams can:
+
+- Plan content using a Kanban-style workflow
+- Manage post assets (images, videos, captions) in one place
+- Assign tasks and approvals across teams
+- Publish content to multiple social platforms at once
+- Track which posts and links actually drive clicks and engagement
+
+All without switching tools.
+
+---
+
+## Core Capabilities
+
+### 🗓 Social Scheduling
+- Schedule posts across multiple social platforms
+- Platform-specific previews and formatting
+- One-click publish to all connected channels
+- Automatic retries and publishing logs
+
+### 📁 Asset & File Management
+- Centralized storage for images, videos, and captions
+- Attach assets directly to posts
+- Eliminate confusion around “final versions”
+
+### 🧩 Team Workflow (Kanban)
+- Draft → Review → Approved → Scheduled → Published
+- Assign owners and reviewers
+- Built for teams, agencies, and growing brands
+
+### 🔗 Smart Links & Analytics
+- Auto-generated tracking links per post
+- Click and performance analytics
+- Understand which content drives real outcomes — not just likes
+
+---
+
+## Who Is Shtcut For?
+
+- Marketing teams
+- Agencies
+- Startups
+- Content-driven businesses
+- Anyone managing social content collaboratively
+
+---
 
 ## Getting Started
 
 ### Prerequisites
-Ensure you have the following installed:
 - Node.js (v12 or higher)
 - npm (v6 or higher)
 
 ### Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/shtcut.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd shtcut
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-### Configuration
-1. Create a `.env` file in the root directory and add your configuration settings. For example:
-   ```
-   DATABASE_URL=your_database_url
-   API_KEY=your_api_key
-   ```
-2. Customize other settings in the `config` directory to tailor the tools and features to your specific needs.
-
-### Running the Application
-1. Start the development server:
-   ```bash
-   npm start
-   ```
-2. Open your browser and navigate to `http://localhost:3000` to access the platform.
-   
-## Project Structure
-The project structure is organized as follows:
-```
-/shtcut
-  /backend         # Backend services and APIs
-  /devops          # DevOps configuration and scripts
-  /packages        # Reusable packages and modules
-  /web             # Frontend web application
-    /config        # Configuration files
-    /public        # Public assets
-    /src           # Source code
-      /components  # React components
-      /pages       # Page components
-      /services    # API service files
-      /utils       # Utility functions
-  .env             # Environment variables
-  package.json     # Project dependencies and scripts
-```
-
-## Contributing
-We welcome contributions to enhance the platform. To contribute:
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix:
-   ```bash
-   git checkout -b feature-name
-   ```
-3. Commit your changes:
-   ```bash
-   git commit -m "Description of your changes"
-   ```
-4. Push to the branch:
-   ```bash
-   git push origin feature-name
-   ```
-5. Open a pull request with a detailed description of your changes, which will be reviewed.
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` 
-file for details.
-
-## Support
-For support and questions, please open an issue on GitHub or contact us at technical@shtcut.co
-
-## Conclusion
-Shtcut makes marketing easier, smarter, and more affordable. Whether you're building an app or growing your brand, it gives you everything you need in one place—from simplified workflows to powerful insights—so you can focus on what matters: getting results.
+```bash
+git clone https://github.com/yourusername/shtcut.git
+cd shtcut
+npm install
