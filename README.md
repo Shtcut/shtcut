@@ -1,71 +1,175 @@
-# Shtcut — Social Content Operations, Done Right
+# Shtcut — Social Content Operations Platform
 
-Shtcut is a **social content operations platform** that helps teams plan, manage, publish, and measure social content from one place.
+Shtcut is a **social content operations platform** that helps teams plan, collaborate, publish, and measure social media content — all in one structured workflow.
 
-Instead of juggling multiple tools for scheduling, assets, approvals, and analytics, Shtcut brings the **entire social workflow** together — from idea to outcome.
+Instead of juggling multiple tools for scheduling, files, approvals, chats, and analytics, Shtcut treats social media as an **operational pipeline**, from idea → asset → post → outcome.
 
 ---
 
 ## Why Shtcut?
 
-Most social tools focus on *posting*.  
-Shtcut focuses on **operations and results**.
+Most social media tools focus on **posting**.
 
-With Shtcut, teams can:
+Real teams struggle with:
+- Scattered assets
+- Unclear ownership
+- Broken approval flows
+- Manual multi-platform publishing
+- Vanity metrics instead of real outcomes
 
-- Plan content using a Kanban-style workflow
-- Manage post assets (images, videos, captions) in one place
-- Assign tasks and approvals across teams
-- Publish content to multiple social platforms at once
-- Track which posts and links actually drive clicks and engagement
+Shtcut solves this by bringing **workflow, collaboration, publishing, and insights** together — centered around content and links.
 
-All without switching tools.
+---
+
+## What Shtcut Is (and Is Not)
+
+### What it is
+- A **social media workflow platform**
+- Built for **teams, agencies, and growing brands**
+- Focused on **distribution and outcomes**
+- Link-centric and analytics-aware
+
+### What it is not
+- Not a generic “all-in-one marketing tool”
+- Not a project management replacement
+- Not an email marketing platform (yet)
+- Not a website builder
+
+Everything in Shtcut exists to support **social content execution**.
 
 ---
 
 ## Core Capabilities
 
-### 🗓 Social Scheduling
-- Schedule posts across multiple social platforms
-- Platform-specific previews and formatting
-- One-click publish to all connected channels
-- Automatic retries and publishing logs
+### Social Posts & Scheduling
+- Create and manage posts across multiple social platforms
+- Platform-specific formatting and previews
+- Schedule posts or publish instantly
+- One-click publishing to all connected accounts
+- Publishing status, retries, and logs
 
-### 📁 Asset & File Management
+---
+
+### Content Calendar
+- Visual calendar view of scheduled and published posts
+- Drag-and-drop rescheduling
+- Team-wide visibility of content plans
+
+---
+
+### Media Library (Assets)
 - Centralized storage for images, videos, and captions
-- Attach assets directly to posts
-- Eliminate confusion around “final versions”
+- Attach assets directly to posts or tasks
+- Avoid “final_v2_final.png” chaos
+- Reuse assets across campaigns
 
-### 🧩 Team Workflow (Kanban)
-- Draft → Review → Approved → Scheduled → Published
-- Assign owners and reviewers
-- Built for teams, agencies, and growing brands
+---
 
-### 🔗 Smart Links & Analytics
+### Team Collaboration
+- Comments and discussions on posts and tasks
+- Context-aware chats tied to content
+- Reduce Slack/DM noise
+
+---
+
+### Smart Links & URL Shortener
+- Built-in URL shortener
 - Auto-generated tracking links per post
-- Click and performance analytics
-- Understand which content drives real outcomes — not just likes
+- Campaign-aware links
+- Measure what content actually drives clicks
+
+---
+
+### Analytics & Reports
+- Performance per post, platform, and campaign
+- Click-through analytics from shared links
+- Understand what works — not just what looks good
+- Exportable reports for teams and clients
+
+---
+
+Shtcut will progressively add:
+- Automatic performance insights
+- Content and platform comparisons
+- Clear, explainable recommendations
+- Waste and efficiency detection
+
+No black-box AI.  
+Insights are **transparent, assistive, and practical**.
 
 ---
 
 ## Who Is Shtcut For?
 
 - Marketing teams
+- Social media managers
 - Agencies
-- Startups
+- Startups and scale-ups
 - Content-driven businesses
-- Anyone managing social content collaboratively
+
+If you manage social content collaboratively, Shtcut is built for you.
+
+---
+
+## Tech Stack
+
+- **Backend:** NestJS
+- **Frontend:** React / Next.js
+- **Database:** MongoDB
+- **Cache & Queues:** Redis
+- **Architecture:** Modular, event-driven
+- **Deployment:** Cloud-ready (Docker-friendly)
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v12 or higher)
-- npm (v6 or higher)
+- Node.js (v16+ recommended)
+- npm or yarn
+- MongoDB
+- Redis
+
+---
 
 ### Installation
+
 ```bash
 git clone https://github.com/yourusername/shtcut.git
 cd shtcut
 npm install
+```
+
+---
+
+### Configuration
+
+Create a `.env` file at the root:
+
+```env
+DATABASE_URL=mongodb://localhost:27017/shtcut
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=your_secret
+```
+
+---
+
+### Run Locally
+
+```bash
+cd web
+yarn dev
+```
+
+Visit: http://localhost:3000
+
+---
+
+## License
+
+MIT License
+
+---
+
+## Support
+Open an issue on GitHub or email **technical@shtcut.co**
