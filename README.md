@@ -127,10 +127,12 @@ If you manage social content collaboratively, Shtcut is built for you.
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v16+ recommended)
+- Node.js (v20+ recommended)
 - npm or yarn
 - MongoDB
 - Redis
+- BullMQ
+- NestJS
 
 ---
 
@@ -153,7 +155,6 @@ DATABASE_URL=mongodb://localhost:27017/shtcut
 REDIS_URL=redis://localhost:6379
 JWT_SECRET=your_secret
 ```
-
 ---
 
 ### Run Locally
