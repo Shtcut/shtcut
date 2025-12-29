@@ -114,7 +114,6 @@ If you manage social content collaboratively, Shtcut is built for you.
 ---
 
 ## Tech Stack
-
 - **Backend:** NestJS
 - **Frontend:** React / Next.js
 - **Database:** MongoDB
@@ -147,7 +146,6 @@ npm install
 ---
 
 ### Configuration
-
 Create a `.env` file at the root:
 
 ```env
