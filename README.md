@@ -25,6 +25,7 @@ Shtcut solves this by bringing **workflow, collaboration, publishing, and insigh
 
 ## What Shtcut Is (and Is Not)
 
+
 ### What it is
 - A **social media workflow platform**
 - Built for **teams, agencies, and growing brands**
