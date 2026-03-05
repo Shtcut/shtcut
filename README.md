@@ -71,7 +71,6 @@ Everything in Shtcut exists to support **social content execution**.
 - Comments and discussions on posts and tasks
 - Context-aware chats tied to content
 - Reduce Slack/DM noise
-
 ---
 
 ### Smart Links & URL Shortener
