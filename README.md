@@ -168,6 +168,5 @@ Visit: http://localhost:3000
 
 MIT License
 ---
-
 ## Support
 Open an issue on GitHub or email **technical@shtcut.co**
