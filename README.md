@@ -19,7 +19,6 @@ Real teams struggle with:
 - Vanity metrics instead of real outcomes
 
 Shtcut solves this by bringing **workflow, collaboration, publishing, and insights** together — centered around content and links.
-
 ---
 
 ## What Shtcut Is (and Is Not)
