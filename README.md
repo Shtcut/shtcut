@@ -139,7 +139,6 @@ git clone https://github.com/yourusername/shtcut.git
 cd shtcut
 npm install
 ```
-
 ---
 
 ### Configuration
