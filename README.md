@@ -4,7 +4,6 @@ Shtcut is a **social content operations platform** that helps teams plan, collab
 
 Shtcut is a Social Content Operating System for small teams & solo builders.
 
-Instead of juggling multiple tools for scheduling, files, approvals, chats, and analytics, Shtcut treats social media as an **operational pipeline**, from idea → asset → post → outcome.
 ---
 
 ## Why Shtcut?
