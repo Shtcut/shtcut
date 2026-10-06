@@ -53,7 +53,6 @@ Everything in Shtcut exists to support **social content execution**.
 - Visual calendar view of scheduled and published posts
 - Drag-and-drop rescheduling
 - Team-wide visibility of content plans
-
 ---
 
 ### Media Library (Assets)
