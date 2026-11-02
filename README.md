@@ -45,7 +45,6 @@ Everything in Shtcut exists to support **social content execution**.
 - Schedule posts or publish instantly
 - One-click publishing to all connected accounts
 - Publishing status, retries, and logs
-
 ---
 
 ### Content Calendar
